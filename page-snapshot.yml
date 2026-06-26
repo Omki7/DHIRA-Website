@@ -1,0 +1,1514 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - navigation [ref=e3]:
+      - generic [ref=e4]:
+        - link "DHIRA homepage" [ref=e5] [cursor=pointer]:
+          - /url: /
+          - img [ref=e6]
+          - generic [ref=e11]: DHIRA
+        - list [ref=e12]:
+          - listitem [ref=e13]:
+            - button "Akashic" [ref=e14] [cursor=pointer]:
+              - text: Akashic
+              - img [ref=e15]
+          - listitem [ref=e17]:
+            - button "Solutions" [ref=e18] [cursor=pointer]:
+              - text: Solutions
+              - img [ref=e19]
+          - listitem [ref=e21]:
+            - button "Delivery" [ref=e22] [cursor=pointer]:
+              - text: Delivery
+              - img [ref=e23]
+          - listitem [ref=e25]:
+            - button "Insights" [ref=e26] [cursor=pointer]:
+              - text: Insights
+              - img [ref=e27]
+          - listitem [ref=e29]:
+            - button "Company" [ref=e30] [cursor=pointer]:
+              - text: Company
+              - img [ref=e31]
+      - generic [ref=e33]:
+        - link "Login" [ref=e34] [cursor=pointer]:
+          - /url: "#login"
+        - link "Talk to our team" [ref=e35] [cursor=pointer]:
+          - /url: "#talk-to-our-team"
+  - main [ref=e36]:
+    - generic [ref=e37]:
+      - generic [ref=e40]:
+        - paragraph [ref=e42]:
+          - generic [ref=e43]: “I
+          - generic [ref=e44]: didn’t
+          - generic [ref=e45]: realize
+          - generic [ref=e46]: how
+          - generic [ref=e47]: much
+          - generic [ref=e48]: I’d
+          - generic [ref=e49]: stopped
+          - generic [ref=e50]: trusting
+          - generic [ref=e51]: our
+          - generic [ref=e52]: own
+          - generic [ref=e53]: numbers,
+          - generic [ref=e54]: until
+          - generic [ref=e55]: the
+          - generic [ref=e56]: day
+          - generic [ref=e57]: I
+          - generic [ref=e58]: finally
+          - generic [ref=e59]: could
+          - generic [ref=e60]: again.”
+        - generic [ref=e61]:
+          - generic [ref=e62]: Carlson Magun
+          - generic [ref=e63]: Head of Business · intapp
+      - generic [ref=e65]:
+        - generic [ref=e66]:
+          - figure [ref=e67]:
+            - generic [ref=e69]:
+              - generic [ref=e70]: Powered by
+              - generic [ref=e71]:
+                - img [ref=e72]
+                - generic [ref=e82]: kashic
+              - generic [ref=e84]: The complete record of your data
+              - img [ref=e85]
+          - heading "Answers are easy. Answers you can stand on are not." [level=1] [ref=e3450]:
+            - text: Answers are easy.
+            - text: Answers you can
+            - generic [ref=e88]:
+              - generic [ref=e89]:
+                - generic [ref=e90]: stand on
+                - text: are not.
+              - generic [ref=e92]:
+                - generic [ref=e93]: build on
+                - text: are not.
+              - generic [ref=e95]:
+                - generic [ref=e96]: decide on
+                - text: are not.
+              - generic [ref=e98]:
+                - generic [ref=e99]: commit to
+                - text: are not.
+              - generic [ref=e101]:
+                - generic [ref=e102]: act on
+                - text: are not.
+          - paragraph [ref=e104]:
+            - generic [ref=e105]: DHIRA brings all of your data and AI together, grounded in the full picture.
+            - generic [ref=e106]: Every answer is one you can trace, trust, and act on.
+          - generic [ref=e107]:
+            - link "See Akashic in action" [ref=e108] [cursor=pointer]:
+              - /url: "#platform"
+            - link "Talk to our team" [ref=e109] [cursor=pointer]:
+              - /url: "#talk-to-our-team"
+        - generic [ref=e110]:
+          - generic:
+            - img:
+              - generic:
+                - generic: Semantic models
+                - generic: Rules & guides
+                - generic: Endorsed tables
+                - generic: Database metadata
+                - generic: Existing analysis
+                - generic: Suggestions
+          - generic [ref=e112]:
+            - generic [ref=e113]:
+              - button "Data Pipelines" [ref=e114] [cursor=pointer]: Data Pipelines
+              - button "Conversational AI" [ref=e117] [cursor=pointer]: Conversational AI
+              - button "Data Models" [ref=e119] [cursor=pointer]: Data Models
+            - generic [ref=e121]:
+              - generic [ref=e3452] [cursor=pointer]:
+                - generic [ref=e3453]:
+                  - img [ref=e3454]
+                  - generic [ref=e3465]: Akashic
+                  - generic [ref=e3466]: /
+                  - generic [ref=e3467]: Pipelines
+                  - generic [ref=e3468]: /
+                  - generic [ref=e3469]: Sales Performance
+                  - img [ref=e3472]
+                  - generic [ref=e3475]:
+                    - generic [ref=e3476]: Priya Mehta
+                    - generic [ref=e3478]: PM
+                - generic [ref=e3479]:
+                  - generic [ref=e3480]:
+                    - generic [ref=e3481]: Actions
+                    - img [ref=e3482]
+                  - generic [ref=e3485]:
+                    - img [ref=e3486]
+                    - generic [ref=e3488]: Validated
+                  - generic [ref=e3489]:
+                    - img [ref=e3490]
+                    - generic [ref=e3492]: Run
+                  - generic [ref=e3493]:
+                    - img [ref=e3494]
+                    - generic [ref=e3497]: Every hour
+                  - generic [ref=e3499]: Last run 6m ago · 1m 14s
+                  - generic [ref=e3502]: Live
+                - generic [ref=e3503]:
+                  - generic [ref=e3504]:
+                    - generic [ref=e3506]:
+                      - img [ref=e3507]
+                      - generic [ref=e3510]: Search sources
+                      - generic [ref=e3512]: ⌘K
+                    - generic [ref=e3513]:
+                      - generic [ref=e3514]:
+                        - generic [ref=e3515]: BUSINESS SYSTEMS
+                        - generic [ref=e3516]: "5"
+                      - generic [ref=e3517]:
+                        - generic [ref=e3518]:
+                          - img [ref=e3520]
+                          - generic [ref=e3522]: Salesforce
+                          - generic [ref=e3524]: CRM
+                        - generic [ref=e3525]:
+                          - generic [ref=e3527]: "N"
+                          - generic [ref=e3528]: NetSuite
+                          - generic [ref=e3530]: ERP
+                        - generic [ref=e3531]:
+                          - generic [ref=e3533]: h
+                          - generic [ref=e3534]: HubSpot
+                          - generic [ref=e3536]: Mktg
+                        - generic [ref=e3537]:
+                          - generic [ref=e3539]: W
+                          - generic [ref=e3540]: Workday
+                          - generic [ref=e3542]: HR
+                        - generic [ref=e3543]:
+                          - generic [ref=e3545]: Z
+                          - generic [ref=e3546]: Zendesk
+                          - generic [ref=e3548]: CX
+                      - generic [ref=e3549]:
+                        - generic [ref=e3550]: FILES & SHEETS
+                        - generic [ref=e3551]: "2"
+                      - generic [ref=e3552]:
+                        - generic [ref=e3553]:
+                          - generic [ref=e3555]: X
+                          - generic [ref=e3556]: Sales Plan FY26
+                        - generic [ref=e3559]:
+                          - img [ref=e3561]
+                          - generic [ref=e3563]: Forecast Sheet
+                      - generic [ref=e3564]:
+                        - generic [ref=e3565]: DATABASES
+                        - generic [ref=e3566]: "2"
+                      - generic [ref=e3567]:
+                        - generic [ref=e3568]:
+                          - generic [ref=e3570]: PG
+                          - generic [ref=e3571]: Orders DB
+                          - generic [ref=e3573]: Postgres
+                        - generic [ref=e3574]:
+                          - generic [ref=e3576]: My
+                          - generic [ref=e3577]: Store POS
+                          - generic [ref=e3579]: MySQL
+                    - generic [ref=e3580]:
+                      - generic [ref=e3582]: ❄
+                      - generic [ref=e3583]:
+                        - generic [ref=e3584]: Snowflake
+                        - generic [ref=e3585]: Destination warehouse
+                  - generic [ref=e3586]:
+                    - img
+                    - generic [ref=e3587]:
+                      - generic [ref=e3588]:
+                        - img [ref=e3590]
+                        - generic [ref=e3592]:
+                          - generic [ref=e3593]: Salesforce
+                          - generic [ref=e3594]: Customer orders
+                      - generic [ref=e3596]:
+                        - img [ref=e3597]
+                        - generic [ref=e3600]: Synced 4m · 82,401 rows
+                    - generic [ref=e3601]:
+                      - generic [ref=e3602]:
+                        - generic [ref=e3604]: X
+                        - generic [ref=e3605]:
+                          - generic [ref=e3606]: Sales Plan FY26
+                          - generic [ref=e3607]: Regional targets
+                      - generic [ref=e3609]:
+                        - img [ref=e3610]
+                        - generic [ref=e3613]: Excel · updated daily
+                    - generic [ref=e3614]:
+                      - generic [ref=e3615]:
+                        - generic [ref=e3617]: "N"
+                        - generic [ref=e3618]:
+                          - generic [ref=e3619]: NetSuite
+                          - generic [ref=e3620]: Billed invoices
+                      - generic [ref=e3622]:
+                        - img [ref=e3623]
+                        - generic [ref=e3625]: ERP · synced hourly
+                    - generic [ref=e3626]:
+                      - generic [ref=e3627]:
+                        - img [ref=e3629]
+                        - generic [ref=e3631]:
+                          - generic [ref=e3632]: Unify Sales
+                          - generic [ref=e3633]: Combine sources
+                      - generic [ref=e3634]:
+                        - generic [ref=e3635]:
+                          - img [ref=e3636]
+                          - generic [ref=e3638]: Match on Customer + Region
+                        - generic [ref=e3639]:
+                          - generic [ref=e3640]: 3 inputs
+                          - img [ref=e3641]
+                          - generic [ref=e3643]: 1 unified table
+                    - generic [ref=e3644]:
+                      - generic [ref=e3645]:
+                        - img [ref=e3647]
+                        - generic [ref=e3650]:
+                          - generic [ref=e3651]: Sales Performance
+                          - generic [ref=e3652]: Business model
+                      - generic [ref=e3653]:
+                        - generic [ref=e3654]:
+                          - generic [ref=e3655]: Tables
+                          - generic [ref=e3656]: "5"
+                        - generic [ref=e3657]:
+                          - generic [ref=e3658]: Refreshed
+                          - generic [ref=e3659]: 6m ago
+                        - generic [ref=e3662]: Powering 3 dashboards
+                    - generic [ref=e3663]:
+                      - img [ref=e3665]
+                      - generic [ref=e3668]:
+                        - generic [ref=e3669]: Quality checks
+                        - generic [ref=e3670]: 24 rules · all passing
+                    - generic [ref=e3671]:
+                      - img [ref=e3672]
+                      - generic [ref=e3674]: 100%
+                      - img [ref=e3675]
+              - generic [ref=e3677] [cursor=pointer]:
+                - generic [ref=e3678]:
+                  - img [ref=e3679]
+                  - generic [ref=e3690]: Akashic
+                  - generic [ref=e3691]: /
+                  - generic [ref=e3692]: Ask
+                  - generic [ref=e3693]: /
+                  - generic [ref=e3694]: Sales Performance
+                  - generic [ref=e3696]:
+                    - img [ref=e3697]
+                    - generic [ref=e3699]: New chat
+                  - generic [ref=e3701]: PM
+                - generic [ref=e3702]:
+                  - generic [ref=e3703]:
+                    - generic [ref=e3704]:
+                      - paragraph [ref=e3706]: Which sales regions are behind plan this quarter — and what's driving it?
+                      - generic [ref=e3708]: PM
+                    - generic [ref=e3709]:
+                      - img [ref=e3711]
+                      - generic [ref=e3713]:
+                        - generic [ref=e3714]:
+                          - generic [ref=e3715]: GROUNDED IN
+                          - generic [ref=e3716]:
+                            - img [ref=e3718]
+                            - generic [ref=e3720]: Sales Performance
+                          - generic [ref=e3721]:
+                            - img [ref=e3723]
+                            - generic [ref=e3725]: Salesforce
+                          - generic [ref=e3726]:
+                            - img [ref=e3728]
+                            - generic [ref=e3731]: Q2 Board Review
+                            - generic [ref=e3732]: p.8
+                          - generic [ref=e3734]:
+                            - img [ref=e3735]
+                            - generic [ref=e3738]: Verified lineage
+                        - paragraph [ref=e3739]:
+                          - text: Two regions are tracking well below plan.
+                          - strong [ref=e3740]: South
+                          - text: and
+                          - strong [ref=e3741]: East
+                          - text: are pacing 29–37% under target — driven by delayed store openings and inventory shortfalls flagged in the board review.
+                        - generic [ref=e3742]:
+                          - generic [ref=e3743]:
+                            - generic [ref=e3744]: Revenue vs target by region · Q2
+                            - generic [ref=e3745]:
+                              - generic [ref=e3748]: On track
+                              - generic [ref=e3751]: Behind
+                          - generic [ref=e3752]:
+                            - generic [ref=e3753]:
+                              - generic [ref=e3754]: North
+                              - generic [ref=e3757]: 104%
+                            - generic [ref=e3758]:
+                              - generic [ref=e3759]: West
+                              - generic [ref=e3762]: 97%
+                            - generic [ref=e3763]:
+                              - generic [ref=e3764]: Central
+                              - generic [ref=e3767]: 88%
+                            - generic [ref=e3768]:
+                              - generic [ref=e3769]: South
+                              - generic [ref=e3772]: 71%
+                            - generic [ref=e3773]:
+                              - generic [ref=e3774]: East
+                              - generic [ref=e3777]: 63%
+                        - generic [ref=e3778]:
+                          - img [ref=e3780]
+                          - generic [ref=e3782]:
+                            - generic [ref=e3783]: Recommended focus
+                            - generic [ref=e3784]:
+                              - text: The combined shortfall is
+                              - strong [ref=e3785]: ₹3.8 Cr
+                              - text: . Recovering East to 90% of plan would add back
+                              - strong [ref=e3786]: ₹1.6 Cr
+                              - text: in H2 — the single biggest lever this half.
+                            - generic [ref=e3787]:
+                              - generic [ref=e3789]: Build recovery plan
+                              - generic [ref=e3791]: Open lineage
+                        - generic [ref=e3792]:
+                          - img [ref=e3794]
+                          - img [ref=e3798]
+                          - img [ref=e3802]
+                          - img [ref=e3806]
+                          - generic [ref=e3810]: Answered in 2.1s · 5 sources
+                  - generic [ref=e3812]:
+                    - img [ref=e3813]
+                    - textbox "Ask a follow-up… e.g. break East down by store" [ref=e3815]
+                    - generic [ref=e3816]:
+                      - img [ref=e3818]
+                      - generic [ref=e3820]: Sales Performance
+                      - img [ref=e3821]
+                    - img [ref=e3824]
+              - generic [ref=e3826]:
+                - generic [ref=e3827]:
+                  - img [ref=e3828]
+                  - generic [ref=e3838]: Akashic
+                  - generic [ref=e3839]: /
+                  - generic [ref=e3840]: Models
+                  - generic [ref=e3841]: /
+                  - generic [ref=e3842]: Sales Performance
+                  - generic [ref=e3843]:
+                    - img [ref=e3844]
+                    - generic [ref=e3847]: Verified
+                  - generic [ref=e3849]: PM
+                - generic [ref=e3850]:
+                  - generic [ref=e3851]:
+                    - generic [ref=e3852]:
+                      - img [ref=e3854]
+                      - generic [ref=e3857]:
+                        - generic [ref=e3858]: Sales Performance
+                        - generic [ref=e3859]: Business model
+                    - generic [ref=e3861]:
+                      - img [ref=e3862]
+                      - generic [ref=e3865]: Search the model
+                    - generic [ref=e3866]:
+                      - generic [ref=e3867]:
+                        - img [ref=e3868]
+                        - generic [ref=e3870]: METRICS
+                        - generic [ref=e3871]: "3"
+                      - generic [ref=e3872]:
+                        - generic [ref=e3873]:
+                          - generic [ref=e3875]: ∑
+                          - generic [ref=e3876]: Revenue
+                          - img [ref=e3877]
+                        - generic [ref=e3879]:
+                          - generic [ref=e3881]: ∑
+                          - generic [ref=e3882]: Units Sold
+                          - img [ref=e3883]
+                        - generic [ref=e3885]:
+                          - generic [ref=e3887]: "%"
+                          - generic [ref=e3888]: Plan Attainment
+                          - img [ref=e3889]
+                      - generic [ref=e3891]:
+                        - img [ref=e3892]
+                        - generic [ref=e3894]: FACTS
+                        - generic [ref=e3895]: "1"
+                      - generic [ref=e3897]:
+                        - img [ref=e3899]
+                        - generic [ref=e3902]: Sales
+                        - generic [ref=e3903]: 8.1M
+                      - generic [ref=e3904]:
+                        - img [ref=e3905]
+                        - generic [ref=e3907]: DIMENSIONS
+                        - generic [ref=e3908]: "4"
+                      - generic [ref=e3909]:
+                        - generic [ref=e3910]:
+                          - img [ref=e3912]
+                          - generic [ref=e3915]: Customer
+                        - generic [ref=e3916]:
+                          - img [ref=e3918]
+                          - generic [ref=e3920]: Product
+                        - generic [ref=e3921]:
+                          - img [ref=e3923]
+                          - generic [ref=e3926]: Region
+                        - generic [ref=e3927]:
+                          - img [ref=e3929]
+                          - generic [ref=e3932]: Date
+                  - generic [ref=e3933]:
+                    - img
+                    - generic [ref=e3934]:
+                      - generic [ref=e3935]:
+                        - img [ref=e3936]
+                        - generic [ref=e3939]: Customer
+                        - generic [ref=e3940]: DIM
+                      - generic [ref=e3941]:
+                        - generic [ref=e3942]:
+                          - generic [ref=e3943]: Name
+                          - generic [ref=e3944]: text
+                        - generic [ref=e3945]:
+                          - generic [ref=e3946]: Segment
+                          - generic [ref=e3947]: text
+                        - generic [ref=e3948]: "aka: account, buyer, client"
+                    - generic [ref=e3949]:
+                      - generic [ref=e3950]:
+                        - img [ref=e3951]
+                        - generic [ref=e3954]: Region
+                        - generic [ref=e3955]: DIM
+                      - generic [ref=e3956]:
+                        - generic [ref=e3957]:
+                          - generic [ref=e3958]: Name
+                          - generic [ref=e3959]: text
+                        - generic [ref=e3960]:
+                          - generic [ref=e3961]: Target
+                          - generic [ref=e3962]: money
+                        - generic [ref=e3963]: "aka: territory, area, market"
+                    - generic [ref=e3964]:
+                      - generic [ref=e3965]:
+                        - img [ref=e3966]
+                        - generic [ref=e3969]: Sales
+                        - generic [ref=e3970]: FACT
+                      - generic [ref=e3972]: One row per completed sale
+                      - generic [ref=e3973]: MEASURES
+                      - generic [ref=e3974]:
+                        - generic [ref=e3975]:
+                          - generic [ref=e3976]: ∑
+                          - generic [ref=e3977]: Revenue
+                          - generic [ref=e3978]: paid value
+                        - generic [ref=e3979]:
+                          - generic [ref=e3980]: ∑
+                          - generic [ref=e3981]: Units Sold
+                          - generic [ref=e3982]: count
+                        - generic [ref=e3983]:
+                          - generic [ref=e3984]: ∑
+                          - generic [ref=e3985]: Discount
+                          - generic [ref=e3986]: avg
+                      - generic [ref=e3987]: LINKED TO
+                      - generic [ref=e3988]:
+                        - generic [ref=e3989]: Customer
+                        - generic [ref=e3990]: Product
+                        - generic [ref=e3991]: Region
+                        - generic [ref=e3992]: Date
+                    - generic [ref=e3993]:
+                      - generic [ref=e3994]:
+                        - img [ref=e3995]
+                        - generic [ref=e3997]: Product
+                        - generic [ref=e3998]: DIM
+                      - generic [ref=e3999]:
+                        - generic [ref=e4000]:
+                          - generic [ref=e4001]: Name
+                          - generic [ref=e4002]: text
+                        - generic [ref=e4003]:
+                          - generic [ref=e4004]: Category
+                          - generic [ref=e4005]: text
+                        - generic [ref=e4006]: "aka: item, SKU"
+                    - generic [ref=e4007]:
+                      - generic [ref=e4008]:
+                        - img [ref=e4009]
+                        - generic [ref=e4012]: Date
+                        - generic [ref=e4013]: DIM
+                      - generic [ref=e4014]:
+                        - generic [ref=e4015]:
+                          - generic [ref=e4016]: Quarter
+                          - generic [ref=e4017]: period
+                        - generic [ref=e4018]:
+                          - generic [ref=e4019]: Fiscal Year
+                          - generic [ref=e4020]: year
+                        - generic [ref=e4021]: "aka: period, calendar"
+                    - generic [ref=e4022]:
+                      - img [ref=e4023]
+                      - generic [ref=e4025]: Ready to answer questions in plain language
+                    - generic [ref=e4026]:
+                      - generic [ref=e4029]: 1 fact
+                      - generic [ref=e4032]: 4 dimensions
+                      - generic [ref=e4033]:
+                        - generic [ref=e4034]: ∑
+                        - generic [ref=e4035]: 3 metrics
+            - generic [ref=e713]: FROM EVERY SOURCE — ONE TRUSTED ANSWER
+    - generic [ref=e715]:
+      - generic [ref=e717]:
+        - generic [ref=e718]: "[01]"
+        - generic [ref=e719]: /
+        - generic [ref=e720]: THE PROBLEM
+      - heading "Every team has an answer. No two of them match." [level=2] [ref=e722]:
+        - text: Every team has an answer.
+        - text: No two of them match.
+      - paragraph [ref=e724]: Corporate AI investment crossed $420 billion in 2025—yet the answers AI produces still can’t be trusted, because the AI never had the full picture.
+      - generic [ref=e725]:
+        - generic [ref=e727]:
+          - generic [ref=e728]:
+            - generic [ref=e729]:
+              - paragraph [ref=e730]: Global Corporate AI Investment
+              - paragraph [ref=e731]: Total disclosed investment, 2020–2025 · USD billions
+            - generic [ref=e732]: Stanford HAI 2026
+          - 'img "Bar chart: global corporate AI investment grew from $38B in 2020 to $420B in 2025" [ref=e735]':
+            - generic [ref=e736]: $0
+            - generic [ref=e737]: $200B
+            - generic [ref=e738]: $400B
+            - generic [ref=e739]:
+              - generic [ref=e741]: $38B
+              - generic [ref=e742]: "2020"
+            - generic [ref=e743]:
+              - generic [ref=e745]: $68B
+              - generic [ref=e746]: "2021"
+            - generic [ref=e747]:
+              - generic [ref=e749]: $92B
+              - generic [ref=e750]: "2022"
+            - generic [ref=e751]:
+              - generic [ref=e753]: $95B
+              - generic [ref=e754]: "2023"
+            - generic [ref=e755]:
+              - generic [ref=e757]: $252B
+              - generic [ref=e758]: "2024"
+            - generic [ref=e759]:
+              - generic [ref=e761]: $420B
+              - generic [ref=e762]: "2025"
+            - generic [ref=e763]: ↑ +67% YoY
+          - paragraph [ref=e764]: "Source: Stanford HAI AI Index Report 2026 · Total disclosed corporate AI investment globally"
+        - generic [ref=e765]:
+          - generic [ref=e767]:
+            - generic [ref=e769]: Finding 01
+            - blockquote [ref=e771]: “Every team swears their number is the right one.”
+            - generic [ref=e772]:
+              - paragraph [ref=e773]: No Shared Foundation
+              - generic [ref=e774]: →
+          - generic [ref=e776]:
+            - generic [ref=e778]: Finding 02
+            - blockquote [ref=e780]: “We rebuilt the same report three times this quarter.”
+            - generic [ref=e781]:
+              - paragraph [ref=e782]: Wasted Effort
+              - generic [ref=e783]: →
+          - generic [ref=e785]:
+            - generic [ref=e787]: Finding 03
+            - blockquote [ref=e789]: “By the time the report lands, the moment's gone.”
+            - generic [ref=e790]:
+              - paragraph [ref=e791]: Stale by Design
+              - generic [ref=e792]: →
+          - generic [ref=e794]:
+            - paragraph [ref=e795]: The pattern is consistent
+            - paragraph [ref=e796]: More AI spend amplifies the conflict. Without a shared data foundation, every new model adds another competing answer.
+    - generic [ref=e797]:
+      - generic [ref=e798]:
+        - generic [ref=e799]:
+          - generic [ref=e800]: "[02] Meet Akashic"
+          - generic [ref=e801]:
+            - generic [ref=e802]: / The platform
+            - img [ref=e803]
+        - generic [ref=e814]:
+          - heading "Stop guessing. Get grounded." [level=2] [ref=e815]
+          - paragraph [ref=e816]: Every shape of data, linked and governed. Answers come from fact, not probability.
+          - generic [ref=e817]:
+            - link "Explore the platform" [ref=e818] [cursor=pointer]:
+              - /url: "#"
+              - text: Explore the platform
+              - img [ref=e819]
+            - link "Book a demo" [ref=e821] [cursor=pointer]:
+              - /url: "#"
+      - generic [ref=e823]:
+        - generic [ref=e824]: Six capabilities · one platform
+        - heading "Every shape of data, on one governed foundation." [level=3] [ref=e825]
+      - generic [ref=e828]:
+        - generic [ref=e829]:
+          - generic [ref=e830]:
+            - heading "Every source, ingested and governed." [level=4] [ref=e831]
+            - paragraph [ref=e832]: Connect any data source — structured or not. Akashic ingests it automatically, then resolves duplicates into one governed definition for every entity.
+            - generic [ref=e834] [cursor=pointer]:
+              - generic [ref=e835]: Explore data pipeline
+              - img [ref=e836]
+          - generic [ref=e838]:
+            - generic [ref=e840]:
+              - img [ref=e841]
+              - generic [ref=e845]:
+                - generic [ref=e847]: S
+                - generic [ref=e848]:
+                  - generic [ref=e849]: Stripe
+                  - generic [ref=e850]: Structured
+              - generic [ref=e851]:
+                - generic [ref=e853]: PG
+                - generic [ref=e854]:
+                  - generic [ref=e855]: Postgres
+                  - generic [ref=e856]: Structured
+              - generic [ref=e857]:
+                - img [ref=e859]
+                - generic [ref=e862]:
+                  - generic [ref=e863]: PDF docs
+                  - generic [ref=e864]: Unstructured
+              - generic [ref=e865]:
+                - generic [ref=e866]:
+                  - img [ref=e868]
+                  - generic [ref=e871]: Akashic
+                - generic [ref=e872]: Ingest · clean · resolve
+              - generic [ref=e873]:
+                - generic [ref=e874]:
+                  - img [ref=e875]
+                  - generic [ref=e877]: Governed
+                - generic [ref=e878]: 1 source of truth
+            - generic [ref=e881]: Syncing live · 0 errors
+          - generic [ref=e882]:
+            - generic [ref=e883]: Master data · entity resolution
+            - generic [ref=e884]:
+              - generic [ref=e885]:
+                - generic [ref=e886]: Cartwell Inc.
+                - generic [ref=e887]: crm
+              - generic [ref=e888]:
+                - generic [ref=e889]: cartwell ltd
+                - generic [ref=e890]: billing
+              - generic [ref=e891]:
+                - generic [ref=e892]: Cartwell Retail
+                - generic [ref=e893]: support
+            - img [ref=e895]
+            - generic [ref=e898]:
+              - img [ref=e900]
+              - generic [ref=e902]:
+                - generic [ref=e903]: Cartwell Inc.
+                - generic [ref=e904]: Golden record · 3 merged
+        - generic [ref=e905]:
+          - generic [ref=e906]:
+            - heading "Everything linked. Every answer grounded." [level=4] [ref=e907]
+            - paragraph [ref=e908]: Structured tables and unstructured documents live together in one knowledge graph. Ask anything in plain language — the answer comes from fact, and traces back to its source.
+            - generic [ref=e910] [cursor=pointer]:
+              - generic [ref=e911]: Explore the graph
+              - img [ref=e912]
+          - generic [ref=e916]:
+            - img [ref=e917]
+            - generic [ref=e922]:
+              - img [ref=e924]
+              - generic [ref=e927]: Cartwell
+              - generic [ref=e928]: Account
+            - generic [ref=e929]:
+              - img [ref=e930]
+              - generic [ref=e933]:
+                - generic [ref=e934]: orders
+                - generic [ref=e935]: 3.4M rows
+            - generic [ref=e936]:
+              - img [ref=e937]
+              - generic [ref=e940]:
+                - generic [ref=e941]: regions
+                - generic [ref=e942]: 48 rows
+            - generic [ref=e943]:
+              - img [ref=e945]
+              - generic [ref=e948]:
+                - generic [ref=e949]: Q2 Report
+                - generic [ref=e950]: Unstructured
+            - generic [ref=e951]:
+              - img [ref=e952]
+              - generic [ref=e955]:
+                - generic [ref=e956]: customers
+                - generic [ref=e957]: 1.2M rows
+            - generic [ref=e958]:
+              - img [ref=e959]
+              - generic [ref=e962]:
+                - generic [ref=e963]: invoices
+                - generic [ref=e964]: 820K rows
+          - generic [ref=e965]:
+            - generic [ref=e966]: Conversational AI
+            - paragraph [ref=e968]: Why is the South region behind plan?
+            - generic [ref=e969]:
+              - generic [ref=e970]:
+                - img [ref=e971]
+                - generic [ref=e973]: LINEAGE VERIFIED
+              - paragraph [ref=e974]:
+                - text: South is at
+                - strong [ref=e975]: 71% of target
+                - text: . Delayed store openings, per the Q2 board report (p.8).
+              - generic [ref=e976]:
+                - generic [ref=e977]: South
+                - generic [ref=e980]: 71%
+            - generic [ref=e981]:
+              - img [ref=e982]
+              - generic [ref=e986]: Traced through 6 lineage hops
+        - generic [ref=e987]:
+          - generic [ref=e988]:
+            - heading "See right now. Predict what’s next." [level=4] [ref=e989]
+            - paragraph [ref=e990]: Dashboards reflect this moment, not last quarter’s export. And every prediction is built on governed data — so what you forecast, you can trust.
+            - generic [ref=e992] [cursor=pointer]:
+              - generic [ref=e993]: Explore intelligence
+              - img [ref=e994]
+          - generic [ref=e997]:
+            - generic [ref=e998]:
+              - generic [ref=e999]: Revenue overview
+              - generic [ref=e1002]: Live
+            - generic [ref=e1003]:
+              - generic [ref=e1004]:
+                - generic [ref=e1005]:
+                  - generic [ref=e1006]: Revenue Q2
+                  - generic [ref=e1007]: ₹24.6Cr
+                  - generic [ref=e1008]: ▲ 8.2%
+                - generic [ref=e1009]:
+                  - generic [ref=e1010]: Attainment
+                  - generic [ref=e1011]: 86%
+                  - generic [ref=e1012]: ▼ 4 pts
+                - generic [ref=e1013]:
+                  - generic [ref=e1014]: Pipeline
+                  - generic [ref=e1015]: ₹41Cr
+                  - generic [ref=e1016]: ▲ 12%
+              - generic [ref=e1017]:
+                - generic [ref=e1018]: Attainment by region · % of target
+                - generic [ref=e1019]:
+                  - generic [ref=e1022]: North
+                  - generic [ref=e1025]: West
+                  - generic [ref=e1028]: Central
+                  - generic [ref=e1031]: South
+                  - generic [ref=e1034]: East
+          - generic [ref=e1035]:
+            - generic [ref=e1036]: Machine learning
+            - generic [ref=e1037]:
+              - generic [ref=e1038]:
+                - img [ref=e1040]
+                - generic [ref=e1043]:
+                  - generic [ref=e1044]: Q3 revenue forecast
+                  - generic [ref=e1045]: on governed data
+              - generic [ref=e1046]: ₹27.4Cr
+              - generic [ref=e1047]: +11.4% projected · 92% confidence
+              - img [ref=e1048]
+              - generic [ref=e1051]:
+                - generic [ref=e1052]: Apr
+                - generic [ref=e1053]: Sep
+            - generic [ref=e1054]:
+              - img [ref=e1055]
+              - generic [ref=e1057]: No leakage · lineage enforced
+    - region "Building the next generation of DPI." [ref=e1059]:
+      - generic [ref=e1060]:
+        - generic [ref=e1062]:
+          - generic [ref=e1063]:
+            - generic [ref=e1064]: "[03]"
+            - generic [ref=e1065]: /
+            - generic [ref=e1066]: PROVEN AT SCALE
+          - heading "Building the next generation of DPI." [level=2] [ref=e1067]
+          - paragraph [ref=e1068]: National-scale Digital Public Infrastructure, running in production — open, interoperable, and built for billion-population scale.
+        - generic [ref=e1070]:
+          - generic [ref=e1071]:
+            - generic [ref=e1072]: 1.4B+
+            - generic [ref=e1073]: Citizens Covered
+          - generic [ref=e1074]:
+            - generic [ref=e1075]: National
+            - generic [ref=e1076]: DPI Implementations
+          - generic [ref=e1077]:
+            - generic [ref=e1078]: 10B+
+            - generic [ref=e1079]: Monthly Transactions
+          - generic [ref=e1080]:
+            - generic [ref=e1081]: 99.999%
+            - generic [ref=e1082]: Platform Uptime
+        - generic [ref=e1085]:
+          - generic [ref=e1086]:
+            - generic [ref=e1087]:
+              - generic [ref=e1088]: Network throughput
+              - generic [ref=e1089]: Health Stack
+            - generic [ref=e1090]:
+              - generic [ref=e1091]: "757"
+              - generic [ref=e1092]: txns / sec
+            - img [ref=e1094]
+            - generic [ref=e1096]:
+              - generic [ref=e1097]:
+                - generic [ref=e1098]: ✓
+                - generic [ref=e1099]: Verified Record
+              - generic [ref=e1102]: Operational
+          - generic [ref=e1103]:
+            - tablist "Live deployments" [ref=e1105]:
+              - tab "01/A Digital Identity Live National ID & Authentication 1.3B+ identities DOSSIER 01/A — 2023 Live across all states & UTs · biometric + OTP fusion A single identity fabric binding a billion people to the services they are owed." [ref=e2245] [cursor=pointer]:
+                - generic [ref=e1107]:
+                  - generic [ref=e1108]:
+                    - generic [ref=e1109]: 01/A
+                    - generic [ref=e1110]: Digital Identity
+                  - generic [ref=e1113]: Live
+                - generic [ref=e1114]: National ID & Authentication
+                - generic [ref=e1117]:
+                  - generic [ref=e1118]:
+                    - generic [ref=e1119]:
+                      - generic [ref=e1120]: 1.3B+
+                      - generic [ref=e1121]: identities
+                    - generic [ref=e1122]: DOSSIER 01/A — 2023
+                  - generic [ref=e1123]:
+                    - paragraph [ref=e1124]: Live across all states & UTs · biometric + OTP fusion
+                    - paragraph [ref=e1125]: A single identity fabric binding a billion people to the services they are owed.
+              - tab "02/A Payments · UPI Live Unified Interoperable Payment 13B+ txns / month DOSSIER 02/A — 2024 Real-time cross-bank clearing · 24×7 settlement Money moves at the speed of intent, not of bank hours." [ref=e1126] [cursor=pointer]:
+                - generic [ref=e1127]:
+                  - generic [ref=e1128]:
+                    - generic [ref=e1129]: 02/A
+                    - generic [ref=e1130]: Payments · UPI
+                  - generic [ref=e1133]: Live
+                - generic [ref=e1134]: Unified Interoperable Payment
+                - generic [ref=e1135]:
+                  - generic [ref=e1136]:
+                    - generic [ref=e1137]:
+                      - generic [ref=e1138]: 13B+
+                      - generic [ref=e1139]: txns / month
+                    - generic [ref=e1140]: DOSSIER 02/A — 2024
+                  - generic [ref=e1141]:
+                    - paragraph [ref=e1142]: Real-time cross-bank clearing · 24×7 settlement
+                    - paragraph [ref=e1143]: Money moves at the speed of intent, not of bank hours.
+              - tab "03/A Health Stack Live Unified Health Interface 30+ Cr health records DOSSIER 03/A — 2024 Federated personal health registries · consent-gated Every record belongs to the citizen — the system merely borrows it." [selected] [ref=e1144] [cursor=pointer]:
+                - generic [ref=e1145]:
+                  - generic [ref=e1146]:
+                    - generic [ref=e1147]: 03/A
+                    - generic [ref=e1148]: Health Stack
+                  - generic [ref=e1151]: Live
+                - generic [ref=e1152]: Unified Health Interface
+                - generic [ref=e1153]:
+                  - generic [ref=e1154]:
+                    - generic [ref=e1155]:
+                      - generic [ref=e1156]: 30+ Cr
+                      - generic [ref=e1157]: health records
+                    - generic [ref=e1158]: DOSSIER 03/A — 2024
+                  - generic [ref=e1159]:
+                    - paragraph [ref=e1160]: Federated personal health registries · consent-gated
+                    - paragraph [ref=e1161]: Every record belongs to the citizen — the system merely borrows it.
+              - tab "04/A Data Empowerment Live Consent-Based Data Sharing 4.5 Cr consents / yr DOSSIER 04/A — 2025 Secure API gateway for financial data · revocable Consent is the new currency — and it is always withdrawable." [ref=e1162] [cursor=pointer]:
+                - generic [ref=e1163]:
+                  - generic [ref=e1164]:
+                    - generic [ref=e1165]: 04/A
+                    - generic [ref=e1166]: Data Empowerment
+                  - generic [ref=e1169]: Live
+                - generic [ref=e1170]: Consent-Based Data Sharing
+                - generic [ref=e1171]:
+                  - generic [ref=e1172]:
+                    - generic [ref=e1173]:
+                      - generic [ref=e1174]: 4.5 Cr
+                      - generic [ref=e1175]: consents / yr
+                    - generic [ref=e1176]: DOSSIER 04/A — 2025
+                  - generic [ref=e1177]:
+                    - paragraph [ref=e1178]: Secure API gateway for financial data · revocable
+                    - paragraph [ref=e1179]: Consent is the new currency — and it is always withdrawable.
+            - complementary "Field ratios" [ref=e1180]:
+              - generic [ref=e1181]: Field ratios · Health Stack
+              - list [ref=e1182]:
+                - listitem [ref=e4038]:
+                  - generic [ref=e4039]:
+                    - generic [ref=e4040]:
+                      - text: "22"
+                      - generic [ref=e4041]: ×
+                    - generic [ref=e4042]: Records lookup speed
+                - listitem [ref=e4043]:
+                  - generic [ref=e4044]:
+                    - generic [ref=e4045]:
+                      - text: "100"
+                      - generic [ref=e4046]: "%"
+                    - generic [ref=e4047]: Consent-gated access
+                - listitem [ref=e4048]:
+                  - generic [ref=e4049]:
+                    - generic [ref=e4050]:
+                      - text: "9"
+                      - generic [ref=e4051]: ppm
+                    - generic [ref=e4052]: Audit exceptions / million
+        - generic [ref=e1198]:
+          - generic [ref=e1199]: Digital Identity
+          - generic [ref=e1200]: Payments & Commerce
+          - generic [ref=e1201]: Health & Welfare
+          - generic [ref=e1202]: Data Empowerment
+        - paragraph [ref=e1204]: Open and interoperable. Not a walled garden — standard-driven infrastructure that empowers ecosystems.
+    - generic [ref=e1206]:
+      - generic [ref=e1208]:
+        - generic [ref=e1209]:
+          - generic [ref=e1210]:
+            - generic [ref=e1211]: "[04]"
+            - generic [ref=e1212]: /
+            - generic [ref=e1213]: HOW WE DELIVER
+          - heading "Live in weeks, not quarters." [level=2] [ref=e1214]
+          - paragraph [ref=e1215]: The platform is the engine. Our people make it run in your world.
+        - link "Talk to Our Team" [ref=e1217] [cursor=pointer]:
+          - /url: "#contact"
+      - generic [ref=e1218]:
+        - generic:
+          - generic:
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+            - generic:
+              - img
+      - generic [ref=e1219]:
+        - generic [ref=e1221]:
+          - generic [ref=e1222]: "01"
+          - heading "We assess where you stand." [level=3] [ref=e1223]
+          - paragraph [ref=e1224]: A rigorous audit of your data maturity and operational readiness, identifying exactly where intervention is needed.
+        - generic [ref=e1226]:
+          - generic [ref=e1227]: "02"
+          - heading "We engineer what's missing." [level=3] [ref=e1228]
+          - paragraph [ref=e1229]: Plugging the gaps with custom connectors and governance pipelines so your data is trustworthy from the source.
+        - generic [ref=e1231]:
+          - generic [ref=e1232]: "03"
+          - heading "We deliver proven solutions." [level=3] [ref=e1233]
+          - paragraph [ref=e1234]: Deploying architectures that have already succeeded in your sector — one accountable partner, not a stack of vendors.
+    - generic [ref=e1236]:
+      - generic [ref=e1238]:
+        - generic [ref=e1239]: "[05]"
+        - generic [ref=e1240]: /
+        - generic [ref=e1241]: EVERY SECTOR
+      - heading "One platform. Every industry." [level=2] [ref=e1243]:
+        - text: One platform.
+        - text: Every industry.
+      - generic [ref=e1244]:
+        - tab "Smart Cities 01 / 06 Smart Cities Transform urban operations with unified data. From transit to emergency response, one continuous signal across the entire city. Deploy for Cities Smart Cities" [ref=e1245]:
+          - img "Smart Cities" [ref=e1247]
+          - generic [ref=e1250]:
+            - generic [ref=e1251]:
+              - generic [ref=e1252]: 01 / 06
+              - heading "Smart Cities" [level=3] [ref=e1253]
+            - paragraph [ref=e1254]: Transform urban operations with unified data. From transit to emergency response, one continuous signal across the entire city.
+            - link "Deploy for Cities" [ref=e1255] [cursor=pointer]:
+              - /url: "#contact"
+              - text: Deploy for Cities
+              - img [ref=e1256]
+          - generic:
+            - generic: Smart Cities
+        - tab "Healthcare 02 / 06 Healthcare Move from fragmented legacy systems to a unified patient truth. Better care, delivered faster and with less overhead. Deploy for Health Healthcare" [ref=e1258] [cursor=pointer]:
+          - img "Healthcare" [ref=e1260]
+          - generic [ref=e1263]:
+            - generic [ref=e1264]:
+              - generic [ref=e1265]: 02 / 06
+              - heading "Healthcare" [level=3] [ref=e1266]
+            - paragraph [ref=e1267]: Move from fragmented legacy systems to a unified patient truth. Better care, delivered faster and with less overhead.
+            - link "Deploy for Health" [ref=e1268]:
+              - /url: "#contact"
+              - text: Deploy for Health
+              - img [ref=e1269]
+          - generic:
+            - generic: Healthcare
+        - tab "Finance 03 / 06 Finance Real-time pattern recognition across every transaction. Catch risk before it materialises and maintain audit-ready compliance by design. Deploy for Finance Finance" [ref=e1271] [cursor=pointer]:
+          - img "Finance" [ref=e1273]
+          - generic [ref=e1276]:
+            - generic [ref=e1277]:
+              - generic [ref=e1278]: 03 / 06
+              - heading "Finance" [level=3] [ref=e1279]
+            - paragraph [ref=e1280]: Real-time pattern recognition across every transaction. Catch risk before it materialises and maintain audit-ready compliance by design.
+            - link "Deploy for Finance" [ref=e1281]:
+              - /url: "#contact"
+              - text: Deploy for Finance
+              - img [ref=e1282]
+          - generic:
+            - generic: Finance
+        - tab "Retail 04 / 06 Retail Forecast demand with unprecedented accuracy. Connect supply chain signals in real-time, catching defects before they ever ship. Deploy for Retail Retail" [ref=e1284] [cursor=pointer]:
+          - img "Retail" [ref=e1286]
+          - generic [ref=e1289]:
+            - generic [ref=e1290]:
+              - generic [ref=e1291]: 04 / 06
+              - heading "Retail" [level=3] [ref=e1292]
+            - paragraph [ref=e1293]: Forecast demand with unprecedented accuracy. Connect supply chain signals in real-time, catching defects before they ever ship.
+            - link "Deploy for Retail" [ref=e1294]:
+              - /url: "#contact"
+              - text: Deploy for Retail
+              - img [ref=e1295]
+          - generic:
+            - generic: Retail
+        - tab "Education 05 / 06 Education Connect the entire student journey from enrollment to placement. Improve learning outcomes with predictive, data-driven insights. Deploy for Edu Education" [ref=e1297] [cursor=pointer]:
+          - img "Education" [ref=e1299]
+          - generic [ref=e1302]:
+            - generic [ref=e1303]:
+              - generic [ref=e1304]: 05 / 06
+              - heading "Education" [level=3] [ref=e1305]
+            - paragraph [ref=e1306]: Connect the entire student journey from enrollment to placement. Improve learning outcomes with predictive, data-driven insights.
+            - link "Deploy for Edu" [ref=e1307]:
+              - /url: "#contact"
+              - text: Deploy for Edu
+              - img [ref=e1308]
+          - generic:
+            - generic: Education
+        - tab "Energy 06 / 06 Energy Predict grid failures and optimise distribution on live signals. Build a smarter, more resilient infrastructure. Deploy for Energy Energy" [ref=e1310] [cursor=pointer]:
+          - img "Energy" [ref=e1312]
+          - generic [ref=e1315]:
+            - generic [ref=e1316]:
+              - generic [ref=e1317]: 06 / 06
+              - heading "Energy" [level=3] [ref=e1318]
+            - paragraph [ref=e1319]: Predict grid failures and optimise distribution on live signals. Build a smarter, more resilient infrastructure.
+            - link "Deploy for Energy" [ref=e1320]:
+              - /url: "#contact"
+              - text: Deploy for Energy
+              - img [ref=e1321]
+          - generic:
+            - generic: Energy
+    - generic [ref=e1324]:
+      - generic [ref=e1325]:
+        - generic [ref=e1326]:
+          - generic [ref=e1327]: "[06]"
+          - generic [ref=e1328]: /
+          - generic [ref=e1329]: THE PROOF
+        - heading "See the difference." [level=2] [ref=e1330]
+        - paragraph [ref=e1331]: The same organisation, two realities. Drag across — and watch scattered, conflicting data resolve into one governed source of truth.
+      - generic [ref=e1334]:
+        - generic [ref=e1335]:
+          - img [ref=e1336]
+          - generic:
+            - generic: After DHIRA
+          - generic [ref=e1356]:
+            - img [ref=e1358]
+            - generic [ref=e1362]: One number, one truth
+          - generic [ref=e1364]:
+            - img [ref=e1366]
+            - generic [ref=e1370]: Real time updates
+          - generic [ref=e1372]:
+            - img [ref=e1374]
+            - generic [ref=e1378]: Same answer, every time
+          - generic [ref=e1380]:
+            - img [ref=e1382]
+            - generic [ref=e1387]: Always audit ready
+          - generic [ref=e1389]:
+            - img [ref=e1391]
+            - generic [ref=e1396]: Fully automated
+          - generic [ref=e1398]:
+            - img [ref=e1400]
+            - generic [ref=e1404]: One governed foundation
+          - img [ref=e1408]
+        - generic [ref=e1413]:
+          - img [ref=e1414]
+          - generic:
+            - generic: Before DHIRA
+          - generic [ref=e1447]:
+            - img [ref=e1449]
+            - generic [ref=e1453]:
+              - generic [ref=e1454]: SAP ERP
+              - generic [ref=e1455]: Three teams, three numbers
+          - generic [ref=e1457]:
+            - img [ref=e1459]
+            - generic [ref=e1462]:
+              - generic [ref=e1463]: Salesforce CRM
+              - generic [ref=e1464]: Reports land in 72 hours
+          - generic [ref=e1466]:
+            - img [ref=e1468]
+            - generic [ref=e1471]: Conflicting answers
+          - generic [ref=e1473]:
+            - img [ref=e1475]
+            - generic [ref=e1480]:
+              - generic [ref=e1481]: Snowflake DB
+              - generic [ref=e1482]: 12+ disconnected tools
+          - generic [ref=e1484]:
+            - img [ref=e1486]
+            - generic [ref=e1491]:
+              - generic [ref=e1492]: Legacy Mainframe
+              - generic [ref=e1493]: Manual work, every week
+          - generic [ref=e1495]:
+            - img [ref=e1497]
+            - generic [ref=e1501]:
+              - generic [ref=e1502]: Excel Spreadsheets
+              - generic [ref=e1503]: Weeks of prep, every cycle
+        - slider "Drag to compare before and after DHIRA" [ref=e1504]:
+          - generic [ref=e1506]:
+            - generic [ref=e1507]:
+              - text: See the change
+              - img [ref=e1509]
+            - img [ref=e1513]
+      - generic [ref=e1516]:
+        - paragraph [ref=e1518]: Left, every team, tool and report stands alone — duplicated, conflicting, slow to trust. Right, one governed core every system draws from.
+        - link "See how the foundation works" [ref=e1520] [cursor=pointer]:
+          - /url: "#platform"
+    - generic [ref=e1522]:
+      - generic [ref=e1523]:
+        - generic [ref=e1524]:
+          - generic [ref=e1525]: "[07]"
+          - generic [ref=e1526]: /
+          - generic [ref=e1527]: VOICES FROM THE FIELD
+        - heading "Proven in the field. Ask them." [level=2] [ref=e1528]
+        - paragraph [ref=e1529]: Quotes from the operators who run Dhira in production — not case-study theatre, not star ratings. Each is sized to its own weight, the way a paper sizes a pull-quote.
+      - generic [ref=e1531]:
+        - figure "Programme Lead National Education Platform Field deployment · 2024" [ref=e1532]:
+          - generic [ref=e1533]: “
+          - blockquote [ref=e1534]: 1.89 crore users. One dashboard. We finally see the whole country.
+          - generic [ref=e1535]:
+            - generic [ref=e1536]:
+              - generic [ref=e1537]: Programme Lead
+              - generic [ref=e1538]: National Education Platform
+            - generic [ref=e1539]: Field deployment · 2024
+        - figure "Director Government Employment Program State rollout · 2023" [ref=e1540]:
+          - generic [ref=e1541]: “
+          - blockquote [ref=e1542]: 387,000 emigration records, fully traceable. What used to take a desk full of files now takes one search.
+          - generic [ref=e1543]:
+            - generic [ref=e1544]:
+              - generic [ref=e1545]: Director
+              - generic [ref=e1546]: Government Employment Program
+            - generic [ref=e1547]: State rollout · 2023
+        - figure "Senior Official State Government Pilot district · 2024" [ref=e1548]:
+          - generic [ref=e1549]: “
+          - blockquote [ref=e1550]: A statewide survey, reconciled and visualized in days, not months. The data was finally one we could trust.
+          - generic [ref=e1551]:
+            - generic [ref=e1552]:
+              - generic [ref=e1553]: Senior Official
+              - generic [ref=e1554]: State Government
+            - generic [ref=e1555]: Pilot district · 2024
+  - contentinfo [ref=e1556]:
+    - generic [ref=e1557]:
+      - generic [ref=e1558]:
+        - generic [ref=e1559]:
+          - link "DHIRA homepage" [ref=e1560] [cursor=pointer]:
+            - /url: /
+            - img [ref=e1561]
+            - generic [ref=e1566]: DHIRA
+          - paragraph [ref=e1567]: DHIRA brings all of your data and AI together, grounded in the full picture.
+          - generic [ref=e1568]:
+            - generic [ref=e1569]: ✓
+            - text: Verified Record
+        - generic [ref=e1570]:
+          - heading "Akashic" [level=4] [ref=e1571]
+          - list [ref=e1572]:
+            - listitem [ref=e1573]:
+              - link "Data Pipelines" [ref=e1574] [cursor=pointer]:
+                - /url: "#datapipelines"
+            - listitem [ref=e1575]:
+              - link "Master Data" [ref=e1576] [cursor=pointer]:
+                - /url: "#masterdata"
+            - listitem [ref=e1577]:
+              - link "Data Warehouse" [ref=e1578] [cursor=pointer]:
+                - /url: "#datawarehouse"
+            - listitem [ref=e1579]:
+              - link "Workflow" [ref=e1580] [cursor=pointer]:
+                - /url: "#workflow"
+            - listitem [ref=e1581]:
+              - link "Machine Learning" [ref=e1582] [cursor=pointer]:
+                - /url: "#machinelearning"
+            - listitem [ref=e1583]:
+              - link "BI" [ref=e1584] [cursor=pointer]:
+                - /url: "#bi"
+            - listitem [ref=e1585]:
+              - link "Insights" [ref=e1586] [cursor=pointer]:
+                - /url: "#insights"
+            - listitem [ref=e1587]:
+              - link "Data Governance" [ref=e1588] [cursor=pointer]:
+                - /url: "#datagovernance"
+        - generic [ref=e1589]:
+          - heading "Solutions" [level=4] [ref=e1590]
+          - list [ref=e1591]:
+            - listitem [ref=e1592]:
+              - link "EIS" [ref=e1593] [cursor=pointer]:
+                - /url: "#eis"
+            - listitem [ref=e1594]:
+              - link "Life" [ref=e1595] [cursor=pointer]:
+                - /url: "#life"
+            - listitem [ref=e1596]:
+              - link "Knowledge" [ref=e1597] [cursor=pointer]:
+                - /url: "#knowledge"
+            - listitem [ref=e1598]:
+              - link "Public Sector" [ref=e1599] [cursor=pointer]:
+                - /url: "#publicsector"
+            - listitem [ref=e1600]:
+              - link "Healthcare" [ref=e1601] [cursor=pointer]:
+                - /url: "#healthcare"
+            - listitem [ref=e1602]:
+              - link "Education" [ref=e1603] [cursor=pointer]:
+                - /url: "#education"
+            - listitem [ref=e1604]:
+              - link "Enterprise" [ref=e1605] [cursor=pointer]:
+                - /url: "#enterprise"
+        - generic [ref=e1606]:
+          - heading "Delivery" [level=4] [ref=e1607]
+          - list [ref=e1608]:
+            - listitem [ref=e1609]:
+              - link "AI Readiness Audit" [ref=e1610] [cursor=pointer]:
+                - /url: "#aireadinessaudit"
+            - listitem [ref=e1611]:
+              - link "Sovereign Blueprint" [ref=e1612] [cursor=pointer]:
+                - /url: "#sovereignblueprint"
+            - listitem [ref=e1613]:
+              - link "Governance Framework" [ref=e1614] [cursor=pointer]:
+                - /url: "#governanceframework"
+            - listitem [ref=e1615]:
+              - link "Platform Deployment" [ref=e1616] [cursor=pointer]:
+                - /url: "#platformdeployment"
+            - listitem [ref=e1617]:
+              - link "Legacy Modernization" [ref=e1618] [cursor=pointer]:
+                - /url: "#legacymodernization"
+            - listitem [ref=e1619]:
+              - link "Custom Accelerators" [ref=e1620] [cursor=pointer]:
+                - /url: "#customaccelerators"
+        - generic [ref=e1621]:
+          - heading "Company" [level=4] [ref=e1622]
+          - list [ref=e1623]:
+            - listitem [ref=e1624]:
+              - link "About Us" [ref=e1625] [cursor=pointer]:
+                - /url: "#aboutus"
+            - listitem [ref=e1626]:
+              - link "Careers" [ref=e1627] [cursor=pointer]:
+                - /url: "#careers"
+            - listitem [ref=e1628]:
+              - link "Customer Stories" [ref=e1629] [cursor=pointer]:
+                - /url: "#customerstories"
+            - listitem [ref=e1630]:
+              - link "Perspectives" [ref=e1631] [cursor=pointer]:
+                - /url: "#perspectives"
+            - listitem [ref=e1632]:
+              - link "Documentation" [ref=e1633] [cursor=pointer]:
+                - /url: "#documentation"
+            - listitem [ref=e1634]:
+              - link "Guides" [ref=e1635] [cursor=pointer]:
+                - /url: "#guides"
+      - generic [ref=e1636]:
+        - generic [ref=e1637]:
+          - generic [ref=e1638]: © 2026 DHIRA. All rights reserved.
+          - link "Privacy Policy" [ref=e1639] [cursor=pointer]:
+            - /url: "#privacy"
+          - link "Terms of Service" [ref=e1640] [cursor=pointer]:
+            - /url: "#terms"
+        - generic [ref=e1641]:
+          - link "Twitter" [ref=e1642] [cursor=pointer]:
+            - /url: "#twitter"
+            - img [ref=e1643]
+          - link "LinkedIn" [ref=e1645] [cursor=pointer]:
+            - /url: "#linkedin"
+            - img [ref=e1646]
+  - button "Open Next.js Dev Tools" [ref=e1653] [cursor=pointer]:
+    - img [ref=e1654]
+  - alert [ref=e2246]
