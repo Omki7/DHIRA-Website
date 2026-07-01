@@ -3,20 +3,25 @@
 @tailwind utilities;
 
 :root {
-  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-mono: 'SF Mono', 'Fira Code', 'JetBrains Mono', monospace;
+  --font-sans: 'Google Sans Text', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-heading: 'Google Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'Google Sans Mono', 'SF Mono', 'Fira Code', 'JetBrains Mono', monospace;
 }
 
 html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
-  background-color: #FAFAFB;
+  background-color: #FFFFFF;
   color: #1A1C1D;
 }
 
 body {
   font-family: var(--font-sans);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
 }
 
 ::-webkit-scrollbar {
@@ -93,7 +98,7 @@ body {
     padding: 0 12px;
     background-color: transparent;
     color: #1A1C1D;
-    font-size: 15px;
+    font-size: 14px;
     font-weight: 500;
     border-radius: 10px;
     border: 1px solid transparent;
@@ -103,52 +108,8 @@ body {
     background-color: #F3F3F4;
   }
 
-  .link-text {
-    color: #1A1C1D;
-    font-size: 14px;
-    font-weight: 500;
-  }
-  .link-text:hover {
-    text-decoration: underline;
-  }
-
   .text-balance {
     text-wrap: balance;
-  }
-
-  .section-eyebrow {
-    font-size: 13px;
-    font-weight: 500;
-    color: #8E8F91;
-    letter-spacing: 0.02em;
-  }
-
-  .ui-frame {
-    border-radius: 14px;
-    background: #FFFFFF;
-    border: 1px solid #D9DADB;
-    box-shadow:
-      0px 2px 6px 0px rgba(28, 40, 64, 0.06),
-      0px 6px 20px -2px rgba(28, 40, 64, 0.08);
-  }
-
-  .card-surface {
-    border-radius: 12px;
-    background: #FFFFFF;
-    border: 1px solid #EEEFF1;
-    padding: 24px;
-  }
-
-  .card-attio {
-    border-radius: 12px;
-    background: #FFFFFF;
-    border: 1px solid #E4E7EC;
-    box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.04), 0px 1px 2px -1px rgba(0,0,0,0.02);
-    transition: box-shadow 250ms cubic-bezier(0.2,0.8,0.2,1), border-color 250ms cubic-bezier(0.2,0.8,0.2,1);
-  }
-  .card-attio:hover {
-    box-shadow: 0px 4px 12px 0px rgba(0,0,0,0.06), 0px 8px 24px -4px rgba(0,0,0,0.06);
-    border-color: #D3D8DF;
   }
 
   .dot-grid {
@@ -157,11 +118,23 @@ body {
   }
 
   .rail-container {
-    @apply mx-auto w-full max-w-[1280px] border-x border-lineSoft px-4 sm:px-6 lg:px-8;
+    @apply mx-auto w-full max-w-[1440px] border-x border-lineSoft px-4 sm:px-6 lg:px-8;
   }
 
-  .rail-container-dark {
-    @apply mx-auto w-full max-w-[1280px] border-x border-white/10 px-4 sm:px-6 lg:px-8;
+  /* Proof Slider styles (moved from TheProof.tsx) */
+  .comparison-before-bg {
+    width: calc(var(--pos) * 1%);
+  }
+  .comparison-slider-line {
+    left: calc(var(--pos) * 1%);
+  }
+  @media (min-width: 1100px) {
+    .comparison-before-bg {
+      width: calc((100% - 1100px) / 2 + (var(--pos) * 11px));
+    }
+    .comparison-slider-line {
+      left: calc((100% - 1100px) / 2 + (var(--pos) * 11px));
+    }
   }
 }
 
@@ -196,7 +169,7 @@ body {
   border-radius: 14px;
   overflow: hidden;
   border: 1px solid #EEEFF1;
-  background: #fff;
+  background: #FAFAFB;
   top: 0;
   left: 50%;
   transform-origin: center top;
@@ -230,7 +203,10 @@ body {
 }
 
 /* Platform Section Animations */
-@keyframes ps-pulse { 0%,100%{opacity:1} 50%{opacity:0.35} }
+@keyframes ps-pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+@keyframes ps-caret-blink { 0%,100%{opacity:1} 50%{opacity:0} }
+@keyframes vconn-flow { 0%{stroke-dashoffset:540} 100%{stroke-dashoffset:0} }
+@keyframes dropconn-flow { 0%{stroke-dashoffset:340} 100%{stroke-dashoffset:0} }
 @keyframes ps-crawl { 0%{left:1%;opacity:0} 9%{opacity:1} 90%{opacity:1} 100%{left:63%;opacity:0} }
 @keyframes ps-zip { 0%{left:0%;opacity:0} 15%{opacity:1} 85%{opacity:1} 100%{left:100%;opacity:0} }
 @keyframes ps-ring { 0%{transform:scale(0.85);opacity:0.6} 70%{transform:scale(1.8);opacity:0} 100%{transform:scale(1.8);opacity:0} }
@@ -247,6 +223,70 @@ body {
 @keyframes ps-fillO { from{width:0} to{width:84%} }
 @keyframes ps-rise { from{opacity:0; transform:translateY(8px)} to{opacity:1; transform:translateY(0)} }
 @keyframes ps-risec { from{opacity:0; transform:translateX(-50%) translateY(8px)} to{opacity:1; transform:translateX(-50%) translateY(0)} }
+
+/* Platform module card — glass panel on blue bg (PowerfulPlatform) */
+.ps-mc {
+  background: linear-gradient(175deg, #FFFFFF 0%, #EBF0FF 100%);
+  border: 1px solid rgba(255,255,255,0.88);
+  border-radius: 14px;
+  position: relative;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,1),
+    0 1px 3px rgba(8,16,60,0.07),
+    0 8px 24px -6px rgba(8,16,60,0.18),
+    0 32px 72px -16px rgba(8,16,60,0.30);
+  overflow: hidden;
+  transition: transform .24s cubic-bezier(.2,.8,.2,1), box-shadow .24s cubic-bezier(.2,.8,.2,1);
+}
+.ps-mc:hover {
+  transform: translateY(-5px) scale(1.006);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,1),
+    0 2px 6px rgba(8,16,60,0.08),
+    0 14px 36px -6px rgba(8,16,60,0.24),
+    0 44px 88px -16px rgba(8,16,60,0.38);
+}
+.ps-mc::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg,
+    rgba(62,99,221,0.5) 0%,
+    rgba(130,162,255,0.92) 45%,
+    rgba(100,140,255,0.65) 75%,
+    rgba(62,99,221,0.25) 100%);
+  pointer-events: none;
+}
+.ps-mc-hd {
+  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  background: linear-gradient(180deg, rgba(228,236,255,0.75) 0%, rgba(242,246,255,0.45) 100%);
+  border-bottom: 1px solid rgba(62,99,221,0.09);
+}
+.ps-mc-dark {
+  background: linear-gradient(150deg, #1C2040 0%, #111525 100%);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 14px;
+  position: relative;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.07),
+    0 2px 8px rgba(0,0,0,0.32),
+    0 16px 40px -8px rgba(0,0,0,0.52),
+    0 36px 80px -16px rgba(0,0,0,0.60);
+  overflow: hidden;
+  transition: transform .24s cubic-bezier(.2,.8,.2,1), box-shadow .24s cubic-bezier(.2,.8,.2,1);
+}
+.ps-mc-dark:hover {
+  transform: translateY(-5px) scale(1.006);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.07),
+    0 4px 14px rgba(0,0,0,0.38),
+    0 22px 52px -8px rgba(0,0,0,0.60),
+    0 44px 96px -16px rgba(0,0,0,0.68);
+}
 
 /* Mission Console — live telemetry + dossier stage */
 @keyframes mc-ekg { from{transform:translateX(0)} to{transform:translateX(-50%)} }
@@ -271,6 +311,13 @@ body {
   0%, 100% { transform: translateX(0); }
   50%      { transform: translateX(5px); }
 }
+
+/* EverySector — right panel text entrance */
+@keyframes sectorTextIn {
+  from { opacity: 0; transform: translateY(7px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.sector-text-in { animation: sectorTextIn 420ms cubic-bezier(0.4, 0, 0.2, 1) both; }
 
 /* Field Ledger — the "standing ledger" centerpiece */
 @keyframes fl-spark { from { stroke-dashoffset: 240; } to { stroke-dashoffset: 0; } }
@@ -297,4 +344,5 @@ body {
   .fl-row-enter { animation: none; }
   .fl-sheen::after { animation: none; display: none; }
 }
+
 
