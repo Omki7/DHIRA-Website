@@ -1,221 +1,281 @@
-# AGENTS.md — DHIRA Website v3
+# AGENTS.md — DHIRA Website v3 Design Constitution
 
-**This is the authoritative source for design intent on this project.**
-It supersedes any prior auto-generated version. Every future session — Claude, GLM, or any other agent — must read this file before editing anything. The technical facts below come from the actual codebase, not from the original brief's placeholder examples.
-
----
-
-## Stack & Commands
-
-```
-Next.js 16 (App Router) · React 19 · TypeScript 5.7 · Tailwind CSS 3.4
-```
-
-```bash
-npm run dev      # local dev server (does not exit — start detached, don't wait)
-npm run build    # production build + typecheck (the canonical verify step)
-npm run lint     # ESLint via Next defaults
-```
-
-No tests exist. Use `npm run build` to verify correctness. TypeScript is `strict: true`; `next build` IS the typecheck.
+This file is the authoritative source of truth for any AI agent or developer working in this repository. Read it fully before touching any file.
 
 ---
 
-## Architecture
+## 1. Stack & Project Structure
 
 ```
-app/layout.tsx              Root layout — loads Google Fonts (Newsreader + Inter), sets body classes
-app/page.tsx                Single composed page: AnnouncementBar → Nav → Hero → [01] PowerfulPlatform → [02] AdaptiveModel → [03] DataEnrichment → [04] ProvenAtScale → Voices → CTA → Footer
-app/globals.css             Tailwind layers + component classes + reveal utilities + reduced-motion rule
-components/AnnouncementBar.tsx  Gradient-pill launch banner
-components/Nav.tsx           Sticky translucent header with dropdown product/resources menus
-components/Footer.tsx        Dark footer (bg-vault); hrefs derived from labels (see Gotchas)
-components/Reveal.tsx        Client scroll-reveal wrapper (IntersectionObserver, reduced-motion aware)
-components/DashboardMockup.tsx  CSS-built product dashboard centerpiece
-components/PowerfulDemo.tsx     Client tabbed demo: Ask Akashic / Data model / Workflows / Reporting
-components/AdaptiveDemo.tsx     Client tabbed sector data-model explorer
-components/EnrichmentDemo.tsx   Client data-source toggles + profile/activity UI
-components/sections/*          Server-component sections (new Attio-style narrative arc)
-components/HeroResolve.tsx     Legacy client hero animation (currently unused)
+Next.js 16 (App Router, Turbopack) · React 19 · TypeScript 5.7 · Tailwind CSS 3.4
 ```
 
-Section order in `app/page.tsx` is fixed and intentional:
-Hero → [01] PowerfulPlatform → [02] AdaptiveModel → [03] DataEnrichment → [04] ProvenAtScale → Voices → CTA
+**Path alias:** `@/*` → project root (configured in `tsconfig.json`). All imports use this form.
 
-> Visual direction now fully mirrors the Attio.com homepage: a clean white field, bold Inter sans-serif headlines, the same tabbed product-demo centerpiece, interactive data-model and enrichment exhibits, customer quotes, a stats band, and one restrained action-blue accent. The old “gazette / registry / low-alpha-border” look is retired.
+```
+app/
+  layout.tsx           Root layout: loads the Google Sans family + Newsreader from Google Fonts
+  page.tsx             Single page, composes all sections in order
+  globals.css          Tailwind directives + component classes + keyframe animations
+
+components/
+  layout/
+    Nav.tsx            Sticky nav with accordion hide-on-scroll and 5 dropdown menus
+    Footer.tsx         Dark footer (bg-vault) with link columns
+
+  sections/            One file per page section, rendered in this order:
+    Hero.tsx             [00] Hero — scroll word-reveal, rotating phrase, sticky backdrop
+    ProblemSection.tsx   [01] The Problem — scrolling proof blocks with count-up watermarks
+    PowerfulPlatform.tsx [02] Meet Akashic — 4-row platform flow diagram (bg-blue)
+    ProvenAtScale.tsx    [03] Proven At Scale — stats band + FieldLedger (bg-white)
+    HowWeDeliver.tsx     [04] How We Deliver — interactive timeline + DeliveryCanvasMockup
+    EverySector.tsx      [05] Every Sector — desktop image-strip accordion / mobile accordion
+    TheProof.tsx          [06] The Proof — ProofComparisonMockup drag slider
+    Voices.tsx            [07] Voices — editorial pull-quote rail (Newsreader display font)
+    EnterpriseSecurity.tsx [08] Governance — stat grid + animated trust-coverage curve
+    JoinTheTeam.tsx       [09] Careers — filterable open-roles list
+    Closure.tsx           [10] Get Started — high-contrast dark card closure, mock CLI
+
+  demos/               Interactive/animated sub-components used inside sections
+    HeroConnections.tsx      Animated connection graph shown behind Hero (decorative, real component)
+    ProblemBlock.tsx         Single scroll-revealed proof block with count-up watermark (ProblemSection)
+    FieldLedger.tsx          Live deployment panels with count-up metrics (ProvenAtScale)
+    VoicesDispatches.tsx     Asymmetric editorial dispatch cards (Voices)
+
+    mockups/             SIMULATED PRODUCT UI — fake app screenshots for visual storytelling,
+                          not real Akashic functionality. See §8a before touching any file here.
+      HeroProductsMockup.tsx     3-card rotating product showcase (Hero). Large file: renders its
+                                 three panel mockups via `dangerouslySetInnerHTML` — intentional,
+                                 see §8a.
+      PlatformBIChartMockup.tsx  Fake BI module card (filter chips + rose chart + stats)
+                                 used inside PowerfulPlatform's Explore & Ask row
+      PlatformConnectors.tsx     Shared connector SVGs (HConn/VConn/DropConn/DagConn) and the
+                                 `ModIcon` badge, used to link the fake module cards in
+                                 PowerfulPlatform's flow diagram and PlatformBIChartMockup
+      DeliveryCanvasMockup.tsx   Animated phase mockup (audit / deploy / operate) for HowWeDeliver
+      ProofComparisonMockup.tsx  Drag-to-compare before/after slider mockup (TheProof)
+
+  icons/               Static SVG components, no logic
+    AkashicLogo.tsx
+    DhiraLogo.tsx
+    DynamicSketchIcon.tsx    Text-keyed icon lookup; falls back to a default glyph for unknown keys
+
+  ui/                  Generic utility components
+    ScrollReveal.tsx     Intersection Observer fade-in wrapper (accepts a `delay` prop in ms)
+    ScrollRevealRail.tsx Centred 1440px rail with animated scroll-tracking edge lines
+                         (`dark` prop for use on dark sections)
+
+hooks/
+  useCountUp.ts        Count-up animation primitives:
+                         - `useCountUp(figure, opts)` (default export) — parses a single string
+                           figure (e.g. "$581B"), animates once when its own ref scrolls into view
+                         - `useCountUpValue(target, kick, reduced, duration)` — re-triggerable
+                           numeric count-up for content already visible in a parent ScrollReveal
+                         - `usePrefersReducedMotion()`
+```
+
+**Never** place files flat in `components/`. Always use the appropriate subdirectory.
 
 ---
 
-## Conceptual Thesis — Read This Before Any Visual Decision
+## 2. Brand Identity
 
-**"Dhira"** means steady, composed, unshaken.
-**"Akashic"** refers to a total, permanent record — nothing missing, nothing contradictory.
-The homepage now leads with an Attio-style product-demo narrative: a central dashboard, interactive platform tabs, adaptive sector models, live enrichment, and proof of scale.
-
-The visual world is **Attio-grade product precision**: a clean white field, **Inter** sans-serif headlines carrying directness and scale, **Inter** UI/data for clinical accuracy, and a single restrained **action-blue** accent (`#266df2`) reserved for verified / active / governed signal. **Newsreader** is now reserved for occasional editorial pull-quotes, not headline duty. Depth comes from **subtle multi-layer card shadows** on hairline white surfaces — never from heavy boxes or glow. Motion is smooth and outbound (`cubic-bezier(0.2,0.8,0.2,1)`); sections reveal as they scroll via the `<Reveal>` client child. It is a high-end instrument, NOT a SaaS dashboard, NOT a “knowledge-graph nodes” illustration, NOT a futuristic AI aesthetic. Motion should feel like something settling into place with weight and certainty — never bouncy or floaty.
+- **DHIRA** = the company. **Akashic** = the platform. Keep distinct. Never write "DHIRA's Akashic."
+- Akashic unifies structured, unstructured, and streaming data into one governed foundation, links it via a knowledge graph, and runs BI, conversational AI, ML, and agentic orchestration on top.
+- Positioning: one accountable partner (platform + delivery), not a stack of vendors. Not pure SaaS, not pure consultancy.
+- Proof points: national-scale DPI delivery in India; Maha Hackathon 2025 winner; Telangana AI Rising 2025 winner; Startup India recognised; offices in New York, Hyderabad, Bangalore.
+- Sectors: Government, Smart Cities, Healthcare, Banking and Finance, Retail and Manufacturing, Education, Energy and Utility.
 
 ---
 
-## Actual Design Tokens (from the codebase)
+## 3. Brand Voice
 
-### Colors (`tailwind.config.ts`)
+- **Direct, declarative, short.** Headlines are complete thoughts.
+- **No em dashes** in marketing copy. Use colons or periods instead.
+- **No vaporware.** Never market a roadmap feature as live.
+- **Precise over vague.** No "powerful," "seamless," "next-generation" as filler.
+- **British/Indian English** spelling throughout: "organisation," "recognised," "colour," "optimise."
+- **Claims must be verifiable.** No invented SLA numbers, certifications, or client names.
+- Two-tier motif: "trust / trace / act on" is the emotional promise; "grounded" is the technical mechanism (knowledge graph). Keep distinct.
 
-| Token | Hex | Use |
-|---|---|---|
-| `paper` | `#ffffff` | Base/page surface |
-| `surface` | `#f7f7f8` | Stripe / elevated sections (subtle) |
-| `ash` | `#f3f4f6` | Panels, hover washes |
-| `ink` | `#1c1d1f` | Primary text, buttons, dark inversion |
-| `inkSoft` | `#6f7988` | Secondary text, metadata |
-| `overcast` | `#8f99a8` | Captions, tertiary copy |
-| `lineSoft` | `#e4e7ec` | Hairline border lines |
-| `line` | `#d3d8df` | Default borders, inactive chrome |
-| `action` | `#266df2` | The accent — links, active, verified |
-| `focus` | `#94b9ff` | Focus rings / glow |
-| `abyss` | `#000000` | Primary-button hover |
-| `vault` | `#0a0a0c` | Footer dark surface |
-| `aura1` / `aura2` | `#dca3a5` / `#70a1f0` | The “magic aura” gradient endpoints |
+---
 
-**Magic aura gradient:** `linear-gradient(131.88deg, #dca3a5 7.36%, #70a1f0 81.74%)` — use sparingly as a blurred ambient backdrop or a gradient-text accent (`.aura-text`).
+## 4. Design Tokens
 
-### Fonts
-
-| Token | Stack | Role |
-|---|---|---|
-| `font-display` | Newsreader → Georgia → serif | Headlines, hero statement, section heads, serif quote voice |
-| `font-sans` | Inter → system-ui → sans-serif | Body, data, UI labels, numbers, nav, buttons |
-
-> The old Source Serif 4 / Public Sans pairing was retired when the site moved to the Attio look (see `app/layout.tsx` Google Fonts link). Do not reintroduce it.
-
-### Spacing / Radius / Motion
+### Colors
 
 | Token | Value | Use |
 |---|---|---|
-| `tracking-tighter` | `-0.02em` | Large display headlines |
-| `tracking-tightest` | `-0.035em` | Hero-scaled display |
-| `tracking-eyebrow` | `0.14em` | Metadata / eyebrow label tracking |
-| `rounded-btn` | `10px` | Buttons (mandatory) |
-| `rounded-card` | `8px` | Cards / panels / contained surfaces |
-| `rounded-frame` | `14px` | Large UI frame / exhibit / table shell |
-| `rounded-tag` | `4px` | Small inline tags |
-| `duration-settle` | `250ms` | Hover / color transitions |
-| `ease-settle` | `cubic-bezier(0.2,0.8,0.2,1)` | All transitions (smooth outbound) |
-| `shadow-card` | subtle 2-layer | Default card depth (see config) |
-| `shadow-cardHover` | lift 2-layer | Card hover state |
-| `shadow-frame` | exhibit depth | Large UI frame centerpiece |
-| `animate-stamp-in` | scale 0.92→1 | Registry seal appearance |
-| `animate-resolve-float` | translateY 10px→0, 1.6s | Hero resolved answer |
-| `.reveal` / `.reveal-in` | fade+lift 16px, 650ms | Scroll reveal (via `<Reveal>` client child) |
+| `background` | `#FFFFFF` | Page background |
+| `primary-bg` | `#FAFAFB` | Card surfaces, inset panels (e.g. `EverySector` text panel) |
+| `secondary-bg` | `#FFFFFF` | Nav menu-row icon tiles |
+| `tertiary-bg` | `#F3F3F4` | Subtle inset areas, hover fills |
+| `ink` | `#1A1C1D` | Primary headings, dominant text |
+| `primary-text` | `#1A1C1D` | Nav / menu body text |
+| `secondary-text` | `#5C5E63` | Nav secondary copy |
+| `tertiary-text` | `#8E8F91` | Nav labels, deemphasised UI text |
+| `inkSoft` | `#6f7988` | Section body copy |
+| `overcast` | `#8f99a8` | Tertiary labels, watermarks |
+| `action` | `#1A1C1D` | Primary button fill |
+| `action-hover` | `#2F3132` | Button hover |
+| `blue` | `#3E63DD` | Accent links, highlighted data, focus rings |
+| `blue-hover` | `#3351B8` | Blue accent hover state |
+| `blue-subtle` | `#EEF1FC` | Accent background tint |
+| `blue-border` | `#C8D2F5` | Accent border |
+| `red` | `#E5484D` | Problem-section indicator bar/watermark only — not a general error colour |
+| `vault` | `#0a0a0c` | Footer background only |
+| `lineSoft` | `#e4e7ec` | Section borders, dividers |
+| `line` | `#d3d8df` | Stronger dividers |
+| `subtle-stroke` | `#EEEFF1` | Card borders |
+| `default-stroke` | `#D9DADB` | Nav divider stroke |
 
-### CSS Component Classes (`app/globals.css`)
+Keep this table in sync with `tailwind.config.ts` — if you add a token, add a row; if you remove usage of a token, remove it from the config in the same change.
 
-| Class | Use |
+### Typography
+
+- **`font-sans`** (Google Sans Text): body text, most UI copy.
+- **`font-heading`** (Google Sans): headings that opt in explicitly via `font-heading` (most headings otherwise inherit `font-sans` via the `h1`–`h6` rule in `globals.css`).
+- **`font-mono`** (Google Sans Mono): eyebrow labels, monospace figures, dossier-style UI chrome.
+- **`font-display`** (Newsreader): **Editorial pull-quotes only.** Currently only Voices section (and `FieldLedger`'s pull-quote line). Do not introduce it elsewhere.
+
+| Scale | Size | Weight | Tracking | Usage |
+|---|---|---|---|---|
+| Hero headline | 56–64px | 600 | `tracking-tighter` (`-0.04em`) | Hero H1 |
+| Section headline | 48–64px | 600 | `tracking-tighter` | Section H2 |
+| Subsection | 28–32px | 600 | tight | Feature headings |
+| Body | 16–18px | 400 | default | Prose paragraphs |
+| Small body | 14px | 400–500 | default | Card copy |
+| Eyebrow | 11–13px | 500 | `tracking-eyebrow` (0.14em) | Section labels, always UPPERCASE font-mono |
+
+**Eyebrow pattern:** `[NN] / SECTION NAME` in `font-mono text-[11px] uppercase tracking-eyebrow`. Numbers in `text-overcast`, rest in `text-inkSoft`.
+
+### Spacing & Shape
+
+- **8px grid.** Section vertical padding: `py-12 lg:py-16` for most sections' top or `pt-12 pb-24 lg:pt-16 lg:pb-32` as the common section wrapper pattern.
+- `rounded-btn` = 6px (buttons), `rounded-card` = 8px (cards), `rounded-frame` = 10px (large panels).
+- `shadow-frame`: large panel elevation. `shadow-card`: subtle card lift.
+
+### Timing
+
+- `duration-settle` + `ease-settle` (`cubic-bezier(0.2,0.8,0.2,1)`): all interactive transitions.
+- `duration-smooth` + `ease-smooth` (`cubic-bezier(0.4,0,0.2,1)`): continuous motion (animations).
+- Typical range: 200–400ms for UI, 600–800ms for layout morphing.
+
+---
+
+## 5. CSS Component Classes (from globals.css)
+
+| Class | Description |
 |---|---|
-| `.btn-filled` | Primary CTA — ink fill, 10px radius, no shadow |
-| `.btn-bordered` | Secondary CTA — white, hairline border, 10px radius |
-| `.card-attio` | Standard card surface — hairline border + subtle shadow + hover lift |
-| `.aura-text` | “Magic aura” gradient-clipped text accent |
-| `.meta-label` | Uppercase tracked eyebrow — reserved for genuine metadata only |
-| `.registry-mark` | `color: #266df2` — accent for verified / active items |
-| `.rule-line` | Hairline border (`#e4e7ec`) |
-| `.grid-dots` | Subtle dotted grid backdrop (hero) |
+| `.btn-primary` | Dark fill (ink) button, 36px height, 10px radius |
+| `.btn-secondary` | White bordered button, 36px height, 10px radius |
+| `.btn-ghost` | Transparent button, tints to `tertiary-bg` on hover |
+| `.dot-grid` | 1px dot radial-gradient background at 10px pitch |
+| `.rail-container` | Centred 1440px max-width wrapper, `border-x border-lineSoft`, standard horizontal padding |
+| `.comparison-before-bg` | Before image container clipping style (TheProof) |
+| `.comparison-slider-line` | Split-slider line positioning (TheProof) |
+| `.hs-card` | Absolute-positioned 840x592px card for HeroProducts carousel. Use `data-pos="center\|left\|right"` |
+| `.ps-mc` / `.ps-mc-hd` / `.ps-mc-dark` | Platform module card shell / header strip / dark variant, used by `PowerfulPlatform` and `PlatformBIChart` |
+
+### Keyframe animation classes (apply via className)
+
+| Class | Animation | Origin |
+|---|---|---|
+| `.fl-sparkline` | SVG sparkline draw-in (fl-spark) | FieldLedger |
+| `.fl-row-enter` | Row fade-up on enter (fl-row) | FieldLedger |
+| `.fl-sheen` | Shimmer sweep via ::after (fl-sweep) | FieldLedger |
+| `.mc-stage-in` | Panel fade-up (mc-stage) | ProofComparison |
+| `.sector-text-in` | Right-panel text entrance (sectorTextIn) | EverySector |
+
+**Inline @keyframes used directly** (not class-based, applied via inline `animation` style): `softpulse`, `dashmove`, `progressFill`, `ps-*` (PowerfulPlatform / PlatformConnectors — `ps-pulse`, `ps-crawl`, `ps-zip`, `ps-ring`, `ps-dash`, `ps-flow`, `ps-float`, `ps-breathe`, `ps-grow`, `ps-draw`, `ps-linep`, `ps-bar`, `ps-sheen`, `ps-fillA`, `ps-fillO`, `ps-rise`, `ps-risec`, `ps-caret-blink`), `vconn-flow`, `dropconn-flow` (PlatformConnectors), `proofCorePulse`, `proofKnobGlow`, `proofHint`.
+
+All keyframes live in `globals.css`. Do not add a component-local `<style dangerouslySetInnerHTML>` block for animations — it risks silently redefining a keyframe that already exists globally (this happened once with `ps-pulse`/`ps-rise` in `PowerfulPlatform.tsx` and has since been consolidated).
 
 ---
 
-## Permanent Design Rules
+## 6. Section Map
 
-These rules are the residue of specific identified defects, updated for the Attio-modeled look. They exist because someone violated each one. Do not repeat the violation.
-
-### Rule 1 — Each section keeps its own visual shape
-
-Even with the clean white card language, content types must not all collapse into identical boxes:
-
-- **Hero conflict cards** (`HeroResolve.tsx`): each mimics its source artifact — spreadsheet (formula bar, mono, `#F4F5F1` chrome), PDF (centered serif, warm `#FAF8F2`), dashboard (live dot, mono, cool `#EDF1F6`). They look like competing panels, not uniform cards. They are framed as an **Attio app-frame centerpiece** (`rounded-frame`, `shadow-frame`, traffic-light toolbar).
-- **Hub-and-spoke capability nodes** (`MeetAkashic.tsx`): spoke nodes carry NO card box — the SVG connector lines and absolute positioning do the structural work. The hub (Knowledge Graph) is the one element that earns distinct treatment (action-blue border + shadow).
-- **The stat row in ProvenAtScale**: uses the gap-as-divider approach (grid with `gap-px` and a `bg-white/10` gap on the dark field), NOT individually boxed cards.
-- **The How We Deliver sequence**: 01/02/03 numbered `.card-attio` cells in a 3-col grid — correct because it is a genuine sequence.
-- **The Proof table**: a `<table>` inside a `rounded-frame` shell, left-aligned ledger rows — never cards.
-- **Voices citations**: serif-quote `.card-attio` citation cards with hairline-attribution rule — no star ratings, no quote-bubble icons.
-
-If you are about to reach for a generic card pattern for a new section, stop. Design that section’s actual shape first.
-
-### Rule 2 — The verified check (&#10003;) appears ONLY on genuinely certified claims
-
-The seal device is now a check glyph (```&#10003;```) in the **action-blue** accent, not the old ◆. Its sanctioned locations are:
-
-1. **Trust-strip credentials** (`TrustStrip.tsx`) — each credential badge
-2. **"Verified" toolbar badge** in the hero exhibit (`HeroResolve.tsx`)
-3. **"Grounded Answer · Akashic Record" label** in the hero exhibit (`HeroResolve.tsx`)
-4. **"Verified Record" label** in the proof section (`TheProof.tsx`)
-5. **Footer "Verified Record" tagline** (`Footer.tsx`)
-
-It must NOT appear on: section eyebrow labels, pain-point diagnoses, capability names, delivery methodology labels, sector taglines, testimonial section headers, or any descriptor that is not a verified external fact. When in doubt — omit. The color alone (`.registry-mark` = action blue) is a weaker accent signal and may be used more broadly for emphasis (e.g., the Knowledge Graph hub name, the Magic-Aura gradient).
-
-### Rule 3 — Exactly one light-section inversion to dark. Plus the dark footer.
-
-`ProvenAtScale` is the singular dark-content inversion. It uses `bg-ink` (`#1c1d1f`) on the **narrative** body; the `Footer` uses `bg-vault` (`#0a0a0c`). These are the only two dark surfaces — do not add a third dark narrative section. Within `ProvenAtScale`: override eyebrow color with `text-white/45`, use `border-white/10` for borders and `bg-white/10` for gap dividers. Keep the one auroral glow behind the dark field subtle (`opacity-25`, blurred).
-
-### Rule 4 — The hero leads with the product as proof
-
-The hero now follows the Attio layout: a customer quote at the top, a bold centered Inter headline, sub, a cluster of CTAs, and a full-width CSS-built **product-dashboard mockup** (`DashboardMockup`) as the central exhibit. Customer logos sit below the demo. The old conflict-card animation (`HeroResolve.tsx`) is currently unused; do not reintroduce it unless the design intent shifts back to a tension/resolution story.
+| Order | ID | File | Background | Notes |
+|---|---|---|---|---|
+| — | nav | `layout/Nav.tsx` | `bg-white/95 backdrop-blur-md` | Hides on scroll down (30px accumulated delta), shows on up (15px) or near top |
+| 00 | hero | `sections/Hero.tsx` | `bg-background` / `bg-blue` (sticky quote layer) | Uses `demos/mockups/HeroProductsMockup` + `demos/HeroConnections` |
+| 01 | problem | `sections/ProblemSection.tsx` | `bg-white` | Scrolling proof blocks, Stanford HAI 2026 data |
+| 02 | platform | `sections/PowerfulPlatform.tsx` | `bg-[#3E63DD]` (blue) | 4-row flow diagram; uses `demos/mockups/PlatformBIChartMockup` + `demos/mockups/PlatformConnectors` |
+| 03 | scale | `sections/ProvenAtScale.tsx` | `bg-white` | Stats band + `demos/FieldLedger`. Deliberately overrides the old "one dark section" rule — see §7, Rule 5 |
+| 04 | delivery | `sections/HowWeDeliver.tsx` | `bg-white` | Interactive timeline + `demos/mockups/DeliveryCanvasMockup` |
+| 05 | sectors | `sections/EverySector.tsx` | `bg-white` | Image-strip accordion desktop / accordion mobile |
+| 06 | proof | `sections/TheProof.tsx` | `bg-white` | `demos/mockups/ProofComparisonMockup` drag slider |
+| 07 | voices | `sections/Voices.tsx` | `bg-background` | Editorial rail with `font-display` (Newsreader) |
+| 08 | governance | `sections/EnterpriseSecurity.tsx` | `bg-white` | Stat grid + animated trust-coverage curve, compliance strip |
+| 09 | careers | `sections/JoinTheTeam.tsx` | `bg-[#FAFAF9]` | Filterable open-roles list |
+| 10 | closure | `sections/Closure.tsx` | `bg-white` | High-contrast dark closure card, mock CLI |
+| — | footer | `layout/Footer.tsx` | `bg-vault` | Dark footer, link columns |
 
 ---
 
-## Technical Bans
+## 7. Design Rules
 
-The motion ban list was relaxed to allow the Attio feel, but these stay:
+### Rule 1 — Shape Discipline
+Every section must have its own organic shape. If you are about to reach for a generic `.card-attio` or 3-up card grid for a new section, **stop**. Cards are a last resort, not a default. Look at what the section data actually is — ledger rows, ratio counters, pull-quotes, step cards — and design the container to match the content.
 
-- **No `ease-in-out` default** transitions — use the `ease-settle` token (`cubic-bezier(0.2,0.8,0.2,1)`).
-- **No heavy/branded box-shadows** — depth tokens are `shadow-card`, `shadow-cardHover`, `shadow-frame`, `shadow-chip` only. No `shadow-2xl` glow on interactive cards.
-- **No `hover:scale-105`** bouncy lifts — `.card-attio` delivers depth via shadow + border-color change only.
-- **No saturated tech-blue or purple/blue SaaS gradients** as primary colorwash. The ONLY sanctioned blue-involving gradient is the magic-aura `aura1→aura2` and the dark-field auroral glow, used subtly and blurred. Action blue (`#266df2`) is the accent, not a surface.
-- **No auto-scrolling logo marquee** in the hero logo bar — keep it static.
-- **No decorative 01/02/03 numbering** outside the numbered `[01]`?`[04]` section eyebrows.
-- **No star ratings or quote-bubble SVGs** in Voices — keep testimonials as clean cards with name, org, and role.
-- **No flat 6-item bento grid** for capabilities — express capabilities through distinct product-demo shapes per tab, not uniform cards.
-- **No shadcn/Radix default visual skin** — use their accessible behavior only, restyle everything.
-- **No reintroducing the old Source Serif 4 / Public Sans pairing or the old `paper #F6F4EC` / `registry #7A2E35` tokens** — they are deliberately retired.
+### Rule 2 — The Checkmark Is Sacred
+The checkmark character appears **only** in the FieldLedger telemetry badge. No other section or component emits checkmarks. Use other forms of affirmation (stat numbers, section labels, proof statements).
 
----
+### Rule 3 — Newsreader Is Rare
+`font-display` (Newsreader) is reserved for editorial pull-quotes only: the Voices section and FieldLedger's pull-quote line. Do not introduce it for headings, callouts, or marketing copy.
 
-## Motion Wiring
+### Rule 4 — No Invented Data
+All numbers in the UI (stats, chart values, percentages) must be real. The AI investment chart uses Stanford HAI AI Index Report 2026 figures. The scale stats (5.75B+ learning interactions, 4M+ workforce clearances, 99.999% uptime) are real deployment figures. Do not invent new numbers.
 
-Scroll reveals use the `components/Reveal.tsx` client wrapper: wrap any block whose entrance you want to fade+lift in `<Reveal delay={n}>…</Reveal>`. It is reduced-motion aware (renders visible immediately). Do **not** add `"use client"` to section files — push all interactivity into dedicated client child components (`PowerfulDemo`, `AdaptiveDemo`, `EnrichmentDemo`, `Nav`). Per-section staggered `delay` values (e.g., 90/110/120ms) compose the cascade.
+### Rule 5 — Dark Sections Are Deliberate, Not Default
+The Footer (`bg-vault`) is the only permanently dark region. `ProvenAtScale` was originally the page's one dark section but has since moved to `bg-white` by deliberate design direction (see the comment at the top of `ProvenAtScale.tsx`). New sections default to `bg-white` or `bg-background`; `PowerfulPlatform`'s blue (`bg-[#3E63DD]`) is the one other non-neutral section background and should stay unique to that section.
 
----
+### Rule 6 — Reduced Motion
+All animations must respect `prefers-reduced-motion`. The global CSS handles this for `*` via `animation-duration: 0.01ms`. Component-specific overrides exist for `.fl-sparkline`, `.fl-row-enter`, `.fl-sheen`. Any new animation you add must degrade safely.
 
-## Structural Conventions
+### Rule 7 — Images Require Real Files
+`EverySector` references `/sectors/smart-cities-real.png` etc. via `next/image`. These must exist in `public/sectors/`. Never add `<Image>` or `<img>` tags pointing to paths that do not exist in `public/`.
 
-- **Section files open with a JSDoc comment** describing design intent. Preserve and extend these.
-- **Anchor IDs are a contract**: `Nav.tsx` links to `#platform`, `#model`, `#delivery`, `#proof`, `#company`. Renaming a section ID requires updating the Nav routes.
-- **Footer hrefs are derived from labels** via `` `#${item.toLowerCase().replace(/[^a-z]/g, "")}` ``. Do not "fix" these to real section IDs — they are intentional placeholders.
-- **No `"use client"` on section files** — push any interactivity into a dedicated client child, following the `HeroResolve` pattern.
-- **`@/*` path alias** for all imports (configured in `tsconfig.json`).
-- **Tailwind v3 syntax** (`@tailwind base/components/utilities`) — do not migrate to v4 `@import "tailwindcss"`.
-- **Tabular numerals** (`tabular-nums`) on all numeric displays.
-- **HTML entities** for typography: `&ldquo;` `&rdquo;` `&mdash;` `&rsquo;` `&middot;` `&#9670;`. Match the file convention.
-- **No image asset pipeline** — no `public/` directory; use typographic/Unicode marks over image assets.
+### Rule 8 — Tailwind Over Inline Styles
+Every section uses Tailwind utility classes as the styling method. `PowerfulPlatform.tsx` and its `demos/mockups/Platform*` children are a deliberate, contained exception: they render pixel-precise UI mockups (chart geometry, module-card diagrams) where inline `style={{}}` objects are clearer than long utility strings. Do not let this exception spread — new sections and components use Tailwind classes, not inline style objects, for anything that isn't computed geometry.
 
 ---
 
-## Self-Check Before Marking a Section Done
+## 8. Component Notes
 
-1. **Shape uniqueness**: does this section's content type have its own shape, or did I reach for the default card pattern?
-2. **&#10003; discipline**: every check glyph sits on a genuinely certified claim, and accent blue is used as the accent not a colorwash.
-3. **Dark-inversion discipline**: did I add a third dark narrative section (besides `ProvenAtScale`)? If so, revert.
-4. **Motion discipline**: no `ease-in-out`, no `hover:scale-105`, no over-saturated glow; reveal entrances go through `<Reveal>`.
-5. **Semantic HTML**: section has a landmark, heading has an `id`, table has `<th scope>`, lists are `<ol>`/`<ul>` not `<div>`.
-6. **Reduced motion**: any new animation respects `prefers-reduced-motion` (global CSS handles the baseline; client animations must additionally check via `window.matchMedia`).
-7. **Build passes**: `npm run build` exits clean with no TypeScript errors.
+### §8a — `demos/mockups/`: Simulated Product UI
+Everything in `components/demos/mockups/` renders **fake Akashic app screenshots**, not real product functionality: hardcoded numbers, hand-placed nodes, canned chat transcripts. They exist purely so the homepage can show "the product" without a real backend. This is a distinct category from the rest of `demos/` (`FieldLedger`, `VoicesDispatches`, `ProblemBlock`, `HeroConnections`), which render real, data-driven or purely decorative content.
+
+Every file in this subfolder is named with a `Mockup` suffix (except `PlatformConnectors.tsx`, a shared SVG helper consumed only by other mockups) and carries a top-of-file comment starting with `SIMULATED PRODUCT UI`. If you add a new fake-screenshot component, put it here, suffix it `Mockup`, and add the same comment — don't let simulated UI drift back into the flat `demos/` folder where it looks indistinguishable from real components.
+
+Contents: `HeroProductsMockup.tsx` (Hero's 3-card carousel), `PlatformBIChartMockup.tsx` (BI module card in PowerfulPlatform), `PlatformConnectors.tsx` (shared connector SVGs + `ModIcon` badge), `DeliveryCanvasMockup.tsx` (HowWeDeliver's phase console), `ProofComparisonMockup.tsx` (TheProof's drag slider).
+
+### `demos/mockups/HeroProductsMockup.tsx` (large file)
+Three product card panels (Data Pipelines / Conversational AI / Data Models) rendered with `dangerouslySetInnerHTML` for the internal UI mocks. This is intentional — the card UIs are complex SVG+HTML mockups that are not React trees. State: `activeCard` (0|1|2), auto-cycles every 6000ms. `.hs-card` CSS class with `data-pos="center|left|right"` handles the fan layout. Tab progress bar uses `progressFill 6s linear` animation.
+
+Do not refactor the `dangerouslySetInnerHTML` without a concrete reason. The tradeoff (bundle size vs. simplicity of static HTML mocks) is deliberate.
+
+### `sections/PowerfulPlatform.tsx` (large file)
+Renders the 4-row "Meet Akashic" flow diagram directly with inline styles (see Rule 8). Its interactive/stateful pieces are split out: `demos/mockups/PlatformBIChartMockup.tsx` owns the Business Intelligence card's own filter state, and `demos/mockups/PlatformConnectors.tsx` holds the shared connector SVGs (`HConn`, `VConn`, `DropConn`, `DagConn`) and the `ModIcon` badge so they aren't redefined on every render. The remaining module-card markup (Data Pipelines, Master Data, Data Warehouse, Machine Learning, Ask AI, Governance Foundation) stays inline in the section file — it is static, prop-free, and extracting it further would add files without reducing complexity. The whole diagram is simulated UI (see §8a), even though it lives outside `demos/mockups/` for the structural reasons above.
+
+### `ui/ScrollReveal.tsx`
+Wraps children in an `IntersectionObserver` that adds a fade-up class when the element enters the viewport. Accepts a `delay` prop in milliseconds. Use it for every non-interactive content block. Keep delay values at or below 400ms — staggered reveals should feel snappy, not theatrical.
+
+### `ui/ScrollRevealRail.tsx`
+Centred 1440px rail wrapper with animated left/right edge lines that fill as the section scrolls through the viewport. Takes a `dark` prop for use on dark backgrounds (currently only the Footer).
+
+### `hooks/useCountUp.ts`
+Three related exports (see §1) covering the two distinct count-up needs in the codebase: a scroll-triggered single-string-figure animation (`useCountUp`, used by `ProblemBlock`) and a re-triggerable numeric animation for content already inside a parent `ScrollReveal` (`useCountUpValue`, used by `FieldLedger`). Do not reintroduce a third local copy of this logic — extend one of these two.
 
 ---
 
-## Gotchas
+## 9. What Not to Do
 
-- `next.config.mjs` is minimal — no `images.domains`, no experimental flags. Adding remote images requires extending it.
-- `.next/` build artifacts are checked in alongside source. Ignore them; regenerate via `npm run build`.
-- Section entrance animations fire once per page load via `<Reveal>` (IntersectionObserver disconnects after first trigger). Tab demos are interactive and can be re-triggered by the user.
-- `bg-ink/N` and `bg-white/N` opacity modifiers work on custom colors in Tailwind v3 when the color is defined as a simple hex string.
-- `.meta-label` is in `@layer components`; Tailwind utilities in `@layer utilities` override its `color` property. On dark sections use `text-white/45` etc. to override.
-- The Google Fonts link in `app/layout.tsx` loads Inter + Newsreader only; do not add `Source Serif 4` / `Public Sans` back without reason.
-- `Reveal` wraps children in a plain `<div>` — when you need a revealed item to be a direct grid/flex child, put the wrapping `Reveal` *inside* the grid cell (the sections already follow this pattern).
+- Do not add `console.log` to production components.
+- Do not install new npm packages without checking if the functionality exists in React or Tailwind already.
+- Do not use `any` TypeScript casts. Type everything.
+- Do not write multi-line comment blocks explaining what code does.
+- Do not change section order without updating `app/page.tsx` and this file.
+- Do not add new top-level files to `components/`. Use subdirectories.
+- Do not add a component-local `<style dangerouslySetInnerHTML>` block for keyframes — put them in `globals.css` (see §5).
+- Do not reference `design.md` — it has been retired. This file supersedes it.

@@ -1,19 +1,22 @@
-import Nav from "@/components/Nav";
-import Hero from "@/components/Hero";
-import PowerfulPlatform from "@/components/PowerfulPlatform";
-import ProblemSection from "@/components/ProblemSection";
-import ProvenAtScale from "@/components/ProvenAtScale";
-import HowWeDeliver from "@/components/HowWeDeliver";
-import EverySector from "@/components/EverySector";
-import TheProof from "@/components/TheProof";
-import Voices from "@/components/Voices";
-import Footer from "@/components/Footer";
+import Nav from "@/components/layout/Nav";
+import Footer from "@/components/layout/Footer";
+import Hero from "@/components/sections/Hero";
+import ProblemSection from "@/components/sections/ProblemSection";
+import PowerfulPlatform from "@/components/sections/PowerfulPlatform";
+import ProvenAtScale from "@/components/sections/ProvenAtScale";
+import HowWeDeliver from "@/components/sections/HowWeDeliver";
+import EverySector from "@/components/sections/EverySector";
+import TheProof from "@/components/sections/TheProof";
+import Voices from "@/components/sections/Voices";
+import EnterpriseSecurity from "@/components/sections/EnterpriseSecurity";
+import JoinTheTeam from "@/components/sections/JoinTheTeam";
+import Closure from "@/components/sections/Closure";
 
 export default function Home() {
   return (
     <>
       <Nav />
-      <main className="bg-paper">
+      <main className="bg-background">
         <Hero />
         <ProblemSection />
         <PowerfulPlatform />
@@ -22,6 +25,9 @@ export default function Home() {
         <EverySector />
         <TheProof />
         <Voices />
+        <EnterpriseSecurity />
+        <JoinTheTeam />
+        <Closure />
       </main>
       <Footer />
     </>
