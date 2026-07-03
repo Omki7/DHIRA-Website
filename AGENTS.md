@@ -220,6 +220,15 @@ Composed in `app/akashic/page.tsx` (Nav + sections + Footer). The nav's "Akashic
 | 00 | — | `sections/akashic/AkashicHero.tsx` | `bg-background` | Centred hero, dot-grid backdrop, scroll cue into [01] |
 | 01 | how-it-works | `sections/akashic/AkashicFourMoves.tsx` | `bg-white` | Two-world question toggle (auto-cycles, pauses on click) + four-move rail with simulated-UI micro-visuals per move (§8a applies) |
 | 02 | modules | `sections/akashic/AkashicModules.tsx` | `bg-white` | Living stack diagram: source chips fan into three layer frames via animated blue flow connectors; module cards carry simulated-UI micro-mockups (§8a applies, figures consistent with PowerfulPlatform's); governance is a left rail + dark base card (deliberate dark card, per Rule 5's Closure precedent). Styled with Tailwind classes per Rule 8, reusing global `ps-*`/`fl-*` keyframes |
+| 03 | architecture | `sections/akashic/AkashicArchitecture.tsx` | `bg-white` | Deploy-it-your-way: the same MiniStack motif rendered on three grounds (cloud provider rows, dashed on-prem perimeter, hybrid split estate), converging via connectors into the consistency close panel. Cloud region names are real provider regions |
+| 04 | modular | `sections/akashic/AkashicModular.tsx` | `bg-white` | Start-anywhere tabs: 7-module explorer whose detail panel highlights the module's layer on the MiniStack |
+| 05 | trust | `sections/akashic/AkashicTrust.tsx` | `bg-white` | Built-to-be-audited 2×2: access roles, lineage trace, audit log, residency perimeter micro-mockups |
+| 06 | open | `sections/akashic/AkashicOpenFoundations.tsx` | `bg-white` | `akashic.stack` manifest card listing open technologies. ⚠ tech list flagged "representative" in the content script — confirm with engineering |
+| 07 | solutions | `sections/akashic/AkashicSolutions.tsx` | `bg-white` | EIS / Life / Knowledge cards (anchor ids match the nav's Solutions links) on a shared "same governed model" base bar |
+| 08 | scale | `sections/akashic/AkashicScale.tsx` | `bg-white` | Two live-deployment stat panels (figures per Rule 4 + content script; script marks section status OPEN) |
+| 09 | talk-to-our-team | `sections/akashic/AkashicClose.tsx` | `bg-white` | Dark closure card (Rule 5's Closure precedent). ⚠ six-week commitment flagged "confirm" in the content script. Carries the `#talk-to-our-team` id the nav CTA targets |
+
+Shared pieces for this page: the blue-on-white animated connectors (`FlowPath`/`FanIn`/`MergeDown`/`SplitDown`/`MobileConn`) live in `demos/AkashicFlowConnectors.tsx` (decorative, no data — the white-background cousin of `demos/mockups/PlatformConnectors.tsx`), and the simulated-UI card chrome + MiniStack motif live in `sections/akashic/AkashicCardChrome.tsx`.
 
 ---
 

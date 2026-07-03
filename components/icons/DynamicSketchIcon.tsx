@@ -142,6 +142,43 @@ const ICONS: Record<string, React.ReactNode[]> = {
     <path key="2" d="M9 8V6a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2" />,
     <circle key="3" cx="12" cy="14" r="1.5" fill="currentColor" stroke="none" />,
   ],
+  "Access Control": [
+    <rect key="1" x="4" y="10" width="16" height="11" rx="2" />,
+    <path key="2" d="M8 10V7a4 4 0 0 1 8 0v3" />,
+    <circle key="3" cx="12" cy="15.5" r="1.5" fill="currentColor" stroke="none" />,
+  ],
+  "Lineage": [
+    <path key="1" d="M5 19V9a4 4 0 0 1 4-4h10" />,
+    <path key="2" d="M5 13h8a4 4 0 0 0 4-4V5" />,
+    <circle key="3" cx="19" cy="5" r="1.5" fill="currentColor" stroke="none" />,
+    <circle key="4" cx="5" cy="19" r="1.5" fill="currentColor" stroke="none" />,
+  ],
+  "Audit Trails": [
+    <path key="1" d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />,
+    <path key="2" d="M14 2v6h6" />,
+    <path key="3" d="M8 13h6M8 17h4" />,
+    <circle key="4" cx="16" cy="17" r="1.5" fill="currentColor" stroke="none" />,
+  ],
+  "Data Residency": [
+    <path key="1" d="M12 21s7-5.4 7-11a7 7 0 1 0-14 0c0 5.6 7 11 7 11z" />,
+    <circle key="2" cx="12" cy="10" r="2.5" />,
+    <circle key="3" cx="12" cy="10" r="1" fill="currentColor" stroke="none" />,
+  ],
+  "Cloud Deployment": [
+    <path key="1" d="M7 18a4 4 0 0 1-.6-7.96 5.5 5.5 0 0 1 10.9-.54A4.3 4.3 0 0 1 16.7 18H7z" />,
+    <circle key="2" cx="16" cy="9" r="1.5" fill="currentColor" stroke="none" />,
+  ],
+  "On-Premises": [
+    <rect key="1" x="5" y="3" width="14" height="18" rx="2" />,
+    <path key="2" d="M9 7.5h6M9 11.5h6M9 15.5h3" />,
+    <circle key="3" cx="15" cy="17.5" r="1.5" fill="currentColor" stroke="none" />,
+  ],
+  "Hybrid Deployment": [
+    <rect key="1" x="3" y="13" width="8" height="8" rx="1.5" />,
+    <path key="2" d="M15 11a3 3 0 0 1 0-6 4 4 0 0 1 7.5 1.2A2.6 2.6 0 0 1 21 11h-6z" />,
+    <path key="3" d="M11 17h4a3 3 0 0 0 3-3v-3" />,
+    <circle key="4" cx="7" cy="17" r="1.5" fill="currentColor" stroke="none" />,
+  ],
   "Workforce": [
     <circle key="1" cx="12" cy="12" r="8" />,
     <path key="2" d="M4 12h16" />,
