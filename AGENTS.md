@@ -211,6 +211,16 @@ All keyframes live in `globals.css`. Do not add a component-local `<style danger
 | 10 | closure | `sections/Closure.tsx` | `bg-white` | High-contrast dark closure card, mock CLI |
 | — | footer | `layout/Footer.tsx` | `bg-vault` | Dark footer, link columns |
 
+### Akashic product page (`/akashic`)
+
+Composed in `app/akashic/page.tsx` (Nav + sections + Footer). The nav's "Akashic" trigger links here; its dropdown items anchor to module ids on this page (`#data-pipelines`, `#master-data`, `#data-warehousing`, `#machine-learning`, `#ask-ai`, `#business-intelligence`, `#governance`).
+
+| Order | ID | File | Background | Notes |
+|---|---|---|---|---|
+| 00 | — | `sections/akashic/AkashicHero.tsx` | `bg-background` | Centred hero, dot-grid backdrop, scroll cue into [01] |
+| 01 | how-it-works | `sections/akashic/AkashicFourMoves.tsx` | `bg-white` | Two-world question toggle (auto-cycles, pauses on click) + four-move rail with simulated-UI micro-visuals per move (§8a applies) |
+| 02 | modules | `sections/akashic/AkashicModules.tsx` | `bg-white` | Living stack diagram: source chips fan into three layer frames via animated blue flow connectors; module cards carry simulated-UI micro-mockups (§8a applies, figures consistent with PowerfulPlatform's); governance is a left rail + dark base card (deliberate dark card, per Rule 5's Closure precedent). Styled with Tailwind classes per Rule 8, reusing global `ps-*`/`fl-*` keyframes |
+
 ---
 
 ## 7. Design Rules

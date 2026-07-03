@@ -22,19 +22,19 @@ const akashicGroups = [
   {
     heading: "Data Foundation",
     items: [
-      { title: "Akashic Data Pipelines", desc: "Automate and scale data ingestion from any source", href: slug("Akashic Data Pipelines") },
-      { title: "Akashic Master Data", desc: "Create a unified, accurate view of core business entities", href: slug("Akashic Master Data") },
-      { title: "Akashic Data Warehouse", desc: "Centralised, secure storage for all your business records", href: slug("Akashic Data Warehouse") },
-      { title: "Akashic Workflow", desc: "Automate complex data processes and team operations", href: slug("Akashic Workflow") },
+      { title: "Akashic Data Pipelines", desc: "Automate and scale data ingestion from any source", href: "/akashic#data-pipelines" },
+      { title: "Akashic Master Data", desc: "Create a unified, accurate view of core business entities", href: "/akashic#master-data" },
+      { title: "Akashic Data Warehouse", desc: "Centralised, secure storage for all your business records", href: "/akashic#data-warehousing" },
+      { title: "Akashic Workflow", desc: "Automate complex data processes and team operations", href: "/akashic#modules" },
     ] as MenuLink[],
   },
   {
     heading: "Intelligence & Governance",
     items: [
-      { title: "Akashic Machine Learning", desc: "Train and deploy AI models on your proprietary data", href: slug("Akashic Machine Learning") },
-      { title: "Akashic BI", desc: "Real-time analytics and dashboards for faster decisions", href: slug("Akashic BI") },
-      { title: "Akashic Insights", desc: "AI-driven search to uncover hidden trends instantly", href: slug("Akashic Insights") },
-      { title: "Akashic Data Governance", desc: "Control access, track lineage, and ensure compliance", href: slug("Akashic Data Governance") },
+      { title: "Akashic Machine Learning", desc: "Train and deploy AI models on your proprietary data", href: "/akashic#machine-learning" },
+      { title: "Akashic BI", desc: "Real-time analytics and dashboards for faster decisions", href: "/akashic#business-intelligence" },
+      { title: "Akashic Insights", desc: "AI-driven search to uncover hidden trends instantly", href: "/akashic#ask-ai" },
+      { title: "Akashic Data Governance", desc: "Control access, track lineage, and ensure compliance", href: "/akashic#governance" },
     ] as MenuLink[],
   },
 ];
@@ -97,26 +97,46 @@ const companyItems: MenuLink[] = [
 type DropProps = {
   id: string;
   label: string;
+  href?: string;
   openMenu: string | null;
   setOpenMenu: (v: string | null) => void;
   children?: React.ReactNode;
 };
 
-function DropdownTrigger({ id, label, openMenu, setOpenMenu, children }: DropProps) {
+function DropdownTrigger({ id, label, href, openMenu, setOpenMenu, children }: DropProps) {
+  const chevron = (
+    <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+      <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.2" d="M5.25 7.125 9 10.875l3.75-3.75" />
+    </svg>
+  );
+
   return (
     <li className="relative">
-      <button
-        className="btn-ghost"
-        onMouseEnter={() => setOpenMenu(id)}
-        onMouseLeave={() => setOpenMenu(null)}
-        aria-haspopup="true"
-        aria-expanded={openMenu === id}
-      >
-        {label}
-        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-          <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.2" d="M5.25 7.125 9 10.875l3.75-3.75" />
-        </svg>
-      </button>
+      {href ? (
+        <Link
+          href={href}
+          className="btn-ghost"
+          onMouseEnter={() => setOpenMenu(id)}
+          onMouseLeave={() => setOpenMenu(null)}
+          onClick={() => setOpenMenu(null)}
+          aria-haspopup="true"
+          aria-expanded={openMenu === id}
+        >
+          {label}
+          {chevron}
+        </Link>
+      ) : (
+        <button
+          className="btn-ghost"
+          onMouseEnter={() => setOpenMenu(id)}
+          onMouseLeave={() => setOpenMenu(null)}
+          aria-haspopup="true"
+          aria-expanded={openMenu === id}
+        >
+          {label}
+          {chevron}
+        </button>
+      )}
       {openMenu === id && (
         <div
           onMouseEnter={() => setOpenMenu(id)}
@@ -245,7 +265,7 @@ export default function Nav() {
 
           {/* Desktop nav */}
           <ul className="hidden lg:flex items-center gap-1">
-            <DropdownTrigger id="akashic" label="Akashic" openMenu={openMenu} setOpenMenu={setOpenMenu}>
+            <DropdownTrigger id="akashic" label="Akashic" href="/akashic" openMenu={openMenu} setOpenMenu={setOpenMenu}>
               <div className="w-[640px] grid grid-cols-2 gap-x-6">
                 {akashicGroups.map((group) => (
                   <div key={group.heading} className="space-y-1">
