@@ -9,143 +9,8 @@
 
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import DynamicSketchIcon from "@/components/icons/DynamicSketchIcon";
-
-/* ------------------------------------------------------------------ */
-/*  Shared chrome                                                      */
-/* ------------------------------------------------------------------ */
-
-const CARD =
-  "relative flex min-w-0 flex-col overflow-hidden rounded-[14px] border border-subtle-stroke bg-white shadow-card transition-all duration-250 ease-settle hover:-translate-y-1 hover:shadow-frame";
-
-function CardBadge({ icon }: { icon: string }) {
-  return (
-    <div className="flex h-[30px] w-[30px] shrink-0 items-center justify-center rounded-[8px] border border-blue/20 bg-gradient-to-br from-[#E4EAFF] to-[#D4DEFF] shadow-[inset_0_1px_0_rgba(255,255,255,0.9)]">
-      <DynamicSketchIcon text={icon} className="h-[15px] w-[15px] text-blue" />
-    </div>
-  );
-}
-
-function CardHeader({
-  icon,
-  name,
-  sub,
-  chip,
-}: {
-  icon: string;
-  name: string;
-  sub: string;
-  chip: React.ReactNode;
-}) {
-  return (
-    <div className="flex items-center gap-2.5 border-b border-blue/10 bg-gradient-to-b from-blue-subtle/70 to-transparent px-4 py-3">
-      <CardBadge icon={icon} />
-      <div className="flex min-w-0 flex-1 flex-col">
-        <span className="truncate text-[13.5px] font-bold tracking-tight text-ink">{name}</span>
-        <span className="truncate text-[10.5px] text-tertiary-text">{sub}</span>
-      </div>
-      {chip}
-    </div>
-  );
-}
-
-function LiveChip({ label = "LIVE" }: { label?: string }) {
-  return (
-    <span className="inline-flex shrink-0 items-center gap-1 rounded-[7px] border border-[#CBE8D7] bg-[#EDF7F1] px-2 py-1">
-      <span className="h-[5px] w-[5px] rounded-full bg-[#30A46C] animate-[ps-pulse_2s_infinite]" />
-      <span className="text-[9px] font-bold tracking-[0.03em] text-[#1B7A47]">{label}</span>
-    </span>
-  );
-}
-
-function BlueChip({ label }: { label: string }) {
-  return (
-    <span className="inline-flex shrink-0 items-center rounded-[7px] border border-blue-border bg-blue-subtle px-2 py-1 text-[9px] font-bold tracking-[0.03em] text-blue">
-      {label}
-    </span>
-  );
-}
-
-/* ------------------------------------------------------------------ */
-/*  Animated flow connectors (blue-on-white cousins of the home        */
-/*  section's VConn/DropConn)                                          */
-/* ------------------------------------------------------------------ */
-
-const LANES = [167, 500, 833];
-
-function FlowPath({ d }: { d: string }) {
-  return (
-    <g>
-      <path d={d} stroke="#C8D2F5" strokeWidth="1.2" fill="none" />
-      <path
-        d={d}
-        stroke="#3E63DD"
-        strokeWidth="1.5"
-        strokeDasharray="5 17"
-        fill="none"
-        className="animate-[ps-flow_1.8s_linear_infinite]"
-        opacity="0.8"
-      />
-    </g>
-  );
-}
-
-function FanIn() {
-  const sources = [100, 300, 500, 700, 900];
-  const targets = [167, 167, 500, 833, 833];
-  return (
-    <svg
-      className="hidden h-14 w-full md:block"
-      viewBox="0 0 1000 56"
-      preserveAspectRatio="none"
-      fill="none"
-      aria-hidden
-    >
-      {sources.map((x, i) => (
-        <FlowPath key={x} d={`M ${x} 0 C ${x} 30, ${targets[i]} 26, ${targets[i]} 56`} />
-      ))}
-    </svg>
-  );
-}
-
-function MergeDown() {
-  return (
-    <svg
-      className="hidden h-14 w-full md:block"
-      viewBox="0 0 1000 56"
-      preserveAspectRatio="none"
-      fill="none"
-      aria-hidden
-    >
-      {LANES.map((x) => (
-        <FlowPath key={x} d={`M ${x} 0 C ${x} 30, 500 26, 500 56`} />
-      ))}
-    </svg>
-  );
-}
-
-function SplitDown() {
-  return (
-    <svg
-      className="hidden h-14 w-full md:block"
-      viewBox="0 0 1000 56"
-      preserveAspectRatio="none"
-      fill="none"
-      aria-hidden
-    >
-      {LANES.map((x) => (
-        <FlowPath key={x} d={`M 500 0 C 500 30, ${x} 26, ${x} 56`} />
-      ))}
-    </svg>
-  );
-}
-
-function MobileConn() {
-  return (
-    <div className="flex justify-center py-3 md:hidden" aria-hidden>
-      <div className="h-8 w-px bg-blue-border" />
-    </div>
-  );
-}
+import { FlowPath, FanIn, MergeDown, SplitDown, MobileConn } from "@/components/demos/AkashicFlowConnectors";
+import { CARD, CardHeader, CardDesc, LiveChip, BlueChip } from "@/components/sections/akashic/AkashicCardChrome";
 
 /* ------------------------------------------------------------------ */
 /*  Layer shell                                                        */
@@ -461,15 +326,18 @@ export default function AkashicModules() {
                 >
                   <div className="grid gap-3 p-3.5 md:grid-cols-3">
                     <div id="data-pipelines" className={`${CARD} scroll-mt-28`}>
-                      <CardHeader icon="Akashic Data Pipelines" name="Data Pipelines" sub="Real-time ingestion" chip={<LiveChip />} />
+                      <CardHeader icon="Akashic Data Pipelines" name="Akashic Pipelines" sub="Real-time ingestion" chip={<LiveChip />} />
+                      <CardDesc text="Ingests structured and unstructured data, from CRMs and ERPs to PDFs and live feeds." />
                       <PipelinesBody />
                     </div>
                     <div id="master-data" className={`${CARD} scroll-mt-28`}>
-                      <CardHeader icon="Akashic Master Data" name="Master Data" sub="Entity resolution" chip={<LiveChip label="98% CONF" />} />
+                      <CardHeader icon="Akashic Master Data" name="Akashic Master Data" sub="Entity resolution" chip={<LiveChip label="98% CONF" />} />
+                      <CardDesc text="Resolves every version of an entity into one golden record. No duplicates. No conflicting identities." />
                       <MasterDataBody />
                     </div>
                     <div id="data-warehousing" className={`${CARD} scroll-mt-28`}>
-                      <CardHeader icon="Akashic Data Warehouse" name="Data Warehousing" sub="Query-ready models" chip={<LiveChip label="ACID" />} />
+                      <CardHeader icon="Akashic Data Warehouse" name="Akashic Warehouse" sub="Query-ready models" chip={<LiveChip label="ACID" />} />
+                      <CardDesc text="Structures those records into models built for fast, reliable queries: the base every layer above builds on." />
                       <WarehouseBody />
                     </div>
                   </div>
@@ -516,15 +384,18 @@ export default function AkashicModules() {
                 >
                   <div className="grid gap-3 p-3.5 md:grid-cols-3">
                     <div id="machine-learning" className={`${CARD} scroll-mt-28`}>
-                      <CardHeader icon="Akashic Machine Learning" name="Machine Learning" sub="Predictive models" chip={<BlueChip label="DEPLOYED" />} />
+                      <CardHeader icon="Akashic Machine Learning" name="Akashic ML" sub="Predictive models" chip={<BlueChip label="DEPLOYED" />} />
+                      <CardDesc text="Build, train, and monitor predictive models directly on governed data." />
                       <MLBody />
                     </div>
                     <div id="ask-ai" className={`${CARD} scroll-mt-28`}>
-                      <CardHeader icon="Akashic Insights" name="Ask AI" sub="Plain-language answers" chip={<BlueChip label="GROUNDED" />} />
+                      <CardHeader icon="Akashic Insights" name="Ask Akashic" sub="Plain-language answers" chip={<BlueChip label="GROUNDED" />} />
+                      <CardDesc text="Ask in plain language. Get an answer grounded in the same governed model everyone else sees." />
                       <AskAIBody />
                     </div>
                     <div id="business-intelligence" className={`${CARD} scroll-mt-28`}>
-                      <CardHeader icon="Akashic BI" name="Business Intelligence" sub="Metrics, defined once" chip={<LiveChip label="REAL-TIME" />} />
+                      <CardHeader icon="Akashic BI" name="Akashic BI" sub="Live dashboards" chip={<LiveChip label="REAL-TIME" />} />
+                      <CardDesc text="Dashboards and metrics that reach the person accountable, not just sit in a report." />
                       <BIBody />
                     </div>
                   </div>
@@ -542,7 +413,7 @@ export default function AkashicModules() {
                 <div className="flex flex-col gap-8 md:flex-row md:items-center md:justify-between">
                   <div>
                     <p className="text-[13px] font-medium text-white/50">
-                      Governance, running underneath all three
+                      Akashic Governance, running underneath all three
                     </p>
                     <h3 className="mt-3 max-w-[24em] text-xl font-semibold tracking-tight md:text-2xl">
                       From the first byte to the final answer.

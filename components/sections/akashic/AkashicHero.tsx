@@ -1,6 +1,24 @@
 import Link from "next/link";
 import AkashicLogo from "@/components/icons/AkashicLogo";
 import ScrollReveal from "@/components/ui/ScrollReveal";
+import { MiniStack } from "@/components/sections/akashic/AkashicCardChrome";
+
+function HeroFlow() {
+  return (
+    <svg width="72" height="24" viewBox="0 0 72 24" fill="none" aria-hidden className="shrink-0">
+      <path d="M 0 12 Q 36 8, 72 12" stroke="#C8D2F5" strokeWidth="1.2" fill="none" />
+      <path d="M 0 12 Q 36 8, 72 12" stroke="#3E63DD" strokeWidth="1.5" strokeDasharray="14 58" fill="none" opacity="0.8">
+        <animate attributeName="stroke-dashoffset" values="72;0" dur="2.2s" repeatCount="indefinite" />
+      </path>
+    </svg>
+  );
+}
+
+const heroSources = [
+  { name: "CRMs", dot: "#00A1E0" },
+  { name: "PDFs", dot: "#E8491D" },
+  { name: "Live feeds", dot: "#3E63DD" },
+];
 
 export default function AkashicHero() {
   return (
@@ -11,14 +29,17 @@ export default function AkashicHero() {
       <div className="rail-container relative border-x-0">
         <div className="flex min-h-[56vh] flex-col items-center justify-center pt-24 pb-20 text-center lg:pt-32 lg:pb-24">
           <ScrollReveal>
-            <div className="mb-8 inline-flex items-center gap-2 rounded-full border border-subtle-stroke bg-white/95 px-3.5 py-1.5 text-xs shadow-sm backdrop-blur-md sm:text-sm">
-              <span className="inline-flex items-center font-semibold text-primary-text">
-                <AkashicLogo className="h-5 w-5" />
-                <span className="-ml-1">kashic</span>
+            <figure className="group relative mb-8 inline-flex items-center justify-center overflow-hidden rounded-full bg-subtle-stroke p-[1px] shadow-sm transition-shadow hover:shadow">
+              <span className="absolute inset-[-1000%] animate-[spin_3s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,transparent_0%,transparent_85%,#266DF2_100%)] opacity-75 transition-opacity group-hover:opacity-100" />
+              <span className="relative flex items-center gap-2 rounded-full bg-white/95 px-3.5 py-1.5 text-xs backdrop-blur-md transition-colors group-hover:bg-white sm:text-sm">
+                <span className="inline-flex items-center font-semibold text-primary-text">
+                  <AkashicLogo className="h-5 w-5" />
+                  <span className="-ml-1">kashic</span>
+                </span>
+                <span className="mx-1 h-3.5 w-px bg-default-stroke" />
+                <span className="font-medium text-primary-text">The complete record of your data</span>
               </span>
-              <span className="h-3.5 w-px bg-default-stroke" />
-              <span className="font-medium text-secondary-text">The platform</span>
-            </div>
+            </figure>
           </ScrollReveal>
 
           <ScrollReveal delay={80}>
@@ -51,12 +72,38 @@ export default function AkashicHero() {
 
           <ScrollReveal delay={300}>
             <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
-              <Link href="/#get-started" className="btn-primary">
+              <Link href="#talk-to-our-team" className="btn-primary">
                 Talk to our team
               </Link>
-              <Link href="/#sectors" className="btn-secondary">
-                See it by sector
+              <Link href="#how-it-works" className="btn-secondary">
+                See how it works
               </Link>
+            </div>
+          </ScrollReveal>
+
+          <ScrollReveal delay={380}>
+            <div className="mt-16 hidden items-center gap-4 md:flex">
+              <div className="flex flex-col gap-1.5">
+                {heroSources.map((src) => (
+                  <span
+                    key={src.name}
+                    className="inline-flex items-center gap-1.5 rounded-full border border-subtle-stroke bg-white px-2.5 py-1 text-[10.5px] font-medium text-ink shadow-card"
+                  >
+                    <span className="h-1 w-1 rounded-full" style={{ background: src.dot }} />
+                    {src.name}
+                  </span>
+                ))}
+              </div>
+              <HeroFlow />
+              <MiniStack />
+              <HeroFlow />
+              <div className="rounded-[12px] border border-subtle-stroke bg-white px-4 py-3 text-left shadow-card">
+                <div className="flex items-center gap-2">
+                  <span className="h-1.5 w-1.5 rounded-full bg-[#30A46C] animate-[ps-pulse_2s_infinite]" />
+                  <span className="text-[12px] font-semibold text-ink">Answer, ready to defend</span>
+                </div>
+                <div className="mt-1 text-[11px] text-inkSoft">Traceable to its source. In time to act.</div>
+              </div>
             </div>
           </ScrollReveal>
 
