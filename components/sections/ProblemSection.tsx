@@ -101,9 +101,9 @@ export default function ProblemSection() {
         {/* Bridge to Akashic */}
         <div className="mt-20 border-t border-lineSoft pt-12 lg:mt-28 lg:pt-16 lg:pl-16">
           <ScrollReveal delay={100}>
-            <div className="max-w-[720px]">
+            <div className="max-w-[840px]">
               <p className="font-sans text-[20px] sm:text-[22px] md:text-[24px] font-normal leading-[1.4] tracking-tight text-ink">
-                To close this deficit, organisations must unify these disconnected worlds into a single, governed foundation.
+                When decisions are built on disconnected data, every action is a guess. Closing the deficit requires a foundation built on fact.
               </p>
             </div>
           </ScrollReveal>
