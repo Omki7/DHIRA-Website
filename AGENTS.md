@@ -25,7 +25,7 @@ components/
 
   sections/            One file per page section, rendered in this order:
     Hero.tsx             [00] Hero — scroll word-reveal, rotating phrase, sticky backdrop
-    ProblemSection.tsx   [01] The Problem — scrolling proof blocks with count-up watermarks
+    ProblemSection.tsx   [01] The Deficit — scrolling proof blocks with count-up watermarks
     PowerfulPlatform.tsx [02] Meet Akashic — 4-row platform flow diagram (bg-blue)
     ProvenAtScale.tsx    [03] Proven At Scale — stats band + FieldLedger (bg-white)
     HowWeDeliver.tsx     [04] How We Deliver — interactive timeline + DeliveryCanvasMockup

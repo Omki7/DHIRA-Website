@@ -47,7 +47,7 @@ export default function ProblemSection() {
           <div className="mb-10 flex items-center justify-between border-t border-b border-dashed border-lineSoft py-[17px] px-[2px] font-mono text-[11px] uppercase tracking-eyebrow text-inkSoft">
             <span>
               <span className="text-red font-mono font-bold">[01]</span>
-              &nbsp;&nbsp;THE PROBLEM
+              &nbsp;&nbsp;THE DEFICIT
             </span>
             <span className="text-overcast">/ THE ARCHITECTURE GAP</span>
           </div>
@@ -96,6 +96,17 @@ export default function ProblemSection() {
               ))}
             </div>
           </div>
+        </div>
+
+        {/* Bridge to Akashic */}
+        <div className="mt-20 border-t border-lineSoft pt-12 lg:mt-28 lg:pt-16 lg:pl-16">
+          <ScrollReveal delay={100}>
+            <div className="max-w-[720px]">
+              <p className="font-sans text-[20px] sm:text-[22px] md:text-[24px] font-normal leading-[1.4] tracking-tight text-ink">
+                To close this deficit, organisations must unify these disconnected worlds into a single, governed foundation.
+              </p>
+            </div>
+          </ScrollReveal>
         </div>
       </ScrollRevealRail>
     </section>
