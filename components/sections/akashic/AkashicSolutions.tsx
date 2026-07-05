@@ -111,7 +111,7 @@ export default function AkashicSolutions() {
             <span className="text-overcast">[07]</span>
             <span className="text-inkSoft">&nbsp;&nbsp;Built on Akashic</span>
           </p>
-          <h2 className="mt-5 max-w-[15em] text-heading-sm font-semibold text-ink md:text-heading-md lg:text-heading-lg">
+          <h2 className="mt-5 text-heading-sm font-semibold text-ink md:text-heading-md lg:text-heading-lg">
             Same foundation. Built for what you actually do.
           </h2>
           <p className="mt-5 max-w-[34em] text-lg leading-relaxed text-secondary-text">

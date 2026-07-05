@@ -7,11 +7,11 @@
  * The Understood and Delivered visuals follow the active world toggle.
  */
 
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import Link from "next/link";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 
-const WORLD_INTERVAL = 4600;
+const WORLD_INTERVAL = 5600;
 
 const worlds = [
   {
@@ -20,6 +20,7 @@ const worlds = [
     context: "vs Q3 target · South region",
     recipient: "Regional head",
     initials: "RH",
+    answer: "Sales dipped 8% after two distributor renewals stalled in the South region.",
   },
   {
     label: "Public programmes",
@@ -27,6 +28,7 @@ const worlds = [
     context: "vs enrolment target · District 7",
     recipient: "District lead",
     initials: "DL",
+    answer: "Enrolments dipped 9% after two camps were rescheduled in District 7.",
   },
 ];
 
@@ -155,7 +157,7 @@ export default function AkashicFourMoves() {
             <span className="text-overcast">[01]</span>
             <span className="text-inkSoft">&nbsp;&nbsp;How it works</span>
           </p>
-          <h2 className="mt-5 max-w-[13em] text-heading-sm font-semibold text-ink md:text-heading-md lg:text-heading-lg">
+          <h2 className="mt-5 text-heading-sm font-semibold text-ink md:text-heading-md lg:text-heading-lg">
             One governed model. Four moves. No hand-offs.
           </h2>
         </ScrollReveal>
@@ -233,6 +235,65 @@ export default function AkashicFourMoves() {
                       <polyline points="12 5 19 12 12 19" />
                     </svg>
                   </span>
+                </div>
+              </div>
+
+              {/* Live answer console: the four moves produce the answer, replayed per world */}
+              <div className="mt-3 overflow-hidden rounded-frame border border-subtle-stroke bg-primary-bg">
+                <div className="flex items-center gap-2 border-b border-subtle-stroke bg-white px-4 py-2">
+                  <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-[#30A46C] animate-[ps-pulse_2s_infinite]" />
+                  <span className="font-mono text-[9.5px] uppercase tracking-[0.08em] text-overcast">
+                    Answering &middot; one governed path
+                  </span>
+                </div>
+                <div key={active} className="p-4">
+                  <div className="flex flex-wrap items-center gap-1.5">
+                    {moves.map((move, i) => (
+                      <Fragment key={move.name}>
+                        <span
+                          className="rounded-[6px] border border-blue-border bg-blue-subtle px-2 py-0.5 text-[9.5px] font-bold tracking-[0.03em] text-blue animate-[ps-rise_0.45s_cubic-bezier(0.22,1,0.36,1)_both]"
+                          style={{ animationDelay: `${i * 0.38}s` }}
+                        >
+                          {move.name.toUpperCase()}
+                        </span>
+                        {i < moves.length - 1 && (
+                          <svg
+                            width="10"
+                            height="10"
+                            viewBox="0 0 12 12"
+                            fill="none"
+                            aria-hidden
+                            className="shrink-0 text-overcast animate-[ps-rise_0.45s_cubic-bezier(0.22,1,0.36,1)_both]"
+                            style={{ animationDelay: `${i * 0.38 + 0.19}s` }}
+                          >
+                            <path d="M2.5 6H9.5M9.5 6L6 2.5M9.5 6L6 9.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                          </svg>
+                        )}
+                      </Fragment>
+                    ))}
+                  </div>
+                  <div
+                    className="mt-3 rounded-[12px] rounded-bl-[4px] border border-blue-border bg-white px-3.5 py-2.5 animate-[ps-rise_0.5s_cubic-bezier(0.22,1,0.36,1)_both]"
+                    style={{ animationDelay: "1.7s" }}
+                  >
+                    <p className="text-[13px] leading-relaxed text-ink">{worlds[active].answer}</p>
+                    <div className="mt-2 flex flex-wrap gap-1">
+                      <span className="rounded-[4px] border border-blue-border bg-blue-subtle/60 px-1.5 py-0.5 font-mono text-[8.5px] text-blue">governed model</span>
+                      <span className="rounded-[4px] border border-blue-border bg-blue-subtle/60 px-1.5 py-0.5 font-mono text-[8.5px] text-blue">lineage attached</span>
+                    </div>
+                  </div>
+                  <div
+                    className="mt-2.5 flex items-center gap-2 animate-[ps-rise_0.5s_cubic-bezier(0.22,1,0.36,1)_both]"
+                    style={{ animationDelay: "2.3s" }}
+                  >
+                    <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-blue-subtle text-[7.5px] font-bold text-blue">
+                      {worlds[active].initials}
+                    </span>
+                    <span className="text-[11px] font-medium text-ink">
+                      Delivered to the {worlds[active].recipient.toLowerCase()}
+                    </span>
+                    <span className="ml-auto font-mono text-[9.5px] text-overcast">09:41</span>
+                  </div>
                 </div>
               </div>
 
