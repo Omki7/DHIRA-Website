@@ -7,6 +7,39 @@
 
 import ScrollReveal from "@/components/ui/ScrollReveal";
 
+const promises = [
+  {
+    title: "Transparency now",
+    desc: "Inspect how every answer is produced.",
+    glyph: (
+      <>
+        <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z" />
+        <circle cx="12" cy="12" r="3" />
+      </>
+    ),
+  },
+  {
+    title: "Extensibility later",
+    desc: "Extend any layer with the tools you already use.",
+    glyph: (
+      <>
+        <path d="M15 4h5v5M9 20H4v-5" />
+        <path d="M20 4l-6 6M4 20l6-6" />
+      </>
+    ),
+  },
+  {
+    title: "No lock-in ever",
+    desc: "Open technologies underneath, end to end.",
+    glyph: (
+      <>
+        <rect x="4" y="10" width="16" height="11" rx="2" />
+        <path d="M8 10V7a4 4 0 0 1 7.5-2" />
+      </>
+    ),
+  },
+];
+
 const stack = [
   { label: "orchestration & streaming", items: ["Apache Airflow", "Kafka", "Change data capture"] },
   { label: "bi & analytics", items: ["Apache Superset"] },
@@ -19,21 +52,48 @@ export default function AkashicOpenFoundations() {
   return (
     <section id="open" className="scroll-mt-24 border-t border-lineSoft bg-white">
       <div className="rail-container pt-12 pb-24 lg:pt-16 lg:pb-32">
-        <div className="mx-auto grid max-w-[1100px] items-center gap-12 lg:grid-cols-[minmax(0,6fr)_minmax(0,5fr)] lg:gap-16">
+        <ScrollReveal>
+          <p className="font-mono text-[11px] uppercase tracking-eyebrow">
+            <span className="text-overcast">[06]</span>
+            <span className="text-inkSoft">&nbsp;&nbsp;Open foundations</span>
+          </p>
+          <h2 className="mt-5 text-heading-sm font-semibold text-ink md:text-heading-md lg:text-heading-lg">
+            Built in the open. Yours to inspect.
+          </h2>
+        </ScrollReveal>
+        <div className="mx-auto mt-12 grid max-w-[1100px] items-center gap-12 lg:mt-14 lg:grid-cols-[minmax(0,6fr)_minmax(0,5fr)] lg:gap-16">
           <ScrollReveal>
-            <p className="font-mono text-[11px] uppercase tracking-eyebrow">
-              <span className="text-overcast">[06]</span>
-              <span className="text-inkSoft">&nbsp;&nbsp;Open foundations</span>
-            </p>
-            <h2 className="mt-5 max-w-[13em] text-heading-sm font-semibold text-ink md:text-heading-md">
-              Built in the open. Yours to inspect.
-            </h2>
-            <p className="mt-5 max-w-[34em] text-lg leading-relaxed text-secondary-text">
+            <p className="max-w-[34em] text-lg leading-relaxed text-secondary-text">
               Akashic isn&rsquo;t a proprietary black box. It&rsquo;s engineered on
-              technologies your team already knows and trusts: transparency now,
-              extensibility later, and no lock-in ever.
+              technologies your team already knows and trusts.
             </p>
-            <p className="mt-8 max-w-[24em] text-xl font-semibold tracking-tight text-ink">
+            <div className="mt-8 flex flex-col gap-4">
+              {promises.map((p) => (
+                <div key={p.title} className="flex items-start gap-3.5">
+                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-[9px] border border-subtle-stroke bg-primary-bg">
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      className="text-blue"
+                      aria-hidden
+                    >
+                      {p.glyph}
+                    </svg>
+                  </div>
+                  <div>
+                    <div className="text-[14.5px] font-semibold tracking-tight text-ink">{p.title}</div>
+                    <div className="mt-0.5 text-[13px] leading-relaxed text-inkSoft">{p.desc}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <p className="mt-9 max-w-[24em] text-xl font-semibold tracking-tight text-ink">
               Your team can see how it works. Your auditors can too.
             </p>
           </ScrollReveal>

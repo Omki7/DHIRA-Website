@@ -272,7 +272,7 @@ export default function AkashicModules() {
             <span className="text-overcast">[02]</span>
             <span className="text-inkSoft">&nbsp;&nbsp;The platform</span>
           </p>
-          <h2 className="mt-5 max-w-[13em] text-heading-sm font-semibold text-ink md:text-heading-md lg:text-heading-lg">
+          <h2 className="mt-5 text-heading-sm font-semibold text-ink md:text-heading-md lg:text-heading-lg">
             Every module, one foundation.
           </h2>
           <p className="mt-5 max-w-[32em] text-lg leading-relaxed text-secondary-text">
