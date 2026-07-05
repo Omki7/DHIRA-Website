@@ -20,7 +20,7 @@ export default function AkashicClose() {
               <p className="font-mono text-[11px] uppercase tracking-eyebrow text-white/50">
                 <span className="text-white/30">[09]</span>&nbsp;&nbsp;Ready when you are
               </p>
-              <h2 className="mx-auto mt-6 max-w-[15em] text-heading-sm font-semibold text-white md:text-heading-md lg:text-heading-lg">
+              <h2 className="mx-auto mt-6 max-w-[18em] text-heading-sm font-semibold text-white md:text-heading-md">
                 Grounded data. Trusted AI. Decisions you can defend.
               </h2>
               <p className="mx-auto mt-6 max-w-[34em] text-lg leading-relaxed text-white/65">
@@ -30,7 +30,23 @@ export default function AkashicClose() {
               <p className="mx-auto mt-8 max-w-[30em] text-xl font-semibold tracking-tight text-white md:text-2xl">
                 Six weeks. Pilot to production-ready system.
               </p>
-              <p className="mx-auto mt-3 max-w-[34em] text-base leading-relaxed text-white/65">
+              <div className="mx-auto mt-5 w-full max-w-[380px]">
+                <div className="flex items-baseline justify-between font-mono text-[9px] uppercase tracking-[0.1em] text-white/50">
+                  <span>Pilot</span>
+                  <span>Week 6 &middot; production-ready</span>
+                </div>
+                <div className="mt-2 flex gap-1" aria-hidden>
+                  {Array.from({ length: 6 }, (_, i) => (
+                    <span
+                      key={i}
+                      className={`h-[5px] flex-1 rounded-full ${
+                        i === 5 ? "bg-blue-border animate-[ps-pulse_2s_infinite]" : "bg-blue-border/60"
+                      }`}
+                    />
+                  ))}
+                </div>
+              </div>
+              <p className="mx-auto mt-5 max-w-[34em] text-base leading-relaxed text-white/65">
                 No twelve-month implementation. No stack of disconnected vendors.
                 Start with the problem that matters most, prove the value in
                 weeks, and scale on the same governed foundation.

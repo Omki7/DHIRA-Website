@@ -99,7 +99,7 @@ export default function AkashicModular() {
             <span className="text-overcast">[04]</span>
             <span className="text-inkSoft">&nbsp;&nbsp;Modular by design</span>
           </p>
-          <h2 className="mt-5 max-w-[15em] text-heading-sm font-semibold text-ink md:text-heading-md lg:text-heading-lg">
+          <h2 className="mt-5 text-heading-sm font-semibold text-ink md:text-heading-md">
             Every module works on its own. Together, they&rsquo;re the whole platform.
           </h2>
           <p className="mt-5 max-w-[38em] text-lg leading-relaxed text-secondary-text">
@@ -147,10 +147,7 @@ export default function AkashicModular() {
               <div key={mod.name} className="flex flex-1 animate-fade-in flex-col">
                 <div className="flex items-center gap-2.5 border-b border-subtle-stroke bg-white px-5 py-3.5">
                   <CardBadge icon={mod.icon} />
-                  <div className="flex min-w-0 flex-1 flex-col">
-                    <h3 className="truncate text-[14.5px] font-bold tracking-tight text-ink">{mod.name}</h3>
-                    <span className="truncate text-[10.5px] text-tertiary-text">{mod.tagline}</span>
-                  </div>
+                  <h3 className="min-w-0 flex-1 truncate text-[14.5px] font-bold tracking-tight text-ink">{mod.name}</h3>
                   <BlueChip label={layerChips[mod.layer]} />
                 </div>
                 <div className="grid flex-1 items-center gap-8 p-6 md:grid-cols-[minmax(0,1fr)_150px] md:p-7">
