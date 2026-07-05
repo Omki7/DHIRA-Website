@@ -5,11 +5,15 @@ import { MiniStack } from "@/components/sections/akashic/AkashicCardChrome";
 
 function HeroFlow() {
   return (
-    <svg width="72" height="24" viewBox="0 0 72 24" fill="none" aria-hidden className="shrink-0">
+    <svg width="72" height="24" viewBox="0 0 72 24" fill="none" aria-hidden className="shrink-0" style={{ overflow: "visible" }}>
       <path d="M 0 12 Q 36 8, 72 12" stroke="#C8D2F5" strokeWidth="1.2" fill="none" />
       <path d="M 0 12 Q 36 8, 72 12" stroke="#3E63DD" strokeWidth="1.5" strokeDasharray="14 58" fill="none" opacity="0.8">
         <animate attributeName="stroke-dashoffset" values="72;0" dur="2.2s" repeatCount="indefinite" />
       </path>
+      <circle cx="0" cy="12" r="4" fill="#FFFFFF" stroke="#C8D2F5" strokeWidth="1.2" />
+      <circle cx="0" cy="12" r="1.8" fill="#3E63DD" />
+      <circle cx="72" cy="12" r="4" fill="#FFFFFF" stroke="#C8D2F5" strokeWidth="1.2" />
+      <circle cx="72" cy="12" r="1.8" fill="#3E63DD" />
     </svg>
   );
 }

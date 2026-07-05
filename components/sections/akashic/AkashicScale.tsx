@@ -1,3 +1,5 @@
+"use client";
+
 /*
  * [08] Proven at Scale — Not a Pilot.
  * Deployment figures are real (see AGENTS.md Rule 4: 5.75B+ learning
@@ -8,6 +10,7 @@
  */
 
 import ScrollReveal from "@/components/ui/ScrollReveal";
+import useCountUp from "@/hooks/useCountUp";
 
 const deployments = [
   {
@@ -28,6 +31,34 @@ const deployments = [
   },
 ];
 
+function Stat({ figure, label, delay }: { figure: string; label: string; delay: number }) {
+  const { ref, display } = useCountUp(figure, { duration: 1400, delay });
+  return (
+    <div ref={ref}>
+      <div className="text-[34px] font-semibold leading-none tracking-tighter text-ink md:text-[40px]">
+        {display}
+      </div>
+      <div className="mt-2 max-w-[12em] text-[13px] leading-snug text-inkSoft">{label}</div>
+    </div>
+  );
+}
+
+function PanelSpark() {
+  return (
+    <svg width="64" height="20" viewBox="0 0 64 20" fill="none" aria-hidden className="shrink-0">
+      <polyline
+        points="2,16 12,13 22,15 32,9 42,11 52,6 62,4"
+        stroke="#3E63DD"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        className="fl-sparkline"
+        opacity="0.7"
+      />
+    </svg>
+  );
+}
+
 export default function AkashicScale() {
   return (
     <section id="scale" className="scroll-mt-24 border-t border-lineSoft bg-white">
@@ -37,7 +68,7 @@ export default function AkashicScale() {
             <span className="text-overcast">[08]</span>
             <span className="text-inkSoft">&nbsp;&nbsp;Proven at scale</span>
           </p>
-          <h2 className="mt-5 max-w-[15em] text-heading-sm font-semibold text-ink md:text-heading-md lg:text-heading-lg">
+          <h2 className="mt-5 text-heading-sm font-semibold text-ink md:text-heading-md">
             Live systems. National scale. Not a demo environment.
           </h2>
           <p className="mt-5 max-w-[34em] text-lg leading-relaxed text-secondary-text">
@@ -54,18 +85,14 @@ export default function AkashicScale() {
                 <div className="p-6 md:p-7">
                   <div className="flex items-center gap-2.5">
                     <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-[#30A46C] animate-[ps-pulse_2s_infinite]" />
-                    <span className="font-mono text-[10px] uppercase tracking-eyebrow text-inkSoft">
+                    <span className="min-w-0 flex-1 truncate font-mono text-[10px] uppercase tracking-eyebrow text-inkSoft">
                       Live &middot; {d.tag}
                     </span>
+                    <PanelSpark />
                   </div>
                   <div className="mt-6 grid grid-cols-2 gap-6">
-                    {d.stats.map((s) => (
-                      <div key={s.label}>
-                        <div className="text-[34px] font-semibold leading-none tracking-tighter text-ink md:text-[40px]">
-                          {s.figure}
-                        </div>
-                        <div className="mt-2 max-w-[12em] text-[13px] leading-snug text-inkSoft">{s.label}</div>
-                      </div>
+                    {d.stats.map((s, j) => (
+                      <Stat key={s.label} figure={s.figure} label={s.label} delay={j * 150} />
                     ))}
                   </div>
                   <p className="mt-6 border-t border-subtle-stroke pt-4 text-[14px] font-medium text-ink">

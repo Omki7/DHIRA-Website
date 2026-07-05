@@ -109,7 +109,7 @@ export default function AkashicTrust() {
             <span className="text-overcast">[05]</span>
             <span className="text-inkSoft">&nbsp;&nbsp;Enterprise trust</span>
           </p>
-          <h2 className="mt-5 max-w-[15em] text-heading-sm font-semibold text-ink md:text-heading-md lg:text-heading-lg">
+          <h2 className="mt-5 text-heading-sm font-semibold text-ink md:text-heading-md lg:text-heading-lg">
             An answer you can&rsquo;t trace is just an opinion.
           </h2>
           <p className="mt-5 max-w-[32em] text-lg leading-relaxed text-secondary-text">
