@@ -25,7 +25,7 @@ components/
 
   sections/            One file per page section, rendered in this order:
     Hero.tsx             [00] Hero — scroll word-reveal, rotating phrase, sticky backdrop
-    ProblemSection.tsx   [01] The Deficit — scrolling proof blocks with count-up watermarks
+    ProblemSection.tsx   [01] The Problem — scrolling proof blocks with count-up watermarks
     PowerfulPlatform.tsx [02] Meet Akashic — 4-row platform flow diagram (bg-blue)
     ProvenAtScale.tsx    [03] Proven At Scale — stats band + FieldLedger (bg-white)
     HowWeDeliver.tsx     [04] How We Deliver — interactive timeline + DeliveryCanvasMockup
@@ -86,7 +86,7 @@ hooks/
 - Akashic unifies structured, unstructured, and streaming data into one governed foundation, links it via a knowledge graph, and runs BI, conversational AI, ML, and agentic orchestration on top.
 - Positioning: one accountable partner (platform + delivery), not a stack of vendors. Not pure SaaS, not pure consultancy.
 - Proof points: national-scale DPI delivery in India; Maha Hackathon 2025 winner; Telangana AI Rising 2025 winner; Startup India recognised; offices in New York, Hyderabad, Bangalore.
-- Sectors: Government, Healthcare, Banking and Finance, Retail, Manufacturing, Education, Energy and Utility.
+- Sectors: Government, Smart Cities, Healthcare, Banking and Finance, Retail and Manufacturing, Education, Energy and Utility.
 
 ---
 

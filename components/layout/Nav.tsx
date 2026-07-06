@@ -20,20 +20,21 @@ type MenuLink = {
 
 const akashicGroups = [
   {
-    heading: "Data & Governance",
+    heading: "Data Foundation",
     items: [
       { title: "Akashic Data Pipelines", desc: "Automate and scale data ingestion from any source", href: "/akashic#data-pipelines" },
       { title: "Akashic Master Data", desc: "Create a unified, accurate view of core business entities", href: "/akashic#master-data" },
       { title: "Akashic Data Warehouse", desc: "Centralised, secure storage for all your business records", href: "/akashic#data-warehousing" },
-      { title: "Akashic Data Governance", desc: "Control access, track lineage, and ensure compliance", href: "/akashic#governance" },
+      { title: "Akashic Workflow", desc: "Automate complex data processes and team operations", href: "/akashic#modules" },
     ] as MenuLink[],
   },
   {
-    heading: "AI & Decision Intelligence",
+    heading: "Intelligence & Governance",
     items: [
-      { title: "Akashic ML", desc: "Train and deploy AI models on your proprietary data", href: "/akashic#machine-learning" },
-      { title: "Ask Akashic", desc: "AI-driven search to uncover hidden trends instantly", href: "/akashic#ask-ai" },
+      { title: "Akashic Machine Learning", desc: "Train and deploy AI models on your proprietary data", href: "/akashic#machine-learning" },
       { title: "Akashic BI", desc: "Real-time analytics and dashboards for faster decisions", href: "/akashic#business-intelligence" },
+      { title: "Akashic Insights", desc: "AI-driven search to uncover hidden trends instantly", href: "/akashic#ask-ai" },
+      { title: "Akashic Data Governance", desc: "Control access, track lineage, and ensure compliance", href: "/akashic#governance" },
     ] as MenuLink[],
   },
 ];
@@ -50,7 +51,7 @@ const solutionsGroups = [
   {
     heading: "Sectors",
     items: [
-      { title: "Manufacturing", desc: "Optimised supply chain and shop floor data systems", href: slug("Manufacturing") },
+      { title: "Public Sector", desc: "Secure, compliant data infrastructure for government", href: slug("Public Sector") },
       { title: "Healthcare", desc: "Unified patient records meeting strict privacy standards", href: slug("Healthcare") },
       { title: "Education", desc: "Connected data systems for institutions and learners", href: slug("Education") },
       { title: "Enterprise", desc: "Scalable data architecture for global organisations", href: slug("Enterprise") },
