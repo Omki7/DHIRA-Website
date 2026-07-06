@@ -43,9 +43,9 @@ const solutionsGroups = [
   {
     heading: "Akashic Plugin",
     items: [
-      { title: "Akashic EIS", desc: "Real-time executive dashboards for leadership teams", href: slug("Akashic EIS") },
-      { title: "Akashic Life", desc: "Comprehensive data profiles for human-centric services", href: slug("Akashic Life") },
-      { title: "Akashic Knowledge", desc: "Centralised intelligence for your entire organisation", href: slug("Akashic Knowledge") },
+      { title: "Akashic EIS", desc: "Real-time executive dashboards for leadership teams", href: "/solutions/eis" },
+      { title: "Akashic Life", desc: "Life-saving AI diagnostics at the remote edge", href: "/solutions/life" },
+      { title: "Akashic Knowledge", desc: "Adaptive learning infrastructure at national scale", href: "/solutions/knowledge" },
     ] as MenuLink[],
   },
   {

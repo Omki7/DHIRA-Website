@@ -56,6 +56,8 @@ components/
       ProofComparisonMockup.tsx  Drag-to-compare before/after slider mockup (TheProof)
       DeliveryDiscoveryMockup.tsx Fake 30-min discovery console (problem → triage fan →
                                  matched model) for the Delivery page hero
+      EisBoardMockup.tsx         Fake executive command centre (KPI tiles, traced alert,
+                                 Ask-Akashic line) for the /solutions/eis hero
 
   icons/               Static SVG components, no logic
     AkashicLogo.tsx
@@ -263,6 +265,16 @@ Composed in `app/about/page.tsx` (Nav + sections + Footer). The nav's Company me
 | 05 | careers | `sections/about/AboutCareers.tsx` | `bg-white` | Careers teaser: NOW HIRING pulse signature, four compact role rows (match JoinTheTeam's ROLES), links to `/#careers` |
 | 06 | proof | `sections/about/AboutProof.tsx` | `bg-white` | Three deployment panels (client, AkashicScale idiom): count-up figures per Rule 4, sparklines, LIVE/COMPLETE chips |
 | 07 | talk-to-our-team | `sections/about/AboutClose.tsx` | `bg-white` | Dark closure card (Rule 5's Closure precedent). Carries the `#talk-to-our-team` id the nav CTA targets |
+
+### Solution pages (`/solutions/eis`, `/solutions/life`, `/solutions/knowledge`)
+
+Composed in `app/solutions/{eis,life,knowledge}/page.tsx` (Nav + sections + Footer). The nav's Solutions → Akashic Plugin items link here, as do the "Learn more" links on `/akashic`'s AkashicSolutions cards. Copy comes from user-supplied content scripts (July 2026); figures on these pages (564 crore sessions, 18.25 crore enrolments, 1.89 crore learners, 2B vaccinations, 3.87 lakh emigrations, 10 crore+ Poshan, 12,402/month, ₹2 Cr+ estimate) are per those scripts — ⚠ some differ from the home/Akashic stats (5.75B+/187M+); reconcile before ship. All three share the split hero (pitch left, telemetry/mockup card right), the flowing six-step chain rail, and count-up proof panels, so the family reads as siblings.
+
+| Page | Sections (`components/sections/…`) | Signature pieces |
+|---|---|---|
+| `/solutions/eis` | `eis/` — EisHero, EisCost [01], EisMoments [02], EisChain [03], EisCapabilities [04], EisIntegration [05], EisProof [06], EisClose [07] | `demos/mockups/EisBoardMockup` command centre (§8a); cost-of-delay watermark figures; three peer-moment dossiers with "WHAT AKASHIC DID" strips; connect→ask chain; connector rack |
+| `/solutions/life` | `life/` — LifeHero, LifeGap [01], LifeOffline [02], LifeStory [03], LifeChain [04], LifeBuilt [05], LifeProof [06], LifeClose [07] | Live counter card (Indian-locale count-up); 4-days-vs-2-min pathway panels; signal-bar offline states; stopwatch timeline (00:00→01:50); village→district→ministry fan SVG |
+| `/solutions/knowledge` | `knowledge/` — KnowledgeHero, KnowledgeFracture [01], KnowledgeGrid [02], KnowledgeNation [03], KnowledgeMorning [04], KnowledgeProof [05], KnowledgeChain [06], KnowledgeClose [07] | Learner-grid card with adaptive path rows (§8a); fracture watermark figures; per-learner pace bars; teacher's-morning clock timeline; DIKSHA count-up panels |
 
 ---
 
