@@ -20,21 +20,20 @@ type MenuLink = {
 
 const akashicGroups = [
   {
-    heading: "Data Foundation",
+    heading: "Data & Governance",
     items: [
       { title: "Akashic Data Pipelines", desc: "Automate and scale data ingestion from any source", href: "/akashic#data-pipelines" },
       { title: "Akashic Master Data", desc: "Create a unified, accurate view of core business entities", href: "/akashic#master-data" },
       { title: "Akashic Data Warehouse", desc: "Centralised, secure storage for all your business records", href: "/akashic#data-warehousing" },
-      { title: "Akashic Workflow", desc: "Automate complex data processes and team operations", href: "/akashic#modules" },
+      { title: "Akashic Data Governance", desc: "Control access, track lineage, and ensure compliance", href: "/akashic#governance" },
     ] as MenuLink[],
   },
   {
-    heading: "Intelligence & Governance",
+    heading: "AI & Decision Intelligence",
     items: [
-      { title: "Akashic Machine Learning", desc: "Train and deploy AI models on your proprietary data", href: "/akashic#machine-learning" },
+      { title: "Akashic ML", desc: "Train and deploy AI models on your proprietary data", href: "/akashic#machine-learning" },
+      { title: "Ask Akashic", desc: "AI-driven search to uncover hidden trends instantly", href: "/akashic#ask-ai" },
       { title: "Akashic BI", desc: "Real-time analytics and dashboards for faster decisions", href: "/akashic#business-intelligence" },
-      { title: "Akashic Insights", desc: "AI-driven search to uncover hidden trends instantly", href: "/akashic#ask-ai" },
-      { title: "Akashic Data Governance", desc: "Control access, track lineage, and ensure compliance", href: "/akashic#governance" },
     ] as MenuLink[],
   },
 ];
