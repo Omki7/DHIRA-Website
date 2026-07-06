@@ -129,7 +129,7 @@ export default function DeliveryAkashicDeployment() {
             </p>
             <span className="hidden text-overcast sm:inline">/ Six weeks to live</span>
           </div>
-          <h2 className="mt-5 max-w-[16em] text-heading-sm font-semibold text-ink md:text-heading-md">
+          <h2 className="mt-5 text-heading-sm font-semibold text-ink md:text-heading-md lg:text-heading-lg">
             The platform, live and governed in your environment.
           </h2>
           <p className="mt-5 max-w-[36em] text-lg leading-relaxed text-secondary-text">

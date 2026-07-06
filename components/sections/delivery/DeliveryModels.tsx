@@ -69,7 +69,7 @@ export default function DeliveryModels() {
             </p>
             <span className="hidden text-overcast sm:inline">/ Three doors, one blueprint</span>
           </div>
-          <h2 className="mt-5 text-heading-sm font-semibold text-ink md:text-heading-md">
+          <h2 className="mt-5 text-heading-sm font-semibold text-ink md:text-heading-md lg:text-heading-lg">
             Start with the problem, not the product.
           </h2>
           <p className="mt-5 max-w-[36em] text-lg leading-relaxed text-secondary-text">
