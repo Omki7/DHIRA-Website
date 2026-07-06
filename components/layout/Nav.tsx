@@ -51,7 +51,7 @@ const solutionsGroups = [
   {
     heading: "Sectors",
     items: [
-      { title: "Public Sector", desc: "Secure, compliant data infrastructure for government", href: slug("Public Sector") },
+      { title: "Manufacturing", desc: "Optimised supply chain and shop floor data systems", href: slug("Manufacturing") },
       { title: "Healthcare", desc: "Unified patient records meeting strict privacy standards", href: slug("Healthcare") },
       { title: "Education", desc: "Connected data systems for institutions and learners", href: slug("Education") },
       { title: "Enterprise", desc: "Scalable data architecture for global organisations", href: slug("Enterprise") },

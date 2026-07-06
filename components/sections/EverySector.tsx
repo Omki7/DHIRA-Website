@@ -10,9 +10,9 @@ import ScrollRevealRail from "@/components/ui/ScrollRevealRail";
 const EASE = "cubic-bezier(0.4, 0, 0.2, 1)";
 
 const SECTORS = [
-  { id: "smart-cities", index: "01", name: "Smart Cities", shortName: "Cities",
-    image: "/sectors/smart-cities-real.png",
-    description: "Transform urban operations with unified data. From transit to emergency response, one continuous signal across the entire city." },
+  { id: "manufacturing", index: "01", name: "Manufacturing", shortName: "Factory",
+    image: "/sectors/manufacturing-real.png",
+    description: "Unify shop floor signals and supply chain telemetry. Detect anomalies, predict equipment downtime, and optimise logistics on a single governed foundation." },
   { id: "healthcare", index: "02", name: "Healthcare", shortName: "Health",
     image: "/sectors/healthcare-real.png",
     description: "Move from fragmented legacy systems to a unified patient truth. Better care, delivered faster and with less overhead." },
@@ -39,8 +39,8 @@ export default function EverySector() {
       const hash = window.location.hash;
       if (!hash) return;
       
-      if (hash === "#public-sector" || hash === "#smart-cities") {
-        setActiveId("smart-cities");
+      if (hash === "#public-sector" || hash === "#smart-cities" || hash === "#manufacturing") {
+        setActiveId("manufacturing");
       } else if (hash === "#healthcare") {
         setActiveId("healthcare");
       } else if (hash === "#education") {
@@ -88,7 +88,7 @@ export default function EverySector() {
               return (
                 <div
                   key={sector.id}
-                  id={sector.id === "smart-cities" ? "public-sector" : sector.id === "finance" ? "enterprise" : sector.id}
+                  id={sector.id === "manufacturing" ? "manufacturing" : sector.id === "finance" ? "enterprise" : sector.id}
                   onClick={() => setActiveId(sector.id)}
                   className="relative overflow-hidden border-b border-lineSoft bg-white"
                   style={{
@@ -143,7 +143,7 @@ export default function EverySector() {
               return (
                 <div
                   key={sector.id}
-                  id={`${sector.id === "smart-cities" ? "public-sector" : sector.id === "finance" ? "enterprise" : sector.id}-desktop`}
+                  id={`${sector.id === "manufacturing" ? "manufacturing" : sector.id === "finance" ? "enterprise" : sector.id}-desktop`}
                   onClick={() => setActiveId(sector.id)}
                   onMouseEnter={() => setHoveredId(sector.id)}
                   className={`relative overflow-hidden${idx < SECTORS.length - 1 ? " border-r border-white/10" : ""}`}
