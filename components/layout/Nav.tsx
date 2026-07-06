@@ -62,17 +62,17 @@ const deliveryGroups = [
   {
     heading: "Strategize",
     items: [
-      { title: "AI Readiness Audit", desc: "Assess and prepare your data foundation for AI", href: slug("AI Readiness Audit") },
-      { title: "Sovereign Blueprint", desc: "Design secure, localised data infrastructure", href: slug("Sovereign Blueprint") },
-      { title: "Governance Framework", desc: "Establish robust data policies and compliance", href: slug("Governance Framework") },
+      { title: "AI Readiness Audit", desc: "Assess and prepare your data foundation for AI", href: `/delivery${slug("AI Readiness Audit")}` },
+      { title: "Sovereign Blueprint", desc: "Design secure, localised data infrastructure", href: `/delivery${slug("Sovereign Blueprint")}` },
+      { title: "Governance Framework", desc: "Establish robust data policies and compliance", href: `/delivery${slug("Governance Framework")}` },
     ] as MenuLink[],
   },
   {
     heading: "Engineer",
     items: [
-      { title: "Platform Deployment", desc: "End-to-end implementation of the Akashic platform", href: slug("Platform Deployment") },
-      { title: "Legacy Modernization", desc: "Upgrade from outdated legacy systems", href: slug("Legacy Modernization") },
-      { title: "Custom Accelerators", desc: "Pre-built modules to speed up deployment", href: slug("Custom Accelerators") },
+      { title: "Platform Deployment", desc: "End-to-end implementation of the Akashic platform", href: `/delivery${slug("Platform Deployment")}` },
+      { title: "Legacy Modernization", desc: "Upgrade from outdated legacy systems", href: `/delivery${slug("Legacy Modernization")}` },
+      { title: "Custom Accelerators", desc: "Pre-built modules to speed up deployment", href: `/delivery${slug("Custom Accelerators")}` },
     ] as MenuLink[],
   },
 ];
@@ -85,8 +85,8 @@ const insightsItems: MenuLink[] = [
 ];
 
 const companyItems: MenuLink[] = [
-  { title: "About Us", desc: "Our vision for the future of enterprise data", href: slug("About Us") },
-  { title: "Careers", desc: "Join our team of engineers and data experts", href: slug("Careers") },
+  { title: "About Us", desc: "Our vision for the future of enterprise data", href: "/about" },
+  { title: "Careers", desc: "Join our team of engineers and data experts", href: "/about#careers" },
 ];
 
 /* ------------------------------------------------------------------ */
@@ -290,7 +290,7 @@ export default function Nav() {
               </div>
             </DropdownTrigger>
 
-            <DropdownTrigger id="delivery" label="Delivery" openMenu={openMenu} setOpenMenu={setOpenMenu}>
+            <DropdownTrigger id="delivery" label="Delivery" href="/delivery" openMenu={openMenu} setOpenMenu={setOpenMenu}>
               <div className="w-[640px] grid grid-cols-2 gap-x-6">
                 {deliveryGroups.map((group) => (
                   <div key={group.heading} className="space-y-1">
