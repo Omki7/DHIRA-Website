@@ -11,7 +11,7 @@ const EASE = "cubic-bezier(0.4, 0, 0.2, 1)";
 
 const SECTORS = [
   { id: "manufacturing", index: "01", name: "Manufacturing", shortName: "Factory",
-    image: "/sectors/manufacturing-real.png",
+    image: "/sectors/manufacturing-pexels.png",
     description: "Unify shop floor signals and supply chain telemetry. Detect anomalies, predict equipment downtime, and optimise logistics on a single governed foundation." },
   { id: "healthcare", index: "02", name: "Healthcare", shortName: "Health",
     image: "/sectors/healthcare-real.png",
