@@ -1,7 +1,14 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import AkashicLogo from "@/components/icons/AkashicLogo";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import { MiniStack } from "@/components/sections/akashic/AkashicCardChrome";
+
+/* Rotating "answer" word — same context, different noun. */
+const heroWords = ["answer", "insight", "signal", "verdict"];
+const WORD_INTERVAL = 2600;
 
 function HeroFlow() {
   return (
@@ -25,6 +32,17 @@ const heroSources = [
 ];
 
 export default function AkashicHero() {
+  const [wordIndex, setWordIndex] = useState(0);
+
+  useEffect(() => {
+    const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const interval = WORD_INTERVAL + (prefersReduced ? 1400 : 0);
+    const id = setInterval(() => {
+      setWordIndex((i) => (i + 1) % heroWords.length);
+    }, interval);
+    return () => clearInterval(id);
+  }, []);
+
   return (
     <section className="relative overflow-hidden bg-background">
       <div className="dot-grid absolute inset-0 opacity-60" aria-hidden />
@@ -55,15 +73,40 @@ export default function AkashicHero() {
 
           <ScrollReveal delay={140}>
             <h1 className="mt-6 max-w-[13em] text-5xl font-semibold leading-[1.05] tracking-tightest text-primary-text md:text-6xl lg:text-7xl">
-              The platform behind{" "}
-              <span className="relative inline-block whitespace-nowrap">
-                every answer
-                <span
-                  className="absolute -bottom-[0.06em] left-0 h-[0.08em] w-full rounded-full bg-blue/35"
-                  aria-hidden
-                />
-              </span>{" "}
-              DHIRA gives.
+              The platform behind every{" "}
+              <span className="relative inline-block align-baseline">
+                {/* invisible spacer — sized to the longest word so layout never shifts */}
+                <span className="invisible whitespace-nowrap">insight</span>
+                {heroWords.map((word, i) => (
+                  <span
+                    key={word}
+                    aria-hidden={i !== wordIndex}
+                    className="absolute left-0 top-0 whitespace-nowrap"
+                    style={{
+                      opacity: i === wordIndex ? 1 : 0,
+                      filter: i === wordIndex ? "blur(0)" : "blur(4px)",
+                      transform: i === wordIndex ? "scale(1)" : "scale(0.96)",
+                      transition:
+                        "opacity 380ms cubic-bezier(0.2,0.8,0.2,1), filter 380ms cubic-bezier(0.2,0.8,0.2,1), transform 380ms cubic-bezier(0.2,0.8,0.2,1)",
+                      transitionDelay: i === wordIndex ? "60ms" : "0ms",
+                    }}
+                  >
+                    <span className="relative">
+                      {word}
+                      <span
+                        className="absolute -bottom-[0.06em] left-0 h-[0.08em] w-full rounded-full bg-blue/35"
+                        style={{
+                          opacity: i === wordIndex ? 1 : 0,
+                          transition: "opacity 380ms cubic-bezier(0.2,0.8,0.2,1)",
+                          transitionDelay: i === wordIndex ? "180ms" : "0ms",
+                        }}
+                      />
+                    </span>
+                  </span>
+                ))}
+              </span>
+              <br />
+              <span className="whitespace-nowrap">DHIRA gives.</span>
             </h1>
           </ScrollReveal>
 
