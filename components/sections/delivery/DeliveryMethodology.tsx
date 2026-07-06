@@ -66,7 +66,7 @@ export default function DeliveryMethodology() {
             </p>
             <span className="hidden text-overcast sm:inline">/ One unbroken line</span>
           </div>
-          <h2 className="mt-5 text-heading-sm font-semibold text-ink md:text-heading-md">
+          <h2 className="mt-5 text-heading-sm font-semibold text-ink md:text-heading-md lg:text-heading-lg">
             One process. Three models. No hand-offs.
           </h2>
         </ScrollReveal>
