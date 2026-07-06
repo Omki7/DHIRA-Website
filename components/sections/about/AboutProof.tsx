@@ -83,7 +83,7 @@ export default function AboutProof() {
             </p>
             <span className="hidden text-overcast sm:inline">/ The numbers are real</span>
           </div>
-          <h2 className="mt-5 text-heading-sm font-semibold text-ink md:text-heading-md">
+          <h2 className="mt-5 text-heading-sm font-semibold text-ink md:text-heading-md lg:text-heading-lg">
             Trusted with systems that matter.
           </h2>
         </ScrollReveal>
