@@ -72,7 +72,7 @@ export default function AkashicHero() {
           </ScrollReveal>
 
           <ScrollReveal delay={140}>
-            <h1 className="mt-6 max-w-[13em] text-5xl font-semibold leading-[1.05] tracking-tightest text-primary-text md:text-6xl lg:text-7xl">
+            <h1 className="mt-6 max-w-[22em] text-5xl font-semibold leading-[1.05] tracking-tightest text-primary-text md:text-6xl lg:text-7xl">
               The platform behind every{" "}
               <span className="relative inline-block align-baseline">
                 {/* invisible spacer — sized to the longest word so layout never shifts */}
