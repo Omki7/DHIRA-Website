@@ -54,6 +54,8 @@ components/
                                  PowerfulPlatform's flow diagram and PlatformBIChartMockup
       DeliveryCanvasMockup.tsx   Animated phase mockup (audit / deploy / operate) for HowWeDeliver
       ProofComparisonMockup.tsx  Drag-to-compare before/after slider mockup (TheProof)
+      DeliveryDiscoveryMockup.tsx Fake 30-min discovery console (problem → triage fan →
+                                 matched model) for the Delivery page hero
 
   icons/               Static SVG components, no logic
     AkashicLogo.tsx
@@ -202,7 +204,7 @@ All keyframes live in `globals.css`. Do not add a component-local `<style danger
 | 01 | problem | `sections/ProblemSection.tsx` | `bg-white` | Scrolling proof blocks, Stanford HAI 2026 data |
 | 02 | platform | `sections/PowerfulPlatform.tsx` | `bg-[#3E63DD]` (blue) | 4-row flow diagram; uses `demos/mockups/PlatformBIChartMockup` + `demos/mockups/PlatformConnectors` |
 | 03 | scale | `sections/ProvenAtScale.tsx` | `bg-white` | Stats band + `demos/FieldLedger`. Deliberately overrides the old "one dark section" rule — see §7, Rule 5 |
-| 04 | delivery | `sections/HowWeDeliver.tsx` | `bg-white` | Interactive timeline + `demos/mockups/DeliveryCanvasMockup` |
+| 04 | delivery | `sections/HowWeDeliver.tsx` | `bg-white` | Interactive timeline + `demos/mockups/DeliveryCanvasMockup`; service chips link to `/delivery` anchors |
 | 05 | sectors | `sections/EverySector.tsx` | `bg-white` | Image-strip accordion desktop / accordion mobile |
 | 06 | proof | `sections/TheProof.tsx` | `bg-white` | `demos/mockups/ProofComparisonMockup` drag slider |
 | 07 | voices | `sections/Voices.tsx` | `bg-background` | Editorial rail with `font-display` (Newsreader) |
@@ -229,6 +231,38 @@ Composed in `app/akashic/page.tsx` (Nav + sections + Footer). The nav's "Akashic
 | 09 | talk-to-our-team | `sections/akashic/AkashicClose.tsx` | `bg-white` | Dark closure card (Rule 5's Closure precedent). ⚠ six-week commitment flagged "confirm" in the content script. Carries the `#talk-to-our-team` id the nav CTA targets |
 
 Shared pieces for this page: the blue-on-white animated connectors (`FlowPath`/`FanIn`/`MergeDown`/`SplitDown`/`MobileConn`) live in `demos/AkashicFlowConnectors.tsx` (decorative, no data — the white-background cousin of `demos/mockups/PlatformConnectors.tsx`), and the simulated-UI card chrome + MiniStack motif live in `sections/akashic/AkashicCardChrome.tsx`.
+
+### Delivery page (`/delivery`)
+
+Composed in `app/delivery/page.tsx` (Nav + sections + Footer). The nav's "Delivery" trigger links here; its dropdown items anchor to service ids on this page (`#ai-readiness-audit`, `#sovereign-blueprint`, `#governance-framework`, `#platform-deployment`, `#legacy-modernization`, `#custom-accelerators` — all inside section [02]). The home page's `HowWeDeliver` service chips link to the same anchors.
+
+| Order | ID | File | Background | Notes |
+|---|---|---|---|---|
+| 00 | — | `sections/delivery/DeliveryHero.tsx` | `bg-background` | Centred hero, dot-grid backdrop, closed by `demos/mockups/DeliveryDiscoveryMockup` (§8a applies) |
+| 01 | engagement-models | `sections/delivery/DeliveryModels.tsx` | `bg-white` | Triage rail: three reality quotes route via animated connectors into their engagement model; CSS-only hover dimming (server component) |
+| 02 | akashic-deployment | `sections/delivery/DeliveryAkashicDeployment.tsx` | `bg-white` | Model 1: six-week rollout as a Gantt strip (deliberately not the home page's vertical timeline), three phase dossiers carrying the nav anchor ids, modular-start panel reusing `MiniStack` |
+| 03 | product-engineering | `sections/delivery/DeliveryProductEngineering.tsx` | `bg-white` | Model 2: two build-track spec sheets on a shared 0–20-week MVP gauge (Akashic-native 12–20 wks / standalone 10–16 wks); gauge geometry is computed inline style (Rule 8 exception) |
+| 04 | advisory-co-engineering | `sections/delivery/DeliveryAdvisory.tsx` | `bg-white` | Model 3: advisory dossier with deliverables ledger + squad org-diagram (1 principal architect fans into 4 engineers via animated SVG) |
+| 05 | methodology | `sections/delivery/DeliveryMethodology.tsx` | `bg-white` | Discover/Design/Deliver/Transfer on one unbroken dot rail (horizontal desktop, vertical mobile) — the "no hand-offs" visual |
+| 06 | proven-at-scale | `sections/delivery/DeliveryProven.tsx` | `bg-white` | Live engagement ledger (client): count-up figures, sparklines, LIVE/COMPLETE chips; figures per Rule 4 (match AkashicScale / home stats) |
+| 07 | partnership-fit | `sections/delivery/DeliveryFit.tsx` | `bg-white` | Right-fit / wrong-fit split panel; filled vs hollow square markers (no checkmarks, Rule 2) |
+| 08 | faq | `sections/delivery/DeliveryFAQ.tsx` | `bg-white` | Client accordion, mono Q indices, grid-rows collapse animation |
+| 09 | talk-to-our-team | `sections/delivery/DeliveryClose.tsx` | `bg-white` | Dark closure card (Rule 5's Closure precedent). Carries the `#talk-to-our-team` id the nav CTA targets |
+
+### About page (`/about`)
+
+Composed in `app/about/page.tsx` (Nav + sections + Footer). The nav's Company menu links here: "About Us" → `/about`, "Careers" → `/about#careers`. The careers section is a teaser for the home page's full JoinTheTeam board (same four roles) and links back to `/#careers` rather than duplicating the filterable list.
+
+| Order | ID | File | Background | Notes |
+|---|---|---|---|---|
+| 00 | — | `sections/about/AboutHero.tsx` | `bg-background` | Centred hero, dot-grid backdrop, "outlast the budget cycle" bars motif, offices mono strip |
+| 01 | why-we-exist | `sections/about/AboutWhy.tsx` | `bg-white` | Narrative + micro-mockup panel (§8a applies: three conflicting spreadsheets, untraceable AI answer), trust-problem pivot line |
+| 02 | who-we-are | `sections/about/AboutWho.tsx` | `bg-white` | Contexts ledger (ministries / regulated enterprises / startups) + advise-and-leave vs build-and-stay contrast strip |
+| 03 | what-we-believe | `sections/about/AboutBeliefs.tsx` | `bg-white` | Constitution ledger: sticky left header, five indexed principles (B-01…B-05) with ghost numerals, CSS hover dimming |
+| 04 | how-we-work | `sections/about/AboutHow.tsx` | `bg-white` | Four field-manual commitment cards in a 2×2, corner indices, growing tick rule on hover |
+| 05 | careers | `sections/about/AboutCareers.tsx` | `bg-white` | Careers teaser: NOW HIRING pulse signature, four compact role rows (match JoinTheTeam's ROLES), links to `/#careers` |
+| 06 | proof | `sections/about/AboutProof.tsx` | `bg-white` | Three deployment panels (client, AkashicScale idiom): count-up figures per Rule 4, sparklines, LIVE/COMPLETE chips |
+| 07 | talk-to-our-team | `sections/about/AboutClose.tsx` | `bg-white` | Dark closure card (Rule 5's Closure precedent). Carries the `#talk-to-our-team` id the nav CTA targets |
 
 ---
 
@@ -267,7 +301,7 @@ Everything in `components/demos/mockups/` renders **fake Akashic app screenshots
 
 Every file in this subfolder is named with a `Mockup` suffix (except `PlatformConnectors.tsx`, a shared SVG helper consumed only by other mockups) and carries a top-of-file comment starting with `SIMULATED PRODUCT UI`. If you add a new fake-screenshot component, put it here, suffix it `Mockup`, and add the same comment — don't let simulated UI drift back into the flat `demos/` folder where it looks indistinguishable from real components.
 
-Contents: `HeroProductsMockup.tsx` (Hero's 3-card carousel), `PlatformBIChartMockup.tsx` (BI module card in PowerfulPlatform), `PlatformConnectors.tsx` (shared connector SVGs + `ModIcon` badge), `DeliveryCanvasMockup.tsx` (HowWeDeliver's phase console), `ProofComparisonMockup.tsx` (TheProof's drag slider).
+Contents: `HeroProductsMockup.tsx` (Hero's 3-card carousel), `PlatformBIChartMockup.tsx` (BI module card in PowerfulPlatform), `PlatformConnectors.tsx` (shared connector SVGs + `ModIcon` badge), `DeliveryCanvasMockup.tsx` (HowWeDeliver's phase console), `ProofComparisonMockup.tsx` (TheProof's drag slider), `DeliveryDiscoveryMockup.tsx` (the Delivery hero's discovery console).
 
 ### `demos/mockups/HeroProductsMockup.tsx` (large file)
 Three product card panels (Data Pipelines / Conversational AI / Data Models) rendered with `dangerouslySetInnerHTML` for the internal UI mocks. This is intentional — the card UIs are complex SVG+HTML mockups that are not React trees. State: `activeCard` (0|1|2), auto-cycles every 6000ms. `.hs-card` CSS class with `data-pos="center|left|right"` handles the fan layout. Tab progress bar uses `progressFill 6s linear` animation.

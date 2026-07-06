@@ -7,7 +7,7 @@
  * Shows the three delivery phases: Mapping Readiness, Platform Bridging, and Governed Operations.
  * Integrates DeliveryCanvasMockup, a simulated console mockup showcasing real-world deliverables.
  */
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import ScrollRevealRail from "@/components/ui/ScrollRevealRail";
@@ -20,9 +20,9 @@ const steps = [
     title: "We map your data readiness.",
     desc: "A structured audit of your current foundation, followed by a Sovereign Blueprint and Governance Framework that show exactly where to intervene.",
     services: [
-      { label: "AI Readiness Audit", href: "#ai-readiness-audit" },
-      { label: "Sovereign Blueprint", href: "#sovereign-blueprint" },
-      { label: "Governance Framework", href: "#governance-framework" },
+      { label: "AI Readiness Audit", href: "/delivery#ai-readiness-audit" },
+      { label: "Sovereign Blueprint", href: "/delivery#sovereign-blueprint" },
+      { label: "Governance Framework", href: "/delivery#governance-framework" },
     ],
   },
   {
@@ -31,9 +31,9 @@ const steps = [
     title: "We build what's missing.",
     desc: "Platform Deployment, legacy modernisation, and custom accelerators. Engineered to get your organisation on Akashic without building from scratch.",
     services: [
-      { label: "Platform Deployment", href: "#platform-deployment" },
-      { label: "Legacy Modernisation", href: "#legacy-modernization" },
-      { label: "Custom Accelerators", href: "#custom-accelerators" },
+      { label: "Platform Deployment", href: "/delivery#platform-deployment" },
+      { label: "Legacy Modernisation", href: "/delivery#legacy-modernization" },
+      { label: "Custom Accelerators", href: "/delivery#custom-accelerators" },
     ],
   },
   {
@@ -42,39 +42,15 @@ const steps = [
     title: "Your team runs on Akashic.",
     desc: "One governed data foundation for BI, machine learning, and conversational AI. One accountable partner, not a stack of vendors.",
     services: [
-      { label: "Akashic BI", href: "#akashic-bi" },
-      { label: "Akashic Machine Learning", href: "#akashic-machine-learning" },
-      { label: "Akashic Insights", href: "#akashic-insights" },
+      { label: "Akashic BI", href: "/akashic#business-intelligence" },
+      { label: "Akashic Machine Learning", href: "/akashic#machine-learning" },
+      { label: "Akashic Insights", href: "/akashic#ask-ai" },
     ],
   },
 ];
 
 export default function HowWeDeliver() {
   const [activeStep, setActiveStep] = useState(0);
-
-  useEffect(() => {
-    const handleHashChange = () => {
-      const hash = window.location.hash;
-      if (!hash) return;
-      
-      // Phase 1: Mapping Readiness
-      if (["#ai-readiness-audit", "#sovereign-blueprint", "#governance-framework"].includes(hash)) {
-        setActiveStep(0);
-      }
-      // Phase 2: Platform Bridging / Build
-      else if (["#platform-deployment", "#legacy-modernization", "#custom-accelerators"].includes(hash)) {
-        setActiveStep(1);
-      }
-      // Phase 3: Governed Operations
-      else if (["#akashic-bi", "#akashic-machine-learning", "#akashic-insights"].includes(hash)) {
-        setActiveStep(2);
-      }
-    };
-
-    handleHashChange();
-    window.addEventListener("hashchange", handleHashChange, { passive: true });
-    return () => window.removeEventListener("hashchange", handleHashChange);
-  }, []);
 
   return (
     <section
@@ -168,7 +144,6 @@ export default function HowWeDeliver() {
                           {step.services.map((svc) => (
                             <Link
                               key={svc.label}
-                              id={svc.href.replace("#", "")}
                               href={svc.href}
                               className="inline-flex items-center rounded-full border border-lineSoft bg-white px-3 py-1.5 font-mono text-[11px] uppercase tracking-eyebrow text-inkSoft transition-colors duration-200 ease-settle hover:border-blue/30 hover:bg-blue-subtle hover:text-blue"
                             >
