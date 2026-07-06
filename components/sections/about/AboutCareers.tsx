@@ -38,7 +38,7 @@ export default function AboutCareers() {
                   <span className="text-[11px] font-medium tracking-eyebrow text-blue">NOW HIRING</span>
                 </span>
               </div>
-              <h2 className="mt-5 max-w-[12em] text-heading-sm font-semibold text-ink md:text-heading-md">
+              <h2 className="mt-5 text-heading-sm font-semibold leading-[1.05] tracking-tighter text-ink md:text-heading-md">
                 Join us in building India&rsquo;s intelligence layer.
               </h2>
               <p className="mt-5 max-w-[28em] text-lg leading-relaxed text-secondary-text">

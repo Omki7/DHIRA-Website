@@ -1,34 +1,30 @@
 /*
  * [04] How We Work — The Way We Show Up.
- * Four field-manual cards in a 2×2, each with a corner index and a one-line
- * commitment; deliberately quieter chrome than [03]'s constitution ledger.
+ * A signed manifesto: four full-width commitment rows, each with an oversized
+ * outline numeral bleeding into the left gutter, the statement as a large
+ * heading, and a one-line commitment. Deliberately editorial, not a card grid.
  */
 
 import ScrollReveal from "@/components/ui/ScrollReveal";
-import DynamicSketchIcon from "@/components/icons/DynamicSketchIcon";
 
 const commitments = [
   {
     num: "01",
-    icon: "Customer Stories",
     title: "We start with listening.",
     body: "Every engagement begins with understanding your context. Your systems, your constraints, your politics.",
   },
   {
     num: "02",
-    icon: "Akashic Workflow",
     title: "We build with you, not for you.",
     body: "Your team learns the system as we build it. By the time we hand over, you are equipped, not dependent.",
   },
   {
     num: "03",
-    icon: "Akashic Insights",
     title: "We stay until it works.",
     body: "Not until the contract ends. Until your team is confident running it.",
   },
   {
     num: "04",
-    icon: "About Us",
     title: "We tell the truth.",
     body: "If Akashic is not the right fit, we say so. We would rather earn your trust than close a deal.",
   },
@@ -46,26 +42,38 @@ export default function AboutHow() {
             </p>
             <span className="hidden text-overcast sm:inline">/ The way we show up</span>
           </div>
-          <h2 className="mt-5 text-heading-sm font-semibold text-ink md:text-heading-md">
-            The way we show up.
-          </h2>
         </ScrollReveal>
 
-        <div className="mt-12 grid grid-cols-1 gap-5 md:grid-cols-2 lg:mt-14">
+        <ScrollReveal delay={80}>
+          <h2 className="mt-5 text-heading-sm font-semibold leading-[1.05] tracking-tighter text-ink md:text-heading-md lg:text-heading-lg">
+            The way we show up.
+          </h2>
+          <p className="mt-5 max-w-[34em] text-lg leading-relaxed text-inkSoft">
+            Four commitments. The same on the first day of an engagement as the last.
+          </p>
+        </ScrollReveal>
+
+        <div className="mt-12 lg:mt-16">
           {commitments.map((item, idx) => (
             <ScrollReveal key={item.num} delay={100 + idx * 90}>
-              <div className="group relative h-full overflow-hidden rounded-frame border border-subtle-stroke bg-primary-bg p-6 transition-all duration-250 ease-settle hover:-translate-y-1 hover:border-blue/25 hover:shadow-frame md:p-7">
-                <span className="absolute right-5 top-5 font-mono text-[10px] uppercase tracking-[0.1em] text-overcast">
-                  {item.num} / 04
-                </span>
-                <span className="flex h-[34px] w-[34px] items-center justify-center rounded-[9px] border border-blue/20 bg-white shadow-[inset_0_1px_0_rgba(255,255,255,0.9)] transition-colors duration-250 ease-settle group-hover:border-blue/35">
-                  <DynamicSketchIcon text={item.icon} className="h-[16px] w-[16px] text-blue" />
-                </span>
-                <h3 className="mt-5 text-[21px] font-semibold leading-snug tracking-tight text-ink">
-                  {item.title}
-                </h3>
-                <div className="mt-2.5 mb-3 w-8 border-t border-blue/40 transition-[width] duration-250 ease-settle group-hover:w-12" aria-hidden />
-                <p className="max-w-[34em] text-[15px] leading-relaxed text-inkSoft">{item.body}</p>
+              <div className="group grid grid-cols-1 gap-3 border-t border-subtle-stroke py-8 last:border-b sm:grid-cols-[auto_1fr] sm:gap-10 lg:py-10">
+                <div className="relative flex items-start sm:w-[128px]">
+                  <span
+                    className="select-none font-semibold leading-[0.8] tracking-tighter text-transparent [-webkit-text-stroke:1.5px_rgba(62,99,221,0.28)] text-[72px] transition-all duration-400 ease-settle group-hover:[-webkit-text-stroke:1.5px_rgba(62,99,221,0.55)] lg:text-[88px]"
+                    aria-hidden
+                  >
+                    {item.num}
+                  </span>
+                </div>
+                <div className="min-w-0 sm:pt-3">
+                  <h3 className="max-w-[16em] text-[26px] font-semibold leading-[1.15] tracking-tight text-ink md:text-[32px]">
+                    <span className="text-blue">{item.title.split(" ")[0]} </span>
+                    {item.title.split(" ").slice(1).join(" ")}
+                  </h3>
+                  <p className="mt-3 max-w-[40em] text-[16px] leading-relaxed text-inkSoft">
+                    {item.body}
+                  </p>
+                </div>
               </div>
             </ScrollReveal>
           ))}

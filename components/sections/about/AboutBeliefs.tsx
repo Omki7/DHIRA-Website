@@ -47,7 +47,7 @@ export default function AboutBeliefs() {
                   <span className="text-overcast">[03]</span>
                   <span className="text-inkSoft">&nbsp;&nbsp;What we believe</span>
                 </p>
-                <h2 className="mt-5 max-w-[10em] text-heading-sm font-semibold text-ink md:text-heading-md">
+                <h2 className="mt-5 text-heading-sm font-semibold leading-[1.05] tracking-tighter text-ink md:text-heading-md">
                   The things that do not change.
                 </h2>
                 <p className="mt-5 max-w-[24em] text-lg leading-relaxed text-secondary-text">

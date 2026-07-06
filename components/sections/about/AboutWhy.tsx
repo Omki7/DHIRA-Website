@@ -85,7 +85,7 @@ export default function AboutWhy() {
             </p>
             <span className="hidden text-overcast sm:inline">/ Not a technology problem</span>
           </div>
-          <h2 className="mt-5 max-w-[16em] text-heading-sm font-semibold text-ink md:text-heading-md">
+          <h2 className="mt-5 text-heading-sm font-semibold text-ink md:text-heading-md lg:text-heading-lg">
             The problem we could not unsee.
           </h2>
         </ScrollReveal>
