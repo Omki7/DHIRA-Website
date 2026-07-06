@@ -73,7 +73,8 @@ export default function AkashicHero() {
 
           <ScrollReveal delay={140}>
             <h1 className="mt-6 max-w-[22em] text-5xl font-semibold leading-[1.05] tracking-tightest text-primary-text md:text-6xl lg:text-7xl">
-              The platform behind every{" "}
+              The platform behind every
+              <br />
               <span className="relative inline-block align-baseline">
                 {/* invisible spacer — sized to the longest word so layout never shifts */}
                 <span className="invisible whitespace-nowrap">insight</span>
@@ -104,8 +105,7 @@ export default function AkashicHero() {
                     </span>
                   </span>
                 ))}
-              </span>
-              <br />
+              </span>{" "}
               <span className="whitespace-nowrap">DHIRA gives.</span>
             </h1>
           </ScrollReveal>
