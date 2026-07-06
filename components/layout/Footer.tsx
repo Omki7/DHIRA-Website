@@ -26,15 +26,9 @@ const footerColumns: FooterColumn[] = [
   },
   {
     heading: "Solutions",
-    links: [
-      "EIS",
-      "Life",
-      "Knowledge",
-      "Public Sector",
-      "Healthcare",
-      "Education",
-      "Enterprise",
-    ],
+    links: ["EIS", "Life", "Knowledge"],
+    subHeading: "Sectors",
+    subLinks: ["Manufacturing", "Healthcare", "Finance", "Retail", "Education", "Energy"],
   },
   {
     heading: "Delivery",
