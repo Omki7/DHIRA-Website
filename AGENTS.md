@@ -276,6 +276,14 @@ Composed in `app/solutions/{eis,life,knowledge}/page.tsx` (Nav + sections + Foot
 | `/solutions/life` | `life/` — LifeHero, LifeGap [01], LifeOffline [02], LifeStory [03], LifeChain [04], LifeBuilt [05], LifeProof [06], LifeClose [07] | Live counter card (Indian-locale count-up); 4-days-vs-2-min pathway panels; signal-bar offline states; stopwatch timeline (00:00→01:50); village→district→ministry fan SVG |
 | `/solutions/knowledge` | `knowledge/` — KnowledgeHero, KnowledgeFracture [01], KnowledgeGrid [02], KnowledgeNation [03], KnowledgeMorning [04], KnowledgeProof [05], KnowledgeChain [06], KnowledgeClose [07] | Learner-grid card with adaptive path rows (§8a); fracture watermark figures; per-learner pace bars; teacher's-morning clock timeline; DIKSHA count-up panels |
 
+### Sector pages (`/sectors/public-sector`)
+
+Composed in `app/sectors/public-sector/page.tsx`; the nav's Solutions → Sectors "Public Sector" item links here (Healthcare/Education/Enterprise still hash placeholders). Copy from the user's content script (July 2026); all platform figures presented as public record per that script. Shares the solution-page family DNA (split hero + telemetry board, watermark gap figures, moment dossiers, six-step chain).
+
+| Page | Sections (`components/sections/public-sector/`) | Signature pieces |
+|---|---|---|
+| `/sectors/public-sector` | PublicSectorHero, PublicSectorGap [01], PublicSectorProven [02], PublicSectorMoments [03], PublicSectorWhy [04], PublicSectorChain [05], PublicSectorDeploy [06], PublicSectorClose [07] | Public-record missions board hero card; two-tier proof (4 flagship count-up panels + "also in production" registry ledger); **tender-schedule ledger** (REQ-01…REQ-06 compliance rows with status chips); environment tiles with SOVEREIGN DEFAULT marker |
+
 ---
 
 ## 7. Design Rules
