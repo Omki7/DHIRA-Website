@@ -57,7 +57,7 @@ export default function LifeGap() {
             <span className="hidden text-overcast sm:inline">/ The distance between them</span>
           </div>
           <h2 className="mt-5 text-heading-sm font-semibold text-ink md:text-heading-md lg:text-heading-lg">
-            In rural healthcare, the enemy isn&rsquo;t just pathology. It&rsquo;s time.
+            In rural healthcare, the enemy isn&rsquo;t pathology. It&rsquo;s time.
           </h2>
         </ScrollReveal>
 

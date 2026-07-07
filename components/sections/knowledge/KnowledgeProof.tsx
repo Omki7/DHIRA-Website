@@ -50,7 +50,7 @@ export default function KnowledgeProof() {
             <span className="hidden text-overcast sm:inline">/ Public record</span>
           </div>
           <h2 className="mt-5 text-heading-sm font-semibold text-ink md:text-heading-md lg:text-heading-lg">
-            We built the rails for the world&rsquo;s largest education system.
+            The rails under the world&rsquo;s largest education system.
           </h2>
           <p className="mt-5 max-w-[40em] text-lg leading-relaxed text-secondary-text">
             This is not a concept. DIKSHA, India&rsquo;s national school education

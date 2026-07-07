@@ -50,7 +50,7 @@ export default function EisProof() {
             <span className="hidden text-overcast sm:inline">/ Public record</span>
           </div>
           <h2 className="mt-5 text-heading-sm font-semibold text-ink md:text-heading-md lg:text-heading-lg">
-            Built by the team that delivered India&rsquo;s largest data platforms.
+            Built by the team behind India&rsquo;s largest data platforms.
           </h2>
           <p className="mt-5 max-w-[40em] text-lg leading-relaxed text-secondary-text">
             The team behind Akashic EIS built the data infrastructure for CoWIN,

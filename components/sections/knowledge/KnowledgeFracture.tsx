@@ -40,7 +40,7 @@ export default function KnowledgeFracture() {
             <span className="hidden text-overcast sm:inline">/ Not a hypothetical gap</span>
           </div>
           <h2 className="mt-5 text-heading-sm font-semibold text-ink md:text-heading-md lg:text-heading-lg">
-            We are running a 21st-century civilisation on 19th-century software.
+            A 21st-century civilisation on 19th-century software.
           </h2>
         </ScrollReveal>
 
