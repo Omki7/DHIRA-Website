@@ -84,7 +84,7 @@ export default function HowWeDeliver() {
               <Link href="/delivery" className="btn-primary">
                 Explore delivery services
               </Link>
-              <Link href="#contact" className="btn-ghost text-sm text-inkSoft">
+              <Link href="#get-started" className="btn-ghost text-sm text-inkSoft">
                 Talk to our team
               </Link>
             </div>
