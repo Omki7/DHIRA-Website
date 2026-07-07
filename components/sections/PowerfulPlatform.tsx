@@ -538,7 +538,7 @@ export default function PowerfulPlatform() {
                 </p>
                 <div style={{ display: "flex", alignItems: "center", gap: "14px", marginTop: "24px" }}>
                   <Link href="#platform" className="btn-secondary" style={{ color: "#16181D" }}>Explore the platform</Link>
-                  <Link href="#contact" className="btn-ghost" style={{ color: "#FFFFFF" }}>Book a demo</Link>
+                  <Link href="#get-started" className="btn-ghost" style={{ color: "#FFFFFF" }}>Book a demo</Link>
                 </div>
               </div>
 

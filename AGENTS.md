@@ -266,6 +266,19 @@ Composed in `app/about/page.tsx` (Nav + sections + Footer). The nav's Company me
 | 06 | proof | `sections/about/AboutProof.tsx` | `bg-white` | Three deployment panels (client, AkashicScale idiom): count-up figures per Rule 4, sparklines, LIVE/COMPLETE chips |
 | 07 | talk-to-our-team | `sections/about/AboutClose.tsx` | `bg-white` | Dark closure card (Rule 5's Closure precedent). Carries the `#talk-to-our-team` id the nav CTA targets |
 
+### Careers page (`/careers`)
+
+Composed in `app/careers/page.tsx`. The nav's Company → Careers, the home JoinTheTeam board's Apply/"Explore all open roles" links, and the About page's careers teaser all point here. Copy is assembled from approved brand material only (home JoinTheTeam headline + sub, the four ROLES, About beliefs, public-record mission figures); Apply links anchor to `#talk-to-our-team` — ⚠ wire a real careers inbox/ATS before ship.
+
+| Order | ID | File | Notes |
+|---|---|---|---|
+| 00 | — | `sections/careers/CareersHero.tsx` | Centred hero, NOW HIRING pill, locations strip |
+| 01 | the-work | `sections/careers/CareersImpact.tsx` | "Production is a country": four-mission impact band, count-ups per Rule 4 |
+| 02 | how-we-work | `sections/careers/CareersPrinciples.tsx` | Sticky-left digest of the About beliefs (B-01…B-05), links to `/about#what-we-believe` |
+| 03 | open-roles | `sections/careers/CareersRoles.tsx` | Canonical filterable roles board (client) — same ROLES + blue-bar hover signature as JoinTheTeam; keep the two lists in sync |
+| 04 | how-we-hire | `sections/careers/CareersHiring.tsx` | Four-step hiring rail (intro call / deep-dive / working session / decision) |
+| 05 | talk-to-our-team | `sections/careers/CareersClose.tsx` | Dark closure card; Apply anchor target |
+
 ### Solution pages (`/solutions/eis`, `/solutions/life`, `/solutions/knowledge`)
 
 Composed in `app/solutions/{eis,life,knowledge}/page.tsx` (Nav + sections + Footer). The nav's Solutions → Akashic Plugin items link here, as do the "Learn more" links on `/akashic`'s AkashicSolutions cards. Copy comes from user-supplied content scripts (July 2026); figures on these pages (564 crore sessions, 18.25 crore enrolments, 1.89 crore learners, 2B vaccinations, 3.87 lakh emigrations, 10 crore+ Poshan, 12,402/month, ₹2 Cr+ estimate) are per those scripts — ⚠ some differ from the home/Akashic stats (5.75B+/187M+); reconcile before ship. All three share the split hero (pitch left, telemetry/mockup card right), the flowing six-step chain rail, and count-up proof panels, so the family reads as siblings.
