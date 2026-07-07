@@ -2,10 +2,11 @@
 
 /*
  * [06] Proven at Scale — The Numbers Are Real.
- * A live engagement ledger: count-up mono figures, per-row sparkline and
- * LIVE/COMPLETE telemetry chips, sector sketch icons. Figures per Rule 4:
- * 5.75B+ sessions, 187M+ enrolments, 4M+ clearances, and 135 languages
- * match AkashicScale / the home page stats.
+ * Three live deployment case-files, one per engagement model (badged 01/02/03
+ * to tie back to the page spine): hero-sized count-up figure, model + sector
+ * header, outcome anchored at the base, and a telemetry footer with drawn
+ * sparkline + LIVE/DELIVERED status. Figures per Rule 4 (5.75B+, 187M+, 4M+,
+ * 135 match AkashicScale / the home page stats).
  */
 
 import ScrollReveal from "@/components/ui/ScrollReveal";
@@ -13,74 +14,78 @@ import DynamicSketchIcon from "@/components/icons/DynamicSketchIcon";
 import { LiveChip } from "@/components/sections/akashic/AkashicCardChrome";
 import useCountUp from "@/hooks/useCountUp";
 
-type LedgerFigure = { fig: string; label: string; static?: boolean };
+type Figure = { fig: string; label: string; static?: boolean };
 
-const rows: {
+const cases: {
+  model: string;
   engagement: string;
   sector: string;
   sectorIcon: string;
-  figures: LedgerFigure[];
+  hero: Figure;
+  sub?: Figure;
   outcome: string;
+  status: string;
   live: boolean;
 }[] = [
   {
-    engagement: "AKASHIC DEPLOYMENT",
-    sector: "National education",
+    model: "01",
+    engagement: "Akashic Deployment",
+    sector: "National education platform",
     sectorIcon: "Education",
-    figures: [
-      { fig: "5.75B+", label: "sessions" },
-      { fig: "187M+", label: "enrolments" },
-    ],
+    hero: { fig: "5.75B+", label: "learning sessions delivered" },
+    sub: { fig: "187M+", label: "enrolments managed" },
     outcome: "A 6-week pilot scaled to national rollout.",
+    status: "In production",
     live: true,
   },
   {
-    engagement: "PRODUCT ENGINEERING",
-    sector: "Cross-border workforce",
+    model: "02",
+    engagement: "Product Engineering",
+    sector: "Cross-border workforce platform",
     sectorIcon: "Workforce",
-    figures: [
-      { fig: "4M+", label: "clearances" },
-      { fig: "135", label: "languages" },
-    ],
+    hero: { fig: "4M+", label: "cross-border clearances" },
+    sub: { fig: "135", label: "languages supported" },
     outcome: "Custom product embedded inside Ministry infrastructure.",
+    status: "In production",
     live: true,
   },
   {
-    engagement: "ADVISORY",
-    sector: "State government survey",
+    model: "03",
+    engagement: "Advisory",
+    sector: "State government operations",
     sectorIcon: "Public Sector",
-    figures: [{ fig: "2-week", label: "audit", static: true }],
+    hero: { fig: "2 wks", label: "audit engagement", static: true },
     outcome: "Legacy data reconciled in days, not months.",
+    status: "Delivered",
     live: false,
   },
 ];
 
-const GRID = "md:grid-cols-[200px_1.1fr_1fr_1.5fr]";
-
-function RowSpark() {
+function TelemetrySpark({ live }: { live: boolean }) {
   return (
-    <svg width="52" height="16" viewBox="0 0 52 16" fill="none" aria-hidden className="shrink-0">
+    <svg width="72" height="20" viewBox="0 0 72 20" fill="none" aria-hidden className="shrink-0">
       <polyline
-        points="2,13 10,10 18,12 26,7 34,9 42,4 50,3"
-        stroke="#3E63DD"
-        strokeWidth="1.4"
+        points="2,16 12,13 22,15 32,9 42,11 52,5 62,7 70,3"
+        stroke={live ? "#3E63DD" : "#8E8F91"}
+        strokeWidth="1.5"
         strokeLinecap="round"
         strokeLinejoin="round"
         className="fl-sparkline"
-        opacity="0.65"
+        opacity={live ? "0.7" : "0.45"}
       />
+      {live && <circle cx="70" cy="3" r="2" fill="#3E63DD" className="animate-[ps-pulse_2s_infinite]" />}
     </svg>
   );
 }
 
-function Figure({ fig, label, isStatic }: { fig: string; label: string; isStatic?: boolean }) {
-  const { ref, display } = useCountUp(fig, { duration: 1400 });
+function HeroStat({ fig, label, isStatic }: { fig: string; label: string; isStatic?: boolean }) {
+  const { ref, display } = useCountUp(fig, { duration: 1500 });
   return (
-    <div ref={ref} className="flex items-baseline gap-1.5">
-      <span className="whitespace-nowrap font-mono text-[15px] font-semibold tracking-tight text-ink">
+    <div ref={ref}>
+      <div className="text-[42px] font-semibold leading-[0.95] tracking-tighter text-ink md:text-[48px]">
         {isStatic ? fig : display}
-      </span>
-      <span className="text-[12px] text-inkSoft">{label}</span>
+      </div>
+      <div className="mt-2.5 max-w-[13em] text-[13px] leading-snug text-inkSoft">{label}</div>
     </div>
   );
 }
@@ -100,57 +105,80 @@ export default function DeliveryProven() {
           <h2 className="mt-5 text-heading-sm font-semibold text-ink md:text-heading-md lg:text-heading-lg">
             Tested where the numbers are real.
           </h2>
+          <p className="mt-5 max-w-[38em] text-lg leading-relaxed text-secondary-text">
+            One engagement per model. Each one running where the stakes are real and
+            the numbers are not rounded up for a slide.
+          </p>
         </ScrollReveal>
 
-        <div className="mt-12 lg:mt-14">
-          <ScrollReveal>
-            <div
-              className={`hidden gap-6 border-y border-dashed border-lineSoft py-3 font-mono text-[10px] uppercase tracking-eyebrow text-overcast md:grid ${GRID}`}
-            >
-              <span>Engagement</span>
-              <span>Sector</span>
-              <span>Scale</span>
-              <span>Outcome</span>
-            </div>
-          </ScrollReveal>
+        <div className="mt-12 grid grid-cols-1 gap-4 md:grid-cols-3 md:gap-5 lg:mt-14">
+          {cases.map((c, idx) => (
+            <ScrollReveal key={c.model} delay={100 + idx * 100}>
+              <div className="group relative flex h-full flex-col overflow-hidden rounded-frame border border-subtle-stroke bg-primary-bg transition-all duration-250 ease-settle hover:-translate-y-1 hover:border-blue/25 hover:shadow-frame">
+                <div className="h-[3px] bg-gradient-to-r from-blue/55 via-blue/25 to-transparent" aria-hidden />
+                <div className="relative flex flex-1 flex-col p-6">
+                  <span
+                    className="pointer-events-none absolute right-5 top-4 select-none text-[60px] font-semibold leading-none tracking-tighter text-ink/[0.045]"
+                    aria-hidden
+                  >
+                    {c.model}
+                  </span>
 
-          {rows.map((row, idx) => (
-            <ScrollReveal key={row.engagement} delay={100 + idx * 100}>
-              <div
-                className={`grid grid-cols-1 gap-3 border-b border-subtle-stroke py-6 transition-colors duration-250 ease-settle hover:bg-primary-bg/50 md:items-center md:gap-6 md:py-7 ${GRID}`}
-              >
-                <div className="flex flex-wrap items-center gap-2">
-                  <span className="inline-flex items-center rounded-[7px] border border-blue-border bg-blue-subtle px-2 py-1 font-mono text-[9px] font-bold tracking-[0.03em] text-blue">
-                    {row.engagement}
-                  </span>
-                  {row.live ? (
-                    <LiveChip />
-                  ) : (
-                    <span className="inline-flex shrink-0 items-center rounded-[7px] border border-default-stroke bg-tertiary-bg px-2 py-1 text-[9px] font-bold tracking-[0.03em] text-secondary-text">
-                      COMPLETE
+                  <div className="relative flex items-center justify-between">
+                    <span className="font-mono text-[9.5px] font-bold uppercase tracking-[0.08em] text-blue">
+                      Model {c.model}
                     </span>
-                  )}
-                </div>
-                <div className="flex items-center gap-2.5">
-                  <span className="flex h-[26px] w-[26px] shrink-0 items-center justify-center rounded-[7px] border border-subtle-stroke bg-primary-bg">
-                    <DynamicSketchIcon text={row.sectorIcon} className="h-[13px] w-[13px] text-inkSoft" />
-                  </span>
-                  <span className="text-[15px] font-medium text-ink">{row.sector}</span>
-                </div>
-                <div className="flex items-center justify-between gap-3">
-                  <div className="flex flex-wrap gap-x-4 gap-y-1 md:flex-col md:gap-y-1.5">
-                    {row.figures.map((figure) => (
-                      <Figure
-                        key={figure.label}
-                        fig={figure.fig}
-                        label={figure.label}
-                        isStatic={figure.static}
-                      />
-                    ))}
+                    {c.live ? (
+                      <LiveChip />
+                    ) : (
+                      <span className="inline-flex shrink-0 items-center rounded-[7px] border border-default-stroke bg-tertiary-bg px-2 py-1 text-[9px] font-bold tracking-[0.03em] text-secondary-text">
+                        DELIVERED
+                      </span>
+                    )}
                   </div>
-                  <RowSpark />
+
+                  <div className="mt-4 flex items-center gap-2.5">
+                    <span className="flex h-[32px] w-[32px] shrink-0 items-center justify-center rounded-[9px] border border-blue/20 bg-gradient-to-br from-[#E4EAFF] to-[#D4DEFF] shadow-[inset_0_1px_0_rgba(255,255,255,0.9)]">
+                      <DynamicSketchIcon text={c.sectorIcon} className="h-[15px] w-[15px] text-blue" />
+                    </span>
+                    <div className="min-w-0">
+                      <div className="truncate text-[15px] font-bold tracking-tight text-ink">
+                        {c.engagement}
+                      </div>
+                      <div className="truncate text-[11px] text-tertiary-text">{c.sector}</div>
+                    </div>
+                  </div>
+
+                  <div className="mt-7">
+                    <HeroStat fig={c.hero.fig} label={c.hero.label} isStatic={c.hero.static} />
+                  </div>
+
+                  {c.sub && (
+                    <div className="mt-4 flex items-baseline gap-2">
+                      <span className="font-mono text-[16px] font-semibold tracking-tight text-ink">
+                        {c.sub.fig}
+                      </span>
+                      <span className="text-[12.5px] text-inkSoft">{c.sub.label}</span>
+                    </div>
+                  )}
+
+                  <p className="mt-auto border-t border-subtle-stroke pt-5 text-[15px] font-medium leading-snug text-ink">
+                    {c.outcome}
+                  </p>
+
+                  <div className="mt-4 flex items-center justify-between border-t border-dashed border-lineSoft pt-3.5">
+                    <span className="flex items-center gap-1.5 font-mono text-[9px] uppercase tracking-[0.08em] text-inkSoft">
+                      <span
+                        className={`h-[5px] w-[5px] rounded-full ${
+                          c.live ? "bg-[#30A46C] animate-[ps-pulse_2s_infinite]" : "bg-overcast"
+                        }`}
+                        aria-hidden
+                      />
+                      {c.status}
+                    </span>
+                    <TelemetrySpark live={c.live} />
+                  </div>
                 </div>
-                <p className="text-[15px] leading-relaxed text-inkSoft">{row.outcome}</p>
               </div>
             </ScrollReveal>
           ))}

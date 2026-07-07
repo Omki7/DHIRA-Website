@@ -82,6 +82,7 @@ const solutions = [
     icon: "Akashic EIS",
     sub: "Executive intelligence",
     desc: "An executive intelligence system for leadership teams: performance and decision metrics in one live view.",
+    href: "/solutions/eis",
     body: <EISBody />,
   },
   {
@@ -90,6 +91,7 @@ const solutions = [
     icon: "Akashic Life",
     sub: "Life sciences",
     desc: "A data and analytics platform for life sciences: clinical, regulatory, and commercial data, unified.",
+    href: "/solutions/life",
     body: <LifeBody />,
   },
   {
@@ -98,6 +100,7 @@ const solutions = [
     icon: "Akashic Knowledge",
     sub: "Document intelligence",
     desc: "A document intelligence layer for policies, contracts, and institutional knowledge.",
+    href: "/solutions/knowledge",
     body: <KnowledgeBody />,
   },
 ];
@@ -129,7 +132,7 @@ export default function AkashicSolutions() {
                   <CardDesc text={s.desc} />
                   {s.body}
                   <div className="px-4 pb-4">
-                    <Link href={`#${s.id}`} className="inline-flex items-center gap-1 text-[13px] font-medium text-blue transition-colors duration-250 ease-settle hover:text-blue-hover">
+                    <Link href={s.href} className="inline-flex items-center gap-1 text-[13px] font-medium text-blue transition-colors duration-250 ease-settle hover:text-blue-hover">
                       Learn more
                       <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden>
                         <path d="M2.5 6H9.5M9.5 6L6 2.5M9.5 6L6 9.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />

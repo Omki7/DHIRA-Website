@@ -1,0 +1,50 @@
+/*
+ * [07] Close — See EIS With Your Own Data.
+ * Dark closure card per the Closure precedent (Rule 5). Carries the
+ * #talk-to-our-team id the nav CTA targets.
+ */
+
+import Link from "next/link";
+import ScrollReveal from "@/components/ui/ScrollReveal";
+
+export default function EisClose() {
+  return (
+    <section id="talk-to-our-team" className="scroll-mt-24 border-t border-lineSoft bg-white">
+      <div className="rail-container pt-12 pb-24 lg:pt-16 lg:pb-32">
+        <ScrollReveal>
+          <div className="fl-sheen relative mx-auto max-w-[1100px] overflow-hidden rounded-frame bg-ink px-6 py-14 text-center text-white md:px-12 md:py-20">
+            <div className="absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r from-blue/70 via-blue/30 to-transparent" aria-hidden />
+            <div className="dot-grid absolute inset-0 opacity-10 invert" aria-hidden />
+            <div className="relative">
+              <p className="font-mono text-[11px] uppercase tracking-eyebrow text-white/50">
+                <span className="text-white/30">[07]</span>&nbsp;&nbsp;Ready when you are
+              </p>
+              <h2 className="mx-auto mt-6 max-w-[16em] text-heading-sm font-semibold text-white md:text-heading-md">
+                See Akashic EIS with your own data.
+              </h2>
+              <p className="mx-auto mt-6 max-w-[36em] text-lg leading-relaxed text-white/65">
+                We run a 30-minute live demonstration using a dataset that mirrors
+                your industry. You will see your kind of numbers: finance, ops,
+                sales, on an Akashic dashboard in real time.
+              </p>
+              <p className="mx-auto mt-7 max-w-[26em] text-xl font-semibold tracking-tight text-white md:text-2xl">
+                No slides. No generic demo. Your context, our platform.
+              </p>
+              <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
+                <Link href="/#get-started" className="btn-secondary">
+                  Request a pilot demonstration
+                </Link>
+                <Link
+                  href="/#get-started"
+                  className="inline-flex h-9 items-center justify-center gap-2 rounded-[10px] border border-white/25 px-4 text-sm font-medium text-white transition-colors duration-250 ease-settle hover:bg-white/10"
+                >
+                  Talk to our team
+                </Link>
+              </div>
+            </div>
+          </div>
+        </ScrollReveal>
+      </div>
+    </section>
+  );
+}
