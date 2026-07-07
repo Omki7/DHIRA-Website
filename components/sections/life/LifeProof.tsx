@@ -58,7 +58,7 @@ export default function LifeProof() {
             <span className="hidden text-overcast sm:inline">/ Already done, already running</span>
           </div>
           <h2 className="mt-5 text-heading-sm font-semibold text-ink md:text-heading-md lg:text-heading-lg">
-            We have done this before. At the scale of an entire country.
+            We have done this before. At the scale of a country.
           </h2>
           <p className="mt-5 max-w-[42em] text-lg leading-relaxed text-secondary-text">
             Akashic Life is built by the same team that built Poshan Tracker,
