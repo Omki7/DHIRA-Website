@@ -114,7 +114,7 @@ export default function EverySector() {
                     </div>
                     <div className="flex flex-1 flex-col justify-center px-6 py-5 bg-white">
                       <p className="mb-4 text-sm leading-relaxed text-inkSoft">{sector.description}</p>
-                      <Link href="#contact" className="inline-flex items-center gap-2 text-sm font-medium text-ink hover:text-blue transition-colors duration-250 ease-settle">
+                      <Link href="#get-started" className="inline-flex items-center gap-2 text-sm font-medium text-ink hover:text-blue transition-colors duration-250 ease-settle">
                         Deploy for {sector.shortName}
                         <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
                           <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.2" d="M2 6h8m0 0L7.5 3M10 6L7.5 9" />
@@ -233,7 +233,7 @@ export default function EverySector() {
               </div>
 
               <Link
-                href="#contact"
+                href="#get-started"
                 className="inline-flex items-center gap-2 text-sm font-medium text-ink hover:text-blue transition-colors duration-250 ease-settle"
               >
                 Deploy for {displaySector.shortName}

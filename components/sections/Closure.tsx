@@ -12,6 +12,8 @@ export default function Closure() {
       aria-labelledby="get-started-h"
       className="relative overflow-hidden bg-white pt-12 pb-24 lg:pt-16 lg:pb-32"
     >
+      {/* Alias anchor: the nav CTA targets #talk-to-our-team on every page */}
+      <span id="talk-to-our-team" className="absolute -top-24" aria-hidden />
       <ScrollRevealRail className="z-10">
         {/* Eyebrow / Section divider */}
         <ScrollReveal>

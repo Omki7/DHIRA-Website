@@ -47,7 +47,7 @@ export default function AboutCareers() {
                 budget cycle. If that matters to you, we should talk.
               </p>
               <div className="mt-8">
-                <Link href="/#careers" className="btn-secondary">
+                <Link href="/careers" className="btn-secondary">
                   See all roles
                 </Link>
               </div>
@@ -63,7 +63,7 @@ export default function AboutCareers() {
             {roles.map((role, idx) => (
               <ScrollReveal key={role.title} delay={160 + idx * 80}>
                 <Link
-                  href="/#careers"
+                  href="/careers"
                   className="group relative flex items-center gap-4 border-b border-subtle-stroke py-5 transition-colors duration-250 ease-settle hover:bg-primary-bg/60"
                 >
                   <span
