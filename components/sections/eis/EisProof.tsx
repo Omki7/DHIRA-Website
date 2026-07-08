@@ -44,7 +44,7 @@ export default function EisProof() {
         <ScrollReveal>
           <div className="flex items-baseline justify-between font-mono text-[11px] uppercase tracking-eyebrow">
             <p>
-              <span className="text-overcast">[06]</span>
+              <span className="text-overcast">[07]</span>
               <span className="text-inkSoft">&nbsp;&nbsp;Proof at scale</span>
             </p>
             <span className="hidden text-overcast sm:inline">/ Public record</span>
