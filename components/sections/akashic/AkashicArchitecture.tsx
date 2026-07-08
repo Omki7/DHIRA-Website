@@ -2,14 +2,14 @@
  * [03] Your Architecture — Deploy It Your Way.
  * Three environment plates, each drawn as the ground it represents: an open
  * sky for cloud, a server cabinet for on-premises, a bridged split estate
- * for hybrid. The same MiniStack sits in all three (SIMULATED PRODUCT UI,
+ * for hybrid. The same AkashicMark sits in all three (SIMULATED PRODUCT UI,
  * see AGENTS.md §8a). Cloud region names are real provider regions, not
  * deployment claims.
  */
 
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import { FlowPath, Node, MergeDown, MobileConn } from "@/components/demos/AkashicFlowConnectors";
-import { LiveChip, BlueChip, MiniStack } from "@/components/sections/akashic/AkashicCardChrome";
+import { BlueChip, AkashicMark } from "@/components/sections/akashic/AkashicCardChrome";
 
 const PLATE =
   "flex h-full flex-col overflow-hidden rounded-frame border transition-all duration-250 ease-settle hover:-translate-y-1 hover:shadow-frame";
@@ -64,7 +64,7 @@ function RackUnit() {
         <span className="h-[2px] w-3 rounded-full bg-white/15" />
         <span className="h-[2px] w-3 rounded-full bg-white/15" />
       </span>
-      <span className="h-1 w-1 rounded-full bg-[#30A46C] animate-[ps-pulse_2.4s_infinite]" />
+      <span className="h-1 w-1 rounded-full bg-blue animate-[ps-pulse_2.4s_infinite]" />
     </div>
   );
 }
@@ -81,9 +81,9 @@ function CloudPlate() {
   ];
   return (
     <div className={`${PLATE} border-blue-border/70 bg-gradient-to-b from-[#EDF3FF] via-white to-white`}>
-      <PlateHeader name="Cloud" desc="Deploy on AWS, Azure, or GCP." chip={<LiveChip />} />
+      <PlateHeader name="Cloud" desc="Deploy on AWS, Azure, or GCP." chip={<BlueChip label="LIVE" />} />
       <div className="flex flex-1 flex-col p-5 pt-4">
-        <MiniStack className="mx-auto" />
+        <AkashicMark className="mx-auto" />
         <Fan targets={[52, 150, 248]} />
         <div className="grid grid-cols-3 gap-2">
           {providers.map((p) => (
@@ -128,7 +128,7 @@ function OnPremPlate() {
           <div className="flex flex-col gap-1">
             <RackUnit />
             <div className="flex justify-center rounded-[8px] bg-white/95 py-2">
-              <MiniStack />
+              <AkashicMark className="border-0 bg-transparent px-0 py-0 shadow-none" />
             </div>
             <RackUnit />
             <RackUnit />
@@ -142,8 +142,8 @@ function OnPremPlate() {
           ))}
         </div>
         <div className="mt-auto flex items-center gap-2 pt-4">
-          <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-[#30A46C]" />
-          <span className="text-[11.5px] font-bold text-[#1B7A47]">Nothing leaves your perimeter</span>
+          <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-blue" />
+          <span className="text-[11.5px] font-semibold text-blue">Nothing leaves your perimeter</span>
         </div>
       </div>
     </div>
@@ -156,10 +156,10 @@ function HybridPlate() {
       <PlateHeader
         name="Hybrid"
         desc="Run across your existing architecture, with DHIRA's engineering team alongside you."
-        chip={<LiveChip label="CONNECTED" />}
+        chip={<BlueChip label="CONNECTED" />}
       />
       <div className="flex flex-1 flex-col p-5 pt-4">
-        <MiniStack className="mx-auto" />
+        <AkashicMark className="mx-auto" />
         <Fan targets={[75, 225]} />
         <div className="grid grid-cols-2 gap-2">
           <div className="rounded-[10px] bg-ink p-1.5">
@@ -233,7 +233,7 @@ export default function AkashicArchitecture() {
 
           <ScrollReveal delay={120}>
             <div className="mx-auto max-w-[640px] rounded-frame border border-blue-border bg-blue-subtle/40 px-6 py-8 text-center md:py-9">
-              <MiniStack className="mx-auto" />
+              <AkashicMark className="mx-auto" />
               <p className="mt-5 text-xl font-semibold tracking-tight text-ink md:text-2xl">
                 Your data stays where you need it to.
               </p>

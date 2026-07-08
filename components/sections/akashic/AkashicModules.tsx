@@ -10,7 +10,7 @@
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import DynamicSketchIcon from "@/components/icons/DynamicSketchIcon";
 import { FlowPath, FanIn, MergeDown, SplitDown, MobileConn } from "@/components/demos/AkashicFlowConnectors";
-import { CARD, CardHeader, CardDesc, LiveChip, BlueChip } from "@/components/sections/akashic/AkashicCardChrome";
+import { CARD, CardHeader, CardDesc, BlueChip } from "@/components/sections/akashic/AkashicCardChrome";
 
 /* ------------------------------------------------------------------ */
 /*  Layer shell                                                        */
@@ -28,11 +28,62 @@ function LayerShell({
   return (
     <div className="overflow-hidden rounded-frame border border-subtle-stroke bg-primary-bg">
       <div className="h-[3px] bg-gradient-to-r from-blue/50 via-blue/25 to-transparent" aria-hidden />
-      <div className="flex flex-col gap-0.5 border-b border-subtle-stroke bg-white px-5 py-3.5 sm:flex-row sm:items-baseline sm:justify-between sm:gap-6">
+      {/* At lg+ the layer name lives on the right rail instead */}
+      <div className="flex flex-col gap-0.5 border-b border-subtle-stroke bg-white px-5 py-3.5 sm:flex-row sm:items-baseline sm:justify-between sm:gap-6 lg:hidden">
         <h3 className="shrink-0 text-[15px] font-semibold tracking-tight text-ink">{name}</h3>
         <p className="text-[13px] text-inkSoft sm:text-right">{tagline}</p>
       </div>
       {children}
+    </div>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/*  Right rail: the governance line with layer labels beside it        */
+/* ------------------------------------------------------------------ */
+
+const STACK_ROW = "lg:grid lg:grid-cols-[minmax(0,1fr)_250px] lg:gap-x-8";
+
+function RailHead() {
+  return (
+    <div className="relative hidden lg:block" aria-hidden>
+      <div className="flex items-center gap-3">
+        <span className="relative z-10 flex h-6 w-6 items-center justify-center rounded-[7px] bg-ink text-white shadow-card">
+          <DynamicSketchIcon text="Akashic Data Governance" className="h-3.5 w-3.5" />
+        </span>
+        <span className="font-mono text-[9.5px] uppercase tracking-eyebrow text-inkSoft">
+          Governed, end to end
+        </span>
+      </div>
+      <span className="absolute bottom-0 left-[11px] top-7 w-px bg-line" />
+    </div>
+  );
+}
+
+function RailPass() {
+  return (
+    <div className="relative hidden lg:block" aria-hidden>
+      <span className="absolute bottom-0 left-[11px] top-0 w-px bg-line" />
+    </div>
+  );
+}
+
+function RailLabel({ name, tagline, tail }: { name: string; tagline: string; tail?: boolean }) {
+  return (
+    <div className="relative hidden lg:block">
+      <span
+        className={`absolute bottom-0 left-[11px] top-0 w-px ${tail ? "bg-gradient-to-b from-line via-line to-ink" : "bg-line"}`}
+        aria-hidden
+      />
+      <div className="absolute left-0 top-1/2 flex w-full -translate-y-1/2 items-start gap-4">
+        <span className="relative z-10 mt-[2px] flex h-[23px] w-[23px] shrink-0 items-center justify-center rounded-full border-2 border-blue-border bg-white shadow-card" aria-hidden>
+          <span className="h-2 w-2 rounded-full bg-blue" />
+        </span>
+        <div className="min-w-0">
+          <h3 className="text-[16px] font-semibold tracking-tight text-ink">{name}</h3>
+          <p className="mt-1.5 text-[12.5px] leading-snug text-inkSoft">{tagline}</p>
+        </div>
+      </div>
     </div>
   );
 }
@@ -63,9 +114,9 @@ function PipelinesBody() {
           </div>
         </div>
       ))}
-      <div className="mt-auto flex items-center gap-2 rounded-[9px] border border-[#CBEFDF] bg-[#EBF8F3] px-3 py-2">
-        <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-[#30A46C]" />
-        <span className="text-[11px] font-bold text-[#1B7A47]">Validated on arrival · 0 errors</span>
+      <div className="mt-auto flex items-center gap-2 rounded-[9px] border border-blue-border bg-blue-subtle px-3 py-2">
+        <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-blue" />
+        <span className="text-[11px] font-semibold text-blue">Validated on arrival · 0 errors</span>
       </div>
     </div>
   );
@@ -212,9 +263,9 @@ function AskAIBody() {
           <span className="rounded-[4px] border border-blue-border bg-white px-1.5 py-0.5 font-mono text-[8.5px] text-blue">lineage attached</span>
         </div>
       </div>
-      <div className="mt-auto flex items-center gap-2 rounded-[9px] border border-[#CBEFDF] bg-[#EBF8F3] px-3 py-2">
-        <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-[#30A46C]" />
-        <span className="text-[11px] font-bold text-[#1B7A47]">Same answer, whoever asks</span>
+      <div className="mt-auto flex items-center gap-2 rounded-[9px] border border-blue-border bg-blue-subtle px-3 py-2">
+        <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-blue" />
+        <span className="text-[11px] font-semibold text-blue">Same answer, whoever asks</span>
       </div>
     </div>
   );
@@ -280,75 +331,70 @@ export default function AkashicModules() {
           </p>
         </ScrollReveal>
 
-        <div className="mx-auto mt-14 max-w-[1160px] lg:mt-16">
-          <div className="grid gap-x-6 lg:grid-cols-[44px_minmax(0,1fr)]">
-            {/* Governance rail — runs down the whole stack */}
-            <div className="hidden lg:flex lg:flex-col lg:items-center" aria-hidden>
-              <div className="flex h-9 w-9 items-center justify-center rounded-[9px] bg-ink text-white shadow-card">
-                <DynamicSketchIcon text="Akashic Data Governance" className="h-4 w-4" />
-              </div>
-              <div className="relative mt-3 w-px flex-1 bg-gradient-to-b from-line via-overcast/50 to-ink">
-                {["18%", "48%", "78%"].map((top) => (
+        <div className="mt-14 lg:mt-16">
+          {/* Sources rain in */}
+          <div className={STACK_ROW}>
+            <ScrollReveal>
+              <div className="flex flex-wrap justify-between gap-2">
+                {sources.map((src) => (
                   <span
-                    key={top}
-                    className="absolute left-1/2 h-2 w-2 -translate-x-1/2 rounded-full border-2 border-overcast bg-white"
-                    style={{ top }}
-                  />
+                    key={src.name}
+                    className="inline-flex items-center gap-2 rounded-full border border-subtle-stroke bg-white px-3.5 py-1.5 text-xs font-medium text-ink shadow-card"
+                  >
+                    <span className="h-1.5 w-1.5 rounded-full animate-[ps-pulse_2.4s_infinite]" style={{ background: src.dot }} />
+                    {src.name}
+                  </span>
                 ))}
               </div>
-              <div className="h-10 w-px bg-gradient-to-b from-ink/40 to-ink" />
-            </div>
+              <FanIn />
+              <MobileConn />
+            </ScrollReveal>
+            <RailHead />
+          </div>
 
-            {/* The stack */}
-            <div>
-              {/* Sources rain in */}
-              <ScrollReveal>
-                <div className="flex flex-wrap justify-between gap-2">
-                  {sources.map((src) => (
-                    <span
-                      key={src.name}
-                      className="inline-flex items-center gap-2 rounded-full border border-subtle-stroke bg-white px-3.5 py-1.5 text-xs font-medium text-ink shadow-card"
-                    >
-                      <span className="h-1.5 w-1.5 rounded-full animate-[ps-pulse_2.4s_infinite]" style={{ background: src.dot }} />
-                      {src.name}
-                    </span>
-                  ))}
-                </div>
-                <FanIn />
-                <MobileConn />
-              </ScrollReveal>
-
-              {/* Layer 1 */}
-              <ScrollReveal>
+          {/* Layer 1 */}
+          <div className={STACK_ROW}>
+            <ScrollReveal>
                 <LayerShell
                   name="Data Foundation"
                   tagline="Every source, ingested and resolved, before anything gets built on top of it."
                 >
                   <div className="grid gap-3 p-3.5 md:grid-cols-3">
                     <div id="data-pipelines" className={`${CARD} scroll-mt-28`}>
-                      <CardHeader icon="Akashic Data Pipelines" name="Akashic Pipelines" sub="Real-time ingestion" chip={<LiveChip />} />
+                      <CardHeader icon="Akashic Data Pipelines" name="Akashic Pipelines" sub="Real-time ingestion" chip={<BlueChip label="LIVE" />} />
                       <CardDesc text="Ingests structured and unstructured data, from CRMs and ERPs to PDFs and live feeds." />
                       <PipelinesBody />
                     </div>
                     <div id="master-data" className={`${CARD} scroll-mt-28`}>
-                      <CardHeader icon="Akashic Master Data" name="Akashic Master Data" sub="Entity resolution" chip={<LiveChip label="98% CONF" />} />
+                      <CardHeader icon="Akashic Master Data" name="Akashic Master Data" sub="Entity resolution" chip={<BlueChip label="98% CONF" />} />
                       <CardDesc text="Resolves every version of an entity into one golden record. No duplicates. No conflicting identities." />
                       <MasterDataBody />
                     </div>
                     <div id="data-warehousing" className={`${CARD} scroll-mt-28`}>
-                      <CardHeader icon="Akashic Data Warehouse" name="Akashic Warehouse" sub="Query-ready models" chip={<LiveChip label="ACID" />} />
+                      <CardHeader icon="Akashic Data Warehouse" name="Akashic Warehouse" sub="Query-ready models" chip={<BlueChip label="ACID" />} />
                       <CardDesc text="Structures those records into models built for fast, reliable queries: the base every layer above builds on." />
                       <WarehouseBody />
                     </div>
                   </div>
                 </LayerShell>
-              </ScrollReveal>
+            </ScrollReveal>
+            <RailLabel
+              name="Data Foundation"
+              tagline="Every source, ingested and resolved, before anything gets built on top of it."
+            />
+          </div>
 
+          <div className={STACK_ROW}>
+            <div>
               <MergeDown />
               <MobileConn />
+            </div>
+            <RailPass />
+          </div>
 
-              {/* Layer 2 */}
-              <ScrollReveal delay={80}>
+          {/* Layer 2 */}
+          <div className={STACK_ROW}>
+            <ScrollReveal delay={80}>
                 <LayerShell
                   name="Knowledge Foundation"
                   tagline="Context and meaning, built in as data is modelled. Not bolted on after."
@@ -371,13 +417,24 @@ export default function AkashicModules() {
                     <KnowledgeGraph />
                   </div>
                 </LayerShell>
-              </ScrollReveal>
+            </ScrollReveal>
+            <RailLabel
+              name="Knowledge Foundation"
+              tagline="Context and meaning, built in as data is modelled. Not bolted on after."
+            />
+          </div>
 
+          <div className={STACK_ROW}>
+            <div>
               <SplitDown />
               <MobileConn />
+            </div>
+            <RailPass />
+          </div>
 
-              {/* Layer 3 */}
-              <ScrollReveal delay={80}>
+          {/* Layer 3 */}
+          <div className={STACK_ROW}>
+            <ScrollReveal delay={80}>
                 <LayerShell
                   name="AI & Decision Intelligence"
                   tagline="Where the governed model becomes an answer someone can act on."
@@ -394,17 +451,22 @@ export default function AkashicModules() {
                       <AskAIBody />
                     </div>
                     <div id="business-intelligence" className={`${CARD} scroll-mt-28`}>
-                      <CardHeader icon="Akashic BI" name="Akashic BI" sub="Live dashboards" chip={<LiveChip label="REAL-TIME" />} />
+                      <CardHeader icon="Akashic BI" name="Akashic BI" sub="Live dashboards" chip={<BlueChip label="REAL-TIME" />} />
                       <CardDesc text="Dashboards and metrics that reach the person accountable, not just sit in a report." />
                       <BIBody />
                     </div>
                   </div>
                 </LayerShell>
-              </ScrollReveal>
-            </div>
+            </ScrollReveal>
+            <RailLabel
+              name="AI & Decision Intelligence"
+              tagline="Where the governed model becomes an answer someone can act on."
+              tail
+            />
+          </div>
 
-            {/* Governance: the floor everything stands on */}
-            <ScrollReveal delay={120} className="lg:col-span-2">
+          {/* Governance: the floor everything stands on */}
+          <ScrollReveal delay={120}>
               <div
                 id="governance"
                 className="fl-sheen relative mt-6 scroll-mt-28 overflow-hidden rounded-frame bg-ink p-6 text-white md:p-8"
@@ -437,7 +499,6 @@ export default function AkashicModules() {
                 </div>
               </div>
             </ScrollReveal>
-          </div>
         </div>
       </div>
     </section>

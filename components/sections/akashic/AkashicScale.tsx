@@ -84,7 +84,7 @@ export default function AkashicScale() {
                 <div className="h-[3px] bg-gradient-to-r from-blue/50 via-blue/25 to-transparent" aria-hidden />
                 <div className="p-6 md:p-7">
                   <div className="flex items-center gap-2.5">
-                    <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-[#30A46C] animate-[ps-pulse_2s_infinite]" />
+                    <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-blue animate-[ps-pulse_2s_infinite]" />
                     <span className="min-w-0 flex-1 truncate font-mono text-[10px] uppercase tracking-eyebrow text-inkSoft">
                       Live &middot; {d.tag}
                     </span>

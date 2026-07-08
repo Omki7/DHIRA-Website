@@ -241,7 +241,7 @@ export default function AkashicFourMoves() {
               {/* Live answer console: the four moves produce the answer, replayed per world */}
               <div className="mt-3 overflow-hidden rounded-frame border border-subtle-stroke bg-primary-bg">
                 <div className="flex items-center gap-2 border-b border-subtle-stroke bg-white px-4 py-2">
-                  <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-[#30A46C] animate-[ps-pulse_2s_infinite]" />
+                  <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-blue animate-[ps-pulse_2s_infinite]" />
                   <span className="font-mono text-[9.5px] uppercase tracking-[0.08em] text-overcast">
                     Answering &middot; one governed path
                   </span>
