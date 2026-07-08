@@ -62,6 +62,19 @@ export function BlueChip({ label }: { label: string }) {
   );
 }
 
+/* The Akashic wordmark badge. Use instead of MiniStack on the Akashic page
+   (design direction, Jul 2026: show the brand mark, not the stack). */
+export function AkashicMark({ className = "" }: { className?: string }) {
+  return (
+    <div
+      className={`inline-flex items-center justify-center rounded-[10px] border border-subtle-stroke bg-white px-4 py-2.5 shadow-card ${className}`}
+    >
+      <AkashicLogo className="h-5 w-5" />
+      <span className="-ml-1 text-[13.5px] font-bold tracking-tight text-ink">kashic</span>
+    </div>
+  );
+}
+
 /* The recurring "one identical stack" motif: three layers + governance base. */
 export function MiniStack({
   className = "",

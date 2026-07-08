@@ -1,103 +1,98 @@
 /*
- * [05] Enterprise Trust — Built to Be Audited.
- * The card bodies are SIMULATED PRODUCT UI (AGENTS.md §8a): canned role
- * tables, lineage traces, audit log lines, and residency chrome.
+ * [05] Enterprise Trust — The Trust Stack.
+ * Represented in layer form (design direction, Jul 2026): the answer sits on
+ * four widening trust layers — access control, lineage, audit trails, data
+ * residency — each carrying its micro-proof inline (SIMULATED PRODUCT UI,
+ * §8a: canned roles, traces, and log lines). All accents blue.
  */
 
 import Link from "next/link";
 import ScrollReveal from "@/components/ui/ScrollReveal";
-import { CARD, CardHeader, CardDesc, LiveChip, BlueChip } from "@/components/sections/akashic/AkashicCardChrome";
+import DynamicSketchIcon from "@/components/icons/DynamicSketchIcon";
 
-function AccessBody() {
-  const roles = [
-    { role: "Analyst", scope: "read" },
-    { role: "District lead", scope: "read · write" },
-    { role: "Auditor", scope: "read-only" },
-  ];
+type TrustLayer = {
+  depth: string;
+  icon: string;
+  name: string;
+  claim: string;
+  proof: React.ReactNode;
+  maxW: string;
+  dashed?: boolean;
+};
+
+function ProofChip({ children, mono = true }: { children: React.ReactNode; mono?: boolean }) {
   return (
-    <div className="flex flex-1 flex-col gap-1.5 p-3.5">
-      {roles.map((r) => (
-        <div key={r.role} className="flex items-center justify-between gap-2 rounded-[10px] border border-[#EEEEF3] bg-[#FBFBFE] px-3 py-2">
-          <span className="text-[11.5px] font-semibold text-ink">{r.role}</span>
-          <span className="font-mono text-[9.5px] text-[#7C828C]">{r.scope}</span>
-        </div>
-      ))}
-      <div className="mt-auto flex items-center gap-2 rounded-[9px] border border-blue-border bg-blue-subtle px-3 py-2">
-        <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-blue" />
-        <span className="text-[11px] font-semibold text-blue">Checked at every layer, not once</span>
-      </div>
-    </div>
+    <span
+      className={`inline-flex items-center rounded-[7px] border border-subtle-stroke bg-primary-bg px-2 py-1 ${
+        mono ? "font-mono text-[9.5px]" : "text-[10.5px] font-medium"
+      } text-inkSoft`}
+    >
+      {children}
+    </span>
   );
 }
 
-function LineageBody() {
-  return (
-    <div className="flex flex-1 flex-col gap-2 p-3.5">
-      <div className="rounded-[10px] border border-subtle-stroke bg-primary-bg px-3.5 py-2.5 font-mono text-[10.5px] leading-relaxed text-inkSoft">
-        <span className="text-overcast">metric:</span>&nbsp;Q3 revenue · &#8377;38Cr
-        <br />
-        <span className="text-overcast">from:</span>&nbsp;erp.orders · crm.pipeline
-        <br />
-        <span className="text-overcast">via:</span>&nbsp;normalise &rarr; dedupe &rarr; aggregate
-        <span className="ml-0.5 font-bold text-blue animate-[ps-caret-blink_1s_step-end_infinite]">|</span>
-      </div>
-      <div className="mt-auto flex items-center gap-2 rounded-[9px] border border-blue-border bg-blue-subtle px-3 py-2">
-        <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-blue" />
-        <span className="text-[11px] font-semibold text-blue">Every number, back to its source</span>
-      </div>
-    </div>
-  );
-}
+const layers: TrustLayer[] = [
+  {
+    depth: "L1",
+    icon: "Access Control",
+    name: "Access control",
+    claim: "Role-based permissions, enforced at every layer, not just the login screen.",
+    proof: (
+      <>
+        <ProofChip>Analyst · read</ProofChip>
+        <ProofChip>District lead · read/write</ProofChip>
+        <ProofChip>Auditor · read-only</ProofChip>
+      </>
+    ),
+    maxW: "lg:max-w-[640px]",
+  },
+  {
+    depth: "L2",
+    icon: "Lineage",
+    name: "Lineage",
+    claim: "Every number traces back to its sources and every transformation in between.",
+    proof: (
+      <ProofChip>
+        erp.orders&nbsp;<span className="text-blue">&rarr;</span>&nbsp;normalise&nbsp;
+        <span className="text-blue">&rarr;</span>&nbsp;dedupe&nbsp;
+        <span className="text-blue">&rarr;</span>&nbsp;answer
+      </ProofChip>
+    ),
+    maxW: "lg:max-w-[780px]",
+  },
+  {
+    depth: "L3",
+    icon: "Audit Trails",
+    name: "Audit trails",
+    claim: "A complete, timestamped record of who accessed what, and when. Always on.",
+    proof: (
+      <>
+        <ProofChip>09:41:07 · asha.r viewed District 7 brief</ProofChip>
+        <ProofChip>09:21:45 · auditor granted read-only</ProofChip>
+      </>
+    ),
+    maxW: "lg:max-w-[920px]",
+  },
+  {
+    depth: "L4",
+    icon: "Data Residency",
+    name: "Data residency",
+    claim: "The perimeter: deploy so data never leaves the jurisdiction it must stay in.",
+    proof: (
+      <>
+        <ProofChip mono={false}>Stored in-region</ProofChip>
+        <ProofChip mono={false}>Processed in-region</ProofChip>
+        <ProofChip mono={false}>Answered in-region</ProofChip>
+      </>
+    ),
+    maxW: "lg:max-w-[1060px]",
+    dashed: true,
+  },
+];
 
-function AuditBody() {
-  const lines = [
-    { t: "09:41:07", e: "asha.r viewed District 7 brief" },
-    { t: "09:38:12", e: "forecast model refreshed" },
-    { t: "09:21:45", e: "auditor granted read-only" },
-  ];
-  return (
-    <div className="flex flex-1 flex-col gap-2 p-3.5">
-      <div className="flex flex-col gap-1.5 rounded-[10px] border border-subtle-stroke bg-primary-bg px-3.5 py-2.5">
-        {lines.map((l) => (
-          <div key={l.t} className="flex items-baseline gap-2.5 font-mono text-[10px]">
-            <span className="shrink-0 text-overcast">{l.t}</span>
-            <span className="truncate text-inkSoft">{l.e}</span>
-          </div>
-        ))}
-      </div>
-      <div className="mt-auto flex items-center gap-2 rounded-[9px] border border-[#CBEFDF] bg-[#EBF8F3] px-3 py-2">
-        <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-[#30A46C] animate-[ps-pulse_2s_infinite]" />
-        <span className="text-[11px] font-bold text-[#1B7A47]">Who, what, and when. Always on</span>
-      </div>
-    </div>
-  );
-}
-
-function ResidencyBody() {
-  return (
-    <div className="flex flex-1 flex-col gap-2 p-3.5">
-      <div className="rounded-[12px] border-[1.5px] border-dashed border-line bg-primary-bg px-3 py-3">
-        <div className="flex items-center justify-between">
-          <span className="font-mono text-[8.5px] font-bold tracking-[0.07em] text-[#7C828C]">JURISDICTION: YOURS</span>
-          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#5C5E63" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-            <path d="M12 21s7-5.4 7-11a7 7 0 1 0-14 0c0 5.6 7 11 7 11z" />
-            <circle cx="12" cy="10" r="2.5" />
-          </svg>
-        </div>
-        <div className="mt-2.5 flex flex-wrap gap-1.5">
-          {["Stored in-region", "Processed in-region", "Answered in-region"].map((item) => (
-            <span key={item} className="rounded-[7px] border border-[#EEEEF3] bg-white px-2 py-1 text-[10px] font-medium text-inkSoft">
-              {item}
-            </span>
-          ))}
-        </div>
-      </div>
-      <div className="mt-auto flex items-center gap-2 rounded-[9px] border border-[#CBEFDF] bg-[#EBF8F3] px-3 py-2">
-        <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-[#30A46C]" />
-        <span className="text-[11px] font-bold text-[#1B7A47]">Nothing crosses the border</span>
-      </div>
-    </div>
-  );
+function LayerJoint() {
+  return <span className="mx-auto block h-3 w-px bg-blue-border" aria-hidden />;
 }
 
 export default function AkashicTrust() {
@@ -113,38 +108,68 @@ export default function AkashicTrust() {
             An answer you can&rsquo;t trace is just an opinion.
           </h2>
           <p className="mt-5 max-w-[32em] text-lg leading-relaxed text-secondary-text">
-            Every layer of Akashic is built to be checked, not just believed.
+            Every answer stands on four layers of trust, each one built to be
+            checked, not just believed.
           </p>
         </ScrollReveal>
 
-        <div className="mx-auto mt-14 grid max-w-[900px] gap-4 md:grid-cols-2 md:gap-5 lg:mt-16">
+        <div className="mt-14 lg:mt-16">
+          {/* What the layers hold up */}
           <ScrollReveal>
-            <div className={`${CARD} h-full`}>
-              <CardHeader icon="Access Control" name="Access control" sub="Role-based, layer by layer" chip={<BlueChip label="ENFORCED" />} />
-              <CardDesc text="Role-based permissions, enforced at every layer, not just at the login screen." />
-              <AccessBody />
+            <div className="mx-auto w-fit rounded-[12px] border border-blue-border bg-blue-subtle px-5 py-3 shadow-card">
+              <span className="flex items-center gap-2.5">
+                <span className="h-1.5 w-1.5 rounded-full bg-blue animate-[ps-pulse_2s_infinite]" aria-hidden />
+                <span className="text-[13.5px] font-semibold tracking-tight text-ink">
+                  The answer someone acts on
+                </span>
+              </span>
             </div>
+            <LayerJoint />
           </ScrollReveal>
-          <ScrollReveal delay={90}>
-            <div className={`${CARD} h-full`}>
-              <CardHeader icon="Lineage" name="Lineage" sub="Source to answer" chip={<BlueChip label="TRACED" />} />
-              <CardDesc text="Every number traces back to its source: the systems it came from, the transformations it passed through." />
-              <LineageBody />
-            </div>
-          </ScrollReveal>
-          <ScrollReveal delay={90}>
-            <div className={`${CARD} h-full`}>
-              <CardHeader icon="Audit Trails" name="Audit trails" sub="Complete and timestamped" chip={<LiveChip label="RECORDING" />} />
-              <CardDesc text="A complete, timestamped record of who accessed what, and when." />
-              <AuditBody />
-            </div>
-          </ScrollReveal>
-          <ScrollReveal delay={180}>
-            <div className={`${CARD} h-full`}>
-              <CardHeader icon="Data Residency" name="Data residency" sub="Your jurisdiction" chip={<BlueChip label="IN-REGION" />} />
-              <CardDesc text="Deploy so your data never leaves the jurisdiction it needs to stay in." />
-              <ResidencyBody />
-            </div>
+
+          {/* The four trust layers, widening downward */}
+          {layers.map((layer, idx) => (
+            <ScrollReveal key={layer.depth} delay={80 + idx * 90}>
+              <div className={`mx-auto w-full ${layer.maxW}`}>
+                <div
+                  className={`rounded-frame border bg-white px-5 py-4 shadow-card transition-all duration-250 ease-settle hover:-translate-y-0.5 hover:shadow-frame md:px-6 ${
+                    layer.dashed ? "border-dashed border-line bg-primary-bg" : "border-subtle-stroke"
+                  }`}
+                >
+                  <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between lg:gap-8">
+                    <div className="flex min-w-0 items-start gap-3.5">
+                      <span className="flex h-[34px] w-[34px] shrink-0 items-center justify-center rounded-[9px] border border-blue/20 bg-gradient-to-br from-[#E4EAFF] to-[#D4DEFF] shadow-[inset_0_1px_0_rgba(255,255,255,0.9)]">
+                        <DynamicSketchIcon text={layer.icon} className="h-[16px] w-[16px] text-blue" />
+                      </span>
+                      <div className="min-w-0">
+                        <div className="flex items-baseline gap-2.5">
+                          <span className="font-mono text-[9px] font-bold uppercase tracking-[0.08em] text-blue">
+                            {layer.depth}
+                          </span>
+                          <h3 className="text-[16px] font-semibold tracking-tight text-ink">
+                            {layer.name}
+                          </h3>
+                        </div>
+                        <p className="mt-1 max-w-[34em] text-[13px] leading-relaxed text-inkSoft">
+                          {layer.claim}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex shrink-0 flex-wrap gap-1.5 lg:max-w-[380px] lg:justify-end">
+                      {layer.proof}
+                    </div>
+                  </div>
+                </div>
+                {idx < layers.length - 1 && <LayerJoint />}
+              </div>
+            </ScrollReveal>
+          ))}
+
+          {/* The floor label */}
+          <ScrollReveal delay={200}>
+            <p className="mt-5 text-center font-mono text-[10px] uppercase tracking-eyebrow text-overcast">
+              Surface to floor &middot; the deeper the layer, the wider it holds
+            </p>
           </ScrollReveal>
         </div>
 
