@@ -56,8 +56,9 @@ components/
       ProofComparisonMockup.tsx  Drag-to-compare before/after slider mockup (TheProof)
       DeliveryDiscoveryMockup.tsx Fake 30-min discovery console (problem → triage fan →
                                  matched model) for the Delivery page hero
-      EisBoardMockup.tsx         Fake executive command centre (KPI tiles, traced alert,
-                                 Ask-Akashic line) for the /solutions/eis hero
+      EisBriefMockup.tsx         Fake EIS morning brief (AI-written CEO pulse, Business
+                                 Pulse tiles, grounded footer) for the /solutions/eis hero;
+                                 demo data mirrors the EIS product prototype
 
   icons/               Static SVG components, no logic
     AkashicLogo.tsx
@@ -285,7 +286,7 @@ Composed in `app/solutions/{eis,life,knowledge}/page.tsx` (Nav + sections + Foot
 
 | Page | Sections (`components/sections/…`) | Signature pieces |
 |---|---|---|
-| `/solutions/eis` | `eis/` — EisHero, EisCost [01], EisMoments [02], EisChain [03], EisCapabilities [04], EisIntegration [05], EisProof [06], EisClose [07] | `demos/mockups/EisBoardMockup` command centre (§8a); cost-of-delay watermark figures; three peer-moment dossiers with "WHAT AKASHIC DID" strips; connect→ask chain; connector rack |
+| `/solutions/eis` | `eis/` — EisHero, EisBrief [01], EisProvenance [02], EisSpine [03], EisAction [04], EisMoments [05], EisIntegration [06], EisProof [07], EisClose [08] | Rebuilt (Jul 2026) around the EIS product prototype (user's Downloads/Akashic EIS): `demos/mockups/EisBriefMockup` morning-brief hero (§8a, Nexora/Arjun/Meridian demo data from the prototype); brief-anatomy fan (one sentence, three systems); recreated Data Provenance popover (source/query/refresh/confidence/records); Enterprise Spine entity graph + convergence card; Ask Akashic scenario sim + approvals/write-back/audit panels |
 | `/solutions/life` | `life/` — LifeHero, LifeGap [01], LifeOffline [02], LifeStory [03], LifeChain [04], LifeBuilt [05], LifeProof [06], LifeClose [07] | Live counter card (Indian-locale count-up); 4-days-vs-2-min pathway panels; signal-bar offline states; stopwatch timeline (00:00→01:50); village→district→ministry fan SVG |
 | `/solutions/knowledge` | `knowledge/` — KnowledgeHero, KnowledgeFracture [01], KnowledgeGrid [02], KnowledgeNation [03], KnowledgeMorning [04], KnowledgeProof [05], KnowledgeChain [06], KnowledgeClose [07] | Learner-grid card with adaptive path rows (§8a); fracture watermark figures; per-learner pace bars; teacher's-morning clock timeline; DIKSHA count-up panels |
 
