@@ -1,12 +1,13 @@
 /*
  * [00] EIS Hero — One Screen. Right Now.
- * Split hero: pitch on the left, the EisBoardMockup command centre on the
- * right (the page's flagship simulated UI, §8a). Dot-grid backdrop.
+ * Split hero: pitch on the left, the EisBriefMockup morning brief on the
+ * right (the page's flagship simulated UI, §8a, recreated from the EIS
+ * product prototype). Dot-grid backdrop.
  */
 
 import Link from "next/link";
 import ScrollReveal from "@/components/ui/ScrollReveal";
-import EisBoardMockup from "@/components/demos/mockups/EisBoardMockup";
+import EisBriefMockup from "@/components/demos/mockups/EisBriefMockup";
 
 export default function EisHero() {
   return (
@@ -57,7 +58,7 @@ export default function EisHero() {
                 <Link href="#talk-to-our-team" className="btn-primary">
                   See it live
                 </Link>
-                <Link href="#how-eis-works" className="btn-secondary">
+                <Link href="#the-brief" className="btn-secondary">
                   How it works
                 </Link>
               </div>
@@ -66,7 +67,7 @@ export default function EisHero() {
 
           <ScrollReveal delay={260} className="min-w-0">
             <div className="flex justify-center lg:justify-end">
-              <EisBoardMockup />
+              <EisBriefMockup />
             </div>
           </ScrollReveal>
         </div>
