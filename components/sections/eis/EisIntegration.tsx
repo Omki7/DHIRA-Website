@@ -35,7 +35,7 @@ export default function EisIntegration() {
         <ScrollReveal>
           <div className="flex items-baseline justify-between font-mono text-[11px] uppercase tracking-eyebrow">
             <p>
-              <span className="text-overcast">[05]</span>
+              <span className="text-overcast">[06]</span>
               <span className="text-inkSoft">&nbsp;&nbsp;The integration story</span>
             </p>
             <span className="hidden text-overcast sm:inline">/ No rip and replace</span>

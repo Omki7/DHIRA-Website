@@ -62,7 +62,7 @@ export default function EisMoments() {
         <ScrollReveal>
           <div className="flex items-baseline justify-between font-mono text-[11px] uppercase tracking-eyebrow">
             <p>
-              <span className="text-overcast">[02]</span>
+              <span className="text-overcast">[05]</span>
               <span className="text-inkSoft">&nbsp;&nbsp;What EIS actually does</span>
             </p>
             <span className="hidden text-overcast sm:inline">/ The Monday morning test</span>
