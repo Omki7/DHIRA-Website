@@ -100,7 +100,7 @@ export default function AkashicModular() {
             <span className="text-inkSoft">&nbsp;&nbsp;Modular by design</span>
           </p>
           <h2 className="mt-5 text-heading-sm font-semibold text-ink md:text-heading-md">
-            Every module works on its own. Together, they&rsquo;re the whole platform.
+            Every module works alone. Together, they&rsquo;re the whole platform.
           </h2>
           <p className="mt-5 max-w-[38em] text-lg leading-relaxed text-secondary-text">
             You don&rsquo;t have to adopt Akashic all at once. Start with the module

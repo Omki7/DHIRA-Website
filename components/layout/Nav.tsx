@@ -87,7 +87,7 @@ const insightsItems: MenuLink[] = [
 
 const companyItems: MenuLink[] = [
   { title: "About Us", desc: "Our vision for the future of enterprise data", href: "/about" },
-  { title: "Careers", desc: "Join our team of engineers and data experts", href: "/about#careers" },
+  { title: "Careers", desc: "Join our team of engineers and data experts", href: "/careers" },
 ];
 
 /* ------------------------------------------------------------------ */
