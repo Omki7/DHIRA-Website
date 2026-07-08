@@ -2,7 +2,7 @@
 
 /*
  * [04] Start Anywhere, Scale Everywhere — Modular by Design.
- * Tabbed module explorer. The detail panel's MiniStack highlights the layer
+ * Tabbed module explorer. The detail panel carries the AkashicMark and the
  * each module lives in, making "the foundation is the same either way"
  * literal. Panel chrome is simulated UI (AGENTS.md §8a).
  */
@@ -11,7 +11,7 @@ import { useState } from "react";
 import Link from "next/link";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import DynamicSketchIcon from "@/components/icons/DynamicSketchIcon";
-import { CardBadge, LiveChip, BlueChip, MiniStack } from "@/components/sections/akashic/AkashicCardChrome";
+import { CardBadge, BlueChip, AkashicMark } from "@/components/sections/akashic/AkashicCardChrome";
 
 type Layer = "data" | "knowledge" | "ai" | "governance";
 
@@ -156,12 +156,12 @@ export default function AkashicModular() {
                     <p className="mt-3 max-w-[38em] text-[15px] leading-relaxed text-inkSoft">{mod.body}</p>
                   </div>
                   <div className="hidden flex-col items-center justify-center gap-3 md:flex">
-                    <MiniStack highlight={mod.layer} />
+                    <AkashicMark />
                     <p className="text-center text-[11px] leading-snug text-overcast">{layerNames[mod.layer]}</p>
                   </div>
                 </div>
                 <div className="flex flex-wrap items-center gap-2 border-t border-subtle-stroke bg-white px-5 py-3">
-                  <LiveChip label="WORKS STANDALONE" />
+                  <BlueChip label="WORKS STANDALONE" />
                   <BlueChip label="SNAPS INTO THE PLATFORM" />
                 </div>
               </div>

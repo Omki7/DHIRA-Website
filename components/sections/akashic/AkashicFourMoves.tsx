@@ -241,7 +241,7 @@ export default function AkashicFourMoves() {
               {/* Live answer console: the four moves produce the answer, replayed per world */}
               <div className="mt-3 overflow-hidden rounded-frame border border-subtle-stroke bg-primary-bg">
                 <div className="flex items-center gap-2 border-b border-subtle-stroke bg-white px-4 py-2">
-                  <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-[#30A46C] animate-[ps-pulse_2s_infinite]" />
+                  <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-blue animate-[ps-pulse_2s_infinite]" />
                   <span className="font-mono text-[9.5px] uppercase tracking-[0.08em] text-overcast">
                     Answering &middot; one governed path
                   </span>
@@ -297,9 +297,22 @@ export default function AkashicFourMoves() {
                 </div>
               </div>
 
-              <p className="mt-5 max-w-[30em] text-sm leading-relaxed text-inkSoft">
-                Two different worlds. The same four moves get either one answered.
+              <p className="mt-6 max-w-[26em] text-[17px] font-semibold leading-snug tracking-tight text-ink">
+                Two different questions. One governed model behind both answers.
+                That&rsquo;s what &ldquo;grounded&rdquo; means, in practice.
               </p>
+              <Link href="#modules" className="btn-secondary mt-5">
+                See every module
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden>
+                  <path
+                    d="M6 2.5V9.5M6 9.5L2.5 6M6 9.5L9.5 6"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </Link>
             </ScrollReveal>
           </div>
 
@@ -336,33 +349,6 @@ export default function AkashicFourMoves() {
           </div>
         </div>
 
-        {/* Closing statement */}
-        <ScrollReveal>
-          <div className="mt-20 flex flex-col items-center border-t border-lineSoft pt-14 text-center lg:mt-24">
-            <p className="max-w-[24em] text-2xl font-semibold leading-snug tracking-tight text-ink md:text-[28px]">
-              Two different questions. One governed model behind both answers.
-              That&rsquo;s what &ldquo;grounded&rdquo; means, in practice.
-            </p>
-            <Link href="#modules" className="btn-secondary mt-8">
-              See every module
-              <svg
-                width="12"
-                height="12"
-                viewBox="0 0 12 12"
-                fill="none"
-                aria-hidden
-              >
-                <path
-                  d="M6 2.5V9.5M6 9.5L2.5 6M6 9.5L9.5 6"
-                  stroke="currentColor"
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </Link>
-          </div>
-        </ScrollReveal>
       </div>
     </section>
   );
