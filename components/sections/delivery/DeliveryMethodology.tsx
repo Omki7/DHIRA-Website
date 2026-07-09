@@ -11,7 +11,7 @@ const steps = [
   {
     num: "01",
     name: "Discover",
-    desc: "Map your current state, blockers, and the gap between investment and outcome. Zero assumptions.",
+    desc: "Map your current state, blockers, and the gap between investment and outcome. Zero\u00a0assumptions.",
   },
   {
     num: "02",
@@ -21,12 +21,12 @@ const steps = [
   {
     num: "03",
     name: "Deliver",
-    desc: "Execute engineering sprints or platform deployments. Governed, documented, and traceable.",
+    desc: "Execute engineering sprints or platform deployments. Governed, documented, and\u00a0traceable.",
   },
   {
     num: "04",
     name: "Transfer",
-    desc: "You own the outcome. We document lineage, train your team, and step back, or stay on as an accountable partner.",
+    desc: "You own the outcome. We\u00a0document lineage, train your team, and step back, or stay on as an accountable partner.",
   },
 ];
 

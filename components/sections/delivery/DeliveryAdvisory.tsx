@@ -59,9 +59,9 @@ export default function DeliveryAdvisory() {
           <h2 className="mt-5 text-heading-sm font-semibold text-ink md:text-heading-md lg:text-heading-lg">
             Expertise, not dependency.
           </h2>
-          <p className="mt-5 max-w-[36em] text-lg leading-relaxed text-secondary-text">
+          <p className="mt-5 max-w-[42em] text-lg leading-relaxed text-secondary-text">
             Sometimes you do not need a vendor; you need a senior partner who has
-            shipped at national scale. We provide the architectural clarity and
+            shipped at national scale. We&nbsp;provide the architectural clarity and
             execution bandwidth to get you across the line.
           </p>
         </ScrollReveal>
@@ -157,7 +157,7 @@ export default function DeliveryAdvisory() {
                 <div className="mt-auto flex items-start gap-3 border-t border-dashed border-lineSoft pt-4">
                   <span className="mt-[5px] h-2 w-2 shrink-0 rounded-[2px] bg-blue" aria-hidden />
                   <p className="text-[14px] font-medium leading-relaxed text-ink">
-                    Answerable for shipped code and outcomes, not logged hours. When the
+                    Answerable for shipped code and outcomes, not logged hours. When&nbsp;the
                     engagement ends, the knowledge and lineage stay with you.
                   </p>
                 </div>
