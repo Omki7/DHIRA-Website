@@ -1,9 +1,8 @@
 /*
- * [07] Partnership Fit — And Who It Isn't.
+ * [07] Partnership Fit: And Who It Isn't.
  * Mirror-symmetry split expressing the "/ both directions" tag: right-fit rows
- * lean into the partnership (→, left-aligned, blue), wrong-fit rows lean away
- * (←, mirrored to the right edge, muted), pivoting around a centre node.
- * Directional markers only — no checkmarks (Rule 2).
+ * lean into the partnership, wrong-fit rows lean away, divided by one clear axis.
+ * Directional markers only: no checkmarks (Rule 2).
  */
 
 import ScrollReveal from "@/components/ui/ScrollReveal";
@@ -53,17 +52,6 @@ export default function DeliveryFit() {
 
         <ScrollReveal delay={120}>
           <div className="relative mt-12 grid grid-cols-1 overflow-hidden rounded-frame border border-subtle-stroke md:grid-cols-2 lg:mt-14">
-            {/* Centre pivot node — the "both directions" axis */}
-            <span
-              className="absolute left-1/2 top-1/2 z-10 hidden h-11 w-11 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-subtle-stroke bg-white text-inkSoft shadow-frame md:flex"
-              aria-hidden
-            >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                <path d="M9 8L5 12l4 4M15 8l4 4-4 4M5 12h14" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </span>
-
-            {/* LEFT — a fit, leaning in */}
             <div className="relative p-6 md:p-8 md:pr-12">
               <div className="flex items-center justify-between">
                 <p className="flex items-center gap-2 font-mono text-[10px] font-semibold uppercase tracking-eyebrow text-blue">
@@ -92,7 +80,6 @@ export default function DeliveryFit() {
               </p>
             </div>
 
-            {/* RIGHT — not a fit, leaning away (mirrored) */}
             <div className="relative border-t border-dashed border-line bg-primary-bg p-6 md:border-l md:border-t-0 md:p-8 md:pl-12">
               <div className="flex items-center justify-between">
                 <span className="inline-flex items-center gap-1 rounded-[7px] border border-default-stroke bg-tertiary-bg px-2 py-1 font-mono text-[9px] font-bold tracking-[0.06em] text-secondary-text">
