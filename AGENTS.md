@@ -54,8 +54,6 @@ components/
                                  PowerfulPlatform's flow diagram and PlatformBIChartMockup
       DeliveryCanvasMockup.tsx   Animated phase mockup (audit / deploy / operate) for HowWeDeliver
       ProofComparisonMockup.tsx  Drag-to-compare before/after slider mockup (TheProof)
-      DeliveryDiscoveryMockup.tsx Fake 30-min discovery console (problem → triage fan →
-                                 matched model) for the Delivery page hero
       EisBriefMockup.tsx         Fake EIS morning brief (AI-written CEO pulse, Business
                                  Pulse tiles, grounded footer) for the /solutions/eis hero;
                                  demo data mirrors the EIS product prototype
@@ -241,7 +239,7 @@ Composed in `app/delivery/page.tsx` (Nav + sections + Footer). The nav's "Delive
 
 | Order | ID | File | Background | Notes |
 |---|---|---|---|---|
-| 00 | — | `sections/delivery/DeliveryHero.tsx` | `bg-background` | Centred hero, dot-grid backdrop, closed by `demos/mockups/DeliveryDiscoveryMockup` (§8a applies) |
+| 00 | — | `sections/delivery/DeliveryHero.tsx` | `bg-background` | Centred hero, dot-grid backdrop, pill + eyebrow + H1 + copy + CTAs |
 | 01 | engagement-models | `sections/delivery/DeliveryModels.tsx` | `bg-white` | Triage rail: three reality quotes route via animated connectors into their engagement model; CSS-only hover dimming (server component) |
 | 02 | akashic-deployment | `sections/delivery/DeliveryAkashicDeployment.tsx` | `bg-white` | Model 1: six-week rollout as a Gantt strip (deliberately not the home page's vertical timeline), three phase dossiers carrying the nav anchor ids, modular-start panel reusing `MiniStack` |
 | 03 | product-engineering | `sections/delivery/DeliveryProductEngineering.tsx` | `bg-white` | Model 2: two build-track spec sheets on a shared 0–20-week MVP gauge (Akashic-native 12–20 wks / standalone 10–16 wks); gauge geometry is computed inline style (Rule 8 exception) |
@@ -335,7 +333,7 @@ Everything in `components/demos/mockups/` renders **fake Akashic app screenshots
 
 Every file in this subfolder is named with a `Mockup` suffix (except `PlatformConnectors.tsx`, a shared SVG helper consumed only by other mockups) and carries a top-of-file comment starting with `SIMULATED PRODUCT UI`. If you add a new fake-screenshot component, put it here, suffix it `Mockup`, and add the same comment — don't let simulated UI drift back into the flat `demos/` folder where it looks indistinguishable from real components.
 
-Contents: `HeroProductsMockup.tsx` (Hero's 3-card carousel), `PlatformBIChartMockup.tsx` (BI module card in PowerfulPlatform), `PlatformConnectors.tsx` (shared connector SVGs + `ModIcon` badge), `DeliveryCanvasMockup.tsx` (HowWeDeliver's phase console), `ProofComparisonMockup.tsx` (TheProof's drag slider), `DeliveryDiscoveryMockup.tsx` (the Delivery hero's discovery console).
+Contents: `HeroProductsMockup.tsx` (Hero's 3-card carousel), `PlatformBIChartMockup.tsx` (BI module card in PowerfulPlatform), `PlatformConnectors.tsx` (shared connector SVGs + `ModIcon` badge), `DeliveryCanvasMockup.tsx` (HowWeDeliver's phase console), `ProofComparisonMockup.tsx` (TheProof's drag slider), `EisBriefMockup.tsx` (the /solutions/eis hero's morning brief).
 
 ### `demos/mockups/HeroProductsMockup.tsx` (large file)
 Three product card panels (Data Pipelines / Conversational AI / Data Models) rendered with `dangerouslySetInnerHTML` for the internal UI mocks. This is intentional — the card UIs are complex SVG+HTML mockups that are not React trees. State: `activeCard` (0|1|2), auto-cycles every 6000ms. `.hs-card` CSS class with `data-pos="center|left|right"` handles the fan layout. Tab progress bar uses `progressFill 6s linear` animation.
