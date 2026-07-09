@@ -103,9 +103,9 @@ export default function DeliveryProductEngineering() {
           <h2 className="mt-5 text-heading-sm font-semibold text-ink md:text-heading-md lg:text-heading-lg">
             We build what you need. Akashic is optional.
           </h2>
-          <p className="mt-5 max-w-[36em] text-lg leading-relaxed text-secondary-text">
-            Sometimes you need a bespoke application, not a platform. We engineer it.
-            If Akashic accelerates the outcome, we use it as the engine. If your
+          <p className="mt-5 max-w-[42em] text-lg leading-relaxed text-secondary-text">
+            Sometimes you need a bespoke application, not a platform. We&nbsp;engineer it.
+            If&nbsp;Akashic accelerates the outcome, we use it as the engine. If&nbsp;your
             environment demands a native build, we engineer it to your exact
             specifications.
           </p>

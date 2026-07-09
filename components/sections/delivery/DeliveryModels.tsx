@@ -61,9 +61,9 @@ export default function DeliveryModels() {
           <h2 className="mt-5 text-heading-sm font-semibold text-ink md:text-heading-md lg:text-heading-lg">
             Start with the problem, not the product.
           </h2>
-          <p className="mt-5 max-w-[36em] text-lg leading-relaxed text-secondary-text">
+          <p className="mt-5 max-w-[42em] text-lg leading-relaxed text-secondary-text">
             All engagements begin with a Sovereign Blueprint. You never pick the
-            wrong door. We find the right starting point.
+            wrong door. We&nbsp;find the right starting point.
           </p>
         </ScrollReveal>
 

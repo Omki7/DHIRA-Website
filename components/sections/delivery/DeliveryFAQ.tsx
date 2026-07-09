@@ -12,19 +12,19 @@ import ScrollReveal from "@/components/ui/ScrollReveal";
 const faqs = [
   {
     q: "Can we start with advisory and switch to a product build?",
-    a: "Yes. The Sovereign Blueprint becomes the strict specification for the build. No rework. No re-discovery.",
+    a: "Yes. The Sovereign Blueprint becomes the strict specification for the build. No\u00a0rework. No\u00a0re-discovery.",
   },
   {
     q: "How is co-engineering different from standard staff augmentation?",
-    a: "Staff augmentation just fills empty seats. We deploy a dedicated squad led by a DHIRA architect who is accountable for the actual output. We bring our own methodology. When we leave, you keep the knowledge and the governance framework.",
+    a: "Staff augmentation just fills empty seats. We\u00a0deploy a dedicated squad led by a DHIRA architect who is accountable for the actual output. We\u00a0bring our own methodology. When\u00a0we leave, you keep the knowledge and the governance framework.",
   },
   {
     q: "What happens if we pause or exit?",
-    a: "You own everything. The code, documentation, lineage graphs, and infrastructure-as-code are yours. We build on open technologies so you are never locked in. No hostage data.",
+    a: "You own everything. The code, documentation, lineage graphs, and infrastructure-as-code are yours. We\u00a0build on open technologies so you are never locked in. No\u00a0hostage data.",
   },
   {
     q: "Do you work on-premises?",
-    a: "Yes. Akashic deploys on AWS, Azure, GCP, or your own bare-metal racks. Product engineering and advisory work securely inside your perimeter.",
+    a: "Yes. Akashic deploys on AWS, Azure, GCP, or your own bare-metal racks. Product\u00a0engineering and advisory work securely inside your perimeter.",
   },
 ];
 
