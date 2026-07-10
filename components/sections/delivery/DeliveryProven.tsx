@@ -11,7 +11,7 @@
 
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import DynamicSketchIcon from "@/components/icons/DynamicSketchIcon";
-import { LiveChip } from "@/components/sections/akashic/AkashicCardChrome";
+import { BlueChip } from "@/components/sections/akashic/AkashicCardChrome";
 import useCountUp from "@/hooks/useCountUp";
 
 type Figure = { fig: string; label: string; static?: boolean };
@@ -129,7 +129,7 @@ export default function DeliveryProven() {
                       Model {c.model}
                     </span>
                     {c.live ? (
-                      <LiveChip />
+                      <BlueChip label="LIVE" />
                     ) : (
                       <span className="inline-flex shrink-0 items-center rounded-[7px] border border-default-stroke bg-tertiary-bg px-2 py-1 text-[9px] font-bold tracking-[0.03em] text-secondary-text">
                         DELIVERED
@@ -170,7 +170,7 @@ export default function DeliveryProven() {
                     <span className="flex items-center gap-1.5 font-mono text-[9px] uppercase tracking-[0.08em] text-inkSoft">
                       <span
                         className={`h-[5px] w-[5px] rounded-full ${
-                          c.live ? "bg-[#30A46C] animate-[ps-pulse_2s_infinite]" : "bg-overcast"
+                          c.live ? "bg-blue animate-[ps-pulse_2s_infinite]" : "bg-overcast"
                         }`}
                         aria-hidden
                       />

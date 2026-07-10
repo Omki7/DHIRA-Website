@@ -273,7 +273,7 @@ Composed in `app/careers/page.tsx`. The nav's Company → Careers, the home Join
 |---|---|---|---|
 | 00 | — | `sections/careers/CareersHero.tsx` | Centred hero, NOW HIRING pill, locations strip |
 | 01 | the-work | `sections/careers/CareersImpact.tsx` | "Production is a country": four-mission impact band, count-ups per Rule 4 |
-| 02 | how-we-work | `sections/careers/CareersPrinciples.tsx` | Sticky-left digest of the About beliefs (B-01…B-05), links to `/about#what-we-believe` |
+| 02 | how-we-work | `sections/careers/CareersCulture.tsx` | Candidate-lens culture ledger (W-01…W-06: principles translated to the employee experience), honest compensation note pointing at the intro call, links to `/about#what-we-believe` |
 | 03 | open-roles | `sections/careers/CareersRoles.tsx` | Canonical filterable roles board (client) — same ROLES + blue-bar hover signature as JoinTheTeam; keep the two lists in sync |
 | 04 | how-we-hire | `sections/careers/CareersHiring.tsx` | Four-step hiring rail (intro call / deep-dive / working session / decision) |
 | 05 | talk-to-our-team | `sections/careers/CareersClose.tsx` | Dark closure card; Apply anchor target |

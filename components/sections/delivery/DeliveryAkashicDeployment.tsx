@@ -15,10 +15,19 @@ import ScrollReveal from "@/components/ui/ScrollReveal";
 import DynamicSketchIcon from "@/components/icons/DynamicSketchIcon";
 import { CardHeader, BlueChip } from "@/components/sections/akashic/AkashicCardChrome";
 
+/* Each phase carries the exact visual identity of its Gantt bar above
+   (node circle, week tag, and connector rule), so the plan and its
+   explanation read as one system. */
 const phases = [
   {
     num: "01",
     weeks: "WK 1–2",
+    bar: "01 · Audit",
+    nodeCls:
+      "border border-blue-border bg-gradient-to-b from-[#F3F6FF] to-[#E8EDFC] text-blue shadow-[inset_0_1px_0_rgba(255,255,255,0.9)]",
+    tagCls:
+      "border border-blue-border bg-gradient-to-b from-[#F3F6FF] to-[#E8EDFC] text-blue shadow-[inset_0_1px_0_rgba(255,255,255,0.9)]",
+    ruleCls: "bg-blue-border",
     title: "System readiness audit",
     desc: "A structured mapping of your current architecture, yielding a Sovereign Blueprint and Governance Framework.",
     id: "ai-readiness-audit",
@@ -30,6 +39,12 @@ const phases = [
   {
     num: "02",
     weeks: "WK 2–6",
+    bar: "02 · Platform build",
+    nodeCls:
+      "bg-gradient-to-b from-[#4A6CE0] to-[#3E63DD] text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.25),0_2px_6px_-1px_rgba(62,99,221,0.4)]",
+    tagCls:
+      "bg-gradient-to-b from-[#4A6CE0] to-[#3E63DD] text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.25),0_2px_6px_-1px_rgba(62,99,221,0.4)]",
+    ruleCls: "bg-blue/60",
     title: "Platform build",
     desc: "Core deployment, legacy system bridging, and custom accelerators to get your organisation live without building from scratch.",
     id: "platform-deployment",
@@ -41,6 +56,13 @@ const phases = [
   {
     num: "03",
     weeks: "WK 6+",
+    bar: "03 · Handover",
+    nodeCls:
+      "bg-gradient-to-b from-[#2A2D2F] to-[#1A1C1D] text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.12)]",
+    tagCls:
+      "bg-gradient-to-b from-[#2A2D2F] to-[#1A1C1D] text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.12)]",
+    ruleCls: "bg-ink/50",
+    live: true,
     title: "Operational handover",
     desc: "One governed data foundation for BI, ML, and conversational AI. Your team runs it; we stay accountable.",
     id: "operational-handover",
@@ -98,7 +120,7 @@ function RolloutGantt() {
               </span>
             </div>
             <div className="rollout-bar rollout-bar-handover col-start-6 col-end-8 row-start-3 flex h-8 items-center gap-1.5 rounded-[7px] bg-gradient-to-b from-[#2A2D2F] to-[#1A1C1D] px-2.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.12)]">
-              <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-[#30A46C] animate-[ps-pulse_2s_infinite]" />
+              <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-blue-border animate-[ps-pulse_2s_infinite]" />
               <span className="truncate font-mono text-[9.5px] font-bold uppercase tracking-[0.06em] text-white">
                 03 &middot; Handover
               </span>
@@ -111,7 +133,7 @@ function RolloutGantt() {
             <span className="truncate">Blueprint signed</span>
           </div>
           <div className="col-start-6 col-end-8 -ml-[4px] flex items-center gap-1.5">
-            <span className="h-[7px] w-[7px] shrink-0 rotate-45 border border-[#30A46C] bg-[#EDF7F1]" aria-hidden />
+            <span className="h-[7px] w-[7px] shrink-0 rotate-45 border border-blue bg-blue-subtle animate-[ps-pulse_2.4s_infinite]" aria-hidden />
             <span className="truncate">Go-live &middot; production-ready</span>
           </div>
         </div>
@@ -161,17 +183,32 @@ function RolloutSequence() {
             className={`rollout-phase rollout-phase-${phase.num} relative grid scroll-mt-24 grid-cols-[40px_minmax(0,1fr)] gap-4 py-6 md:grid-cols-[96px_minmax(0,1fr)] md:gap-8`}
           >
             <div className="relative flex justify-center md:justify-start md:pl-[58px]">
-              <span className="relative z-10 flex h-9 w-9 items-center justify-center rounded-full border border-blue-border bg-white font-mono text-[10px] font-semibold text-blue shadow-sm">
+              <span
+                className={`relative z-10 flex h-9 w-9 items-center justify-center rounded-full font-mono text-[10px] font-semibold ${phase.nodeCls}`}
+              >
                 {phase.num}
               </span>
-              <span className="rollout-phase-rule absolute left-[18px] top-[18px] hidden h-px w-[calc(100%-18px)] bg-blue/60 md:block" aria-hidden />
+              <span
+                className={`rollout-phase-rule absolute left-[18px] top-[18px] hidden h-px w-[calc(100%-18px)] md:block ${phase.ruleCls}`}
+                aria-hidden
+              />
             </div>
 
             <div className="relative min-w-0 border-b border-dashed border-lineSoft pb-6">
               <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
                 <div className="min-w-0">
-                  <span className="font-mono text-[11px] font-semibold uppercase tracking-eyebrow text-blue">
-                    {phase.weeks}
+                  <span className="flex flex-wrap items-center gap-2.5">
+                    <span
+                      className={`inline-flex items-center gap-1.5 rounded-[7px] px-2.5 py-1 font-mono text-[9.5px] font-bold uppercase tracking-[0.06em] ${phase.tagCls}`}
+                    >
+                      {phase.live && (
+                        <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-blue-border animate-[ps-pulse_2s_infinite]" aria-hidden />
+                      )}
+                      {phase.bar}
+                    </span>
+                    <span className="font-mono text-[11px] font-semibold uppercase tracking-eyebrow text-inkSoft">
+                      {phase.weeks}
+                    </span>
                   </span>
                   <h3 className="mt-2 text-[22px] font-semibold leading-snug tracking-tight text-ink md:text-[24px]">
                     {phase.title}
