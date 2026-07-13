@@ -10,14 +10,14 @@ import ScrollReveal from "@/components/ui/ScrollReveal";
 
 function RouteArrow() {
   return (
-    <svg width="72" height="24" viewBox="0 0 72 24" fill="none" aria-hidden className="shrink-0" style={{ overflow: "visible" }}>
-      <path d="M 0 12 H 64" stroke="#C8D2F5" strokeWidth="1.2" fill="none" />
-      <path d="M 0 12 H 64" stroke="#3E63DD" strokeWidth="1.5" strokeDasharray="12 60" fill="none" opacity="0.8">
-        <animate attributeName="stroke-dashoffset" values="72;0" dur="2.2s" repeatCount="indefinite" />
+    <svg width="150" height="32" viewBox="0 0 150 32" fill="none" aria-hidden className="shrink-0" style={{ overflow: "visible" }}>
+      <path d="M 0 16 H 136" stroke="#C8D2F5" strokeWidth="1.6" fill="none" />
+      <path d="M 0 16 H 136" stroke="#3E63DD" strokeWidth="2" strokeDasharray="18 122" fill="none" opacity="0.85">
+        <animate attributeName="stroke-dashoffset" values="150;0" dur="2.2s" repeatCount="indefinite" />
       </path>
-      <circle cx="0" cy="12" r="4" fill="#FFFFFF" stroke="#C8D2F5" strokeWidth="1.2" />
-      <circle cx="0" cy="12" r="1.8" fill="#3E63DD" />
-      <path d="M 64 8 L 70 12 L 64 16" stroke="#3E63DD" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.8" />
+      <circle cx="0" cy="16" r="5.5" fill="#FFFFFF" stroke="#C8D2F5" strokeWidth="1.6" />
+      <circle cx="0" cy="16" r="2.4" fill="#3E63DD" />
+      <path d="M 134 9 L 144 16 L 134 23" stroke="#3E63DD" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.85" />
     </svg>
   );
 }
@@ -69,9 +69,9 @@ export default function DeliveryModels() {
 
         <div className="mt-12 lg:mt-14">
           <ScrollReveal>
-            <div className="hidden border-b border-dashed border-lineSoft pb-3 font-mono text-[10px] uppercase tracking-eyebrow text-overcast lg:grid lg:grid-cols-[1.1fr_104px_1fr] lg:gap-8">
+            <div className="hidden border-b border-dashed border-lineSoft pb-3 font-mono text-[10px] uppercase tracking-eyebrow text-overcast lg:grid lg:grid-cols-[1.1fr_170px_1fr] lg:gap-8">
               <span>The thing you&rsquo;d say on a call</span>
-              <span className="text-center">Routes to</span>
+              <span aria-hidden />
               <span>The model that answers it</span>
             </div>
           </ScrollReveal>
@@ -80,7 +80,7 @@ export default function DeliveryModels() {
             <ScrollReveal key={route.num} delay={100 + idx * 100}>
               <Link
                 href={route.href}
-                className="group grid grid-cols-1 items-center gap-4 border-b border-subtle-stroke py-8 transition-colors duration-250 ease-settle hover:bg-primary-bg/60 lg:grid-cols-[1.1fr_104px_1fr] lg:gap-8 lg:py-10"
+                className="group grid grid-cols-1 items-center gap-4 border-b border-subtle-stroke py-8 transition-colors duration-250 ease-settle hover:bg-primary-bg/60 lg:grid-cols-[1.1fr_170px_1fr] lg:gap-8 lg:py-10"
               >
                 <p className="max-w-[24em] text-[20px] font-medium leading-snug tracking-tight text-ink md:text-[23px]">
                   &ldquo;{route.quote}&rdquo;

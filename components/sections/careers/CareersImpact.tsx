@@ -61,7 +61,7 @@ export default function CareersImpact() {
                   } ${idx >= 2 ? "sm:border-t lg:border-t-0" : ""} ${idx === 1 ? "sm:border-l" : ""} ${idx === 3 ? "sm:border-l" : ""}`}
                 >
                   <span className="flex items-center gap-1.5 font-mono text-[9.5px] uppercase tracking-eyebrow text-inkSoft">
-                    <span className="h-[5px] w-[5px] rounded-full bg-[#30A46C] animate-[ps-pulse_2s_infinite]" aria-hidden />
+                    <span className="h-[5px] w-[5px] rounded-full bg-blue animate-[ps-pulse_2s_infinite]" aria-hidden />
                     {mission.platform}
                   </span>
                   <div className="mt-4">
