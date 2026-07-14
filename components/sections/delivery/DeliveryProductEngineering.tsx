@@ -72,12 +72,12 @@ function PathPanel({ path, align }: { path: BuildPath; align: "left" | "right" }
         <p className="font-mono text-[10px] uppercase tracking-eyebrow text-overcast">
           We build it
         </p>
-        <h3 className="mt-2 text-[26px] font-semibold tracking-tight text-ink md:text-[30px]">
+        <h3 className="mt-2 text-[24px] font-semibold tracking-tight text-ink md:text-[26px]">
           {path.build}
         </h3>
         <div className="mt-4 flex items-baseline gap-3">
           <span
-            className={`text-[56px] font-semibold leading-none tracking-tighter md:text-[64px] ${
+            className={`text-[42px] font-semibold leading-none tracking-tighter md:text-[48px] ${
               path.blue ? "text-blue" : "text-ink"
             }`}
           >
@@ -119,7 +119,7 @@ export default function DeliveryProductEngineering() {
             </p>
             <span className="hidden text-overcast sm:inline">/ Akashic optional</span>
           </div>
-          <h2 className="mt-5 text-heading-sm font-semibold text-ink md:text-heading-md lg:text-heading-lg xl:text-heading-xl">
+          <h2 className="mt-5 text-heading-sm font-semibold text-ink md:text-heading-md lg:text-heading-lg">
             We build what you need. Akashic is optional.
           </h2>
           <p className="mt-5 max-w-[42em] text-lg leading-relaxed text-secondary-text">

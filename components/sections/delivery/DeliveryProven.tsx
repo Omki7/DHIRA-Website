@@ -102,7 +102,7 @@ export default function DeliveryProven() {
             </p>
             <span className="hidden text-overcast sm:inline">/ Live engagements</span>
           </div>
-          <h2 className="mt-5 text-heading-sm font-semibold text-ink md:text-heading-md lg:text-heading-lg xl:text-heading-xl">
+          <h2 className="mt-5 text-heading-sm font-semibold text-ink md:text-heading-md lg:text-heading-lg">
             Tested where the numbers are real.
           </h2>
           <p className="mt-5 max-w-[43em] text-lg leading-relaxed text-secondary-text">

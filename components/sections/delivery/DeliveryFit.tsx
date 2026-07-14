@@ -46,7 +46,7 @@ export default function DeliveryFit() {
             </p>
             <span className="hidden text-overcast sm:inline">/ Both directions</span>
           </div>
-          <h2 className="mt-5 text-heading-sm font-semibold text-ink md:text-heading-md lg:text-heading-lg xl:text-heading-xl">
+          <h2 className="mt-5 text-heading-sm font-semibold text-ink md:text-heading-md lg:text-heading-lg">
             Who this is for. (And who it isn&rsquo;t.)
           </h2>
         </ScrollReveal>

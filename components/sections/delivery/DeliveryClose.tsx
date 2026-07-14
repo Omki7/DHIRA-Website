@@ -21,7 +21,7 @@ export default function DeliveryClose() {
               <p className="font-mono text-[11px] uppercase tracking-eyebrow text-white/50">
                 <span className="text-white/30">[09]</span>&nbsp;&nbsp;Ready when you are
               </p>
-              <h2 className="mx-auto mt-6 max-w-[18em] text-heading-sm font-semibold text-white md:text-heading-md lg:text-heading-lg">
+              <h2 className="mx-auto mt-6 max-w-[18em] text-heading-sm font-semibold text-white md:text-heading-md">
                 Three models.
                 <br />
                 One standard of accountability.
