@@ -25,8 +25,9 @@ export default function DeliveryHero() {
 
           <ScrollReveal delay={80}>
             <p className="font-mono text-[11px] uppercase tracking-eyebrow text-inkSoft">
-              Platform delivery <span className="text-overcast">&middot;</span> Product engineering{" "}
-              <span className="text-overcast">&middot;</span> Advisory &amp; co-engineering
+              Platform delivery <span className="text-overcast">&middot;</span> Product
+              engineering <span className="text-overcast">&middot;</span>{" "}
+              Advisory &amp; co-engineering
             </p>
           </ScrollReveal>
 
@@ -44,9 +45,11 @@ export default function DeliveryHero() {
           </ScrollReveal>
 
           <ScrollReveal delay={220}>
-            <p className="mt-8 max-w-[34em] text-lg font-normal leading-relaxed text-secondary-text md:text-xl">
+            <p className="mt-8 max-w-[40em] text-lg font-normal leading-relaxed text-secondary-text md:text-xl">
               We deploy our flagship platform, engineer custom software, or scale
-              your own team. Three models. One standard of accountability.
+              your own team.
+              <br />
+              Three models. One standard of accountability.
             </p>
           </ScrollReveal>
 

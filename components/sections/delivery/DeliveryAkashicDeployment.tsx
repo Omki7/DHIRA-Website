@@ -309,15 +309,16 @@ export default function DeliveryAkashicDeployment() {
           <div className="flex items-baseline justify-between font-mono text-[11px] uppercase tracking-eyebrow">
             <p>
               <span className="text-overcast">[02]</span>
-              <span className="text-inkSoft">&nbsp;&nbsp;Model 1 &middot; Akashic Deployment</span>
+              <span className="text-inkSoft">&nbsp;&nbsp;Model 01 &middot; Akashic Deployment</span>
             </p>
             <span className="hidden text-overcast sm:inline">/ Six weeks to live</span>
           </div>
-          <h2 className="mt-5 max-w-[34em] text-heading-sm font-semibold text-ink md:text-heading-md lg:text-[48px] xl:text-[52px]">
+          <h2 className="mt-5 text-heading-sm font-semibold text-ink md:text-heading-md lg:text-[52px] xl:text-[58px]">
             The platform, live and governed in your environment.
           </h2>
-          <p className="mt-5 max-w-[42em] text-lg leading-relaxed text-secondary-text">
+          <p className="mt-5 max-w-[45em] text-lg leading-relaxed text-secondary-text">
             When your data foundation is the bottleneck, we bring Akashic to you.
+            <br />
             From readiness audit to production-ready in six weeks. We do not
             prototype. We&nbsp;productionise.
           </p>

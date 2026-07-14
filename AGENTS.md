@@ -242,12 +242,12 @@ Composed in `app/delivery/page.tsx` (Nav + sections + Footer). The nav's "Delive
 | 00 | — | `sections/delivery/DeliveryHero.tsx` | `bg-background` | Centred hero, dot-grid backdrop, pill + eyebrow + H1 + copy + CTAs |
 | 01 | engagement-models | `sections/delivery/DeliveryModels.tsx` | `bg-white` | Triage rail: three reality quotes route via animated connectors into their engagement model; CSS-only hover dimming (server component) |
 | 02 | akashic-deployment | `sections/delivery/DeliveryAkashicDeployment.tsx` | `bg-white` | Model 1: six-week rollout as a Gantt strip (deliberately not the home page's vertical timeline), three phase dossiers carrying the nav anchor ids, modular-start panel reusing `MiniStack` |
-| 03 | product-engineering | `sections/delivery/DeliveryProductEngineering.tsx` | `bg-white` | Model 2: two build-track spec sheets on a shared 0–20-week MVP gauge (Akashic-native 12–20 wks / standalone 10–16 wks); gauge geometry is computed inline style (Rule 8 exception) |
-| 04 | advisory-co-engineering | `sections/delivery/DeliveryAdvisory.tsx` | `bg-white` | Model 3: advisory dossier with deliverables ledger + squad org-diagram (1 principal architect fans into 4 engineers via animated SVG) |
+| 03 | product-engineering | `sections/delivery/DeliveryProductEngineering.tsx` | `bg-white` | Model 2: two build paths as one editorial decision split (no card chrome, no track jargon): each side reads "If this is you → We build it (On Akashic / On your stack) → week figure → advantage", dashed axis with floating OR node |
+| 04 | advisory-co-engineering | `sections/delivery/DeliveryAdvisory.tsx` | `bg-white` | Model 3: two engagement forms as stacked editorial ledger rows (no card chrome): Strategic Advisory (2–4 figure + D-01…03 deliverables ledger) and Co-Engineering Squad (1 + 4 figure + five readable role rows) |
 | 05 | methodology | `sections/delivery/DeliveryMethodology.tsx` | `bg-white` | Discover/Design/Deliver/Transfer on one unbroken dot rail (horizontal desktop, vertical mobile) — the "no hand-offs" visual |
 | 06 | proven-at-scale | `sections/delivery/DeliveryProven.tsx` | `bg-white` | Live engagement ledger (client): count-up figures, sparklines, LIVE/COMPLETE chips; figures per Rule 4 (match AkashicScale / home stats) |
-| 07 | partnership-fit | `sections/delivery/DeliveryFit.tsx` | `bg-white` | Right-fit / wrong-fit split panel; filled vs hollow square markers (no checkmarks, Rule 2) |
-| 08 | faq | `sections/delivery/DeliveryFAQ.tsx` | `bg-white` | Client accordion, mono Q indices, grid-rows collapse animation |
+| 07 | partnership-fit | `sections/delivery/DeliveryFit.tsx` | `bg-white` | Editorial verdict split: two indexed statement ledgers on one dashed axis, each closing on its verdict line; directional arrows only (no checkmarks, Rule 2) |
+| 08 | faq | `sections/delivery/DeliveryFAQ.tsx` | `bg-white` | Master-detail Q&A on desktop (question ledger left, active answer staged at 22px right under ghost "?" watermark), dossier accordion below lg; shared open state, discovery-call close line |
 | 09 | talk-to-our-team | `sections/delivery/DeliveryClose.tsx` | `bg-white` | Dark closure card (Rule 5's Closure precedent). Carries the `#talk-to-our-team` id the nav CTA targets |
 
 ### About page (`/about`)

@@ -21,10 +21,12 @@ export default function DeliveryClose() {
               <p className="font-mono text-[11px] uppercase tracking-eyebrow text-white/50">
                 <span className="text-white/30">[09]</span>&nbsp;&nbsp;Ready when you are
               </p>
-              <h2 className="mx-auto mt-6 max-w-[18em] text-heading-sm font-semibold text-white md:text-heading-md">
-                Three models. One standard of accountability.
+              <h2 className="mx-auto mt-6 max-w-[18em] text-heading-sm font-semibold text-white md:text-heading-md lg:text-heading-lg">
+                Three models.
+                <br />
+                One standard of accountability.
               </h2>
-              <p className="mx-auto mt-6 max-w-[34em] text-lg leading-relaxed text-white/65">
+              <p className="mx-auto mt-6 max-w-[46em] text-lg leading-relaxed text-white/65">
                 Whichever door you enter through, the governance, documentation, and
                 accountability are the same.
               </p>
@@ -51,9 +53,11 @@ export default function DeliveryClose() {
                   ))}
                 </div>
               </div>
-              <p className="mx-auto mt-5 max-w-[34em] text-base leading-relaxed text-white/65">
+              <p className="mx-auto mt-5 max-w-[35em] text-base leading-relaxed text-white/65">
                 We map your problem to the right tier and start with the Sovereign
-                Blueprint. No wrong doors.
+                Blueprint.
+                <br />
+                No wrong doors.
               </p>
               <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
                 <Link href="/#get-started" className="btn-secondary">

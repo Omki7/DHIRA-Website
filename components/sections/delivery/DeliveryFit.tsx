@@ -1,10 +1,11 @@
 /*
  * [07] Partnership Fit: And Who It Isn't.
- * Mirror-symmetry split expressing the "/ both directions" tag: right-fit rows
- * lean into the partnership, wrong-fit rows lean away, divided by one clear axis.
- * Directional markers only: no checkmarks (Rule 2).
+ * Editorial verdict split (Jul 2026 redesign): two indexed statement ledgers
+ * on one dashed axis, large reading sizes, each side closing on its verdict
+ * line. Directional markers only: no checkmarks (Rule 2).
  */
 
+import Link from "next/link";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 
 const rightFit = [
@@ -45,70 +46,89 @@ export default function DeliveryFit() {
             </p>
             <span className="hidden text-overcast sm:inline">/ Both directions</span>
           </div>
-          <h2 className="mt-5 text-heading-sm font-semibold text-ink md:text-heading-md lg:text-heading-lg">
+          <h2 className="mt-5 text-heading-sm font-semibold text-ink md:text-heading-md lg:text-heading-lg xl:text-heading-xl">
             Who this is for. (And who it isn&rsquo;t.)
           </h2>
         </ScrollReveal>
 
-        <ScrollReveal delay={120}>
-          <div className="relative mt-12 grid grid-cols-1 overflow-hidden rounded-frame border border-subtle-stroke md:grid-cols-2 lg:mt-14">
-            <div className="relative p-6 md:p-8 md:pr-12">
-              <div className="flex items-center justify-between">
-                <p className="flex items-center gap-2 font-mono text-[10px] font-semibold uppercase tracking-eyebrow text-blue">
-                  <span className="h-2 w-2 rounded-full bg-blue" aria-hidden />
-                  A fit
-                </p>
-                <span className="inline-flex items-center gap-1 rounded-[7px] border border-blue-border bg-blue-subtle px-2 py-1 font-mono text-[9px] font-bold tracking-[0.06em] text-blue">
-                  PROCEED <Arrow dir="right" className="h-3 w-3" />
-                </span>
-              </div>
-              <ul className="mt-6">
-                {rightFit.map((item) => (
-                  <li
-                    key={item}
-                    className="group flex items-start gap-3.5 border-t border-dashed border-lineSoft py-4 transition-colors duration-200 ease-settle first:border-t-0 hover:bg-blue-subtle/40"
-                  >
-                    <span className="mt-[3px] shrink-0 text-blue transition-transform duration-200 ease-settle group-hover:translate-x-1">
-                      <Arrow dir="right" />
-                    </span>
-                    <span className="text-[16px] font-medium leading-relaxed text-ink">{item}</span>
-                  </li>
-                ))}
-              </ul>
-              <p className="mt-6 border-t border-subtle-stroke pt-4 font-mono text-[9.5px] uppercase tracking-eyebrow text-blue">
-                Then we should talk
-              </p>
-            </div>
+        <div className="relative mt-12 lg:mt-16">
+          <span
+            className="absolute inset-y-2 left-1/2 hidden w-px -translate-x-1/2 bg-[repeating-linear-gradient(180deg,#e4e7ec_0_8px,transparent_8px_16px)] lg:block"
+            aria-hidden
+          />
 
-            <div className="relative border-t border-dashed border-line bg-primary-bg p-6 md:border-l md:border-t-0 md:p-8 md:pl-12">
-              <div className="flex items-center justify-between">
-                <span className="inline-flex items-center gap-1 rounded-[7px] border border-default-stroke bg-tertiary-bg px-2 py-1 font-mono text-[9px] font-bold tracking-[0.06em] text-secondary-text">
-                  <Arrow dir="left" className="h-3 w-3" /> PASS
-                </span>
-                <p className="flex items-center gap-2 font-mono text-[10px] font-semibold uppercase tracking-eyebrow text-overcast">
-                  Not a fit
-                  <span className="h-2 w-2 rounded-full border border-line" aria-hidden />
+          <div className="grid grid-cols-1 gap-14 lg:grid-cols-2 lg:gap-0">
+            <ScrollReveal delay={100}>
+              <div className="flex h-full flex-col lg:pr-16">
+                <div className="flex items-baseline justify-between gap-4 border-b-2 border-ink pb-4">
+                  <h3 className="text-[24px] font-semibold tracking-tight text-ink md:text-[26px]">
+                    This is for you if
+                  </h3>
+                  <span className="inline-flex shrink-0 items-center gap-1.5 font-mono text-[10px] font-bold uppercase tracking-eyebrow text-blue">
+                    Proceed <Arrow dir="right" className="h-3.5 w-3.5" />
+                  </span>
+                </div>
+                <ul className="flex-1">
+                  {rightFit.map((item, idx) => (
+                    <li
+                      key={item}
+                      className="flex items-start gap-5 border-b border-dashed border-lineSoft py-6"
+                    >
+                      <span className="pt-[4px] font-mono text-[11px] font-semibold text-blue">
+                        0{idx + 1}
+                      </span>
+                      <span className="text-[17px] font-medium leading-relaxed text-ink md:text-[19px]">
+                        {item}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+                <div className="mt-7 flex flex-wrap items-baseline justify-between gap-3">
+                  <p className="text-[20px] font-semibold tracking-tight text-ink md:text-[22px]">
+                    Then we should talk.
+                  </p>
+                  <Link
+                    href="#talk-to-our-team"
+                    className="font-mono text-[10px] font-semibold uppercase tracking-eyebrow text-blue transition-colors duration-200 ease-settle hover:text-blue-hover"
+                  >
+                    Talk to our team &darr;
+                  </Link>
+                </div>
+              </div>
+            </ScrollReveal>
+
+            <ScrollReveal delay={180}>
+              <div className="flex h-full flex-col lg:pl-16">
+                <div className="flex items-baseline justify-between gap-4 border-b-2 border-line pb-4">
+                  <h3 className="text-[24px] font-semibold tracking-tight text-overcast md:text-[26px]">
+                    It isn&rsquo;t if
+                  </h3>
+                  <span className="inline-flex shrink-0 items-center gap-1.5 font-mono text-[10px] font-bold uppercase tracking-eyebrow text-overcast">
+                    <Arrow dir="left" className="h-3.5 w-3.5" /> Pass
+                  </span>
+                </div>
+                <ul className="flex-1">
+                  {wrongFit.map((item, idx) => (
+                    <li
+                      key={item}
+                      className="flex items-start gap-5 border-b border-dashed border-lineSoft py-6"
+                    >
+                      <span className="pt-[4px] font-mono text-[11px] text-overcast">
+                        0{idx + 1}
+                      </span>
+                      <span className="text-[17px] leading-relaxed text-inkSoft md:text-[19px]">
+                        {item}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+                <p className="mt-7 text-[20px] font-semibold tracking-tight text-overcast md:text-[22px]">
+                  Then we&rsquo;re not your team.
                 </p>
               </div>
-              <ul className="mt-6">
-                {wrongFit.map((item) => (
-                  <li
-                    key={item}
-                    className="group flex items-start gap-3.5 border-t border-dashed border-lineSoft py-4 first:border-t-0 md:flex-row-reverse md:text-right"
-                  >
-                    <span className="mt-[3px] shrink-0 text-overcast transition-transform duration-200 ease-settle group-hover:-translate-x-1">
-                      <Arrow dir="left" />
-                    </span>
-                    <span className="text-[16px] leading-relaxed text-inkSoft">{item}</span>
-                  </li>
-                ))}
-              </ul>
-              <p className="mt-6 border-t border-subtle-stroke pt-4 text-right font-mono text-[9.5px] uppercase tracking-eyebrow text-overcast">
-                Then we&rsquo;re not your team
-              </p>
-            </div>
+            </ScrollReveal>
           </div>
-        </ScrollReveal>
+        </div>
       </div>
     </section>
   );
