@@ -2,34 +2,39 @@
 
 /*
  * [08] FAQ — Before We Start.
- * Dossier accordion: mono question indices, one open at a time, answers
- * collapse via the grid-rows trick so height animates smoothly.
+ * Master-detail Q&A (desktop): question ledger on the left, the active
+ * answer staged large on the right under a ghost "?" watermark, so the
+ * former right whitespace carries the answer instead of duplicate text.
+ * Falls back to the dossier accordion below lg. One shared open state.
  */
 
 import { useState } from "react";
+import Link from "next/link";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 
 const faqs = [
   {
     q: "Can we start with advisory and switch to a product build?",
-    a: "Yes. The Sovereign Blueprint becomes the strict specification for the build. No\u00a0rework. No\u00a0re-discovery.",
+    a: "Yes. The Sovereign Blueprint becomes the strict specification for the build. No rework. No re-discovery.",
   },
   {
     q: "How is co-engineering different from standard staff augmentation?",
-    a: "Staff augmentation just fills empty seats. We\u00a0deploy a dedicated squad led by a DHIRA architect who is accountable for the actual output. We\u00a0bring our own methodology. When\u00a0we leave, you keep the knowledge and the governance framework.",
+    a: "Staff augmentation just fills empty seats. We deploy a dedicated squad led by a DHIRA architect who is accountable for the actual output. We bring our own methodology. When we leave, you keep the knowledge and the governance framework.",
   },
   {
     q: "What happens if we pause or exit?",
-    a: "You own everything. The code, documentation, lineage graphs, and infrastructure-as-code are yours. We\u00a0build on open technologies so you are never locked in. No\u00a0hostage data.",
+    a: "You own everything. The code, documentation, lineage graphs, and infrastructure-as-code are yours. We build on open technologies so you are never locked in. No hostage data.",
   },
   {
     q: "Do you work on-premises?",
-    a: "Yes. Akashic deploys on AWS, Azure, GCP, or your own bare-metal racks. Product\u00a0engineering and advisory work securely inside your perimeter.",
+    a: "Yes. Akashic deploys on AWS, Azure, GCP, or your own bare-metal racks. Product engineering and advisory work securely inside your perimeter.",
   },
 ];
 
 export default function DeliveryFAQ() {
   const [openIdx, setOpenIdx] = useState<number | null>(0);
+  const activeIdx = openIdx ?? 0;
+  const active = faqs[activeIdx];
 
   return (
     <section id="faq" className="scroll-mt-24 border-t border-lineSoft bg-white">
@@ -42,12 +47,76 @@ export default function DeliveryFAQ() {
             </p>
             <span className="hidden text-overcast sm:inline">/ Before we start</span>
           </div>
-          <h2 className="mt-5 text-heading-sm font-semibold text-ink md:text-heading-md lg:text-heading-lg">
+          <h2 className="mt-5 text-heading-sm font-semibold text-ink md:text-heading-md lg:text-heading-lg xl:text-heading-xl">
             The questions we get before we start.
           </h2>
         </ScrollReveal>
 
-        <div className="mt-10 max-w-[860px] lg:mt-12">
+        {/* Desktop: question ledger left, staged answer right */}
+        <div className="mt-12 hidden lg:grid lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)] lg:gap-16">
+          <ScrollReveal delay={100}>
+            <ul className="border-t border-lineSoft">
+              {faqs.map((faq, idx) => {
+                const activeRow = activeIdx === idx;
+                return (
+                  <li key={faq.q}>
+                    <button
+                      type="button"
+                      onClick={() => setOpenIdx(idx)}
+                      aria-pressed={activeRow}
+                      className={`relative flex w-full items-baseline gap-5 border-b border-dashed border-lineSoft py-6 pl-5 pr-3 text-left transition-colors duration-200 ease-settle ${
+                        activeRow ? "bg-primary-bg/50" : "hover:bg-primary-bg/60"
+                      }`}
+                    >
+                      <span
+                        className={`absolute bottom-3 left-0 top-3 w-[2px] bg-blue transition-opacity duration-250 ease-settle ${
+                          activeRow ? "opacity-100" : "opacity-0"
+                        }`}
+                        aria-hidden
+                      />
+                      <span
+                        className={`font-mono text-[11px] uppercase tracking-eyebrow ${
+                          activeRow ? "text-blue" : "text-overcast"
+                        }`}
+                      >
+                        Q{idx + 1}
+                      </span>
+                      <span
+                        className={`text-[17px] leading-snug tracking-tight md:text-[18px] ${
+                          activeRow ? "font-semibold text-ink" : "font-medium text-inkSoft"
+                        }`}
+                      >
+                        {faq.q}
+                      </span>
+                    </button>
+                  </li>
+                );
+              })}
+            </ul>
+          </ScrollReveal>
+
+          <ScrollReveal delay={180} className="h-full">
+            <div className="relative flex h-full flex-col border-t border-lineSoft pt-6">
+              <span
+                className="pointer-events-none absolute -top-2 right-0 select-none font-heading text-[170px] font-semibold leading-none tracking-tighter text-ink/[0.035]"
+                aria-hidden
+              >
+                ?
+              </span>
+              <div key={activeIdx} aria-live="polite" className="relative animate-fade-in">
+                <p className="font-mono text-[10px] font-semibold uppercase tracking-eyebrow text-blue">
+                  Q{activeIdx + 1}&nbsp;&middot;&nbsp;Straight answer
+                </p>
+                <p className="mt-5 max-w-[26em] text-[20px] leading-relaxed text-ink md:text-[22px]">
+                  {active.a}
+                </p>
+              </div>
+            </div>
+          </ScrollReveal>
+        </div>
+
+        {/* Mobile: dossier accordion */}
+        <div className="mt-10 lg:hidden">
           {faqs.map((faq, idx) => {
             const open = openIdx === idx;
             return (
@@ -67,7 +136,7 @@ export default function DeliveryFAQ() {
                     type="button"
                     onClick={() => setOpenIdx(open ? null : idx)}
                     aria-expanded={open}
-                    className="flex w-full items-center gap-5 px-4 py-6 text-left transition-colors duration-200 ease-settle hover:bg-primary-bg/60"
+                    className="flex w-full items-center gap-4 px-4 py-6 text-left transition-colors duration-200 ease-settle hover:bg-primary-bg/60"
                   >
                     <span
                       className={`font-mono text-[11px] uppercase tracking-eyebrow transition-colors duration-200 ${
@@ -76,12 +145,14 @@ export default function DeliveryFAQ() {
                     >
                       Q{idx + 1}
                     </span>
-                    <span className="flex-1 text-[18px] font-semibold leading-snug tracking-tight text-ink md:text-[20px]">
+                    <span className="flex-1 text-[18px] font-semibold leading-snug tracking-tight text-ink">
                       {faq.q}
                     </span>
                     <span
                       className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full border transition-all duration-250 ease-settle ${
-                        open ? "rotate-45 border-blue-border bg-blue-subtle text-blue" : "border-subtle-stroke text-inkSoft"
+                        open
+                          ? "rotate-45 border-blue-border bg-blue-subtle text-blue"
+                          : "border-subtle-stroke text-inkSoft"
                       }`}
                       aria-hidden
                     >
@@ -96,7 +167,7 @@ export default function DeliveryFAQ() {
                     }`}
                   >
                     <div className="overflow-hidden">
-                      <p className="max-w-[44em] pb-7 pl-[58px] pr-4 text-[15.5px] leading-relaxed text-inkSoft">
+                      <p className="pb-7 pl-[52px] pr-4 text-[15.5px] leading-relaxed text-inkSoft">
                         {faq.a}
                       </p>
                     </div>
@@ -106,6 +177,20 @@ export default function DeliveryFAQ() {
             );
           })}
         </div>
+
+        <ScrollReveal delay={200}>
+          <div className="mt-10 flex flex-wrap items-baseline justify-between gap-3 border-t border-lineSoft pt-6 lg:mt-14">
+            <p className="text-[17px] font-semibold tracking-tight text-ink md:text-[19px]">
+              Something else on your mind? Bring it to the 30-minute discovery. No pitch deck.
+            </p>
+            <Link
+              href="#talk-to-our-team"
+              className="font-mono text-[10px] font-semibold uppercase tracking-eyebrow text-blue transition-colors duration-200 ease-settle hover:text-blue-hover"
+            >
+              Talk to our team &darr;
+            </Link>
+          </div>
+        </ScrollReveal>
       </div>
     </section>
   );

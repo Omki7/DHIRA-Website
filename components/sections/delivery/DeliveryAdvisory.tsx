@@ -1,48 +1,31 @@
 /*
  * [04] Model 3 — Advisory & Co-Engineering.
- * Asymmetric split on shared AkashicCardChrome: a strategic-advisory dossier
- * with an indexed deliverables ledger on the left, and a squad org-diagram
- * (one accountable architect fans into four engineers) on the right.
+ * Two engagement forms as stacked editorial ledger rows (no card chrome):
+ * Strategic Advisory with headline week figure + deliverables ledger, and
+ * the co-engineering squad as a 1 + 4 figure with readable role rows.
+ * Closing mono line carries the no-dependency promise.
  */
 
 import ScrollReveal from "@/components/ui/ScrollReveal";
-import DynamicSketchIcon from "@/components/icons/DynamicSketchIcon";
-import { CardHeader, BlueChip } from "@/components/sections/akashic/AkashicCardChrome";
 
 const deliverables = [
-  { num: "D-01", label: "Sovereign Data Readiness Audit", icon: "AI Readiness Audit" },
-  { num: "D-02", label: "Vendor Evaluation", icon: "Documentation" },
-  { num: "D-03", label: "Sovereign Blueprint with a prioritised roadmap", icon: "Sovereign Blueprint" },
+  { num: "D-01", label: "Sovereign Data Readiness Audit" },
+  { num: "D-02", label: "Vendor Evaluation" },
+  { num: "D-03", label: "Sovereign Blueprint with a prioritised roadmap" },
 ];
 
 const squad = [
-  { role: "Senior Data Engineer", icon: "Akashic Data Pipelines" },
-  { role: "ML Researcher", icon: "Akashic Machine Learning" },
-  { role: "Platform Architect", icon: "Akashic Data Warehouse" },
-  { role: "Senior Engineer", icon: "Custom Accelerators" },
+  {
+    count: "1×",
+    role: "Principal Architect",
+    note: "The accountable DHIRA lead",
+    lead: true,
+  },
+  { count: "1×", role: "Senior Data Engineer", lead: false },
+  { count: "1×", role: "ML Researcher", lead: false },
+  { count: "1×", role: "Platform Architect", lead: false },
+  { count: "1×", role: "Senior Engineer", lead: false },
 ];
-
-function SquadFan() {
-  return (
-    <svg viewBox="0 0 320 36" fill="none" aria-hidden className="mx-auto mt-3 block h-9 w-full max-w-[320px]">
-      {[40, 120, 200, 280].map((x) => (
-        <g key={x}>
-          <path d={`M 160 0 C 160 18, ${x} 18, ${x} 36`} stroke="#C8D2F5" strokeWidth="1.2" fill="none" />
-          <path
-            d={`M 160 0 C 160 18, ${x} 18, ${x} 36`}
-            stroke="#3E63DD"
-            strokeWidth="1.5"
-            strokeDasharray="10 52"
-            fill="none"
-            opacity="0.8"
-          >
-            <animate attributeName="stroke-dashoffset" values="62;0" dur="2.6s" repeatCount="indefinite" />
-          </path>
-        </g>
-      ))}
-    </svg>
-  );
-}
 
 export default function DeliveryAdvisory() {
   return (
@@ -52,119 +35,129 @@ export default function DeliveryAdvisory() {
           <div className="flex items-baseline justify-between font-mono text-[11px] uppercase tracking-eyebrow">
             <p>
               <span className="text-overcast">[04]</span>
-              <span className="text-inkSoft">&nbsp;&nbsp;Model 3 &middot; Advisory &amp; Co-Engineering</span>
+              <span className="text-inkSoft">&nbsp;&nbsp;Model 03 &middot; Advisory &amp; Co-Engineering</span>
             </p>
-            <span className="hidden text-overcast sm:inline">/ Expertise, not dependency</span>
+            <span className="hidden text-overcast sm:inline">/ Advisory or squad</span>
           </div>
-          <h2 className="mt-5 text-heading-sm font-semibold text-ink md:text-heading-md lg:text-heading-lg">
+          <h2 className="mt-5 text-heading-sm font-semibold text-ink md:text-heading-md lg:text-heading-lg xl:text-heading-xl">
             Expertise, not dependency.
           </h2>
-          <p className="mt-5 max-w-[42em] text-lg leading-relaxed text-secondary-text">
+          <p className="mt-5 max-w-[47em] text-lg leading-relaxed text-secondary-text">
             Sometimes you do not need a vendor; you need a senior partner who has
-            shipped at national scale. We&nbsp;provide the architectural clarity and
-            execution bandwidth to get you across the line.
+            shipped at national scale.
+            <br />
+            We&nbsp;provide the architectural clarity and execution bandwidth to get you
+            across the line.
           </p>
         </ScrollReveal>
 
-        <div className="mt-12 grid grid-cols-1 gap-5 lg:mt-14 lg:grid-cols-[2fr_3fr]">
+        <div className="mt-12 border-t border-lineSoft lg:mt-16">
           <ScrollReveal delay={100}>
-            <div className="flex h-full flex-col overflow-hidden rounded-[14px] border border-subtle-stroke bg-white shadow-card transition-all duration-250 ease-settle hover:-translate-y-1 hover:shadow-frame">
-              <div className="h-[3px] bg-gradient-to-r from-blue/70 via-blue/30 to-transparent" aria-hidden />
-              <CardHeader
-                icon="AI Readiness Audit"
-                name="Strategic Advisory"
-                sub="Diagnose before you build"
-                chip={<BlueChip label="2–4 WKS" />}
-              />
-              <div className="flex flex-1 flex-col px-5 pb-5 pt-4">
-                <p className="text-[14.5px] leading-relaxed text-inkSoft">
+            <div className="grid grid-cols-1 gap-10 border-b border-lineSoft py-10 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:gap-20 lg:py-14">
+              <div>
+                <p className="font-mono text-[10px] font-semibold uppercase tracking-eyebrow text-blue">
+                  Engagement 01 &middot; Strategic Advisory
+                </p>
+                <h3 className="mt-3 text-[26px] font-semibold tracking-tight text-ink md:text-[30px]">
+                  Diagnose before you build.
+                </h3>
+                <div className="mt-6 flex items-baseline gap-3">
+                  <span className="text-[56px] font-semibold leading-none tracking-tighter text-blue md:text-[64px]">
+                    2–4
+                  </span>
+                  <span className="text-[15px] font-medium text-inkSoft">weeks</span>
+                </div>
+                <p className="mt-6 max-w-[28em] text-[16px] leading-relaxed text-inkSoft">
                   A focused engagement to audit your architecture and identify the
                   highest-leverage interventions.
                 </p>
-                <div className="mt-5 flex-1 rounded-card border border-subtle-stroke bg-primary-bg">
-                  <p className="border-b border-dashed border-lineSoft px-4 py-2.5 font-mono text-[9px] uppercase tracking-eyebrow text-overcast">
-                    Deliverables &middot; yours to keep
-                  </p>
-                  <ul className="divide-y divide-lineSoft">
-                    {deliverables.map((item) => (
-                      <li key={item.num} className="flex items-center gap-3 px-4 py-3">
-                        <span className="font-mono text-[9px] uppercase tracking-[0.08em] text-overcast">
-                          {item.num}
-                        </span>
-                        <span className="flex h-[26px] w-[26px] shrink-0 items-center justify-center rounded-[7px] border border-blue/20 bg-gradient-to-br from-[#E4EAFF] to-[#D4DEFF] shadow-[inset_0_1px_0_rgba(255,255,255,0.9)]">
-                          <DynamicSketchIcon text={item.icon} className="h-[13px] w-[13px] text-blue" />
-                        </span>
-                        <span className="text-[13.5px] font-medium leading-snug text-ink">
-                          {item.label}
-                        </span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+              </div>
+              <div>
+                <p className="border-b border-dashed border-lineSoft pb-3 font-mono text-[10px] uppercase tracking-eyebrow text-overcast">
+                  Deliverables &middot; yours to keep
+                </p>
+                <ul>
+                  {deliverables.map((item) => (
+                    <li
+                      key={item.num}
+                      className="flex items-baseline gap-5 border-b border-dashed border-lineSoft py-5"
+                    >
+                      <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.08em] text-blue">
+                        {item.num}
+                      </span>
+                      <span className="text-[17px] font-medium leading-snug tracking-tight text-ink md:text-[18px]">
+                        {item.label}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
               </div>
             </div>
           </ScrollReveal>
 
-          <ScrollReveal delay={200}>
-            <div className="flex h-full flex-col overflow-hidden rounded-[14px] border border-subtle-stroke bg-white shadow-card transition-all duration-250 ease-settle hover:-translate-y-1 hover:shadow-frame">
-              <div className="h-[3px] bg-gradient-to-r from-blue/70 via-blue/30 to-transparent" aria-hidden />
-              <CardHeader
-                icon="Careers"
-                name="Dedicated Engineering Squads"
-                sub="Our talent, your stand-ups"
-                chip={<BlueChip label="1 + 4" />}
-              />
-              <div className="flex flex-1 flex-col px-5 pb-5 pt-4">
-                <p className="max-w-[38em] text-[14.5px] leading-relaxed text-inkSoft">
-                  Senior data engineers, ML researchers, and platform architects
-                  operating inside your sprints.
+          <ScrollReveal delay={180}>
+            <div className="grid grid-cols-1 gap-10 border-b border-lineSoft py-10 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:gap-20 lg:py-14">
+              <div>
+                <p className="font-mono text-[10px] font-semibold uppercase tracking-eyebrow text-blue">
+                  Engagement 02 &middot; Co-Engineering Squad
                 </p>
-
-                <div className="mt-5 rounded-card border border-subtle-stroke bg-primary-bg px-4 pb-4 pt-5">
-                  <div className="mx-auto flex w-fit items-center gap-2.5 rounded-[10px] border border-blue-border bg-blue-subtle px-3.5 py-2 shadow-card">
-                    <span className="flex h-[28px] w-[28px] shrink-0 items-center justify-center rounded-[8px] border border-blue/20 bg-gradient-to-br from-[#E4EAFF] to-[#D4DEFF] shadow-[inset_0_1px_0_rgba(255,255,255,0.9)]">
-                      <DynamicSketchIcon text="Sovereign Blueprint" className="h-[14px] w-[14px] text-blue" />
-                    </span>
-                    <span>
-                      <span className="block font-mono text-[9px] font-bold uppercase tracking-eyebrow text-blue">
-                        1&times; Principal Architect
-                      </span>
-                      <span className="block text-[11px] text-inkSoft">The accountable DHIRA lead</span>
-                    </span>
-                    <span className="ml-1 inline-flex shrink-0 items-center rounded-[6px] border border-blue-border bg-white px-1.5 py-[2px] font-mono text-[7.5px] font-bold tracking-[0.06em] text-blue">
-                      LEAD
-                    </span>
-                  </div>
-                  <SquadFan />
-                  <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
-                    {squad.map((member) => (
+                <h3 className="mt-3 text-[26px] font-semibold tracking-tight text-ink md:text-[30px]">
+                  Our squad, inside your sprints.
+                </h3>
+                <div className="mt-6 flex items-baseline gap-3">
+                  <span className="text-[56px] font-semibold leading-none tracking-tighter text-blue md:text-[64px]">
+                    1&#8202;+&#8202;4
+                  </span>
+                  <span className="text-[15px] font-medium text-inkSoft">architect-led squad</span>
+                </div>
+                <p className="mt-6 max-w-[28em] text-[16px] leading-relaxed text-inkSoft">
+                  Answerable for shipped code and outcomes, not logged hours. Our
+                  talent, your stand-ups.
+                </p>
+              </div>
+              <div>
+                <p className="border-b border-dashed border-lineSoft pb-3 font-mono text-[10px] uppercase tracking-eyebrow text-overcast">
+                  Squad composition
+                </p>
+                <ul>
+                  {squad.map((member) => (
+                    <li
+                      key={member.role}
+                      className="flex items-baseline gap-5 border-b border-dashed border-lineSoft py-4"
+                    >
                       <span
-                        key={member.role}
-                        className="flex flex-col items-center gap-1.5 rounded-[8px] border border-subtle-stroke bg-white px-2 py-2.5 text-center shadow-card"
+                        className={`font-mono text-[11px] font-semibold ${
+                          member.lead ? "text-blue" : "text-overcast"
+                        }`}
                       >
-                        <DynamicSketchIcon text={member.icon} className="h-[14px] w-[14px] text-inkSoft" />
-                        <span className="font-mono text-[8.5px] uppercase tracking-[0.05em] text-inkSoft">
+                        {member.count}
+                      </span>
+                      <span className="flex flex-wrap items-baseline gap-x-3 gap-y-0.5">
+                        <span className="text-[17px] font-medium leading-snug tracking-tight text-ink md:text-[18px]">
                           {member.role}
                         </span>
+                        {member.lead && (
+                          <>
+                            <span className="rounded-[5px] border border-blue-border bg-blue-subtle px-1.5 py-[2px] font-mono text-[8.5px] font-bold tracking-[0.06em] text-blue">
+                              LEAD
+                            </span>
+                            <span className="text-[13.5px] text-inkSoft">{member.note}</span>
+                          </>
+                        )}
                       </span>
-                    ))}
-                  </div>
-                  <p className="mt-3 text-center font-mono text-[9px] uppercase tracking-eyebrow text-overcast">
-                    Up to 4 senior / mid engineers &middot; inside your sprints
-                  </p>
-                </div>
-
-                <div className="mt-auto flex items-start gap-3 border-t border-dashed border-lineSoft pt-4">
-                  <span className="mt-[5px] h-2 w-2 shrink-0 rounded-[2px] bg-blue" aria-hidden />
-                  <p className="text-[14px] font-medium leading-relaxed text-ink">
-                    Answerable for shipped code and outcomes, not logged hours. When&nbsp;the
-                    engagement ends, the knowledge and lineage stay with you.
-                  </p>
-                </div>
+                    </li>
+                  ))}
+                </ul>
               </div>
             </div>
           </ScrollReveal>
         </div>
+
+        <ScrollReveal delay={200}>
+          <p className="mt-10 text-center font-mono text-[10px] uppercase tracking-eyebrow text-overcast lg:mt-12">
+            When the engagement ends &middot; the knowledge and lineage stay with you
+          </p>
+        </ScrollReveal>
       </div>
     </section>
   );

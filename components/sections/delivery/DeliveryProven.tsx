@@ -102,12 +102,14 @@ export default function DeliveryProven() {
             </p>
             <span className="hidden text-overcast sm:inline">/ Live engagements</span>
           </div>
-          <h2 className="mt-5 text-heading-sm font-semibold text-ink md:text-heading-md lg:text-heading-lg">
+          <h2 className="mt-5 text-heading-sm font-semibold text-ink md:text-heading-md lg:text-heading-lg xl:text-heading-xl">
             Tested where the numbers are real.
           </h2>
-          <p className="mt-5 max-w-[38em] text-lg leading-relaxed text-secondary-text">
-            One engagement per model. Each one running where the stakes are real and
-            the numbers are not rounded up for a slide.
+          <p className="mt-5 max-w-[43em] text-lg leading-relaxed text-secondary-text">
+            One engagement per model.
+            <br />
+            Each one running where the stakes are real and the numbers are not
+            rounded up for a slide.
           </p>
         </ScrollReveal>
 

@@ -58,12 +58,14 @@ export default function DeliveryModels() {
             </p>
             <span className="hidden text-overcast sm:inline">/ Three doors, one blueprint</span>
           </div>
-          <h2 className="mt-5 text-heading-sm font-semibold text-ink md:text-heading-md lg:text-heading-lg">
+          <h2 className="mt-5 text-heading-sm font-semibold text-ink md:text-heading-md lg:text-heading-lg xl:text-heading-xl">
             Start with the problem, not the product.
           </h2>
           <p className="mt-5 max-w-[42em] text-lg leading-relaxed text-secondary-text">
             All engagements begin with a Sovereign Blueprint. You never pick the
-            wrong door. We&nbsp;find the right starting point.
+            wrong door.
+            <br />
+            We&nbsp;find the right starting point.
           </p>
         </ScrollReveal>
 
