@@ -11,7 +11,7 @@ import AboutProof from "@/components/sections/about/AboutProof";
 import AboutClose from "@/components/sections/about/AboutClose";
 
 export const metadata: Metadata = {
-  title: "About DHIRA | DHIRA",
+  title: "About — Technology that outlasts the budget cycle.",
   description:
     "A small team of engineers and product builders who believe technology should outlast the budget cycle that funded it.",
 };

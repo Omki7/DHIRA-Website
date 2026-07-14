@@ -60,17 +60,7 @@ export default function CareersCulture() {
                 We publish the principles we hold clients to. The culture is those
                 same principles, applied to the people who work here.
               </p>
-              <div className="mt-8 rounded-card border border-subtle-stroke bg-primary-bg p-5">
-                <p className="font-mono text-[9px] uppercase tracking-eyebrow text-overcast">
-                  Compensation &amp; benefits
-                </p>
-                <p className="mt-2 max-w-[24em] text-[14px] leading-relaxed text-ink">
-                  We don&rsquo;t print marketing numbers. Ask us anything on the
-                  intro call: pay, leave, hardware, how reviews work. You will get
-                  the real answer.
-                </p>
-              </div>
-              <div className="mt-6">
+              <div className="mt-8">
                 <Link href="/about#what-we-believe" className="btn-secondary">
                   Read the published principles
                 </Link>

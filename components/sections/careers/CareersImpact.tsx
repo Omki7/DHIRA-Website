@@ -2,13 +2,16 @@
 
 /*
  * [01] The Work — Production Is a Country.
- * Why the work matters: narrative plus one wide impact band of the four
- * public-record missions DHIRA's work already runs inside (count-up figures,
- * per Rule 4: same platform numbers as the Public Sector page).
+ * Why the work matters: narrative beside a slow-turning 24-spoke wheel
+ * (demos/AshokaChakra, brand-blue ornament), then one wide impact band of
+ * the four public-record missions DHIRA's work already runs inside
+ * (count-up figures, per Rule 4: same platform numbers as the Public
+ * Sector page).
  */
 
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import useCountUp from "@/hooks/useCountUp";
+import AshokaChakra from "@/components/demos/AshokaChakra";
 
 const missions = [
   { platform: "CoWIN / U-WIN", figure: "2B+", label: "vaccinations" },
@@ -31,22 +34,29 @@ export default function CareersImpact() {
     <section id="the-work" className="scroll-mt-24 border-t border-lineSoft bg-white">
       <div className="rail-container pt-12 pb-24 lg:pt-16 lg:pb-32">
         <ScrollReveal>
-          <div className="flex items-baseline justify-between font-mono text-[11px] uppercase tracking-eyebrow">
-            <p>
-              <span className="text-overcast">[01]</span>
-              <span className="text-inkSoft">&nbsp;&nbsp;The work</span>
-            </p>
-            <span className="hidden text-overcast sm:inline">/ Not a sandbox</span>
+          <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-[minmax(0,1fr)_auto] lg:gap-16">
+            <div>
+              <div className="flex items-baseline justify-between font-mono text-[11px] uppercase tracking-eyebrow">
+                <p>
+                  <span className="text-overcast">[01]</span>
+                  <span className="text-inkSoft">&nbsp;&nbsp;The work</span>
+                </p>
+                <span className="hidden text-overcast sm:inline">/ Not a sandbox</span>
+              </div>
+              <h2 className="mt-5 text-heading-sm font-semibold text-ink md:text-heading-md lg:text-heading-lg">
+                Ship to production. Production is a country.
+              </h2>
+              <p className="mt-5 max-w-[38em] text-lg leading-relaxed text-secondary-text">
+                Most engineering work ships to a dashboard nobody opens. Ours runs
+                inside national platforms where the numbers are public record and the
+                stakes don&rsquo;t allow for guesswork. You will work on systems like
+                these from your first week.
+              </p>
+            </div>
+            <div className="mx-auto w-[190px] sm:w-[210px] lg:mr-4 lg:w-[230px]">
+              <AshokaChakra className="w-full" />
+            </div>
           </div>
-          <h2 className="mt-5 text-heading-sm font-semibold text-ink md:text-heading-md lg:text-heading-lg">
-            Ship to production. Production is a country.
-          </h2>
-          <p className="mt-5 max-w-[38em] text-lg leading-relaxed text-secondary-text">
-            Most engineering work ships to a dashboard nobody opens. Ours runs
-            inside national platforms where the numbers are public record and the
-            stakes don&rsquo;t allow for guesswork. You will work on systems like
-            these from your first week.
-          </p>
         </ScrollReveal>
 
         <ScrollReveal delay={140}>

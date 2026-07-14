@@ -21,14 +21,14 @@ const moments = [
     tag: "Manufacturing conglomerate",
     icon: "Enterprise",
     story:
-      "A CEO with 6 business units opens the EIS board at 9 AM. Factory throughput, inventory ageing, sales pipeline, and distributor collections: all on one screen. She spots that Unit 3's distributor payments are 18 days overdue, and flags it before the weekly review even starts.",
+      "A CEO with 6 business units opens the EIS board at 9 AM. Factory throughput, inventory ageing, sales pipeline, and distributor collections: all on one screen. She spots that Unit 3’s distributor payments are 18 days overdue, and flags it before the weekly review even starts.",
     did: "Pulled data from 6 ERP instances, unified it, and surfaced the anomaly automatically.",
   },
   {
     tag: "NBFC / financial services",
     icon: "Akashic EIS",
     story:
-      "A CFO runs a ₹4,000 crore loan book across 14 branches. Every morning, EIS surfaces the top 5 accounts showing early stress signals, before they become NPA. The credit risk team acts. The CFO doesn't find out at month-end. She acts at week-start.",
+      "A CFO runs a ₹4,000 crore loan book across 14 branches. Every morning, EIS surfaces the top 5 accounts showing early stress signals, before they become NPA. The credit risk team acts. The CFO doesn’t find out at month-end. She acts at week-start.",
     did: "Ran predictive ML scoring on repayment patterns and surfaced alerts by 8 AM.",
   },
   {
