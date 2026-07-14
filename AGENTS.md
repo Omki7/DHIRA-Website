@@ -41,6 +41,7 @@ components/
     ProblemBlock.tsx         Single scroll-revealed proof block with count-up watermark (ProblemSection)
     FieldLedger.tsx          Live deployment panels with count-up metrics (ProvenAtScale)
     VoicesDispatches.tsx     Asymmetric editorial dispatch cards (Voices)
+    AshokaChakra.tsx         Decorative 24-spoke wheel in brand blues, slow rotation (CareersImpact)
 
     mockups/             SIMULATED PRODUCT UI — fake app screenshots for visual storytelling,
                           not real Akashic functionality. See §8a before touching any file here.
@@ -272,7 +273,7 @@ Composed in `app/careers/page.tsx`. The nav's Company → Careers, the home Join
 | Order | ID | File | Notes |
 |---|---|---|---|
 | 00 | — | `sections/careers/CareersHero.tsx` | Centred hero, NOW HIRING pill, locations strip |
-| 01 | the-work | `sections/careers/CareersImpact.tsx` | "Production is a country": four-mission impact band, count-ups per Rule 4 |
+| 01 | the-work | `sections/careers/CareersImpact.tsx` | "Production is a country": narrative beside `demos/AshokaChakra` (slow-turning 24-spoke wheel), then the four-mission impact band (count-ups per Rule 4) |
 | 02 | how-we-work | `sections/careers/CareersCulture.tsx` | Candidate-lens culture ledger (W-01…W-06: principles translated to the employee experience), honest compensation note pointing at the intro call, links to `/about#what-we-believe` |
 | 03 | open-roles | `sections/careers/CareersRoles.tsx` | Canonical filterable roles board (client) — same ROLES + blue-bar hover signature as JoinTheTeam; keep the two lists in sync |
 | 04 | how-we-hire | `sections/careers/CareersHiring.tsx` | Four-step hiring rail (intro call / deep-dive / working session / decision) |
@@ -284,7 +285,7 @@ Composed in `app/solutions/{eis,life,knowledge}/page.tsx` (Nav + sections + Foot
 
 | Page | Sections (`components/sections/…`) | Signature pieces |
 |---|---|---|
-| `/solutions/eis` | `eis/` — EisHero, EisBrief [01], EisProvenance [02], EisSpine [03], EisAction [04], EisMoments [05], EisIntegration [06], EisProof [07], EisClose [08] | Rebuilt (Jul 2026) around the EIS product prototype (user's Downloads/Akashic EIS): `demos/mockups/EisBriefMockup` morning-brief hero (§8a, Nexora/Arjun/Meridian demo data from the prototype); brief-anatomy fan (one sentence, three systems); recreated Data Provenance popover (source/query/refresh/confidence/records); Enterprise Spine entity graph + convergence card; Ask Akashic scenario sim + approvals/write-back/audit panels |
+| `/solutions/eis` | `eis/` — EisHero, EisBrief [01], EisProvenance [02], EisSpine [03], EisAction [04], EisMoments [05], EisIntegration [06], EisProof [07], EisClose [08] | Rebuilt (Jul 2026) around the EIS product prototype (user's Downloads/Akashic EIS): `demos/mockups/EisBriefMockup` morning-brief hero (§8a, Nexora/Arjun/Meridian demo data from the prototype); brief-anatomy fan (one sentence, three systems); recreated Data Provenance popover (source/query/refresh/confidence/records); Enterprise Spine entity graph + convergence card; question-to-action single console (three numbered ask/simulate/approve zones mirroring a plain step rail, Jul 2026 simplification) |
 | `/solutions/life` | `life/` — LifeHero, LifeGap [01], LifeOffline [02], LifeStory [03], LifeChain [04], LifeBuilt [05], LifeProof [06], LifeClose [07] | Live counter card (Indian-locale count-up); 4-days-vs-2-min pathway panels; signal-bar offline states; stopwatch timeline (00:00→01:50); village→district→ministry fan SVG |
 | `/solutions/knowledge` | `knowledge/` — KnowledgeHero, KnowledgeFracture [01], KnowledgeGrid [02], KnowledgeNation [03], KnowledgeMorning [04], KnowledgeProof [05], KnowledgeChain [06], KnowledgeClose [07] | Learner-grid card with adaptive path rows (§8a); fracture watermark figures; per-learner pace bars; teacher's-morning clock timeline; DIKSHA count-up panels |
 

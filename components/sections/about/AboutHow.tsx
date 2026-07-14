@@ -40,7 +40,7 @@ export default function AboutHow() {
               <span className="text-overcast">[04]</span>
               <span className="text-inkSoft">&nbsp;&nbsp;How we work</span>
             </p>
-            <span className="hidden text-overcast sm:inline">/ The way we show up</span>
+            <span className="hidden text-overcast sm:inline">/ Four commitments</span>
           </div>
         </ScrollReveal>
 

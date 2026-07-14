@@ -197,16 +197,17 @@ export default function DynamicSketchIcon({ text, className = "" }: { text: stri
   const shapes = ICONS[text] || DEFAULT_ICON;
 
   return (
-    <svg 
-      className={className} 
-      width="24" 
-      height="24" 
-      viewBox="0 0 24 24" 
-      fill="none" 
-      stroke="currentColor" 
-      strokeWidth="1.5" 
-      strokeLinecap="round" 
+    <svg
+      className={className}
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
       strokeLinejoin="round"
+      aria-hidden
     >
       {shapes}
     </svg>

@@ -42,9 +42,9 @@ export default function AboutCareers() {
                 Join us in building India&rsquo;s intelligence layer.
               </h2>
               <p className="mt-5 max-w-[28em] text-lg leading-relaxed text-secondary-text">
-                We are a small team that ships. Our work runs inside national
-                platforms, touches millions of people, and lasts beyond any single
-                budget cycle. If that matters to you, we should talk.
+                Our work runs inside national platforms, touches millions of
+                people, and lasts beyond any single budget cycle. The full roles
+                board and hiring process live on the careers page.
               </p>
               <div className="mt-8">
                 <Link href="/careers" className="btn-secondary">
