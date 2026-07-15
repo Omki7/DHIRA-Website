@@ -1,6 +1,6 @@
 /*
  * Animated flow connectors for the Akashic product page — blue-on-white
- * cousins of the home section's VConn/DropConn (PlatformConnectors).
+ * kin of the home page's fine-line flow language.
  * Purely decorative line-drawing, no data. Shared by AkashicModules and
  * AkashicArchitecture so the page speaks one connective language.
  * Every connector terminates in a port Node so the sections read as one

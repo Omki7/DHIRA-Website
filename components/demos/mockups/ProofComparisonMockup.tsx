@@ -93,7 +93,7 @@ export default function ProofComparisonMockup({ pos, width, onKeyDown }: ProofCo
         {/* After wordmark */}
         <div className="absolute top-[6%] left-1/2 w-1/2 pl-6 md:pl-8 flex items-center gap-3 pointer-events-none">
           <span className="text-[15px] md:text-[22px] font-semibold tracking-[0.16em] uppercase text-[#3E63DD] whitespace-nowrap">
-            After DHIRA
+            After Akashic
           </span>
           <span className="w-1.5 h-1.5 rounded-full bg-[#3E63DD] shadow-[0_0_0_4px_rgba(62,99,221,0.15)]" />
         </div>
@@ -228,7 +228,7 @@ export default function ProofComparisonMockup({ pos, width, onKeyDown }: ProofCo
           >
             <span className="w-1.5 h-1.5 rounded-full bg-line shadow-[0_0_0_4px_rgba(211,216,223,0.3)]" />
             <span className="text-[15px] md:text-[22px] font-semibold tracking-[0.16em] uppercase text-inkSoft whitespace-nowrap">
-              Before DHIRA
+              Before Akashic
             </span>
           </div>
 
@@ -319,7 +319,7 @@ export default function ProofComparisonMockup({ pos, width, onKeyDown }: ProofCo
         onKeyDown={onKeyDown}
         tabIndex={0}
         role="slider"
-        aria-label="Drag to compare before and after DHIRA"
+        aria-label="Drag to compare before and after Akashic"
         aria-valuemin={0}
         aria-valuemax={100}
         aria-valuenow={Math.round(pos)}

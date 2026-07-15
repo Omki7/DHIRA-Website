@@ -14,7 +14,7 @@ export default function Closure() {
     >
       {/* Alias anchor: the nav CTA targets #talk-to-our-team on every page */}
       <span id="talk-to-our-team" className="absolute -top-24" aria-hidden />
-      <ScrollRevealRail className="z-10">
+      <ScrollRevealRail isLast={true} className="z-10">
         {/* Eyebrow / Section divider */}
         <ScrollReveal>
           <div className="mb-10 flex items-center justify-between border-t border-b border-dashed border-lineSoft py-[17px] px-[2px] font-mono text-[11px] uppercase tracking-eyebrow text-inkSoft">
@@ -30,13 +30,7 @@ export default function Closure() {
         <ScrollReveal delay={120}>
           <div className="group/card relative overflow-hidden rounded-[16px] border border-white/10 hover:border-white/20 bg-[#0A0A0C] hover:bg-[#0D0D10] px-6 py-24 md:py-32 lg:py-40 text-white shadow-2xl transition-all duration-500 ease-settle">
             {/* Custom dot-grid background */}
-            <div
-              className="absolute inset-0 opacity-[0.06] pointer-events-none"
-              style={{
-                backgroundImage: "radial-gradient(circle, rgba(255,255,255,0.2) 1.2px, transparent 1.2px)",
-                backgroundSize: "18px 18px",
-              }}
-            />
+            <div className="dot-grid-dark absolute inset-0 opacity-40 pointer-events-none" />
 
             {/* Glowing amber ambient background — centered */}
             <div
@@ -59,14 +53,14 @@ export default function Closure() {
               {/* Minimalist Accent Badge */}
               <div className="mb-8 flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 font-mono text-[11px] tracking-eyebrow text-white/70">
                 <AkashicLogo className="h-3.5 w-3.5" accentColor="#D9A034" />
-                <span>GROUNDED IN TRUTH</span>
+                <span>DEPLOYED AT NATIONAL SCALE</span>
               </div>
 
               <h2
                 id="get-started-h"
                 className="text-balance font-semibold leading-[1.03] tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-white via-[#F8F9FA] to-[#C3C5C9] text-[44px] sm:text-[60px] md:text-[80px] lg:text-[96px] pb-1"
               >
-                Ground your organisation in truth.
+                Ground every decision in fact.
               </h2>
               
               <p className="mt-8 max-w-[34em] text-base md:text-lg lg:text-xl leading-relaxed text-white/60">
@@ -83,7 +77,7 @@ export default function Closure() {
                   href="#talk-to-our-team"
                   className="inline-flex items-center justify-center gap-2 h-11 px-8 bg-white text-[#0A0A0C] font-semibold text-sm rounded-btn hover:bg-white/90 active:scale-[0.98] transition-all duration-settle shadow-[0_1px_2px_rgba(255,255,255,0.05),0_12px_24px_-8px_rgba(255,255,255,0.2)]"
                 >
-                  Schedule a briefing
+                  Talk to our team
                 </Link>
                 <Link
                   href="#platform"

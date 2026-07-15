@@ -1,7 +1,7 @@
 "use client";
 
 /*
- * [08] Proven at Scale — Not a Pilot.
+ * [10] Proven at Scale — Not a Pilot.
  * Deployment figures are real (see AGENTS.md Rule 4: 5.75B+ learning
  * sessions and 4M+ clearances match the home page's scale stats; 187M+
  * enrolments and 135 languages come from the content script).
@@ -61,19 +61,19 @@ function PanelSpark() {
 
 export default function AkashicScale() {
   return (
-    <section id="scale" className="scroll-mt-24 border-t border-lineSoft bg-white">
+    <section id="scale" className="scroll-mt-24 border-t border-lineSoft bg-primary-bg">
       <div className="rail-container pt-12 pb-24 lg:pt-16 lg:pb-32">
         <ScrollReveal>
           <p className="font-mono text-[11px] uppercase tracking-eyebrow">
-            <span className="text-overcast">[08]</span>
+            <span className="text-overcast">[10]</span>
             <span className="text-inkSoft">&nbsp;&nbsp;Proven at scale</span>
           </p>
           <h2 className="mt-5 text-heading-sm font-semibold text-ink md:text-heading-md">
             Live systems. National scale. Not a demo environment.
           </h2>
           <p className="mt-5 max-w-[34em] text-lg leading-relaxed text-secondary-text">
-            Akashic isn&rsquo;t proven in a sandbox. It&rsquo;s running where the
-            numbers are real and the stakes don&rsquo;t allow for guesswork.
+            Akashic runs national infrastructure today. Not a pilot, not a reference
+            architecture: production systems, serving citizens, under audit.
           </p>
         </ScrollReveal>
 
@@ -107,10 +107,10 @@ export default function AkashicScale() {
         <ScrollReveal>
           <div className="mx-auto mt-14 max-w-[36em] text-center lg:mt-16">
             <p className="text-xl font-semibold leading-snug tracking-tight text-ink md:text-2xl">
-              Run at scale by the same team that delivers your rollout.
+              Run at scale by the same team that will deliver your rollout.
             </p>
             <p className="mt-2.5 text-lg text-inkSoft">
-              This is the platform on this page: not a comparable one. This one.
+              Not a comparable platform. The one on this page.
             </p>
           </div>
         </ScrollReveal>

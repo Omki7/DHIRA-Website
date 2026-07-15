@@ -9,7 +9,7 @@ const BLOCKS = [
     eyebrow: "01 / scale",
     finding: "Global AI investment hit $581 billion in 2025. Most of it never reached operations.",
     detail:
-      "Enterprises poured capital into models and infrastructure. The last mile, clean, connected, governed data, was never solved.",
+      "Enterprises poured capital into models and infrastructure. The missing layer was clean, connected, governed data: the foundation every outcome depends on.",
     watermark: "$581B",
     source: "Stanford HAI, AI Index Report 2026",
     sourceUrl: "https://hai.stanford.edu/ai-index/2026-ai-index-report/economy",
@@ -46,7 +46,7 @@ export default function ProblemSection() {
         <ScrollReveal>
           <div className="mb-10 flex items-center justify-between border-t border-b border-dashed border-lineSoft py-[17px] px-[2px] font-mono text-[11px] uppercase tracking-eyebrow text-inkSoft">
             <span>
-              <span className="text-red font-mono font-bold">[01]</span>
+              <span className="text-overcast">[01]</span>
               &nbsp;&nbsp;THE PROBLEM
             </span>
             <span className="text-overcast">/ THE ARCHITECTURE GAP</span>
@@ -96,6 +96,28 @@ export default function ProblemSection() {
               ))}
             </div>
           </div>
+        </div>
+
+        {/* Bridge Section */}
+        <div className="relative mt-20 border-t border-lineSoft pt-16 pb-8 lg:mt-28 lg:pt-20">
+          <ScrollReveal>
+            <div className="relative mx-auto max-w-[720px] text-center px-4">
+              <div className="absolute left-1/2 top-1/2 -z-10 h-48 w-48 -translate-x-1/2 -translate-y-1/2 rounded-full bg-blue-subtle/50 opacity-60 blur-3xl pointer-events-none" />
+              <p className="font-sans text-[18px] md:text-[22px] font-normal leading-relaxed text-inkSoft">
+                The gap is not ambition. It is execution. Every one of these numbers traces back to the same root cause:{" "}
+                <span className="font-semibold text-ink">
+                  a data foundation never built to trust, trace, or act on.
+                </span>
+              </p>
+              <div className="mt-8 flex flex-col items-center gap-3">
+                <span className="h-6 w-px bg-blue-border" aria-hidden />
+                <span className="font-mono text-[11px] font-semibold uppercase tracking-eyebrow text-blue">
+                  Akashic is the data and AI platform built to close it
+                </span>
+                <span className="h-12 w-px bg-gradient-to-b from-blue-border to-transparent" aria-hidden />
+              </div>
+            </div>
+          </ScrollReveal>
         </div>
       </ScrollRevealRail>
     </section>

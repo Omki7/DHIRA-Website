@@ -91,12 +91,12 @@ export default function JoinTheTeam() {
             id="careers-h"
             className="max-w-[14em] text-balance text-[48px] font-semibold leading-[1.1] tracking-tighter text-ink md:text-[56px] lg:text-[64px]"
           >
-            Join us in building India&apos;s intelligence&nbsp;layer.
+            Join us in building the intelligence&nbsp;layer institutions run on.
           </h2>
           <p className="mt-5 max-w-[34em] text-lg leading-relaxed text-inkSoft">
-            We are a small team that ships. Our work runs inside national platforms,
+            We are a small team that ships. Our work runs inside systems people depend on daily,
             <br className="hidden sm:block" />
-            touches millions of people, and lasts beyond any single budget cycle.
+            touches millions of lives, and lasts beyond any single budget cycle.
             <br className="hidden sm:block" />
             If that matters to you, we should talk.
           </p>

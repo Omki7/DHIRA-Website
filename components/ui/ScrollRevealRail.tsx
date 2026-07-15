@@ -5,12 +5,14 @@ import { useEffect, useRef } from "react";
 interface Props {
   children: React.ReactNode;
   dark?: boolean;
+  isLast?: boolean;
   className?: string;
 }
 
 export default function ScrollRevealRail({
   children,
   dark = false,
+  isLast = false,
   className = "",
 }: Props) {
   const wrapperRef = useRef<HTMLDivElement>(null);
@@ -42,6 +44,19 @@ export default function ScrollRevealRail({
       const p = Math.max(0, Math.min(1, (vh - rect.top) / (vh + rect.height)));
 
       const pPct = p * 100;
+
+      // Narrative payoff: if this is the last rail and we reach the end, flash full gold
+      if (isLast && p > 0.85) {
+        lf.style.backgroundImage = `linear-gradient(to bottom, rgba(${goldRgb},0.8) 0%, rgba(${goldRgb},0.8) 100%)`;
+        rf.style.backgroundImage = `linear-gradient(to bottom, rgba(${goldRgb},0.8) 0%, rgba(${goldRgb},0.8) 100%)`;
+        lf.style.transition = "background-image 0.6s cubic-bezier(0.2,0.8,0.2,1)";
+        rf.style.transition = "background-image 0.6s cubic-bezier(0.2,0.8,0.2,1)";
+        return;
+      } else {
+        lf.style.transition = "none";
+        rf.style.transition = "none";
+      }
+
       // last 10% of the filled zone brightens into a glowing tip
       const glowStart = Math.max(0, pPct - 10);
 

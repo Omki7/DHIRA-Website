@@ -121,7 +121,7 @@ export default function TheProof() {
           <div className="mb-10 flex items-center justify-between border-t border-b border-dashed border-lineSoft py-[17px] px-[2px] font-mono text-[11px] uppercase tracking-eyebrow text-inkSoft">
             <span>
               <span className="text-overcast">[06]</span>
-              &nbsp;&nbsp;ARCHITECTURAL PROOF
+              &nbsp;&nbsp;THE PROOF
             </span>
             <span className="text-overcast">/ BEFORE &amp; AFTER</span>
           </div>

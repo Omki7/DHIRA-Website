@@ -1,5 +1,5 @@
 /*
- * [07] Built on Akashic — Purpose-Built for What You Run.
+ * [09] Built on Akashic — Purpose-Built for What You Run.
  * The card bodies are SIMULATED PRODUCT UI (AGENTS.md §8a): canned KPI
  * tiles, stream merges, and document rows.
  */
@@ -81,7 +81,7 @@ const solutions = [
     name: "Akashic EIS",
     icon: "Akashic EIS",
     sub: "Executive intelligence",
-    desc: "An executive intelligence system for leadership teams: performance and decision metrics in one live view.",
+    desc: "A solution for leadership teams: performance and decision metrics in one live view.",
     href: "/solutions/eis",
     body: <EISBody />,
   },
@@ -90,7 +90,7 @@ const solutions = [
     name: "Akashic Life",
     icon: "Akashic Life",
     sub: "Life sciences",
-    desc: "A data and analytics platform for life sciences: clinical, regulatory, and commercial data, unified.",
+    desc: "A solution for life sciences: clinical, regulatory, and commercial data, unified.",
     href: "/solutions/life",
     body: <LifeBody />,
   },
@@ -99,7 +99,7 @@ const solutions = [
     name: "Akashic Knowledge",
     icon: "Akashic Knowledge",
     sub: "Document intelligence",
-    desc: "A document intelligence layer for policies, contracts, and institutional knowledge.",
+    desc: "A solution for policies, contracts, and institutional knowledge.",
     href: "/solutions/knowledge",
     body: <KnowledgeBody />,
   },
@@ -111,15 +111,16 @@ export default function AkashicSolutions() {
       <div className="rail-container pt-12 pb-24 lg:pt-16 lg:pb-32">
         <ScrollReveal>
           <p className="font-mono text-[11px] uppercase tracking-eyebrow">
-            <span className="text-overcast">[07]</span>
+            <span className="text-overcast">[09]</span>
             <span className="text-inkSoft">&nbsp;&nbsp;Built on Akashic</span>
           </p>
           <h2 className="mt-5 text-heading-sm font-semibold text-ink md:text-heading-md lg:text-heading-lg">
             Same foundation. Built for what you actually do.
           </h2>
           <p className="mt-5 max-w-[34em] text-lg leading-relaxed text-secondary-text">
-            Akashic powers focused solutions for specific domains, each
-            pre-configured, running on the same governed platform underneath.
+            Three pre-configured assemblies of Akashic&rsquo;s seven modules, each built
+            for a job that already exists. Your first question is a business one, not a
+            configuration one.
           </p>
         </ScrollReveal>
 
@@ -151,7 +152,7 @@ export default function AkashicSolutions() {
                 <span className="-ml-1 text-[14px]">kashic</span>
               </span>
               <span className="text-[14px] font-medium text-inkSoft">
-                &middot; Different problems. Same governed model underneath.
+                &middot; Different problems. Same governed foundation underneath.
               </span>
             </div>
           </ScrollReveal>

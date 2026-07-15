@@ -235,6 +235,7 @@ function RolloutSequence() {
                     <Link
                       key={link.href}
                       href={link.href}
+                      scroll={link.href.includes('#') ? false : undefined}
                       className="inline-flex items-center rounded-full border border-lineSoft bg-white px-3 py-1.5 font-mono text-[10.5px] uppercase tracking-eyebrow text-inkSoft transition-colors duration-200 ease-settle hover:border-blue/30 hover:bg-blue-subtle hover:text-blue"
                     >
                       {link.label}
@@ -274,6 +275,7 @@ function RolloutSequence() {
                 <Link
                   key={mod.label}
                   href={mod.href}
+                  scroll={mod.href.includes('#') ? false : undefined}
                   className="inline-flex items-center gap-2 rounded-full border border-blue-border bg-white px-3.5 py-2 font-mono text-[10.5px] uppercase tracking-eyebrow text-blue transition-colors duration-200 ease-settle hover:border-blue hover:bg-white"
                 >
                   <DynamicSketchIcon text={mod.icon} className="h-[13px] w-[13px] text-blue" />

@@ -48,12 +48,12 @@ export default function HeroConnections() {
         {/* Labels positioned near the top of the lines */}
         <g style={{ fontFamily: "Inter, sans-serif", fontSize: "11px", fill: "#5C5E63", letterSpacing: "0.08em", fontWeight: 500 }}>
           <text x="100" y="180" textAnchor="middle">Semantic models</text>
-          <text x="300" y="230" textAnchor="middle">Rules &amp; guides</text>
-          <text x="500" y="280" textAnchor="middle" style={{ fill: "#3E63DD", fontWeight: 600 }}>Endorsed tables</text>
+          <text x="300" y="230" textAnchor="middle">Governance rules</text>
+          <text x="500" y="280" textAnchor="middle" style={{ fill: "#3E63DD", fontWeight: 600 }}>Endorsed datasets</text>
           
-          <text x="900" y="280" textAnchor="middle">Database metadata</text>
-          <text x="1100" y="230" textAnchor="middle">Existing analysis</text>
-          <text x="1300" y="180" textAnchor="middle">Suggestions</text>
+          <text x="900" y="280" textAnchor="middle">Schema &amp; lineage</text>
+          <text x="1100" y="230" textAnchor="middle">Prior analyses</text>
+          <text x="1300" y="180" textAnchor="middle">Live suggestions</text>
         </g>
       </svg>
     </div>

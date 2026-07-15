@@ -49,7 +49,7 @@ const config: Config = {
         "eyebrow": "0.14em",
       },
       borderRadius: {
-        "btn": "6px",
+        "btn": "10px",
         "card": "8px",
         "frame": "10px",
       },

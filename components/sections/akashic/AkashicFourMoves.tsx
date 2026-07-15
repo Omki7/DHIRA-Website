@@ -1,135 +1,367 @@
 "use client";
 
 /*
- * [01] How It Works — One Model, Four Moves.
- * The per-move micro-visuals are SIMULATED PRODUCT UI (see AGENTS.md §8a):
- * canned chips, transcripts, and timestamps for visual storytelling only.
- * The Understood and Delivered visuals follow the active world toggle.
+ * [01] Akashic in action — the product page's first fold, on blue (#3E63DD),
+ * a deliberate echo of the home page's "Meet Akashic" moment (AGENTS.md Rule 5
+ * exception). Split stage: narrative + world toggle left, a live ask
+ * simulation right. The question types itself FIRST; the four moves stay
+ * hidden until it finishes (their space is reserved so the fold never jumps),
+ * then cascade in one by one, and the answer card pops in as a two-panel
+ * evidence dossier: "From your systems" (numbers) beside "From your
+ * documents" (the why) — the structured + unstructured pull made obvious in
+ * plain words. The run plays once and persists; switching worlds replays it.
+ *
+ * Everything on the right is SIMULATED PRODUCT UI (AGENTS.md §8a): canned
+ * copy and demo data for storytelling only.
  */
 
-import { Fragment, useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import ScrollReveal from "@/components/ui/ScrollReveal";
+import AkashicLogo from "@/components/icons/AkashicLogo";
+import { usePrefersReducedMotion } from "@/hooks/useCountUp";
 
-const WORLD_INTERVAL = 5600;
+type IconKey = "source" | "graph" | "bolt" | "doc" | "mail" | "report";
+type Chip = { icon: IconKey; label: string };
 
-const worlds = [
+type World = {
+  label: string;
+  question: string;
+  asker: string;
+  context: string;
+  steps: { name: string; line: string }[];
+  answer: string;
+  answerDetail: string;
+  chart: {
+    title: string;
+    rows: { label: string; pct: number; lag?: boolean }[];
+    lagTag: string;
+    footnote: string;
+  };
+  docs: {
+    counted: string;
+    excerpt: { icon: IconKey; source: string; date: string; pre: string; mark: string; post: string };
+    record: { icon: IconKey; name: string; sub: string; status: string };
+  };
+  chips: Chip[];
+};
+
+const worlds: World[] = [
   {
     label: "Enterprise",
-    question: "Why is one region falling behind on target, and what’s driving it?",
-    context: "vs Q3 target · South region",
-    recipient: "Regional head",
-    initials: "RH",
-    answer: "Sales dipped 8% after two distributor renewals stalled in the South region.",
+    question: "Why is the South region behind on target, and what’s driving it?",
+    asker: "Regional head",
+    context: "vs Q3 target",
+    steps: [
+      { name: "Connected", line: "Pulls in your sales numbers, and the contracts and emails behind them." },
+      { name: "Understood", line: "Knows your regions and targets, so “behind” means the same thing everywhere." },
+      { name: "Reasoned", line: "Follows the shortfall to its cause: two renewal deals, still unsigned." },
+      { name: "Answered", line: "One plain answer, with the numbers and the paperwork attached." },
+    ],
+    answer: "South is 8% behind target because two distributor renewals stalled in July.",
+    answerDetail: "Both distributors pushed back on the revised pricing. Neither renewal has been signed.",
+    chart: {
+      title: "Revenue vs target · South region",
+      rows: [
+        { label: "APR", pct: 102 },
+        { label: "MAY", pct: 99 },
+        { label: "JUN", pct: 97 },
+        { label: "JUL", pct: 92, lag: true },
+      ],
+      lagTag: "−8% vs target",
+      footnote: "The gap is $80,500. The two stalled renewals account for all of it.",
+    },
+    docs: {
+      counted: "3 read · 2 cited",
+      excerpt: {
+        icon: "mail",
+        source: "AeroCorp · renewal email",
+        date: "2 JUL",
+        pre: "“We ",
+        mark: "can’t commit at the revised pricing",
+        post: " until our board reviews it in August.”",
+      },
+      record: {
+        icon: "doc",
+        name: "Lumina Systems · renewal contract",
+        sub: "$38,000 · counter-signature pending since 14 June",
+        status: "Unsigned",
+      },
+    },
+    chips: [
+      { icon: "source", label: "2 systems · 3 documents read" },
+      { icon: "graph", label: "Every line traced to its source" },
+      { icon: "bolt", label: "Ready in seconds" },
+    ],
   },
   {
     label: "Public programmes",
-    question: "Why are enrolments lagging in one district, and what’s driving it?",
-    context: "vs enrolment target · District 7",
-    recipient: "District lead",
-    initials: "DL",
-    answer: "Enrolments dipped 9% after two camps were rescheduled in District 7.",
+    question: "Why are enrolments lagging in District 7, and what changed on the ground?",
+    asker: "District lead",
+    context: "vs enrolment target",
+    steps: [
+      { name: "Connected", line: "Pulls in enrolment counts, and the camp schedules and field reports behind them." },
+      { name: "Understood", line: "Knows your districts and targets, so “lagging” means the same thing everywhere." },
+      { name: "Reasoned", line: "Follows the gap to its cause: two outreach camps, both rescheduled." },
+      { name: "Answered", line: "One plain answer, with the counts and the field notes attached." },
+    ],
+    answer: "District 7 is 9% behind target because two outreach camps were rescheduled after the July floods.",
+    answerDetail: "Both camps are now set for early August. The gap closes once they run.",
+    chart: {
+      title: "Enrolments vs target · by district",
+      rows: [
+        { label: "D-5", pct: 102 },
+        { label: "D-6", pct: 98 },
+        { label: "D-7", pct: 91, lag: true },
+      ],
+      lagTag: "−9% vs target",
+      footnote: "The gap is 550 enrolments. The two rescheduled camps account for all of it.",
+    },
+    docs: {
+      counted: "4 read · 2 cited",
+      excerpt: {
+        icon: "report",
+        source: "Camp 04 · field report",
+        date: "6 JUL",
+        pre: "“Venue roads are still waterlogged. ",
+        mark: "Camp moved to 3 August",
+        post: ".”",
+      },
+      record: {
+        icon: "doc",
+        name: "Camp 07 · reschedule notice",
+        sub: "300 expected enrolments · new date 8 August",
+        status: "Rescheduled",
+      },
+    },
+    chips: [
+      { icon: "source", label: "2 systems · 4 field notes read" },
+      { icon: "graph", label: "Every line traced to its source" },
+      { icon: "bolt", label: "Ready in seconds" },
+    ],
   },
 ];
 
-/* ------------------------------------------------------------------ */
-/*  Per-move micro-visuals                                             */
-/* ------------------------------------------------------------------ */
+/* What the status line says while the run is underway, per phase 0–4. */
+const STATUS_LABELS = [
+  "Thinking",
+  "Reading systems and documents",
+  "Getting your context",
+  "Tracing the cause",
+  "Writing the answer",
+];
 
-function ConnectedVisual() {
-  const feeds = [
-    { name: "Sales records", dot: "#00A1E0" },
-    { name: "Scheme data", dot: "#30A46C" },
-    { name: "Field reports", dot: "#E8491D" },
-    { name: "Ops logs", dot: "#1F2A44" },
-  ];
-  return (
-    <div className="mt-4 flex max-w-[30em] flex-wrap items-center gap-2">
-      {feeds.map((feed, i) => (
-        <span
-          key={feed.name}
-          className="inline-flex items-center gap-1.5 rounded-full border border-subtle-stroke bg-white px-3 py-1 text-[11.5px] font-medium text-ink shadow-card"
-        >
-          <span
-            className="h-1.5 w-1.5 rounded-full animate-[ps-pulse_2.4s_infinite]"
-            style={{ background: feed.dot, animationDelay: `${i * 350}ms` }}
-          />
-          {feed.name}
-        </span>
-      ))}
-      <span className="text-[11px] text-overcast">synced just now</span>
-    </div>
-  );
-}
+/* Bars plot percent-of-target on a 0–110% scale; the target line sits at 100. */
+const CHART_MAX = 110;
 
-function UnderstoodVisual({ world }: { world: number }) {
-  return (
-    <div className="mt-4 flex max-w-[30em] flex-wrap items-center gap-2">
-      <span className="rounded-[7px] border border-subtle-stroke bg-white px-2.5 py-1 font-mono text-[10.5px] text-ink shadow-card">
-        “behind”
-      </span>
-      <svg width="22" height="12" viewBox="0 0 22 12" fill="none" aria-hidden className="shrink-0">
-        <path d="M 0 6 Q 11 2, 22 6" stroke="#3E63DD" strokeWidth="1.3" opacity="0.3" />
-        <path d="M 0 6 Q 11 2, 22 6" stroke="#3E63DD" strokeWidth="1.5" strokeDasharray="6 26" className="animate-[ps-flow_1.8s_linear_infinite]" opacity="0.85" />
+function UiIcon({ icon, size = 10 }: { icon: IconKey; size?: number }) {
+  const common = {
+    width: size,
+    height: size,
+    viewBox: "0 0 24 24",
+    fill: "none",
+    stroke: "currentColor",
+    strokeWidth: 2,
+    strokeLinecap: "round" as const,
+    strokeLinejoin: "round" as const,
+    "aria-hidden": true,
+  };
+  if (icon === "source") {
+    return (
+      <svg {...common}>
+        <ellipse cx="12" cy="5" rx="8" ry="3" />
+        <path d="M4 5v14c0 1.66 3.58 3 8 3s8-1.34 8-3V5" />
+        <path d="M4 12c0 1.66 3.58 3 8 3s8-1.34 8-3" />
       </svg>
-      <span className="rounded-[7px] border border-blue-border bg-blue-subtle px-2.5 py-1 font-mono text-[10.5px] font-semibold text-blue">
-        {worlds[world].context}
+    );
+  }
+  if (icon === "graph") {
+    return (
+      <svg {...common}>
+        <circle cx="5" cy="19" r="2.5" />
+        <circle cx="12" cy="6" r="2.5" />
+        <circle cx="19" cy="15" r="2.5" />
+        <path d="M6.5 17L10.5 8M14 7.5l3.5 6M7.5 18.6l9-3.2" />
+      </svg>
+    );
+  }
+  if (icon === "bolt") {
+    return (
+      <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+        <path d="M13 2L4.5 13.5H11L10 22l8.5-11.5H12L13 2z" />
+      </svg>
+    );
+  }
+  if (icon === "mail") {
+    return (
+      <svg {...common}>
+        <rect x="3" y="5" width="18" height="14" rx="2" />
+        <path d="M3 7l9 6 9-6" />
+      </svg>
+    );
+  }
+  if (icon === "report") {
+    return (
+      <svg {...common}>
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+        <path d="M14 2v6h6" />
+        <path d="M8 14l2.2 2.2L15 11.5" />
+      </svg>
+    );
+  }
+  return (
+    <svg {...common}>
+      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+      <path d="M14 2v6h6" />
+      <path d="M8 13h8M8 17h8" />
+    </svg>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/*  The two evidence panels inside the answer card                     */
+/* ------------------------------------------------------------------ */
+
+function PanelHeader({
+  icon,
+  label,
+  right,
+}: {
+  icon: IconKey;
+  label: string;
+  right: React.ReactNode;
+}) {
+  return (
+    <div className="flex items-center gap-1.5 border-b border-[#EBEEF4] bg-[#F7F8FB] px-3 py-2">
+      <span className="text-blue">
+        <UiIcon icon={icon} size={11} />
       </span>
-      <span className="text-[11px] text-overcast">one meaning, everywhere</span>
+      <span className="font-mono text-[9px] font-semibold uppercase tracking-[0.1em] text-overcast">
+        {label}
+      </span>
+      <span className="ml-auto flex items-center">{right}</span>
     </div>
   );
 }
 
-function ReasonedVisual() {
+function SystemsPanel({ world }: { world: World }) {
+  const { chart } = world;
+  const targetLeft = `${(100 / CHART_MAX) * 100}%`;
   return (
-    <div className="mt-4 max-w-[26em] rounded-[10px] border border-subtle-stroke bg-primary-bg px-3.5 py-2.5 font-mono text-[10.5px] leading-relaxed text-inkSoft shadow-card">
-      <span className="text-overcast">trace:</span>&nbsp;question &rarr; governed model &rarr; evidence
-      <br />
-      <span className="text-overcast">sources:</span>&nbsp;3 merged · 1 golden record
-      <span className="ml-0.5 font-bold text-blue animate-[ps-caret-blink_1s_step-end_infinite]">|</span>
-    </div>
-  );
-}
-
-function DeliveredVisual({ world }: { world: number }) {
-  return (
-    <div className="mt-4 flex max-w-[26em] items-center gap-3 rounded-[12px] border border-subtle-stroke bg-white px-3.5 py-2.5 shadow-card">
-      <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-blue-subtle text-[11px] font-bold text-blue">
-        {worlds[world].initials}
-      </div>
-      <div className="min-w-0 flex-1">
-        <div className="truncate text-[12px] font-semibold text-ink">
-          {worlds[world].recipient} · notified
+    <div className="flex flex-col overflow-hidden rounded-[10px] border border-[#E3E7F0] bg-white">
+      <PanelHeader
+        icon="source"
+        label="From your systems"
+        right={
+          <span
+            className="rounded-full border border-red/20 bg-red/[0.06] px-2 py-0.5 font-mono text-[9px] font-semibold text-red"
+            style={{ animation: "akx-rise 0.5s 0.95s cubic-bezier(0.22,1,0.36,1) both" }}
+          >
+            {chart.lagTag}
+          </span>
+        }
+      />
+      <div className="flex flex-1 flex-col justify-center gap-2 px-3 py-3">
+        <p className="font-mono text-[9px] uppercase tracking-[0.08em] text-overcast">{chart.title}</p>
+        <div className="flex flex-col gap-2">
+          {chart.rows.map((row, i) => (
+            <div key={row.label} className="grid grid-cols-[30px_1fr_38px] items-center gap-2">
+              <span className={`font-mono text-[9px] ${row.lag ? "font-semibold text-red" : "text-overcast"}`}>
+                {row.label}
+              </span>
+              <span className="relative block h-[10px] rounded-full bg-[#EDF0F6]">
+                <span
+                  className={`absolute inset-y-0 left-0 origin-left rounded-full ${row.lag ? "bg-red" : "bg-blue"}`}
+                  style={{
+                    width: `${(row.pct / CHART_MAX) * 100}%`,
+                    animation: `akx-fillx 0.8s cubic-bezier(0.22,1,0.36,1) ${0.25 + i * 0.14}s both`,
+                  }}
+                  aria-hidden
+                />
+                <span
+                  className="absolute -bottom-[3px] -top-[3px] w-px border-l border-dashed border-[#9AA6C0]"
+                  style={{ left: targetLeft }}
+                  aria-hidden
+                />
+              </span>
+              <span
+                className={`text-right font-mono text-[10px] ${row.lag ? "font-bold text-red" : "font-medium text-inkSoft"}`}
+              >
+                {row.pct}%
+              </span>
+            </div>
+          ))}
         </div>
-        <div className="truncate text-[11px] text-inkSoft">Plain-language brief, with the why attached</div>
+        <p className="flex items-center justify-end gap-1.5 font-mono text-[8.5px] text-overcast" aria-hidden>
+          <span className="inline-block h-3 w-px border-l border-dashed border-[#9AA6C0]" />
+          100% of target
+        </p>
       </div>
-      <span className="shrink-0 font-mono text-[10px] text-overcast">09:41</span>
+      <p
+        className="border-t border-[#EBEEF4] bg-[#FAFBFC] px-3 py-2 text-[11px] leading-snug text-inkSoft"
+        style={{ animation: "akx-rise 0.5s 1.1s cubic-bezier(0.22,1,0.36,1) both" }}
+      >
+        {chart.footnote}
+      </p>
     </div>
   );
 }
 
-const moves = [
-  {
-    name: "Connected",
-    desc: "Every system that touches the question: sales records or scheme data, field reports or operational logs. Pulled in the moment anything changes.",
-    visual: (_world: number) => <ConnectedVisual />,
-  },
-  {
-    name: "Understood",
-    desc: "Linked with context: which team or which district, which target or which indicator. So “behind” means the same thing wherever it’s asked.",
-    visual: (world: number) => <UnderstoodVisual world={world} />,
-  },
-  {
-    name: "Reasoned",
-    desc: "Ask why, and the AI reasons over that one governed model. Not a guess. Not three reports with three different numbers.",
-    visual: (_world: number) => <ReasonedVisual />,
-  },
-  {
-    name: "Delivered",
-    desc: "The answer reaches whoever’s accountable, in plain language, in time to act. Not in a report two weeks from now.",
-    visual: (world: number) => <DeliveredVisual world={world} />,
-  },
-];
+function DocumentsPanel({ world }: { world: World }) {
+  const { excerpt, record, counted } = world.docs;
+  return (
+    <div className="flex flex-col overflow-hidden rounded-[10px] border border-[#E3E7F0] bg-white">
+      <PanelHeader
+        icon="doc"
+        label="From your documents"
+        right={<span className="font-mono text-[8.5px] uppercase tracking-[0.06em] text-overcast">{counted}</span>}
+      />
+      <div className="flex flex-1 flex-col gap-2 px-3 py-3">
+        <div
+          className="flex flex-1 flex-col rounded-[9px] border border-[#E3E7F0] bg-white p-2.5"
+          style={{ animation: "akx-rise 0.5s 0.45s cubic-bezier(0.22,1,0.36,1) both" }}
+        >
+          <div className="flex items-center gap-2">
+            <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-[5px] bg-blue-subtle text-blue">
+              <UiIcon icon={excerpt.icon} size={11} />
+            </span>
+            <span className="min-w-0 truncate text-[10.5px] font-semibold text-ink">{excerpt.source}</span>
+            <span className="ml-auto shrink-0 font-mono text-[8.5px] text-overcast">{excerpt.date}</span>
+          </div>
+          <p className="mt-2 text-[12px] leading-relaxed text-ink">
+            {excerpt.pre}
+            <span
+              style={{
+                backgroundImage: "linear-gradient(0deg,#FCE9A8,#FCE9A8)",
+                backgroundRepeat: "no-repeat",
+                backgroundSize: "0% 100%",
+                animation: "akx-mark 0.7s 1.35s ease-out both",
+              }}
+            >
+              {excerpt.mark}
+            </span>
+            {excerpt.post}
+          </p>
+        </div>
+        <div
+          className="flex items-center gap-2 rounded-[9px] border border-[#E3E7F0] bg-white p-2.5"
+          style={{ animation: "akx-rise 0.5s 0.65s cubic-bezier(0.22,1,0.36,1) both" }}
+        >
+          <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-[5px] bg-blue-subtle text-blue">
+            <UiIcon icon={record.icon} size={11} />
+          </span>
+          <div className="flex min-w-0 flex-col">
+            <span className="truncate text-[10.5px] font-semibold leading-tight text-ink">{record.name}</span>
+            <span className="truncate font-mono text-[8.5px] text-tertiary-text">{record.sub}</span>
+          </div>
+          <span className="ml-auto shrink-0 rounded-[4px] border border-red/20 bg-red/5 px-1.5 py-0.5 font-mono text-[8px] font-bold uppercase text-red">
+            {record.status}
+          </span>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 /* ------------------------------------------------------------------ */
 /*  Section                                                            */
@@ -137,219 +369,377 @@ const moves = [
 
 export default function AkashicFourMoves() {
   const [active, setActive] = useState(0);
-  const [paused, setPaused] = useState(false);
+  const [typedLen, setTypedLen] = useState(0);
+  const [phase, setPhase] = useState(0);
+  const [started, setStarted] = useState(false);
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const reduced = usePrefersReducedMotion();
 
+  const world = worlds[active];
+  const typingDone = typedLen >= world.question.length;
+  const revealed = phase === 5;
+  const running = started && !revealed;
+
+  // Pull-to-pop: the moment the section peeks in from the wireframes above,
+  // a rAF eased glide lands it flush with the viewport. Native smooth scroll
+  // is too uneven across platforms for this to feel like one motion.
   useEffect(() => {
-    if (paused) return;
-    const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const interval = WORLD_INTERVAL + (prefersReduced ? 1400 : 0);
-    const id = setInterval(() => {
-      setActive((i) => (i + 1) % worlds.length);
-    }, interval);
-    return () => clearInterval(id);
-  }, [paused]);
+    if (reduced) return;
+    let lastY = window.scrollY;
+    let lastScrollTime = Date.now();
+    let snapping = false;
+    let cooldownUntil = 0;
+    let rafId = 0;
+
+    const abort = () => {
+      if (snapping) {
+        snapping = false;
+        cancelAnimationFrame(rafId);
+        cooldownUntil = Date.now() + 1200;
+        lastY = window.scrollY;
+      }
+    };
+    const onWheelUp = (e: WheelEvent) => {
+      if (e.deltaY < 0) abort();
+    };
+
+    const glide = (targetY: number) => {
+      const startY = window.scrollY;
+      const dist = targetY - startY;
+      if (Math.abs(dist) < 2) return;
+      const dur = Math.min(950, 480 + Math.abs(dist) * 0.4);
+      const t0 = performance.now();
+      snapping = true;
+      let expectedY = startY;
+      const ease = (t: number) => 1 - Math.pow(1 - t, 4);
+      const stepFrame = (now: number) => {
+        if (!snapping) return;
+
+        // If the actual scroll position deviates from where we scrolled,
+        // it means the user manually scrolled (wheel, trackpad, touch, etc.). Abort.
+        const currentY = window.scrollY;
+        if (Math.abs(currentY - expectedY) > 1.5) {
+          abort();
+          return;
+        }
+
+        const p = Math.min((now - t0) / dur, 1);
+        const nextY = startY + dist * ease(p);
+        expectedY = nextY;
+
+        window.scrollTo(0, nextY);
+
+        if (p < 1) {
+          rafId = requestAnimationFrame(stepFrame);
+        } else {
+          snapping = false;
+          cooldownUntil = Date.now() + 1600;
+          lastY = window.scrollY;
+        }
+      };
+      rafId = requestAnimationFrame(stepFrame);
+    };
+
+    const onScroll = () => {
+      const el = sectionRef.current;
+      if (!el) return;
+      const y = window.scrollY;
+      const delta = y - lastY;
+      const now = Date.now();
+      const dt = now - lastScrollTime;
+      lastY = y;
+      lastScrollTime = now;
+
+      if (snapping || delta <= 0) return;
+
+      // If delta is large or scroll speed is high, user is scrolling fast. Avoid hijacking.
+      const speed = dt > 0 ? Math.abs(delta) / dt : 0;
+      if (speed > 1.5 || delta > 40) {
+        cooldownUntil = Date.now() + 1000;
+        return;
+      }
+
+      if (Date.now() < cooldownUntil) return;
+
+      const rect = el.getBoundingClientRect();
+      const vh = window.innerHeight;
+      // A light downward scroll with the section edge on screen pulls it flush.
+      if (rect.top < vh - 72 && rect.top > vh * 0.22) {
+        glide(y + rect.top);
+      }
+    };
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("wheel", onWheelUp, { passive: true });
+    window.addEventListener("touchstart", abort, { passive: true });
+    return () => {
+      abort();
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("wheel", onWheelUp);
+      window.removeEventListener("touchstart", abort);
+    };
+  }, [reduced]);
+
+  // Start the run once, the first time the section is properly on screen.
+  // It never resets on scroll-out: the answered state stays put.
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setStarted(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.3 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  // The run: type the question, hold a beat on "Thinking", cascade the four
+  // moves in order, then reveal the answer. Replays only on a world switch.
+  useEffect(() => {
+    if (!started) return;
+    const q = worlds[active].question;
+    if (reduced) {
+      setTypedLen(q.length);
+      setPhase(5);
+      return;
+    }
+    setTypedLen(0);
+    setPhase(0);
+    const timers: number[] = [];
+    let i = 0;
+    const typer = window.setInterval(() => {
+      i += 1;
+      setTypedLen(i);
+      if (i >= q.length) {
+        window.clearInterval(typer);
+        [1, 2, 3, 4, 5].forEach((p, idx) => {
+          timers.push(window.setTimeout(() => setPhase(p), 800 + idx * 850 + (p === 5 ? 250 : 0)));
+        });
+      }
+    }, 22);
+    return () => {
+      window.clearInterval(typer);
+      timers.forEach((t) => window.clearTimeout(t));
+    };
+  }, [started, active, reduced]);
+
+  const solidShadow = "shadow-[0_2px_6px_rgba(11,20,64,0.12),0_28px_56px_-22px_rgba(11,20,64,0.55)]";
+  const ctaClasses = `inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/10 px-4 py-2 text-sm font-medium text-white backdrop-blur-sm transition-colors duration-250 ease-settle hover:bg-white/15`;
+  const ctaReveal = revealed ? "opacity-100 translate-y-0" : "pointer-events-none opacity-0 translate-y-2";
 
   return (
-    <section id="how-it-works" className="scroll-mt-24 border-t border-lineSoft bg-white">
-      <div className="rail-container pt-12 pb-24 lg:pt-16 lg:pb-32">
-        <ScrollReveal>
-          <p className="font-mono text-[11px] uppercase tracking-eyebrow">
-            <span className="text-overcast">[01]</span>
-            <span className="text-inkSoft">&nbsp;&nbsp;How it works</span>
-          </p>
-          <h2 className="mt-5 text-heading-sm font-semibold text-ink md:text-heading-md lg:text-heading-lg">
-            One governed model. Four moves. No hand-offs.
-          </h2>
-        </ScrollReveal>
+    <section id="akashic-in-action" className="relative scroll-mt-24 bg-[#3E63DD]" ref={sectionRef}>
+      <div className="rail-container flex flex-col justify-center border-x-0 py-16 lg:min-h-screen lg:py-10">
+        <div className="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:items-center lg:gap-14">
 
-        <div className="mt-14 grid gap-12 lg:mt-16 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-20">
-          {/* Left: the two worlds, one question widget */}
-          <div className="lg:sticky lg:top-28 lg:self-start">
+          {/* Left: narrative + world toggle */}
+          <div className="lg:col-span-5">
             <ScrollReveal>
-              <div className="inline-flex rounded-full border border-subtle-stroke bg-tertiary-bg p-1">
-                {worlds.map((world, i) => (
-                  <button
-                    key={world.label}
-                    type="button"
-                    onClick={() => {
-                      setActive(i);
-                      setPaused(true);
-                    }}
-                    aria-pressed={i === active}
-                    className={`rounded-full px-4 py-1.5 text-sm font-medium transition-colors duration-250 ease-settle ${
-                      i === active
-                        ? "bg-white text-ink shadow-card"
-                        : "text-inkSoft hover:text-ink"
-                    }`}
-                  >
-                    {world.label}
-                  </button>
-                ))}
+              <div className="text-center lg:text-left">
+                <p className="font-mono text-[11px] uppercase tracking-eyebrow">
+                  <span className="text-white/40">[01]</span>
+                  <span className="text-white/80">&nbsp;&nbsp;Akashic in action</span>
+                </p>
+                <h2 className="mt-5 text-heading-sm font-semibold leading-tight tracking-tight text-white md:text-heading-md">
+                  Ask a real question.
+                  <br className="hidden lg:block" /> Watch Akashic answer it.
+                </h2>
+                <p className="mx-auto mt-5 max-w-[34em] text-lg leading-relaxed text-white/75 lg:mx-0">
+                  Every real question has two halves. The number sits in a system. The
+                  reason sits in a document nobody queries. Joining them by hand takes a
+                  week: the answer arrives after the decision. Akashic reads both and
+                  answers as one, lineage attached.
+                </p>
               </div>
+            </ScrollReveal>
 
-              <div className="mt-6 rounded-frame border border-subtle-stroke bg-white p-5 shadow-card">
-                <div className="flex items-start gap-3">
-                  <svg
-                    width="16"
-                    height="16"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className="mt-1.5 shrink-0 text-blue"
-                    aria-hidden
-                  >
-                    <circle cx="11" cy="11" r="8" />
-                    <line x1="21" y1="21" x2="16.65" y2="16.65" />
-                  </svg>
-                  <div className="grid min-w-0 flex-1 text-left">
-                    {worlds.map((world, i) => (
-                      <p
-                        key={world.label}
-                        aria-hidden={i !== active}
-                        className="col-start-1 row-start-1 text-lg font-medium leading-snug text-ink"
-                        style={{
-                          opacity: i === active ? 1 : 0,
-                          filter: i === active ? "blur(0)" : "blur(4px)",
-                          transform: i === active ? "translateY(0)" : "translateY(4px)",
-                          transition:
-                            "opacity 380ms cubic-bezier(0.2,0.8,0.2,1), filter 380ms cubic-bezier(0.2,0.8,0.2,1), transform 380ms cubic-bezier(0.2,0.8,0.2,1)",
-                        }}
-                      >
-                        &ldquo;{world.question}&rdquo;
-                        <span
-                          className="ml-0.5 font-bold text-blue"
-                          style={{ animation: "ps-caret-blink 1s step-end infinite" }}
-                        >
-                          |
-                        </span>
-                      </p>
-                    ))}
-                  </div>
-                  <span className="mt-1 flex shrink-0 items-center gap-1 self-start rounded-full bg-blue px-2.5 py-1 text-[9px] font-bold tracking-[0.06em] text-white shadow-[0_2px_5px_rgba(62,99,221,0.2)]">
-                    ASK
-                    <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-                      <line x1="5" y1="12" x2="19" y2="12" />
-                      <polyline points="12 5 19 12 12 19" />
-                    </svg>
-                  </span>
+            <ScrollReveal delay={80}>
+              <div className="mt-8 flex justify-center lg:justify-start">
+                <div
+                  className="inline-flex rounded-full border border-white/20 bg-white/10 p-1 backdrop-blur-sm"
+                  role="tablist"
+                  aria-label="Choose a world"
+                >
+                  {worlds.map((w, i) => (
+                    <button
+                      key={w.label}
+                      type="button"
+                      role="tab"
+                      aria-selected={i === active}
+                      onClick={() => {
+                        if (i !== active) setActive(i);
+                      }}
+                      className={`rounded-full px-4 py-1.5 text-sm font-medium transition-colors duration-250 ease-settle ${
+                        i === active
+                          ? "bg-white text-blue shadow-card"
+                          : "text-white/70 hover:text-white"
+                      }`}
+                    >
+                      {w.label}
+                    </button>
+                  ))}
                 </div>
               </div>
+            </ScrollReveal>
 
-              {/* Live answer console: the four moves produce the answer, replayed per world */}
-              <div className="mt-3 overflow-hidden rounded-frame border border-subtle-stroke bg-primary-bg">
-                <div className="flex items-center gap-2 border-b border-subtle-stroke bg-white px-4 py-2">
-                  <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-blue animate-[ps-pulse_2s_infinite]" />
-                  <span className="font-mono text-[9.5px] uppercase tracking-[0.08em] text-overcast">
-                    Answering &middot; one governed path
-                  </span>
-                </div>
-                <div key={active} className="p-4">
-                  <div className="flex flex-wrap items-center gap-1.5">
-                    {moves.map((move, i) => (
-                      <Fragment key={move.name}>
-                        <span
-                          className="rounded-[6px] border border-blue-border bg-blue-subtle px-2 py-0.5 text-[9.5px] font-bold tracking-[0.03em] text-blue animate-[ps-rise_0.45s_cubic-bezier(0.22,1,0.36,1)_both]"
-                          style={{ animationDelay: `${i * 0.38}s` }}
-                        >
-                          {move.name.toUpperCase()}
-                        </span>
-                        {i < moves.length - 1 && (
-                          <svg
-                            width="10"
-                            height="10"
-                            viewBox="0 0 12 12"
-                            fill="none"
-                            aria-hidden
-                            className="shrink-0 text-overcast animate-[ps-rise_0.45s_cubic-bezier(0.22,1,0.36,1)_both]"
-                            style={{ animationDelay: `${i * 0.38 + 0.19}s` }}
-                          >
-                            <path d="M2.5 6H9.5M9.5 6L6 2.5M9.5 6L6 9.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                          </svg>
-                        )}
-                      </Fragment>
-                    ))}
-                  </div>
-                  <div
-                    className="mt-3 rounded-[12px] rounded-bl-[4px] border border-blue-border bg-white px-3.5 py-2.5 animate-[ps-rise_0.5s_cubic-bezier(0.22,1,0.36,1)_both]"
-                    style={{ animationDelay: "1.7s" }}
-                  >
-                    <p className="text-[13px] leading-relaxed text-ink">{worlds[active].answer}</p>
-                    <div className="mt-2 flex flex-wrap gap-1">
-                      <span className="rounded-[4px] border border-blue-border bg-blue-subtle/60 px-1.5 py-0.5 font-mono text-[8.5px] text-blue">governed model</span>
-                      <span className="rounded-[4px] border border-blue-border bg-blue-subtle/60 px-1.5 py-0.5 font-mono text-[8.5px] text-blue">lineage attached</span>
-                    </div>
-                  </div>
-                  <div
-                    className="mt-2.5 flex items-center gap-2 animate-[ps-rise_0.5s_cubic-bezier(0.22,1,0.36,1)_both]"
-                    style={{ animationDelay: "2.3s" }}
-                  >
-                    <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-blue-subtle text-[7.5px] font-bold text-blue">
-                      {worlds[active].initials}
-                    </span>
-                    <span className="text-[11px] font-medium text-ink">
-                      Delivered to the {worlds[active].recipient.toLowerCase()}
-                    </span>
-                    <span className="ml-auto font-mono text-[9.5px] text-overcast">09:41</span>
-                  </div>
-                </div>
-              </div>
-
-              <p className="mt-6 max-w-[26em] text-[17px] font-semibold leading-snug tracking-tight text-ink">
-                Two different questions. One governed model behind both answers.
-                That&rsquo;s what &ldquo;grounded&rdquo; means, in practice.
-              </p>
-              <Link href="#modules" className="btn-secondary mt-5">
-                See every module
+            <div className={`mt-10 hidden transition-all duration-700 ease-settle lg:block ${ctaReveal}`}>
+              <Link href="#how-it-works" className={ctaClasses}>
+                See what&rsquo;s underneath
                 <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden>
-                  <path
-                    d="M6 2.5V9.5M6 9.5L2.5 6M6 9.5L9.5 6"
-                    stroke="currentColor"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
+                  <path d="M6 2.5V9.5M6 9.5L2.5 6M6 9.5L9.5 6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               </Link>
-            </ScrollReveal>
+            </div>
           </div>
 
-          {/* Right: the four moves rail */}
-          <div className="relative">
+          {/* Right: the ask simulation */}
+          <div className="flex w-full flex-col gap-3.5 lg:col-span-7">
+
+            {/* Question card — a focused input while the run is underway */}
             <div
-              className="absolute left-[19px] top-8 bottom-8 w-px bg-gradient-to-b from-blue-border via-lineSoft to-blue"
-              aria-hidden
-            />
-            {moves.map((move, i) => (
-              <ScrollReveal key={move.name} delay={i * 90}>
-                <div className="relative grid grid-cols-[40px_1fr] gap-x-6 py-7 first:pt-0 last:pb-0">
+              className={`flex items-start gap-3.5 rounded-[14px] bg-white p-4 transition-all duration-400 ease-settle sm:p-5 ${solidShadow} ${
+                running ? "ring-[3px] ring-white/35" : "ring-1 ring-[#0B1440]/15"
+              }`}
+            >
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="mt-1 shrink-0 text-blue"
+                aria-hidden
+              >
+                <circle cx="11" cy="11" r="8" />
+                <line x1="21" y1="21" x2="16.65" y2="16.65" />
+              </svg>
+              <div className="min-w-0 flex-1">
+                <p className="min-h-[2.8em] text-lg font-medium leading-snug text-ink sm:text-xl xl:min-h-0">
+                  {world.question.slice(0, typedLen)}
+                  {(!typingDone || phase === 0) && started && !reduced && (
+                    <span className="ml-0.5 font-bold text-blue animate-[ps-caret-blink_1s_infinite]">|</span>
+                  )}
+                </p>
+                <div className="mt-1.5 flex h-4 items-center gap-2 font-mono text-[11px] text-overcast">
+                  <span
+                    className={`transition-opacity duration-500 ${typingDone ? "opacity-100" : "opacity-0"}`}
+                  >
+                    {world.asker} &middot; {world.context}
+                  </span>
+                  {typingDone && phase < 5 && (
+                    <span className="inline-flex items-center gap-1.5 font-bold text-blue">
+                      <span className="h-1.5 w-1.5 rounded-full bg-blue animate-[ps-pulse_1.5s_infinite]" />
+                      {STATUS_LABELS[phase]}&hellip;
+                    </span>
+                  )}
+                </div>
+              </div>
+              <span className="mt-0.5 flex shrink-0 items-center gap-1 self-start rounded-full bg-blue px-2.5 py-1 text-[9px] font-bold tracking-[0.06em] text-white shadow-[0_2px_6px_rgba(62,99,221,0.35)]">
+                ASK
+                <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                  <line x1="5" y1="12" x2="19" y2="12" />
+                  <polyline points="12 5 19 12 12 19" />
+                </svg>
+              </span>
+            </div>
+
+            {/* Four moves — hidden until the question is asked, then each row
+                rises in as it lights. Space is reserved so the fold never jumps. */}
+            <div className="py-1 pl-1" aria-hidden={phase === 0}>
+              {world.steps.map((step, i) => {
+                const lit = phase >= i + 1;
+                return (
                   <div
-                    className={`relative z-10 flex h-10 w-10 items-center justify-center rounded-full border font-mono text-[11px] font-medium ${
-                      i === moves.length - 1
-                        ? "border-blue bg-blue text-white shadow-[0_4px_12px_rgba(62,99,221,0.35)]"
-                        : "border-blue-border bg-blue-subtle text-blue"
+                    key={step.name}
+                    className={`flex items-center gap-4 py-2.5 transition-all duration-500 ease-settle ${
+                      lit ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0"
                     }`}
                   >
-                    0{i + 1}
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-semibold tracking-tight text-ink md:text-2xl">
-                      {move.name}
-                    </h3>
-                    <p className="mt-2 max-w-[34em] text-base leading-relaxed text-inkSoft">
-                      {move.desc}
+                    <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white font-mono text-[11px] font-bold text-blue shadow-[0_2px_10px_rgba(255,255,255,0.35)]">
+                      0{i + 1}
+                    </span>
+                    <p className="min-w-0 text-[13.5px] leading-snug">
+                      <span className="font-semibold text-white">{step.name}</span>
+                      <span className="ml-2 text-white/75">{step.line}</span>
                     </p>
-                    {move.visual(active)}
+                  </div>
+                );
+              })}
+            </div>
+
+            {/* Answer card — always laid out so the fold never jumps; content
+                pops in (and re-animates) when the run reaches the answer */}
+            <div
+              key={`ans-${active}-${revealed ? "on" : "off"}`}
+              className={revealed ? "animate-[akx-pop_0.65s_cubic-bezier(0.34,1.56,0.64,1)_both]" : "invisible"}
+              aria-hidden={!revealed}
+            >
+              <div className={`overflow-hidden rounded-[14px] bg-white ring-1 ring-[#0B1440]/15 ${solidShadow}`}>
+
+                {/* Chrome strip: who answered, for whom */}
+                <div className="flex items-center border-b border-[#EBEEF4] bg-[#FAFBFC] px-4 py-2.5">
+                  <AkashicLogo className="h-4 w-4" />
+                  <span className="-ml-1 text-[11.5px] font-bold tracking-tight text-ink">kashic</span>
+                  <span className="ml-2 font-mono text-[9px] uppercase tracking-[0.1em] text-overcast">&middot; Answer</span>
+                  <span className="ml-auto flex items-center gap-1.5 font-mono text-[9.5px] text-overcast">
+                    <span className="h-1.5 w-1.5 rounded-full bg-[#30A46C] animate-[ps-pulse_2s_infinite]" aria-hidden />
+                    for {world.asker} &middot; 09:41
+                  </span>
+                </div>
+
+                <div className="p-4 sm:p-5">
+                  <p className="text-[16px] font-semibold leading-snug text-ink sm:text-[17px]">
+                    {world.answer}
+                  </p>
+                  <p className="mt-1.5 text-[13px] leading-relaxed text-inkSoft">
+                    {world.answerDetail}
+                  </p>
+
+                  {/* The proof, side by side: numbers and paperwork */}
+                  <div className="mt-4 grid grid-cols-1 items-stretch gap-3 sm:grid-cols-2">
+                    <SystemsPanel world={world} />
+                    <DocumentsPanel world={world} />
+                  </div>
+
+                  {/* Evidence footer */}
+                  <div className="mt-4 flex flex-wrap items-center gap-1.5 border-t border-[#EBEEF4] pt-3">
+                    {world.chips.map((chip, i) => (
+                      <span
+                        key={chip.label}
+                        className="inline-flex items-center gap-1.5 rounded-full border border-lineSoft bg-[#FAFAFB] px-2.5 py-1 font-mono text-[9.5px] text-inkSoft"
+                        style={{ animation: `akx-rise 0.5s ${1.55 + i * 0.12}s cubic-bezier(0.22,1,0.36,1) both` }}
+                      >
+                        <span className="text-blue"><UiIcon icon={chip.icon} /></span>
+                        {chip.label}
+                      </span>
+                    ))}
                   </div>
                 </div>
-              </ScrollReveal>
-            ))}
+              </div>
+            </div>
+
+            <div className={`text-center transition-all duration-700 ease-settle lg:hidden ${ctaReveal}`}>
+              <Link href="#how-it-works" className={ctaClasses}>
+                See what&rsquo;s underneath
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden>
+                  <path d="M6 2.5V9.5M6 9.5L2.5 6M6 9.5L9.5 6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </Link>
+            </div>
+
           </div>
         </div>
-
       </div>
+      {/* Gradient bridge to smooth the exit into bg-primary-bg */}
+      <div className="absolute -bottom-px left-0 right-0 h-[120px] bg-gradient-to-t from-primary-bg to-transparent pointer-events-none" aria-hidden />
     </section>
   );
 }

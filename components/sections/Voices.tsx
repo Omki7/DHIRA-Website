@@ -31,7 +31,7 @@ import ScrollRevealRail from "@/components/ui/ScrollRevealRail";
 
 export default function Voices() {
   return (
-    <section id="voices" className="relative bg-background pt-12 pb-24 lg:pt-16 lg:pb-32 overflow-hidden">
+    <section id="voices" className="relative bg-primary-bg pt-12 pb-24 lg:pt-16 lg:pb-32 overflow-hidden">
       <ScrollRevealRail>
         {/* Eyebrow + headline — kept as the section's existing voice,
             but the section id is intentionally abstract (no nav anchor
@@ -46,11 +46,11 @@ export default function Voices() {
           </div>
 
           <h2 className="max-w-[14em] text-[48px] font-semibold leading-[1.1] tracking-tighter text-ink md:text-[56px] lg:text-[64px]">
-            Proven in the field. Ask them.
+            Proven in the field, not in a pitch deck.
           </h2>
 
           <p className="mt-6 max-w-[34em] text-lg leading-relaxed text-inkSoft">
-            Real quotes from the partners who run DHIRA in production.
+            Quotes from partners running Akashic in production today. Public-sector partners are quoted by role, not name &mdash; standard practice for government engagements.
           </p>
         </ScrollReveal>
 

@@ -130,7 +130,7 @@ export default function VoicesDispatches() {
           {/* Drop-quote glyph — typographic, not an SVG bubble */}
           <span
             aria-hidden="true"
-            className={`absolute left-0 ${dropOffset} select-none font-display italic leading-none text-blue ${dropSize}`}
+            className={`absolute left-0 ${dropOffset} select-none font-display italic leading-none text-blue/50 ${dropSize}`}
             style={{
               transform: isHovered ? "translateX(3px)" : "translateX(0)",
               transition: `transform 500ms ${EASE}`,
@@ -175,7 +175,7 @@ export default function VoicesDispatches() {
   };
 
   return (
-    <div className="mt-20 lg:mt-24">
+    <div className="mt-12 lg:mt-16">
       {/* Hero dispatch — dominant, full-width */}
       <div className="mx-auto max-w-[1020px]">
         {renderDispatch(hero, 0, "hero")}

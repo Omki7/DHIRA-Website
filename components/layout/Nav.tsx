@@ -20,21 +20,20 @@ type MenuLink = {
 
 const akashicGroups = [
   {
-    heading: "Data Foundation",
+    heading: "Data Layer",
     items: [
-      { title: "Akashic Data Pipelines", desc: "Automate and scale data ingestion from any source", href: "/akashic#data-pipelines" },
-      { title: "Akashic Master Data", desc: "Create a unified, accurate view of core business entities", href: "/akashic#master-data" },
-      { title: "Akashic Data Warehouse", desc: "Centralised, secure storage for all your business records", href: "/akashic#data-warehousing" },
-      { title: "Akashic Workflow", desc: "Automate complex data processes and team operations", href: "/akashic#modules" },
+      { title: "Akashic Data Pipelines", desc: "Automate and scale data ingestion from any source", href: "/akashic#modules-data-pipelines" },
+      { title: "Akashic Master Data", desc: "Create a unified, accurate view of core business entities", href: "/akashic#modules-master-data" },
+      { title: "Akashic Data Warehouse", desc: "Centralised, secure storage for all your business records", href: "/akashic#modules-data-warehousing" },
     ] as MenuLink[],
   },
   {
-    heading: "Intelligence & Governance",
+    heading: "Intelligence and Governance",
     items: [
-      { title: "Akashic Machine Learning", desc: "Train and deploy AI models on your proprietary data", href: "/akashic#machine-learning" },
-      { title: "Akashic BI", desc: "Real-time analytics and dashboards for faster decisions", href: "/akashic#business-intelligence" },
-      { title: "Akashic Insights", desc: "AI-driven search to uncover hidden trends instantly", href: "/akashic#ask-ai" },
-      { title: "Akashic Data Governance", desc: "Control access, track lineage, and ensure compliance", href: "/akashic#governance" },
+      { title: "Akashic Machine Learning", desc: "Train and deploy AI models on your proprietary data", href: "/akashic#modules-machine-learning" },
+      { title: "Akashic BI", desc: "Real-time analytics and dashboards for faster decisions", href: "/akashic#modules-business-intelligence" },
+      { title: "Ask Akashic", desc: "Plain-language questions answered from your governed data, with citations", href: "/akashic#modules-ask-ai" },
+      { title: "Akashic Governance", desc: "Control access, track lineage, and ensure compliance", href: "/akashic#modules-governance" },
     ] as MenuLink[],
   },
 ];
@@ -158,7 +157,12 @@ function MobileMenuGroups({ heading, groups, topPadding = true }: { heading: str
         <div key={group.heading}>
           <p className="pt-1 px-2 text-[11px] uppercase tracking-eyebrow text-tertiary-text">{group.heading}</p>
           {group.items.map((item) => (
-            <Link key={item.title} href={item.href} className="block rounded-lg px-2 py-1.5 text-sm font-medium text-primary-text hover:bg-tertiary-bg">
+            <Link
+              key={item.title}
+              href={item.href}
+              scroll={item.href.includes('#') ? false : undefined}
+              className="block rounded-lg px-2 py-1.5 text-sm font-medium text-primary-text hover:bg-tertiary-bg"
+            >
               {item.title}
             </Link>
           ))}
@@ -173,7 +177,12 @@ function MobileMenuFlat({ heading, items }: { heading: string; items: MenuLink[]
     <>
       <p className="pt-2 text-xs font-medium uppercase tracking-eyebrow text-tertiary-text">{heading}</p>
       {items.map((item) => (
-        <Link key={item.title} href={item.href} className="block rounded-lg px-2 py-1.5 text-sm font-medium text-primary-text hover:bg-tertiary-bg">
+        <Link
+          key={item.title}
+          href={item.href}
+          scroll={item.href.includes('#') ? false : undefined}
+          className="block rounded-lg px-2 py-1.5 text-sm font-medium text-primary-text hover:bg-tertiary-bg"
+        >
           {item.title}
         </Link>
       ))}
@@ -185,6 +194,7 @@ function MenuRow({ item }: { item: MenuLink }) {
   return (
     <Link
       href={item.href}
+      scroll={item.href.includes('#') ? false : undefined}
       className="group flex items-center gap-3 rounded-lg p-2 hover:bg-tertiary-bg"
     >
       <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-subtle-stroke bg-secondary-bg text-primary-text">
@@ -319,9 +329,6 @@ export default function Nav() {
         </div>
 
         <div className="flex items-center gap-2">
-          <Link href="#login" className="btn-secondary hidden text-sm lg:inline-flex">
-            Login
-          </Link>
           <Link href="#talk-to-our-team" className="btn-primary text-sm">
             Talk to our team
           </Link>
@@ -348,7 +355,6 @@ export default function Nav() {
             <MobileMenuFlat heading="Insights" items={insightsItems} />
             <MobileMenuFlat heading="Company" items={companyItems} />
             <div className="flex flex-col gap-2 pt-4">
-              <Link href="#login" className="btn-secondary w-full">Login</Link>
               <Link href="#talk-to-our-team" className="btn-primary w-full">Talk to our team</Link>
             </div>
           </div>

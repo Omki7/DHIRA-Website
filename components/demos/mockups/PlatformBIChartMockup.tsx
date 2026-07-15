@@ -2,7 +2,7 @@
 
 /**
  * SIMULATED PRODUCT UI — not real Akashic app code.
- * Self-contained "Business Intelligence" module card mockup for
+ * Self-contained "Akashic BI" module card mockup for
  * PowerfulPlatform's Explore & Ask row: filter chips, rose chart, and
  * top/average/low stat tiles, all driven by fake local `biFilter` state.
  * No real data source — the ROSE figures below are hardcoded for visual
@@ -50,8 +50,8 @@ function buildRose(biFilter: FilterKey) {
   data.forEach((d, i) => {
     const am = -90 + (i + 0.5) * step;
     const lp = P(am, maxR + 19);
-    els.push(<text key={"n" + i} x={lp[0]} y={lp[1] - 3} textAnchor="middle" fontSize={9.5} fontWeight={600} fill="#16181D" style={{ fontFamily: "Inter,sans-serif" }}>{d.k}</text>);
-    els.push(<text key={"v" + i} x={lp[0]} y={lp[1] + 8} textAnchor="middle" fontSize={9} fontWeight={600} fill={d.v >= 100 ? "#1B7A47" : "#B0526A"} style={{ fontFamily: "ui-monospace,monospace" }}>{d.v + "%"}</text>);
+    els.push(<text key={"n" + i} x={lp[0]} y={lp[1] - 3} textAnchor="middle" fontSize={9.5} fontWeight={600} fill="#16181D" style={{ fontFamily: "var(--font-sans)" }}>{d.k}</text>);
+    els.push(<text key={"v" + i} x={lp[0]} y={lp[1] + 8} textAnchor="middle" fontSize={9} fontWeight={600} fill={d.v >= 100 ? "#1B7A47" : "#B0526A"} style={{ fontFamily: "var(--font-mono)" }}>{d.v + "%"}</text>);
   });
   els.push(<circle key="hub" cx={cx} cy={cy} r={inner - 3} fill="#fff" stroke="#ECECEF" strokeWidth={1} />);
   return <svg viewBox="0 0 280 276" style={{ width: "100%", height: "auto", display: "block" }}>{els}</svg>;
@@ -91,7 +91,7 @@ export default function PlatformBIChartMockup({ id }: { id?: string }) {
             <span onClick={() => setBiFilter("Product")} style={chip(biFilter === "Product")}>Product</span>
             <span onClick={() => setBiFilter("Channel")} style={chip(biFilter === "Channel")}>Channel</span>
           </div>
-          <span style={{ fontFamily: "ui-monospace,monospace", fontSize: "9.5px", color: "#7C828C", background: "#F6F6F8", border: "1px solid #EEEEF3", borderRadius: "6px", padding: "4px 9px" }}>Q2 &middot; FY26</span>
+          <span style={{ fontFamily: "var(--font-mono)", fontSize: "9.5px", color: "#7C828C", background: "#F6F6F8", border: "1px solid #EEEEF3", borderRadius: "6px", padding: "4px 9px" }}>Q2 &middot; FY26</span>
           <span style={{ fontSize: "11px", color: "#86888F", marginLeft: "auto" }}>Attainment vs target</span>
         </div>
         {/* Chart + stats */}
@@ -101,7 +101,7 @@ export default function PlatformBIChartMockup({ id }: { id?: string }) {
 
             {/* TOP PERFORMER */}
             <div style={{ border: "1px solid #EEEEF3", borderRadius: "9px", padding: "9px 11px", background: "#FBFBFE" }}>
-              <div style={{ fontSize: "9px", fontFamily: "ui-monospace,monospace", letterSpacing: "0.06em", color: "#9A9AA0" }}>TOP PERFORMER</div>
+              <div style={{ fontSize: "9px", fontFamily: "var(--font-mono)", letterSpacing: "0.06em", color: "#9A9AA0" }}>TOP PERFORMER</div>
               <div style={{ display: "flex", alignItems: "baseline", gap: "6px", marginTop: "3px" }}>
                 <span style={{ fontSize: "13px", fontWeight: 600, color: "#16181D" }}>{top.k}</span>
                 <span style={{ fontSize: "13px", fontWeight: 750, color: "#1B7A47", marginLeft: "auto" }}>{top.v}%</span>
@@ -110,7 +110,7 @@ export default function PlatformBIChartMockup({ id }: { id?: string }) {
 
             {/* AVERAGE */}
             <div style={{ border: "1px solid #EEEEF3", borderRadius: "9px", padding: "9px 11px", background: "#FBFBFE" }}>
-              <div style={{ fontSize: "9px", fontFamily: "ui-monospace,monospace", letterSpacing: "0.06em", color: "#9A9AA0" }}>AVERAGE</div>
+              <div style={{ fontSize: "9px", fontFamily: "var(--font-mono)", letterSpacing: "0.06em", color: "#9A9AA0" }}>AVERAGE</div>
               <div style={{ display: "flex", alignItems: "baseline", gap: "6px", marginTop: "3px" }}>
                 <span style={{ fontSize: "13px", fontWeight: 600, color: "#16181D" }}>All</span>
                 <span style={{ fontSize: "13px", fontWeight: 750, color: "#16181D", marginLeft: "auto" }}>{avg}%</span>
@@ -119,7 +119,7 @@ export default function PlatformBIChartMockup({ id }: { id?: string }) {
 
             {/* NEEDS ATTENTION */}
             <div style={{ border: "1.5px solid #F1C7D1", borderRadius: "9px", padding: "9px 11px", background: "linear-gradient(180deg,#FEF5F7,#fff)" }}>
-              <div style={{ fontSize: "9px", fontFamily: "ui-monospace,monospace", letterSpacing: "0.06em", color: "#C2546B" }}>NEEDS ATTENTION</div>
+              <div style={{ fontSize: "9px", fontFamily: "var(--font-mono)", letterSpacing: "0.06em", color: "#C2546B" }}>NEEDS ATTENTION</div>
               <div style={{ display: "flex", alignItems: "baseline", gap: "6px", marginTop: "3px" }}>
                 <span style={{ fontSize: "13px", fontWeight: 600, color: "#16181D" }}>{low.k}</span>
                 <span style={{ fontSize: "13px", fontWeight: 750, color: "#C2425F", marginLeft: "auto" }}>{low.v}%</span>

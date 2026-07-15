@@ -19,10 +19,10 @@ import FieldLedger from "@/components/demos/FieldLedger";
 import ScrollRevealRail from "@/components/ui/ScrollRevealRail";
 
 const STATS = [
-  { figure: "5.75B+", label: "Learning Sessions Analysed" },
-  { figure: "187M+", label: "Course Enrolments" },
-  { figure: "4M+", label: "Cross-border Clearances" },
-  { figure: "135", label: "Languages Served" },
+  { figure: "5.75B+", label: "Learning interactions analysed" },
+  { figure: "187M+", label: "Course enrolments" },
+  { figure: "4M+", label: "Cross-border worker clearances" },
+  { figure: "135", label: "Languages served" },
 ];
 
 /* Ashoka Chakra — 24 equally-spaced spokes, simplified for watermark use.
@@ -100,7 +100,7 @@ export default function ProvenAtScale() {
               Deployed at national scale.
             </h2>
             <p className="mt-5 max-w-[34em] text-lg leading-relaxed text-inkSoft">
-              The intelligence layer inside two of India&apos;s national platforms.
+              The intelligence layer inside two of India&apos;s national platforms &mdash; not the software, the reasoning underneath it.
               <br className="hidden sm:block" />
               In production, at population scale.
             </p>
@@ -131,9 +131,6 @@ export default function ProvenAtScale() {
         {/* Footer note */}
         <ScrollReveal delay={300}>
           <p className="mt-10 text-sm leading-relaxed text-overcast">
-            <span className="font-medium text-inkSoft">
-              The intelligence layer. Not the application.
-            </span>{" "}
             Embedded inside existing systems without disrupting core infrastructure, turning raw operational data into decision-ready insight.
           </p>
         </ScrollReveal>

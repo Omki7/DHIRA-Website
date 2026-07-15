@@ -155,7 +155,7 @@ export default function Hero() {
                 <span className="-ml-1">kashic</span>
               </span>
               <span className="mx-1 h-3.5 w-px bg-default-stroke" />
-              <span className="font-medium text-primary-text">The complete record of your data</span>
+              <span className="font-medium text-primary-text">Deployed at national scale</span>
               <svg width="12" height="12" viewBox="0 0 12 12" fill="none" className="text-secondary-text ml-0.5 transition-transform group-hover:translate-x-0.5">
                 <path d="M2.5 6H9.5M9.5 6L6 2.5M9.5 6L6 9.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
@@ -198,9 +198,9 @@ export default function Hero() {
             </span>
           </h1>
           <p className="mt-8 max-w-[38em] text-lg text-secondary-text md:text-xl font-normal leading-relaxed">
-            DHIRA brings your data and AI together, grounded in the full picture.
+            Akashic unifies your structured, unstructured, and streaming data into one governed foundation.
             <br className="hidden sm:block" />
-            Every answer is one you can trace, trust, and act on.
+            Every answer is one you can trust, trace, and act on.
           </p>
 
           <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
@@ -214,9 +214,9 @@ export default function Hero() {
         </div>
 
           {/* Product UI mockup — peeks from the bottom. The shrunken hero text block plus removed translate-y lets ~20% of the cards show on load. */}
-          <div className="relative -mt-6 w-full pb-24 lg:-mt-10 lg:pb-32">
+          <div className="relative -mt-6 w-full pb-10 lg:-mt-10">
             <HeroConnections />
-            <div className="flex flex-col items-center w-full relative z-10 -mb-[300px] lg:-mb-[450px]">
+            <div className="flex flex-col items-center w-full relative z-10">
               <HeroProductsMockup />
             </div>
           </div>

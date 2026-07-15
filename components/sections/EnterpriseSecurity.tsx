@@ -31,7 +31,7 @@ const STATS = [
   },
   {
     figure: "Zero",
-    label: "DHIRA key custody",
+    label: "Key custody by DHIRA",
     sub: "Akashic runs inside your cloud boundary. We hold no encryption keys.",
   },
   {
@@ -138,7 +138,7 @@ function TrustCurve({ visible }: { visible: boolean }) {
       <path
         d={pathD}
         fill="none"
-        stroke="#3E63DD"
+        stroke="rgba(62,99,221,0.5)"
         strokeWidth="1.8"
         strokeLinecap="round"
         style={{
@@ -150,7 +150,7 @@ function TrustCurve({ visible }: { visible: boolean }) {
 
       {/* Glowing endpoint dot */}
       {visible && (
-        <circle cx="480" cy="20" r="3.5" fill="#3E63DD">
+        <circle cx="480" cy="20" r="3.5" fill="rgba(62,99,221,0.5)">
           <animate attributeName="opacity" values="1;0.4;1" dur="2.4s" repeatCount="indefinite" />
         </circle>
       )}
@@ -212,26 +212,18 @@ export default function EnterpriseSecurity() {
 
               <h2
                 id="gov-h"
-                className="max-w-[14em] text-balance text-[40px] font-semibold leading-[1.1] tracking-tighter text-ink md:text-[48px] lg:text-[54px]"
+                className="text-balance text-[40px] font-semibold leading-[1.1] tracking-tighter text-ink md:text-[48px] lg:text-[64px]"
               >
                 Governed at the source.
-                <br className="hidden md:block" />{" "}
-                <span className="font-normal text-inkSoft">
-                  The controls your board asks about are built into the platform itself.
-                </span>
               </h2>
+              <p className="mt-4 max-w-[28em] text-xl leading-relaxed text-inkSoft">
+                The controls your board asks about are built into the platform itself.
+              </p>
 
-              {/* 2x2 stat grid — border-left / border-top separators, no card boxes */}
-              <div className="mt-10 grid grid-cols-2">
-                {STATS.map((s, i) => (
-                  <div
-                    key={s.label}
-                    className={[
-                      "py-6",
-                      i % 2 === 0 ? "pr-6" : "border-l border-lineSoft pl-6 pr-0",
-                      i >= 2 ? "border-t border-lineSoft" : "",
-                    ].join(" ")}
-                  >
+              {/* Vertical stat sequence */}
+              <div className="mt-10 flex flex-col divide-y divide-lineSoft">
+                {STATS.map((s) => (
+                  <div key={s.label} className="py-6 pr-6">
                     <div className="text-[32px] font-semibold leading-none tracking-tight tabular-nums text-ink lg:text-[38px]">
                       {s.figure}
                     </div>

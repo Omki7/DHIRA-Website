@@ -15,14 +15,13 @@ const footerColumns: FooterColumn[] = [
   {
     heading: "Akashic",
     links: [
-      "Data Pipelines",
-      "Master Data",
-      "Data Warehouse",
-      "Workflow",
-      "Machine Learning",
-      "BI",
-      "Insights",
-      "Data Governance",
+      "Akashic Data Pipelines",
+      "Akashic Master Data",
+      "Akashic Data Warehouse",
+      "Ask Akashic",
+      "Akashic Machine Learning",
+      "Akashic BI",
+      "Akashic Governance",
     ],
   },
   {
@@ -75,7 +74,7 @@ export default function Footer() {
               <span className="text-[22px] font-semibold tracking-tight">DHIRA</span>
             </Link>
             <p className="text-white/55 text-sm leading-relaxed max-w-[240px]">
-              Data and AI, grounded in the full picture.
+              Data and AI, grounded in one governed foundation.
             </p>
             <p className="text-white/30 text-xs mt-8 tracking-wide">
               New York · Hyderabad · Bangalore

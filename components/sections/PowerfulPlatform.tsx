@@ -14,7 +14,7 @@ export default function PowerfulPlatform() {
   return (
     <section id="platform" className="w-full bg-[#3E63DD] font-sans text-white relative">
       <div className="rail-container relative overflow-hidden pt-12 pb-24 lg:pt-16 lg:pb-32" style={{ "--accent": accentColor } as React.CSSProperties}>
-        <div style={{ '--accent': accentColor, fontFamily: "Inter,sans-serif", color: "#FFFFFF", width: "100%", overflow: "hidden", paddingBottom: "2px" } as React.CSSProperties}>
+        <div style={{ '--accent': accentColor, color: "#FFFFFF", width: "100%", overflow: "hidden", paddingBottom: "2px" } as React.CSSProperties}>
 
           {/* ===== HEADLINE ===== */}
           <div style={{ padding: "0 24px" }}>
@@ -25,7 +25,7 @@ export default function PowerfulPlatform() {
               borderBottom: "1px dashed rgba(255,255,255,0.15)"
             }}>
               <div style={{ maxWidth: "940px", display: "flex", flexDirection: "column", gap: "16px" }}>
-                <div style={{ fontFamily: "ui-monospace,'SF Mono',Menlo,monospace", fontSize: "11px", letterSpacing: "0.14em", textTransform: "uppercase", color: "rgba(255,255,255,0.7)" }}>
+                <div style={{ fontFamily: "var(--font-mono)", fontSize: "11px", letterSpacing: "0.14em", textTransform: "uppercase", color: "rgba(255,255,255,0.7)" }}>
                   <span><span style={{ color: "rgba(255,255,255,0.4)" }}>[02]</span>&nbsp;&nbsp;Meet Akashic</span>
                   <span style={{ color: "rgba(255,255,255,0.4)" }}>&nbsp;&nbsp;/&nbsp;&nbsp;The platform</span>
                 </div>
@@ -53,7 +53,7 @@ export default function PowerfulPlatform() {
 
               {/* Row 1 Left — unchanged */}
               <div>
-                <div style={{ fontFamily: "ui-monospace,'SF Mono',Menlo,monospace", fontSize: "10.5px", letterSpacing: "0.13em", textTransform: "uppercase", color: "rgba(255,255,255,0.6)", marginBottom: "14px" }}>The platform &middot; end to end</div>
+                <div style={{ fontFamily: "var(--font-mono)", fontSize: "10.5px", letterSpacing: "0.13em", textTransform: "uppercase", color: "rgba(255,255,255,0.6)", marginBottom: "14px" }}>The platform &middot; from data to decision</div>
                 <h3 style={{ margin: "0 0 20px", fontSize: "28px", lineHeight: "1.2", fontWeight: "600", letterSpacing: "-0.02em", color: "#FFFFFF" }}>{"One question,"}<br />{"answered end to end."}</h3>
                 <div style={{
                   background: "#FFFFFF",
@@ -100,7 +100,7 @@ export default function PowerfulPlatform() {
                 </div>
                 <p style={{ margin: "0 0 12px", fontSize: "15px", lineHeight: "1.6", color: "rgba(255,255,255,0.7)" }}>Watch the answer travel one governed path:</p>
                 <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: "6px", marginBottom: "20px" }}>
-                  {["Unify","Store","Forecast","Visualise"].map((label, i, arr) => (
+                  {["Ingest","Unify","Predict","Answer"].map((label, i, arr) => (
                     <React.Fragment key={label}>
                       <span style={{ background: "rgba(255,255,255,0.12)", border: "1px solid rgba(255,255,255,0.25)", color: "#FFFFFF", fontSize: "10.5px", fontWeight: "600", padding: "3px 7px", borderRadius: "5px", textTransform: "uppercase", letterSpacing: "0.03em" }}>{label}</span>
                       {i < arr.length - 1 && <span style={{ color: "rgba(255,255,255,0.5)", fontSize: "11px" }}>&rarr;</span>}
@@ -114,10 +114,10 @@ export default function PowerfulPlatform() {
                   <div style={{ position: "absolute", left: "6.5px", top: "22px", bottom: "-80px", width: "1.5px", background: "linear-gradient(180deg, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0.8) 60%, rgba(255,255,255,0.15) 100%)", borderRadius: "2px" }}>
                     <span style={{ position: "absolute", left: "50%", top: "0", width: "7px", height: "7px", borderRadius: "50%", background: "#FFFFFF", transform: "translate(-50%,-50%)", boxShadow: "0 0 0 4px rgba(255,255,255,0.2)", animation: "ps-pktV 3.4s cubic-bezier(.5,0,.5,1) infinite" }} />
                   </div>
-                  <div style={{ display: "grid", gridTemplateColumns: "14px 1fr", columnGap: "18px", alignItems: "center", minHeight: "30px" }}><div /><div style={{ fontFamily: "ui-monospace,monospace", fontSize: "10.5px", letterSpacing: "0.13em", textTransform: "uppercase", color: "rgba(255,255,255,0.6)" }}>Ingest &amp; Unify</div></div>
+                  <div style={{ display: "grid", gridTemplateColumns: "14px 1fr", columnGap: "18px", alignItems: "center", minHeight: "30px" }}><div /><div style={{ fontFamily: "var(--font-mono)", fontSize: "10.5px", letterSpacing: "0.13em", textTransform: "uppercase", color: "rgba(255,255,255,0.6)" }}>Ingest &amp; Unify</div></div>
                   {[
-                    { name: "Data Pipelines", desc: "Connect every source the moment it changes." },
-                    { name: "Master Data", desc: "One trusted record per customer, product, and place." },
+                    { name: "Akashic Data Pipelines", desc: "Connect every source the moment it changes." },
+                    { name: "Akashic Master Data", desc: "One trusted record per customer, product, and place." },
                   ].map((item) => (
                     <div key={item.name} style={{ display: "grid", gridTemplateColumns: "14px 1fr", columnGap: "18px", alignItems: "start", minHeight: "56px", borderRadius: "11px", transition: "background .18s ease" }} className="hover:bg-white/5">
                       <div style={{ display: "flex", justifyContent: "center", paddingTop: "2px" }}><span style={{ width: "12px", height: "12px", borderRadius: "50%", background: "transparent", border: "2px solid rgba(255,255,255,0.45)", display: "flex", marginTop: "3px" }} /></div>
@@ -131,9 +131,9 @@ export default function PowerfulPlatform() {
               <div style={{ position: "relative", animation: "ps-rise .7s cubic-bezier(.22,1,.36,1) both" }}>
                 {/* Row label */}
                 <div style={{ display: "flex", alignItems: "center", gap: "9px", marginBottom: "12px" }}>
-                  <span style={{ fontFamily: "ui-monospace,monospace", fontSize: "10.5px", letterSpacing: "0.13em", textTransform: "uppercase", color: "#FFFFFF", fontWeight: "600" }}>Ingest &amp; Unify</span>
+                  <span style={{ fontFamily: "var(--font-mono)", fontSize: "10.5px", letterSpacing: "0.13em", textTransform: "uppercase", color: "#FFFFFF", fontWeight: "600" }}>Ingest &amp; Unify</span>
                   <span style={{ flex: "1", height: "1px", background: "rgba(255,255,255,0.2)" }} />
-                  <span style={{ fontFamily: "ui-monospace,monospace", fontSize: "10px", color: "rgba(255,255,255,0.5)" }}>South region &middot; live</span>
+                  <span style={{ fontFamily: "var(--font-mono)", fontSize: "10px", color: "rgba(255,255,255,0.5)" }}>South region &middot; live</span>
                 </div>
 
                 <div className="relative flex flex-col lg:flex-row items-stretch gap-6 lg:gap-0 max-w-[780px] w-full">
@@ -196,7 +196,7 @@ export default function PowerfulPlatform() {
                         <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
                           <div style={{ width: "1px", height: "24px", background: "#CBEFDF" }} />
                           <div style={{ display: "flex", flexDirection: "column", alignItems: "end" }}>
-                            <div style={{ fontSize: "9px", fontFamily: "ui-monospace,monospace", letterSpacing: "0.08em", color: "#7C828C", fontWeight: "600" }}>LATENCY</div>
+                            <div style={{ fontSize: "9px", fontFamily: "var(--font-mono)", letterSpacing: "0.08em", color: "#7C828C", fontWeight: "600" }}>LATENCY</div>
                             <div style={{ fontSize: "12.5px", fontWeight: "700", color: "#1B7A47" }}>23ms</div>
                           </div>
                         </div>
@@ -232,9 +232,9 @@ export default function PowerfulPlatform() {
                           <div key={row.src} style={{ display: "flex", alignItems: "center", gap: "8px", justifyContent: "space-between" }}>
                             <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
                               <span style={{ width: "4px", height: "4px", borderRadius: "50%", background: "#C2C5CC", flexShrink: 0 }} />
-                              <span style={{ fontSize: "11.5px", color: "#1A1C1D", fontFamily: "ui-monospace,monospace" }}>{row.val}</span>
+                              <span style={{ fontSize: "11.5px", color: "#1A1C1D", fontFamily: "var(--font-mono)" }}>{row.val}</span>
                             </div>
-                            <span style={{ fontSize: "9px", color: "#7C828C", background: "#F1F2F4", borderRadius: "4px", padding: "2px 6px", fontFamily: "ui-monospace,monospace" }}>{row.src}</span>
+                            <span style={{ fontSize: "9px", color: "#7C828C", background: "#F1F2F4", borderRadius: "4px", padding: "2px 6px", fontFamily: "var(--font-mono)" }}>{row.src}</span>
                           </div>
                         ))}
                       </div>
@@ -261,7 +261,7 @@ export default function PowerfulPlatform() {
                         <div style={{ borderTop: "1px dashed #D3D8E8", marginTop: "12px", paddingTop: "11px", display: "flex", gap: "8px" }}>
                           {[{ label: "REGION", val: "SR-07" }, { label: "SITES", val: "42 stores" }, { label: "Q3 TARGET", val: "₹38Cr" }].map((f) => (
                             <div key={f.label} style={{ flex: 1 }}>
-                              <div style={{ fontSize: "9px", color: "#9A9AA0", fontFamily: "ui-monospace,monospace", fontWeight: "600" }}>{f.label}</div>
+                              <div style={{ fontSize: "9px", color: "#9A9AA0", fontFamily: "var(--font-mono)", fontWeight: "600" }}>{f.label}</div>
                               <div style={{ fontSize: "13px", color: "#16181D", fontWeight: "700", marginTop: "2px" }}>{f.val}</div>
                             </div>
                           ))}
@@ -281,10 +281,10 @@ export default function PowerfulPlatform() {
               <div>
                 <div style={{ position: "relative" }}>
                   <div style={{ position: "absolute", left: "6.5px", top: "-48px", bottom: "-80px", width: "1.5px", background: "linear-gradient(180deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.8) 20%, rgba(255,255,255,0.8) 80%, rgba(255,255,255,0.15) 100%)", borderRadius: "2px" }} />
-                  <div style={{ display: "grid", gridTemplateColumns: "14px 1fr", columnGap: "18px", alignItems: "center", minHeight: "30px" }}><div /><div style={{ fontFamily: "ui-monospace,monospace", fontSize: "10.5px", letterSpacing: "0.13em", textTransform: "uppercase", color: "rgba(255,255,255,0.6)" }}>Store &amp; Predict</div></div>
+                  <div style={{ display: "grid", gridTemplateColumns: "14px 1fr", columnGap: "18px", alignItems: "center", minHeight: "30px" }}><div /><div style={{ fontFamily: "var(--font-mono)", fontSize: "10.5px", letterSpacing: "0.13em", textTransform: "uppercase", color: "rgba(255,255,255,0.6)" }}>Store &amp; Predict</div></div>
                   {[
-                    { name: "Data Warehouse", desc: "A secure, query-ready home for all of your data." },
-                    { name: "Machine Learning", desc: "Forecast revenue, demand, and risk you can trust." },
+                    { name: "Akashic Data Warehouse", desc: "A secure, query-ready store for all of your data." },
+                    { name: "Akashic Machine Learning", desc: "Forecast revenue, demand, and risk you can trust." },
                   ].map((item) => (
                     <div key={item.name} style={{ display: "grid", gridTemplateColumns: "14px 1fr", columnGap: "18px", alignItems: "start", minHeight: "56px", borderRadius: "11px", transition: "background .18s ease" }} className="hover:bg-white/5">
                       <div style={{ display: "flex", justifyContent: "center", paddingTop: "2px" }}><span style={{ width: "12px", height: "12px", borderRadius: "50%", background: "transparent", border: "2px solid rgba(255,255,255,0.45)", display: "flex", marginTop: "3px" }} /></div>
@@ -297,9 +297,9 @@ export default function PowerfulPlatform() {
               {/* Row 2 Right */}
               <div style={{ position: "relative" }}>
                 <div style={{ display: "flex", alignItems: "center", gap: "9px", marginBottom: "12px" }}>
-                  <span style={{ fontFamily: "ui-monospace,monospace", fontSize: "10.5px", letterSpacing: "0.13em", textTransform: "uppercase", color: "#FFFFFF", fontWeight: "600" }}>Store &amp; Predict</span>
+                  <span style={{ fontFamily: "var(--font-mono)", fontSize: "10.5px", letterSpacing: "0.13em", textTransform: "uppercase", color: "#FFFFFF", fontWeight: "600" }}>Store &amp; Predict</span>
                   <span style={{ flex: "1", height: "1px", background: "rgba(255,255,255,0.2)" }} />
-                  <span style={{ fontFamily: "ui-monospace,monospace", fontSize: "10px", color: "rgba(255,255,255,0.5)" }}>governed features</span>
+                  <span style={{ fontFamily: "var(--font-mono)", fontSize: "10px", color: "rgba(255,255,255,0.5)" }}>governed features</span>
                 </div>
 
                 <div className="relative flex flex-col lg:flex-row items-stretch gap-6 lg:gap-0 max-w-[780px] w-full">
@@ -323,7 +323,7 @@ export default function PowerfulPlatform() {
                         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
                           <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
                             <span style={{ width: "6px", height: "6px", borderRadius: "50%", background: "#C0883A" }}></span>
-                            <span style={{ fontFamily: "ui-monospace,monospace", fontSize: "9px", letterSpacing: "0.07em", color: "#B07F36", fontWeight: "700" }}>BRONZE</span>
+                            <span style={{ fontFamily: "var(--font-mono)", fontSize: "9px", letterSpacing: "0.07em", color: "#B07F36", fontWeight: "700" }}>BRONZE</span>
                           </div>
                           <div style={{ fontSize: "13px", color: "#16181D" }}>
                             <span style={{ fontWeight: "700" }}>12.4M</span>
@@ -346,7 +346,7 @@ export default function PowerfulPlatform() {
                         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
                           <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
                             <span style={{ width: "6px", height: "6px", borderRadius: "50%", background: "#9AA0AA" }}></span>
-                            <span style={{ fontFamily: "ui-monospace,monospace", fontSize: "9px", letterSpacing: "0.07em", color: "#7C828C", fontWeight: "700" }}>SILVER</span>
+                            <span style={{ fontFamily: "var(--font-mono)", fontSize: "9px", letterSpacing: "0.07em", color: "#7C828C", fontWeight: "700" }}>SILVER</span>
                           </div>
                           <div style={{ fontSize: "13px", color: "#16181D" }}>
                             <span style={{ fontWeight: "700" }}>9.8M</span>
@@ -371,7 +371,7 @@ export default function PowerfulPlatform() {
                         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
                           <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
                             <span style={{ width: "6px", height: "6px", borderRadius: "50%", background: "#3E63DD" }}></span>
-                            <span style={{ fontFamily: "ui-monospace,monospace", fontSize: "9px", letterSpacing: "0.07em", color: "#3E63DD", fontWeight: "700" }}>GOLD</span>
+                            <span style={{ fontFamily: "var(--font-mono)", fontSize: "9px", letterSpacing: "0.07em", color: "#3E63DD", fontWeight: "700" }}>GOLD</span>
                             <span style={{ display: "inline-flex", fontSize: "9px", color: "#3E63DD", background: "#EEF1FC", border: "1px solid #C8D2F5", borderRadius: "4px", padding: "1px 5px", fontWeight: "600", textTransform: "uppercase", letterSpacing: "0.02em" }}>governed</span>
                           </div>
                           <div style={{ fontSize: "13px", color: "#16181D" }}>
@@ -399,7 +399,7 @@ export default function PowerfulPlatform() {
                       </div>
                     </div>
                     <div style={{ padding: "16px 17px 17px", display: "flex", flexDirection: "column", gap: "10px" }}>
-                      <div style={{ fontSize: "9px", fontFamily: "ui-monospace,monospace", letterSpacing: "0.08em", color: "#8E9196", fontWeight: "600" }}>FORECAST &middot; BOOSTED TREES</div>
+                      <div style={{ fontSize: "9px", fontFamily: "var(--font-mono)", letterSpacing: "0.08em", color: "#8E9196", fontWeight: "600" }}>FORECAST &middot; BOOSTED TREES</div>
                       <div style={{ display: "flex", alignItems: "center", gap: "9px" }}>
                         <span style={{ fontSize: "32px", fontWeight: "750", color: "#16181D", letterSpacing: "-0.025em" }}>&#8377;27.4Cr</span>
                         <span style={{ display: "inline-flex", alignItems: "center", gap: "4px", padding: "4px 8px", background: "#EDF7F1", border: "1px solid #CBE8D7", borderRadius: "8px", fontSize: "9.5px", fontWeight: "700", color: "#1B7A47", whiteSpace: "nowrap" }}>92% confidence</span>
@@ -435,7 +435,7 @@ export default function PowerfulPlatform() {
                       <div style={{ display: "flex", alignItems: "center", gap: "7px", color: "#9A9AA0", borderTop: "1px solid #F0F0F3", paddingTop: "11px", marginTop: "4px" }}>
                         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#30A46C" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
                         <span style={{ fontSize: "11px", flex: 1, color: "#7C828C" }}>No leakage &middot; lineage enforced</span>
-                        <span style={{ fontSize: "9px", fontFamily: "ui-monospace,monospace", color: "#6E6F71", background: "#F6F6F8", border: "1px solid #EEEEF3", borderRadius: "5px", padding: "2px 7px" }}>MAPE 4.2%</span>
+                        <span style={{ fontSize: "9px", fontFamily: "var(--font-mono)", color: "#6E6F71", background: "#F6F6F8", border: "1px solid #EEEEF3", borderRadius: "5px", padding: "2px 7px" }}>MAPE 4.2%</span>
                       </div>
                     </div>
                   </div>
@@ -452,10 +452,10 @@ export default function PowerfulPlatform() {
               <div>
                 <div style={{ position: "relative" }}>
                   <div style={{ position: "absolute", left: "6.5px", top: "-48px", bottom: "22px", width: "1.5px", background: "linear-gradient(180deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.8) 40%, rgba(255,255,255,0.8) 100%)", borderRadius: "2px" }} />
-                  <div style={{ display: "grid", gridTemplateColumns: "14px 1fr", columnGap: "18px", alignItems: "center", minHeight: "30px" }}><div /><div style={{ fontFamily: "ui-monospace,monospace", fontSize: "10.5px", letterSpacing: "0.13em", textTransform: "uppercase", color: "rgba(255,255,255,0.6)" }}>Explore &amp; Ask</div></div>
+                  <div style={{ display: "grid", gridTemplateColumns: "14px 1fr", columnGap: "18px", alignItems: "center", minHeight: "30px" }}><div /><div style={{ fontFamily: "var(--font-mono)", fontSize: "10.5px", letterSpacing: "0.13em", textTransform: "uppercase", color: "rgba(255,255,255,0.6)" }}>Explore &amp; Ask</div></div>
                   {[
-                    { name: "Business Intelligence", desc: "Live dashboards that refresh with no manual exports." },
-                    { name: "Ask AI", desc: "Plain language answers, returned with their sources.", dark: true },
+                    { name: "Akashic BI", desc: "Live dashboards that refresh with no manual exports." },
+                    { name: "Ask Akashic", desc: "Plain language answers, returned with their sources.", dark: true },
                   ].map((item) => (
                     <div key={item.name} style={{ display: "grid", gridTemplateColumns: "14px 1fr", columnGap: "18px", alignItems: "start", minHeight: "56px", borderRadius: "11px", transition: "background .18s ease" }} className="hover:bg-white/5">
                       <div style={{ display: "flex", justifyContent: "center", paddingTop: "2px" }}>
@@ -473,9 +473,9 @@ export default function PowerfulPlatform() {
               {/* Row 3 Right */}
               <div style={{ position: "relative" }}>
                 <div style={{ display: "flex", alignItems: "center", gap: "9px", marginBottom: "12px" }}>
-                  <span style={{ fontFamily: "ui-monospace,monospace", fontSize: "10.5px", letterSpacing: "0.13em", textTransform: "uppercase", color: "#FFFFFF", fontWeight: "600" }}>Explore &amp; Ask</span>
+                  <span style={{ fontFamily: "var(--font-mono)", fontSize: "10.5px", letterSpacing: "0.13em", textTransform: "uppercase", color: "#FFFFFF", fontWeight: "600" }}>Explore &amp; Ask</span>
                   <span style={{ flex: "1", height: "1px", background: "rgba(255,255,255,0.2)" }} />
-                  <span style={{ fontFamily: "ui-monospace,monospace", fontSize: "10px", color: "rgba(255,255,255,0.5)" }}>ready to act on</span>
+                  <span style={{ fontFamily: "var(--font-mono)", fontSize: "10px", color: "rgba(255,255,255,0.5)" }}>ready to act on</span>
                 </div>
 
                 <div className="relative flex flex-col lg:flex-row items-stretch gap-6 lg:gap-0 max-w-[780px] w-full">
@@ -487,7 +487,7 @@ export default function PowerfulPlatform() {
                     <div id="akashic-insights" className="absolute -top-24" />
                     <div className="ps-mc-hd">
                       <ModIcon text="Akashic Knowledge" light />
-                      <span style={{ fontSize: "14.5px", fontWeight: "600", color: "#FFFFFF", flex: 1, letterSpacing: "-0.01em" }}>Ask AI</span>
+                      <span style={{ fontSize: "14.5px", fontWeight: "600", color: "#FFFFFF", flex: 1, letterSpacing: "-0.01em" }}>Ask Akashic</span>
                     </div>
                     <div style={{ height: "1px", background: "rgba(255,255,255,0.06)" }} />
                     <div style={{ padding: "14px 20px 16px", display: "flex", flexDirection: "column", gap: "12px" }}>
@@ -509,8 +509,8 @@ export default function PowerfulPlatform() {
                         <div style={{ flex: 1 }}></div>
                         <div style={{ display: "flex", alignItems: "center", gap: "7px", flexWrap: "wrap" }}>
                           <span style={{ display: "inline-flex", alignItems: "center", gap: "4px", padding: "3px 8px", background: "rgba(48,164,108,0.16)", borderRadius: "6px" }}><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="#4FD693" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span style={{ fontSize: "9px", fontWeight: 600, color: "#4FD693", letterSpacing: "0.03em" }}>LINEAGE VERIFIED</span></span>
-                          <span style={{ fontSize: "9.5px", color: "#9A9DA8", background: "#31333C", borderRadius: "6px", padding: "3px 8px", fontFamily: "ui-monospace,monospace" }}>Q2 Report &middot; p8</span>
-                          <span style={{ fontSize: "9.5px", color: "#9A9DA8", background: "#31333C", borderRadius: "6px", padding: "3px 8px", fontFamily: "ui-monospace,monospace" }}>gold.regions</span>
+                          <span style={{ fontSize: "9.5px", color: "#9A9DA8", background: "#31333C", borderRadius: "6px", padding: "3px 8px", fontFamily: "var(--font-mono)" }}>Q2 Report &middot; p8</span>
+                          <span style={{ fontSize: "9.5px", color: "#9A9DA8", background: "#31333C", borderRadius: "6px", padding: "3px 8px", fontFamily: "var(--font-mono)" }}>gold.regions</span>
                         </div>
                       </div>
                     </div>
@@ -527,9 +527,9 @@ export default function PowerfulPlatform() {
               {/* Row 4 Left — unchanged */}
               <div>
                 <h3 style={{ fontSize: "28px", lineHeight: "1.2", fontWeight: "600", letterSpacing: "-0.02em", color: "#FFFFFF", textWrap: "balance" }}>
-                  Every answer is traceable,
+                  Every answer: one you can trust,
                   <br className="hidden sm:block" />
-                  trustworthy, and ready to act on.
+                  trace, and act on.
                 </h3>
                 <p style={{ margin: "12px 0 0", fontSize: "15px", lineHeight: "1.6", color: "rgba(255,255,255,0.7)" }}>
                   Ask your data anything. Agents act on the answer,
@@ -538,7 +538,7 @@ export default function PowerfulPlatform() {
                 </p>
                 <div style={{ display: "flex", alignItems: "center", gap: "14px", marginTop: "24px" }}>
                   <Link href="#platform" className="btn-secondary" style={{ color: "#16181D" }}>Explore the platform</Link>
-                  <Link href="#get-started" className="btn-ghost" style={{ color: "#FFFFFF" }}>Book a demo</Link>
+                  <Link href="#talk-to-our-team" className="btn-ghost" style={{ color: "#FFFFFF" }}>Talk to our team</Link>
                 </div>
               </div>
 
@@ -558,7 +558,7 @@ export default function PowerfulPlatform() {
                         </div>
                         <div>
                           <span style={{ fontSize: "14.5px", fontWeight: "700", color: "#1A1C1D", letterSpacing: "-0.01em", display: "block" }}>Data Governance</span>
-                          <span style={{ fontSize: "10.5px", color: "#54565F", fontWeight: "600", fontFamily: "ui-monospace,monospace" }}>Foundation layer &middot; always on</span>
+                          <span style={{ fontSize: "10.5px", color: "#54565F", fontWeight: "600", fontFamily: "var(--font-mono)" }}>Foundation layer &middot; always on</span>
                         </div>
                       </div>
                       <div style={{ display: "flex", alignItems: "center", gap: "7px", flexWrap: "wrap" }}>
@@ -607,7 +607,7 @@ export default function PowerfulPlatform() {
                         <div style={{ flex: 1, background: "#FFFFFF", border: "1px solid #E5E7F0", borderRadius: "10px", padding: "12px 14px" }}>
                           <div style={{ display: "flex", alignItems: "center", gap: "7px", marginBottom: "6px" }}>
                             <div style={{ width: "18px", height: "18px", borderRadius: "4px", background: "#EEF0FC", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-                              <DynamicSketchIcon text="Master Data" className="w-[9px] h-[9px] text-[#3E63DD]" />
+                              <DynamicSketchIcon text="Akashic Master Data" className="w-[9px] h-[9px] text-[#3E63DD]" />
                             </div>
                             <span style={{ fontSize: "11.5px", fontWeight: "700", color: "#1A1C1D" }}>Master Data</span>
                           </div>
@@ -653,6 +653,9 @@ export default function PowerfulPlatform() {
           </div>
         </div>
       </div>
+
+      {/* Gradient bridge — smooths the abrupt blue → white transition */}
+      <div className="h-[120px] w-full bg-gradient-to-b from-[#3E63DD] to-white" />
     </section>
   );
 }

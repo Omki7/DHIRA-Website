@@ -1,5 +1,5 @@
 /*
- * [09] Close — Ready When You Are.
+ * [11] Close — Ready When You Are.
  * Dark closure card, per the home page's Closure precedent (Rule 5).
  * NOTE: the content script flags the six-week commitment as "confirm" —
  * verify before ship.
@@ -18,7 +18,7 @@ export default function AkashicClose() {
             <div className="dot-grid absolute inset-0 opacity-10 invert" aria-hidden />
             <div className="relative">
               <p className="font-mono text-[11px] uppercase tracking-eyebrow text-white/50">
-                <span className="text-white/30">[09]</span>&nbsp;&nbsp;Ready when you are
+                <span className="text-white/40">[11]</span>&nbsp;&nbsp;Ready when you are
               </p>
               <h2 className="mx-auto mt-6 max-w-[18em] text-heading-sm font-semibold text-white md:text-heading-md">
                 Grounded data. Trusted AI. Decisions you can defend.
@@ -47,19 +47,19 @@ export default function AkashicClose() {
                 </div>
               </div>
               <p className="mx-auto mt-5 max-w-[34em] text-base leading-relaxed text-white/65">
-                No twelve-month implementation. No stack of disconnected vendors.
-                Start with the problem that matters most, prove the value in
-                weeks, and scale on the same governed foundation.
+                No multi-year implementation. No stack of disconnected vendors.
+                Prove it against your own numbers in six weeks, and keep the
+                complete record you build doing it.
               </p>
               <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
                 <Link href="/#get-started" className="btn-secondary">
                   Talk to our team
                 </Link>
                 <Link
-                  href="/#get-started"
+                  href="/delivery#akashic-deployment"
                   className="inline-flex h-9 items-center justify-center gap-2 rounded-[10px] border border-white/25 px-4 text-sm font-medium text-white transition-colors duration-250 ease-settle hover:bg-white/10"
                 >
-                  Share your requirements
+                  See the six-week rollout
                 </Link>
               </div>
             </div>

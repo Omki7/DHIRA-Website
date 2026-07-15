@@ -1,6 +1,6 @@
 /*
  * Shared card chrome + the MiniStack motif for the Akashic product page.
- * Used by the [02]–[07] sections so every simulated-UI card speaks the same
+ * Used by the [02]–[08] sections so every simulated-UI card speaks the same
  * visual language (see AGENTS.md §8a for the simulated-UI convention).
  */
 

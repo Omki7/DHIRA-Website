@@ -44,7 +44,7 @@ const steps = [
     services: [
       { label: "Akashic BI", href: "/akashic#business-intelligence" },
       { label: "Akashic Machine Learning", href: "/akashic#machine-learning" },
-      { label: "Akashic Insights", href: "/akashic#ask-ai" },
+      { label: "Ask Akashic", href: "/akashic#ask-ai" },
     ],
   },
 ];
@@ -55,7 +55,7 @@ export default function HowWeDeliver() {
   return (
     <section
       id="delivery"
-      className="bg-white pt-12 pb-24 lg:pt-16 lg:pb-32"
+      className="bg-primary-bg pt-12 pb-24 lg:pt-16 lg:pb-32"
     >
       <ScrollRevealRail>
 
@@ -66,7 +66,7 @@ export default function HowWeDeliver() {
               <span className="text-overcast font-mono">[04]</span>
               &nbsp;&nbsp;HOW WE DELIVER
             </span>
-            <span className="text-overcast">/ WEEKS, NOT QUARTERS</span>
+            <span className="text-overcast">/ AUDIT TO GO-LIVE</span>
           </div>
 
           <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
@@ -145,6 +145,7 @@ export default function HowWeDeliver() {
                             <Link
                               key={svc.label}
                               href={svc.href}
+                              scroll={svc.href.includes('#') ? false : undefined}
                               className="inline-flex items-center rounded-full border border-lineSoft bg-white px-3 py-1.5 font-mono text-[11px] uppercase tracking-eyebrow text-inkSoft transition-colors duration-200 ease-settle hover:border-blue/30 hover:bg-blue-subtle hover:text-blue"
                             >
                               {svc.label}

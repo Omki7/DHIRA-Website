@@ -6,7 +6,7 @@ import AkashicLogo from "@/components/icons/AkashicLogo";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 
 /* Rotating "answer" word — same context, different noun. */
-const heroWords = ["answer", "insight", "signal", "verdict"];
+const heroWords = ["answer", "number", "decision"];
 const WORD_INTERVAL = 2600;
 
 export default function AkashicHero() {
@@ -22,7 +22,7 @@ export default function AkashicHero() {
   }, []);
 
   return (
-    <section className="relative overflow-hidden bg-background">
+    <section id="hero" className="relative overflow-hidden bg-background">
       <div className="dot-grid absolute inset-0 opacity-60" aria-hidden />
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-48 bg-gradient-to-b from-transparent to-white" aria-hidden />
 
@@ -51,8 +51,7 @@ export default function AkashicHero() {
 
           <ScrollReveal delay={140}>
             <h1 className="mt-6 max-w-[22em] text-5xl font-semibold leading-[1.05] tracking-tightest text-primary-text md:text-6xl lg:text-7xl">
-              The platform behind every
-              <br />
+              Every{" "}
               <span className="inline-grid align-baseline">
                 {/* every word occupies the same grid cell, so the cell is always
                     as wide as the widest word and the layout never shifts */}
@@ -84,14 +83,18 @@ export default function AkashicHero() {
                   </span>
                 ))}
               </span>{" "}
-              <span className="whitespace-nowrap">DHIRA gives.</span>
+              <span className="whitespace-nowrap">your business needs</span>
+              <br />
+              is already in your data.
             </h1>
           </ScrollReveal>
 
           <ScrollReveal delay={220}>
             <p className="mt-8 max-w-[34em] text-lg font-normal leading-relaxed text-secondary-text md:text-xl">
-              Wherever your data lives. One platform that keeps it current, connected,
-              and ready the moment a decision needs it.
+              Your systems hold the numbers. Your documents hold the reasons. Nothing
+              joins them. Akashic is one governed platform for enterprise data,
+              analytics, and AI: it reads both, and keeps the complete record ready the
+              moment a decision needs it.
             </p>
           </ScrollReveal>
 
@@ -100,11 +103,12 @@ export default function AkashicHero() {
               <Link href="#talk-to-our-team" className="btn-primary">
                 Talk to our team
               </Link>
-              <Link href="#how-it-works" className="btn-secondary">
-                See how it works
+              <Link href="#akashic-in-action" className="btn-secondary">
+                See it answer a question
               </Link>
             </div>
           </ScrollReveal>
+
 
         </div>
       </div>
