@@ -41,7 +41,8 @@ components/
     ProblemBlock.tsx         Single scroll-revealed proof block with count-up watermark (ProblemSection)
     FieldLedger.tsx          Live deployment panels with count-up metrics (ProvenAtScale)
     VoicesDispatches.tsx     Asymmetric editorial dispatch cards (Voices)
-    AshokaChakra.tsx         Decorative 24-spoke wheel in brand blues, slow rotation (CareersImpact)
+    AshokaChakra.tsx         Decorative 24-spoke wheel in brand blues, slow rotation (CareersImpact, ProvenAtScale)
+    LineArtBust.tsx          Friendly line-art head+shoulders figure for SVG scenes (CareersHiring, AboutWho)
 
     mockups/             SIMULATED PRODUCT UI — fake app screenshots for visual storytelling,
                           not real Akashic functionality. See §8a before touching any file here.
@@ -407,10 +408,10 @@ Composed in `app/about/page.tsx` (Nav + sections + Footer). The nav's Company me
 | Order | ID | File | Background | Notes |
 |---|---|---|---|---|
 | 00 | — | `sections/about/AboutHero.tsx` | `bg-background` | Centred hero, dot-grid backdrop, "outlast the budget cycle" bars motif, offices mono strip |
-| 01 | why-we-exist | `sections/about/AboutWhy.tsx` | `bg-white` | Narrative + micro-mockup panel (§8a applies: three conflicting spreadsheets, untraceable AI answer), trust-problem pivot line |
-| 02 | who-we-are | `sections/about/AboutWho.tsx` | `bg-white` | Contexts ledger (ministries / regulated enterprises / startups) + advise-and-leave vs build-and-stay contrast strip |
-| 03 | what-we-believe | `sections/about/AboutBeliefs.tsx` | `bg-white` | Constitution ledger: sticky left header, five indexed principles (B-01…B-05) with ghost numerals, CSS hover dimming |
-| 04 | how-we-work | `sections/about/AboutHow.tsx` | `bg-white` | Four field-manual commitment cards in a 2×2, corner indices, growing tick rule on hover |
+| 01 | why-we-exist | `sections/about/AboutWhy.tsx` | `bg-white` | Narrative beside two open line-art exhibits (un-boxed; §8a applies to file names/totals): Exhibit A, a `LineArtBust` client under three tilted disagreeing spreadsheets; Exhibit B, a flat-mouthed AI box whose answer floats above a dashed trace that breaks mid-air ("Source: not found"). Trust-problem pivot line unchanged |
+| 02 | who-we-are | `sections/about/AboutWho.tsx` | soft blue band | Line-art journey (careers idiom): a crew of `demos/LineArtBust` engineers walks one dashed route through three world-scenes (ministry dome + transaction streams / regulated tower + uptime gauge / growth curve outrunning its box; watermarks 10⁹ · 99.9 · 10×), landing on the "every engagement" punchline; advise-vs-build close is an open editorial split (unboxed) |
+| 03 | what-we-believe | `sections/about/AboutBeliefs.tsx` | `bg-white` | Principles as architecture (line-art idiom): a skyline of everything shipped (dome / tower / growth curve / `LineArtBust` crew) stands on an ink beam held up by five carved pillars, one per principle (B-01…B-05, titles+bodies beneath); hovering a pillar column turns its pillar blue and dims the rest (CSS only, server component). Mobile stacks pillar-beside-text rows under the same skyline |
+| 04 | how-we-work | `sections/about/AboutHow.tsx` | `bg-white` | Continuous line-art story strip (careers idiom): the same two `LineArtBust` figures (blue = DHIRA, ink = client) recur along one unbroken ground line through four commitment scenes — listening (client's bubble, ours silent) / building together (dashed unfinished storey) / staying (live pulse on finished tower) / truth (one straight line in the bubble) — while a sun rises, crosses and sets into a moon overhead; scenes butt gap-0 so the ground joins. Text columns beneath with day-tags, CSS hover dimming; mobile stacks scene-above-text |
 | 05 | careers | `sections/about/AboutCareers.tsx` | `bg-white` | Careers teaser: NOW HIRING pulse signature, four compact role rows (match JoinTheTeam's ROLES), links to `/#careers` |
 | 06 | proof | `sections/about/AboutProof.tsx` | `bg-white` | Three deployment panels (client, AkashicScale idiom): count-up figures per Rule 4, sparklines, LIVE/COMPLETE chips |
 | 07 | talk-to-our-team | `sections/about/AboutClose.tsx` | `bg-white` | Dark closure card (Rule 5's Closure precedent). Carries the `#talk-to-our-team` id the nav CTA targets |
@@ -425,7 +426,7 @@ Composed in `app/careers/page.tsx`. The nav's Company → Careers, the home Join
 | 01 | the-work | `sections/careers/CareersImpact.tsx` | "Production is a country": narrative beside `demos/AshokaChakra` (slow-turning 24-spoke wheel), then the four-mission impact band (count-ups per Rule 4) |
 | 02 | how-we-work | `sections/careers/CareersCulture.tsx` | Candidate-lens culture ledger (W-01…W-06: principles translated to the employee experience), honest compensation note pointing at the intro call, links to `/about#what-we-believe` |
 | 03 | open-roles | `sections/careers/CareersRoles.tsx` | Canonical filterable roles board (client) — same ROLES + blue-bar hover signature as JoinTheTeam; keep the two lists in sync |
-| 04 | how-we-hire | `sections/careers/CareersHiring.tsx` | Four-step hiring rail (intro call / deep-dive / working session / decision) |
+| 04 | how-we-hire | `sections/careers/CareersHiring.tsx` | Interactive hiring loop (client): deliberately un-boxed (no console frame — that idiom is [02]'s). Clickable four-station rail advances an open hand-drawn line-art human scene per step (both-ways call / shipped-system deep-dive / shared-editor session / letter handed over) with tilted pinned notes; auto-advances, locks on click. The shared `demos/LineArtBust` figure powers the scenes. Sits on the page's second (deeper) blue band with soft radial glows |
 | 05 | talk-to-our-team | `sections/careers/CareersClose.tsx` | Dark closure card; Apply anchor target |
 
 ### Solution pages (`/solutions/eis`, `/solutions/life`, `/solutions/knowledge`)

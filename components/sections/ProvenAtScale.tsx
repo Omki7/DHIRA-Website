@@ -2,12 +2,12 @@
  * DESIGN INTENT:
  * Section 03: Proven At Scale.
  * Light section on bg-white. India identity is a single quiet signal:
- * an Ashoka Chakra SVG watermark in neutral ink at opacity-[0.035].
+ * the shared brand-blue Ashoka Chakra ornament (demos/AshokaChakra, the
+ * same slow-turning 24-spoke wheel used in CareersImpact), sat top-right.
  * Indians read it immediately; international clients see an elegant
- * geometric mandala. The copy ("India's national... Ministry of External
- * Affairs") handles the explicit India reference.
- * A faint warm glow (golden-amber, not saffron-coded) adds depth without
- * anchoring the section to any flag palette.
+ * geometric mandala. The copy ("India's national platforms") handles the
+ * explicit India reference. A faint warm glow adds depth without anchoring
+ * the section to any flag palette.
  *
  * Layout follows the same left-aligned pattern as all other sections.
  * Shape discipline (Rule 1): stats band uses gap-as-divider, not cards.
@@ -17,6 +17,7 @@
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import FieldLedger from "@/components/demos/FieldLedger";
 import ScrollRevealRail from "@/components/ui/ScrollRevealRail";
+import AshokaChakra from "@/components/demos/AshokaChakra";
 
 const STATS = [
   { figure: "5.75B+", label: "Learning interactions analysed" },
@@ -24,45 +25,6 @@ const STATS = [
   { figure: "4M+", label: "Cross-border worker clearances" },
   { figure: "135", label: "Languages served" },
 ];
-
-/* Ashoka Chakra — 24 equally-spaced spokes, simplified for watermark use.
-   Rendered in neutral ink at opacity-[0.035]: Indians recognise it
-   immediately; international audiences see an elegant geometric mandala. */
-function AshokaChakriWatermark() {
-  const spokes = Array.from({ length: 24 }, (_, i) => {
-    const rad = (i * 15 * Math.PI) / 180;
-    const cos = Math.cos(rad);
-    const sin = Math.sin(rad);
-    return {
-      x1: +(50 + 7 * cos).toFixed(3),
-      y1: +(50 + 7 * sin).toFixed(3),
-      x2: +(50 + 46 * cos).toFixed(3),
-      y2: +(50 + 46 * sin).toFixed(3),
-    };
-  });
-
-  return (
-    <svg
-      viewBox="0 0 100 100"
-      aria-hidden="true"
-      className="pointer-events-none absolute -right-20 top-0 h-[540px] w-[540px] opacity-[0.12] lg:-right-10"
-      style={{ color: "#FF9933" }}
-    >
-      <circle cx="50" cy="50" r="46" fill="none" stroke="currentColor" strokeWidth="1.6" />
-      <circle cx="50" cy="50" r="7" fill="currentColor" />
-      <circle cx="50" cy="50" r="3.5" fill="none" stroke="white" strokeWidth="1.2" />
-      {spokes.map((s, i) => (
-        <line
-          key={i}
-          x1={s.x1} y1={s.y1}
-          x2={s.x2} y2={s.y2}
-          stroke="currentColor"
-          strokeWidth="0.9"
-        />
-      ))}
-    </svg>
-  );
-}
 
 export default function ProvenAtScale() {
   return (
@@ -78,8 +40,8 @@ export default function ProvenAtScale() {
         style={{ background: "radial-gradient(circle, rgba(215,155,60,0.09), transparent 70%)" }}
       />
 
-      {/* Ashoka Chakra watermark */}
-      <AshokaChakriWatermark />
+      {/* Ashoka Chakra — shared brand-blue rotating ornament (matches CareersImpact) */}
+      <AshokaChakra className="pointer-events-none absolute -right-24 -top-16 h-[540px] w-[540px] opacity-50 lg:-right-12" />
 
       <ScrollRevealRail className="z-10">
         {/* Eyebrow + headline — left-aligned */}
