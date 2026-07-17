@@ -7,8 +7,8 @@
  * human moment per step — a both-ways call, a shipped-system deep-dive, a
  * shared-editor session, an answer handed over in writing — rendered as
  * open line-art illustrations with pinned notes (tilted, not gridded).
- * Sits on the page's second blue band with soft glows and an ambient team
- * frieze, so the white run breaks and the section reads human, not UI.
+ * Sits on the page's second blue band with soft glows, so the white run
+ * breaks and the section reads human, not UI.
  * Copy is the approved four-step text. Auto-advances, locks on click.
  */
 
@@ -16,6 +16,7 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import { useEffect, useState } from "react";
 import ScrollReveal from "@/components/ui/ScrollReveal";
+import Bust from "@/components/demos/LineArtBust";
 import { usePrefersReducedMotion } from "@/hooks/useCountUp";
 
 const CYCLE_MS = 6400;
@@ -46,55 +47,6 @@ const steps = [
     desc: "A clear yes or no, with reasons. We tell the truth. It is one of the written principles.",
   },
 ];
-
-/* One friendly line-art bust, reused across scenes and the ambient frieze. */
-function Bust({
-  cx,
-  cy,
-  r,
-  tone = "ink",
-  smile = true,
-}: {
-  cx: number;
-  cy: number;
-  r: number;
-  tone?: "ink" | "blue" | "soft";
-  smile?: boolean;
-}) {
-  const stroke = tone === "blue" ? "stroke-blue" : tone === "soft" ? "stroke-overcast" : "stroke-ink";
-  const fill = tone === "blue" ? "fill-blue" : tone === "soft" ? "fill-overcast" : "fill-ink";
-  return (
-    <g fill="none" strokeWidth={2.3} strokeLinecap="round" strokeLinejoin="round">
-      <circle cx={cx} cy={cy} r={r} className={stroke} />
-      {smile && <path d={`M ${cx - r * 0.44} ${cy + r * 0.2} q ${r * 0.44} ${r * 0.5} ${r * 0.88} 0`} className={stroke} />}
-      <circle cx={cx - r * 0.36} cy={cy - r * 0.12} r={1.4} className={fill} stroke="none" />
-      <circle cx={cx + r * 0.36} cy={cy - r * 0.12} r={1.4} className={fill} stroke="none" />
-      <path
-        d={`M ${cx - r * 2} ${cy + r * 3.5} C ${cx - r * 2} ${cy + r * 1.55}, ${cx + r * 2} ${cy + r * 1.55}, ${cx + r * 2} ${cy + r * 3.5}`}
-        className={stroke}
-      />
-    </g>
-  );
-}
-
-function TeamFrieze() {
-  return (
-    <svg
-      viewBox="0 0 620 120"
-      fill="none"
-      aria-hidden
-      className="pointer-events-none absolute bottom-10 left-1/2 hidden w-[760px] -translate-x-1/2 opacity-[0.13] lg:block"
-    >
-      <path d="M28 96 C150 70 246 74 340 92 C430 110 516 104 592 78" className="stroke-blue-border" strokeWidth={1.5} strokeLinecap="round" />
-      <Bust cx={76} cy={44} r={12} tone="blue" />
-      <Bust cx={152} cy={54} r={14} tone="soft" smile={false} />
-      <Bust cx={244} cy={42} r={13} tone="ink" />
-      <Bust cx={338} cy={58} r={12} tone="soft" />
-      <Bust cx={434} cy={46} r={14} tone="blue" smile={false} />
-      <Bust cx={536} cy={54} r={13} tone="ink" />
-    </svg>
-  );
-}
 
 function PinnedNote({
   children,
@@ -282,7 +234,6 @@ export default function CareersHiring() {
     >
       <div className="pointer-events-none absolute -left-24 top-10 h-72 w-72 rounded-full bg-blue/10 blur-3xl" aria-hidden />
       <div className="pointer-events-none absolute -right-20 top-1/3 h-80 w-80 rounded-full bg-blue/[0.08] blur-3xl" aria-hidden />
-      <TeamFrieze />
 
       <div className="rail-container relative pt-12 pb-24 lg:pt-16 lg:pb-32">
         <ScrollReveal>

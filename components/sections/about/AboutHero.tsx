@@ -1,38 +1,10 @@
 /*
  * [00] About Hero — We Build Things That Last.
- * Centred hero on the dot-grid backdrop, closed by the "outlast the budget
- * cycle" motif: a short grey budget-cycle bar against a long blue build bar
- * that keeps running past it (dashed continuation + pulse).
+ * Centred hero on the dot-grid backdrop.
  */
 
 import Link from "next/link";
 import ScrollReveal from "@/components/ui/ScrollReveal";
-
-function LastingBars() {
-  return (
-    <div className="w-full max-w-[440px] rounded-[12px] border border-subtle-stroke bg-white px-5 py-4 text-left shadow-card">
-      <div className="flex items-baseline justify-between font-mono text-[9px] uppercase tracking-[0.1em] text-overcast">
-        <span>A budget cycle</span>
-        <span>Ends</span>
-      </div>
-      <div className="mt-1.5 flex items-center gap-2">
-        <span className="h-[6px] w-1/4 rounded-full bg-default-stroke" aria-hidden />
-      </div>
-      <div className="mt-4 flex items-baseline justify-between font-mono text-[9px] uppercase tracking-[0.1em]">
-        <span className="text-inkSoft">What we build</span>
-        <span className="flex items-center gap-1.5 text-[#1B7A47]">
-          <span className="h-[5px] w-[5px] rounded-full bg-[#30A46C] animate-[ps-pulse_2s_infinite]" aria-hidden />
-          Still running
-        </span>
-      </div>
-      <div className="mt-1.5 flex items-center gap-1.5" aria-hidden>
-        <span className="h-[6px] w-3/4 rounded-full bg-gradient-to-r from-[#5B7BE8] to-blue shadow-[inset_0_1px_0_rgba(255,255,255,0.3)]" />
-        <span className="h-px flex-1 bg-[length:12px_1px] bg-repeat-x bg-[repeating-linear-gradient(90deg,#C8D2F5_0_6px,transparent_6px_12px)] animate-[ps-dash_1.4s_linear_infinite]" />
-        <span className="h-1.5 w-1.5 rounded-full bg-blue animate-[ps-pulse_2s_infinite]" />
-      </div>
-    </div>
-  );
-}
 
 export default function AboutHero() {
   return (
@@ -89,14 +61,8 @@ export default function AboutHero() {
           </ScrollReveal>
 
           <ScrollReveal delay={380}>
-            <div className="mt-14 flex justify-center px-2">
-              <LastingBars />
-            </div>
-          </ScrollReveal>
-
-          <ScrollReveal delay={420}>
-            <p className="mt-6 font-mono text-[10px] uppercase tracking-eyebrow text-overcast">
-              New York &middot; Hyderabad &middot; Bangalore &middot; Remote
+            <p className="mt-10 font-mono text-[10px] uppercase tracking-eyebrow text-overcast">
+              New York &middot; Hyderabad &middot; Bangalore
             </p>
           </ScrollReveal>
         </div>
