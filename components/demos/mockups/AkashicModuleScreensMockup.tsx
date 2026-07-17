@@ -2,24 +2,23 @@
 
 /**
  * SIMULATED PRODUCT UI — not real Akashic app code.
- * Seven fake module screens for the /akashic product page: the homepage
- * hero's three screens (Pipelines, Ask, Warehouse — shared via
- * HeroProductScreensMockup, along with the app chrome helpers), three
- * built here in the same idiom (Master Data, ML, Governance), and the
- * interactive BI screen rendered from AkashicHeroBIWireframe.
- * Same carousel mechanics as HeroProductsMockup: `.hs-card` fan layout
- * with a `far` off-stage position for the cards not currently visible,
- * auto-cycling every 6000ms. All figures are demo data consistent with
- * the homepage screens (Sales Performance world: 82,401 rows, 104/97/88/
- * 71/63% attainment, ₹3.8 Cr shortfall) and the [04] walkthrough
- * (12,400 units, MAPE 6.2%).
+ * Seven fake module screens for the /akashic product page: two homepage
+ * hero screens (Pipelines, Warehouse — shared via HeroProductScreensMockup,
+ * along with the app chrome helpers), a /akashic-local Ask screen forked
+ * from the shared one (channel growth, so it never restates South's
+ * attainment — [01] owns that story on this page), three built here in the
+ * same idiom (Master Data, ML, Governance), and the interactive BI screen
+ * from AkashicHeroBIWireframe. Same carousel mechanics as HeroProductsMockup:
+ * `.hs-card` fan layout with a `far` off-stage position, auto-cycling every
+ * 6000ms. /akashic demo world is in USD (Sales Performance: 82,401 rows,
+ * South the mild laggard at 92%, $25.4M net revenue) and the [04] walkthrough
+ * (12,400 units, MAPE 6.2%). Home keeps its own ₹ / South-71% version.
  */
 
 import { useState, useEffect } from "react";
 import AkashicHeroBIWireframe from "@/components/demos/mockups/AkashicHeroBIWireframe";
 import {
   PIPELINES_SCREEN_HTML,
-  ASK_SCREEN_HTML,
   MODELS_SCREEN_HTML,
   WINDOW_BAR,
   LIVE_CHIP,
@@ -27,6 +26,113 @@ import {
   moduleRail,
   sidebarSearch,
 } from "@/components/demos/mockups/HeroProductScreensMockup";
+
+/* ---------------------------------------------------------------- */
+/* Ask Akashic — /akashic-local fork of the shared hero Ask screen.  */
+/* The shared screen answers "which regions are behind plan" (South  */
+/* 71%, store openings) — the site-wide demo spine that [01] owns on  */
+/* this page. To avoid restating South's attainment with a second    */
+/* value, the /akashic showcase asks a non-colliding question:        */
+/* channel growth. Home keeps the original.                           */
+/* ---------------------------------------------------------------- */
+const ASK_SPARKLE = "M12 2l2.4 7.6L22 12l-7.6 2.4L12 22l-2.4-7.6L2 12l7.6-2.4z";
+const CHANNEL_BARS = [
+  { name: "Direct", pct: 46, color: "#3E63DD", note: "" },
+  { name: "Partner", pct: 32, color: "#7C5CFC", note: "" },
+  { name: "Online", pct: 22, color: "#2A9BE0", note: "▲ 18% QoQ" },
+];
+const ASK_SCREEN_CHANNEL_HTML = `<div style="width:100%;height:100%;display:flex;flex-direction:column;font-family:Inter,sans-serif;background:#FAFAFB">
+  ${WINDOW_BAR}
+  ${appTopBar("Ask", "Channel growth")}
+  <div style="flex:1;display:flex;overflow:hidden">
+    ${moduleRail("ask")}
+    <div style="flex:1;display:flex;overflow:hidden;min-width:0">
+      <div style="width:200px;border-right:1px solid #E9EAEE;display:flex;flex-direction:column;flex-shrink:0;background:#fff">
+        <div style="padding:10px 11px 6px"><div style="border:1px solid #E9EAEE;border-radius:8px;padding:6px 9px;display:flex;align-items:center;gap:7px;cursor:pointer;background:#fff"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#1A1C1D" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg><span style="font-size:11px;color:#1A1C1D;font-weight:600">New chat</span><div style="flex:1"></div><span style="font-size:8.5px;color:#8E8F91;border:1px solid #E9EAEE;border-radius:4px;padding:1px 4px">⌘N</span></div></div>
+        <div style="flex:1;overflow:hidden;padding:0 9px">
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 3px 4px"><span style="font-size:9.5px;font-weight:700;color:#8E8F91;letter-spacing:0.07em">TODAY</span></div>
+          <div style="display:flex;flex-direction:column;gap:1px">
+            <div style="display:flex;align-items:center;gap:7px;padding:5.5px 7px;border-radius:7px;background:#EEF1FC"><span style="font-size:11px;color:#1A1C1D;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Channel growth</span></div>
+            <div style="display:flex;align-items:center;gap:7px;padding:5.5px 7px;border-radius:7px"><span style="font-size:11px;color:#5C5E63;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Fastest-growing accounts</span></div>
+            <div style="display:flex;align-items:center;gap:7px;padding:5.5px 7px;border-radius:7px"><span style="font-size:11px;color:#5C5E63;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Margin by channel, Q2</span></div>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:9px 3px 4px"><span style="font-size:9.5px;font-weight:700;color:#8E8F91;letter-spacing:0.07em">LAST WEEK</span></div>
+          <div style="display:flex;flex-direction:column;gap:1px">
+            <div style="display:flex;align-items:center;gap:7px;padding:5.5px 7px;border-radius:7px"><span style="font-size:11px;color:#5C5E63;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Board pack numbers</span></div>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:9px 3px 4px"><span style="font-size:9.5px;font-weight:700;color:#8E8F91;letter-spacing:0.07em">CONTEXTS</span><span style="font-size:9px;color:#8E8F91;background:#F3F3F4;border-radius:5px;padding:0 5px;font-weight:600">1</span></div>
+          <div style="display:flex;flex-direction:column;gap:1px">
+            <div style="display:flex;align-items:center;gap:8px;padding:5px 7px;border-radius:7px"><div style="width:18px;height:18px;border-radius:5px;background:linear-gradient(135deg,#3E63DD,#6E56CF);display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.7l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.7l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg></div><span style="font-size:11px;color:#1A1C1D">Sales Performance</span></div>
+          </div>
+        </div>
+        <div style="padding:9px 12px;border-top:1px solid #EEEFF1;display:flex;align-items:center;gap:7px"><div style="width:18px;height:18px;border-radius:5px;background:linear-gradient(135deg,#3E63DD,#6E56CF);display:flex;align-items:center;justify-content:center"><svg width="10" height="10" viewBox="0 0 24 24" fill="#fff" stroke="none"><path d="${ASK_SPARKLE}"/></svg></div><div style="min-width:0"><div style="font-size:10.5px;color:#1A1C1D;font-weight:600">Ask Akashic</div><div style="font-size:9px;color:#8E8F91">42 metrics · 5 sources</div></div></div>
+      </div>
+      <div style="flex:1;display:flex;flex-direction:column;overflow:hidden;background:#fff;min-width:0">
+        <div style="height:40px;border-bottom:1px solid #EEEFF1;display:flex;align-items:center;padding:0 16px;gap:10px;flex-shrink:0;background:#fff">
+          <span style="font-size:12px;font-weight:600;color:#1A1C1D">Where is growth coming from</span>
+          <div style="display:inline-flex;align-items:center;gap:4px"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#1F9D6B" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg><span style="font-size:10px;color:#1B8A5F;font-weight:600">Verified lineage</span></div>
+          <div style="flex:1"></div>
+          <span style="font-size:10px;color:#8E8F91">warehouse · 1.4s</span>
+          <div style="width:26px;height:26px;border-radius:7px;border:1px solid #E9EAEE;display:flex;align-items:center;justify-content:center;cursor:pointer"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#5C5E63" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.6 13.5 6.8 4M15.4 6.5l-6.8 4"/></svg></div>
+        </div>
+        <div style="flex:1;overflow-y:auto;padding:12px 0 0;display:flex;flex-direction:column">
+          <div style="width:100%;max-width:600px;margin:0 auto;padding:0 20px;display:flex;flex-direction:column;gap:11px">
+            <div style="display:flex;justify-content:flex-end">
+              <div style="max-width:78%;background:#EEF1FC;border-radius:13px 13px 4px 13px;padding:8px 12px"><p style="margin:0;font-size:12.5px;color:#1A1C1D;line-height:1.5;font-weight:500">Which channel is growing fastest this quarter?</p></div>
+            </div>
+            <div style="display:flex;gap:10px;align-items:flex-start">
+              <div style="width:25px;height:25px;border-radius:7px;background:linear-gradient(135deg,#3E63DD,#6E56CF);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px"><svg width="13" height="13" viewBox="0 0 24 24" fill="white" stroke="none"><path d="${ASK_SPARKLE}"/></svg></div>
+              <div style="flex:1;min-width:0">
+                <div style="display:flex;align-items:center;gap:6px;margin-bottom:9px;flex-wrap:wrap">
+                  <span style="font-size:9.5px;font-weight:600;color:#8E8F91;letter-spacing:0.03em">GROUNDED IN</span>
+                  <div style="display:inline-flex;align-items:center;gap:5px;padding:3px 8px 3px 4px;background:#fff;border:1px solid #E9EAEE;border-radius:7px"><div style="width:15px;height:15px;border-radius:4px;background:linear-gradient(135deg,#3E63DD,#6E56CF);display:flex;align-items:center;justify-content:center"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.7l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.7l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg></div><span style="font-size:10px;color:#1A1C1D;font-weight:600">Sales Performance</span></div>
+                  <div style="display:inline-flex;align-items:center;gap:5px;padding:3px 8px 3px 4px;background:#fff;border:1px solid #E9EAEE;border-radius:7px"><div style="width:15px;height:15px;border-radius:4px;background:#3E63DD;display:flex;align-items:center;justify-content:center"><span style="font-size:9px;color:#fff;font-weight:700">❄</span></div><span style="font-size:10px;color:#1A1C1D;font-weight:600">net_revenue</span><span style="font-size:8.5px;color:#8E8F91">gold</span></div>
+                </div>
+                <p style="margin:0 0 9px;font-size:13px;color:#1A1C1D;line-height:1.6">Online is your fastest-growing channel, <strong style="color:#1A1C1D">up 18% quarter on quarter</strong> and now 22% of revenue. Direct grew 6% and Partner was flat. At this pace, Online overtakes Partner by Q4.</p>
+                <div style="display:flex;align-items:center;gap:7px;margin-bottom:10px;padding:6px 11px;background:#FAFAFB;border:1px solid #EEEFF1;border-radius:9px;flex-wrap:wrap">
+                  <span style="font-size:10px;color:#7C5CFC;font-weight:700;font-family:ui-monospace,monospace">ƒx</span>
+                  <span style="font-size:9.5px;color:#5C5E63;font-family:ui-monospace,monospace">share = channel_revenue ÷ net_revenue</span>
+                  <span style="width:1px;height:10px;background:#E9EAEE"></span>
+                  <span style="font-size:9px;color:#8E8F91;font-family:ui-monospace,monospace">net_revenue: warehouse · gold</span>
+                  <div style="flex:1"></div>
+                  <span style="font-size:9px;color:#1B8A5F;font-weight:600">computed on the fly</span>
+                </div>
+                <div style="border:1px solid #E9EAEE;border-radius:12px;padding:11px 14px;margin-bottom:10px;background:#fff">
+                  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:9px">
+                    <span style="font-size:11.5px;font-weight:600;color:#1A1C1D">Revenue share by channel · Q2</span>
+                    <span style="font-size:9px;color:#8E8F91;font-family:ui-monospace,monospace">net_revenue · metric layer</span>
+                  </div>
+                  <div style="display:flex;flex-direction:column;gap:8px">
+                    ${CHANNEL_BARS.map(
+                      (c) => `<div style="display:flex;align-items:center;gap:9px">
+                      <span style="width:48px;font-size:10.5px;color:#5C5E63;flex-shrink:0">${c.name}</span>
+                      <div style="flex:1;height:9px;background:#F1F2F5;border-radius:5px;overflow:hidden"><div style="width:${c.pct * 2}%;height:100%;background:${c.color};border-radius:5px"></div></div>
+                      <span style="width:30px;text-align:right;font-size:10.5px;color:#1A1C1D;font-weight:600;flex-shrink:0">${c.pct}%</span>
+                      <span style="width:64px;text-align:right;font-size:9px;font-weight:600;color:#1B8A5F;flex-shrink:0">${c.note}</span>
+                    </div>`
+                    ).join("")}
+                  </div>
+                  <div style="display:flex;align-items:center;justify-content:space-between;margin-top:9px;padding-top:7px;border-top:1px solid #F1F2F5">
+                    <span style="font-size:9px;color:#8E8F91">share of $25.4M net revenue</span>
+                    <span style="font-size:9px;color:#8E8F91">Q2 FY26 · vs Q1</span>
+                  </div>
+                </div>
+                <div style="background:#F7F9FE;border-left:2px solid #3E63DD;border-radius:0 10px 10px 0;padding:10px 13px">
+                  <div style="font-size:11.5px;font-weight:600;color:#1A1C1D;margin-bottom:3px">Suggested action</div>
+                  <div style="font-size:11.5px;color:#5C5E63;line-height:1.5">Shift Q4 acquisition budget toward Online. A <strong style="color:#1A1C1D">5-point share gain</strong> adds back roughly <strong style="color:#1A1C1D">$1.3M</strong> in H2.</div>
+                  <div style="margin-top:8px;display:flex;gap:7px"><div style="display:inline-flex;align-items:center;height:25px;padding:0 11px;background:#3E63DD;border-radius:7px;cursor:pointer"><span style="font-size:10.5px;color:#fff;font-weight:600">Model the shift</span></div><div style="display:inline-flex;align-items:center;height:25px;padding:0 11px;background:#fff;border:1px solid #E9EAEE;border-radius:7px;cursor:pointer"><span style="font-size:10.5px;color:#3E63DD;font-weight:600">Open lineage</span></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>`;
+
+/* ---------------------------------------------------------------- */
+/* Master Data — three source records merge into one golden record   */
 
 /* ---------------------------------------------------------------- */
 /* Master Data — three source records merge into one golden record   */
@@ -80,21 +186,21 @@ const MASTER_DATA_SCREEN_HTML = `<div style="width:100%;height:100%;display:flex
             <circle cx="288" cy="196" r="3" fill="#B7BAC4"/><circle cx="288" cy="230" r="3" fill="#B7BAC4"/><circle cx="288" cy="262" r="3.5" fill="#3E63DD"/>
           </svg>
           <div style="position:absolute;left:20px;top:56px;width:160px;background:#fff;border:1px solid #E9EAEE;border-radius:10px;box-shadow:0 1px 2px rgba(18,20,26,0.05);overflow:hidden">
-            <div style="display:flex;align-items:center;gap:8px;padding:9px 10px 7px"><div style="width:24px;height:24px;border-radius:7px;background:#2A9BE0;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="13" height="13" viewBox="0 0 24 24" fill="#fff"><path d="M14.5 6.5a4.5 4.5 0 0 0-8.4-1.6A3.7 3.7 0 0 0 1 8.4a3.7 3.7 0 0 0 1 7.1h11a4 4 0 0 0 1.5-7.7 4.5 4.5 0 0 0 0-1.3z"/></svg></div><div style="min-width:0;flex:1"><div style="font-size:11.5px;font-weight:600;color:#1A1C1D">Meridian Retail</div><div style="font-size:9px;color:#8E8F91">Salesforce · #4471</div></div></div>
+            <div style="display:flex;align-items:center;gap:8px;padding:9px 10px 7px"><div style="width:24px;height:24px;border-radius:7px;background:#2A9BE0;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="13" height="13" viewBox="0 0 24 24" fill="#fff"><path d="M14.5 6.5a4.5 4.5 0 0 0-8.4-1.6A3.7 3.7 0 0 0 1 8.4a3.7 3.7 0 0 0 1 7.1h11a4 4 0 0 0 1.5-7.7 4.5 4.5 0 0 0 0-1.3z"/></svg></div><div style="min-width:0;flex:1"><div style="font-size:11.5px;font-weight:600;color:#1A1C1D">Whitmore Retail</div><div style="font-size:9px;color:#8E8F91">Salesforce · #4471</div></div></div>
             <div style="border-top:1px solid #EEEFF1;background:#FAFAFB;padding:5px 10px"><span style="display:block;font-size:9px;color:#5C5E63;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">tax_id 94-2404110 · Harbor Blvd</span></div>
           </div>
           <div style="position:absolute;left:20px;top:196px;width:160px;background:#fff;border:1px solid #E9EAEE;border-radius:10px;box-shadow:0 1px 2px rgba(18,20,26,0.05);overflow:hidden">
-            <div style="display:flex;align-items:center;gap:8px;padding:9px 10px 7px"><div style="width:24px;height:24px;border-radius:7px;background:#1F2A52;display:flex;align-items:center;justify-content:center;flex-shrink:0"><span style="font-size:11px;color:#fff;font-weight:700">N</span></div><div style="min-width:0;flex:1"><div style="font-size:11.5px;font-weight:600;color:#1A1C1D">Meridian Retail Pvt</div><div style="font-size:9px;color:#8E8F91">NetSuite · #4471-B</div></div></div>
+            <div style="display:flex;align-items:center;gap:8px;padding:9px 10px 7px"><div style="width:24px;height:24px;border-radius:7px;background:#1F2A52;display:flex;align-items:center;justify-content:center;flex-shrink:0"><span style="font-size:11px;color:#fff;font-weight:700">N</span></div><div style="min-width:0;flex:1"><div style="font-size:11.5px;font-weight:600;color:#1A1C1D">Whitmore Retail Pvt</div><div style="font-size:9px;color:#8E8F91">NetSuite · #4471-B</div></div></div>
             <div style="border-top:1px solid #EEEFF1;background:#FAFAFB;padding:5px 10px"><span style="display:block;font-size:9px;color:#5C5E63;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">same tax_id · Ste 2 · net-45</span></div>
           </div>
           <div style="position:absolute;left:20px;top:336px;width:160px;background:#fff;border:1px solid #E9EAEE;border-radius:10px;box-shadow:0 1px 2px rgba(18,20,26,0.05);overflow:hidden">
-            <div style="display:flex;align-items:center;gap:8px;padding:9px 10px 7px"><div style="width:24px;height:24px;border-radius:7px;background:#E5547B;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg></div><div style="min-width:0;flex:1"><div style="font-size:11.5px;font-weight:600;color:#1A1C1D">MERIDIAN RETAIL</div><div style="font-size:9px;color:#8E8F91">Invoice PDF · bill-to</div></div></div>
+            <div style="display:flex;align-items:center;gap:8px;padding:9px 10px 7px"><div style="width:24px;height:24px;border-radius:7px;background:#E5547B;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg></div><div style="min-width:0;flex:1"><div style="font-size:11.5px;font-weight:600;color:#1A1C1D">WHITMORE RETAIL</div><div style="font-size:9px;color:#8E8F91">Invoice PDF · bill-to</div></div></div>
             <div style="border-top:1px solid #EEEFF1;background:#FAFAFB;padding:5px 10px"><span style="display:block;font-size:9px;color:#B07289;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">no tax_id · fuzzy match 0.97</span></div>
           </div>
           <div style="position:absolute;left:288px;top:148px;width:186px;background:#fff;border:1.5px solid #3E63DD;border-radius:11px;box-shadow:0 1px 3px rgba(62,99,221,0.12);overflow:hidden">
             <div style="height:34px;background:linear-gradient(135deg,#3E63DD,#5870E8);display:flex;align-items:center;gap:8px;padding:0 12px"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0 1 12 0v1"/></svg><span style="font-size:12px;font-weight:700;color:#fff">Golden record</span><div style="flex:1"></div><span style="font-size:9px;color:#C7D3F7;font-weight:600">CU-9042</span></div>
             <div style="padding:9px 12px;display:flex;flex-direction:column;gap:5px">
-              <div style="display:flex;align-items:center;justify-content:space-between"><span style="font-size:10px;color:#5C5E63">Name</span><span style="font-size:10px;color:#1A1C1D;font-weight:600">Meridian Retail</span></div>
+              <div style="display:flex;align-items:center;justify-content:space-between"><span style="font-size:10px;color:#5C5E63">Name</span><span style="font-size:10px;color:#1A1C1D;font-weight:600">Whitmore Retail</span></div>
               <div style="display:flex;align-items:center;justify-content:space-between"><span style="font-size:10px;color:#5C5E63">tax_id</span><span style="font-size:10px;color:#1A1C1D;font-family:var(--font-mono)">94-2404110</span></div>
               <div style="display:flex;align-items:center;justify-content:space-between"><span style="font-size:10px;color:#5C5E63">Address</span><span style="font-size:10px;color:#1A1C1D">500 Harbor Blvd, Ste 2</span></div>
               <div style="display:flex;align-items:center;justify-content:space-between"><span style="font-size:10px;color:#5C5E63">Terms</span><span style="font-size:10px;color:#1A1C1D">net-45 <span style="color:#8E8F91">· from ERP</span></span></div>
@@ -163,7 +269,7 @@ const ML_SCREEN_HTML = `<div style="width:100%;height:100%;display:flex;flex-dir
             </div>
             <div style="display:flex;align-items:center;justify-content:space-between;padding:9px 3px 4px"><span style="font-size:9.5px;font-weight:700;color:#8E8F91;letter-spacing:0.07em">COMPUTE</span></div>
             <div style="display:flex;flex-direction:column;gap:1px">
-              <div style="display:flex;align-items:center;gap:8px;padding:4px 7px"><span style="width:6px;height:6px;border-radius:50%;background:#1F9D6B;animation:softpulse 2s infinite;flex-shrink:0"></span><span style="font-size:11px;color:#1A1C1D;font-family:var(--font-mono)">ml-gpu-01</span><div style="flex:1"></div><span style="font-size:9px;color:#8E8F91">4× T4</span></div>
+              <div style="display:flex;align-items:center;gap:8px;padding:4px 7px"><span style="width:6px;height:6px;border-radius:50%;background:#1F9D6B;animation:softpulse 2.4s infinite;flex-shrink:0"></span><span style="font-size:11px;color:#1A1C1D;font-family:var(--font-mono)">ml-gpu-01</span><div style="flex:1"></div><span style="font-size:9px;color:#8E8F91">4× T4</span></div>
             </div>
           </div>
           <div style="padding:9px 12px;border-top:1px solid #EEEFF1;display:flex;align-items:center;gap:7px"><div style="width:18px;height:18px;border-radius:5px;background:#EEF1FC;display:flex;align-items:center;justify-content:center"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#3E63DD" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.7l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.7l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg></div><div style="min-width:0"><div style="font-size:10.5px;color:#1A1C1D;font-weight:600">Feature store</div><div style="font-size:9px;color:#8E8F91">42 features · governed</div></div></div>
@@ -245,7 +351,7 @@ run.<span style="color:#3E63DD">evaluate</span>(test)</pre>
           </div>
           <div style="flex:1"></div>
           <div style="margin:10px;border:1px solid #CBE8D9;background:#F4FBF7;border-radius:9px;padding:9px 11px">
-            <div style="display:flex;align-items:center;gap:6px"><span style="width:6px;height:6px;border-radius:50%;background:#1F9D6B;animation:softpulse 2s infinite"></span><span style="font-size:10.5px;color:#1A1C1D;font-weight:600">v3 serving</span></div>
+            <div style="display:flex;align-items:center;gap:6px"><span style="width:6px;height:6px;border-radius:50%;background:#1F9D6B;animation:softpulse 2.4s infinite"></span><span style="font-size:10.5px;color:#1A1C1D;font-weight:600">v3 serving</span></div>
             <div style="font-size:9px;color:#5C5E63;margin-top:3px;font-family:var(--font-mono)">1.2M preds/day · p95 41ms</div>
           </div>
         </div>
@@ -614,7 +720,7 @@ const TABS = [
   { label: "Master Data", html: MASTER_DATA_SCREEN_HTML },
   { label: "Warehouse", html: MODELS_SCREEN_HTML },
   { label: "ML", html: ML_SCREEN_HTML },
-  { label: "Ask Akashic", html: ASK_SCREEN_HTML },
+  { label: "Ask Akashic", html: ASK_SCREEN_CHANNEL_HTML },
   { label: "BI", html: "" }, // rendered as the interactive AkashicHeroBIWireframe component below
   { label: "Governance", html: GOVERNANCE_SCREEN_HTML },
 ];

@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Akashic EIS — Product Gap Analysis</title>
+<link rel="stylesheet" href="styles.css" />
+<style>
+  body { background: var(--paper); }
+  .doc { max-width: 1120px; margin: 0 auto; padding: 40px 48px 120px; }
+  .doc-eyebrow { font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); font-weight: 700; }
+  .doc-h1 { font-size: 40px; font-weight: 900; letter-spacing: -0.04em; margin-top: 6px; line-height: 1.08; }
+  .doc-lede { font-size: 16px; color: var(--ink-2); margin-top: 16px; line-height: 1.62; max-width: 800px; }
+  .doc h2 { font-size: 23px; font-weight: 800; letter-spacing: -0.025em; margin-top: 62px; padding-bottom: 12px; border-bottom: 1px solid var(--line-2); display: flex; align-items: baseline; gap: 13px; }
+  .h-num { font-family: var(--mono); font-size: 11px; font-weight: 700; background: var(--accent-soft); color: var(--accent-2); border: 1px solid var(--accent-line); padding: 4px 9px; border-radius: 6px; position: relative; top: -2px; }
+  .doc h2 .h2-sub { font-size: 13px; font-weight: 500; color: var(--ink-3); letter-spacing: 0; margin-left: auto; }
+  .doc h3 { font-size: 15px; font-weight: 700; margin-top: 26px; margin-bottom: 9px; color: var(--ink); }
+  .doc p, .doc li { font-size: 14px; color: var(--ink-2); line-height: 1.68; }
+  .doc ul { padding-left: 22px; margin: 8px 0; }
+  .doc li { margin-bottom: 4px; }
+  .doc b, .doc strong { color: var(--ink); font-weight: 700; }
+  .doc code { font-family: var(--mono); font-size: 12.5px; background: var(--surface-2); border: 1px solid var(--line); padding: 1px 5px; border-radius: 4px; color: var(--ink-2); }
+
+  /* ---- Scorecard ---- */
+  .score-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 22px; }
+  .score-card { padding: 20px 22px; border-radius: var(--r-lg); border: 1px solid var(--line); background: var(--surface); box-shadow: var(--shadow-sm); }
+  .score-card.good { border-top: 3px solid var(--good); }
+  .score-card.gap  { border-top: 3px solid var(--critical); }
+  .score-card h3 { margin-top: 0; font-size: 13px; text-transform: uppercase; letter-spacing: 0.05em; }
+  .score-card.good h3 { color: var(--good); }
+  .score-card.gap h3 { color: var(--critical); }
+  .score-card ul { padding-left: 0; list-style: none; margin: 6px 0 0; }
+  .score-card li { font-size: 13px; padding: 7px 0; border-bottom: 1px dashed var(--line); display: flex; gap: 9px; align-items: flex-start; }
+  .score-card li:last-child { border-bottom: 0; }
+  .score-card li .mk { flex: 0 0 auto; font-weight: 800; font-family: var(--mono); }
+  .score-card.good li .mk { color: var(--good); }
+  .score-card.gap li .mk { color: var(--critical); }
+
+  /* ---- Legend ---- */
+  .legend-row { display: flex; gap: 18px; flex-wrap: wrap; margin-top: 18px; align-items: center; font-size: 12.5px; color: var(--ink-3); }
+  .sev { display: inline-flex; align-items: center; gap: 6px; font-size: 10.5px; font-weight: 700; font-family: var(--mono); text-transform: uppercase; letter-spacing: 0.04em; padding: 3px 9px; border-radius: 5px; }
+  .sev.crit { background: var(--critical-soft); color: var(--critical); border: 1px solid var(--critical-line); }
+  .sev.high { background: var(--warn-soft); color: var(--warn); border: 1px solid var(--warn-line); }
+  .sev.med  { background: var(--accent-soft); color: var(--accent-2); border: 1px solid var(--accent-line); }
+
+  /* ---- Gap card ---- */
+  .gap { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-lg); padding: 24px 26px 22px; margin-top: 20px; box-shadow: var(--shadow-sm); position: relative; overflow: hidden; }
+  .gap::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; }
+  .gap.crit::before { background: var(--critical); }
+  .gap.high::before { background: var(--warn); }
+  .gap.med::before  { background: var(--accent); }
+  .gap-head { display: flex; align-items: flex-start; gap: 14px; }
+  .gap-id { font-family: var(--mono); font-size: 12px; font-weight: 700; color: var(--ink-faint); flex: 0 0 auto; padding-top: 5px; }
+  .gap-titles { flex: 1; min-width: 0; }
+  .gap-h { font-size: 19px; font-weight: 800; letter-spacing: -0.02em; line-height: 1.2; }
+  .gap-tags { display: flex; gap: 7px; flex-wrap: wrap; margin-top: 9px; align-items: center; }
+  .tag { font-size: 10.5px; font-weight: 600; font-family: var(--mono); padding: 2px 8px; border-radius: 5px; background: var(--surface-2); color: var(--ink-3); border: 1px solid var(--line); }
+  .gap-body { margin-top: 16px; display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+  .gap-block h4 { font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: var(--ink-faint); margin-bottom: 7px; display: flex; align-items: center; gap: 6px; }
+  .gap-block.now h4::before { content: "●"; color: var(--critical); font-size: 9px; }
+  .gap-block.fix h4::before { content: "▸"; color: var(--good); font-size: 11px; }
+  .gap-block p { font-size: 13px; line-height: 1.6; }
+  .gap-block ul { padding-left: 17px; margin: 4px 0 0; }
+  .gap-block li { font-size: 12.5px; line-height: 1.55; margin-bottom: 3px; }
+  .ev { margin-top: 15px; font-size: 11.5px; color: var(--ink-3); font-family: var(--mono); line-height: 1.5; background: var(--surface-2); border: 1px solid var(--line); border-radius: 8px; padding: 9px 12px; }
+  .ev b { color: var(--ink-2); font-weight: 600; }
+  @media(max-width:880px){ .gap-body{grid-template-columns:1fr;} .score-cols{grid-template-columns:1fr;} }
+
+  /* ---- Theme intro ---- */
+  .theme-intro { font-size: 14.5px; color: var(--ink-2); line-height: 1.65; margin-top: 14px; max-width: 820px; }
+  .theme-intro b { color: var(--ink); }
+
+  /* ---- Roadmap ---- */
+  .road { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; margin-top: 20px; }
+  .road-col { border: 1px solid var(--line); border-radius: var(--r-lg); background: var(--surface); overflow: hidden; box-shadow: var(--shadow-sm); }
+  .road-col .rc-head { padding: 14px 16px; border-bottom: 1px solid var(--line); }
+  .road-col .rc-eyebrow { font-family: var(--mono); font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; }
+  .road-col.h1 { border-top: 3px solid var(--critical); } .road-col.h1 .rc-eyebrow { color: var(--critical); }
+  .road-col.h2 { border-top: 3px solid var(--warn); } .road-col.h2 .rc-eyebrow { color: var(--warn); }
+  .road-col.h3 { border-top: 3px solid var(--accent); } .road-col.h3 .rc-eyebrow { color: var(--accent-2); }
+  .rc-title { font-size: 15px; font-weight: 800; margin-top: 4px; }
+  .rc-when { font-size: 11.5px; color: var(--ink-3); margin-top: 2px; }
+  .road-col ul { padding: 12px 16px 16px 30px; margin: 0; }
+  .road-col li { font-size: 12.5px; margin-bottom: 7px; line-height: 1.45; }
+  .road-col li b { color: var(--ink); }
+
+  /* ---- Callout ---- */
+  .callout { background: linear-gradient(135deg, var(--accent-soft), var(--composite-soft)); border: 1px solid var(--accent-line); border-radius: var(--r-lg); padding: 24px 26px; margin-top: 44px; }
+  .callout h3 { margin-top: 0; font-size: 17px; font-weight: 800; }
+  .callout p { font-size: 13.5px; }
+
+  .matrix { border: 1px solid var(--line); border-radius: var(--r-lg); overflow: hidden; background: var(--surface); margin-top: 20px; box-shadow: var(--shadow-sm); }
+  .matrix table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+  .matrix th { background: var(--surface-2); text-align: left; padding: 11px 14px; font-size: 10px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--ink-faint); font-weight: 700; border-bottom: 1px solid var(--line-2); }
+  .matrix td { padding: 11px 14px; border-bottom: 1px solid var(--line); vertical-align: middle; }
+  .matrix tr:last-child td { border-bottom: 0; }
+  .matrix td:first-child { font-weight: 700; color: var(--ink); font-family: var(--mono); font-size: 11.5px; }
+  .matrix .gname { color: var(--ink); font-weight: 600; font-family: var(--sans); font-size: 13px; }
+</style>
+</head>
+<body>
+<div class="doc">
+
+  <div class="doc-eyebrow">Product Strategy · Gap Analysis · 05 June 2026</div>
+  <h1 class="doc-h1">Where Akashic stops short of its own promise.</h1>
+  <p class="doc-lede">
+    Akashic today is a genuinely impressive <em>intelligence surface</em> — the Enterprise Spine, the
+    persona lenses, the cross-pillar composite, the reverse-ETL action composer and the citation-backed
+    trust layer are all real and well-built. This document is not a critique of that work. It is a
+    product-envisioner's map of the <b>gaps between what the system shows and what an executive actually needs
+    to run the firm</b> — across workflows, functions, and features — with a proposed solution for each, and a
+    sequencing recommendation at the end.
+  </p>
+
+  <p class="doc-lede" style="margin-top:14px">
+    The central finding: <b>Akashic is excellent at telling you what is true right now, and good at letting you
+    fire a single action — but it does not yet close the loop, see forward in time, scale past three seats,
+    let people decide together, or answer a question you actually type.</b> Those are the themes below.
+  </p>
+
+  <!-- ============================================================ -->
+  <h2><span class="h-num">A</span> Scorecard — strong foundations, missing connective tissue</h2>
+
+  <div class="score-cols">
+    <div class="score-card good">
+      <h3>What is genuinely strong today</h3>
+      <ul>
+        <li><span class="mk">✓</span><span><b>The Enterprise Spine concept</b> — a single connected graph that fuses Client→Project→Employee→Financial signals into one composite risk.</span></li>
+        <li><span class="mk">✓</span><span><b>Persona-aware home</b> — pulse tiles, AI brief, rails, hero modules and feed priority all re-shape per role.</span></li>
+        <li><span class="mk">✓</span><span><b>Reverse-ETL action composer</b> — every signal is one click from a write-back to Salesforce / SAP / Tally / Darwinbox / Zoho, with an approval gate.</span></li>
+        <li><span class="mk">✓</span><span><b>Trust layer for reading</b> — confidence scores, source citations, and a document-validation queue behind every number.</span></li>
+        <li><span class="mk">✓</span><span><b>Cross-persona handoff</b> — a signal can be routed to a colleague with context preserved.</span></li>
+      </ul>
+    </div>
+    <div class="score-card gap">
+      <h3>What is structurally missing</h3>
+      <ul>
+        <li><span class="mk">✕</span><span><b>The loop never closes</b> — actions are fire-and-forget; nothing tracks the outcome or lets the AI learn.</span></li>
+        <li><span class="mk">✕</span><span><b>The headline feature is a façade</b> — "Ask Akashic" can't answer a typed question; scenarios are three fixed buttons.</span></li>
+        <li><span class="mk">✕</span><span><b>No time axis</b> — everything is a snapshot of today; no horizon, no scheduled brief delivery.</span></li>
+        <li><span class="mk">✕</span><span><b>Three seats, not an org</b> — one hardcoded user per role; no scoped/functional roles, no delegation.</span></li>
+        <li><span class="mk">✕</span><span><b>No collaboration, no control plane, no mobile</b> — executives decide alone, at a desk, against hardcoded thresholds.</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="legend-row">
+    <span>Severity:</span>
+    <span class="sev crit">Critical</span> blocks the core value proposition
+    <span class="sev high">High</span> limits real-world adoption
+    <span class="sev med">Medium</span> depth &amp; polish
+  </div>
+
+  <!-- ============================================================ -->
+  <h2><span class="h-num">01</span> The intelligence loop never closes <span class="h2-sub">Gaps 1–3 · the biggest conceptual hole</span></h2>
+  <p class="theme-intro">
+    Akashic's premise is "every figure one click from action." It delivers the <em>click</em> — but an action
+    composer that ends at "synced to systems" is only half a loop. Once an invoice is raised or a retention
+    package approved, <b>the system forgets it happened.</b> There is no record of whether the decision worked,
+    no learning signal back into the confidence models, and no way to act on a recommendation as a whole rather
+    than as a pile of disconnected buttons. This is the single highest-leverage area to fix.
+  </p>
+
+  <div class="gap crit">
+    <div class="gap-head">
+      <div class="gap-id">G1</div>
+      <div class="gap-titles">
+        <div class="gap-h">Actions are fire-and-forget — there is no outcome tracking or decision journal</div>
+        <div class="gap-tags"><span class="sev crit">Critical</span><span class="tag">workflow</span><span class="tag">effort · M</span><span class="tag">touches: actions.js · Approvals</span></div>
+      </div>
+    </div>
+    <div class="gap-body">
+      <div class="gap-block now">
+        <h4>Today</h4>
+        <p>The composer ends at a sync animation and a toast. The audit log records that an action <em>fired</em>,
+        but nothing records what <em>happened next</em>. Did Northwind pay after the dunning notice? Did Vikram
+        accept the hike? Did the re-forecast prove accurate? The executive who decided has no place to see the
+        consequence of their decision, and no nudge to follow up.</p>
+      </div>
+      <div class="gap-block fix">
+        <h4>Proposed solution</h4>
+        <p>Add a <b>Decision Journal</b> — every action carries a lifecycle past "synced": <code>in-effect →
+        awaiting-outcome → resolved (worked / didn't)</code>.</p>
+        <ul>
+          <li>A "My Decisions" view: open commitments, their due-by, and realized result.</li>
+          <li>Auto-follow-up tasks ("check Northwind 7 days after notice").</li>
+          <li>Outcome capture writes back to the entity timeline, not just an audit row.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="ev"><b>Evidence:</b> <code>actions.js submit()</code> pushes to a queue with <code>status:'pending'</code>; <code>simulateSync()</code> animates and ends — no post-completion state exists. <code>Approvals.html</code> audit log is append-only fact, not outcome.</div>
+  </div>
+
+  <div class="gap crit">
+    <div class="gap-head">
+      <div class="gap-id">G2</div>
+      <div class="gap-titles">
+        <div class="gap-h">The AI never learns — confidence scores are static and never recalibrate</div>
+        <div class="gap-tags"><span class="sev crit">Critical</span><span class="tag">function</span><span class="tag">effort · L</span><span class="tag">touches: data model · Assistant</span></div>
+      </div>
+    </div>
+    <div class="gap-body">
+      <div class="gap-block now">
+        <h4>Today</h4>
+        <p>Every prediction ships with a confidence (renewal 54% · 0.84 conf, attrition 88%, composite 0.91).
+        But these are authored constants. When Meridian <em>does</em> or <em>doesn't</em> renew, nothing feeds
+        back. A system that calls itself "intelligence" but cannot improve from its own track record is a
+        dashboard with a personality.</p>
+      </div>
+      <div class="gap-block fix">
+        <h4>Proposed solution</h4>
+        <p>Close the model loop using G1's outcome data:</p>
+        <ul>
+          <li>Track <b>prediction vs. realized outcome</b> per signal type; surface model accuracy ("renewal model: 81% hit rate, last 40 calls").</li>
+          <li>Let executives <b>correct/override</b> a signal — captured as training feedback.</li>
+          <li>Show a <b>calibration badge</b> next to confidence so users know which models to trust.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="ev"><b>Evidence:</b> confidence values are literals in <code>Home.html</code> feed cards (<code>0.84</code>), <code>Assistant.html</code> evidence rows, and <code>data.js</code> (<code>conf:0.71</code>). No accuracy/feedback store exists.</div>
+  </div>
+
+  <div class="gap high">
+    <div class="gap-head">
+      <div class="gap-id">G3</div>
+      <div class="gap-titles">
+        <div class="gap-h">Recommendations aren't executable — there are no plans or playbooks, only single buttons</div>
+        <div class="gap-tags"><span class="sev high">High</span><span class="tag">workflow</span><span class="tag">effort · M</span><span class="tag">touches: Assistant · actions.js</span></div>
+      </div>
+    </div>
+    <div class="gap-body">
+      <div class="gap-block now">
+        <h4>Today</h4>
+        <p>Akashic gives beautifully specific multi-step advice — <em>"assign Priya to open a renewal SOW, deploy
+        a shadow for Vikram, recover the ₹48 L unbilled before the renewal conversation."</em> But the executive
+        must then manually fire three separate composer actions and remember the sequence. The recommendation and
+        the execution are disconnected.</p>
+      </div>
+      <div class="gap-block fix">
+        <h4>Proposed solution</h4>
+        <p>Introduce <b>Playbooks</b> — a recommendation becomes a bundled, ordered action plan:</p>
+        <ul>
+          <li>"Accept plan" fans out into the constituent composer actions, each pre-filled, each with its own approver.</li>
+          <li>Progress tracked as one workstream ("Meridian Save Plan · 2 of 3 done").</li>
+          <li>A library of reusable playbooks (renewal-at-risk, key-person exit, margin recovery).</li>
+        </ul>
+      </div>
+    </div>
+    <div class="ev"><b>Evidence:</b> <code>Assistant.html</code> <code>recommend</code> field is prose; the composite card on <code>Home.html</code> offers 4 unlinked buttons. No multi-action bundle primitive in <code>actions.js</code>.</div>
+  </div>
+
+  <!-- ============================================================ -->
+  <h2><span class="h-num">02</span> The headline feature is a façade <span class="h2-sub">Gaps 4–5 · "Ask Akashic" promises more than it does</span></h2>
+  <p class="theme-intro">
+    The product is <em>named</em> for asking Akashic. It sits second in every sidebar and is the call-to-action
+    on the home brief. Yet it cannot currently answer a question a user types, and the scenario engine offers
+    exactly three pre-written outcomes. This is the widest promise-vs-reality gap in the product, and the one a
+    demo-savvy buyer will probe first.
+  </p>
+
+  <div class="gap crit">
+    <div class="gap-head">
+      <div class="gap-id">G4</div>
+      <div class="gap-titles">
+        <div class="gap-h">Ask Akashic can't answer a typed question — the conversation is hardcoded</div>
+        <div class="gap-tags"><span class="sev crit">Critical</span><span class="tag">function</span><span class="tag">effort · M–L</span><span class="tag">touches: Assistant.html</span></div>
+      </div>
+    </div>
+    <div class="gap-body">
+      <div class="gap-block now">
+        <h4>Today</h4>
+        <p>The assistant renders a fixed two-turn script about Meridian. Typing anything and pressing "Ask ›"
+        fires <code>AK.toast('Query sent')</code> and clears the box — no answer ever appears. The suggestion
+        chips do the same. The entire grounded-Q&amp;A experience is a stage set.</p>
+      </div>
+      <div class="gap-block fix">
+        <h4>Proposed solution</h4>
+        <p>Make it actually respond, grounded in the live <code>AKData</code> model:</p>
+        <ul>
+          <li>Wire to a real completion endpoint with the data model as context; keep the evidence-citation format that already looks excellent.</li>
+          <li>Even without an LLM: a templated NL→query layer over <code>AKData</code> can answer the top ~20 executive questions deterministically.</li>
+          <li>Persist conversation history; deep-link answers to the entity 360s.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="ev"><b>Evidence:</b> <code>Assistant.html</code> — <code>const convo=[…]</code> is literal; <code>sendQ()</code> only toasts; <code>addUser()</code> sets the input value and toasts "thinking" but never appends a turn.</div>
+  </div>
+
+  <div class="gap high">
+    <div class="gap-head">
+      <div class="gap-id">G5</div>
+      <div class="gap-titles">
+        <div class="gap-h">Scenario simulation is three fixed buttons, not a what-if model</div>
+        <div class="gap-tags"><span class="sev high">High</span><span class="tag">function</span><span class="tag">effort · M</span><span class="tag">touches: Assistant.html</span></div>
+      </div>
+    </div>
+    <div class="gap-body">
+      <div class="gap-block now">
+        <h4>Today</h4>
+        <p>"Lose this client / Utilization −10% / Renewal +5%" each render a hardcoded table. An executive can't
+        ask "what if utilization drops 15%?" or "what if we lose our top two clients?" — the lever is fixed, so
+        it isn't really simulation.</p>
+      </div>
+      <div class="gap-block fix">
+        <h4>Proposed solution</h4>
+        <p>Make it <b>parametric</b>: replace fixed buttons with sliders (churn %, utilization delta, price change,
+        headcount) that recompute impact live off <code>AKData</code> (ARR, margin, bench cost). "Save to board
+        pack" should produce a real artifact (see G7). This turns a static panel into the firm's planning sandbox.</p>
+      </div>
+    </div>
+    <div class="ev"><b>Evidence:</b> <code>Assistant.html</code> <code>scenarios[]</code> array with literal <code>rows</code>; <code>runScenario(i)</code> only swaps which pre-written block shows.</div>
+  </div>
+
+  <!-- ============================================================ -->
+  <h2><span class="h-num">03</span> The system only knows "now" <span class="h2-sub">Gaps 6–7 · no time axis</span></h2>
+  <p class="theme-intro">
+    Executive work is fundamentally about <em>what's coming</em> — renewals, milestones, SLA windows, contract
+    expiries, close dates. Akashic has all of this data (expiry dates, deadlines, milestone counts) but presents
+    it only as scattered "today" snapshots. There is no calendar, no horizon, and the morning brief that the
+    whole home page is built around is never actually delivered anywhere.
+  </p>
+
+  <div class="gap high">
+    <div class="gap-head">
+      <div class="gap-id">G6</div>
+      <div class="gap-titles">
+        <div class="gap-h">No forward horizon — renewals, milestones and SLA windows aren't laid out in time</div>
+        <div class="gap-tags"><span class="sev high">High</span><span class="tag">feature</span><span class="tag">effort · M</span><span class="tag">new: Horizon view</span></div>
+      </div>
+    </div>
+    <div class="gap-body">
+      <div class="gap-block now">
+        <h4>Today</h4>
+        <p>Expiry and deadline data lives in <code>data.js</code> (<code>expiry:'22 Jun 2026'</code>,
+        <code>daysToDeadline</code>) but is surfaced one entity at a time. There is no single view that answers
+        "what's hitting me over the next 90 days?" — the executive has to assemble the timeline in their head.</p>
+      </div>
+      <div class="gap-block fix">
+        <h4>Proposed solution</h4>
+        <p>Add a <b>Horizon</b> surface — a time-ordered runway of every dated obligation:</p>
+        <ul>
+          <li>Renewals, milestone billings, SLA review points, contract expiries, bench-aging cliffs, on one axis.</li>
+          <li>Persona-filtered (CFO sees billing/close dates; DH sees delivery milestones; CEO sees renewals/board dates).</li>
+          <li>Threshold-crossing forecasts ("DSO breaches 60d in ~2 weeks at current trajectory").</li>
+        </ul>
+      </div>
+    </div>
+    <div class="ev"><b>Evidence:</b> dated fields exist across <code>clients</code>, <code>projects</code>, <code>contracts</code>, <code>invoices</code> in <code>data.js</code>; no screen aggregates them on a time axis. "Renewals This Quarter" rail is a list, not a horizon.</div>
+  </div>
+
+  <div class="gap high">
+    <div class="gap-head">
+      <div class="gap-id">G7</div>
+      <div class="gap-titles">
+        <div class="gap-h">The morning brief is never delivered — "Send me the brief" is a toast</div>
+        <div class="gap-tags"><span class="sev high">High</span><span class="tag">workflow</span><span class="tag">effort · S–M</span><span class="tag">touches: Home · shell.js</span></div>
+      </div>
+    </div>
+    <div class="gap-body">
+      <div class="gap-block now">
+        <h4>Today</h4>
+        <p>The home page is literally an "Intelligence Feed" with a "Send me the brief" button — but it just
+        toasts "Briefing exported to your inbox." There's no scheduled digest, no inbox/Slack delivery, no
+        board-pack export. The executive must come <em>to</em> Akashic; it never comes to them.</p>
+      </div>
+      <div class="gap-block fix">
+        <h4>Proposed solution</h4>
+        <p>Build a real <b>briefing &amp; digest engine</b>:</p>
+        <ul>
+          <li>Scheduled persona-shaped digest (email/Slack) — the brief that already renders, delivered daily/weekly.</li>
+          <li>One-click <b>board-pack / PDF export</b> of the brief + scenarios + composite (ties into "Save to board pack").</li>
+          <li>"Brief me on X" generates a shareable snapshot of any entity.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="ev"><b>Evidence:</b> <code>Home.html</code> — <code>onclick="AK.toast('Briefing exported to your inbox')"</code>; <code>Assistant.html</code> "Save to board pack" also only toasts. Phase 1 plan flagged "CEO Board Pack auto-generator" as out of scope.</div>
+  </div>
+
+  <!-- ============================================================ -->
+  <h2><span class="h-num">04</span> Three seats, not an organisation <span class="h2-sub">Gap 8 · the persona model doesn't scale</span></h2>
+  <p class="theme-intro">
+    The persona system is the product's best idea and its tightest constraint. There are exactly three roles,
+    one hardcoded human each, and the data is firm-wide for all of them. A real services firm runs on account
+    owners, practice heads, project leads, HR and sales — the data already names them (Priya Nair owns Meridian;
+    leads are assigned per project) but they have no seat, no scoped view, and no way to receive delegated work.
+  </p>
+
+  <div class="gap high">
+    <div class="gap-head">
+      <div class="gap-id">G8</div>
+      <div class="gap-titles">
+        <div class="gap-h">Rigid persona model — no scoped roles, no "my portfolio", no delegation or RACI</div>
+        <div class="gap-tags"><span class="sev high">High</span><span class="tag">function</span><span class="tag">effort · L</span><span class="tag">touches: shell.js · data model</span></div>
+      </div>
+    </div>
+    <div class="gap-body">
+      <div class="gap-block now">
+        <h4>Today</h4>
+        <p><code>PERSONA_USER</code> hardcodes three people; <code>PILLAR_CONFIG</code> gives each a fixed lens.
+        Everyone sees the entire portfolio. There is no account-owner view (Priya can't see "my 6 accounts"),
+        no practice-head P&amp;L scoping, no project-lead workspace, and handoffs can only target the other two
+        executives — never the owner who actually does the work.</p>
+      </div>
+      <div class="gap-block fix">
+        <h4>Proposed solution</h4>
+        <p>Generalise persona into <b>role + scope</b>:</p>
+        <ul>
+          <li>Add functional roles (Account Owner, Practice Head, Project Lead, HR) with their own lens configs.</li>
+          <li><b>Data scoping</b>: "my accounts / my projects / my practice" filters driven by the owner fields already in <code>data.js</code>.</li>
+          <li>Delegation + a lightweight <b>RACI</b> on every signal so handoff can reach the right doer, not just a peer.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="ev"><b>Evidence:</b> <code>shell.js</code> <code>PERSONAS</code>/<code>PERSONA_USER</code> = 3 fixed; <code>data.js</code> already carries <code>owner</code>/<code>ownerInit</code> on clients and <code>lead</code> on projects — the scoping data exists but is unused for access. Phase 1 plan: "only one user per persona today."</div>
+  </div>
+
+  <!-- ============================================================ -->
+  <h2><span class="h-num">05</span> Executives decide alone <span class="h2-sub">Gap 9 · no collaboration layer</span></h2>
+  <p class="theme-intro">
+    The handoff protocol is a good start, but it's a one-way throw. Real executive decisions are conversations —
+    threads, @mentions, "what did we decide and why," who else is looking at this account right now. Akashic has
+    none of that connective tissue; even the "Reply to Arjun" button is a toast.
+  </p>
+
+  <div class="gap high">
+    <div class="gap-head">
+      <div class="gap-id">G9</div>
+      <div class="gap-titles">
+        <div class="gap-h">No shared workspace — handoff is one-directional, replies are stubs, decisions leave no shared record</div>
+        <div class="gap-tags"><span class="sev high">High</span><span class="tag">workflow</span><span class="tag">effort · M</span><span class="tag">touches: shell.js · Assistant · profiles</span></div>
+      </div>
+    </div>
+    <div class="gap-body">
+      <div class="gap-block now">
+        <h4>Today</h4>
+        <p>A handoff drops a signal into a peer's feed; the receiver's "Reply" just toasts. There are no comment
+        threads on entities, no @mentions, no presence ("Devika is also viewing Meridian"), and no durable
+        decision record. The two-way conversation the Phase 2 plan sketched is still shallow.</p>
+      </div>
+      <div class="gap-block fix">
+        <h4>Proposed solution</h4>
+        <p>Add a thin <b>collaboration layer</b>:</p>
+        <ul>
+          <li>Threaded comments + @mentions on any entity, signal, or approval.</li>
+          <li>Two-way handoff (reply actually posts back, with notification).</li>
+          <li>A <b>Decision Record</b> on each entity timeline: what was decided, by whom, why, and the outcome (links to G1).</li>
+          <li>Presence/awareness so executives don't duplicate or contradict each other.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="ev"><b>Evidence:</b> <code>shell.js</code> handoff stores a record but the receiver path (<code>Assistant.html</code>) only renders a banner; "Reply to Arjun" = <code>AK.toast()</code>. No comment/thread primitive anywhere.</div>
+  </div>
+
+  <!-- ============================================================ -->
+  <h2><span class="h-num">06</span> Built for a desk executives aren't at <span class="h2-sub">Gap 10 · no mobile / push</span></h2>
+  <p class="theme-intro">
+    The personas are described as people who do "5-minute dashboard checks between meetings." That is a phone
+    behaviour. Yet mobile is explicitly out of scope and there is no push/notification channel — so the moment
+    that matters most (a critical signal while the CEO is in a board meeting) is the moment Akashic is unreachable.
+  </p>
+
+  <div class="gap high">
+    <div class="gap-head">
+      <div class="gap-id">G10</div>
+      <div class="gap-titles">
+        <div class="gap-h">No mobile, glanceable, or push experience for between-meeting executives</div>
+        <div class="gap-tags"><span class="sev high">High</span><span class="tag">feature</span><span class="tag">effort · M–L</span><span class="tag">touches: responsive · digest</span></div>
+      </div>
+    </div>
+    <div class="gap-body">
+      <div class="gap-block now">
+        <h4>Today</h4>
+        <p>Layouts are desktop grids with sticky rails and fixed widths; below ~1080px columns collapse but the
+        experience isn't designed for a phone. Notifications live only inside the app — there's no push to where
+        an executive actually is.</p>
+      </div>
+      <div class="gap-block fix">
+        <h4>Proposed solution</h4>
+        <p>Ship a <b>glanceable mobile surface</b>:</p>
+        <ul>
+          <li>Phone-shaped brief: top 3 signals, approve/route/snooze inline, the day's horizon.</li>
+          <li>Push / Slack / email channel for critical + handoff notifications (pairs with G7's digest engine).</li>
+          <li>Approve-from-phone for the approvals queue.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="ev"><b>Evidence:</b> Phase 1 plan lists "Mobile / phone-sized layout" and "Real notifications backend" as out of scope; CSS uses fixed <code>--sidebar-w</code> and <code>grid-template-columns</code> tuned for desktop.</div>
+  </div>
+
+  <!-- ============================================================ -->
+  <h2><span class="h-num">07</span> Trust only flows in the reading direction <span class="h2-sub">Gaps 11–12 · the trust layer stops at the action boundary</span></h2>
+  <p class="theme-intro">
+    Akashic is meticulous about provenance when you <em>read</em> a number — confidence scores, source citations,
+    a validation queue. But the moment you <em>act</em>, that rigor disappears. You can raise an invoice off a
+    Tally feed that's 42 minutes stale, or act on a clause extracted at 0.71 confidence, with no warning. And the
+    sync engine can only succeed — there is no concept of an integration being down, a write-back failing, or two
+    systems disagreeing.
+  </p>
+
+  <div class="gap high">
+    <div class="gap-head">
+      <div class="gap-id">G11</div>
+      <div class="gap-titles">
+        <div class="gap-h">No data-freshness or confidence gating on actions</div>
+        <div class="gap-tags"><span class="sev high">High</span><span class="tag">function</span><span class="tag">effort · S–M</span><span class="tag">touches: actions.js · shell.js</span></div>
+      </div>
+    </div>
+    <div class="gap-body">
+      <div class="gap-block now">
+        <h4>Today</h4>
+        <p>The sidebar already shows Tally lagging (42 min) and documents at 0.71 confidence — but the action
+        composer ignores both. You can commit a financial write-back built on stale or low-confidence source data
+        with no interlock. The trust layer protects reading but not deciding.</p>
+      </div>
+      <div class="gap-block fix">
+        <h4>Proposed solution</h4>
+        <p>Extend trust into the action path:</p>
+        <ul>
+          <li><b>Freshness gate</b>: warn/block when an action depends on a lagging integration ("Tally synced 42m ago — refresh before raising invoice?").</li>
+          <li><b>Confidence interlock</b>: actions built on sub-threshold documents prompt "validate source first" (routes to Documents queue).</li>
+          <li>Stamp each action with the data-vintage it was based on.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="ev"><b>Evidence:</b> <code>shell.js INTEGRATIONS</code> marks Tally <code>status:'lag'</code>; <code>data.js</code> documents carry <code>conf</code> + <code>validated:false</code>; <code>actions.js compose()</code> reads neither before submit.</div>
+  </div>
+
+  <div class="gap high">
+    <div class="gap-head">
+      <div class="gap-id">G12</div>
+      <div class="gap-titles">
+        <div class="gap-h">No integration-failure, conflict, or reconciliation handling — sync can only succeed</div>
+        <div class="gap-tags"><span class="sev high">High</span><span class="tag">workflow</span><span class="tag">effort · M</span><span class="tag">new: Integration health / exceptions</span></div>
+      </div>
+    </div>
+    <div class="gap-body">
+      <div class="gap-block now">
+        <h4>Today</h4>
+        <p><code>simulateSync()</code> always walks four green steps to success. There's no failed write-back, no
+        retry, no "Salesforce rejected this," and no reconciliation when SAP and Tally disagree on an amount. For
+        a system whose entire value is being the source of truth across five systems, the unhappy path is missing.</p>
+      </div>
+      <div class="gap-block fix">
+        <h4>Proposed solution</h4>
+        <p>Build an <b>Integration Health &amp; Exceptions</b> workspace:</p>
+        <ul>
+          <li>Sync failure states with retry / manual-resolve; failed actions surface in Approvals.</li>
+          <li>A <b>reconciliation queue</b> for cross-system data conflicts (the real EIS job-to-be-done).</li>
+          <li>Connection-down banners and degraded-mode behaviour, not just "lag" dots.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="ev"><b>Evidence:</b> <code>actions.js simulateSync()</code> has only a success path; Approvals "In-Flight" progress only increases. No error/conflict model in <code>data.js</code>.</div>
+  </div>
+
+  <!-- ============================================================ -->
+  <h2><span class="h-num">08</span> The Spine has missing vertebrae <span class="h2-sub">Gaps 13–14 · orphaned nodes &amp; uneven depth</span></h2>
+  <p class="theme-intro">
+    The Enterprise Spine diagram on the home page promises seven connected nodes: Account → Contract → Pursuit →
+    Project → Employee → Financial → Skill. But <b>two of those nodes — Pursuit and Skill — have no screen behind
+    them</b>, even though pipeline coverage and skill-gap are headline pulse metrics. And among the nodes that do
+    exist, depth is wildly uneven: Projects has three full persona lenses while Clients is a flat registry.
+  </p>
+
+  <div class="gap high">
+    <div class="gap-head">
+      <div class="gap-id">G13</div>
+      <div class="gap-titles">
+        <div class="gap-h">Pursuit (pipeline) and Skill (capability) are on the Spine but have no pillar behind them</div>
+        <div class="gap-tags"><span class="sev high">High</span><span class="tag">feature</span><span class="tag">effort · L</span><span class="tag">new: Pipeline + Skills pillars</span></div>
+      </div>
+    </div>
+    <div class="gap-body">
+      <div class="gap-block now">
+        <h4>Today</h4>
+        <p>The Spine renders a "Pursuit" node and a "Skill" node, and the CEO/DH pulse tiles show "Pipeline
+        Coverage 2.4×" and "Skill-Pipeline Gap" — but clicking leads nowhere; there is no pipeline/sales pillar
+        and no skills inventory. For a services firm, bench-to-pipeline matching and capability planning are
+        core, not optional. The Phase 1 plan deferred the DH Resource-Planning workspace that would house this.</p>
+      </div>
+      <div class="gap-block fix">
+        <h4>Proposed solution</h4>
+        <ul>
+          <li><b>Pipeline / Pursuit pillar</b>: pursuits by stage/value/probability, feeding the coverage metric and renewal SOWs.</li>
+          <li><b>Skills &amp; Capability pillar</b>: skills inventory, gaps vs. 90-day pipeline, certifications, and the long-promised <b>bench→pipeline matcher</b> (data already hints at it: "6 engineers match 2 pursuits").</li>
+        </ul>
+      </div>
+    </div>
+    <div class="ev"><b>Evidence:</b> <code>Home.html</code> spine-visual includes <code>Pursuit</code> &amp; <code>Skill</code> nodes; pulse references "Pipeline Coverage" / "Skill-Pipeline Gap"; no <code>Pursuits.html</code> / <code>Skills.html</code> exist. Phase 1: "DH Resource Planning" deferred.</div>
+  </div>
+
+  <div class="gap med">
+    <div class="gap-head">
+      <div class="gap-id">G14</div>
+      <div class="gap-titles">
+        <div class="gap-h">Pillar depth is asymmetric — Projects has 3 persona lenses, Clients/Employees are single-lens</div>
+        <div class="gap-tags"><span class="sev med">Medium</span><span class="tag">feature</span><span class="tag">effort · M</span><span class="tag">touches: Clients · Employees</span></div>
+      </div>
+    </div>
+    <div class="gap-body">
+      <div class="gap-block now">
+        <h4>Today</h4>
+        <p>Projects beautifully renders three role-specific views (DH health board, CEO bubble map, CFO P&amp;L
+        grid). Clients is a single registry; Employees a single roster; Financials hard-blocks the DH entirely.
+        The persona promise is only fully kept on one pillar.</p>
+      </div>
+      <div class="gap-block fix">
+        <h4>Proposed solution</h4>
+        <p>Bring the other 3-persona pillars to parity using the Projects pattern. Highest payoff: <b>Clients</b>
+        (CEO portfolio/concentration vs. CFO receivables vs. owner account view) and <b>Employees</b> (DH
+        staffing vs. CEO talent-risk vs. HR development). Give DH a scoped Financials slice rather than a hard 🔒.</p>
+      </div>
+    </div>
+    <div class="ev"><b>Evidence:</b> <code>Projects.html</code> has <code>proj-root</code> rendering 3 persona templates; <code>Clients.html</code>/<code>Employees.html</code> render one; <code>Financials.html</code> shows an "Access Restricted" wall for DH.</div>
+  </div>
+
+  <!-- ============================================================ -->
+  <h2><span class="h-num">09</span> There is no control plane <span class="h2-sub">Gap 15 · everything is hardcoded</span></h2>
+  <p class="theme-intro">
+    Every policy in the product is baked into source: the 30% concentration threshold, the ≤52-day DSO target,
+    the 99.5% SLA bar, who approves what, who can see what. There is no settings, admin, or governance layer —
+    so the product can't be configured for a different firm, and access control is a single hard wall.
+  </p>
+
+  <div class="gap high">
+    <div class="gap-head">
+      <div class="gap-id">G15</div>
+      <div class="gap-titles">
+        <div class="gap-h">No admin / governance layer — thresholds, alert rules, approval authority and RBAC are all hardcoded</div>
+        <div class="gap-tags"><span class="sev high">High</span><span class="tag">function</span><span class="tag">effort · M</span><span class="tag">new: Settings / Admin</span></div>
+      </div>
+    </div>
+    <div class="gap-body">
+      <div class="gap-block now">
+        <h4>Today</h4>
+        <p>Thresholds are literals in feed/pulse code. Notification routing is a static per-persona array. There's
+        no snooze/mute, no escalation rules, no approval-authority limits (who can sign off &gt;₹5 Cr), and RBAC
+        is a binary 🔒 page-block. The audit log records <em>actions</em> but there's no <em>access</em> log of who
+        viewed sensitive comp/financial data.</p>
+      </div>
+      <div class="gap-block fix">
+        <h4>Proposed solution</h4>
+        <p>Add a <b>control plane</b>:</p>
+        <ul>
+          <li><b>Policy &amp; thresholds</b> editor (concentration, DSO, SLA, margin floors) feeding the signal engine.</li>
+          <li><b>Alert routing &amp; escalation</b> rules; per-user notification prefs; snooze/mute.</li>
+          <li><b>Granular RBAC + approval-authority matrix</b> (replace the hard wall); view-level access audit.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="ev"><b>Evidence:</b> thresholds inline in <code>Home.html</code> pulse/feed; <code>shell.js PERSONA_NOTIFS</code> is a static array, "Mark all read" is the only control; <code>Financials.html</code>/<code>Collections.html</code> use full-page 🔒 blocks; audit log is action-only.</div>
+  </div>
+
+  <!-- ============================================================ -->
+  <h2><span class="h-num">10</span> No outside-in context, and no memory <span class="h2-sub">Gaps 16–17 · depth &amp; personalization</span></h2>
+  <p class="theme-intro">
+    Two quieter but compounding gaps: every number is internal and vs-plan (no idea whether 22.4% margin is good
+    for the peer set), and the system has no memory of the individual using it — the feed, search, and priorities
+    are identical on every visit, regardless of what you dismissed or acted on yesterday.
+  </p>
+
+  <div class="gap med">
+    <div class="gap-head">
+      <div class="gap-id">G16</div>
+      <div class="gap-titles">
+        <div class="gap-h">No benchmarking or outside-in context — all metrics are internal and vs-plan only</div>
+        <div class="gap-tags"><span class="sev med">Medium</span><span class="tag">feature</span><span class="tag">effort · M</span><span class="tag">data partnership</span></div>
+      </div>
+    </div>
+    <div class="gap-body">
+      <div class="gap-block now">
+        <h4>Today</h4>
+        <p>Pulse tiles compare only to internal plan ("1.6pt below plan"). An executive can't tell whether the
+        firm's DSO, margin, utilization or rev/employee are strong or weak <em>relative to the industry</em>.
+        Strategic decisions need an outside-in reference.</p>
+      </div>
+      <div class="gap-block fix">
+        <h4>Proposed solution</h4>
+        <p>Add <b>benchmark overlays</b> — peer / industry bands on key pulse metrics ("DSO 58d vs. IT-services
+        median 49d"), sourced from a data partner or anonymised cohort. Even a static reference set materially
+        sharpens the CEO and CFO narratives.</p>
+      </div>
+    </div>
+    <div class="ev"><b>Evidence:</b> <code>PULSE_CONFIG</code> tiles carry only <code>vst</code> (vs-plan) strings; no external/peer reference anywhere in the model.</div>
+  </div>
+
+  <div class="gap med">
+    <div class="gap-head">
+      <div class="gap-id">G17</div>
+      <div class="gap-titles">
+        <div class="gap-h">No memory or personalization — dismiss/snooze don't persist; search is a static list</div>
+        <div class="gap-tags"><span class="sev med">Medium</span><span class="tag">function</span><span class="tag">effort · S–M</span><span class="tag">touches: Home · shell.js</span></div>
+      </div>
+    </div>
+    <div class="gap-body">
+      <div class="gap-block now">
+        <h4>Today</h4>
+        <p>"Flag" and "Assign" on feed cards only toast; nothing is remembered between visits. The feed is identical
+        every load. The ⌘K palette is a hardcoded list that doesn't actually search the data model, and there are
+        no recents or saved views.</p>
+      </div>
+      <div class="gap-block fix">
+        <h4>Proposed solution</h4>
+        <ul>
+          <li>Persist <b>dismiss / snooze / flag</b> per user; learn which signal types a user repeatedly ignores and de-prioritise them.</li>
+          <li>Make ⌘K a <b>real search</b> over <code>AKData</code> with recents and <b>saved views/filters</b>.</li>
+          <li>"You snoozed this yesterday" / "resolved since your last visit" continuity cues.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="ev"><b>Evidence:</b> <code>Home.html</code> quick actions = <code>AK.toast()</code>; <code>shell.js PALETTE_ITEMS</code> is a fixed array filtered by label only; no per-user state store beyond persona.</div>
+  </div>
+
+  <!-- ============================================================ -->
+  <h2><span class="h-num">B</span> Gap register — severity &amp; sequencing at a glance</h2>
+  <div class="matrix">
+    <table>
+      <thead><tr><th>ID</th><th>Gap</th><th>Theme</th><th>Severity</th><th>Effort</th><th>Horizon</th></tr></thead>
+      <tbody>
+        <tr><td>G1</td><td class="gname">Actions are fire-and-forget (no outcome tracking)</td><td>Closed loop</td><td><span class="sev crit">Critical</span></td><td>M</td><td>Now</td></tr>
+        <tr><td>G2</td><td class="gname">AI never learns (static confidence)</td><td>Closed loop</td><td><span class="sev crit">Critical</span></td><td>L</td><td>Next</td></tr>
+        <tr><td>G3</td><td class="gname">Recommendations aren't executable plans</td><td>Closed loop</td><td><span class="sev high">High</span></td><td>M</td><td>Now</td></tr>
+        <tr><td>G4</td><td class="gname">Ask Akashic can't answer typed questions</td><td>Façade</td><td><span class="sev crit">Critical</span></td><td>M–L</td><td>Now</td></tr>
+        <tr><td>G5</td><td class="gname">Scenario sim is fixed, not parametric</td><td>Façade</td><td><span class="sev high">High</span></td><td>M</td><td>Next</td></tr>
+        <tr><td>G6</td><td class="gname">No forward horizon / time axis</td><td>Time</td><td><span class="sev high">High</span></td><td>M</td><td>Now</td></tr>
+        <tr><td>G7</td><td class="gname">Morning brief never delivered</td><td>Time</td><td><span class="sev high">High</span></td><td>S–M</td><td>Now</td></tr>
+        <tr><td>G8</td><td class="gname">Rigid persona model (no scope/delegation)</td><td>Scale</td><td><span class="sev high">High</span></td><td>L</td><td>Next</td></tr>
+        <tr><td>G9</td><td class="gname">No collaboration / shared decision record</td><td>Collaboration</td><td><span class="sev high">High</span></td><td>M</td><td>Next</td></tr>
+        <tr><td>G10</td><td class="gname">No mobile / push / glanceable surface</td><td>Reach</td><td><span class="sev high">High</span></td><td>M–L</td><td>Next</td></tr>
+        <tr><td>G11</td><td class="gname">No freshness/confidence gating on actions</td><td>Trust</td><td><span class="sev high">High</span></td><td>S–M</td><td>Now</td></tr>
+        <tr><td>G12</td><td class="gname">No integration-failure / reconciliation</td><td>Trust</td><td><span class="sev high">High</span></td><td>M</td><td>Next</td></tr>
+        <tr><td>G13</td><td class="gname">Pursuit &amp; Skill nodes have no pillar</td><td>Spine</td><td><span class="sev high">High</span></td><td>L</td><td>Later</td></tr>
+        <tr><td>G14</td><td class="gname">Pillar depth asymmetric</td><td>Spine</td><td><span class="sev med">Medium</span></td><td>M</td><td>Later</td></tr>
+        <tr><td>G15</td><td class="gname">No admin / governance / RBAC control plane</td><td>Control</td><td><span class="sev high">High</span></td><td>M</td><td>Next</td></tr>
+        <tr><td>G16</td><td class="gname">No benchmarking / outside-in context</td><td>Depth</td><td><span class="sev med">Medium</span></td><td>M</td><td>Later</td></tr>
+        <tr><td>G17</td><td class="gname">No memory / personalization / real search</td><td>Depth</td><td><span class="sev med">Medium</span></td><td>S–M</td><td>Later</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ============================================================ -->
+  <h2><span class="h-num">C</span> Recommended sequencing</h2>
+  <p class="theme-intro">
+    A pragmatic order that fixes credibility first (make the named feature real, close the loop), then scales and
+    hardens, then deepens. Each horizon stands on its own as a demo-able release.
+  </p>
+
+  <div class="road">
+    <div class="road-col h1">
+      <div class="rc-head">
+        <div class="rc-eyebrow">Horizon 1 · Credibility</div>
+        <div class="rc-title">Make the promise real &amp; close the loop</div>
+        <div class="rc-when">The "does it actually work" release</div>
+      </div>
+      <ul>
+        <li><b>G4</b> — Ask Akashic answers live, grounded questions</li>
+        <li><b>G1</b> — Decision journal &amp; outcome tracking</li>
+        <li><b>G3</b> — Recommendations become executable playbooks</li>
+        <li><b>G7</b> — Brief actually delivered (digest + board-pack export)</li>
+        <li><b>G6</b> — Horizon view of dated obligations</li>
+        <li><b>G11</b> — Freshness/confidence gating on actions</li>
+      </ul>
+    </div>
+    <div class="road-col h2">
+      <div class="rc-head">
+        <div class="rc-eyebrow">Horizon 2 · Scale &amp; harden</div>
+        <div class="rc-title">From three seats to an organisation</div>
+        <div class="rc-when">The "ready for a real firm" release</div>
+      </div>
+      <ul>
+        <li><b>G8</b> — Role + scope model, "my portfolio", delegation</li>
+        <li><b>G9</b> — Collaboration layer &amp; shared decision record</li>
+        <li><b>G15</b> — Control plane: thresholds, alert rules, RBAC</li>
+        <li><b>G12</b> — Integration health &amp; reconciliation</li>
+        <li><b>G2</b> — Model learning / calibration from outcomes</li>
+        <li><b>G5</b> — Parametric scenario sandbox</li>
+      </ul>
+    </div>
+    <div class="road-col h3">
+      <div class="rc-head">
+        <div class="rc-eyebrow">Horizon 3 · Deepen</div>
+        <div class="rc-title">Complete the Spine &amp; sharpen</div>
+        <div class="rc-when">The "category-leading" release</div>
+      </div>
+      <ul>
+        <li><b>G13</b> — Pipeline/Pursuit &amp; Skills/Capability pillars</li>
+        <li><b>G14</b> — Persona parity across all pillars</li>
+        <li><b>G10</b> — Mobile + push experience</li>
+        <li><b>G16</b> — Benchmark / outside-in overlays</li>
+        <li><b>G17</b> — Memory, personalization &amp; real search</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="callout">
+    <h3>The one-line thesis</h3>
+    <p>
+      Akashic has already built the hard part — a connected, persona-aware, citation-backed view of the firm.
+      The gaps are not in the <em>seeing</em>; they're in the <em>acting, learning, scheduling, scaling and
+      conversing</em> around what's seen. Close the loop (G1–G3), make the named feature real (G4), and put the
+      firm on a time axis (G6–G7), and Akashic moves from an exceptional executive <em>dashboard</em> to a true
+      executive <em>operating system</em>.
+    </p>
+  </div>
+
+  <p style="margin-top: 30px; color: var(--ink-3); font-size: 13px; font-style: italic;">
+    17 gaps across 10 themes. Tell me which theme you want to go deep on — I can turn any of these into a
+    detailed build spec (like the existing Phase plans) or prototype the fix directly.
+  </p>
+
+</div>
+</body>
+</html>

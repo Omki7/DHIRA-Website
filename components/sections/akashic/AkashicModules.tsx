@@ -1,246 +1,232 @@
 /*
- * [04] Inside the Platform — the anatomy, one screen.
- * The assembly drawing after the [02] teardown: a complete circuit that
- * fills one desktop fold. Sources rail (four categories: business
- * systems, databases, files, streaming & IoT — covering structured,
- * unstructured, and streaming data) → three stage-numbered layer columns
- * → a "Your decision" rail that closes the flow. Every module shows its
- * CAPABILITY, not a worked example (SIMULATED PRODUCT UI, §8a — but
- * deliberately decoupled from [01]'s South-region story, per user
- * direction Jul 2026, so this section reads as a spec sheet, not a
- * narrative): Pipelines shows real-time + batch and structured +
- * unstructured; Master Data shows deduplication and hierarchy
- * management; Warehouse shows query-ready, sub-second reads; the
- * knowledge graph shows generic relationship types (linked to /
- * classified as / traced through / governed by), not named entities;
- * ML shows trend + forecast; Ask Akashic shows grounded, cited answers;
- * BI shows self-refreshing dashboards. Governance drop-ties run from
- * each layer column into the full-width governance floor bar, whose
- * tiles describe governance capabilities generically (enforced on every
- * request / every step recorded / every action logged); the ties reuse
- * the section grid template so they stay aligned at any width. Module
- * rows keep the nav anchor ids (#modules-data-pipelines …
- * #modules-governance). Mobile stacks the columns vertically with
- * MobileConn joints.
+ * [04] The architecture — the platform on one schematic.
+ * Rebuilt (Jul 2026, user direction) as a top-to-bottom elevation drawing,
+ * benchmarked against how 2026 platform sites draw architecture (Fabric /
+ * Snowflake / Databricks): full-width layer STRATA stacked in flow order,
+ * governance drawn as a spanning plane rather than a detached box. The old
+ * five-column circuit read bland, truncated its copy, and hid the very
+ * thing it existed to show (three layers, seven modules).
+ *
+ * Flow: IN sources stratum → LAYER 01 Data (Pipelines / Master Data /
+ * Warehouse) → LAYER 02 Knowledge (no modules: built by Master Data, viz +
+ * capability lines) → LAYER 03 Intelligence (ML / Ask Akashic / BI) → OUT
+ * decision bar. Static three-lane lineage beams (BeamTriple / BeamMerge)
+ * connect the strata on the shared BAND_GRID template so lanes track the
+ * tile columns. The signature device is the GOVERNANCE BRACKET: a vertical
+ * "Governed · end to end" rail down the left of every stratum that turns
+ * into the full-width Akashic Governance floor card (module 07).
+ *
+ * Content contract: module tiles carry HIGH-LEVEL CAPABILITY LISTS (four
+ * TERSE NOUN PHRASES each, in a 2×2 grid — full sentences read wordy and
+ * made the section scroll, user feedback Jul 2026) summarising [08]'s
+ * datasheet — ready-made connectors, CDC, OCR, fuzzy matching, BYOK —
+ * without vendor or technology names ([08] stays the only place
+ * technology is named; keep the two in sync). Dot list markers, never
+ * checkmarks (Rule 2). NOTHING TRUNCATES: the old `truncate` subs/metas
+ * cut copy mid-word and triggered this rebuild. Vertical rhythm is
+ * deliberately tight so the schematic reads as ONE DRAWING, not a scroll.
+ * Still no worked examples (§8a; decoupled from [01]'s story), and
+ * on-screen copy says "knowledge layer", never "knowledge graph" (user
+ * direction, Jul 2026). Nav anchor ids kept (#modules-data-pipelines …
+ * #modules-governance).
+ *
+ * Chrome: SINGLE-ELEVATION. Each stratum and the governance floor is a
+ * white card carrying the section's only shadow-card; everything inside is
+ * flat — panel-tinted tiles with hairline (card-divide) borders at most.
+ * No longer constrained to one desktop fold: capability content earns the
+ * height.
  */
 
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import DynamicSketchIcon from "@/components/icons/DynamicSketchIcon";
-import { FlowPath, Node, MobileConn } from "@/components/demos/AkashicFlowConnectors";
-import { BlueChip } from "@/components/sections/akashic/AkashicCardChrome";
+import { FlowPath, Node, MobileConn, LANES } from "@/components/demos/AkashicFlowConnectors";
+import { BlueChip, Capillary } from "@/components/sections/akashic/AkashicCardChrome";
 
-/* One grid template for the flow row and the governance ties, so the
-   drop-ties always sit under their layer columns. */
-const FLOW_GRID =
-  "lg:grid-cols-[150px_26px_minmax(0,1fr)_26px_minmax(0,1fr)_26px_minmax(0,1fr)_26px_160px]";
+/* One grid template for every stratum interior and the beams between
+   them, so the three beam lanes always track the tile columns. */
+const BAND_GRID = "lg:grid-cols-[210px_minmax(0,1fr)]";
 
 /* ------------------------------------------------------------------ */
-/*  Connectors                                                         */
+/*  Connectors: three-lane beams between strata + the governance rail   */
 /* ------------------------------------------------------------------ */
 
-/* Horizontal flow joint between columns (lg+). */
-function HFlow() {
+function BeamTriple() {
   return (
-    <div className="hidden w-full lg:block" aria-hidden>
-      <svg viewBox="0 0 26 12" className="h-3 w-full" preserveAspectRatio="none" fill="none" style={{ overflow: "visible" }}>
-        <FlowPath d="M 1 6 L 25 6" />
-        <Node x={1} y={6} />
-        <Node x={25} y={6} />
+    <div className={`hidden lg:grid ${BAND_GRID}`} aria-hidden>
+      <div />
+      <svg viewBox="0 0 1000 28" className="h-7 w-full" preserveAspectRatio="none" fill="none" style={{ overflow: "visible" }}>
+        {LANES.map((x) => (
+          <FlowPath key={x} d={`M ${x} 0 L ${x} 28`} />
+        ))}
+        {LANES.map((x) => (
+          <Node key={`t${x}`} x={x} y={0} />
+        ))}
+        {LANES.map((x) => (
+          <Node key={`b${x}`} x={x} y={28} />
+        ))}
       </svg>
     </div>
   );
 }
 
-function Joint() {
+/* Three lanes converge into one: the platform's many paths end in one
+   answer. Sits between Layer 03 and the decision bar. */
+function BeamMerge() {
   return (
-    <div aria-hidden className="lg:flex lg:h-full lg:items-center">
-      <HFlow />
-      <MobileConn />
+    <div className={`hidden lg:grid ${BAND_GRID}`} aria-hidden>
+      <div />
+      <svg viewBox="0 0 1000 40" className="h-10 w-full" preserveAspectRatio="none" fill="none" style={{ overflow: "visible" }}>
+        {LANES.map((x) => (
+          <FlowPath key={x} d={`M ${x} 0 C ${x} 22, 500 18, 500 40`} />
+        ))}
+        {LANES.map((x) => (
+          <Node key={`s${x}`} x={x} y={0} />
+        ))}
+        <Node x={500} y={40} />
+      </svg>
     </div>
   );
 }
 
-/* Vertical drop-tie from a layer column into the governance floor (lg+). */
-function GovTie() {
+/* The left arm of the governance bracket: one continuous rail spanning
+   every stratum, labelled in the middle, closing into the floor card. */
+function GovRail() {
   return (
-    <svg
-      width="12"
-      height="28"
-      viewBox="0 0 12 28"
-      className="mx-auto"
-      fill="none"
-      style={{ overflow: "visible" }}
-      aria-hidden
-    >
-      <FlowPath d="M 6 0 L 6 28" />
-      <Node x={6} y={0} />
-      <Node x={6} y={28} />
-    </svg>
+    <div className="relative hidden lg:block" aria-hidden>
+      <span className="absolute inset-y-1 left-1/2 w-[3px] -translate-x-1/2 rounded-full bg-blue-border/50" />
+      <span className="absolute inset-y-1 left-1/2 w-px -translate-x-1/2 bg-blue/[0.65]" />
+      <span className="absolute left-1/2 top-0 h-[9px] w-[9px] -translate-x-1/2 rounded-full border-[1.4px] border-blue/70 bg-white" />
+      <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 whitespace-nowrap rounded-full border border-card-line bg-white px-[3px] py-3 font-mono text-[9.5px] font-semibold uppercase tracking-eyebrow text-secondary-text [writing-mode:vertical-rl]">
+        Governed · end to end
+      </span>
+    </div>
+  );
+}
+
+/* The bracket's elbow: carries the rail past the decision bar into the
+   governance floor. */
+function GovJunction() {
+  return (
+    <div className="relative hidden h-4 lg:block" aria-hidden>
+      <span className="absolute inset-y-0 left-[22px] w-[3px] -translate-x-1/2 rounded-full bg-blue-border/50" />
+      <span className="absolute inset-y-0 left-[22px] w-px -translate-x-1/2 bg-blue/[0.65]" />
+    </div>
   );
 }
 
 /* ------------------------------------------------------------------ */
-/*  Layer column shell + module rows                                   */
+/*  Stratum shell: white card + shared left-spine grammar               */
 /* ------------------------------------------------------------------ */
 
-function LayerCol({
-  stage,
+function Stratum({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="overflow-hidden rounded-outer border border-card-line bg-white shadow-card">
+      <Capillary />
+      <div className={`grid ${BAND_GRID}`}>{children}</div>
+    </div>
+  );
+}
+
+function Spine({
+  index,
   name,
   tagline,
   footer,
-  children,
+  watermark,
 }: {
-  stage: string;
+  index: string;
   name: string;
   tagline: string;
-  footer: string;
-  children: React.ReactNode;
+  footer?: string;
+  watermark?: string;
 }) {
   return (
-    <div className="flex h-full flex-col overflow-hidden rounded-frame border border-[#E3E7F0] bg-primary-bg">
-      <div className="h-[3px] bg-gradient-to-r from-blue/50 via-blue/25 to-transparent" aria-hidden />
-      <div className="flex items-start justify-between gap-2 border-b border-[#EBEEF4] bg-white px-4 py-3.5">
-        <div>
-          <h3 className="text-[16px] font-semibold tracking-tight text-ink">{name}</h3>
-          <p className="mt-0.5 text-[12.5px] leading-snug text-inkSoft">{tagline}</p>
+    <div className="relative flex flex-col border-b border-card-divide px-4 py-3.5 lg:border-b-0 lg:border-r lg:px-5">
+      {watermark && (
+        <span className="pointer-events-none absolute right-3 top-2 font-mono text-[36px] font-bold leading-none text-blue/[0.08]" aria-hidden>
+          {watermark}
+        </span>
+      )}
+      <p className="font-mono text-[9.5px] font-bold uppercase tracking-eyebrow text-secondary-text">{index}</p>
+      <h3 className="mt-1 text-[16px] font-semibold tracking-tight text-ink">{name}</h3>
+      <p className="mt-0.5 max-w-[24em] text-[12.5px] leading-snug text-inkSoft lg:max-w-none">{tagline}</p>
+      {footer && (
+        <div className="mt-2.5 flex items-center gap-2 lg:mt-auto lg:pt-2.5">
+          <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-blue" aria-hidden />
+          <span className="text-[11.5px] font-semibold text-blue">{footer}</span>
         </div>
-        <span className="pt-0.5 font-mono text-[9.5px] font-bold tracking-eyebrow text-overcast">{stage}</span>
-      </div>
-      <div className="flex flex-1 flex-col gap-2.5 p-3.5">{children}</div>
-      <div className="flex items-center gap-2 border-t border-[#EBEEF4] bg-white/70 px-4 py-3">
-        <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-blue animate-[ps-pulse_2.4s_infinite]" aria-hidden />
-        <span className="text-[11.5px] font-semibold text-blue">{footer}</span>
-      </div>
+      )}
     </div>
   );
 }
 
-function ModuleRow({
+/* ------------------------------------------------------------------ */
+/*  Module tile: name, job, and a high-level capability list            */
+/* ------------------------------------------------------------------ */
+
+function ModuleTile({
   id,
   icon,
   name,
   sub,
-  meta,
-  viz,
+  caps,
 }: {
   id: string;
   icon: string;
   name: string;
   sub: string;
-  meta: string;
-  viz: React.ReactNode;
+  caps: string[];
 }) {
   return (
-    <div id={id} className="flex flex-1 scroll-mt-28 items-center gap-3 rounded-[10px] border border-[#E3E7F0] bg-white px-3.5 py-3 shadow-card">
-      <span className="flex h-[30px] w-[30px] shrink-0 items-center justify-center rounded-[8px] border border-blue-border bg-blue-subtle text-blue">
-        <DynamicSketchIcon text={icon} className="h-4 w-4" />
-      </span>
-      <div className="min-w-0 flex-1">
-        <div className="truncate text-[13px] font-semibold tracking-tight text-ink">{name}</div>
-        <div className="truncate text-[11px] text-tertiary-text">{sub}</div>
-        <div className="mt-1 truncate font-mono text-[9px] text-overcast">{meta}</div>
-      </div>
-      <div className="shrink-0">{viz}</div>
-    </div>
-  );
-}
-
-/* Two stacked capability chips — the shared shape for showing a module's
-   range (speed, format, method) without a worked example. */
-function CapChips({ items }: { items: string[] }) {
-  return (
-    <div className="flex flex-col items-end gap-1">
-      {items.map((label) => (
-        <span
-          key={label}
-          className="whitespace-nowrap rounded-[5px] border border-blue-border bg-blue-subtle px-1.5 py-0.5 font-mono text-[8px] font-semibold uppercase tracking-[0.04em] text-blue"
-        >
-          {label}
+    <div id={id} className="flex min-w-0 scroll-mt-28 flex-col rounded-inner border border-card-divide bg-panel p-3">
+      <div className="flex items-center gap-2.5">
+        <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-tile bg-blue-subtle text-blue">
+          <DynamicSketchIcon text={icon} className="h-4 w-4" />
         </span>
-      ))}
-    </div>
-  );
-}
-
-/* Per-module capability signatures (simulated UI, §8a — generic
-   capability markers, not a worked example). */
-
-function PipelinesViz() {
-  return <CapChips items={["Structured", "Unstructured"]} />;
-}
-
-function MasterDataViz() {
-  return <CapChips items={["Deduplication", "Hierarchy"]} />;
-}
-
-function WarehouseViz() {
-  return <CapChips items={["Query-ready", "Sub-second"]} />;
-}
-
-function MLViz() {
-  return (
-    <div className="flex flex-col items-end gap-0.5">
-      <svg viewBox="0 0 64 20" className="h-4 w-14" fill="none" aria-hidden>
-        <path d="M2 16 L14 13.5 L26 14.5 L38 8" stroke="#3E63DD" strokeWidth="1.8" strokeLinecap="round" className="fl-sparkline" />
-        <path d="M38 8 L50 5 L60 3" stroke="#3E63DD" strokeWidth="1.8" strokeLinecap="round" strokeDasharray="3 4" opacity="0.55" />
-        <circle cx="60" cy="3" r="2.4" fill="#3E63DD" />
-      </svg>
-      <span className="font-mono text-[8.5px] text-inkSoft">trend + forecast</span>
-    </div>
-  );
-}
-
-function AskAIViz() {
-  return <BlueChip label="GROUNDED" />;
-}
-
-function BIViz() {
-  const bars = [55, 70, 60, 80, 68];
-  return (
-    <div className="flex flex-col items-end gap-0.5">
-      <div className="flex h-5 w-14 items-end gap-1" aria-hidden>
-        {bars.map((h, i) => (
-          <span
-            key={i}
-            className="flex-1 origin-bottom rounded-t-[2px] animate-[ps-grow_1.1s_cubic-bezier(0.2,0.8,0.2,1)_both]"
-            style={{ height: `${h}%`, background: i === bars.length - 1 ? "#3E63DD" : "#C8D2F5", animationDelay: `${i * 90}ms` }}
-          />
-        ))}
+        <span className="text-[13.5px] font-semibold tracking-tight text-ink">{name}</span>
       </div>
-      <span className="font-mono text-[8.5px] font-semibold text-blue">auto-refresh</span>
+      <p className="mt-1.5 text-[11.5px] leading-snug text-inkSoft">{sub}</p>
+      <ul className="mt-2.5 grid grid-cols-2 gap-x-3 gap-y-1 border-t border-card-divide pt-2.5">
+        {caps.map((cap) => (
+          <li key={cap} className="flex items-start gap-1.5">
+            <span className="mt-[5px] h-[5px] w-[5px] shrink-0 rounded-full bg-blue/70" aria-hidden />
+            <span className="text-[11px] font-medium leading-snug text-secondary-text">{cap}</span>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }
 
 /* ------------------------------------------------------------------ */
-/*  Knowledge graph — generic relationship types, not named entities    */
-/*  (what a knowledge graph holds, without a worked example)            */
+/*  Knowledge layer viz — generic relationship types, not named          */
+/*  entities (§8a: what the layer holds, without a worked example)       */
 /* ------------------------------------------------------------------ */
 
-function KnowledgeGraph() {
+function KnowledgeViz() {
   const nodes = [
-    { x: 68, y: 36, w: 118, label: "Related records", edge: "linked to", ex: 130, ey: 76 },
-    { x: 292, y: 36, w: 100, label: "Its category", edge: "classified as", ex: 240, ey: 76 },
-    { x: 68, y: 204, w: 90, label: "Its history", edge: "traced through", ex: 116, ey: 170 },
-    { x: 292, y: 204, w: 84, label: "A policy", edge: "governed by", ex: 242, ey: 170 },
+    { x: 108, y: 34, w: 118, label: "Related records", edge: "linked to", ex: 208, ey: 48 },
+    { x: 108, y: 116, w: 96, label: "Its history", edge: "traced through", ex: 200, ey: 108 },
+    { x: 532, y: 34, w: 104, label: "Its category", edge: "classified as", ex: 434, ey: 48 },
+    { x: 532, y: 116, w: 86, label: "A policy", edge: "governed by", ex: 438, ey: 108 },
   ];
   return (
-    <svg viewBox="0 0 360 240" fill="none" className="mx-auto w-full max-w-[360px]" aria-hidden>
+    <svg viewBox="0 0 640 150" fill="none" className="mx-auto w-full max-w-[500px]" aria-hidden>
       {nodes.map((n) => (
-        <FlowPath key={n.label} d={`M 180 120 L ${n.x} ${n.y}`} />
+        <FlowPath key={n.label} d={`M 320 75 L ${n.x} ${n.y}`} />
       ))}
-      <circle cx="180" cy="120" r="46" fill="#3E63DD" opacity="0.08" className="animate-[ps-breathe_3.2s_ease-in-out_infinite]" />
-      <rect x="122" y="104" width="116" height="32" rx="16" fill="#EEF1FC" stroke="#C8D2F5" strokeWidth="1.2" />
-      <text x="180" y="124.5" textAnchor="middle" fontSize="12" fontWeight="700" fill="#3E63DD">Any record</text>
+      <circle cx="320" cy="75" r="40" fill="#3E63DD" opacity="0.08" />
+      <rect x="262" y="59" width="116" height="32" rx="16" fill="#EEF1FC" stroke="#C8D2F5" strokeWidth="1.2" />
+      <text x="320" y="79.5" textAnchor="middle" fontSize="12" fontWeight="700" fill="#3E63DD">Any record</text>
       {nodes.map((n) => (
         <g key={n.label}>
           <text
             x={n.ex}
             y={n.ey}
             textAnchor="middle"
-            fontSize="9"
-            fill="#64748B"
-            stroke="#FFFFFF"
+            fontSize="9.5"
+            fill="#5C5E63"
+            stroke="#F7F8FB"
             strokeWidth="5"
             paintOrder="stroke"
             fontFamily="'Google Sans Mono', monospace"
@@ -256,7 +242,7 @@ function KnowledgeGraph() {
 }
 
 /* ------------------------------------------------------------------ */
-/*  Section                                                            */
+/*  Content                                                             */
 /* ------------------------------------------------------------------ */
 
 const sourceGroups = [
@@ -290,179 +276,247 @@ const sourceGroups = [
   },
 ];
 
-const govTiles = [
-  { label: "Access control", detail: "enforced on every request" },
-  { label: "Lineage", detail: "every step recorded" },
-  { label: "Audit trail", detail: "every action logged" },
-  { label: "Data residency", detail: "enforced in your region" },
+/* High-level summaries of [08]'s datasheet — terse noun phrases only
+   (user direction, Jul 2026: full sentences read wordy here), and no
+   vendor or technology names ([08] is the only place technology is
+   named). */
+const dataLayerModules = [
+  {
+    id: "modules-data-pipelines",
+    icon: "Akashic Data Pipelines",
+    name: "Akashic Pipelines",
+    sub: "Ingest and validate every source",
+    caps: ["Ready-made connectors", "Streaming · batch · CDC", "PDF, email & OCR intake", "Schema validation"],
+  },
+  {
+    id: "modules-master-data",
+    icon: "Akashic Master Data",
+    name: "Akashic Master Data",
+    sub: "Resolve every entity to one golden record",
+    caps: ["Exact + fuzzy matching", "Survivorship rules", "Steward review queue", "Hierarchy management"],
+  },
+  {
+    id: "modules-data-warehousing",
+    icon: "Akashic Data Warehouse",
+    name: "Akashic Warehouse",
+    sub: "Model data and define metrics once",
+    caps: ["Dimensional models", "Governed metric layer", "Your warehouse or ours", "Sub-second queries"],
+  },
 ];
+
+const intelligenceLayerModules = [
+  {
+    id: "modules-machine-learning",
+    icon: "Akashic Machine Learning",
+    name: "Akashic ML",
+    sub: "Train, deploy and monitor models",
+    caps: ["Notebooks & experiments", "Feature store", "Staged deployment", "Drift & bias monitoring"],
+  },
+  {
+    id: "modules-ask-ai",
+    icon: "Akashic Insights",
+    name: "Ask Akashic",
+    sub: "Answer questions in plain language",
+    caps: ["Grounded & cited", "Bring your own model", "PII masking", "Prompt audit log"],
+  },
+  {
+    id: "modules-business-intelligence",
+    icon: "Akashic BI",
+    name: "Akashic BI",
+    sub: "Serve metrics to every surface",
+    caps: ["Dashboards & drill-down", "Alerts & reports", "Row-level security", "Embedded analytics"],
+  },
+];
+
+const knowledgeCaps = [
+  "Entities & hierarchies",
+  "Category · history · policy",
+  "Context for every answer",
+];
+
+const govTiles = [
+  { label: "Access control", detail: "row + column · query time" },
+  { label: "Lineage", detail: "column-level, across sources" },
+  { label: "Audit trail", detail: "append-only, every action" },
+  { label: "Data residency", detail: "in-region, zero egress" },
+];
+
+/* ------------------------------------------------------------------ */
+/*  Section                                                             */
+/* ------------------------------------------------------------------ */
 
 export default function AkashicModules() {
   return (
     <section id="modules" className="scroll-mt-24 border-t border-lineSoft bg-primary-bg">
-      <div className="rail-container pt-10 pb-14 lg:flex lg:min-h-screen lg:flex-col lg:justify-center lg:pt-12 lg:pb-16">
+      <div className="rail-container pt-12 pb-24 lg:pt-16 lg:pb-32">
         <ScrollReveal>
           <p className="font-mono text-[11px] uppercase tracking-eyebrow">
             <span className="text-overcast">[04]</span>
-            <span className="text-inkSoft">&nbsp;&nbsp;How it composes</span>
+            <span className="text-inkSoft">&nbsp;&nbsp;The architecture</span>
           </p>
-          <h2 className="mt-5 text-heading-sm font-semibold text-ink md:text-heading-md">
-            Seven modules. Three layers. One circuit.
+          <h2 className="mt-5 text-balance text-heading-sm font-semibold text-ink md:text-heading-md">
+            Seven modules. Three layers. One platform.
           </h2>
           <p className="mt-5 max-w-[36em] text-lg leading-relaxed text-secondary-text">
-            Sources in on one side. A decision out the other. Governance underneath,
-            start to finish. Not seven tools wired together: one platform, already
-            assembled.
+            Sources in at the top, a decision out at the bottom, governance under
+            every layer. What each module does and the capabilities it ships with,
+            on one page.
           </p>
         </ScrollReveal>
 
-        <div className="mt-8 lg:mt-12">
-          <ScrollReveal>
-            <div className={`grid gap-3 lg:min-h-[480px] lg:gap-0 ${FLOW_GRID}`}>
-              {/* Sources, grouped by kind (structured, unstructured, streaming) */}
-              <div className="flex flex-col gap-3">
-                <p className="font-mono text-[9.5px] uppercase tracking-eyebrow text-inkSoft">Your sources</p>
-                {sourceGroups.map((group) => (
-                  <div key={group.heading} className="flex flex-col gap-1.5">
-                    <p className="font-mono text-[8.5px] uppercase tracking-[0.1em] text-overcast">{group.heading}</p>
-                    <div className="flex flex-row flex-wrap gap-1.5 lg:flex-col">
-                      {group.items.map((src) => (
-                        <span
-                          key={src.name}
-                          className="inline-flex items-center gap-2 rounded-full border border-[#E3E7F0] bg-white px-3 py-1.5 text-[11.5px] font-medium text-ink shadow-card"
-                        >
-                          <span className="h-1.5 w-1.5 rounded-full animate-[ps-pulse_2.4s_infinite]" style={{ background: src.dot }} />
-                          {src.name}
-                        </span>
+        <div className="mt-8 lg:mt-10">
+          <div className="lg:grid lg:grid-cols-[44px_minmax(0,1fr)] lg:gap-x-4">
+            <GovRail />
+
+            <div className="flex flex-col gap-3 lg:gap-0">
+              {/* IN: the sources stratum */}
+              <ScrollReveal>
+                <Stratum>
+                  <Spine index="In" name="Your sources" tagline="Structured, unstructured and streaming, side by side." />
+                  <div className="flex flex-wrap items-center gap-x-7 gap-y-3 px-4 py-3 lg:px-5">
+                    {sourceGroups.map((group) => (
+                      <div key={group.heading} className="flex flex-col gap-1.5">
+                        <p className="font-mono text-[9.5px] font-semibold uppercase tracking-[0.1em] text-secondary-text">{group.heading}</p>
+                        <div className="flex flex-wrap gap-1.5">
+                          {group.items.map((src) => (
+                            <span
+                              key={src.name}
+                              className="inline-flex items-center gap-2 rounded-full border border-card-divide bg-panel px-3 py-1 text-[11.5px] font-medium text-ink"
+                            >
+                              <span className="h-1.5 w-1.5 rounded-full" style={{ background: src.dot }} aria-hidden />
+                              {src.name}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </Stratum>
+              </ScrollReveal>
+
+              <BeamTriple />
+              <MobileConn />
+
+              {/* LAYER 01: Data */}
+              <ScrollReveal delay={90}>
+                <Stratum>
+                  <Spine
+                    index="Layer 01"
+                    name="Data Layer"
+                    tagline="Every source ingested, resolved and modelled."
+                    footer="Validated · resolved · query-ready"
+                    watermark="01"
+                  />
+                  <div className="grid gap-2 p-2.5 sm:grid-cols-2 lg:grid-cols-3 lg:p-3">
+                    {dataLayerModules.map((mod) => (
+                      <ModuleTile key={mod.id} {...mod} />
+                    ))}
+                  </div>
+                </Stratum>
+              </ScrollReveal>
+
+              <BeamTriple />
+              <MobileConn />
+
+              {/* LAYER 02: Knowledge (no modules — built by Master Data) */}
+              <ScrollReveal delay={160}>
+                <Stratum>
+                  <Spine
+                    index="Layer 02"
+                    name="Knowledge Layer"
+                    tagline="Built by Master Data: every record linked to its context."
+                    footer="One meaning, everywhere it&rsquo;s used"
+                    watermark="02"
+                  />
+                  <div className="grid items-center gap-3 p-2.5 lg:p-3 xl:grid-cols-[minmax(0,1fr)_240px]">
+                    <div className="rounded-inner border border-card-divide bg-panel px-3 py-2">
+                      <KnowledgeViz />
+                    </div>
+                    <ul className="flex flex-col gap-2 px-1 xl:px-0">
+                      {knowledgeCaps.map((cap) => (
+                        <li key={cap} className="flex items-start gap-2">
+                          <span className="mt-[5px] h-[5px] w-[5px] shrink-0 rounded-full bg-blue/70" aria-hidden />
+                          <span className="text-[11.5px] font-medium leading-snug text-secondary-text">{cap}</span>
+                        </li>
                       ))}
-                    </div>
+                    </ul>
                   </div>
-                ))}
-                <p className="mt-auto hidden pt-2 font-mono text-[9px] leading-relaxed text-overcast lg:block">
-                  STRUCTURED · UNSTRUCTURED · STREAMING
-                </p>
-              </div>
+                </Stratum>
+              </ScrollReveal>
 
-              <Joint />
+              <BeamTriple />
+              <MobileConn />
 
-              {/* Layer 1 */}
-              <LayerCol
-                stage="01"
-                name="Data Layer"
-                tagline="Connected. Every source ingested, resolved, and modelled."
-                footer="Validated · resolved · query-ready"
-              >
-                <ModuleRow id="modules-data-pipelines" icon="Akashic Data Pipelines" name="Akashic Pipelines" sub="Everything arrives here" meta="streaming · batch · CDC" viz={<PipelinesViz />} />
-                <ModuleRow id="modules-master-data" icon="Akashic Master Data" name="Akashic Master Data" sub="Duplicates collapse here" meta="match + merge logic" viz={<MasterDataViz />} />
-                <ModuleRow id="modules-data-warehousing" icon="Akashic Data Warehouse" name="Akashic Warehouse" sub="Metrics are defined here" meta="dimensional models" viz={<WarehouseViz />} />
-              </LayerCol>
-
-              <Joint />
-
-              {/* Layer 2 */}
-              <LayerCol
-                stage="02"
-                name="Knowledge Layer"
-                tagline="Understood. Master Data links each record to its context."
-                footer="Same meaning for reports, models, and questions"
-              >
-                <div className="flex flex-1 items-center rounded-[10px] border border-[#E3E7F0] bg-white px-2 py-3 shadow-card">
-                  <KnowledgeGraph />
-                </div>
-              </LayerCol>
-
-              <Joint />
-
-              {/* Layer 3 */}
-              <LayerCol
-                stage="03"
-                name="Intelligence Layer"
-                tagline="Reasoned. Answered. Where a model becomes something you can act on."
-                footer="Every answer carries its lineage"
-              >
-                <ModuleRow id="modules-machine-learning" icon="Akashic Machine Learning" name="Akashic ML" sub="Patterns surface here" meta="forecasting · anomalies" viz={<MLViz />} />
-                <ModuleRow id="modules-ask-ai" icon="Akashic Insights" name="Ask Akashic" sub="Questions land here" meta="every answer cited" viz={<AskAIViz />} />
-                <ModuleRow id="modules-business-intelligence" icon="Akashic BI" name="Akashic BI" sub="Metrics are read here" meta="self-refreshing" viz={<BIViz />} />
-              </LayerCol>
-
-              <Joint />
-
-              {/* Out: the decision (capability, not a worked example, §8a) */}
-              <div className="flex flex-col gap-2">
-                <p className="font-mono text-[9.5px] uppercase tracking-eyebrow text-inkSoft">Your decision</p>
-                <div className="flex flex-1 flex-col overflow-hidden rounded-[10px] bg-white ring-1 ring-[#0B1440]/10 shadow-card">
-                  <div className="flex items-center gap-1.5 border-b border-[#EBEEF4] bg-[#FAFBFC] px-3 py-2">
-                    <span className="h-1.5 w-1.5 rounded-full bg-[#30A46C] animate-[ps-pulse_2s_infinite]" aria-hidden />
-                    <span className="font-mono text-[8.5px] uppercase tracking-[0.08em] text-overcast">Answered</span>
+              {/* LAYER 03: Intelligence */}
+              <ScrollReveal delay={230}>
+                <Stratum>
+                  <Spine
+                    index="Layer 03"
+                    name="Intelligence Layer"
+                    tagline="Governed data becomes predictions, answers and dashboards."
+                    footer="Every answer carries its lineage"
+                    watermark="03"
+                  />
+                  <div className="grid gap-2 p-2.5 sm:grid-cols-2 lg:grid-cols-3 lg:p-3">
+                    {intelligenceLayerModules.map((mod) => (
+                      <ModuleTile key={mod.id} {...mod} />
+                    ))}
                   </div>
-                  <div className="flex flex-1 flex-col p-3.5">
-                    <p className="font-mono text-[10px] leading-relaxed text-tertiary-text">
-                      &ldquo;Ask anything about your data.&rdquo;
-                    </p>
-                    <p className="mt-2 text-[14px] font-semibold leading-snug tracking-tight text-ink">
-                      One grounded answer, every time.
-                    </p>
-                    <div className="mt-3">
-                      <BlueChip label="GROUNDED" />
+                </Stratum>
+              </ScrollReveal>
+
+              <BeamMerge />
+              <MobileConn />
+
+              {/* OUT: the decision bar */}
+              <ScrollReveal delay={300}>
+                <Stratum>
+                  <Spine index="Out" name="Your decision" tagline="Trusted, traced, acted on." />
+                  <div className="flex flex-col gap-3 px-4 py-3.5 lg:flex-row lg:items-center lg:justify-between lg:gap-6 lg:px-5">
+                    <div>
+                      <p className="text-[15px] font-semibold leading-snug tracking-tight text-ink">
+                        Ask anything. One grounded answer, every time.
+                      </p>
+                      <p className="mt-1 text-[11.5px] leading-snug text-inkSoft">
+                        Backed by the governed metric layer and the knowledge layer, with
+                        citations. Every line traced to its source.
+                      </p>
                     </div>
-                    <div className="mt-3.5 flex flex-col gap-1.5 border-t border-[#EBEEF4] pt-3">
-                      <p className="font-mono text-[8.5px] uppercase tracking-[0.08em] text-overcast">Backed by</p>
-                      <p className="font-mono text-[9.5px] leading-snug text-inkSoft">the governed metric layer</p>
-                      <p className="font-mono text-[9.5px] leading-snug text-inkSoft">the knowledge graph, with citations</p>
-                    </div>
-                    <p className="mt-auto pt-3 text-[11px] leading-snug text-inkSoft">
-                      Every line traced to its source.
-                    </p>
+                    <BlueChip label="GROUNDED" />
                   </div>
-                </div>
-                <p className="mt-auto hidden pt-2 font-mono text-[9px] leading-relaxed text-overcast lg:block">
-                  TRUSTED · TRACED · ACTED ON
-                </p>
-              </div>
+                </Stratum>
+              </ScrollReveal>
             </div>
-          </ScrollReveal>
+          </div>
 
-          {/* Governance: the floor under all three layers */}
+          {/* The bracket closes: governance floor under everything */}
           <ScrollReveal delay={120}>
-            <div className={`hidden lg:grid ${FLOW_GRID}`} aria-hidden>
-              <div />
-              <div />
-              <GovTie />
-              <div />
-              <GovTie />
-              <div />
-              <GovTie />
-              <div />
-              <div />
-            </div>
-            <div id="modules-governance" className="mt-3 scroll-mt-28 overflow-hidden rounded-frame border border-line bg-primary-bg lg:mt-0">
+            <GovJunction />
+            <div id="modules-governance" className="mt-3 scroll-mt-28 overflow-hidden rounded-outer border border-card-line bg-white shadow-card lg:mt-0">
               <div className="h-[3px] bg-gradient-to-r from-ink/60 via-ink/25 to-transparent" aria-hidden />
-              <div className="flex flex-col gap-3 px-4 py-4 md:flex-row md:items-center md:justify-between md:px-6 lg:py-5">
-                <div className="flex items-center gap-3.5">
-                  <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-[9px] bg-ink text-white shadow-card">
+              <div className="flex flex-col gap-4 px-4 py-4 lg:flex-row lg:items-center lg:gap-6 lg:px-5">
+                <div className="flex items-center gap-3.5 lg:min-w-[300px]">
+                  <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-tile bg-ink text-white">
                     <DynamicSketchIcon text="Akashic Data Governance" className="h-[18px] w-[18px]" />
                   </span>
                   <div>
                     <h3 className="text-[16px] font-semibold tracking-tight text-ink">
                       Akashic Governance
-                      <span className="ml-2 font-normal text-inkSoft">· the floor everything above stands on</span>
+                      <span className="ml-2 font-normal text-inkSoft">· the floor under every layer</span>
                     </h3>
                     <p className="mt-0.5 text-[13px] leading-snug text-inkSoft">
-                      Applied at every layer, from the first byte to the final answer.
+                      Applied to every module, from the first byte to the final answer.
                     </p>
                   </div>
                 </div>
-                <div className="flex shrink-0 flex-wrap gap-2.5">
-                  {govTiles.map((tile, i) => (
-                    <div key={tile.label} className="flex flex-col gap-0.5 rounded-[10px] border border-[#E3E7F0] bg-white px-4 py-2.5 shadow-card">
+                <div className="grid flex-1 gap-2.5 sm:grid-cols-2 xl:grid-cols-4">
+                  {govTiles.map((tile) => (
+                    <div key={tile.label} className="flex flex-col gap-0.5 rounded-inner border border-card-divide bg-panel px-3.5 py-2">
                       <span className="flex items-center gap-2">
-                        <span
-                          className="h-1.5 w-1.5 rounded-full bg-blue animate-[ps-pulse_2.4s_infinite]"
-                          style={{ animationDelay: `${i * 400}ms` }}
-                        />
+                        <span className="h-1.5 w-1.5 rounded-full bg-blue" aria-hidden />
                         <span className="text-[12.5px] font-medium text-ink">{tile.label}</span>
                       </span>
-                      <span className="pl-3.5 font-mono text-[9.5px] text-overcast">{tile.detail}</span>
+                      <span className="pl-3.5 font-mono text-[9.5px] font-semibold text-secondary-text">{tile.detail}</span>
                     </div>
                   ))}
                 </div>

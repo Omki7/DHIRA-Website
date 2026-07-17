@@ -7,6 +7,8 @@ import CareersCulture from "@/components/sections/careers/CareersCulture";
 import CareersRoles from "@/components/sections/careers/CareersRoles";
 import CareersHiring from "@/components/sections/careers/CareersHiring";
 import CareersClose from "@/components/sections/careers/CareersClose";
+import PageMinimap from "@/components/layout/PageMinimap";
+import { CAREERS_SECTIONS } from "@/lib/careersSections";
 
 export const metadata: Metadata = {
   title: "Careers — Join us in building India's intelligence layer.",
@@ -27,6 +29,7 @@ export default function CareersPage() {
         <CareersClose />
       </main>
       <Footer />
+      <PageMinimap sections={CAREERS_SECTIONS} aria-label="Careers page sections" />
     </>
   );
 }

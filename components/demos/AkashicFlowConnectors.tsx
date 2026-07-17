@@ -1,10 +1,11 @@
 /*
- * Animated flow connectors for the Akashic product page — blue-on-white
- * kin of the home page's fine-line flow language.
- * Purely decorative line-drawing, no data. Shared by AkashicModules and
- * AkashicArchitecture so the page speaks one connective language.
- * Every connector terminates in a port Node so the sections read as one
- * connected circuit.
+ * Lineage connectors for the Akashic product page — blue-on-white kin of
+ * the home page's fine-line language. Drawn like data lineage: clean
+ * static edges into port nodes, NO marching-dash animation (that read as
+ * demo-ware and violates the AGENTS motion budget — no perpetual motion
+ * on graph backdrops). Purely decorative line-drawing, no data. Shared by
+ * AkashicModules and AkashicArchitecture so the page speaks one connective
+ * language. Every connector terminates in a port Node.
  */
 
 export const LANES = [167, 500, 833];
@@ -12,16 +13,9 @@ export const LANES = [167, 500, 833];
 export function FlowPath({ d }: { d: string }) {
   return (
     <g>
-      <path d={d} stroke="#C8D2F5" strokeWidth="1.2" fill="none" />
-      <path
-        d={d}
-        stroke="#3E63DD"
-        strokeWidth="1.5"
-        strokeDasharray="5 17"
-        fill="none"
-        className="animate-[ps-flow_1.8s_linear_infinite]"
-        opacity="0.8"
-      />
+      {/* soft rail + crisp edge, both static — a lineage line, not a stream */}
+      <path d={d} stroke="#C8D2F5" strokeWidth="3" fill="none" strokeLinecap="round" opacity="0.5" />
+      <path d={d} stroke="#3E63DD" strokeWidth="1.4" fill="none" strokeLinecap="round" opacity="0.65" />
     </g>
   );
 }
@@ -29,8 +23,8 @@ export function FlowPath({ d }: { d: string }) {
 export function Node({ x, y }: { x: number; y: number }) {
   return (
     <g>
-      <circle cx={x} cy={y} r="4" fill="#FFFFFF" stroke="#C8D2F5" strokeWidth="1.2" />
-      <circle cx={x} cy={y} r="1.8" fill="#3E63DD" />
+      <circle cx={x} cy={y} r="4.5" fill="#FFFFFF" stroke="#3E63DD" strokeWidth="1.4" opacity="0.9" />
+      <circle cx={x} cy={y} r="2" fill="#3E63DD" />
     </g>
   );
 }

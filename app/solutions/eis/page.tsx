@@ -10,6 +10,8 @@ import EisMoments from "@/components/sections/eis/EisMoments";
 import EisIntegration from "@/components/sections/eis/EisIntegration";
 import EisProof from "@/components/sections/eis/EisProof";
 import EisClose from "@/components/sections/eis/EisClose";
+import PageMinimap from "@/components/layout/PageMinimap";
+import { EIS_SECTIONS } from "@/lib/eisSections";
 
 export const metadata: Metadata = {
   title: "Akashic EIS — Your entire business. One screen. Right now.",
@@ -33,6 +35,7 @@ export default function EisPage() {
         <EisClose />
       </main>
       <Footer />
+      <PageMinimap sections={EIS_SECTIONS} aria-label="EIS page sections" />
     </>
   );
 }

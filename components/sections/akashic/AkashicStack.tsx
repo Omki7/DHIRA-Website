@@ -1,27 +1,27 @@
 "use client";
 
 /*
- * [08] The stack — connectors and capabilities, per module.
+ * [08] Capabilities & connectors — the technical reference, per module.
  * A tabbed drawer (selector left, detail panel right) in the "Modular by
- * design" idiom. STRICTLY a technical datasheet: every module body is
- * data-driven from the same three cell types — connector tile (monogram +
- * name), capability cell (icon + technical term + optional mono
- * qualifier), and the BI chart-type gallery — so all seven panels share
- * one visual grammar (user direction, Jul 2026: consistency over bespoke
- * visuals; no worked examples, no instance data, no marketing sentences —
- * terse noun phrases only). Connector / model marks use the house
- * monogram tile (illustrative integration categories, not a live
- * registry). Deliberately names open technologies and model providers —
- * the stack tour [06] Open promises ("named in full in the next
- * section") and intentionally omits itself. Compliance /
- * key-custody / residency lines match the home + [05] copy. BI capability
- * set references Apache Superset; Governance references OpenMetadata.
+ * design" idiom, built for engineering and technical-evaluation readers.
+ * STRICTLY a technical datasheet: every module body is data-driven from
+ * the same three cell types — connector tile (monogram + name), capability
+ * cell (icon + technical term + optional mono qualifier), and the BI
+ * chart-type gallery — so all seven panels share one visual grammar (user
+ * direction, Jul 2026: consistency over bespoke visuals; no worked
+ * examples, no instance data, no marketing sentences — terse noun phrases
+ * only). Connector / model marks use the house monogram tile (illustrative
+ * integration categories, not a live registry). Deliberately does NOT show
+ * a "runs on" underlying-tech-stack footer (removed per user direction,
+ * Jul 2026): the section's job is connectors, features, and capabilities —
+ * not infrastructure. Compliance / key-custody / residency lines match the
+ * home + [05] copy.
  */
 
 import { useState } from "react";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import DynamicSketchIcon from "@/components/icons/DynamicSketchIcon";
-import { CardBadge } from "@/components/sections/akashic/AkashicCardChrome";
+import { CardBadge, Capillary } from "@/components/sections/akashic/AkashicCardChrome";
 
 /* ------------------------------------------------------------------ */
 /*  Local line-icon set (stroke, 24-box) — section-specific glyphs      */
@@ -70,7 +70,7 @@ const ICO: Record<string, string> = {
 
 function Ico({ name, className = "h-4 w-4" }: { name: string; className?: string }) {
   return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.6} strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" aria-hidden>
       <path d={ICO[name]} />
     </svg>
   );
@@ -90,9 +90,9 @@ type Group =
 
 function ConnTile({ mono, name, color }: Conn) {
   return (
-    <div className="flex items-center gap-2 rounded-[10px] border border-[#E9ECF3] bg-white px-2.5 py-2 shadow-card">
+    <div className="flex items-center gap-2 rounded-inner border border-card-line bg-white px-2.5 py-2 shadow-card">
       <span
-        className="flex h-6 w-6 shrink-0 items-center justify-center rounded-[6px] font-mono text-[9px] font-bold leading-none text-white"
+        className="flex h-6 w-6 shrink-0 items-center justify-center rounded-chip font-mono text-[9px] font-bold leading-none text-white"
         style={{ background: color }}
         aria-hidden
       >
@@ -105,13 +105,13 @@ function ConnTile({ mono, name, color }: Conn) {
 
 function CapCell({ icon, term, sub }: Cap) {
   return (
-    <div className="flex items-center gap-2.5 rounded-[10px] border border-[#E9ECF3] bg-white px-3 py-2.5">
-      <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-[7px] bg-blue-subtle text-blue">
+    <div className="flex items-center gap-2.5 rounded-inner border border-card-line bg-white px-3 py-2.5">
+      <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-tile bg-blue-subtle text-blue">
         <Ico name={icon} className="h-4 w-4" />
       </span>
       <span className="min-w-0">
         <span className="block truncate text-[12px] font-semibold tracking-tight text-ink">{term}</span>
-        {sub && <span className="block truncate font-mono text-[8.5px] text-overcast">{sub}</span>}
+        {sub && <span className="block truncate font-mono text-[9px] text-secondary-text">{sub}</span>}
       </span>
     </div>
   );
@@ -158,7 +158,7 @@ function ChartThumb({ kind }: { kind: string }) {
       );
     case "table":
       return (
-        <svg viewBox="0 0 40 24" className="h-7 w-10" fill="none" aria-hidden stroke={stroke} strokeWidth="1.4">
+        <svg viewBox="0 0 40 24" className="h-7 w-10" fill="none" aria-hidden stroke={stroke} strokeWidth="1.5">
           <rect x="4" y="4" width="32" height="16" rx="1.5" fill="none" />
           <path d="M4 10h32M4 15h32M15 4v16M26 4v16" opacity="0.7" />
         </svg>
@@ -200,7 +200,7 @@ const CHART_TYPES = [
 function GroupBlock({ group }: { group: Group }) {
   return (
     <div>
-      <div className="font-mono text-[9.5px] font-bold uppercase tracking-eyebrow text-overcast">{group.label}</div>
+      <div className="font-mono text-[9.5px] font-bold uppercase tracking-eyebrow text-secondary-text">{group.label}</div>
       {group.kind === "conn" && (
         <div className="mt-2 grid grid-cols-2 gap-1.5 sm:grid-cols-3 xl:grid-cols-4">
           {group.items.map((c) => (
@@ -218,7 +218,7 @@ function GroupBlock({ group }: { group: Group }) {
       {group.kind === "charts" && (
         <div className="mt-2 grid grid-cols-4 gap-1.5 sm:grid-cols-8">
           {CHART_TYPES.map((c) => (
-            <div key={c.label} className="flex flex-col items-center gap-1 rounded-[10px] border border-[#E9ECF3] bg-white px-1 pt-2 pb-1.5">
+            <div key={c.label} className="flex flex-col items-center gap-1 rounded-inner border border-card-line bg-white px-1 pt-2 pb-1.5">
               <span className="flex h-8 items-center justify-center">
                 <ChartThumb kind={c.kind} />
               </span>
@@ -230,7 +230,7 @@ function GroupBlock({ group }: { group: Group }) {
       {group.kind === "badges" && (
         <div className="mt-2 flex flex-wrap gap-1.5">
           {group.items.map((b) => (
-            <span key={b} className="rounded-[6px] border border-[#E3E7F0] bg-white px-2.5 py-1.5 font-mono text-[9.5px] font-semibold text-inkSoft shadow-card">
+            <span key={b} className="rounded-chip border border-card-line bg-white px-2.5 py-1.5 font-mono text-[9.5px] font-semibold text-inkSoft shadow-card">
               {b}
             </span>
           ))}
@@ -250,7 +250,6 @@ type ModuleDef = {
   name: string;
   tagline: string;
   desc: string;
-  tech?: string[];
   groups: Group[];
 };
 
@@ -261,7 +260,6 @@ const MODULES: ModuleDef[] = [
     name: "Akashic Pipelines",
     tagline: "Ingestion",
     desc: "Every source, ingested and validated the moment it arrives. Structured, unstructured, or streaming: one entry point into the platform, or a standalone ingestion layer.",
-    tech: ["Apache Airflow", "Kafka", "CDC"],
     groups: [
       {
         label: "Source connectors",
@@ -358,7 +356,6 @@ const MODULES: ModuleDef[] = [
     name: "Akashic Warehouse",
     tagline: "Modelled storage",
     desc: "Mastered records become models built for fast, reliable queries. Bring your own warehouse or run Akashic-managed storage.",
-    tech: ["Apache Iceberg", "Delta Lake", "dbt"],
     groups: [
       {
         label: "Warehouse connectors",
@@ -400,7 +397,6 @@ const MODULES: ModuleDef[] = [
     name: "Akashic ML",
     tagline: "Prediction",
     desc: "Build, train, deploy, and monitor models directly on governed data. No exports, no separate environment.",
-    tech: ["MLflow", "JupyterHub"],
     groups: [
       {
         label: "Development",
@@ -479,7 +475,6 @@ const MODULES: ModuleDef[] = [
     name: "Akashic BI",
     tagline: "Decision surface",
     desc: "Dashboards and metrics defined once, consistent on every surface they appear.",
-    tech: ["Apache Superset"],
     groups: [
       { label: "Visualisation types", kind: "charts" },
       {
@@ -570,15 +565,14 @@ export default function AkashicStack() {
         <ScrollReveal>
           <p className="font-mono text-[11px] uppercase tracking-eyebrow">
             <span className="text-overcast">[08]</span>
-            <span className="text-inkSoft">&nbsp;&nbsp;The stack</span>
+            <span className="text-inkSoft">&nbsp;&nbsp;Capabilities &amp; connectors</span>
           </p>
-          <h2 className="mt-5 text-heading-sm font-semibold text-ink md:text-heading-md lg:text-heading-lg">
-            What each module runs on.
+          <h2 className="mt-5 text-balance text-heading-sm font-semibold text-ink md:text-heading-md">
+            Every module, down to what it connects to and what it does.
           </h2>
           <p className="mt-5 max-w-[36em] text-lg leading-relaxed text-secondary-text">
-            Here are the open standards, named. Pick a module to see what it connects
-            to, what it does, and what it runs on. No proprietary formats underneath,
-            and nothing you can&rsquo;t take with you.
+            The technical reference: pick a module to see its source and system
+            connectors, its capabilities, and the controls it ships with.
           </p>
         </ScrollReveal>
 
@@ -599,14 +593,14 @@ export default function AkashicStack() {
                     role="tab"
                     aria-selected={isActive}
                     onClick={() => setActive(i)}
-                    className={`flex shrink-0 items-center gap-3 rounded-[11px] border px-3.5 py-3 text-left transition-all duration-250 ease-settle lg:w-full lg:shrink ${
+                    className={`flex shrink-0 items-center gap-3 rounded-inner border px-3.5 py-3 text-left transition-all duration-250 ease-settle lg:w-full lg:shrink ${
                       isActive
                         ? "border-blue-border bg-blue-subtle/60 shadow-card"
-                        : "border-subtle-stroke bg-white hover:border-blue-border/60 hover:bg-primary-bg lg:border-transparent"
+                        : "border-card-line bg-white hover:border-blue-border/60 hover:bg-primary-bg lg:border-transparent"
                     }`}
                   >
                     <span
-                      className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-[8px] border ${
+                      className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-tile border ${
                         isActive ? "border-blue/20 bg-white text-blue" : "border-subtle-stroke bg-white text-inkSoft"
                       }`}
                     >
@@ -616,9 +610,9 @@ export default function AkashicStack() {
                       <span className="block whitespace-nowrap text-[13px] font-semibold tracking-tight text-ink lg:truncate lg:whitespace-normal">
                         {mod.name}
                       </span>
-                      <span className="hidden truncate text-[11px] text-tertiary-text lg:block">{mod.tagline}</span>
+                      <span className="hidden truncate text-[11px] text-secondary-text lg:block">{mod.tagline}</span>
                     </span>
-                    <span className="hidden font-mono text-[9px] font-bold tracking-eyebrow text-overcast lg:block">
+                    <span className="hidden font-mono text-[9px] font-bold tracking-eyebrow text-secondary-text lg:block">
                       {String(i + 1).padStart(2, "0")}
                     </span>
                   </button>
@@ -630,15 +624,15 @@ export default function AkashicStack() {
             <div
               key={m.id}
               role="tabpanel"
-              className="animate-[ps-rise_450ms_cubic-bezier(0.2,0.8,0.2,1)_both] overflow-hidden rounded-[16px] border border-subtle-stroke bg-white shadow-frame"
+              className="animate-[ps-rise_450ms_cubic-bezier(0.2,0.8,0.2,1)_both] overflow-hidden rounded-outer border border-card-line bg-white shadow-frame"
             >
-              <div className="h-[3px] bg-gradient-to-r from-blue/50 via-blue/25 to-transparent" aria-hidden />
+              <Capillary />
 
               <div className="flex items-center gap-3 border-b border-blue/10 bg-gradient-to-b from-blue-subtle/70 to-transparent px-5 py-4">
                 <CardBadge icon={m.icon} />
                 <div className="min-w-0 flex-1">
                   <div className="text-[16px] font-bold tracking-tight text-ink">{m.name}</div>
-                  <div className="truncate text-[12px] text-tertiary-text">{m.tagline}</div>
+                  <div className="truncate text-[12px] text-secondary-text">{m.tagline}</div>
                 </div>
               </div>
 
@@ -648,22 +642,6 @@ export default function AkashicStack() {
                   <GroupBlock key={g.label} group={g} />
                 ))}
               </div>
-
-              {m.tech && (
-                <div className="flex flex-wrap items-center gap-x-3 gap-y-2 border-t border-subtle-stroke bg-primary-bg px-5 py-3">
-                  <span className="flex items-center gap-1.5">
-                    <span className="h-1.5 w-1.5 rounded-full bg-blue animate-[ps-pulse_2.4s_infinite]" aria-hidden />
-                    <span className="font-mono text-[9px] uppercase tracking-eyebrow text-overcast">Runs on</span>
-                  </span>
-                  <span className="flex flex-wrap items-center gap-1.5">
-                    {m.tech.map((t) => (
-                      <span key={t} className="rounded-[5px] border border-blue-border bg-blue-subtle px-2 py-0.5 font-mono text-[9px] font-semibold text-blue">
-                        {t}
-                      </span>
-                    ))}
-                  </span>
-                </div>
-              )}
             </div>
           </div>
         </ScrollReveal>

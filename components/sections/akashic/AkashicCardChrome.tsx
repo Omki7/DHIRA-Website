@@ -8,11 +8,17 @@ import DynamicSketchIcon from "@/components/icons/DynamicSketchIcon";
 import AkashicLogo from "@/components/icons/AkashicLogo";
 
 export const CARD =
-  "relative flex min-w-0 flex-col overflow-hidden rounded-[14px] border border-subtle-stroke bg-white shadow-card transition-all duration-250 ease-settle hover:-translate-y-1 hover:shadow-frame";
+  "relative flex min-w-0 flex-col overflow-hidden rounded-outer border border-card-line bg-white shadow-card transition-all duration-250 ease-settle hover:-translate-y-1 hover:shadow-frame";
+
+/* The page's signature edge: a 3px blue capillary that tops every Akashic
+   card. `bright` is the variant used on the dark anchor ground. */
+export function Capillary({ bright = false }: { bright?: boolean }) {
+  return <div className={bright ? "ak-capillary-bright" : "ak-capillary"} aria-hidden />;
+}
 
 export function CardBadge({ icon }: { icon: string }) {
   return (
-    <div className="flex h-[30px] w-[30px] shrink-0 items-center justify-center rounded-[8px] border border-blue/20 bg-gradient-to-br from-[#E4EAFF] to-[#D4DEFF] shadow-[inset_0_1px_0_rgba(255,255,255,0.9)]">
+    <div className="flex h-[30px] w-[30px] shrink-0 items-center justify-center rounded-tile border border-blue/20 bg-gradient-to-br from-[#E4EAFF] to-[#D4DEFF] shadow-[inset_0_1px_0_rgba(255,255,255,0.9)]">
       <DynamicSketchIcon text={icon} className="h-[15px] w-[15px] text-blue" />
     </div>
   );
@@ -30,11 +36,11 @@ export function CardHeader({
   chip: React.ReactNode;
 }) {
   return (
-    <div className="flex items-center gap-2.5 border-b border-blue/10 bg-gradient-to-b from-blue-subtle/70 to-transparent px-4 py-3">
+    <div className="flex items-center gap-2.5 border-b border-blue/10 bg-gradient-to-b from-blue-subtle/70 to-transparent px-4 py-3.5">
       <CardBadge icon={icon} />
       <div className="flex min-w-0 flex-1 flex-col">
         <span className="truncate text-[13.5px] font-bold tracking-tight text-ink">{name}</span>
-        <span className="truncate text-[10.5px] text-tertiary-text">{sub}</span>
+        <span className="truncate text-[10.5px] text-secondary-text">{sub}</span>
       </div>
       {chip}
     </div>
@@ -47,16 +53,16 @@ export function CardDesc({ text }: { text: string }) {
 
 export function LiveChip({ label = "LIVE" }: { label?: string }) {
   return (
-    <span className="inline-flex shrink-0 items-center gap-1 rounded-[7px] border border-[#CBE8D7] bg-[#EDF7F1] px-2 py-1">
-      <span className="h-[5px] w-[5px] rounded-full bg-[#30A46C] animate-[ps-pulse_2s_infinite]" />
-      <span className="text-[9px] font-bold tracking-[0.03em] text-[#1B7A47]">{label}</span>
+    <span className="inline-flex shrink-0 items-center gap-1 rounded-chip border border-positive-border bg-positive-subtle px-2 py-1">
+      <span className="h-[5px] w-[5px] rounded-full bg-positive animate-[ps-pulse_2.4s_infinite]" />
+      <span className="text-[9px] font-bold tracking-[0.03em] text-positive-text">{label}</span>
     </span>
   );
 }
 
 export function BlueChip({ label }: { label: string }) {
   return (
-    <span className="inline-flex shrink-0 items-center rounded-[7px] border border-blue-border bg-blue-subtle px-2 py-1 text-[9px] font-bold tracking-[0.03em] text-blue">
+    <span className="inline-flex shrink-0 items-center rounded-chip border border-blue-border bg-blue-subtle px-2 py-1 text-[9px] font-bold tracking-[0.03em] text-blue">
       {label}
     </span>
   );
@@ -67,7 +73,7 @@ export function BlueChip({ label }: { label: string }) {
 export function AkashicMark({ className = "" }: { className?: string }) {
   return (
     <div
-      className={`inline-flex items-center justify-center rounded-[10px] border border-subtle-stroke bg-white px-4 py-2.5 shadow-card ${className}`}
+      className={`inline-flex items-center justify-center rounded-inner border border-card-line bg-white px-4 py-2.5 shadow-card ${className}`}
     >
       <AkashicLogo className="h-5 w-5" />
       <span className="-ml-1 text-[13.5px] font-bold tracking-tight text-ink">kashic</span>
@@ -98,7 +104,7 @@ export function MiniStack({
         <AkashicLogo className="h-4 w-4" />
         <span className="-ml-1 text-[10px] font-bold text-ink">kashic</span>
       </div>
-      <div className="flex flex-col gap-[3px] rounded-[7px] border border-subtle-stroke bg-white p-[5px] shadow-card">
+      <div className="flex flex-col gap-[3px] rounded-tile border border-subtle-stroke bg-white p-[5px] shadow-card">
         <div className={layer("data", "h-[8px] rounded-[2px] border border-blue-border bg-blue-subtle")} />
         <div className={layer("knowledge", "h-[8px] rounded-[2px] border border-blue-border bg-blue-subtle/50")} />
         <div className={layer("ai", "h-[8px] rounded-[2px] border border-blue-border bg-blue-subtle")} />

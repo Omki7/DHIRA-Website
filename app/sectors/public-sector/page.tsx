@@ -9,6 +9,8 @@ import PublicSectorWhy from "@/components/sections/public-sector/PublicSectorWhy
 import PublicSectorChain from "@/components/sections/public-sector/PublicSectorChain";
 import PublicSectorDeploy from "@/components/sections/public-sector/PublicSectorDeploy";
 import PublicSectorClose from "@/components/sections/public-sector/PublicSectorClose";
+import PageMinimap from "@/components/layout/PageMinimap";
+import { PUBLIC_SECTOR_SECTIONS } from "@/lib/publicSectorSections";
 
 export const metadata: Metadata = {
   title: "Public Sector — We don't pitch government. We've already built for it.",
@@ -31,6 +33,7 @@ export default function PublicSectorPage() {
         <PublicSectorClose />
       </main>
       <Footer />
+      <PageMinimap sections={PUBLIC_SECTOR_SECTIONS} aria-label="Public Sector page sections" />
     </>
   );
 }

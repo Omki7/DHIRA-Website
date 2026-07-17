@@ -9,6 +9,8 @@ import AboutHow from "@/components/sections/about/AboutHow";
 import AboutCareers from "@/components/sections/about/AboutCareers";
 import AboutProof from "@/components/sections/about/AboutProof";
 import AboutClose from "@/components/sections/about/AboutClose";
+import PageMinimap from "@/components/layout/PageMinimap";
+import { ABOUT_SECTIONS } from "@/lib/aboutSections";
 
 export const metadata: Metadata = {
   title: "About — Technology that outlasts the budget cycle.",
@@ -31,6 +33,7 @@ export default function AboutPage() {
         <AboutClose />
       </main>
       <Footer />
+      <PageMinimap sections={ABOUT_SECTIONS} aria-label="About page sections" />
     </>
   );
 }

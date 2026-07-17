@@ -14,12 +14,13 @@ import AkashicStack from "@/components/sections/akashic/AkashicStack";
 import AkashicSolutions from "@/components/sections/akashic/AkashicSolutions";
 import AkashicScale from "@/components/sections/akashic/AkashicScale";
 import AkashicClose from "@/components/sections/akashic/AkashicClose";
-import AkashicScrollMinimap from "@/components/akashic/AkashicScrollMinimap";
+import PageMinimap from "@/components/layout/PageMinimap";
+import { AKASHIC_SECTIONS } from "@/lib/akashicSections";
 
 export const metadata: Metadata = {
-  title: "Akashic — Every answer your business needs is already in your data.",
+  title: "Akashic — Every answer your organisation needs is already in your data.",
   description:
-    "Akashic is one governed platform for enterprise data, analytics, and AI. Pipelines, master data, warehouse, ML, BI, and plain-language answers on a single foundation, with lineage, access control, and audit under every layer. Deploy on your cloud, in your own racks, or across both.",
+    "Akashic is a single governed platform for your data, analytics, and AI. Pipelines, master data, warehouse, ML, BI, and plain-language answers on one foundation, with lineage, access control, and audit under every layer. Deploy on your cloud, in your own racks, or across both.",
 };
 
 export default function AkashicPage() {
@@ -47,7 +48,7 @@ export default function AkashicPage() {
         <AkashicClose />
       </main>
       <Footer />
-      <AkashicScrollMinimap />
+      <PageMinimap sections={AKASHIC_SECTIONS} aria-label="Akashic page sections" />
     </>
   );
 }

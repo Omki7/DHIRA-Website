@@ -75,13 +75,13 @@ export default function Closure() {
               <div className="mt-12 flex flex-col sm:flex-row items-center justify-center gap-4 w-full sm:w-auto">
                 <Link
                   href="#talk-to-our-team"
-                  className="inline-flex items-center justify-center gap-2 h-11 px-8 bg-white text-[#0A0A0C] font-semibold text-sm rounded-btn hover:bg-white/90 active:scale-[0.98] transition-all duration-settle shadow-[0_1px_2px_rgba(255,255,255,0.05),0_12px_24px_-8px_rgba(255,255,255,0.2)]"
+                  className="inline-flex items-center justify-center gap-2 h-11 px-8 bg-white text-[#0A0A0C] font-semibold text-sm rounded-btn hover:bg-white/90 active:scale-[0.98] transition-all duration-250 ease-settle shadow-[0_1px_2px_rgba(255,255,255,0.05),0_12px_24px_-8px_rgba(255,255,255,0.2)]"
                 >
                   Talk to our team
                 </Link>
                 <Link
                   href="#platform"
-                  className="inline-flex items-center justify-center gap-2 h-11 px-8 border border-white/15 hover:border-white/30 text-white font-medium text-sm rounded-btn hover:bg-white/5 active:scale-[0.98] transition-all duration-settle"
+                  className="inline-flex items-center justify-center gap-2 h-11 px-8 border border-white/15 hover:border-white/30 text-white font-medium text-sm rounded-btn hover:bg-white/5 active:scale-[0.98] transition-all duration-250 ease-settle"
                 >
                   Explore the platform
                 </Link>

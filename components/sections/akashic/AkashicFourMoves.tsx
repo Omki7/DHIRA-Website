@@ -51,15 +51,15 @@ const worlds: World[] = [
     label: "Enterprise",
     question: "Why is the South region behind on target, and what’s driving it?",
     asker: "Regional head",
-    context: "vs Q3 target",
+    context: "vs revenue target",
     steps: [
       { name: "Connected", line: "Pulls in your sales numbers, and the contracts and emails behind them." },
-      { name: "Understood", line: "Knows your regions and targets, so “behind” means the same thing everywhere." },
+      { name: "Understood", line: "Knows how “revenue” is defined, so it means the same thing in every region." },
       { name: "Reasoned", line: "Follows the shortfall to its cause: two renewal deals, still unsigned." },
       { name: "Answered", line: "One plain answer, with the numbers and the paperwork attached." },
     ],
     answer: "South is 8% behind target because two distributor renewals stalled in July.",
-    answerDetail: "Both distributors pushed back on the revised pricing. Neither renewal has been signed.",
+    answerDetail: "Brennan & Sons is waiting on a board review of the revised pricing. Halvorsen Group’s counter-signature is still outstanding.",
     chart: {
       title: "Revenue vs target · South region",
       rows: [
@@ -75,7 +75,7 @@ const worlds: World[] = [
       counted: "3 read · 2 cited",
       excerpt: {
         icon: "mail",
-        source: "AeroCorp · renewal email",
+        source: "Brennan & Sons · renewal email",
         date: "2 JUL",
         pre: "“We ",
         mark: "can’t commit at the revised pricing",
@@ -83,7 +83,7 @@ const worlds: World[] = [
       },
       record: {
         icon: "doc",
-        name: "Lumina Systems · renewal contract",
+        name: "Halvorsen Group · renewal contract",
         sub: "$38,000 · counter-signature pending since 14 June",
         status: "Unsigned",
       },
@@ -101,18 +101,19 @@ const worlds: World[] = [
     context: "vs enrolment target",
     steps: [
       { name: "Connected", line: "Pulls in enrolment counts, and the camp schedules and field reports behind them." },
-      { name: "Understood", line: "Knows your districts and targets, so “lagging” means the same thing everywhere." },
+      { name: "Understood", line: "Knows how “enrolment” is counted, so it means the same thing in every district." },
       { name: "Reasoned", line: "Follows the gap to its cause: two outreach camps, both rescheduled." },
       { name: "Answered", line: "One plain answer, with the counts and the field notes attached." },
     ],
     answer: "District 7 is 9% behind target because two outreach camps were rescheduled after the July floods.",
     answerDetail: "Both camps are now set for early August. The gap closes once they run.",
     chart: {
-      title: "Enrolments vs target · by district",
+      title: "Enrolments vs target · District 7",
       rows: [
-        { label: "D-5", pct: 102 },
-        { label: "D-6", pct: 98 },
-        { label: "D-7", pct: 91, lag: true },
+        { label: "APR", pct: 102 },
+        { label: "MAY", pct: 100 },
+        { label: "JUN", pct: 98 },
+        { label: "JUL", pct: 91, lag: true },
       ],
       lagTag: "−9% vs target",
       footnote: "The gap is 550 enrolments. The two rescheduled camps account for all of it.",
@@ -143,13 +144,7 @@ const worlds: World[] = [
 ];
 
 /* What the status line says while the run is underway, per phase 0–4. */
-const STATUS_LABELS = [
-  "Thinking",
-  "Reading systems and documents",
-  "Getting your context",
-  "Tracing the cause",
-  "Writing the answer",
-];
+const STATUS_LABELS = ["Thinking", "Connecting", "Understanding", "Reasoning", "Answering"];
 
 /* Bars plot percent-of-target on a 0–110% scale; the target line sits at 100. */
 const CHART_MAX = 110;
@@ -232,11 +227,11 @@ function PanelHeader({
   right: React.ReactNode;
 }) {
   return (
-    <div className="flex items-center gap-1.5 border-b border-[#EBEEF4] bg-[#F7F8FB] px-3 py-2">
+    <div className="flex items-center gap-1.5 border-b border-card-divide bg-panel px-3 py-2">
       <span className="text-blue">
         <UiIcon icon={icon} size={11} />
       </span>
-      <span className="font-mono text-[9px] font-semibold uppercase tracking-[0.1em] text-overcast">
+      <span className="font-mono text-[9px] font-semibold uppercase tracking-[0.1em] text-secondary-text">
         {label}
       </span>
       <span className="ml-auto flex items-center">{right}</span>
@@ -248,25 +243,25 @@ function SystemsPanel({ world }: { world: World }) {
   const { chart } = world;
   const targetLeft = `${(100 / CHART_MAX) * 100}%`;
   return (
-    <div className="flex flex-col overflow-hidden rounded-[10px] border border-[#E3E7F0] bg-white">
+    <div className="flex flex-col overflow-hidden rounded-inner border border-card-line bg-white">
       <PanelHeader
         icon="source"
         label="From your systems"
         right={
           <span
             className="rounded-full border border-red/20 bg-red/[0.06] px-2 py-0.5 font-mono text-[9px] font-semibold text-red"
-            style={{ animation: "akx-rise 0.5s 0.95s cubic-bezier(0.22,1,0.36,1) both" }}
+            style={{ animation: "akx-rise 0.5s 0.95s cubic-bezier(0.2,0.8,0.2,1) both" }}
           >
             {chart.lagTag}
           </span>
         }
       />
       <div className="flex flex-1 flex-col justify-center gap-2 px-3 py-3">
-        <p className="font-mono text-[9px] uppercase tracking-[0.08em] text-overcast">{chart.title}</p>
+        <p className="font-mono text-[9px] font-semibold uppercase tracking-[0.08em] text-secondary-text">{chart.title}</p>
         <div className="flex flex-col gap-2">
           {chart.rows.map((row, i) => (
             <div key={row.label} className="grid grid-cols-[30px_1fr_38px] items-center gap-2">
-              <span className={`font-mono text-[9px] ${row.lag ? "font-semibold text-red" : "text-overcast"}`}>
+              <span className={`font-mono text-[9px] ${row.lag ? "font-semibold text-red" : "text-secondary-text"}`}>
                 {row.label}
               </span>
               <span className="relative block h-[10px] rounded-full bg-[#EDF0F6]">
@@ -274,7 +269,7 @@ function SystemsPanel({ world }: { world: World }) {
                   className={`absolute inset-y-0 left-0 origin-left rounded-full ${row.lag ? "bg-red" : "bg-blue"}`}
                   style={{
                     width: `${(row.pct / CHART_MAX) * 100}%`,
-                    animation: `akx-fillx 0.8s cubic-bezier(0.22,1,0.36,1) ${0.25 + i * 0.14}s both`,
+                    animation: `akx-fillx 0.8s cubic-bezier(0.2,0.8,0.2,1) ${0.25 + i * 0.14}s both`,
                   }}
                   aria-hidden
                 />
@@ -292,14 +287,14 @@ function SystemsPanel({ world }: { world: World }) {
             </div>
           ))}
         </div>
-        <p className="flex items-center justify-end gap-1.5 font-mono text-[8.5px] text-overcast" aria-hidden>
+        <p className="flex items-center justify-end gap-1.5 font-mono text-[9px] text-secondary-text" aria-hidden>
           <span className="inline-block h-3 w-px border-l border-dashed border-[#9AA6C0]" />
           100% of target
         </p>
       </div>
       <p
-        className="border-t border-[#EBEEF4] bg-[#FAFBFC] px-3 py-2 text-[11px] leading-snug text-inkSoft"
-        style={{ animation: "akx-rise 0.5s 1.1s cubic-bezier(0.22,1,0.36,1) both" }}
+        className="border-t border-card-divide bg-panel px-3 py-2 text-[11px] leading-snug text-inkSoft"
+        style={{ animation: "akx-rise 0.5s 1.1s cubic-bezier(0.2,0.8,0.2,1) both" }}
       >
         {chart.footnote}
       </p>
@@ -310,23 +305,23 @@ function SystemsPanel({ world }: { world: World }) {
 function DocumentsPanel({ world }: { world: World }) {
   const { excerpt, record, counted } = world.docs;
   return (
-    <div className="flex flex-col overflow-hidden rounded-[10px] border border-[#E3E7F0] bg-white">
+    <div className="flex flex-col overflow-hidden rounded-inner border border-card-line bg-white">
       <PanelHeader
         icon="doc"
         label="From your documents"
-        right={<span className="font-mono text-[8.5px] uppercase tracking-[0.06em] text-overcast">{counted}</span>}
+        right={<span className="font-mono text-[9px] uppercase tracking-[0.06em] text-secondary-text">{counted}</span>}
       />
-      <div className="flex flex-1 flex-col gap-2 px-3 py-3">
+      <div className="flex flex-1 flex-col gap-2 bg-panel px-3 py-3">
         <div
-          className="flex flex-1 flex-col rounded-[9px] border border-[#E3E7F0] bg-white p-2.5"
-          style={{ animation: "akx-rise 0.5s 0.45s cubic-bezier(0.22,1,0.36,1) both" }}
+          className="flex flex-1 flex-col rounded-inner border border-card-line bg-white p-2.5 shadow-card"
+          style={{ animation: "akx-rise 0.5s 0.45s cubic-bezier(0.2,0.8,0.2,1) both" }}
         >
           <div className="flex items-center gap-2">
-            <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-[5px] bg-blue-subtle text-blue">
+            <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-chip bg-blue-subtle text-blue">
               <UiIcon icon={excerpt.icon} size={11} />
             </span>
             <span className="min-w-0 truncate text-[10.5px] font-semibold text-ink">{excerpt.source}</span>
-            <span className="ml-auto shrink-0 font-mono text-[8.5px] text-overcast">{excerpt.date}</span>
+            <span className="ml-auto shrink-0 font-mono text-[9px] text-secondary-text">{excerpt.date}</span>
           </div>
           <p className="mt-2 text-[12px] leading-relaxed text-ink">
             {excerpt.pre}
@@ -335,7 +330,7 @@ function DocumentsPanel({ world }: { world: World }) {
                 backgroundImage: "linear-gradient(0deg,#FCE9A8,#FCE9A8)",
                 backgroundRepeat: "no-repeat",
                 backgroundSize: "0% 100%",
-                animation: "akx-mark 0.7s 1.35s ease-out both",
+                animation: "akx-mark 0.7s 1.35s cubic-bezier(0.2,0.8,0.2,1) both",
               }}
             >
               {excerpt.mark}
@@ -344,17 +339,17 @@ function DocumentsPanel({ world }: { world: World }) {
           </p>
         </div>
         <div
-          className="flex items-center gap-2 rounded-[9px] border border-[#E3E7F0] bg-white p-2.5"
-          style={{ animation: "akx-rise 0.5s 0.65s cubic-bezier(0.22,1,0.36,1) both" }}
+          className="flex items-center gap-2 rounded-inner border border-card-line bg-white p-2.5 shadow-card"
+          style={{ animation: "akx-rise 0.5s 0.65s cubic-bezier(0.2,0.8,0.2,1) both" }}
         >
-          <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-[5px] bg-blue-subtle text-blue">
+          <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-chip bg-blue-subtle text-blue">
             <UiIcon icon={record.icon} size={11} />
           </span>
           <div className="flex min-w-0 flex-col">
             <span className="truncate text-[10.5px] font-semibold leading-tight text-ink">{record.name}</span>
-            <span className="truncate font-mono text-[8.5px] text-tertiary-text">{record.sub}</span>
+            <span className="truncate font-mono text-[9px] text-secondary-text">{record.sub}</span>
           </div>
-          <span className="ml-auto shrink-0 rounded-[4px] border border-red/20 bg-red/5 px-1.5 py-0.5 font-mono text-[8px] font-bold uppercase text-red">
+          <span className="ml-auto shrink-0 rounded-micro border border-red/20 bg-red/5 px-1.5 py-0.5 font-mono text-[8px] font-bold uppercase text-red">
             {record.status}
           </span>
         </div>
@@ -528,12 +523,12 @@ export default function AkashicFourMoves() {
     };
   }, [started, active, reduced]);
 
-  const solidShadow = "shadow-[0_2px_6px_rgba(11,20,64,0.12),0_28px_56px_-22px_rgba(11,20,64,0.55)]";
+  const solidShadow = "shadow-deep";
   const ctaClasses = `inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/10 px-4 py-2 text-sm font-medium text-white backdrop-blur-sm transition-colors duration-250 ease-settle hover:bg-white/15`;
   const ctaReveal = revealed ? "opacity-100 translate-y-0" : "pointer-events-none opacity-0 translate-y-2";
 
   return (
-    <section id="akashic-in-action" className="relative scroll-mt-24 bg-[#3E63DD]" ref={sectionRef}>
+    <section id="akashic-in-action" className="relative scroll-mt-24 bg-blue" ref={sectionRef}>
       <div className="rail-container flex flex-col justify-center border-x-0 py-16 lg:min-h-screen lg:py-10">
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:items-center lg:gap-14">
 
@@ -542,18 +537,17 @@ export default function AkashicFourMoves() {
             <ScrollReveal>
               <div className="text-center lg:text-left">
                 <p className="font-mono text-[11px] uppercase tracking-eyebrow">
-                  <span className="text-white/40">[01]</span>
-                  <span className="text-white/80">&nbsp;&nbsp;Akashic in action</span>
+                  <span className="text-white/90">[01]</span>
+                  <span className="text-white">&nbsp;&nbsp;Akashic in action</span>
                 </p>
-                <h2 className="mt-5 text-heading-sm font-semibold leading-tight tracking-tight text-white md:text-heading-md">
+                <h2 className="mt-5 text-balance text-heading-sm font-semibold text-white md:text-heading-md">
                   Ask a real question.
                   <br className="hidden lg:block" /> Watch Akashic answer it.
                 </h2>
-                <p className="mx-auto mt-5 max-w-[34em] text-lg leading-relaxed text-white/75 lg:mx-0">
+                <p className="mx-auto mt-5 max-w-[34em] text-lg leading-relaxed text-white/90 lg:mx-0">
                   Every real question has two halves. The number sits in a system. The
                   reason sits in a document nobody queries. Joining them by hand takes a
-                  week: the answer arrives after the decision. Akashic reads both and
-                  answers as one, lineage attached.
+                  week: the answer arrives after the decision.
                 </p>
               </div>
             </ScrollReveal>
@@ -563,7 +557,7 @@ export default function AkashicFourMoves() {
                 <div
                   className="inline-flex rounded-full border border-white/20 bg-white/10 p-1 backdrop-blur-sm"
                   role="tablist"
-                  aria-label="Choose a world"
+                  aria-label="Choose an example"
                 >
                   {worlds.map((w, i) => (
                     <button
@@ -577,7 +571,7 @@ export default function AkashicFourMoves() {
                       className={`rounded-full px-4 py-1.5 text-sm font-medium transition-colors duration-250 ease-settle ${
                         i === active
                           ? "bg-white text-blue shadow-card"
-                          : "text-white/70 hover:text-white"
+                          : "text-white/90 hover:text-white"
                       }`}
                     >
                       {w.label}
@@ -602,7 +596,7 @@ export default function AkashicFourMoves() {
 
             {/* Question card — a focused input while the run is underway */}
             <div
-              className={`flex items-start gap-3.5 rounded-[14px] bg-white p-4 transition-all duration-400 ease-settle sm:p-5 ${solidShadow} ${
+              className={`flex items-start gap-3.5 rounded-outer bg-white p-4 transition-all duration-400 ease-settle sm:p-5 ${solidShadow} ${
                 running ? "ring-[3px] ring-white/35" : "ring-1 ring-[#0B1440]/15"
               }`}
             >
@@ -612,7 +606,7 @@ export default function AkashicFourMoves() {
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
-                strokeWidth="2.5"
+                strokeWidth="2"
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 className="mt-1 shrink-0 text-blue"
@@ -625,10 +619,10 @@ export default function AkashicFourMoves() {
                 <p className="min-h-[2.8em] text-lg font-medium leading-snug text-ink sm:text-xl xl:min-h-0">
                   {world.question.slice(0, typedLen)}
                   {(!typingDone || phase === 0) && started && !reduced && (
-                    <span className="ml-0.5 font-bold text-blue animate-[ps-caret-blink_1s_infinite]">|</span>
+                    <span className="ml-0.5 font-bold text-blue animate-[ps-caret-blink_1s_step-end_infinite]">|</span>
                   )}
                 </p>
-                <div className="mt-1.5 flex h-4 items-center gap-2 font-mono text-[11px] text-overcast">
+                <div className="mt-1.5 flex h-4 items-center gap-2 font-mono text-[11px] text-secondary-text">
                   <span
                     className={`transition-opacity duration-500 ${typingDone ? "opacity-100" : "opacity-0"}`}
                   >
@@ -636,19 +630,33 @@ export default function AkashicFourMoves() {
                   </span>
                   {typingDone && phase < 5 && (
                     <span className="inline-flex items-center gap-1.5 font-bold text-blue">
-                      <span className="h-1.5 w-1.5 rounded-full bg-blue animate-[ps-pulse_1.5s_infinite]" />
+                      <span className="h-1.5 w-1.5 rounded-full bg-blue animate-[ps-pulse_2.4s_infinite]" />
                       {STATUS_LABELS[phase]}&hellip;
                     </span>
                   )}
                 </div>
               </div>
-              <span className="mt-0.5 flex shrink-0 items-center gap-1 self-start rounded-full bg-blue px-2.5 py-1 text-[9px] font-bold tracking-[0.06em] text-white shadow-[0_2px_6px_rgba(62,99,221,0.35)]">
-                ASK
-                <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-                  <line x1="5" y1="12" x2="19" y2="12" />
-                  <polyline points="12 5 19 12 12 19" />
-                </svg>
-              </span>
+
+              {/* Enterprise input affordances. Mic is a real Akashic capability
+                  (speech-to-text); the ⌘K hint and scope chip are honest UI. */}
+              <div className="flex shrink-0 items-center gap-1.5 self-start">
+                <span className="hidden items-center gap-0.5 rounded-chip border border-lineSoft bg-panel px-1.5 py-1 font-mono text-[9px] font-semibold text-secondary-text sm:flex" aria-hidden>
+                  &#8984;K
+                </span>
+                <span className="flex h-7 w-7 items-center justify-center rounded-full text-overcast transition-colors hover:bg-panel hover:text-blue" aria-hidden>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M12 2a3 3 0 0 0-3 3v6a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z" />
+                    <path d="M19 10v1a7 7 0 0 1-14 0v-1M12 18v4" />
+                  </svg>
+                </span>
+                <span className="flex items-center gap-1 rounded-full bg-blue px-3 py-1.5 text-[10px] font-bold tracking-[0.06em] text-white shadow-card">
+                  ASK
+                  <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                    <line x1="5" y1="12" x2="19" y2="12" />
+                    <polyline points="12 5 19 12 12 19" />
+                  </svg>
+                </span>
+              </div>
             </div>
 
             {/* Four moves — hidden until the question is asked, then each row
@@ -668,7 +676,7 @@ export default function AkashicFourMoves() {
                     </span>
                     <p className="min-w-0 text-[13.5px] leading-snug">
                       <span className="font-semibold text-white">{step.name}</span>
-                      <span className="ml-2 text-white/75">{step.line}</span>
+                      <span className="ml-2 text-white/90">{step.line}</span>
                     </p>
                   </div>
                 );
@@ -682,16 +690,23 @@ export default function AkashicFourMoves() {
               className={revealed ? "animate-[akx-pop_0.65s_cubic-bezier(0.34,1.56,0.64,1)_both]" : "invisible"}
               aria-hidden={!revealed}
             >
-              <div className={`overflow-hidden rounded-[14px] bg-white ring-1 ring-[#0B1440]/15 ${solidShadow}`}>
+              <div className={`overflow-hidden rounded-outer bg-white ring-1 ring-[#0B1440]/15 ${solidShadow}`}>
 
                 {/* Chrome strip: who answered, for whom */}
-                <div className="flex items-center border-b border-[#EBEEF4] bg-[#FAFBFC] px-4 py-2.5">
+                <div className="flex items-center border-b border-card-divide bg-panel px-4 py-2.5">
                   <AkashicLogo className="h-4 w-4" />
                   <span className="-ml-1 text-[11.5px] font-bold tracking-tight text-ink">kashic</span>
-                  <span className="ml-2 font-mono text-[9px] uppercase tracking-[0.1em] text-overcast">&middot; Answer</span>
-                  <span className="ml-auto flex items-center gap-1.5 font-mono text-[9.5px] text-overcast">
-                    <span className="h-1.5 w-1.5 rounded-full bg-[#30A46C] animate-[ps-pulse_2s_infinite]" aria-hidden />
+                  <span className="ml-2 font-mono text-[9px] uppercase tracking-[0.1em] text-secondary-text">&middot; Answer</span>
+                  <span className="ml-auto flex items-center gap-1.5 font-mono text-[9.5px] text-secondary-text">
+                    <span className="h-1.5 w-1.5 rounded-full bg-positive" aria-hidden />
                     for {world.asker} &middot; 09:41
+                  </span>
+                  {/* Read the answer aloud. Akashic ships text-to-speech. */}
+                  <span className="ml-2 flex h-6 w-6 items-center justify-center rounded-full text-overcast transition-colors hover:bg-white hover:text-blue" aria-hidden>
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M11 5L6 9H2v6h4l5 4V5z" />
+                      <path d="M15.5 8.5a5 5 0 0 1 0 7M19 5a9 9 0 0 1 0 14" />
+                    </svg>
                   </span>
                 </div>
 
@@ -710,12 +725,12 @@ export default function AkashicFourMoves() {
                   </div>
 
                   {/* Evidence footer */}
-                  <div className="mt-4 flex flex-wrap items-center gap-1.5 border-t border-[#EBEEF4] pt-3">
+                  <div className="mt-4 flex flex-wrap items-center gap-1.5 border-t border-card-divide pt-3">
                     {world.chips.map((chip, i) => (
                       <span
                         key={chip.label}
-                        className="inline-flex items-center gap-1.5 rounded-full border border-lineSoft bg-[#FAFAFB] px-2.5 py-1 font-mono text-[9.5px] text-inkSoft"
-                        style={{ animation: `akx-rise 0.5s ${1.55 + i * 0.12}s cubic-bezier(0.22,1,0.36,1) both` }}
+                        className="inline-flex items-center gap-1.5 rounded-full border border-lineSoft bg-primary-bg px-2.5 py-1 font-mono text-[9.5px] text-secondary-text"
+                        style={{ animation: `akx-rise 0.5s ${1.55 + i * 0.12}s cubic-bezier(0.2,0.8,0.2,1) both` }}
                       >
                         <span className="text-blue"><UiIcon icon={chip.icon} /></span>
                         {chip.label}
@@ -738,8 +753,9 @@ export default function AkashicFourMoves() {
           </div>
         </div>
       </div>
-      {/* Gradient bridge to smooth the exit into bg-primary-bg */}
-      <div className="absolute -bottom-px left-0 right-0 h-[120px] bg-gradient-to-t from-primary-bg to-transparent pointer-events-none" aria-hidden />
+      {/* Crisp machined seam out of the blue moment — a light-catch hairline,
+          not a gray fade. Matches the [05] anchor's seam language. */}
+      <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-white/35 to-transparent pointer-events-none" aria-hidden />
     </section>
   );
 }

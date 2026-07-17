@@ -9,6 +9,8 @@ import LifeChain from "@/components/sections/life/LifeChain";
 import LifeBuilt from "@/components/sections/life/LifeBuilt";
 import LifeProof from "@/components/sections/life/LifeProof";
 import LifeClose from "@/components/sections/life/LifeClose";
+import PageMinimap from "@/components/layout/PageMinimap";
+import { LIFE_SECTIONS } from "@/lib/lifeSections";
 
 export const metadata: Metadata = {
   title: "Akashic Life — AI where it matters most.",
@@ -31,6 +33,7 @@ export default function LifePage() {
         <LifeClose />
       </main>
       <Footer />
+      <PageMinimap sections={LIFE_SECTIONS} aria-label="Life page sections" />
     </>
   );
 }

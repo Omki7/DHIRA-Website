@@ -329,6 +329,10 @@ export default function Nav() {
         </div>
 
         <div className="flex items-center gap-2">
+          <Link href="#login" className="btn-secondary hidden text-sm lg:inline-flex">
+            Login
+          </Link>
+
           <Link href="#talk-to-our-team" className="btn-primary text-sm">
             Talk to our team
           </Link>
@@ -355,6 +359,7 @@ export default function Nav() {
             <MobileMenuFlat heading="Insights" items={insightsItems} />
             <MobileMenuFlat heading="Company" items={companyItems} />
             <div className="flex flex-col gap-2 pt-4">
+              <Link href="#login" className="btn-secondary w-full">Login</Link>
               <Link href="#talk-to-our-team" className="btn-primary w-full">Talk to our team</Link>
             </div>
           </div>

@@ -24,6 +24,42 @@ h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-heading);
 }
 
+/* Brand selection. The browser default is its own blue and clashes with
+   the accent; this is `blue-border` on ink, the one pairing that stays
+   readable over both body copy and headings. */
+::selection {
+  background-color: #C8D2F5;
+  color: #1A1C1D;
+}
+
+/* The focus ring. One rule, sitewide, correct by default.
+   Wrapped in :where() so its specificity is 0 — any component may still
+   opt into a bespoke ring without fighting !important. The outline follows
+   each element's own border-radius automatically, so this works on pills,
+   cards, and chips alike.
+   Before Jul 2026 this file contained no focus styling at all: every
+   interactive element on the site fell back to the UA default, and two
+   places (HowWeDeliver, PublicSectorMoments) removed even that with a
+   bare `focus:outline-none` and no replacement. That is a WCAG 2.4.7
+   failure, and it matters commercially — public-sector procurement treats
+   keyboard accessibility as a gate, not a nice-to-have.
+   Note `focus:outline-none` (specificity 0,2,0) BEATS this rule (0,1,0),
+   so it silently defeats the sitewide ring. Don't reintroduce it without
+   a replacement — see VoicesDispatches for the sanctioned way to opt into
+   a bespoke ring. */
+:where(a, button, summary, input, select, textarea, [tabindex], [role="tab"], [role="button"]):focus-visible {
+  outline: 2px solid #3E63DD;
+  outline-offset: 2px;
+}
+
+/* On the dark anchor ground [05] and the blue [01] moment, an indigo ring
+   disappears into the background. Light ring there instead. Targeted by id
+   because [01]'s ground is an arbitrary `bg-[#3E63DD]` with no stable
+   class to hook. Kept inside :where() so specificity stays 0. */
+:where(.ak-depth, #akashic-in-action) :where(a, button, [tabindex], [role="tab"]):focus-visible {
+  outline-color: #FFFFFF;
+}
+
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
@@ -120,6 +156,27 @@ h1, h2, h3, h4, h5, h6 {
   .dot-grid-dark {
     background-image: radial-gradient(circle, rgba(255,255,255,0.15) 1px, transparent 1px);
     background-size: 10px 10px;
+  }
+
+  /* Akashic act-anchor ground: a deep indigo "vault" that rhymes with the
+     blue [01] moment. Soft blue aurora at the top so white product cards
+     lift off it. Used by the mid-page Trust chapter. */
+  .ak-depth {
+    background-color: #0A0E24;
+    background-image:
+      radial-gradient(120% 80% at 50% -10%, rgba(62,99,221,0.28) 0%, rgba(62,99,221,0.06) 38%, transparent 68%),
+      radial-gradient(90% 60% at 85% 8%, rgba(96,132,255,0.12) 0%, transparent 55%);
+  }
+
+  /* The shared blue "capillary" — a 3px hairline that tops every Akashic
+     card. The page's signature edge. */
+  .ak-capillary {
+    height: 3px;
+    background-image: linear-gradient(90deg, rgba(62,99,221,0.5) 0%, rgba(62,99,221,0.25) 45%, transparent 100%);
+  }
+  .ak-capillary-bright {
+    height: 3px;
+    background-image: linear-gradient(90deg, rgba(130,162,255,0.9) 0%, rgba(96,132,255,0.4) 50%, transparent 100%);
   }
 
   .rail-container {

@@ -15,6 +15,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import AkashicTeardownMockup, { TEARDOWN_TRACK_VH } from "@/components/demos/mockups/AkashicTeardownMockup";
+import { usePrefersReducedMotion } from "@/hooks/useCountUp";
 
 type Props = {
   curtainContent?: React.ReactNode;
@@ -24,6 +25,7 @@ export default function AkashicModular({ curtainContent }: Props = {}) {
   const trackRef = useRef<HTMLDivElement>(null);
   const curtainRef = useRef<HTMLDivElement>(null);
   const [curtainHeight, setCurtainHeight] = useState(0);
+  const reduced = usePrefersReducedMotion();
 
   useEffect(() => {
     if (!curtainContent || !curtainRef.current) return;
@@ -34,7 +36,12 @@ export default function AkashicModular({ curtainContent }: Props = {}) {
     return () => observer.disconnect();
   }, [curtainContent]);
 
+  // The snap assist moves the viewport for the visitor, so it is motion in
+  // the sense Rule 6 means. Reduced-motion users get no assist at all: the
+  // global `scroll-behavior: auto !important` only strips the smoothing, so
+  // without this guard they were handed an abrupt jump instead.
   useEffect(() => {
+    if (reduced) return;
     if (curtainHeight <= 0) return;
     let lastY = window.scrollY;
     let lastScrollTime = Date.now();
@@ -98,7 +105,7 @@ export default function AkashicModular({ curtainContent }: Props = {}) {
       window.removeEventListener("wheel", abortSnap);
       window.removeEventListener("touchstart", abortSnap);
     };
-  }, [curtainHeight]);
+  }, [curtainHeight, reduced]);
 
   return (
     <section className={`relative bg-primary-bg ${curtainContent ? "" : "border-t border-lineSoft"}`}>

@@ -10,8 +10,9 @@
  * by native scroll; AkashicModular owns the tall track + curtain, this
  * component reads track position per frame, smooths it, and writes
  * transforms/opacities imperatively (no per-frame React renders).
- * Demo data stays in the site's canned world: customer 9042 / Meridian
- * Retail / demand-forecast v3, source-dot colours from AkashicModules.
+ * Plate faces stay abstract sketches (user direction, Jul 2026): no named
+ * entities or invented figures here — [01] and the showcase own the worked
+ * examples. Source-dot colours from AkashicModules.
  * Inline styles here are computed 3D geometry — the Rule 8 mockup
  * exception, same as HeroProductsMockup / AkashicModuleScreensMockup.
  */
@@ -42,43 +43,71 @@ const MODULES = [
     kicker: "Ingestion",
     name: "Akashic Pipelines",
     lede: "Every source, ingested and validated.",
-    body: "Structured or unstructured: CRMs, ERPs, PDFs, spreadsheets, live feeds. Validated the moment it arrives, so nothing downstream inherits a problem. This is where the complete record starts.",
+    points: [
+      { icon: "database", text: "CRMs, ERPs, PDFs, and live feeds: one entry point" },
+      { icon: "funnel", text: "Validated on arrival, so nothing downstream inherits a problem" },
+      { icon: "stream", text: "Streaming, batch, or change data capture" },
+    ],
   },
   {
     kicker: "Entity resolution",
     name: "Akashic Master Data",
     lede: "One golden record. No duplicates.",
-    body: "Every version of a customer, vendor, or location collapses into one golden record: the version the whole platform treats as real. Master data management that settles which record wins on its own, and where the knowledge graph starts, linking each record to the ones it belongs with.",
+    points: [
+      { icon: "merge", text: "Every duplicate collapses into one golden record" },
+      { icon: "sliders", text: "Survivorship rules settle which value wins" },
+      { icon: "graph", text: "Records link into the knowledge graph as they merge" },
+    ],
   },
   {
     kicker: "Modelled storage",
     name: "Akashic Warehouse",
     lede: "Structured, modelled, ready to query.",
-    body: "Mastered records become dimensional models built for fast, reliable queries. A metric is defined once here and stored once: this is the governed metric layer, and it is why “revenue” means the same thing to a dashboard, a model, and a question.",
+    points: [
+      { icon: "cube", text: "Dimensional models, built for sub-second queries" },
+      { icon: "target", text: "The governed metric layer: “revenue” defined once, used everywhere" },
+      { icon: "cloud", text: "Bring your own warehouse, or run Akashic’s" },
+    ],
   },
   {
     kicker: "Prediction",
     name: "Akashic ML",
-    lede: "Predictive intelligence on trusted data.",
-    body: "Train, deploy, and monitor models directly on governed data. No exports, no separate environment, no copies to reconcile. MLOps where the data already lives.",
+    lede: "Forecasts, trained on governed data.",
+    points: [
+      { icon: "cpu", text: "Train and deploy where the data lives: no exports" },
+      { icon: "eye", text: "Drift, bias, and freshness monitored automatically" },
+      { icon: "trace", text: "Every prediction traceable to governed features" },
+    ],
   },
   {
     kicker: "Natural language",
     name: "Ask Akashic",
     lede: "Plain-language answers, grounded.",
-    body: "Ask in plain language and get an answer sourced from your governed metric layer and knowledge graph, not a guess. You’ve just seen everything underneath it. That’s why it works.",
+    points: [
+      { icon: "graph", text: "Grounded in the metric layer and knowledge graph" },
+      { icon: "quote", text: "A citation on every line, never a guess" },
+      { icon: "lock", text: "Row-level security enforced at answer time" },
+    ],
   },
   {
     kicker: "Decision surface",
     name: "Akashic BI",
-    lede: "Dashboards and metrics, defined once.",
-    body: "Every metric means the same thing every time it’s used. For a team that needs answers now, not a BI project that takes a quarter to stand up.",
+    lede: "The same number, on every surface.",
+    points: [
+      { icon: "sparkle", text: "Describe a chart in plain language: AI builds it on governed data" },
+      { icon: "bell", text: "Alerts the moment a metric crosses its threshold" },
+      { icon: "share", text: "Shared dashboards, one live source of truth" },
+    ],
   },
   {
     kicker: "Always on",
     name: "Akashic Governance",
     lede: "It’s been running the whole time.",
-    body: "Access control, lineage, and audit trails have been active since the first module you deployed, underneath everything you just watched. Governance isn’t added later. It’s the frame the platform is built in.",
+    points: [
+      { icon: "shield", text: "Access, lineage, and audit under every module" },
+      { icon: "key", text: "Deployed in-region, with keys only you hold" },
+      { icon: "badge", text: "DPDP · ISO 27001 · SOC 2 · GDPR · CERT-In" },
+    ],
   },
 ];
 
@@ -91,7 +120,7 @@ const PLATE_TAGS = [
   "A-06 · BI · decision surface",
 ];
 
-const ASK_Q = "What’s customer 9042’s forecasted demand next quarter?";
+const ASK_Q = "Why did this number change?";
 
 /* source chips share AkashicModules' dot colours */
 const PIPE_SOURCES = [
@@ -198,7 +227,7 @@ function PlateShell({ i, extra, children }: { i: number; extra?: React.ReactNode
       </div>
       <div
         data-ak={`tag-${i}`}
-        style={{ position: "absolute", left: 2, top: H + 10, transform: `translateZ(${TH}px)`, ...mono, fontSize: 10, letterSpacing: "0.14em", textTransform: "uppercase", color: inkA(0.5), opacity: 0 }}
+        style={{ position: "absolute", left: 2, top: H + 10, transform: `translateZ(${TH}px)`, ...mono, fontSize: 10, letterSpacing: "0.14em", textTransform: "uppercase", color: inkA(0.68), opacity: 0 }}
       >
         {PLATE_TAGS[i]}
       </div>
@@ -213,8 +242,141 @@ function FaceChip({ label, dot, style }: { label: string; dot?: string; style: R
       style={{ position: "absolute", display: "flex", alignItems: "center", gap: 5, height: 20, padding: "0 8px", borderRadius: 999, border: "1px solid #EEEFF1", background: "rgba(255,255,255,0.92)", boxShadow: `0 2px 6px ${inkA(0.05)}`, ...style }}
     >
       {dot && <span style={{ display: "block", width: 5, height: 5, borderRadius: "50%", background: dot }} />}
-      <span style={{ ...mono, fontSize: 8.5, letterSpacing: "0.1em", color: inkA(0.62) }}>{label}</span>
+      <span style={{ ...mono, fontSize: 8.5, letterSpacing: "0.1em", color: inkA(0.75) }}>{label}</span>
     </div>
+  );
+}
+
+/* module bullet glyphs — house icon family (24×24). No checkmarks (Rule 2). */
+const POINT_GLYPHS: Record<string, React.ReactNode> = {
+  database: (
+    <>
+      <ellipse cx="12" cy="5" rx="8" ry="3" />
+      <path d="M4 5v14c0 1.66 3.58 3 8 3s8-1.34 8-3V5" />
+      <path d="M4 12c0 1.66 3.58 3 8 3s8-1.34 8-3" />
+    </>
+  ),
+  funnel: <path d="M3 4h18l-7 8v6l-4 2v-8L3 4z" />,
+  stream: (
+    <>
+      <path d="M17 2l4 4-4 4" />
+      <path d="M21 6H8a5 5 0 0 0-5 5" />
+      <path d="M7 22l-4-4 4-4" />
+      <path d="M3 18h13a5 5 0 0 0 5-5" />
+    </>
+  ),
+  merge: (
+    <>
+      <circle cx="6" cy="6" r="3" />
+      <circle cx="18" cy="18" r="3" />
+      <path d="M6 9v3a6 6 0 0 0 6 6h3" />
+    </>
+  ),
+  sliders: (
+    <>
+      <path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3" />
+      <path d="M1 14h6M9 8h6M17 16h6" />
+    </>
+  ),
+  graph: (
+    <>
+      <circle cx="5" cy="19" r="2.5" />
+      <circle cx="12" cy="6" r="2.5" />
+      <circle cx="19" cy="15" r="2.5" />
+      <path d="M6.5 17L10.5 8M14 7.5l3.5 6M7.5 18.6l9-3.2" />
+    </>
+  ),
+  cube: (
+    <>
+      <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
+      <path d="M3.27 6.96L12 12.01l8.73-5.05M12 22.08V12" />
+    </>
+  ),
+  target: (
+    <>
+      <circle cx="12" cy="12" r="10" />
+      <circle cx="12" cy="12" r="6" />
+      <circle cx="12" cy="12" r="2" />
+    </>
+  ),
+  cloud: <path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z" />,
+  cpu: (
+    <>
+      <rect x="5" y="5" width="14" height="14" rx="2" />
+      <rect x="9.5" y="9.5" width="5" height="5" />
+      <path d="M9 2v3M15 2v3M9 19v3M15 19v3M2 9h3M2 15h3M19 9h3M19 15h3" />
+    </>
+  ),
+  eye: (
+    <>
+      <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z" />
+      <circle cx="12" cy="12" r="3" />
+    </>
+  ),
+  trace: (
+    <>
+      <circle cx="6" cy="19" r="3" />
+      <circle cx="18" cy="5" r="3" />
+      <path d="M12 19h4.5a3.5 3.5 0 0 0 0-7h-9a3.5 3.5 0 0 1 0-7H12" />
+    </>
+  ),
+  quote: (
+    <>
+      <path d="M10 11H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v6c0 2-1 3.5-3 4.5" />
+      <path d="M20 11h-4a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v6c0 2-1 3.5-3 4.5" />
+    </>
+  ),
+  lock: (
+    <>
+      <rect x="5" y="11" width="14" height="10" rx="2" />
+      <path d="M8 11V7a4 4 0 0 1 8 0v4" />
+    </>
+  ),
+  sparkle: <path d="M12 2l2.4 7.6L22 12l-7.6 2.4L12 22l-2.4-7.6L2 12l7.6-2.4L12 2z" />,
+  bell: (
+    <>
+      <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+      <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+    </>
+  ),
+  share: (
+    <>
+      <circle cx="18" cy="5" r="3" />
+      <circle cx="6" cy="12" r="3" />
+      <circle cx="18" cy="19" r="3" />
+      <path d="M8.59 13.51l6.83 3.98M15.41 6.51l-6.83 3.98" />
+    </>
+  ),
+  shield: <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />,
+  key: (
+    <>
+      <circle cx="7.5" cy="16.5" r="4.5" />
+      <path d="M10.7 13.3L21 3M15 4l3 3M18 7l2 2" />
+    </>
+  ),
+  badge: (
+    <>
+      <circle cx="12" cy="8" r="6" />
+      <path d="M15.5 12.9L17 22l-5-3-5 3 1.5-9.1" />
+    </>
+  ),
+};
+
+function PointIcon({ glyph }: { glyph: string }) {
+  return (
+    <svg
+      width={12}
+      height={12}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={2}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden
+    >
+      {POINT_GLYPHS[glyph]}
+    </svg>
   );
 }
 
@@ -395,7 +557,9 @@ export default function AkashicTeardownMockup({ trackRef, curtainHeight }: Props
         const S = Math.max(1 - 0.88 * X, alive);
         let F = FW * Math.max(0, 1 - Math.abs(fpos - i));
         F = F * F * (3 - 2 * F);
-        const g = ss(cpos, 1.12 + i, 1.85 + i);
+        /* schematic completes by mid-segment, while the text is being read,
+           not as the visitor leaves (user feedback, Jul 2026) */
+        const g = ss(cpos, 1.08 + i, 1.5 + i);
         gArr.push(g);
         aliveArr.push(alive);
         FArr.push(F);
@@ -418,8 +582,8 @@ export default function AkashicTeardownMockup({ trackRef, curtainHeight }: Props
         get(`shadow-${i}`).style.opacity = (X * 0.45 * (0.4 + 0.6 * S)).toFixed(3);
         const tag = get(`tag-${i}`);
         tag.style.opacity = Math.max(X * (0.2 + 0.45 * S + 0.35 * F), drawn * 0.95).toFixed(3);
-        tag.style.color = F > 0.5 || drawn > 0.5 ? ACC : inkA(0.5);
-        let schOp = alive * (0.3 + 0.7 * F);
+        tag.style.color = F > 0.5 || drawn > 0.5 ? ACC : inkA(0.68);
+        let schOp = alive * (0.5 + 0.5 * F);
         if (i === 5) schOp *= X;
         else schOp = Math.min(1, schOp + 0.55 * ring[i]);
         get(`sch-${i}`).style.opacity = schOp.toFixed(3);
@@ -490,9 +654,9 @@ export default function AkashicTeardownMockup({ trackRef, curtainHeight }: Props
       get("hudmod").textContent = mi === 0 ? "SEALED" : mi >= 8 ? "MODULAR" : HUD_NAMES[mi - 1];
       for (let c = 0; c < 7; c++) {
         const on = mi - 1 === c;
-        tickLines[c].style.background = on ? ACC : inkA(0.3);
+        tickLines[c].style.background = on ? ACC : inkA(0.4);
         tickLines[c].style.height = on ? "22px" : "16px";
-        tickNums[c].style.color = on ? ACC : inkA(0.5);
+        tickNums[c].style.color = on ? ACC : inkA(0.68);
       }
 
       const hud = get("hud");
@@ -507,7 +671,7 @@ export default function AkashicTeardownMockup({ trackRef, curtainHeight }: Props
         for (const d of pipeDots) {
           const u = (d.phase + gArr[0] * 0.9 + tAnim * 0.12 * (0.25 + 0.75 * Math.max(FArr[0], ring[0]))) % 1;
           d.el.style.transform = `translate(${lerp(d.px, d.qx, u).toFixed(1)}px,${lerp(d.py, d.qy, u).toFixed(1)}px)`;
-          d.el.style.background = u > 0.62 ? ACC : inkA(0.35);
+          d.el.style.background = u > 0.62 ? ACC : inkA(0.5);
           d.el.style.opacity = u < 0.04 || u > 0.97 ? "0" : "0.9";
         }
       }
@@ -552,6 +716,81 @@ export default function AkashicTeardownMockup({ trackRef, curtainHeight }: Props
       }
       spark.style.strokeDashoffset = ((1 - ss(gArr[5], 0.35, 0.75)) * sparkLen).toFixed(1);
       get("kpi").textContent = `${(94.2 * ss(gArr[5], 0.25, 0.7)).toFixed(1)}%`;
+    };
+
+    /* Gentle module nudge: a slow downward scroll that parks in the
+       crossfade dead zone near a module boundary glides on to the next
+       module's rest, so nobody strands between panels. Only fires once
+       the smoothed position has settled, never on upward or fast
+       scrolls, and any wheel/touch input aborts an in-flight glide. */
+    let nudgeLastY = window.scrollY;
+    let nudgeLastMove = performance.now();
+    let nudgeDir = 0;
+    let nudgeCooldownUntil = 0;
+    let nudgeSnappingUntil = 0;
+    let nudgeHandled = false;
+    let glideRaf = 0;
+
+    /* Hand-driven glide, not native smooth scroll: the browser's smooth
+       burst covers the distance in ~300ms with a hard launch, which
+       compresses the plate/text evolution into a visible snap. Duration
+       scales with distance and eases in-out, so the lift reads as one
+       continuous motion (same reasoning as [01]'s pull-to-pop). */
+    const glideTo = (targetY: number) => {
+      const startY = window.scrollY;
+      const dist = targetY - startY;
+      if (Math.abs(dist) < 2) return;
+      const dur = clamp(500 + Math.abs(dist) * 0.55, 600, 1200);
+      const t0 = performance.now();
+      nudgeSnappingUntil = t0 + dur + 80;
+      nudgeCooldownUntil = t0 + dur + 900;
+      const easeInOut = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+      const step = (now: number) => {
+        if (performance.now() >= nudgeSnappingUntil) return; // aborted or done
+        const p = Math.min((now - t0) / dur, 1);
+        window.scrollTo(0, startY + dist * easeInOut(p));
+        if (p < 1) glideRaf = requestAnimationFrame(step);
+      };
+      glideRaf = requestAnimationFrame(step);
+    };
+
+    const nudgeAbort = () => {
+      if (performance.now() < nudgeSnappingUntil) {
+        cancelAnimationFrame(glideRaf);
+        nudgeSnappingUntil = 0;
+        nudgeCooldownUntil = performance.now() + 1400;
+        nudgeHandled = true;
+      }
+    };
+    window.addEventListener("wheel", nudgeAbort, { passive: true });
+    window.addEventListener("touchstart", nudgeAbort, { passive: true });
+
+    const maybeNudge = (cpos: number, y: number, settled: boolean) => {
+      const nowMs = performance.now();
+      if (Math.abs(y - nudgeLastY) > 0.5) {
+        nudgeDir = y > nudgeLastY ? 1 : -1;
+        nudgeLastY = y;
+        nudgeLastMove = nowMs;
+        nudgeHandled = false;
+      }
+      if (
+        reducedRef.current || nudgeHandled || nudgeDir <= 0 || !settled ||
+        nowMs - nudgeLastMove < 260 || nowMs < nudgeCooldownUntil || nowMs < nudgeSnappingUntil ||
+        cpos <= 0.82 || cpos >= 7.95
+      )
+        return;
+      const frac = cpos - Math.floor(cpos);
+      const m = Math.floor(cpos) - 1; // current module index; -1 while still in the intro
+      let dest = -1;
+      if (frac > 0.82 && m < 6) dest = m + 1; // parked at a boundary: lift to the next module
+      else if (frac < 0.18 && m >= 0) dest = m; // just across a boundary: settle on this one
+      if (dest >= 0) {
+        nudgeHandled = true;
+        const bb = boundsRef.current;
+        glideTo(
+          geomRef.current.trackTop + curtainRef.current + bb[dest + 1] + (bb[dest + 2] - bb[dest + 1]) * 0.5,
+        );
+      }
     };
 
     let lastHash = "";
@@ -610,13 +849,17 @@ export default function AkashicTeardownMockup({ trackRef, curtainHeight }: Props
       if (s === 9) len = Math.max(1, len - vh);
       const t = clamp((sy - b[s]) / len, 0, 1);
       layout(s + t, tms / 1000);
+      maybeNudge(s + t, y, sy === target);
       painted = true;
     };
     raf = requestAnimationFrame(frame);
 
     return () => {
       cancelAnimationFrame(raf);
+      cancelAnimationFrame(glideRaf);
       window.removeEventListener("resize", onResize);
+      window.removeEventListener("wheel", nudgeAbort);
+      window.removeEventListener("touchstart", nudgeAbort);
     };
   }, [trackRef]);
 
@@ -716,7 +959,7 @@ export default function AkashicTeardownMockup({ trackRef, curtainHeight }: Props
                     data-ak-dot
                     data-px={s.p[0]} data-py={s.p[1]} data-qx={s.q[0]} data-qy={s.q[1]}
                     data-phase={(j / 5 + si * 0.137).toFixed(3)}
-                    style={{ position: "absolute", left: -2.5, top: -2.5, width: 5, height: 5, borderRadius: "50%", background: inkA(0.35), opacity: 0 }}
+                    style={{ position: "absolute", left: -2.5, top: -2.5, width: 5.5, height: 5.5, borderRadius: "50%", background: inkA(0.5), opacity: 0 }}
                   />
                 )),
               )}
@@ -736,22 +979,25 @@ export default function AkashicTeardownMockup({ trackRef, curtainHeight }: Props
                     data-ak-frag
                     data-x0={p[0]} data-y0={p[1]} data-x1={end[0]} data-y1={end[1]} data-r0={FRAG_ROTS[i]}
                     data-merge={merge ? "1" : "0"}
-                    style={{ position: "absolute", left: 0, top: 0, width: 52, height: 34, border: `1px solid ${inkA(0.35)}`, borderRadius: 4, background: "rgba(255,255,255,0.9)", boxSizing: "border-box", padding: "5px 6px", boxShadow: `0 3px 8px ${inkA(0.06)}` }}
+                    style={{ position: "absolute", left: 0, top: 0, width: 52, height: 34, border: `1px solid ${inkA(0.5)}`, borderRadius: 4, background: "rgba(255,255,255,0.94)", boxSizing: "border-box", padding: "5px 6px", boxShadow: `0 3px 8px ${inkA(0.08)}` }}
                   >
-                    <div style={{ height: 4, width: "70%", background: inkA(0.18), borderRadius: 2 }} />
-                    <div style={{ height: 4, width: "45%", background: inkA(0.12), borderRadius: 2, marginTop: 5 }} />
+                    <div style={{ height: 4, width: `${56 + ((i * 13) % 4) * 8}%`, background: inkA(0.28), borderRadius: 2 }} />
+                    <div style={{ height: 4, width: `${30 + ((i * 7) % 4) * 8}%`, background: inkA(0.18), borderRadius: 2, marginTop: 5 }} />
                   </div>
                 );
               })}
               <div
                 data-ak="gold"
-                style={{ position: "absolute", left: 213, top: 184, width: 52, height: 34, border: `1.5px solid ${ACC}`, borderRadius: 5, background: accA(0.12), boxShadow: `0 0 0 4px ${accA(0.12)}, 0 0 22px ${accA(0.28)}`, opacity: 0 }}
-              />
+                style={{ position: "absolute", left: 213, top: 184, width: 52, height: 34, border: `1.5px solid ${ACC}`, borderRadius: 5, background: "rgba(255,255,255,0.96)", boxSizing: "border-box", padding: "5px 6px", boxShadow: `0 0 0 4px ${accA(0.12)}, 0 0 22px ${accA(0.28)}`, opacity: 0 }}
+              >
+                <div style={{ height: 4, width: "72%", background: accA(0.55), borderRadius: 2 }} />
+                <div style={{ height: 4, width: "46%", background: accA(0.3), borderRadius: 2, marginTop: 5 }} />
+              </div>
               <div
                 data-ak="goldlab"
                 style={{ position: "absolute", left: 0, top: 290, width: "100%", textAlign: "center", ...mono, fontSize: 9, letterSpacing: "0.18em", color: ACC, opacity: 0 }}
               >
-                GOLDEN RECORD · CU-9042
+                ONE GOLDEN RECORD · LINEAGE KEPT
               </div>
             </div>
           </PlateShell>
@@ -760,42 +1006,45 @@ export default function AkashicTeardownMockup({ trackRef, curtainHeight }: Props
           <PlateShell i={2}>
             <svg width={W} height={H} viewBox={`0 0 ${W} ${H}`} style={{ position: "absolute", inset: 0 }} fill="none">
               <g data-ak="wh-g0" style={{ opacity: 0 }}>
-                <path data-ak="wh-l0" d="M210,110 C268,110 272,138 330,138" stroke={ACC} strokeWidth="1.2" />
+                <path data-ak="wh-l0" d="M210,110 C268,110 272,138 330,138" stroke={ACC} strokeWidth="1.8" />
                 <circle cx="210" cy="110" r="2.5" fill={ACC} />
                 <circle cx="330" cy="138" r="2.5" fill={ACC} />
               </g>
               <g data-ak="wh-g1" style={{ opacity: 0 }}>
-                <path data-ak="wh-l1" d="M415,192 C415,244 322,282 250,282" stroke={ACC} strokeWidth="1.2" />
+                <path data-ak="wh-l1" d="M415,192 C415,244 322,282 250,282" stroke={ACC} strokeWidth="1.8" />
                 <circle cx="415" cy="192" r="2.5" fill={ACC} />
                 <circle cx="250" cy="282" r="2.5" fill={ACC} />
               </g>
               <g data-ak="wh-g2" style={{ opacity: 0 }}>
-                <path data-ak="wh-l2" d="M135,156 C135,198 175,196 175,236" stroke={ACC} strokeWidth="1.2" />
+                <path data-ak="wh-l2" d="M135,156 C135,198 175,196 175,236" stroke={ACC} strokeWidth="1.8" />
                 <circle cx="135" cy="156" r="2.5" fill={ACC} />
                 <circle cx="175" cy="236" r="2.5" fill={ACC} />
               </g>
             </svg>
             {[
-              { id: "wh-t0", left: 60, top: 64, w: 150, h: 92, name: "DIM_CUSTOMER", fact: false, rows: ["72%", "54%", "63%"] },
-              { id: "wh-t1", left: 330, top: 84, w: 170, h: 108, name: "FCT_ORDERS", fact: true, rows: ["78%", "60%", "68%", "46%"] },
-              { id: "wh-t2", left: 100, top: 236, w: 150, h: 92, name: "DIM_VENDOR", fact: false, rows: ["66%", "50%", "70%"] },
+              { id: "wh-t0", left: 60, top: 64, w: 150, h: 92, name: "DIM_CUSTOMER", fact: false, cols: ["customer_id", "name", "region"] },
+              { id: "wh-t1", left: 330, top: 84, w: 170, h: 108, name: "FCT_ORDERS", fact: true, cols: ["order_id", "customer_id", "net_amount", "order_date"] },
+              { id: "wh-t2", left: 100, top: 236, w: 150, h: 92, name: "DIM_VENDOR", fact: false, cols: ["vendor_id", "name", "terms"] },
             ].map((t) => (
               <div
                 key={t.id}
                 data-ak={t.id}
-                style={{ position: "absolute", left: t.left, top: t.top, width: t.w, height: t.h, border: `1px solid ${t.fact ? "#C8D2F5" : inkA(0.35)}`, borderRadius: 6, background: "rgba(255,255,255,0.92)", overflow: "hidden", opacity: 0, boxShadow: `0 4px 12px ${inkA(0.06)}` }}
+                style={{ position: "absolute", left: t.left, top: t.top, width: t.w, height: t.h, border: `1px solid ${t.fact ? "#A9B9EE" : inkA(0.5)}`, borderRadius: 6, background: "rgba(255,255,255,0.96)", overflow: "hidden", opacity: 0, boxShadow: `0 4px 12px ${inkA(0.08)}` }}
               >
                 <div style={{ height: 22, borderBottom: `1px solid ${t.fact ? "#C8D2F5" : inkA(0.18)}`, background: t.fact ? "#EEF1FC" : inkA(0.045), display: "flex", alignItems: "center", padding: "0 8px", ...mono, fontSize: 8.5, letterSpacing: "0.1em", color: t.fact ? ACC : inkA(0.7) }}>
                   {t.name}
                 </div>
-                <div style={{ padding: 8, display: "flex", flexDirection: "column", gap: 7 }}>
-                  {t.rows.map((wRow, ri) => (
-                    <div key={ri} style={{ height: 5, width: wRow, background: inkA(0.12), borderRadius: 2 }} />
+                <div style={{ padding: "7px 8px", display: "flex", flexDirection: "column", gap: 5.5 }}>
+                  {t.cols.map((col, ci) => (
+                    <div key={col} style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                      <span style={{ display: "block", width: 3, height: 3, borderRadius: "50%", background: t.fact && ci === 0 ? accA(0.6) : inkA(0.25), flex: "none" }} />
+                      <span style={{ ...mono, fontSize: 8, letterSpacing: "0.04em", color: inkA(0.68) }}>{col}</span>
+                    </div>
                   ))}
                 </div>
               </div>
             ))}
-            <div style={{ position: "absolute", right: 20, bottom: 16, ...mono, fontSize: 9, letterSpacing: "0.14em", color: inkA(0.45) }}>RELATIONSHIPS BUILT IN</div>
+            <div style={{ position: "absolute", right: 20, bottom: 16, ...mono, fontSize: 9.5, letterSpacing: "0.14em", color: inkA(0.62) }}>RELATIONSHIPS BUILT IN</div>
           </PlateShell>
 
           {/* -------- plate 3 · ml -------- */}
@@ -804,18 +1053,18 @@ export default function AkashicTeardownMockup({ trackRef, curtainHeight }: Props
               {Array.from({ length: 60 }, (_, i) => (
                 <span
                   key={i}
-                  style={{ position: "absolute", left: 58 + (i % 10) * 48, top: 78 + Math.floor(i / 10) * 46, width: 2.5, height: 2.5, borderRadius: "50%", background: (i * 7) % 4 === 0 ? accA(0.35) : inkA(0.16) }}
+                  style={{ position: "absolute", left: 58 + (i % 10) * 48, top: 78 + Math.floor(i / 10) * 46, width: 3, height: 3, borderRadius: "50%", background: (i * 7) % 4 === 0 ? accA(0.55) : inkA(0.26) }}
                 />
               ))}
             </div>
             <svg width={W} height={H} viewBox={`0 0 ${W} ${H}`} style={{ position: "absolute", inset: 0 }} fill="none">
               <path data-ak="ml-band" d="M452,118 L536,84 L536,116 L452,148 Z" fill={accA(0.1)} style={{ opacity: 0 }} />
-              <path data-ak="ml-fit" d="M56,308 C150,296 192,198 292,168 C360,148 418,140 452,132" stroke={inkA(0.7)} strokeWidth="1.6" />
-              <path data-ak="ml-fc" d="M452,132 C486,124 512,112 534,100" stroke={ACC} strokeWidth="1.6" strokeDasharray="5 5" style={{ opacity: 0 }} />
+              <path data-ak="ml-fit" d="M56,308 C150,296 192,198 292,168 C360,148 418,140 452,132" stroke={inkA(0.82)} strokeWidth="2" />
+              <path data-ak="ml-fc" d="M452,132 C486,124 512,112 534,100" stroke={ACC} strokeWidth="2" strokeDasharray="5 5" style={{ opacity: 0 }} />
             </svg>
-            <div style={{ position: "absolute", left: 26, top: 22, ...mono, fontSize: 9, letterSpacing: "0.16em", color: inkA(0.55) }}>MODEL · DEMAND_FORECAST_V3</div>
+            <div style={{ position: "absolute", left: 26, top: 22, ...mono, fontSize: 9.5, letterSpacing: "0.16em", color: inkA(0.65) }}>FORECAST MODEL</div>
             <FaceChip label="DEPLOYED" dot={ACC} style={{ right: 20, top: 16 }} />
-            <div style={{ position: "absolute", left: 26, bottom: 20, ...mono, fontSize: 9, letterSpacing: "0.16em", color: inkA(0.45) }}>TRAINED ON GOVERNED DATA · NO EXPORTS</div>
+            <div style={{ position: "absolute", left: 26, bottom: 20, ...mono, fontSize: 9.5, letterSpacing: "0.16em", color: inkA(0.62) }}>TRAINED ON GOVERNED DATA · NO EXPORTS</div>
             <div data-ak="ml-fclab" style={{ position: "absolute", right: 22, top: 58, ...mono, fontSize: 9, letterSpacing: "0.16em", color: ACC, opacity: 0 }}>FORECAST</div>
           </PlateShell>
 
@@ -827,10 +1076,11 @@ export default function AkashicTeardownMockup({ trackRef, curtainHeight }: Props
               <span className="animate-[ps-caret-blink_1.1s_step-end_infinite]" style={{ display: "block", width: 1.5, height: 20, background: "#1A1C1D" }} />
             </div>
             <div data-ak="ask-a" style={{ position: "absolute", left: 100, top: 206, width: 360, opacity: 0, borderLeft: `2px solid ${accA(0.5)}`, paddingLeft: 14 }}>
-              <div style={{ fontSize: 13.5, lineHeight: 1.55, color: inkA(0.78) }}>
-                Customer 9042 forecasts at &asymp; 12,400 units next quarter: up 9% on last quarter, at p85 confidence.
+              <div style={{ display: "flex", flexDirection: "column", gap: 8, paddingTop: 3 }}>
+                <div style={{ height: 5, width: "88%", background: inkA(0.32), borderRadius: 2.5 }} />
+                <div style={{ height: 5, width: "62%", background: inkA(0.22), borderRadius: 2.5 }} />
               </div>
-              <div style={{ marginTop: 10, display: "flex", alignItems: "center", gap: 8, ...mono, fontSize: 9, letterSpacing: "0.14em", color: ACC }}>
+              <div style={{ marginTop: 12, display: "flex", alignItems: "center", gap: 8, ...mono, fontSize: 9.5, letterSpacing: "0.14em", color: ACC }}>
                 <span style={{ display: "block", width: 6, height: 6, borderRadius: "50%", background: ACC }} />
                 <span>GROUNDED · LINEAGE VERIFIED · 3 SOURCES</span>
               </div>
@@ -884,14 +1134,14 @@ export default function AkashicTeardownMockup({ trackRef, curtainHeight }: Props
             <div style={{ position: "absolute", left: 394, top: 44, width: 130, height: 112, border: `1px solid ${inkA(0.28)}`, borderRadius: 8, background: "rgba(255,255,255,0.92)", padding: "12px 14px", boxSizing: "border-box", boxShadow: `0 4px 12px ${inkA(0.06)}` }}>
               <div style={{ ...mono, fontSize: 8.5, letterSpacing: "0.12em", color: inkA(0.5) }}>MARGIN TREND</div>
               <svg width="102" height="60" viewBox="0 0 102 60" style={{ position: "absolute", left: 14, bottom: 12 }} fill="none">
-                <path data-ak="spark" d="M4,48 L22,32 L40,38 L58,18 L76,26 L98,10" stroke={ACC} strokeWidth="1.6" />
+                <path data-ak="spark" d="M4,48 L22,32 L40,38 L58,18 L76,26 L98,10" stroke={ACC} strokeWidth="2" />
               </svg>
             </div>
             <div style={{ position: "absolute", left: 36, top: 190, width: 488, height: 58, border: `1px solid #C8D2F5`, borderRadius: 8, background: accA(0.04), display: "flex", alignItems: "center", justifyContent: "center", gap: 10, ...mono, fontSize: 9, letterSpacing: "0.16em", color: inkA(0.55) }}>
               <span style={{ padding: "2px 6px", borderRadius: 4, background: "#EEF1FC", color: ACC }}>METRIC</span>
               <span>ON_TIME_RATE · DEFINED ONCE · USED EVERYWHERE</span>
             </div>
-            <div style={{ position: "absolute", right: 20, bottom: 16, ...mono, fontSize: 9, letterSpacing: "0.14em", color: inkA(0.45) }}>SAME NUMBER · EVERY SURFACE</div>
+            <div style={{ position: "absolute", right: 20, bottom: 16, ...mono, fontSize: 9.5, letterSpacing: "0.14em", color: inkA(0.62) }}>SAME NUMBER · EVERY SURFACE</div>
           </PlateShell>
         </div>
       </div>
@@ -902,20 +1152,20 @@ export default function AkashicTeardownMockup({ trackRef, curtainHeight }: Props
           <p className="flex items-center gap-2.5 font-mono text-[11px] uppercase tracking-eyebrow">
             <span className="text-overcast">[02]</span>
             <span className="block h-px w-8 bg-line" aria-hidden />
-            <span className="text-inkSoft">How it works</span>
+            <span className="text-inkSoft">How it works · the walkthrough</span>
           </p>
           <h2 className="mt-5 text-[30px] font-semibold leading-[1.06] tracking-tighter text-ink md:text-[44px]">
-            That answer took seven modules. Here they are.
+            From raw data to a decision you can defend, in seven modules.
           </h2>
           <p className="mt-5 max-w-[430px] text-[15px] leading-relaxed text-inkSoft md:text-[16.5px]">
-            Everything between raw data and a defensible decision, sealed into one governed
-            foundation. Scroll to take it apart, module by module.
+            Each module does one job and hands its output to the next, on one governed
+            foundation. Scroll to open the platform and walk through them, one at a time.
           </p>
           <div className="mt-8 flex items-center gap-3.5">
             <span className="relative block h-[26px] w-px overflow-hidden bg-ink/15">
               <span className="absolute left-0 top-0 h-2 w-px animate-[ak-drop_1.8s_ease-in-out_infinite] bg-blue" />
             </span>
-            <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-inkSoft">
+            <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.2em] text-secondary-text">
               Scroll · open the platform
             </span>
           </div>
@@ -943,7 +1193,19 @@ export default function AkashicTeardownMockup({ trackRef, curtainHeight }: Props
             </p>
             <h3 className="relative mt-4 text-[27px] font-semibold leading-[1.05] tracking-tighter text-ink md:text-[38px]">{m.name}</h3>
             <p className="relative mt-3 text-[16px] font-medium tracking-tight text-ink md:text-[19px]">{m.lede}</p>
-            <p className="relative mt-3 hidden text-[15px] leading-relaxed text-inkSoft sm:block">{m.body}</p>
+            <ul className="relative mt-4 flex flex-col gap-2 md:gap-2.5">
+              {m.points.map((pt) => (
+                <li
+                  key={pt.text}
+                  className="flex items-start gap-2.5 text-[13px] leading-snug text-inkSoft md:text-[14.5px]"
+                >
+                  <span className="mt-px flex h-5 w-5 shrink-0 items-center justify-center rounded-tile bg-blue-subtle text-blue">
+                    <PointIcon glyph={pt.icon} />
+                  </span>
+                  <span className="min-w-0 pt-0.5">{pt.text}</span>
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
       ))}
@@ -968,7 +1230,7 @@ export default function AkashicTeardownMockup({ trackRef, curtainHeight }: Props
               Deploy it where your data lives
               <span className="font-mono text-[13px]" aria-hidden>&rarr;</span>
             </Link>
-            <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-overcast">
+            <span className="font-mono text-[10.5px] font-semibold uppercase tracking-[0.18em] text-secondary-text">
               Seven modules · one platform
             </span>
           </div>
@@ -984,12 +1246,9 @@ export default function AkashicTeardownMockup({ trackRef, curtainHeight }: Props
 
       {/* ============ frame chrome ============ */}
       <div className="pointer-events-none absolute inset-x-0 top-0 flex h-[54px] items-center justify-between border-b border-lineSoft px-[6%] md:px-[7%]">
-        <span className="flex items-center gap-2.5 font-mono text-[10px] uppercase tracking-[0.2em] text-inkSoft">
+        <span className="flex items-center gap-2.5 font-mono text-[10px] uppercase tracking-[0.2em] text-secondary-text">
           <span className="block h-1.5 w-1.5 animate-[ps-pulse_2s_infinite] rounded-full bg-blue" aria-hidden />
           [02] Introducing Akashic · seven modules
-        </span>
-        <span className="hidden font-mono text-[10px] uppercase tracking-[0.2em] text-overcast md:block">
-          Akashic · platform architecture
         </span>
       </div>
 
@@ -998,7 +1257,7 @@ export default function AkashicTeardownMockup({ trackRef, curtainHeight }: Props
         className="absolute inset-x-0 bottom-0 flex h-16 items-center justify-between border-t border-lineSoft bg-primary-bg/75 px-[6%] backdrop-blur-md md:px-[7%]"
       >
         <div className="hidden w-[190px] items-center gap-3 font-mono text-[10px] uppercase tracking-[0.16em] md:flex">
-          <span className="text-overcast">Module</span>
+          <span className="text-secondary-text">Module</span>
           <span data-ak="hudmod" className="text-ink">SEALED</span>
         </div>
         <div className="flex items-end gap-4 md:gap-[22px]">
@@ -1010,15 +1269,15 @@ export default function AkashicTeardownMockup({ trackRef, curtainHeight }: Props
               onClick={() => goToModule(c)}
               className="flex flex-col items-center gap-[7px] px-0.5 py-1.5"
             >
-              <span data-ak-tickline className="block w-px transition-none" style={{ height: 16, background: inkA(0.3) }} />
-              <span data-ak-ticknum className="font-mono text-[9px] tracking-[0.1em]" style={{ color: inkA(0.5) }}>
+              <span data-ak-tickline className="block w-px transition-none" style={{ height: 16, background: inkA(0.4) }} />
+              <span data-ak-ticknum className="font-mono text-[9px] tracking-[0.1em]" style={{ color: inkA(0.68) }}>
                 0{c + 1}
               </span>
             </button>
           ))}
         </div>
         <div className="hidden w-[190px] items-center justify-end gap-3 font-mono text-[10px] uppercase tracking-[0.16em] md:flex">
-          <span className="text-overcast">Depth</span>
+          <span className="text-secondary-text">Depth</span>
           <span data-ak="pct" className="text-ink">000%</span>
         </div>
         <span

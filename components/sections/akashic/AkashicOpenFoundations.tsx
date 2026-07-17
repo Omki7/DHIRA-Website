@@ -2,13 +2,19 @@
  * [06] Open architecture — modular, open, and yours to leave.
  * The chapter that answers the lock-in fear: use only the modules you
  * need, build on top of the platform, and walk away with everything if
- * the day comes. The right-hand `akashic.export` panel is SIMULATED
- * PRODUCT UI (AGENTS.md §8a). Deliberately no vendor / technology names
- * here (user direction, Jul 2026): the promise is portability in plain
- * business language, not a stack tour.
+ * the day comes. Redesigned Jul 2026 (twice): the simulated `akashic.export`
+ * window restated the commitments in UI costume; a bare typographic pass
+ * then floated with no designed object. Final shape is the house card —
+ * capillary, hairline-divided 2×2 of the four commitments, and the
+ * portability manifest as the card's footer strip, exactly the anatomy
+ * every other card on this page uses. Deliberately no vendor / technology
+ * names here (user direction, Jul 2026): the promise is portability in
+ * plain business language, not a stack tour.
  */
 
+import { Fragment } from "react";
 import ScrollReveal from "@/components/ui/ScrollReveal";
+import { Capillary } from "@/components/sections/akashic/AkashicCardChrome";
 
 const commitments = [
   {
@@ -25,7 +31,7 @@ const commitments = [
   },
   {
     title: "Open, not a black box",
-    desc: "Every table, transform, and metric definition is readable by tools you already own. The standards are named in full in [08].",
+    desc: "Every table, transform, and metric definition is readable by tools you already own — no proprietary engine in the middle.",
     glyph: (
       <>
         <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z" />
@@ -55,26 +61,36 @@ const commitments = [
   },
 ];
 
-/* What you carry out when you leave. Plain-language asset lines with a
-   generic portability descriptor. No product / vendor names by design. */
+/* Hairline placement for the 2×2: top borders on mobile stacking, the
+   cross of dividers on sm+. Index-driven so the grid stays one card. */
+const cellBorders = [
+  "",
+  "border-t border-card-divide sm:border-t-0 sm:border-l",
+  "border-t border-card-divide",
+  "border-t border-card-divide sm:border-l",
+];
+
+/* What you carry out when you leave — stated as one plain line of type
+   in the card's footer strip. No mock export screen, no tags: the
+   confidence is in saying it simply. */
 const assets = [
-  { name: "Your raw and unified data", tag: "open tables" },
-  { name: "Your models and pipelines", tag: "portable definitions" },
-  { name: "Your trained ML models", tag: "standard formats" },
-  { name: "Your dashboards and reports", tag: "exportable specs" },
-  { name: "Your knowledge graph", tag: "standard export" },
+  "Your raw and unified data",
+  "Your models and pipelines",
+  "Your trained ML models",
+  "Your dashboards and reports",
+  "Your knowledge graph",
 ];
 
 export default function AkashicOpenFoundations() {
   return (
-    <section id="open" className="scroll-mt-24 border-t border-lineSoft bg-primary-bg">
+    <section id="open" className="scroll-mt-24 bg-primary-bg">
       <div className="rail-container pt-12 pb-24 lg:pt-16 lg:pb-32">
         <ScrollReveal>
           <p className="font-mono text-[11px] uppercase tracking-eyebrow">
             <span className="text-overcast">[06]</span>
             <span className="text-inkSoft">&nbsp;&nbsp;Open architecture</span>
           </p>
-          <h2 className="mt-5 text-heading-sm font-semibold text-ink md:text-heading-md lg:text-heading-lg">
+          <h2 className="mt-5 text-balance text-heading-sm font-semibold text-ink md:text-heading-md">
             Open by design. Yours to leave.
           </h2>
           <p className="mt-5 max-w-[34em] text-lg leading-relaxed text-secondary-text">
@@ -84,96 +100,73 @@ export default function AkashicOpenFoundations() {
           </p>
         </ScrollReveal>
 
-        <div className="mx-auto mt-12 grid max-w-[1100px] items-start gap-12 lg:mt-14 lg:grid-cols-[minmax(0,5fr)_minmax(0,6fr)] lg:gap-16">
-          {/* Left: the four commitments */}
-          <ScrollReveal>
-            <div className="flex flex-col gap-5">
-              {commitments.map((c) => (
-                <div key={c.title} className="flex items-start gap-3.5">
-                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-[9px] border border-subtle-stroke bg-primary-bg">
-                    <svg
-                      width="16"
-                      height="16"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="1.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      className="text-blue"
-                      aria-hidden
-                    >
-                      {c.glyph}
-                    </svg>
-                  </div>
-                  <div>
-                    <div className="text-[15px] font-semibold tracking-tight text-ink">{c.title}</div>
-                    <div className="mt-0.5 text-[13px] leading-relaxed text-inkSoft">{c.desc}</div>
-                  </div>
-                </div>
-              ))}
-            </div>
-            <p className="mt-8 max-w-[26em] text-xl font-semibold leading-snug tracking-tight text-ink">
-              The real test of a platform is how freely you can walk away from it.
-            </p>
-          </ScrollReveal>
+        {/* One house card: four commitments in a hairline 2×2, manifest as footer */}
+        <ScrollReveal delay={80}>
+          <div className="mx-auto mt-12 max-w-[1000px] lg:mt-14">
+            <div className="overflow-hidden rounded-outer border border-card-line bg-white shadow-card">
+              <Capillary />
 
-          {/* Right: the portability manifest (replaces the old tech list) */}
-          <ScrollReveal delay={120}>
-            <div className="overflow-hidden rounded-[14px] border border-subtle-stroke bg-white shadow-frame">
-              <div className="flex items-center gap-2 border-b border-subtle-stroke bg-primary-bg px-4 py-2.5">
-                <span className="flex gap-1.5" aria-hidden>
-                  <span className="h-2 w-2 rounded-full bg-line" />
-                  <span className="h-2 w-2 rounded-full bg-line" />
-                  <span className="h-2 w-2 rounded-full bg-line" />
-                </span>
-                <span className="font-mono text-[10.5px] text-inkSoft">akashic.export</span>
-                <span className="ml-auto font-mono text-[9px] uppercase tracking-[0.07em] text-overcast">
-                  no lock-in
-                </span>
-              </div>
-
-              <div className="px-4 pt-4 pb-1">
-                <p className="text-[14.5px] font-semibold tracking-tight text-ink">
-                  Everything here is yours to take.
-                </p>
-                <p className="mt-1 text-[12.5px] leading-relaxed text-inkSoft">
-                  No proprietary formats. No re-platforming project. Export the
-                  whole estate and keep working elsewhere.
-                </p>
-              </div>
-
-              <div className="mt-2 divide-y divide-subtle-stroke border-y border-subtle-stroke">
-                {assets.map((a) => (
-                  <div key={a.name} className="flex items-center gap-3 px-4 py-3">
-                    <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-blue/50" aria-hidden />
-                    <span className="flex-1 text-[13px] font-medium text-ink">{a.name}</span>
-                    <span className="inline-flex items-center gap-1 rounded-[7px] border border-[#EEEEF3] bg-[#FBFBFE] px-2 py-1 font-mono text-[10px] text-inkSoft">
-                      {a.tag}
-                      <svg width="10" height="10" viewBox="0 0 12 12" fill="none" aria-hidden>
-                        <path
-                          d="M3.5 8.5L8.5 3.5M8.5 3.5H4.5M8.5 3.5V7.5"
+              <div className="grid sm:grid-cols-2">
+                {commitments.map((c, i) => (
+                  <div key={c.title} className={`px-6 py-6 lg:px-8 lg:py-7 ${cellBorders[i]}`}>
+                    <div className="flex items-start gap-3.5">
+                      <div className="flex h-[30px] w-[30px] shrink-0 items-center justify-center rounded-tile border border-blue/20 bg-gradient-to-br from-[#E4EAFF] to-[#D4DEFF] shadow-[inset_0_1px_0_rgba(255,255,255,0.9)]">
+                        <svg
+                          width="15"
+                          height="15"
+                          viewBox="0 0 24 24"
+                          fill="none"
                           stroke="currentColor"
-                          strokeWidth="1.4"
+                          strokeWidth="1.5"
                           strokeLinecap="round"
                           strokeLinejoin="round"
-                          className="text-overcast"
-                        />
-                      </svg>
-                    </span>
+                          className="text-blue"
+                          aria-hidden
+                        >
+                          {c.glyph}
+                        </svg>
+                      </div>
+                      <div className="min-w-0">
+                        <h3 className="text-[15px] font-semibold tracking-tight text-ink">{c.title}</h3>
+                        <p className="mt-1 text-[13px] leading-relaxed text-inkSoft">{c.desc}</p>
+                      </div>
+                    </div>
                   </div>
                 ))}
               </div>
 
-              <div className="flex items-center gap-2 bg-blue-subtle/50 px-4 py-3">
-                <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-blue animate-[ps-pulse_2.4s_infinite]" />
-                <span className="text-[11.5px] font-semibold text-blue">
+              {/* The manifest: what leaves with you, said in one line of type */}
+              <div className="border-t border-card-divide bg-panel/70 px-6 py-5 lg:px-8">
+                <p className="flex items-center gap-2 font-mono text-[10px] font-semibold uppercase tracking-eyebrow text-inkSoft">
+                  <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-blue/60" aria-hidden />
+                  If you ever leave, you take
+                </p>
+                <p className="mt-2.5 text-[15px] font-medium leading-relaxed tracking-tight text-ink">
+                  {assets.map((a, i) => (
+                    <Fragment key={a}>
+                      <span className="whitespace-nowrap">{a}</span>
+                      {i < assets.length - 1 && (
+                        <span className="px-1.5 text-overcast" aria-hidden>
+                          &middot;
+                        </span>
+                      )}
+                    </Fragment>
+                  ))}
+                </p>
+                <p className="mt-2 text-[12.5px] leading-relaxed text-secondary-text">
                   Take it to any platform. No exit fee, no data held hostage.
-                </span>
+                </p>
               </div>
             </div>
-          </ScrollReveal>
-        </div>
+          </div>
+        </ScrollReveal>
+
+        {/* Closer */}
+        <ScrollReveal>
+          <p className="mx-auto mt-12 max-w-[22em] text-center text-2xl font-semibold leading-snug tracking-tight text-ink md:text-[28px] lg:mt-14">
+            A platform you can&rsquo;t leave was never really yours.
+          </p>
+        </ScrollReveal>
       </div>
     </section>
   );

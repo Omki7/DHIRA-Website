@@ -6,7 +6,7 @@
  * HeroProductScreensMockup) so the trust checks read as live screens of
  * the same product. Layouts reference OpenMetadata's governance UX (roles
  * table, lineage canvas, activity feed) re-skinned to Akashic. Demo data
- * continues the [01] South-region world (−8%, AeroCorp, 09:41).
+ * continues the [01] South-region world (−8%, Brennan & Sons, 09:41).
  * Static HTML strings consumed via dangerouslySetInnerHTML — see AGENTS.md
  * §8a before refactoring.
  */
@@ -160,7 +160,7 @@ export const LINEAGE_SCREEN_HTML = screenShell(
     <div style="flex:1.15;min-width:0;display:flex;flex-direction:column;gap:8px">
       ${srcNode(TILE_SAP, "orders", "SAP ERP · table")}
       ${srcNode(TILE_SF, "renewals", "Salesforce · object")}
-      ${srcNode(TILE_DOC, "renewal_email.eml", "AeroCorp · document", true)}
+      ${srcNode(TILE_DOC, "renewal_email.eml", "Brennan &amp; Sons · document", true)}
     </div>
     <svg width="24" height="164" viewBox="0 0 24 164" preserveAspectRatio="none" style="flex-shrink:0" fill="none">
       <path d="M1 26 C 13 26 11 82 23 82" stroke="#D0D3DB" stroke-width="1.2"/>
@@ -227,11 +227,11 @@ export const AUDIT_SCREEN_HTML = screenShell(
     <div style="flex:1"></div>
     <span style="font-size:10.5px;color:#8E8F91;white-space:nowrap">1,204 events today</span>
   </div>
-  ${auditRow(AVATAR_SYS, "Akashic", "generated the answer · grounded against 4 sources", "09:41:07")}
+  ${auditRow(AVATAR_SYS, "Akashic", "generated the answer · grounded in 2 systems · 3 documents", "09:41:07")}
   ${auditRow(avatar("RH", "linear-gradient(135deg,#3E63DD,#6E56CF)"), "Regional head", "received the answer", "09:41:22")}
   ${auditRow(avatar("AN", "linear-gradient(135deg,#E5547B,#C13059)"), "Analyst", "viewed the answer", "09:43:05")}
   ${auditRow(avatar("AN", "linear-gradient(135deg,#E5547B,#C13059)"), "Analyst", "attempted export", "09:44:51", "Denied · policy")}
-  ${auditRow(avatar("AU", "linear-gradient(135deg,#1F9D6B,#0F7A50)"), "External auditor", "granted read-only access", "09:47:10")}
+  ${auditRow(avatar("AU", "linear-gradient(135deg,#1F9D6B,#0F7A50)"), "External auditor", "was granted read-only access", "09:47:10")}
   <div style="flex:1;background:#fff"></div>
   <div style="border-top:1px solid #E9EAEE;background:#fff;padding:8px 14px;display:flex;align-items:center;gap:7px;flex-shrink:0">
     ${LOCK_GREEN}
@@ -256,7 +256,7 @@ export const RESIDENCY_SCREEN_HTML = screenShell(
   govTopBar("Governance", "Data residency", chip("Policy · In-region only", "green")),
   moduleRail("governance"),
   `<div style="height:38px;border-bottom:1px solid #E9EAEE;display:flex;align-items:center;padding:0 14px;gap:8px;flex-shrink:0;background:#fff;overflow:hidden">
-    ${chip("Region · ap-south-1 · Mumbai")}
+    ${chip("Region · in-country")}
     ${chip("Sovereign deploy", "gray")}
     <div style="flex:1"></div>
     <span style="font-size:10.5px;color:#8E8F91;font-family:ui-monospace,monospace;white-space:nowrap">egress today · 0 bytes</span>

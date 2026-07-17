@@ -30,15 +30,15 @@ interface Message {
 }
 
 const SUGGESTIONS: Array<{ id: QueryId; label: string }> = [
-  { id: "south", label: "Why is South behind plan?" },
   { id: "channel", label: "Which channel is growing fastest?" },
+  { id: "south", label: "Is any region behind plan?" },
   { id: "tile", label: "Add a tile: attainment by region" },
 ];
 
 const ANSWERS: Record<QueryId, { text: string; sources: string[] }> = {
   south: {
-    text: "South is at 71% attainment — ₹1.4 Cr behind plan. The gap traces to delayed store rollouts: order volume is down 9% QoQ while targets stepped up 12%.",
-    sources: ["fact_sales · gold", "plan_attainment", "Q2 Targets"],
+    text: "South is the only region behind plan, at 92% of target — 8% short. The gap traces to two distributor renewals still unsigned; every other region is at or above plan.",
+    sources: ["fact_sales · gold", "plan_attainment", "renewals"],
   },
   channel: {
     text: "Online is growing fastest — up 18% QoQ and now 22% of revenue. Direct grew 6%, Partner is flat. At this pace Online overtakes Partner by Q4.",
@@ -51,11 +51,11 @@ const ANSWERS: Record<QueryId, { text: string; sources: string[] }> = {
 };
 
 const REGION_BARS = [
-  { name: "North", pct: 104, width: 94.5, color: "#3E9E78", behind: false },
-  { name: "West", pct: 97, width: 88, color: "#3E9E78", behind: false },
-  { name: "Central", pct: 88, width: 80, color: "#E0A93B", behind: false },
-  { name: "South", pct: 71, width: 64.5, color: "#E5547B", behind: true },
-  { name: "East", pct: 63, width: 57, color: "#E5547B", behind: true },
+  { name: "North", pct: 106, width: 96, color: "#3E9E78", behind: false },
+  { name: "West", pct: 102, width: 92, color: "#3E9E78", behind: false },
+  { name: "Central", pct: 99, width: 89, color: "#3E9E78", behind: false },
+  { name: "East", pct: 97, width: 88, color: "#3E9E78", behind: false },
+  { name: "South", pct: 92, width: 83, color: "#E0A93B", behind: true },
 ];
 
 export default function AkashicHeroBIWireframe() {
@@ -134,7 +134,7 @@ export default function AkashicHeroBIWireframe() {
               <div className="flex min-w-0 flex-1 items-center gap-2 rounded-[10px] border border-[#E9EAEE] bg-white px-3 py-2">
                 <div className="min-w-0 flex-1">
                   <div className="whitespace-nowrap text-[8.5px] font-bold tracking-[0.06em] text-[#8E8F91]">NET REVENUE</div>
-                  <div className="mt-px whitespace-nowrap text-[16px] font-bold tracking-tight">₹25.4 Cr</div>
+                  <div className="mt-px whitespace-nowrap text-[16px] font-bold tracking-tight">$25.4M</div>
                   <div className="mt-px whitespace-nowrap text-[9px] font-semibold text-[#1B8A5F]">▲ 6.4% vs Q1</div>
                 </div>
                 <svg width="52" height="22" viewBox="0 0 52 22" className="flex-shrink-0"><path d="M1 17 L9 14 L17 15 L25 11 L33 12 L41 7 L51 4" stroke="#3E9E78" strokeWidth="1.5" fill="none" strokeLinecap="round" /></svg>
@@ -142,16 +142,16 @@ export default function AkashicHeroBIWireframe() {
               <div className="flex min-w-0 flex-1 items-center gap-2 rounded-[10px] border border-[#E9EAEE] bg-white px-3 py-2">
                 <div className="min-w-0 flex-1">
                   <div className="whitespace-nowrap text-[8.5px] font-bold tracking-[0.06em] text-[#8E8F91]">PLAN ATTAINMENT</div>
-                  <div className="mt-px text-[16px] font-bold">87%</div>
-                  <div className="mt-px whitespace-nowrap text-[9px] font-semibold text-[#C13059]">▼ 4 pts vs Q1</div>
+                  <div className="mt-px text-[16px] font-bold">98%</div>
+                  <div className="mt-px whitespace-nowrap text-[9px] font-semibold text-[#1B8A5F]">▲ 2 pts vs Q1</div>
                 </div>
-                <svg width="52" height="22" viewBox="0 0 52 22" className="flex-shrink-0"><path d="M1 6 L9 8 L17 7 L25 10 L33 12 L41 13 L51 16" stroke="#E5547B" strokeWidth="1.5" fill="none" strokeLinecap="round" /></svg>
+                <svg width="52" height="22" viewBox="0 0 52 22" className="flex-shrink-0"><path d="M1 16 L9 14 L17 15 L25 11 L33 10 L41 7 L51 5" stroke="#3E9E78" strokeWidth="1.5" fill="none" strokeLinecap="round" /></svg>
               </div>
               <div className="flex min-w-0 flex-1 items-center gap-2 rounded-[10px] border border-[#E9EAEE] bg-white px-3 py-2">
                 <div className="min-w-0 flex-1">
-                  <div className="whitespace-nowrap text-[8.5px] font-bold tracking-[0.06em] text-[#8E8F91]">GAP TO PLAN</div>
-                  <div className="mt-px whitespace-nowrap text-[16px] font-bold tracking-tight text-[#C13059]">₹3.8 Cr</div>
-                  <div className="mt-px whitespace-nowrap text-[9px] text-[#5C5E63]">South + East</div>
+                  <div className="whitespace-nowrap text-[8.5px] font-bold tracking-[0.06em] text-[#8E8F91]">ACTIVE ACCOUNTS</div>
+                  <div className="mt-px whitespace-nowrap text-[16px] font-bold tracking-tight">1,284</div>
+                  <div className="mt-px whitespace-nowrap text-[9px] font-semibold text-[#1B8A5F]">▲ 62 vs Q1</div>
                 </div>
               </div>
               <div className="flex min-w-0 flex-1 items-center gap-2 rounded-[10px] border border-[#E9EAEE] bg-white px-3 py-2">
@@ -200,8 +200,8 @@ export default function AkashicHeroBIWireframe() {
                       <circle cx="37" cy="37" r="26" fill="none" stroke="#2A9BE0" strokeWidth="11" strokeDasharray="35 163.4" transform="rotate(190.8 37 37)" />
                     </svg>
                     <div className="absolute inset-0 flex flex-col items-center justify-center">
-                      <span className="text-[10px] font-bold">₹25.4</span>
-                      <span className="text-[7.5px] text-[#8E8F91]">Cr</span>
+                      <span className="text-[10px] font-bold">$25.4M</span>
+                      <span className="text-[7.5px] text-[#8E8F91]">net</span>
                     </div>
                   </div>
                   <div className="flex min-w-0 flex-col gap-[5px]">
@@ -233,9 +233,9 @@ export default function AkashicHeroBIWireframe() {
                 </div>
                 <div className="flex min-h-0 flex-1 flex-col justify-around">
                   {[
-                    { name: "Meridian Retail", rev: "₹4.2 Cr", att: "112%", color: "#1B8A5F" },
-                    { name: "Northline Traders", rev: "₹3.1 Cr", att: "98%", color: "#1A1C1D" },
-                    { name: "Cascade Foods", rev: "₹2.4 Cr", att: "87%", color: "#C13059" },
+                    { name: "Whitmore Retail", rev: "$4.2M", att: "112%", color: "#1B8A5F" },
+                    { name: "Kirkwood Traders", rev: "$3.1M", att: "98%", color: "#1A1C1D" },
+                    { name: "Ardmore Foods", rev: "$2.4M", att: "87%", color: "#C13059" },
                   ].map((a) => (
                     <div key={a.name} className="flex items-center">
                       <span className="flex-[1.4] truncate text-[10px] font-medium">{a.name}</span>

@@ -23,6 +23,14 @@ const config: Config = {
         "blue-subtle": "#EEF1FC",
         "blue-border": "#C8D2F5",
         red: "#E5484D",
+        /* Positive / "live" family — mirrors the blue family's four steps.
+           These four values were already in use as raw hex across LiveChip,
+           [01], [04], [05] and [09]; tokenising them stops the next
+           near-miss green from being eyedropped in. */
+        "positive": "#30A46C",
+        "positive-text": "#1B7A47",
+        "positive-subtle": "#EDF7F1",
+        "positive-border": "#CBE8D7",
         "subtle-stroke": "#EEEFF1",
         "default-stroke": "#D9DADB",
         "vault": "#0a0a0c",
@@ -30,6 +38,15 @@ const config: Config = {
         "overcast": "#64748B",
         "lineSoft": "#e4e7ec",
         "line": "#d3d8df",
+        /* Akashic design-system tokens — one card edge, one divider, one
+           header tint, one deep "anchor" ground. Replaces the per-section
+           eyedropped grays (#E3E7F0 / #E9ECF3 / #E9EAEE …) so every
+           simulated-UI card shares the same family. */
+        "card-line": "#E4E8F0",
+        "card-divide": "#EBEEF4",
+        "panel": "#F7F8FB",
+        "depth": "#0A0E24",
+        "depth-raised": "#141A38",
       },
       fontFamily: {
         sans: ["'Google Sans Text'", "system-ui", "-apple-system", "BlinkMacSystemFont", "sans-serif"],
@@ -52,19 +69,51 @@ const config: Config = {
         "btn": "10px",
         "card": "8px",
         "frame": "10px",
+        /* Akashic radius scale — five steps, nested largest to smallest:
+           outer card / inner panel / icon tile / chip / micro tag.
+           `tile` and `micro` were added Jul 2026: the scale previously
+           stopped at three steps, so icon badges and status tags escaped
+           to arbitrary [7px]/[8px]/[9px]/[4px] values. Every radius on the
+           page now lands on a step. */
+        "outer": "14px",
+        "inner": "10px",
+        "tile": "8px",
+        "chip": "6px",
+        "micro": "4px",
       },
+      /* ---------------------------------------------------------------
+         Elevation ladder — ONE light source, three steps.
+           card  → a resting card
+           frame → a floating panel, and the hover step above `card`
+           deep  → modal weight; white surfaces on a dark/blue ground
+         Every shadow is cast in a single indigo-black tint (11,20,64).
+         Neutral black reads muddy on a blue-white page; a faintly indigo
+         shadow is what the brand's own accent implies. Before Jul 2026 the
+         page cast shadows in FOUR different blacks — rgba(0,0,0),
+         (11,20,64), (18,20,26), (26,28,29) — i.e. four light sources.
+         `deep` exists because `card`/`frame` alone could not cover modal
+         weight, so [01] and [05] hand-rolled their own shadow-[...] and
+         each picked its own tint. Add a step here rather than escaping.
+         Names stay semantic (not e1..e4) so the 23 existing card/frame
+         usages across nine other pages need no migration — and so we
+         don't ship two names for one value. --- */
       boxShadow: {
-        "frame": "0px 4px 10px rgba(0, 0, 0, 0.04), 0px 10px 30px -4px rgba(0, 0, 0, 0.08)",
-        "card": "0px 2px 5px rgba(0, 0, 0, 0.03), 0px 4px 12px rgba(0, 0, 0, 0.04)",
-        "input": "0px 1px 4px rgba(56,62,71,0.1)",
+        "card": "0 1px 2px rgba(11,20,64,0.04), 0 4px 12px -2px rgba(11,20,64,0.06)",
+        "frame": "0 4px 10px rgba(11,20,64,0.05), 0 18px 40px -8px rgba(11,20,64,0.14)",
+        "deep": "0 2px 6px rgba(11,20,64,0.12), 0 28px 56px -22px rgba(11,20,64,0.55)",
       },
       transitionTimingFunction: {
         "smooth": "cubic-bezier(0.4,0,0.2,1)",
         "settle": "cubic-bezier(0.2,0.8,0.2,1)",
       },
+      /* Duration ladder. `settle`/`smooth`/`pop` are TIMING FUNCTIONS and
+         are not valid here — `duration-settle` silently emitted nothing
+         and fell back to Tailwind's 150ms default (AkashicBuildVsBuy). */
       transitionDuration: {
+        "150": "150ms",
         "250": "250ms",
         "400": "400ms",
+        "650": "650ms",
       },
       keyframes: {
         "fade-in": {

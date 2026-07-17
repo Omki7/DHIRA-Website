@@ -77,7 +77,7 @@ export default function PublicSectorMoments() {
                     onMouseEnter={() => setActive(idx)}
                     onClick={() => setActive(idx)}
                     aria-pressed={isActive}
-                    className={`group relative w-full border-t border-subtle-stroke py-6 text-left transition-opacity duration-300 ease-settle last:border-b focus:outline-none lg:py-7 ${
+                    className={`group relative w-full border-t border-subtle-stroke py-6 text-left transition-opacity duration-300 ease-settle last:border-b lg:py-7 ${
                       isActive ? "opacity-100" : "opacity-45 hover:opacity-80"
                     }`}
                   >

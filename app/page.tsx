@@ -11,6 +11,8 @@ import Voices from "@/components/sections/Voices";
 import EnterpriseSecurity from "@/components/sections/EnterpriseSecurity";
 import JoinTheTeam from "@/components/sections/JoinTheTeam";
 import Closure from "@/components/sections/Closure";
+import PageMinimap from "@/components/layout/PageMinimap";
+import { HOME_SECTIONS } from "@/lib/homeSections";
 
 export default function Home() {
   return (
@@ -30,6 +32,7 @@ export default function Home() {
         <Closure />
       </main>
       <Footer />
+      <PageMinimap sections={HOME_SECTIONS} aria-label="Homepage sections" />
     </>
   );
 }

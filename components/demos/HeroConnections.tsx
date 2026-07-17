@@ -1,6 +1,6 @@
 export default function HeroConnections() {
   return (
-    <div className="pointer-events-none absolute left-1/2 top-[120px] z-0 h-[800px] w-[1400px] -translate-x-1/2 overflow-visible opacity-60">
+    <div className="pointer-events-none absolute left-1/2 top-[120px] z-0 h-[800px] w-[1400px] -translate-x-1/2 overflow-visible">
       <svg
         width="100%"
         height="100%"

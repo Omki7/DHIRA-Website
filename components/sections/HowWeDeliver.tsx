@@ -112,7 +112,7 @@ export default function HowWeDeliver() {
                     role="button"
                     tabIndex={0}
                     aria-label={`Delivery Phase ${idx + 1}: ${step.title}`}
-                    className={`group cursor-pointer border-t border-[#EEEFF1] py-8 lg:py-10 transition-all duration-300 focus:outline-none ${
+                    className={`group cursor-pointer border-t border-[#EEEFF1] py-8 lg:py-10 transition-all duration-300 ${
                       isActive ? "opacity-100" : "opacity-50 hover:opacity-80"
                     }`}
                   >

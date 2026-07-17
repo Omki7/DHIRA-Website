@@ -10,6 +10,7 @@
 
 import Link from "next/link";
 import ScrollReveal from "@/components/ui/ScrollReveal";
+import { Capillary } from "@/components/sections/akashic/AkashicCardChrome";
 import {
   ROLES_SCREEN_HTML,
   LINEAGE_SCREEN_HTML,
@@ -39,65 +40,92 @@ const checks = [
   {
     term: "Data residency",
     question: "Where did the data stay?",
-    line: "Deploy in-country, on your cloud or on your premises. Nothing leaves.",
+    line: "Stored, processed, and answered inside your boundary. Nothing crosses it.",
     html: RESIDENCY_SCREEN_HTML,
   },
 ];
 
 export default function AkashicTrust() {
   return (
-    <section id="trust" className="scroll-mt-24 border-t border-lineSoft bg-white">
-      <div className="rail-container pt-12 pb-24 lg:pt-16 lg:pb-32">
+    <section id="trust" className="ak-depth relative scroll-mt-24 overflow-hidden">
+      {/* The anchor is a precisely-cut dark slab, not a faded merge. Each
+          seam is crisp: a fine light-catch hairline where the two planes
+          meet, a blue horizon glow rising off it, and a machined texture on
+          the surface. The transition is carried by light, never gray fog. */}
+      <div className="dot-grid-dark pointer-events-none absolute inset-0 opacity-[0.14]" aria-hidden />
+      {/* top seam */}
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/25 to-transparent" aria-hidden />
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-[radial-gradient(70%_100%_at_50%_0%,rgba(62,99,221,0.22),transparent_72%)]" aria-hidden />
+      {/* bottom seam */}
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-white/18 to-transparent" aria-hidden />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-[radial-gradient(70%_100%_at_50%_100%,rgba(62,99,221,0.16),transparent_72%)]" aria-hidden />
+      <div className="relative rail-container border-x-0 pt-20 pb-24 lg:pt-28 lg:pb-32">
         <ScrollReveal>
           <p className="font-mono text-[11px] uppercase tracking-eyebrow">
-            <span className="text-overcast">[05]</span>
-            <span className="text-inkSoft">&nbsp;&nbsp;Enterprise trust</span>
+            <span className="text-white/40">[05]</span>
+            <span className="text-white/70">&nbsp;&nbsp;Trust, built in</span>
           </p>
-          <h2 className="mt-5 text-heading-sm font-semibold text-ink md:text-heading-md lg:text-heading-lg">
+          <h2 className="mt-5 text-balance text-heading-sm font-semibold text-white md:text-heading-md">
             An answer you can&rsquo;t trace is just an opinion.
           </h2>
-          <p className="mt-5 max-w-[34em] text-lg leading-relaxed text-secondary-text">
-            Every answer Akashic produces has already passed four checks before anyone
-            can act on it. Not because someone remembered to run them: because Akashic
-            can&rsquo;t produce an answer that hasn&rsquo;t.
+          <p className="mt-5 max-w-[40em] text-lg leading-relaxed text-white/70">
+            Every answer proves itself &mdash; the same four ways, every time.
           </p>
         </ScrollReveal>
 
         <div className="mt-12 lg:mt-14">
           {/* The artifact under inspection */}
           <ScrollReveal>
-            <div className="mx-auto max-w-[640px] overflow-hidden rounded-[12px] bg-white ring-1 ring-[#0B1440]/10 shadow-frame">
-              <div className="flex items-center gap-1.5 border-b border-[#EBEEF4] bg-[#FAFBFC] px-4 py-2">
-                <span className="h-1.5 w-1.5 rounded-full bg-[#30A46C] animate-[ps-pulse_2s_infinite]" aria-hidden />
-                <span className="font-mono text-[9px] font-semibold uppercase tracking-[0.1em] text-overcast">
+            <div className="mx-auto max-w-[640px] overflow-hidden rounded-outer bg-white shadow-deep ring-1 ring-white/10">
+              <Capillary bright />
+              <div className="flex items-center gap-1.5 border-b border-card-divide bg-panel px-4 py-2">
+                <span className="h-1.5 w-1.5 rounded-full bg-positive" aria-hidden />
+                <span className="font-mono text-[9px] font-semibold uppercase tracking-[0.1em] text-secondary-text">
                   The answer someone acts on
                 </span>
-                <span className="ml-auto font-mono text-[9px] text-overcast">09:41</span>
+                <span className="ml-auto font-mono text-[9px] text-secondary-text">09:41</span>
               </div>
               <p className="px-4 py-3.5 text-[14.5px] font-semibold leading-snug text-ink sm:text-[15px]">
                 South is 8% behind target because two distributor renewals stalled in July.
               </p>
             </div>
-            <span className="mx-auto block h-4 w-px bg-blue-border" aria-hidden />
-            <p className="text-center font-mono text-[10px] uppercase tracking-eyebrow text-overcast">
+            <span className="mx-auto block h-4 w-px bg-white/25" aria-hidden />
+            <p className="text-center font-mono text-[10px] uppercase tracking-eyebrow text-white/50">
               Four checks, built in
             </p>
-            <span className="mx-auto block h-4 w-px bg-blue-border" aria-hidden />
+            <span className="mx-auto block h-4 w-px bg-white/25" aria-hidden />
           </ScrollReveal>
 
-          {/* The four checks, each shown as a live screen of the product */}
-          <div className="grid grid-cols-1 gap-x-6 gap-y-10 lg:grid-cols-2">
+          {/* The four checks, each a numbered strip: text left, live screen right.
+              A vertical spine runs down the number column (desktop) so the four
+              read as one sequence and the left text has something to sit against. */}
+          <div className="relative mt-12 lg:mt-14">
+            <div
+              className="pointer-events-none absolute left-4 top-0 bottom-0 hidden w-px bg-gradient-to-b from-transparent via-white/15 to-transparent lg:block"
+              aria-hidden
+            />
+            <div className="flex flex-col gap-10 lg:gap-14">
             {checks.map((check, i) => (
-              <ScrollReveal key={check.term} delay={80 + i * 80}>
-                <div className="flex h-full flex-col">
-                  <p className="font-mono text-[9.5px] font-semibold uppercase tracking-[0.1em] text-overcast">
-                    {check.term}
-                  </p>
-                  <h3 className="mt-1.5 text-[17px] font-semibold tracking-tight text-ink">
-                    {check.question}
-                  </h3>
-                  <p className="mt-1 text-[13px] leading-snug text-inkSoft">{check.line}</p>
-                  <div className="mt-3.5 overflow-hidden rounded-[12px] border border-[#E9EAEE] bg-white shadow-frame">
+              <ScrollReveal key={check.term} delay={60 + i * 60}>
+                <div className="grid grid-cols-1 items-center gap-6 lg:grid-cols-[minmax(0,0.82fr)_minmax(0,1.4fr)] lg:gap-12">
+                  {/* left: number node + text */}
+                  <div className="flex gap-4 lg:gap-5">
+                    <span className="relative z-10 flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-white/15 bg-[#0A0E24] font-mono text-[12px] font-semibold tabular-nums text-white/55">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    <div className="min-w-0">
+                      <p className="font-mono text-[9.5px] font-semibold uppercase tracking-[0.1em] text-blue-border/80">
+                        {check.term}
+                      </p>
+                      <h3 className="mt-2 text-balance text-[22px] font-semibold leading-[1.15] tracking-tight text-white md:text-[26px]">
+                        {check.question}
+                      </h3>
+                      <p className="mt-2.5 max-w-[26em] text-[14px] leading-relaxed text-white/60">{check.line}</p>
+                    </div>
+                  </div>
+                  {/* right: the live screen */}
+                  <div className="overflow-hidden rounded-outer bg-white shadow-deep ring-1 ring-white/10">
+                    <Capillary bright />
                     <div className="overflow-x-auto">
                       <div
                         className="h-[340px] min-w-[460px]"
@@ -108,15 +136,16 @@ export default function AkashicTrust() {
                 </div>
               </ScrollReveal>
             ))}
+            </div>
           </div>
         </div>
 
         <ScrollReveal>
           <div className="mt-16 flex flex-col items-center text-center lg:mt-20">
-            <p className="max-w-[22em] text-2xl font-semibold leading-snug tracking-tight text-ink md:text-[28px]">
+            <p className="max-w-[22em] text-2xl font-semibold leading-snug tracking-tight text-white md:text-[28px]">
               This is what makes an answer defensible, not just delivered.
             </p>
-            <Link href="#open" className="btn-primary mt-8">
+            <Link href="#open" className="btn-secondary mt-8">
               See what you&rsquo;d take with you
             </Link>
           </div>

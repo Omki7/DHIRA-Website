@@ -9,6 +9,8 @@ import KnowledgeMorning from "@/components/sections/knowledge/KnowledgeMorning";
 import KnowledgeProof from "@/components/sections/knowledge/KnowledgeProof";
 import KnowledgeChain from "@/components/sections/knowledge/KnowledgeChain";
 import KnowledgeClose from "@/components/sections/knowledge/KnowledgeClose";
+import PageMinimap from "@/components/layout/PageMinimap";
+import { KNOWLEDGE_SECTIONS } from "@/lib/knowledgeSections";
 
 export const metadata: Metadata = {
   title: "Akashic Knowledge — Intelligence at civilisation scale.",
@@ -31,6 +33,7 @@ export default function KnowledgePage() {
         <KnowledgeClose />
       </main>
       <Footer />
+      <PageMinimap sections={KNOWLEDGE_SECTIONS} aria-label="Knowledge page sections" />
     </>
   );
 }

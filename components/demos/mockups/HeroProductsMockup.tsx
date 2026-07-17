@@ -21,6 +21,10 @@ import {
   MODELS_SCREEN_HTML,
 } from "@/components/demos/mockups/HeroProductScreensMockup";
 
+/* Per-screen dwell times — the Ask screen carries the full South-region
+   answer (paragraph + formula + chart) and needs longer to read. */
+const SCREEN_DURATIONS = [6000, 9000, 6000];
+
 export default function HeroProductsMockup() {
   const [activeCard, setActiveCard] = useState(0);
   const [resetTrigger, setResetTrigger] = useState(0);
@@ -31,10 +35,10 @@ export default function HeroProductsMockup() {
   };
 
   useEffect(() => {
-    const timer = setInterval(() => {
+    const timer = setTimeout(() => {
       setActiveCard((prev) => (prev + 1) % 3);
-    }, 6000);
-    return () => clearInterval(timer);
+    }, SCREEN_DURATIONS[activeCard]);
+    return () => clearTimeout(timer);
   }, [activeCard, resetTrigger]);
 
   const getPos = (p: number) => {
@@ -78,36 +82,42 @@ export default function HeroProductsMockup() {
                 className="absolute bottom-0 left-0 h-px bg-tertiary-text/40 transition-all duration-300"
                 style={{
                   width: isActive ? "100%" : "0%",
-                  animation: isActive ? "progressFill 6s linear forwards" : undefined,
+                  animation: isActive ? `progressFill ${SCREEN_DURATIONS[tab.id]}ms linear forwards` : undefined,
                 }}
               />
             </div>
           );
         })}
       </div>
+      {/* Simulated screens are pointer shortcuts only; the tabs above are the
+          keyboard-accessible control for the same action, so the cards stay
+          out of the accessibility tree. */}
       <div style={{ position: "relative", height: "610px", width: "100%" }}>
         <div
           className="hs-card"
           data-pos={pos0}
+          aria-hidden="true"
           onClick={() => rp[0] !== 0 && handleSelect(0)}
           dangerouslySetInnerHTML={{ __html: PIPELINES_SCREEN_HTML }}
         />
         <div
           className="hs-card"
           data-pos={pos1}
+          aria-hidden="true"
           onClick={() => rp[1] !== 0 && handleSelect(1)}
           dangerouslySetInnerHTML={{ __html: ASK_SCREEN_HTML }}
         />
         <div
           className="hs-card"
           data-pos={pos2}
+          aria-hidden="true"
           onClick={() => rp[2] !== 0 && handleSelect(2)}
           dangerouslySetInnerHTML={{ __html: MODELS_SCREEN_HTML }}
         />
       </div>
-      <div style={{ marginTop: "30px", textAlign: "center", fontFamily: "Inter, sans-serif" }}>
-        <span style={{ fontSize: "11px", fontWeight: "600", letterSpacing: "0.14em", color: "#8E8F91" }}>
-          FROM EVERY SOURCE – ONE TRUSTED ANSWER
+      <div className="mt-[30px] text-center">
+        <span className="font-mono text-[11px] font-medium uppercase tracking-eyebrow text-tertiary-text">
+          From every source · one trusted answer
         </span>
       </div>
     </div>

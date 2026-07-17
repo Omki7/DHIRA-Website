@@ -11,7 +11,7 @@ import EisBriefMockup from "@/components/demos/mockups/EisBriefMockup";
 
 export default function EisHero() {
   return (
-    <section className="relative overflow-hidden bg-background">
+    <section id="hero" className="relative overflow-hidden bg-background">
       <div className="dot-grid absolute inset-0 opacity-60" aria-hidden />
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-48 bg-gradient-to-b from-transparent to-white" aria-hidden />
 

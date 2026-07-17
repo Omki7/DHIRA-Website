@@ -3,13 +3,13 @@
 import React, { useEffect, useRef, useState } from "react";
 
 const NODES = [
-  { id: "semantic", label: "Semantic\nmodels" },
-  { id: "rules", label: "Governance\nrules" },
-  { id: "endorsed", label: "Endorsed\ndatasets" },
-  { id: "context", label: "Organisation\ncontext", isCenter: true },
-  { id: "analysis", label: "Prior\nanalyses" },
-  { id: "metadata", label: "Schema\n& lineage" },
-  { id: "suggestions", label: "Live\nsuggestions" },
+  { id: "sources", label: "Connected\nsources" },
+  { id: "metrics", label: "Governed\nmetrics" },
+  { id: "records", label: "Golden\nrecords" },
+  { id: "graph", label: "Organizational\ncontext", isCenter: true },
+  { id: "lineage", label: "Lineage\n& history" },
+  { id: "policies", label: "Access\npolicies" },
+  { id: "documents", label: "Linked\ndocuments" },
 ];
 
 export default function HexConnectionsMockup() {

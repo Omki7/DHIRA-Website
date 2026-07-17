@@ -27,7 +27,7 @@ export default function AkashicHero() {
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-48 bg-gradient-to-b from-transparent to-white" aria-hidden />
 
       <div className="rail-container relative border-x-0">
-        <div className="flex flex-col items-center justify-center pt-24 pb-16 text-center lg:pt-32 lg:pb-20">
+        <div className="flex flex-col items-center justify-center min-h-[55vh] pt-24 pb-8 text-center lg:pt-28 lg:pb-12">
           <ScrollReveal>
             <figure className="group relative mb-8 inline-flex items-center justify-center overflow-hidden rounded-full bg-subtle-stroke p-[1px] shadow-sm transition-shadow hover:shadow">
               <span className="absolute inset-[-1000%] animate-[spin_3s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,transparent_0%,transparent_85%,#266DF2_100%)] opacity-75 transition-opacity group-hover:opacity-100" />
@@ -83,7 +83,7 @@ export default function AkashicHero() {
                   </span>
                 ))}
               </span>{" "}
-              <span className="whitespace-nowrap">your business needs</span>
+              <span className="whitespace-nowrap">your organisation needs</span>
               <br />
               is already in your data.
             </h1>
@@ -91,10 +91,9 @@ export default function AkashicHero() {
 
           <ScrollReveal delay={220}>
             <p className="mt-8 max-w-[34em] text-lg font-normal leading-relaxed text-secondary-text md:text-xl">
-              Your systems hold the numbers. Your documents hold the reasons. Nothing
-              joins them. Akashic is one governed platform for enterprise data,
-              analytics, and AI: it reads both, and keeps the complete record ready the
-              moment a decision needs it.
+              Akashic is a single governed platform for your data, analytics, and AI. It
+              unifies structured, unstructured, and streaming sources on one foundation,
+              so every answer is one you can trust, trace, and act on.
             </p>
           </ScrollReveal>
 

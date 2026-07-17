@@ -1,14 +1,14 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import type { AkashicSection } from "@/lib/akashicSections";
+import type { PageSection } from "@/lib/pageSection";
 
 function prefersReducedMotion(): boolean {
   if (typeof window === "undefined") return false;
   return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 }
 
-export function useAkashicScrollSpy(sections: AkashicSection[]) {
+export function usePageScrollSpy(sections: PageSection[]) {
   const [activeId, setActiveId] = useState<string>(sections[0]?.id ?? "");
   const lastIdRef = useRef(activeId);
   const elementsRef = useRef<Map<string, HTMLElement>>(new Map());
@@ -73,7 +73,7 @@ export function useAkashicScrollSpy(sections: AkashicSection[]) {
   return activeId;
 }
 
-export function useAkashicSmoothScroll() {
+export function usePageSmoothScroll() {
   return (id: string) => {
     if (typeof window === "undefined") return;
     const el = document.getElementById(id);

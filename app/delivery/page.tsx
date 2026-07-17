@@ -11,6 +11,8 @@ import DeliveryProven from "@/components/sections/delivery/DeliveryProven";
 import DeliveryFit from "@/components/sections/delivery/DeliveryFit";
 import DeliveryFAQ from "@/components/sections/delivery/DeliveryFAQ";
 import DeliveryClose from "@/components/sections/delivery/DeliveryClose";
+import PageMinimap from "@/components/layout/PageMinimap";
+import { DELIVERY_SECTIONS } from "@/lib/deliverySections";
 
 export const metadata: Metadata = {
   title: "Delivery — Delivered on your terms. One standard.",
@@ -35,6 +37,7 @@ export default function DeliveryPage() {
         <DeliveryClose />
       </main>
       <Footer />
+      <PageMinimap sections={DELIVERY_SECTIONS} aria-label="Delivery page sections" />
     </>
   );
 }
