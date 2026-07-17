@@ -77,7 +77,8 @@ export default function LifeProof() {
                 <div className="h-[3px] bg-gradient-to-r from-blue/50 via-blue/25 to-transparent" aria-hidden />
                 <div className="flex h-full flex-col p-6">
                   <div className="flex items-center justify-between">
-                    <span className="font-mono text-[10px] uppercase tracking-eyebrow text-inkSoft">
+                    <span className="flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-eyebrow text-inkSoft">
+                      <span className="h-[5px] w-[5px] shrink-0 rounded-full bg-blue animate-[ps-pulse_2s_infinite]" aria-hidden />
                       {panel.label}
                     </span>
                     <LiveChip label={panel.chipLabel} />
@@ -85,7 +86,7 @@ export default function LifeProof() {
                   <div className="mt-5">
                     <Stat figure={panel.figure} format={panel.format} />
                   </div>
-                  <p className="mt-4 border-t border-subtle-stroke pt-4 text-[13.5px] leading-relaxed text-inkSoft">
+                  <p className="mt-4 border-t border-dashed border-lineSoft pt-4 text-[13.5px] leading-relaxed text-inkSoft">
                     {panel.line}
                   </p>
                 </div>

@@ -2,7 +2,9 @@
  * [04] A Teacher's Morning — Minute by Minute.
  * A morning-schedule timeline (clock-stamped cousin of Life's stopwatch
  * rail): three timestamped beats on one blue rail, with the platform-review
- * pull line as the sticky-side anchor.
+ * pull line as the sticky-side anchor. Sits on the page's one soft blue
+ * band (site-wide consistency pass, 17 Jul) — Knowledge had zero background
+ * variation across all eight sections.
  */
 
 import ScrollReveal from "@/components/ui/ScrollReveal";
@@ -27,7 +29,10 @@ const beats = [
 
 export default function KnowledgeMorning() {
   return (
-    <section id="a-teachers-morning" className="scroll-mt-24 border-t border-lineSoft bg-white">
+    <section
+      id="a-teachers-morning"
+      className="scroll-mt-24 border-t border-lineSoft bg-[linear-gradient(180deg,#FFFFFF_0%,#F1F5FE_16%,#F1F5FE_84%,#FFFFFF_100%)]"
+    >
       <div className="rail-container pt-12 pb-24 lg:pt-16 lg:pb-32">
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-[1fr_1.4fr] lg:gap-16">
           <div className="self-start lg:sticky lg:top-32">

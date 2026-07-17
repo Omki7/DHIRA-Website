@@ -164,7 +164,7 @@ export default function DeliveryProven() {
                     </div>
                   )}
 
-                  <p className="mt-auto border-t border-subtle-stroke pt-5 text-[15px] font-medium leading-snug text-ink">
+                  <p className="mt-auto border-t border-dashed border-lineSoft pt-5 text-[15px] font-medium leading-snug text-ink">
                     {c.outcome}
                   </p>
 

@@ -90,9 +90,11 @@ export default function AkashicScale() {
                     </span>
                     <PanelSpark />
                   </div>
-                  <div className="mt-6 grid grid-cols-2 gap-6">
+                  <div className="mt-6 grid grid-cols-2">
                     {d.stats.map((s, j) => (
-                      <Stat key={s.label} figure={s.figure} label={s.label} delay={j * 150} />
+                      <div key={s.label} className={j > 0 ? "border-l border-dashed border-lineSoft pl-6" : "pr-6"}>
+                        <Stat figure={s.figure} label={s.label} delay={j * 150} />
+                      </div>
                     ))}
                   </div>
                   <p className="mt-6 border-t border-subtle-stroke pt-4 text-[14px] font-medium text-ink">

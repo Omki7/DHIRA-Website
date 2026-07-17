@@ -2,7 +2,9 @@
  * [07] Partnership Fit: And Who It Isn't.
  * Editorial verdict split (Jul 2026 redesign): two indexed statement ledgers
  * on one dashed axis, large reading sizes, each side closing on its verdict
- * line. Directional markers only: no checkmarks (Rule 2).
+ * line. Directional markers only: no checkmarks (Rule 2). Sits on the page's
+ * one soft blue band (site-wide consistency pass, 17 Jul) — Delivery had
+ * zero background variation across all ten sections.
  */
 
 import Link from "next/link";
@@ -36,7 +38,10 @@ function Arrow({ dir, className = "" }: { dir: "right" | "left"; className?: str
 
 export default function DeliveryFit() {
   return (
-    <section id="partnership-fit" className="scroll-mt-24 border-t border-lineSoft bg-white">
+    <section
+      id="partnership-fit"
+      className="scroll-mt-24 border-t border-lineSoft bg-[linear-gradient(180deg,#FFFFFF_0%,#F1F5FE_16%,#F1F5FE_84%,#FFFFFF_100%)]"
+    >
       <div className="rail-container pt-12 pb-24 lg:pt-16 lg:pb-32">
         <ScrollReveal>
           <div className="flex items-baseline justify-between font-mono text-[11px] uppercase tracking-eyebrow">

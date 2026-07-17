@@ -42,7 +42,7 @@ components/
     FieldLedger.tsx          Live deployment panels with count-up metrics (ProvenAtScale)
     VoicesDispatches.tsx     Asymmetric editorial dispatch cards (Voices)
     AshokaChakra.tsx         Decorative 24-spoke wheel in brand blues, slow rotation (CareersImpact, ProvenAtScale)
-    LineArtBust.tsx          Friendly line-art head+shoulders figure for SVG scenes (CareersHiring, AboutWho)
+    LineArtBust.tsx          Friendly line-art head+shoulders figure for SVG scenes (CareersHiring, AboutBeliefs)
 
     mockups/             SIMULATED PRODUCT UI — fake app screenshots for visual storytelling,
                           not real Akashic functionality. See §8a before touching any file here.
@@ -69,6 +69,10 @@ components/
     ScrollReveal.tsx     Intersection Observer fade-in wrapper (accepts a `delay` prop in ms)
     ScrollRevealRail.tsx Centred 1440px rail with animated scroll-tracking edge lines
                          (`dark` prop for use on dark sections)
+    StatBand.tsx         Site-wide stat-tile recipe (see §5a): bordered light frame, blue
+                         gradient top bar, dashed dividers, pulsing-dot eyebrow, count-up
+                         figure, dashed footer caption. `frame={false}` for nesting inside a
+                         card that already owns its own outer chrome.
 
 hooks/
   useCountUp.ts        Count-up animation primitives:
@@ -168,6 +172,23 @@ Keep this table in sync with `tailwind.config.ts` — if you add a token, add a 
 
 ---
 
+## 4a. Stat Bands — Site-Wide Consistency Rule
+
+Any "band of figures" (platform/deployment stats, count-ups) uses ONE recipe, site-wide, per user direction (17 Jul): use `components/ui/StatBand.tsx` for a standalone band, or match its chrome by hand when the stats live inside a card that owns its own outer frame:
+
+- Outer: `overflow-hidden rounded-frame border border-subtle-stroke bg-primary-bg`
+- Top accent: `h-[3px] bg-gradient-to-r from-blue/50 via-blue/25 to-transparent`
+- Cell dividers: **dashed**, never solid or a gap-as-divider (`border-dashed border-lineSoft`)
+- Eyebrow: small pulsing blue dot (`h-[5px] w-[5px] rounded-full bg-blue animate-[ps-pulse_2s_infinite]`) + mono uppercase label, above the figure
+- Figure: `font-semibold leading-none tracking-tighter text-ink`, count-up via `useCountUp`
+- Footer caption (if any): `border-t border-dashed border-lineSoft` mono uppercase
+
+Applied to: home `ProvenAtScale` (now uses `<StatBand>` directly, replacing its old dark-ink tile band), `AkashicScale` (dashed divider added between each card's 2 stats), `FieldLedger` (metrics bar dividers switched solid→dashed), `DeliveryProven` / `AboutProof` / `EisProof` / `LifeProof` / `KnowledgeProof` (dot-eyebrow + dashed footer divider added to each "3 deployment cards" section — their sparklines, LIVE/COMPLETE chips, and ghost watermarks are deliberately kept; only the chrome was unified).
+
+**Deliberate exceptions (do not force into this recipe):** `EnterpriseSecurity`'s 2×2 governance stat grid is a "no card boxes, gap-as-divider" layout embedded beside an SVG chart, by original design intent. `PublicSectorProven`'s dark record board is a row-based ledger (mission/ministry/figure/sparkline per row), not a tile grid — a Rule 5 dark-card precedent, structurally different from a stat band by content shape (Rule 1).
+
+---
+
 ## 5. CSS Component Classes (from globals.css)
 
 | Class | Description |
@@ -227,7 +248,7 @@ Composed in `app/akashic/page.tsx` (Nav + sections + Footer). The nav's "Akashic
 | 02 | modules | `sections/akashic/AkashicModules.tsx` | `bg-white` | Living stack diagram: source chips fan into three layer frames via animated blue flow connectors; module cards carry simulated-UI micro-mockups (§8a applies, figures consistent with PowerfulPlatform's); governance is a left rail + dark base card (deliberate dark card, per Rule 5's Closure precedent). Styled with Tailwind classes per Rule 8, reusing global `ps-*`/`fl-*` keyframes |
 | 03 | architecture | `sections/akashic/AkashicArchitecture.tsx` | `bg-white` | Deploy-it-your-way: three environment plates deliberately distinct from [02]'s module-card chrome — sky-gradient cloud plate with branded provider tiles, dark server-cabinet plate for on-prem, split rack/cloud estate for hybrid — all holding the same MiniStack, converging into the consistency close panel. Cloud region names are real provider regions |
 | 04 | modular | `sections/akashic/AkashicModular.tsx` | `bg-white` | Start-anywhere tabs: 7-module explorer whose detail panel highlights the module's layer on the MiniStack |
-| 05 | trust | `sections/akashic/AkashicTrust.tsx` | `bg-white` | Built-to-be-audited 2×2: access roles, lineage trace, audit log, residency perimeter micro-mockups |
+| 05 | trust | `sections/akashic/AkashicTrust.tsx` | soft blue band | Built-to-be-audited 2×2: access roles, lineage trace, audit log, residency perimeter micro-mockups. The page's one blue band (Rule 5a) |
 | 06 | open | `sections/akashic/AkashicOpenFoundations.tsx` | `bg-white` | `akashic.stack` manifest card listing open technologies. ⚠ tech list flagged "representative" in the content script — confirm with engineering |
 | 07 | solutions | `sections/akashic/AkashicSolutions.tsx` | `bg-white` | EIS / Life / Knowledge cards (anchor ids match the nav's Solutions links) on a shared "same governed model" base bar |
 | 08 | scale | `sections/akashic/AkashicScale.tsx` | `bg-white` | Two live-deployment stat panels (figures per Rule 4 + content script; script marks section status OPEN) |
@@ -248,7 +269,7 @@ Composed in `app/delivery/page.tsx` (Nav + sections + Footer). The nav's "Delive
 | 04 | advisory-co-engineering | `sections/delivery/DeliveryAdvisory.tsx` | `bg-white` | Model 3: two engagement forms as stacked editorial ledger rows (no card chrome): Strategic Advisory (2–4 figure + D-01…03 deliverables ledger) and Co-Engineering Squad (1 + 4 figure + five readable role rows) |
 | 05 | methodology | `sections/delivery/DeliveryMethodology.tsx` | `bg-white` | Discover/Design/Deliver/Transfer on one unbroken dot rail (horizontal desktop, vertical mobile) — the "no hand-offs" visual |
 | 06 | proven-at-scale | `sections/delivery/DeliveryProven.tsx` | `bg-white` | Live engagement ledger (client): count-up figures, sparklines, LIVE/COMPLETE chips; figures per Rule 4 (match AkashicScale / home stats) |
-| 07 | partnership-fit | `sections/delivery/DeliveryFit.tsx` | `bg-white` | Editorial verdict split: two indexed statement ledgers on one dashed axis, each closing on its verdict line; directional arrows only (no checkmarks, Rule 2) |
+| 07 | partnership-fit | `sections/delivery/DeliveryFit.tsx` | soft blue band | Editorial verdict split: two indexed statement ledgers on one dashed axis, each closing on its verdict line; directional arrows only (no checkmarks, Rule 2). The page's one blue band (Rule 5a) |
 | 08 | faq | `sections/delivery/DeliveryFAQ.tsx` | `bg-white` | Master-detail Q&A on desktop (question ledger left, active answer staged at 22px right under ghost "?" watermark), dossier accordion below lg; shared open state, discovery-call close line |
 | 09 | talk-to-our-team | `sections/delivery/DeliveryClose.tsx` | `bg-white` | Dark closure card (Rule 5's Closure precedent). Carries the `#talk-to-our-team` id the nav CTA targets |
 
@@ -259,10 +280,10 @@ Composed in `app/about/page.tsx` (Nav + sections + Footer). The nav's Company me
 | Order | ID | File | Background | Notes |
 |---|---|---|---|---|
 | 00 | — | `sections/about/AboutHero.tsx` | `bg-background` | Centred hero, dot-grid backdrop, "outlast the budget cycle" bars motif, offices mono strip |
-| 01 | why-we-exist | `sections/about/AboutWhy.tsx` | `bg-white` | Narrative beside two open line-art exhibits (un-boxed; §8a applies to file names/totals): Exhibit A, a `LineArtBust` client under three tilted disagreeing spreadsheets; Exhibit B, a flat-mouthed AI box whose answer floats above a dashed trace that breaks mid-air ("Source: not found"). Trust-problem pivot line unchanged |
-| 02 | who-we-are | `sections/about/AboutWho.tsx` | soft blue band | Line-art journey (careers idiom): a crew of `demos/LineArtBust` engineers walks one dashed route through three world-scenes (ministry dome + transaction streams / regulated tower + uptime gauge / growth curve outrunning its box; watermarks 10⁹ · 99.9 · 10×), landing on the "every engagement" punchline; advise-vs-build close is an open editorial split (unboxed) |
-| 03 | what-we-believe | `sections/about/AboutBeliefs.tsx` | `bg-white` | Principles as architecture (line-art idiom): a skyline of everything shipped (dome / tower / growth curve / `LineArtBust` crew) stands on an ink beam held up by five carved pillars, one per principle (B-01…B-05, titles+bodies beneath); hovering a pillar column turns its pillar blue and dims the rest (CSS only, server component). Mobile stacks pillar-beside-text rows under the same skyline |
-| 04 | how-we-work | `sections/about/AboutHow.tsx` | `bg-white` | Continuous line-art story strip (careers idiom): the same two `LineArtBust` figures (blue = DHIRA, ink = client) recur along one unbroken ground line through four commitment scenes — listening (client's bubble, ours silent) / building together (dashed unfinished storey) / staying (live pulse on finished tower) / truth (one straight line in the bubble) — while a sun rises, crosses and sets into a moon overhead; scenes butt gap-0 so the ground joins. Text columns beneath with day-tags, CSS hover dimming; mobile stacks scene-above-text |
+| 01 | why-we-exist | `sections/about/AboutWhy.tsx` | `bg-white` | Narrative + micro-mockup panel (§8a applies: three conflicting spreadsheets, untraceable AI answer), trust-problem pivot line. Restored to this boxed version by user preference (17 Jul) after a line-art variant read as unclear |
+| 02 | who-we-are | `sections/about/AboutWho.tsx` | `bg-white` | Contexts ledger (ministries / regulated enterprises / startups): sticky narrative left, three proof rows with giant scale watermarks + sketch-icon tiles, advise-and-leave vs build-and-stay contrast strip. Restored to this enterprise version by user direction (17 Jul) |
+| 03 | what-we-believe | `sections/about/AboutBeliefs.tsx` | soft blue band | Principles as architecture (line-art idiom, the page's one creative centrepiece by user direction): a skyline of everything shipped (dome / tower / growth curve / `LineArtBust` crew) stands on an ink beam held up by five carved pillars, one per principle (B-01…B-05, titles+bodies beneath); hovering a pillar column turns its pillar blue and dims the rest (CSS only, server component). Mobile stacks pillar-beside-text rows under the same skyline |
+| 04 | how-we-work | `sections/about/AboutHow.tsx` | `bg-white` | Four commitments on one engagement rail (methodology idiom): dashed line from day one to the last day, four numbered nodes (last one ringed), day-tags + statements + bodies per column, CSS hover dimming; vertical rail on mobile. No illustration by design |
 | 05 | careers | `sections/about/AboutCareers.tsx` | `bg-white` | Careers teaser: NOW HIRING pulse signature, four compact role rows (match JoinTheTeam's ROLES), links to `/#careers` |
 | 06 | proof | `sections/about/AboutProof.tsx` | `bg-white` | Three deployment panels (client, AkashicScale idiom): count-up figures per Rule 4, sparklines, LIVE/COMPLETE chips |
 | 07 | talk-to-our-team | `sections/about/AboutClose.tsx` | `bg-white` | Dark closure card (Rule 5's Closure precedent). Carries the `#talk-to-our-team` id the nav CTA targets |
@@ -282,7 +303,7 @@ Composed in `app/careers/page.tsx`. The nav's Company → Careers, the home Join
 
 ### Solution pages (`/solutions/eis`, `/solutions/life`, `/solutions/knowledge`)
 
-Composed in `app/solutions/{eis,life,knowledge}/page.tsx` (Nav + sections + Footer). The nav's Solutions → Akashic Plugin items link here, as do the "Learn more" links on `/akashic`'s AkashicSolutions cards. Copy comes from user-supplied content scripts (July 2026); figures on these pages (564 crore sessions, 18.25 crore enrolments, 1.89 crore learners, 2B vaccinations, 3.87 lakh emigrations, 10 crore+ Poshan, 12,402/month, ₹2 Cr+ estimate) are per those scripts — ⚠ some differ from the home/Akashic stats (5.75B+/187M+); reconcile before ship. All three share the split hero (pitch left, telemetry/mockup card right), the flowing six-step chain rail, and count-up proof panels, so the family reads as siblings.
+Composed in `app/solutions/{eis,life,knowledge}/page.tsx` (Nav + sections + Footer). The nav's Solutions → Akashic Plugin items link here, as do the "Learn more" links on `/akashic`'s AkashicSolutions cards. Copy comes from user-supplied content scripts (July 2026); figures on these pages (564 crore sessions, 18.25 crore enrolments, 1.89 crore learners, 2B vaccinations, 3.87 lakh emigrations, 10 crore+ Poshan, 12,402/month, ₹2 Cr+ estimate) are per those scripts — ⚠ some differ from the home/Akashic stats (5.75B+/187M+); reconcile before ship. All three share the split hero (pitch left, telemetry/mockup card right), the flowing six-step chain rail, and count-up proof panels, so the family reads as siblings. Each also carries its own one soft blue band (Rule 5a): `EisIntegration` [06], `LifeStory` [03], `KnowledgeMorning` [04] — all narrative/trust "breather" sections, not data-dense ones.
 
 | Page | Sections (`components/sections/…`) | Signature pieces |
 |---|---|---|
@@ -296,7 +317,7 @@ Composed in `app/sectors/public-sector/page.tsx`; the nav's Solutions → Sector
 
 | Page | Sections (`components/sections/public-sector/`) | Signature pieces |
 |---|---|---|
-| `/sectors/public-sector` | PublicSectorHero, PublicSectorGap [01], PublicSectorProven [02], PublicSectorMoments [03], PublicSectorWhy [04], PublicSectorChain [05], PublicSectorDeploy [06], PublicSectorClose [07] | Public-record missions board hero card; two-tier proof (4 flagship count-up panels + "also in production" registry ledger); **tender-schedule ledger** (REQ-01…REQ-06 compliance rows with status chips); environment tiles with SOVEREIGN DEFAULT marker |
+| `/sectors/public-sector` | PublicSectorHero, PublicSectorGap [01], PublicSectorProven [02], PublicSectorMoments [03], PublicSectorWhy [04], PublicSectorChain [05], PublicSectorDeploy [06], PublicSectorClose [07] | Public-record missions board hero card; two-tier proof (4 flagship count-up panels + "also in production" registry ledger); **tender-schedule ledger** (REQ-01…REQ-06 compliance rows with status chips); environment tiles with SOVEREIGN DEFAULT marker. `PublicSectorMoments` [03] carries the page's one soft blue band (Rule 5a) |
 
 ---
 
@@ -316,6 +337,9 @@ All numbers in the UI (stats, chart values, percentages) must be real. The AI in
 
 ### Rule 5 — Dark Sections Are Deliberate, Not Default
 The Footer (`bg-vault`) is the only permanently dark region. `ProvenAtScale` was originally the page's one dark section but has since moved to `bg-white` by deliberate design direction (see the comment at the top of `ProvenAtScale.tsx`). New sections default to `bg-white` or `bg-background`; `PowerfulPlatform`'s blue (`bg-[#3E63DD]`) is the one other non-neutral section background and should stay unique to that section.
+
+### Rule 5a — One Soft Blue Band Per Page
+Per user direction (17 Jul), every page gets exactly ONE section styled with the soft blue gradient band — `bg-[linear-gradient(180deg,#FFFFFF_0%,#F1F5FE_16%,#F1F5FE_84%,#FFFFFF_100%)]` — to break up an otherwise all-`bg-white` run. Pick the page's own narrative/trust/culture "breather" section (not a dense data or product section) as the candidate. Current assignments: Home → `ProvenAtScale`'s stat band is white (the band itself carries the visual weight via `StatBand`, see §4a) — Home is bracketed by its two `bg-[#3E63DD]` sections instead; About → `AboutBeliefs` [03]; Careers → `CareersCulture` [02] and `CareersHiring` [04] (two, both approved); Akashic → `AkashicTrust` [05]; Delivery → `DeliveryFit` [07]; EIS → `EisIntegration` [05]; Life → `LifeStory` [03]; Knowledge → `KnowledgeMorning` [04]; Public Sector → `PublicSectorMoments` [03]. Do not add a second blue band to a page without user direction — the point is one clean break, not another pattern to overuse.
 
 ### Rule 6 — Reduced Motion
 All animations must respect `prefers-reduced-motion`. The global CSS handles this for `*` via `animation-duration: 0.01ms`. Component-specific overrides exist for `.fl-sparkline`, `.fl-row-enter`, `.fl-sheen`. Any new animation you add must degrade safely.

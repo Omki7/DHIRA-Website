@@ -2,6 +2,8 @@
  * [03] The 2-Minute Story — Detection to Dispatch.
  * A stopwatch timeline: three mono timestamps on one blue rail, the severe
  * risk score surfaced as a chip, closed by the platform-review pull line.
+ * Sits on the page's one soft blue band (site-wide consistency pass, 17
+ * Jul) — Life had zero background variation across all eight sections.
  */
 
 import ScrollReveal from "@/components/ui/ScrollReveal";
@@ -27,7 +29,10 @@ const beats = [
 
 export default function LifeStory() {
   return (
-    <section id="two-minutes" className="scroll-mt-24 border-t border-lineSoft bg-white">
+    <section
+      id="two-minutes"
+      className="scroll-mt-24 border-t border-lineSoft bg-[linear-gradient(180deg,#FFFFFF_0%,#F1F5FE_16%,#F1F5FE_84%,#FFFFFF_100%)]"
+    >
       <div className="rail-container pt-12 pb-24 lg:pt-16 lg:pb-32">
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-[1fr_1.4fr] lg:gap-16">
           <div className="self-start lg:sticky lg:top-32">

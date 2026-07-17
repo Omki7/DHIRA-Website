@@ -2,7 +2,9 @@
  * [05] The Integration Story — Your ERP Stays.
  * Narrative plus a connector rack: source chips flowing into an intelligence
  * layer bar, and three guarantee tiles (connectors / read-only / deploy
- * anywhere) with sketch icons.
+ * anywhere) with sketch icons. Sits on the page's one soft blue band
+ * (site-wide consistency pass, 17 Jul) — EIS had zero background variation
+ * across all nine sections.
  */
 
 import ScrollReveal from "@/components/ui/ScrollReveal";
@@ -30,7 +32,10 @@ const guarantees = [
 
 export default function EisIntegration() {
   return (
-    <section id="integration" className="scroll-mt-24 border-t border-lineSoft bg-white">
+    <section
+      id="integration"
+      className="scroll-mt-24 border-t border-lineSoft bg-[linear-gradient(180deg,#FFFFFF_0%,#F1F5FE_16%,#F1F5FE_84%,#FFFFFF_100%)]"
+    >
       <div className="rail-container pt-12 pb-24 lg:pt-16 lg:pb-32">
         <ScrollReveal>
           <div className="flex items-baseline justify-between font-mono text-[11px] uppercase tracking-eyebrow">
