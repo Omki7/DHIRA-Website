@@ -276,7 +276,7 @@ Composed in `app/careers/page.tsx`. The nav's Company → Careers, the home Join
 | 01 | the-work | `sections/careers/CareersImpact.tsx` | "Production is a country": narrative beside `demos/AshokaChakra` (slow-turning 24-spoke wheel), then the four-mission impact band (count-ups per Rule 4) |
 | 02 | how-we-work | `sections/careers/CareersCulture.tsx` | Candidate-lens culture ledger (W-01…W-06: principles translated to the employee experience), honest compensation note pointing at the intro call, links to `/about#what-we-believe` |
 | 03 | open-roles | `sections/careers/CareersRoles.tsx` | Canonical filterable roles board (client) — same ROLES + blue-bar hover signature as JoinTheTeam; keep the two lists in sync |
-| 04 | how-we-hire | `sections/careers/CareersHiring.tsx` | Four-step hiring rail (intro call / deep-dive / working session / decision) |
+| 04 | how-we-hire | `sections/careers/CareersHiring.tsx` | Interactive hiring loop (client): deliberately un-boxed (no console frame — that idiom is [02]'s). Clickable four-station rail advances an open hand-drawn line-art human scene per step (both-ways call / shipped-system deep-dive / shared-editor session / letter handed over) with tilted pinned notes; auto-advances, locks on click. Reusable `Bust` line-art figure powers the scenes + a faint ambient `TeamFrieze`. Sits on the page's second (deeper) blue band with soft radial glows |
 | 05 | talk-to-our-team | `sections/careers/CareersClose.tsx` | Dark closure card; Apply anchor target |
 
 ### Solution pages (`/solutions/eis`, `/solutions/life`, `/solutions/knowledge`)
