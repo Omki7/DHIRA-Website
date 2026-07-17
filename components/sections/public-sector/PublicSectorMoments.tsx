@@ -5,7 +5,9 @@
  * Interactive split (the HowWeDeliver idiom, new to this page): three
  * ministry entries on the left select the live case on the right, which
  * re-enters with the global sector-text-in animation. Clearly distinct from
- * [04]'s static tender-schedule ledger.
+ * [04]'s static tender-schedule ledger. Sits on the page's one soft blue
+ * band (site-wide consistency pass, 17 Jul) — Public Sector had zero
+ * background variation across all eight sections.
  */
 
 import { useState } from "react";
@@ -50,7 +52,10 @@ export default function PublicSectorMoments() {
   const current = moments[active];
 
   return (
-    <section id="in-practice" className="scroll-mt-24 border-t border-lineSoft bg-white">
+    <section
+      id="in-practice"
+      className="scroll-mt-24 border-t border-lineSoft bg-[linear-gradient(180deg,#FFFFFF_0%,#F1F5FE_16%,#F1F5FE_84%,#FFFFFF_100%)]"
+    >
       <div className="rail-container pt-12 pb-24 lg:pt-16 lg:pb-32">
         <ScrollReveal>
           <div className="flex items-baseline justify-between font-mono text-[11px] uppercase tracking-eyebrow">

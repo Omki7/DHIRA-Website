@@ -99,7 +99,10 @@ function Pillar({ className }: { className?: string }) {
 
 export default function AboutBeliefs() {
   return (
-    <section id="what-we-believe" className="scroll-mt-24 border-t border-lineSoft bg-white">
+    <section
+      id="what-we-believe"
+      className="scroll-mt-24 border-t border-lineSoft bg-[linear-gradient(180deg,#FFFFFF_0%,#F1F5FE_16%,#F1F5FE_84%,#FFFFFF_100%)]"
+    >
       <div className="rail-container pt-12 pb-24 lg:pt-16 lg:pb-32">
         <ScrollReveal>
           <p className="font-mono text-[11px] uppercase tracking-eyebrow">

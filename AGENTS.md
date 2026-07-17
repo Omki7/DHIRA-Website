@@ -42,7 +42,7 @@ components/
     FieldLedger.tsx          Live deployment panels with count-up metrics (ProvenAtScale)
     VoicesDispatches.tsx     Asymmetric editorial dispatch cards (Voices)
     AshokaChakra.tsx         Decorative 24-spoke wheel in brand blues, slow rotation (CareersImpact, ProvenAtScale)
-    LineArtBust.tsx          Friendly line-art head+shoulders figure for SVG scenes (CareersHiring, AboutWho)
+    LineArtBust.tsx          Friendly line-art head+shoulders figure for SVG scenes (CareersHiring, AboutBeliefs)
 
     mockups/             SIMULATED PRODUCT UI — fake app screenshots for visual storytelling,
                           not real Akashic functionality. See §8a before touching any file here.
@@ -64,12 +64,15 @@ components/
     AkashicLogo.tsx
     DhiraLogo.tsx
     DynamicSketchIcon.tsx    Text-keyed icon lookup; falls back to a default glyph for unknown keys
-    CloudProviderLogos.tsx   Real AWS / Azure / Google marks (brand colours) for /akashic [03]
 
   ui/                  Generic utility components
     ScrollReveal.tsx     Intersection Observer fade-in wrapper (accepts a `delay` prop in ms)
     ScrollRevealRail.tsx Centred 1440px rail with animated scroll-tracking edge lines
                          (`dark` prop for use on dark sections)
+    StatBand.tsx         Site-wide stat-tile recipe (see §5a): bordered light frame, blue
+                         gradient top bar, dashed dividers, pulsing-dot eyebrow, count-up
+                         figure, dashed footer caption. `frame={false}` for nesting inside a
+                         card that already owns its own outer chrome.
 
 hooks/
   useCountUp.ts        Count-up animation primitives:
@@ -121,32 +124,21 @@ hooks/
 | `secondary-text` | `#5C5E63` | Nav secondary copy |
 | `tertiary-text` | `#8E8F91` | Nav labels, deemphasised UI text |
 | `inkSoft` | `#6f7988` | Section body copy |
-| `overcast` | `#64748B` | Tertiary labels, watermarks, simulated-UI chrome |
+| `overcast` | `#8f99a8` | Tertiary labels, watermarks |
 | `action` | `#1A1C1D` | Primary button fill |
 | `action-hover` | `#2F3132` | Button hover |
 | `blue` | `#3E63DD` | Accent links, highlighted data, focus rings |
 | `blue-hover` | `#3351B8` | Blue accent hover state |
 | `blue-subtle` | `#EEF1FC` | Accent background tint |
 | `blue-border` | `#C8D2F5` | Accent border |
-| `red` | `#E5484D` | The shortfall/denied signal: `ProblemSection`'s indicator bar, and on `/akashic` the below-target bar, delta chip, and "Denied · policy" rows. Not a general error colour, and never a "wrong answer" tone |
-| `positive` | `#30A46C` | The live/verified dot. `LiveChip`, [01] answer chrome, [05] artifact chrome |
-| `positive-text` | `#1B7A47` | Text on `positive-subtle` (the only pairing that meets contrast) |
-| `positive-subtle` | `#EDF7F1` | Live-chip fill |
-| `positive-border` | `#CBE8D7` | Live-chip edge |
+| `red` | `#E5484D` | Problem-section indicator bar/watermark only — not a general error colour |
 | `vault` | `#0a0a0c` | Footer background only |
-| `lineSoft` | `#e4e7ec` | Section borders, section seams |
+| `lineSoft` | `#e4e7ec` | Section borders, dividers |
 | `line` | `#d3d8df` | Stronger dividers |
 | `subtle-stroke` | `#EEEFF1` | Card borders |
 | `default-stroke` | `#D9DADB` | Nav divider stroke |
-| `card-line` | `#E4E8F0` | **The** card edge. One value for every simulated-UI card, sitewide |
-| `card-divide` | `#EBEEF4` | **The** divider inside a card (header strip, footer strip, row rules) |
-| `panel` | `#F7F8FB` | Recessed interior: header strips, and wells inside a white card |
-| `depth` | `#0A0E24` | The dark anchor ground (`.ak-depth`, [05]) |
-| `depth-raised` | `#141A38` | Raised surface on the dark ground |
 
-Keep this table in sync with `tailwind.config.ts` — if you add a token, add a row; if you remove usage of a token, remove it from the config in the same change. Do not add a token nothing can consume: a value used only inside an inline `style` gradient string cannot take a Tailwind class, so it stays a literal.
-
-⚠ **Known redundancy:** `panel` (`#F7F8FB`) and `primary-bg` (`#FAFAFB`) are 3/255 apart — visually the same colour with two names. They are not interchangeable *in role*: `primary-bg` is a **section ground**, `panel` is a **surface inside a card**. Because they look identical, painting a card's interior `primary-bg` on a `primary-bg` section makes the card read as a hole rather than a container (this happened in four places and was fixed Jul 2026 — see the surface rule below). Collapsing them into one token is a worthwhile future cleanup, but it touches six other pages; do not do it as a drive-by.
+Keep this table in sync with `tailwind.config.ts` — if you add a token, add a row; if you remove usage of a token, remove it from the config in the same change.
 
 ### Typography
 
@@ -154,7 +146,6 @@ Keep this table in sync with `tailwind.config.ts` — if you add a token, add a 
 - **`font-heading`** (Google Sans): headings that opt in explicitly via `font-heading` (most headings otherwise inherit `font-sans` via the `h1`–`h6` rule in `globals.css`).
 - **`font-mono`** (Google Sans Mono): eyebrow labels, monospace figures, dossier-style UI chrome.
 - **`font-display`** (Newsreader): **Editorial pull-quotes only.** Currently only Voices section (and `FieldLedger`'s pull-quote line). Do not introduce it elsewhere.
-- **No handwriting fonts.** `font-hand` (Caveat) was removed in July 2026: hand-written annotations hurt readability in the `/akashic` [02] walkthrough. Do not reintroduce cursive/hand-drawn typefaces anywhere; annotations use `font-mono`.
 
 | Scale | Size | Weight | Tracking | Usage |
 |---|---|---|---|---|
@@ -167,110 +158,34 @@ Keep this table in sync with `tailwind.config.ts` — if you add a token, add a 
 
 **Eyebrow pattern:** `[NN] / SECTION NAME` in `font-mono text-[11px] uppercase tracking-eyebrow`. Numbers in `text-overcast`, rest in `text-inkSoft`.
 
-**Microcopy legibility floor (user flag, Jul 2026).** Load-bearing mono microcopy — rail footers (`STRUCTURED · UNSTRUCTURED · STREAMING`), HUD labels, meta captions, sidenotes (`Seven modules · one platform`), card-chrome labels — must be **≥9px and `text-secondary-text` (#5C5E63) or darker** on light grounds; prefer `font-semibold` on uppercase strip labels. `text-overcast` (#64748B) and `text-tertiary-text` (#8E8F91) are reserved for the eyebrow index number, watermarks, and fine print *inside* simulated-UI screens — never for page copy the visitor is meant to read. `/akashic` shipped dozens of 8–9px overcast/tertiary labels that were effectively invisible; they were swept to this floor in Jul 2026. Do not reintroduce them.
-
 ### Spacing & Shape
 
 - **8px grid.** Section vertical padding: `py-12 lg:py-16` for most sections' top or `pt-12 pb-24 lg:pt-16 lg:pb-32` as the common section wrapper pattern.
+- `rounded-btn` = 6px (buttons), `rounded-card` = 8px (cards), `rounded-frame` = 10px (large panels).
+- `shadow-frame`: large panel elevation. `shadow-card`: subtle card lift.
 
-#### Elevation — ONE light source
+### Timing
 
-**Every shadow on this site is cast in a single indigo-black tint: `rgba(11,20,64,…)`.** Neutral black reads muddy on a blue-white page; a faintly indigo shadow is what the brand accent implies. Three steps:
+- `duration-settle` + `ease-settle` (`cubic-bezier(0.2,0.8,0.2,1)`): all interactive transitions.
+- `duration-smooth` + `ease-smooth` (`cubic-bezier(0.4,0,0.2,1)`): continuous motion (animations).
+- Typical range: 200–400ms for UI, 600–800ms for layout morphing.
 
-| Token | Use |
-|---|---|
-| `shadow-card` | A resting card |
-| `shadow-frame` | A floating panel, and the hover step above `shadow-card` |
-| `shadow-deep` | Modal weight; white surfaces on a dark or blue ground ([01] answer card, [05] screens) |
+---
 
-**Never hand-write a `shadow-[...]`.** If none of the three fits, add a fourth step here — do not escape the ladder. That escape is exactly how the page ended up casting shadows in **four different blacks** (`rgba(0,0,0)`, `(11,20,64)`, `(18,20,26)`, `(26,28,29)`) — four light sources on one page — which is the single biggest reason it read as "almost right" (fixed Jul 2026).
+## 4a. Stat Bands — Site-Wide Consistency Rule
 
-Elevation, **not fill**, is what makes a card lift. A card with a border and no shadow will not read as a card on either ground.
+Any "band of figures" (platform/deployment stats, count-ups) uses ONE recipe, site-wide, per user direction (17 Jul): use `components/ui/StatBand.tsx` for a standalone band, or match its chrome by hand when the stats live inside a card that owns its own outer frame:
 
-⚠ Names are deliberately semantic (`card`/`frame`/`deep`), not `e1..e4`. An `e1..e4` ladder was drafted and rejected: `e1`/`e3` would have been byte-identical duplicates of `card`/`frame`, i.e. two names for one value — the same redundancy documented for `panel`/`primary-bg`. Do not reintroduce it.
+- Outer: `overflow-hidden rounded-frame border border-subtle-stroke bg-primary-bg`
+- Top accent: `h-[3px] bg-gradient-to-r from-blue/50 via-blue/25 to-transparent`
+- Cell dividers: **dashed**, never solid or a gap-as-divider (`border-dashed border-lineSoft`)
+- Eyebrow: small pulsing blue dot (`h-[5px] w-[5px] rounded-full bg-blue animate-[ps-pulse_2s_infinite]`) + mono uppercase label, above the figure
+- Figure: `font-semibold leading-none tracking-tighter text-ink`, count-up via `useCountUp`
+- Footer caption (if any): `border-t border-dashed border-lineSoft` mono uppercase
 
-#### Focus — the ring is not optional
+Applied to: home `ProvenAtScale` (now uses `<StatBand>` directly, replacing its old dark-ink tile band), `AkashicScale` (dashed divider added between each card's 2 stats), `FieldLedger` (metrics bar dividers switched solid→dashed), `DeliveryProven` / `AboutProof` / `EisProof` / `LifeProof` / `KnowledgeProof` (dot-eyebrow + dashed footer divider added to each "3 deployment cards" section — their sparklines, LIVE/COMPLETE chips, and ghost watermarks are deliberately kept; only the chrome was unified).
 
-One rule in `globals.css` covers `a`, `button`, `summary`, `input`, `select`, `textarea`, `[tabindex]`, `[role=tab]`, `[role=button]`: **2px `blue` outline, 2px offset.** It is wrapped in `:where()` so its specificity is 0 and any component may opt into a bespoke ring (see `VoicesDispatches` for the sanctioned pattern). On `.ak-depth` and `#akashic-in-action` the ring flips to white, since indigo vanishes on those grounds.
-
-**Never write a bare `focus:outline-none`.** It has specificity 0,2,0 and silently *defeats* the sitewide rule (0,1,0). If you remove the ring you must replace it in the same class list. Until Jul 2026 this file had **no focus styling at all** and two components removed even the UA default — a WCAG 2.4.7 failure. DHIRA sells to governments; keyboard accessibility is a procurement gate, not a nice-to-have.
-
-#### Numbers
-
-**Any figure that animates must carry `tabular-nums`.** Proportional digits have different advance widths, so a counting number's width oscillates every frame and shoves its neighbours around. `AkashicScale`'s `Stat` (via `useCountUp`) is the canonical case. Prefer `tabular-nums` on any numeric display; `font-mono` already implies it.
-
-#### Headings
-
-**`text-balance` on every section H2.** Kills orphans and widows on two-line headlines.
-**Do not add `leading-*` or `tracking-*` to a `text-heading-*` heading.** Those tokens already carry their own line-height and letter-spacing; a Tailwind utility silently *overrides* them with looser defaults. [01]'s H2 carried `leading-tight tracking-tight` for months and was the only one of ten set off-scale.
-
-#### Radius scale
-
-**Five steps, nested largest to smallest. Every radius must land on a step** — if you are reaching for `rounded-[7px]`, you have found a gap in the scale; widen the scale, do not escape it.
-
-| Token | Value | Use |
-|---|---|---|
-| `rounded-outer` | 14px | The outermost card / plate / panel |
-| `rounded-inner` | 10px | A panel or tile nested *inside* an outer card |
-| `rounded-tile` | 8px | Icon badges (`CardBadge`, module icons, `MiniStack` body) |
-| `rounded-chip` | 6px | Chips and labels (`BlueChip`, `LiveChip`) |
-| `rounded-micro` | 4px | Status tags, rack units — the smallest addressable object |
-
-`tile` and `micro` were added Jul 2026. The scale previously stopped at three steps, so badges and tags escaped to `[7px]`/`[8px]`/`[9px]`/`[4px]` — which is how two icon badges doing an identical job ended up at 8px and 9px. All such escapes are now collapsed onto steps.
-
-**Legacy radius tokens** (`rounded-btn` = 10px, `rounded-card` = 8px, `rounded-frame` = 10px) predate the scale and are still used by the `.btn-*` classes and older sections. `rounded-btn` was documented here as 6px for months while the config said 10px — it is **10px**. Prefer the five-step scale for new work; do not add a sixth legacy alias.
-
-The one sanctioned escape: `MiniStack`'s 2px layer bars. They are decorative geometry on 6px-tall bars, where any scale step would be wrong.
-
-#### Surface rule (the ground/surface contract)
-
-Section grounds alternate `bg-white` and `bg-primary-bg`. Surfaces must be chosen **relative to the ground they land on**, not copied from a neighbouring section:
-
-| Ground | Card | Well inside that card | Row inside the well |
-|---|---|---|---|
-| `bg-white` | `bg-white` + `shadow-card` (see `CARD`) | `bg-panel` | `bg-white` |
-| `bg-primary-bg` | `bg-white` + `shadow-card` | `bg-panel` | `bg-white` |
-
-**A card is never painted the same value as its own section ground.** Because `panel` and `primary-bg` are visually identical, a `primary-bg` card on a `primary-bg` section reads as a hole punched through the page, not as a container. Elevation (`shadow-card`), not fill, is what makes a card lift — a card with a border and no shadow will not read as a card on either ground.
-
-#### Section seams
-
-Where two sections meet, the seam is **one hairline plus the tonal step**: `border-t border-lineSoft` on the lower section. Applies to every neutral-to-neutral transition.
-
-Two deliberate exceptions: the dark [05] slab (`.ak-depth`) and the blue [01] moment draw **their own** light-catch hairlines (`via-white/25`) on both edges, because a gray `lineSoft` line is invisible on dark and dirty on blue. The section *following* a dark or blue slab therefore carries no `border-t` — the slab already owns that seam. Do not double it.
-
-### Timing — one motion grammar
-
-⚠ **`duration-settle` and `duration-smooth` DO NOT EXIST.** This section used to instruct you to write them. `settle`/`smooth` are registered under `transitionTimingFunction` only — never `transitionDuration` — so `duration-settle` emitted **nothing** and silently fell back to Tailwind's 150ms default. A developer followed this doc and shipped the bug (`AkashicBuildVsBuy`, fixed Jul 2026). Duration and easing are **two separate axes**: pick one from each column.
-
-**Easing — two curves. That is the whole vocabulary.**
-
-| Token | Curve | Use |
-|---|---|---|
-| `ease-settle` | `cubic-bezier(0.2,0.8,0.2,1)` | Everything interactive, and every entrance |
-| `ease-smooth` | `cubic-bezier(0.4,0,0.2,1)` | Continuous/looping motion |
-
-Do not introduce a third. `cubic-bezier(0.22,1,0.36,1)` was used 8× alongside `ease-settle` until Jul 2026 — perceptually the same curve, two names, one job. It has been collapsed into `ease-settle`. The **one** sanctioned exception is the overshoot on [01]'s answer card (`akx-pop`, `cubic-bezier(0.34,1.56,0.64,1)`): an overshoot is a special effect and earns its place once per page, not once per component.
-
-**Duration:** `duration-150` (micro) · `duration-250` (UI, the default) · `duration-400` (transition) · `duration-650` (reveal). Use a token; do not hand-write `380ms` in an inline `transition:` string.
-
-### Ambient motion — a budget, not a texture
-
-**Motion directs attention once, then rests.** Perpetual pulsing is the loudest "demo-ware" tell and the fastest way to look less finished than the products we benchmark against.
-
-An infinite animation is allowed **only where something is genuinely live or running**: the `LiveChip` dot, an active input caret, an in-progress status indicator, an explicitly "Live"-labelled deployment. It is **not** allowed as decoration — not on rack LEDs, footer dots, governance tiles, export rows, or graph backdrops.
-
-`/akashic` carried **16** infinite loops until Jul 2026, with the *same* live dot pulsing at three different tempos (2s / 2.4s / 1.5s) and the caret blinking with two different timing functions. It is now **5**. If you are adding a sixth, justify it against the rule above.
-
-- **One pulse tempo: `ps-pulse` at `2.4s`.** Never retune it per instance.
-- **Carets blink `step-end`**, never eased — a caret is on or off.
-- Every scroll-driven or looping effect must honour `prefers-reduced-motion` via `usePrefersReducedMotion()` (`hooks/useCountUp.ts`). This is Rule 6 and it is not optional: `AkashicModular`'s snap assist shipped without it and handed reduced-motion users an abrupt viewport jump, because the global `scroll-behavior: auto !important` strips the *smoothing* but not the *hijack*.
-
-### Icons — one family
-
-**`strokeWidth: 1.5`** on a 24×24 viewBox. That is the house icon.
-
-Sub-12px glyphs may go heavier (`2`–`3.5`), because 1.5 disappears at that size — this is optical correction, not drift. **Chart geometry is not an icon**: sparkline strokes (`1.8`), format-tile rects (`1`/`1.2`), and SVG text halos (`stroke` + `paintOrder="stroke"`, e.g. `strokeWidth="5"` on `AkashicModules`' graph labels) are load-bearing geometry and are exempt. Do not "unify" them.
+**Deliberate exceptions (do not force into this recipe):** `EnterpriseSecurity`'s 2×2 governance stat grid is a "no card boxes, gap-as-divider" layout embedded beside an SVG chart, by original design intent. `PublicSectorProven`'s dark record board is a row-based ledger (mission/ministry/figure/sparkline per row), not a tile grid — a Rule 5 dark-card precedent, structurally different from a stat band by content shape (Rule 1).
 
 ---
 
@@ -285,7 +200,7 @@ Sub-12px glyphs may go heavier (`2`–`3.5`), because 1.5 disappears at that siz
 | `.rail-container` | Centred 1440px max-width wrapper, `border-x border-lineSoft`, standard horizontal padding |
 | `.comparison-before-bg` | Before image container clipping style (TheProof) |
 | `.comparison-slider-line` | Split-slider line positioning (TheProof) |
-| `.hs-card` | Absolute-positioned 840x592px card for the HeroProducts / AkashicModuleScreens carousels. Use `data-pos="center\|left\|right"` (plus `"far"` for off-stage cards when there are more than three) |
+| `.hs-card` | Absolute-positioned 840x592px card for HeroProducts carousel. Use `data-pos="center\|left\|right"` |
 | `.ps-mc` / `.ps-mc-hd` / `.ps-mc-dark` | Platform module card shell / header strip / dark variant, used by `PowerfulPlatform` and `PlatformBIChart` |
 
 ### Keyframe animation classes (apply via className)
@@ -298,7 +213,7 @@ Sub-12px glyphs may go heavier (`2`–`3.5`), because 1.5 disappears at that siz
 | `.mc-stage-in` | Panel fade-up (mc-stage) | ProofComparison |
 | `.sector-text-in` | Right-panel text entrance (sectorTextIn) | EverySector |
 
-**Inline @keyframes used directly** (not class-based, applied via inline `animation` style): `softpulse`, `dashmove`, `progressFill`, `ps-*` (PowerfulPlatform's caret + the other mockups' legacy set — `ps-pulse`, `ps-crawl`, `ps-zip`, `ps-ring`, `ps-dash`, `ps-flow`, `ps-float`, `ps-breathe`, `ps-grow`, `ps-draw`, `ps-linep`, `ps-bar`, `ps-sheen`, `ps-fillA`, `ps-fillO`, `ps-rise`, `ps-risec`, `ps-caret-blink`), `akx-*` (AkashicFourMoves answer card — `akx-pop`, `akx-rise`, `akx-fillx`, `akx-mark`), `proofCorePulse`, `proofKnobGlow`, `proofHint`.
+**Inline @keyframes used directly** (not class-based, applied via inline `animation` style): `softpulse`, `dashmove`, `progressFill`, `ps-*` (PowerfulPlatform / PlatformConnectors — `ps-pulse`, `ps-crawl`, `ps-zip`, `ps-ring`, `ps-dash`, `ps-flow`, `ps-float`, `ps-breathe`, `ps-grow`, `ps-draw`, `ps-linep`, `ps-bar`, `ps-sheen`, `ps-fillA`, `ps-fillO`, `ps-rise`, `ps-risec`, `ps-caret-blink`), `vconn-flow`, `dropconn-flow` (PlatformConnectors), `proofCorePulse`, `proofKnobGlow`, `proofHint`.
 
 All keyframes live in `globals.css`. Do not add a component-local `<style dangerouslySetInnerHTML>` block for animations — it risks silently redefining a keyframe that already exists globally (this happened once with `ps-pulse`/`ps-rise` in `PowerfulPlatform.tsx` and has since been consolidated).
 
@@ -329,60 +244,17 @@ Composed in `app/akashic/page.tsx` (Nav + sections + Footer). The nav's "Akashic
 | Order | ID | File | Background | Notes |
 |---|---|---|---|---|
 | 00 | — | `sections/akashic/AkashicHero.tsx` | `bg-background` | Centred hero, dot-grid backdrop, scroll cue into [01] |
-| — | platform-screens | `sections/akashic/AkashicShowcase.tsx` | `bg-white` | Unnumbered hero extension (mirrors the home Hero's live wireframes): 7-module screen carousel via `demos/mockups/AkashicModuleScreensMockup` (§8a applies) — reuses the three home hero screens from `HeroProductScreensMockup`, plus Master Data / ML / Governance screens built in the same idiom and demo-data world, and the BI tab rendered as the interactive `AkashicHeroBIWireframe` component (dashboard + Ask Akashic chat whose suggested queries answer from the demo world and add an Attainment-by-region tile live) |
-| 01 | akashic-in-action | `sections/akashic/AkashicFourMoves.tsx` | `bg-[#3E63DD]` | "Akashic in action" — the product page's first fold, rebuilt again (Jul 2026) as a question-first run: narrative + manual two-world toggle (Enterprise / Public programmes) left, live ask simulation right (§8a applies: canned copy + demo data). A rAF pull-to-pop glide lands the visitor flush on the section as soon as its edge peeks in from the platform-screens wireframes above (light downward scroll triggers it; upward wheel/touch aborts; skipped under reduced motion). The question types itself first (the input card wears a white focus ring while running); the four moves (Connected → Understood → Reasoned → Answered, plain-language lines, no jargon) stay hidden until it finishes, then cascade in one by one — their space and the answer card's are always reserved (`invisible`/`opacity-0`) so the fold never jumps. The answer card pops in (`akx-pop`) as a two-panel evidence dossier that makes the structured + unstructured pull explicit in plain words: "From your systems" (percent-of-target bullet bars via `akx-fillx`, dashed 100% target line, red shortfall row + delta chip, gap-reconciling footnote) beside "From your documents" (an email / field-report excerpt whose key phrase gets an amber highlighter sweep, `akx-mark`, plus a second record row with an Unsigned/Rescheduled status chip); Akashic-wordmark chrome strip on top, plain-language evidence chips below (systems+documents count / traceability / speed). Demo numbers reconcile across panels (Enterprise: −8% = $80,500 = the two stalled renewals; Public: −9% = 550 enrolments = the two rescheduled camps). The run plays once and persists (never resets on scroll-out); switching worlds replays it. Blue background is a deliberate product-page echo of the home page's PowerfulPlatform blue (Rule 5 exception). Hero's "See how it works" CTA links here (`#akashic-in-action`); `#modules` transition link reveals with the answer (left column on desktop, foot on mobile) |
-| 02 | how-it-works | `sections/akashic/AkashicModular.tsx` | `bg-primary-bg` | "Introducing Akashic" immersive teardown: a 970vh track pins a full-viewport 3D scene (`demos/mockups/AkashicTeardownMockup`, §8a applies) — a machined product unit (faceplate wordmark + AkashicLogo, edge status LEDs, idle bob) opens into six plates (pipelines → BI), one module per scroll segment, then governance rails/audit sweep reveal as the always-on frame. The unit reseals for the "start anywhere" close chapter (text above, unit below): individual plates pull out like drawers in combos (pipelines alone / master data + ask / whole platform) under the "Every module works on its own" headline + `#talk-to-our-team` CTA. Hero + platform-screens + four-moves ride on top as a `curtainContent` overlay; a snap assist (240px zone) pulls the stage to full screen once the curtain is nearly scrolled past. The scene renders imperatively (rAF + data-ak refs, no per-frame React renders); scroll position is the single source of truth — HUD ticks navigate by scrolling the page. Demo data stays in the canned world (customer 9042 / demand-forecast v3, AkashicModules source-dot colours). Replaced the record-journey walkthrough (July 2026); the retired `StartAnywhereWalkthroughMockup` + `StartAnywherePanelsMockup` files remain on disk but are no longer imported |
-| 03 | architecture | `sections/akashic/AkashicArchitecture.tsx` | `bg-white` | Deploy-it-your-way. Eyebrow is **"Where it runs"** (renamed Jul 2026: it used to say "Your architecture", which collided with [04], the section that actually shows the architecture — [04] now owns that word; keep `lib/akashicSections.ts` labels in sync). Moved directly after the [02] teardown (July 2026) and compacted to fit one desktop viewport (stacked page-standard header, slim close bar, tightened padding): three environment plates — sky-gradient cloud plate with real AWS / Azure / Google marks (`icons/CloudProviderLogos`), light-metal server-cabinet plate for on-prem with a blue-lit Akashic shelf (recoloured from dark ink, July 2026, per Rule 5), split rack/cloud estate for hybrid — all holding the same AkashicMark, converging into the consistency close bar. Cloud region names are real provider regions |
-| 04 | modules | `sections/akashic/AkashicModules.tsx` | `bg-primary-bg` | **"The architecture"** ("Seven modules. Three layers. One platform.") — rebuilt as a top-to-bottom schematic (Jul 2026, user direction: the old one-fold five-column "circuit" read bland, truncated its copy, and hid the 3-layer/7-module structure; eyebrow was "How it composes · the architecture" — "composes" read as jargon and "architecture" collided with [03]). Benchmarked against 2026 platform-site practice (Fabric / Snowflake / Databricks): full-width layer STRATA in flow order with governance as a spanning plane. Vertical flow: IN sources stratum (four categories, two pills each) → LAYER 01 Data (Pipelines / Master Data / Warehouse tiles) → LAYER 02 Knowledge (relationship viz + capability lines; no modules — built by Master Data, which is how the seven-module count reconciles) → LAYER 03 Intelligence (ML / Ask Akashic / BI tiles) → OUT decision bar, connected by static three-lane lineage beams (`BeamTriple`/`BeamMerge`, drawn on the shared `BAND_GRID` template so lanes track tile columns). The signature device is the **governance bracket**: a vertical "Governed · end to end" rail down the left of every stratum (lg+) that closes into the full-width Akashic Governance floor card (module 07, ink top-rule, four capability tiles with mono details). Every stratum shares one left-spine grammar (mono index / name / tagline, blue footer line on the three layers, ghost numeral watermark). Module tiles carry **high-level capability lists** (four TERSE NOUN PHRASES each in a 2×2 grid — the first cut used full sentences, which read wordy and made the section scroll; compressed on user feedback, Jul 2026, along with the whole vertical rhythm so the schematic reads as one drawing. Blue dot markers — not checkmarks, Rule 2) summarising [08]'s datasheet with **no vendor or technology names** ([08] stays the only place technology is named; keep the two in sync when [08] changes). **Nothing truncates**: the old `truncate` subs/metas cut copy mid-word and were one trigger for this rebuild — do not reintroduce `truncate` on content the visitor must read. The old "Your decision" card's mixed mono/semibold styling is replaced by the one-register OUT bar (statement + backed-by line + GROUNDED chip). Still no worked examples (§8a; decoupled from [01]'s story): the knowledge viz shows generic relationship TYPES around "Any record" (linked to / classified as / traced through / governed by). Chrome stays **single-elevation**: each stratum and the floor is a white card carrying the section's only `shadow-card`; interiors are flat `panel` tiles with hairline `card-divide` borders at most. On-screen copy says **"knowledge layer", never "knowledge graph"** (user direction, Jul 2026). No longer constrained to one desktop fold — the capability content earns the height. Nav anchor ids kept (`#modules-data-pipelines` … `#modules-governance`); mobile stacks strata with MobileConn joints |
-| 05 | trust | `sections/akashic/AkashicTrust.tsx` | `.ak-depth` (dark) | Eyebrow "Trust, built in" (audience-neutral, Jul 2026 — "Enterprise trust" picked a side). Subheader enumerates the four checks in card order (who can see it / where each number came from / who touched it / where the data stayed) so they read as answers the reply already carries. **Source count reconciles page-wide to [01]'s "2 systems · 3 documents"** — the audit feed's "grounded against 4 sources" was the odd one out and is now "grounded in 2 systems · 3 documents"; keep any future source-count copy matching [01]. Residency screen uses a neutral "in-country / your jurisdiction" (the `ap-south-1 · Mumbai` region label was dropped to keep the enterprise demo world region-agnostic). "One answer, four checks" — the payoff of [01], rebuilt again (Jul 2026, user direction: live screens, not HTML boxes): the same South-region answer sits at top as an artifact card (green pulse chrome strip, 09:41), a stem + "Four checks, built in" mono bridge drops into **four numbered vertical strips** (01–04, text left / live screen right on lg, stacked on mobile — replaced the 2×2 grid Jul 2026: four screens tiled read as too dense), each a full app window from `demos/mockups/AkashicTrustScreensMockup.ts` (§8a) in the hero screens' exact chrome (window bar + `app.akashic.dhira.io` pill, compact breadcrumb top bar, 46px module rail, #E9EAEE borders, flat shadows; layouts reference OpenMetadata's governance UX re-skinned to Akashic). Each check leads with a plain-language question + mono term eyebrow above its screen: Access control "Who can see it?" (Roles/Policies/Users tabs, roles table with permission chips incl. rose "Export denied", "Enforced at query time" footer), Lineage "Where did each number come from?" (lineage canvas on the `revenue_vs_target` asset page, rail active on Warehouse: SAP/Salesforce/email upstream nodes fan into the model card, blue-highlighted path from the cited email, −8% answer node, zoom pill), Audit trail "Who has touched it?" (filter chips, avatar activity feed with a rose "Denied · policy" export row, Live chip, append-only footer), Data residency "Where did the data stay?" (dashed YOUR JURISDICTION perimeter with Stored→Processed→Answered, red-dashed "0 bytes" egress to a greyed Other-regions card). Screens are `h-[340px] min-w-[460px]` in an `overflow-x-auto` wrapper (mobile pans horizontally). Closes with the defensible-not-delivered statement + CTA |
-| 06 | open | `sections/akashic/AkashicOpenFoundations.tsx` | `bg-primary-bg` | "Open architecture" — the no-lock-in chapter (rebuilt Jul 2026, user direction: dropped the technology list). Page-standard left-narrative + right-simulated-card layout: four commitments (modular / open, not a black box / extensible / portable) left — the "open, not a black box" commitment points at **[08] by index, not "the next section"** (that pointer broke when [07] Build vs. buy was inserted between them; do not reintroduce a relative reference) — an `akashic.export` **portability manifest** right (§8a) listing what you carry out when you leave (data, models, pipelines, dashboards, knowledge graph) in plain-language open formats with an outbound-arrow tag, blue "take it to any platform, no exit fee" footer. Deliberately no vendor / technology names (that was the removed "guts"); distinct from [03] deploy and [05] trust |
-| 07 | build-vs-buy | `sections/akashic/AkashicBuildVsBuy.tsx` | `bg-white` | "Build vs. buy" — the opportunity-cost argument, added Jul 2026. Three grouped comparison rows (Speed and complexity / Who carries it / Cost and governance) between a "Custom build" plate and a Recommended-badged Akashic plate. **Every cell is a string, deliberately:** the middle group was booleans rendered as tick/cross badges, which violated Rule 2 *and* contradicted the H2 — a cross claims the team cannot build what "Your team could build this" concedes they could, and what [08] then names the open-source projects for. Rows state who *carries* the work, not who is *capable* of it. Do not reintroduce booleans or checkmarks. ⚠ build-side estimates ("Quarters", "A standing team") are UNSOURCED per Rule 4 — confirm or cut before ship; the "6 weeks" cell must move together with [11]'s six-week commitment |
-| 08 | stack | `sections/akashic/AkashicStack.tsx` | `bg-primary-bg` | "The stack" — a tabbed drawer (client) in the "Modular by design" idiom, added Jul 2026 (user direction): a vertical module selector (horizontal scroll on mobile) drives a `ps-rise`-animated detail panel showing each module's connectors + capabilities. Connector marks use the house monogram-tile style (coloured mono badge + name, like the Pipelines mockup source list — illustrative integration categories, not a live registry). Per module: Pipelines (source-connector tiles + unstructured ingestion + how-it-runs, runs-on Airflow/Kafka/CDC), Master Data (MDM: entities / match / golden record / stewardship), Warehouse (warehouse-connector tiles + modelling / serving, Iceberg/Delta/dbt), ML (notebooks / MLOps / feature store / compute, MLflow/JupyterHub), Ask Akashic (BYOK highlight callout + models supported / grounding / security), BI (surfaces / interaction / governed, Superset), Governance (access / lineage / audit / residency+keys / compliance — DPDP/ISO/SOC2/GDPR/CERT-In). **Deliberately names open technologies and model providers** — this is the stack tour [06] intentionally omits, per explicit user request; compliance / key-custody / residency lines match the home + [05] copy. `id="stack"` (own selector state, no per-module anchor ids). The panel footer is the **"Runs on" strip only**, and renders only when the module has `tech` — it used to carry "Works standalone · snaps into the platform" plus a WORKS STANDALONE chip on all seven panels, i.e. 14 restatements of an idea [02]'s close chapter owns and earns. Do not put the standalone claim back here |
-| 09 | solutions | `sections/akashic/AkashicSolutions.tsx` | `bg-white` | EIS / Life / Knowledge cards (anchor ids match the nav's Solutions links) on a shared "same governed model" base bar. ⚠ **`Nav.tsx` describes Akashic Life and Akashic Knowledge as entirely different products** from this section (nav: edge AI diagnostics / adaptive learning infrastructure; here: life-sciences data unification / document intelligence). Unresolved — one surface is wrong and it is live site-wide |
-| 10 | scale | `sections/akashic/AkashicScale.tsx` | `bg-primary-bg` | Two live-deployment stat panels (figures per Rule 4 + content script; script marks section status OPEN). ⚠ "Akashic runs national infrastructure today" asserts the deployments are the *product*; if they predate Akashic-as-product or were bespoke engagements, this is the page's highest-risk claim — confirm before ship |
-| 11 | talk-to-our-team | `sections/akashic/AkashicClose.tsx` | `bg-white` | Dark closure card (Rule 5's Closure precedent). ⚠ six-week commitment flagged "confirm" in the content script (and mirrored in [07]'s table — move both together). Carries the `#talk-to-our-team` id the nav CTA targets |
+| 01 | how-it-works | `sections/akashic/AkashicFourMoves.tsx` | `bg-white` | Two-world question toggle (auto-cycles, pauses on click) + four-move rail with simulated-UI micro-visuals per move (§8a applies) |
+| 02 | modules | `sections/akashic/AkashicModules.tsx` | `bg-white` | Living stack diagram: source chips fan into three layer frames via animated blue flow connectors; module cards carry simulated-UI micro-mockups (§8a applies, figures consistent with PowerfulPlatform's); governance is a left rail + dark base card (deliberate dark card, per Rule 5's Closure precedent). Styled with Tailwind classes per Rule 8, reusing global `ps-*`/`fl-*` keyframes |
+| 03 | architecture | `sections/akashic/AkashicArchitecture.tsx` | `bg-white` | Deploy-it-your-way: three environment plates deliberately distinct from [02]'s module-card chrome — sky-gradient cloud plate with branded provider tiles, dark server-cabinet plate for on-prem, split rack/cloud estate for hybrid — all holding the same MiniStack, converging into the consistency close panel. Cloud region names are real provider regions |
+| 04 | modular | `sections/akashic/AkashicModular.tsx` | `bg-white` | Start-anywhere tabs: 7-module explorer whose detail panel highlights the module's layer on the MiniStack |
+| 05 | trust | `sections/akashic/AkashicTrust.tsx` | soft blue band | Built-to-be-audited 2×2: access roles, lineage trace, audit log, residency perimeter micro-mockups. The page's one blue band (Rule 5a) |
+| 06 | open | `sections/akashic/AkashicOpenFoundations.tsx` | `bg-white` | `akashic.stack` manifest card listing open technologies. ⚠ tech list flagged "representative" in the content script — confirm with engineering |
+| 07 | solutions | `sections/akashic/AkashicSolutions.tsx` | `bg-white` | EIS / Life / Knowledge cards (anchor ids match the nav's Solutions links) on a shared "same governed model" base bar |
+| 08 | scale | `sections/akashic/AkashicScale.tsx` | `bg-white` | Two live-deployment stat panels (figures per Rule 4 + content script; script marks section status OPEN) |
+| 09 | talk-to-our-team | `sections/akashic/AkashicClose.tsx` | `bg-white` | Dark closure card (Rule 5's Closure precedent). ⚠ six-week commitment flagged "confirm" in the content script. Carries the `#talk-to-our-team` id the nav CTA targets |
 
-Shared pieces for this page: the blue-on-white animated connectors (`FlowPath`/`FanIn`/`MergeDown`/`SplitDown`/`MobileConn`) live in `demos/AkashicFlowConnectors.tsx` (decorative, no data), and the simulated-UI card chrome + MiniStack motif live in `sections/akashic/AkashicCardChrome.tsx`.
-
-#### Repetition budget (content pass, Jul 2026)
-
-This page's recurring failure mode is not bad writing, it is the same idea delivered in four places by four different rebuilds. Each idea below has **one** owner; every other section assumes the reader has it. Before adding a sentence, check whether you are restating one of these:
-
-| Idea | Owner | Everywhere else |
-|---|---|---|
-| Numbers in systems, reasons in documents | [01] | Hero states the *promise*, not the mechanism |
-| What each module *is* | [02] | [04] shows the architecture with high-level capability lists (no vendor/tech names, kept in sync with [08]); [08] is the full datasheet |
-| Start anywhere / works standalone | [02]'s close chapter (it demonstrates it) | Assume it. Do not restate in [06], [08], or [11] |
-| Deploy where data must live | [03] | [05] *proves* residency; [03] only claims it |
-| Governance exists / is always on | [02] module 07 | [04] states scope structurally; [05] proves it with screens |
-| No lock-in / portability | [06] | [08] names the standards [06] points at |
-| Opportunity cost of building | [07] | — |
-| What it runs on | [08] | Only place technology is named |
-
-**Terms that must stay defined at first use.** Both were load-bearing and floating until Jul 2026:
-- **governed metric layer** — defined in [02] Warehouse ("defined once here and stored once"). It is not a module. Three later sections lean on it; do not use it before [02] defines it.
-- **knowledge graph** — produced by [02]/[04] Master Data, exportable in [06], queried by Ask Akashic. Also not a module. If you write copy implying it is the eighth module, the "seven modules" count breaks.
-
-**Canonical module names** (match `Nav.tsx`): Akashic Pipelines · Akashic Master Data · Akashic Warehouse · Akashic ML · Ask Akashic · Akashic BI · Akashic Governance. The longer strings (`Akashic Data Pipelines`, `Akashic Insights`, …) are `DynamicSketchIcon` lookup keys only — never render them as display copy. `Akashic Insights` is a stale alias for Ask Akashic (`AkashicModules.tsx`).
-
-**Layer vocabulary:** Data Layer / Knowledge Layer / Intelligence Layer, with Governance as the floor. Introduced in [04] and currently used only there. Either commit to it page-wide or cut it; do not add a fourth layer name.
-
-#### Callback policy — sections stand alone (Jul 2026)
-
-`Nav.tsx` deep-links **into the middle of this page** (`/akashic#modules-data-pipelines`, `#modules-ask-ai`, `#solutions`, `#stack`, and five more), and search traffic lands the same way. **Every numbered section must be fully understandable cold**, by a visitor who has read nothing above it.
-
-A callback to an earlier section is allowed only when it is *enrichment* — flavour for the sequential reader that carries no load-bearing meaning — and only inside a section you cannot land in mid-scroll. In practice that means **[02] only**, whose 970vh pinned teardown has no addressable interior. Its internal callbacks ("You've just seen everything underneath it. That's why it works.", "underneath everything you just watched") are deliberate and stay.
-
-Everywhere else, do not write "You've seen…", "This is the answer from…", "As shown above", or an index reference that the reader needs in order to parse the sentence. These were added in a Jul 2026 cohesion pass and removed in the pass immediately after, once the nav deep-links were accounted for — do not re-add them. Forward pointers used for wayfinding ([06] → "named in full in [08]") are fine: they aid navigation rather than gate comprehension.
-
-The two goals are not in tension. Sections stand alone; the *sequence* supplies the narrative, not the sentences.
-
-#### Microcopy conventions (checked Jul 2026)
-
-- **Transition CTAs are imperative.** "See what's underneath" ([01]), "Deploy it where your data lives" ([02]), "See what you'd take with you" ([05]), "See what each module runs on" ([07]). Do not write a declarative fragment as a button label.
-- **Conversion CTAs follow the site pattern, not a page-local one.** Every page's hero links "Talk to our team" → its own `#talk-to-our-team` close section; every close section's button → `/#get-started` (home `Closure.tsx`). Two same-labelled buttons with different destinations looks wrong in isolation and is correct across the site. Do not "fix" it on `/akashic` alone. ⚠ Separately: `Closure.tsx` carries `id="talk-to-our-team"` *inside itself*, so its own "Schedule a briefing" button is a no-op on the home page. Real bug, not an `/akashic` one.
-- **Typography: curly apostrophes and quotes everywhere copy is rendered.** JSX prose uses `&rsquo;` / `&ldquo;`; **data strings and simulated-UI strings must use the literal `’` `“` `”` characters**, not `'` or `\"`. The page mixed both until Jul 2026 (teardown module bodies and the [02] Ask query rendered straight quotes while [01]'s demo question rendered curly ones). Grep before shipping: `"[^"]*[a-z]'[a-z][^"]*"` over `sections/akashic` and the Akashic mockups should return nothing.
-- **Badges** are ALL-CAPS via the `uppercase` CSS class, so source strings are written in sentence case ("Recommended", "In-house") and *render* uppercase. Don't "correct" the source string casing; check the rendered output before reporting a case inconsistency.
+Shared pieces for this page: the blue-on-white animated connectors (`FlowPath`/`FanIn`/`MergeDown`/`SplitDown`/`MobileConn`) live in `demos/AkashicFlowConnectors.tsx` (decorative, no data — the white-background cousin of `demos/mockups/PlatformConnectors.tsx`), and the simulated-UI card chrome + MiniStack motif live in `sections/akashic/AkashicCardChrome.tsx`.
 
 ### Delivery page (`/delivery`)
 
@@ -397,7 +269,7 @@ Composed in `app/delivery/page.tsx` (Nav + sections + Footer). The nav's "Delive
 | 04 | advisory-co-engineering | `sections/delivery/DeliveryAdvisory.tsx` | `bg-white` | Model 3: two engagement forms as stacked editorial ledger rows (no card chrome): Strategic Advisory (2–4 figure + D-01…03 deliverables ledger) and Co-Engineering Squad (1 + 4 figure + five readable role rows) |
 | 05 | methodology | `sections/delivery/DeliveryMethodology.tsx` | `bg-white` | Discover/Design/Deliver/Transfer on one unbroken dot rail (horizontal desktop, vertical mobile) — the "no hand-offs" visual |
 | 06 | proven-at-scale | `sections/delivery/DeliveryProven.tsx` | `bg-white` | Live engagement ledger (client): count-up figures, sparklines, LIVE/COMPLETE chips; figures per Rule 4 (match AkashicScale / home stats) |
-| 07 | partnership-fit | `sections/delivery/DeliveryFit.tsx` | `bg-white` | Editorial verdict split: two indexed statement ledgers on one dashed axis, each closing on its verdict line; directional arrows only (no checkmarks, Rule 2) |
+| 07 | partnership-fit | `sections/delivery/DeliveryFit.tsx` | soft blue band | Editorial verdict split: two indexed statement ledgers on one dashed axis, each closing on its verdict line; directional arrows only (no checkmarks, Rule 2). The page's one blue band (Rule 5a) |
 | 08 | faq | `sections/delivery/DeliveryFAQ.tsx` | `bg-white` | Master-detail Q&A on desktop (question ledger left, active answer staged at 22px right under ghost "?" watermark), dossier accordion below lg; shared open state, discovery-call close line |
 | 09 | talk-to-our-team | `sections/delivery/DeliveryClose.tsx` | `bg-white` | Dark closure card (Rule 5's Closure precedent). Carries the `#talk-to-our-team` id the nav CTA targets |
 
@@ -408,10 +280,10 @@ Composed in `app/about/page.tsx` (Nav + sections + Footer). The nav's Company me
 | Order | ID | File | Background | Notes |
 |---|---|---|---|---|
 | 00 | — | `sections/about/AboutHero.tsx` | `bg-background` | Centred hero, dot-grid backdrop, "outlast the budget cycle" bars motif, offices mono strip |
-| 01 | why-we-exist | `sections/about/AboutWhy.tsx` | `bg-white` | Narrative beside two open line-art exhibits (un-boxed; §8a applies to file names/totals): Exhibit A, a `LineArtBust` client under three tilted disagreeing spreadsheets; Exhibit B, a flat-mouthed AI box whose answer floats above a dashed trace that breaks mid-air ("Source: not found"). Trust-problem pivot line unchanged |
-| 02 | who-we-are | `sections/about/AboutWho.tsx` | soft blue band | Line-art journey (careers idiom): a crew of `demos/LineArtBust` engineers walks one dashed route through three world-scenes (ministry dome + transaction streams / regulated tower + uptime gauge / growth curve outrunning its box; watermarks 10⁹ · 99.9 · 10×), landing on the "every engagement" punchline; advise-vs-build close is an open editorial split (unboxed) |
-| 03 | what-we-believe | `sections/about/AboutBeliefs.tsx` | `bg-white` | Principles as architecture (line-art idiom): a skyline of everything shipped (dome / tower / growth curve / `LineArtBust` crew) stands on an ink beam held up by five carved pillars, one per principle (B-01…B-05, titles+bodies beneath); hovering a pillar column turns its pillar blue and dims the rest (CSS only, server component). Mobile stacks pillar-beside-text rows under the same skyline |
-| 04 | how-we-work | `sections/about/AboutHow.tsx` | `bg-white` | Continuous line-art story strip (careers idiom): the same two `LineArtBust` figures (blue = DHIRA, ink = client) recur along one unbroken ground line through four commitment scenes — listening (client's bubble, ours silent) / building together (dashed unfinished storey) / staying (live pulse on finished tower) / truth (one straight line in the bubble) — while a sun rises, crosses and sets into a moon overhead; scenes butt gap-0 so the ground joins. Text columns beneath with day-tags, CSS hover dimming; mobile stacks scene-above-text |
+| 01 | why-we-exist | `sections/about/AboutWhy.tsx` | `bg-white` | Narrative + micro-mockup panel (§8a applies: three conflicting spreadsheets, untraceable AI answer), trust-problem pivot line. Restored to this boxed version by user preference (17 Jul) after a line-art variant read as unclear |
+| 02 | who-we-are | `sections/about/AboutWho.tsx` | `bg-white` | Contexts ledger (ministries / regulated enterprises / startups): sticky narrative left, three proof rows with giant scale watermarks + sketch-icon tiles, advise-and-leave vs build-and-stay contrast strip. Restored to this enterprise version by user direction (17 Jul) |
+| 03 | what-we-believe | `sections/about/AboutBeliefs.tsx` | soft blue band | Principles as architecture (line-art idiom, the page's one creative centrepiece by user direction): a skyline of everything shipped (dome / tower / growth curve / `LineArtBust` crew) stands on an ink beam held up by five carved pillars, one per principle (B-01…B-05, titles+bodies beneath); hovering a pillar column turns its pillar blue and dims the rest (CSS only, server component). Mobile stacks pillar-beside-text rows under the same skyline |
+| 04 | how-we-work | `sections/about/AboutHow.tsx` | `bg-white` | Four commitments on one engagement rail (methodology idiom): dashed line from day one to the last day, four numbered nodes (last one ringed), day-tags + statements + bodies per column, CSS hover dimming; vertical rail on mobile. No illustration by design |
 | 05 | careers | `sections/about/AboutCareers.tsx` | `bg-white` | Careers teaser: NOW HIRING pulse signature, four compact role rows (match JoinTheTeam's ROLES), links to `/#careers` |
 | 06 | proof | `sections/about/AboutProof.tsx` | `bg-white` | Three deployment panels (client, AkashicScale idiom): count-up figures per Rule 4, sparklines, LIVE/COMPLETE chips |
 | 07 | talk-to-our-team | `sections/about/AboutClose.tsx` | `bg-white` | Dark closure card (Rule 5's Closure precedent). Carries the `#talk-to-our-team` id the nav CTA targets |
@@ -431,7 +303,7 @@ Composed in `app/careers/page.tsx`. The nav's Company → Careers, the home Join
 
 ### Solution pages (`/solutions/eis`, `/solutions/life`, `/solutions/knowledge`)
 
-Composed in `app/solutions/{eis,life,knowledge}/page.tsx` (Nav + sections + Footer). The nav's Solutions → Akashic Plugin items link here, as do the "Learn more" links on `/akashic`'s AkashicSolutions cards. Copy comes from user-supplied content scripts (July 2026); figures on these pages (564 crore sessions, 18.25 crore enrolments, 1.89 crore learners, 2B vaccinations, 3.87 lakh emigrations, 10 crore+ Poshan, 12,402/month, ₹2 Cr+ estimate) are per those scripts — ⚠ some differ from the home/Akashic stats (5.75B+/187M+); reconcile before ship. All three share the split hero (pitch left, telemetry/mockup card right), the flowing six-step chain rail, and count-up proof panels, so the family reads as siblings.
+Composed in `app/solutions/{eis,life,knowledge}/page.tsx` (Nav + sections + Footer). The nav's Solutions → Akashic Plugin items link here, as do the "Learn more" links on `/akashic`'s AkashicSolutions cards. Copy comes from user-supplied content scripts (July 2026); figures on these pages (564 crore sessions, 18.25 crore enrolments, 1.89 crore learners, 2B vaccinations, 3.87 lakh emigrations, 10 crore+ Poshan, 12,402/month, ₹2 Cr+ estimate) are per those scripts — ⚠ some differ from the home/Akashic stats (5.75B+/187M+); reconcile before ship. All three share the split hero (pitch left, telemetry/mockup card right), the flowing six-step chain rail, and count-up proof panels, so the family reads as siblings. Each also carries its own one soft blue band (Rule 5a): `EisIntegration` [06], `LifeStory` [03], `KnowledgeMorning` [04] — all narrative/trust "breather" sections, not data-dense ones.
 
 | Page | Sections (`components/sections/…`) | Signature pieces |
 |---|---|---|
@@ -445,7 +317,7 @@ Composed in `app/sectors/public-sector/page.tsx`; the nav's Solutions → Sector
 
 | Page | Sections (`components/sections/public-sector/`) | Signature pieces |
 |---|---|---|
-| `/sectors/public-sector` | PublicSectorHero, PublicSectorGap [01], PublicSectorProven [02], PublicSectorMoments [03], PublicSectorWhy [04], PublicSectorChain [05], PublicSectorDeploy [06], PublicSectorClose [07] | Public-record missions board hero card; two-tier proof (4 flagship count-up panels + "also in production" registry ledger); **tender-schedule ledger** (REQ-01…REQ-06 compliance rows with status chips); environment tiles with SOVEREIGN DEFAULT marker |
+| `/sectors/public-sector` | PublicSectorHero, PublicSectorGap [01], PublicSectorProven [02], PublicSectorMoments [03], PublicSectorWhy [04], PublicSectorChain [05], PublicSectorDeploy [06], PublicSectorClose [07] | Public-record missions board hero card; two-tier proof (4 flagship count-up panels + "also in production" registry ledger); **tender-schedule ledger** (REQ-01…REQ-06 compliance rows with status chips); environment tiles with SOVEREIGN DEFAULT marker. `PublicSectorMoments` [03] carries the page's one soft blue band (Rule 5a) |
 
 ---
 
@@ -463,17 +335,11 @@ The checkmark character appears **only** in the FieldLedger telemetry badge. No 
 ### Rule 4 — No Invented Data
 All numbers in the UI (stats, chart values, percentages) must be real. The AI investment chart uses Stanford HAI AI Index Report 2026 figures. The scale stats (5.75B+ learning interactions, 4M+ workforce clearances, 99.999% uptime) are real deployment figures. Do not invent new numbers.
 
-### Rule 5 — Grounds Are Composed, Not Chosen Per Section
-The Footer (`bg-vault`) is the only permanently dark region **sitewide**. On the home page, `PowerfulPlatform`'s blue (`bg-[#3E63DD]`) is the one non-neutral ground, and new home sections default to `bg-white` / `bg-background`.
+### Rule 5 — Dark Sections Are Deliberate, Not Default
+The Footer (`bg-vault`) is the only permanently dark region. `ProvenAtScale` was originally the page's one dark section but has since moved to `bg-white` by deliberate design direction (see the comment at the top of `ProvenAtScale.tsx`). New sections default to `bg-white` or `bg-background`; `PowerfulPlatform`'s blue (`bg-[#3E63DD]`) is the one other non-neutral section background and should stay unique to that section.
 
-`/akashic` is the deliberate exception, and it is a *composition*, not a set of independent choices. Its grounds alternate neutral (`bg-white` ⇄ `bg-primary-bg`) to give the long page a rhythm, with exactly two colour events, both earned:
-
-- **[01] blue** — echoes the home page's "Meet Akashic" moment. The product page's first fold.
-- **[05] dark** (`.ak-depth`) — the trust anchor. The one place white product screens are meant to *lift off* the ground.
-
-Two colour events across twelve sections is the budget. **A third would flatten both.** When adding a section to `/akashic`, do not pick a ground in isolation: read its neighbours and continue the alternation. Then obey the surface rule in §4 — changing a ground without re-checking the surfaces on it is what produced four invisible cards in Jul 2026.
-
-⚠ The section-map background columns above are **load-bearing**, not decoration: they went stale for five `/akashic` rows while the page moved to the alternating rhythm, and the surface bug survived precisely because the doc still said `bg-white`. If you change a ground, change its row in the same commit.
+### Rule 5a — One Soft Blue Band Per Page
+Per user direction (17 Jul), every page gets exactly ONE section styled with the soft blue gradient band — `bg-[linear-gradient(180deg,#FFFFFF_0%,#F1F5FE_16%,#F1F5FE_84%,#FFFFFF_100%)]` — to break up an otherwise all-`bg-white` run. Pick the page's own narrative/trust/culture "breather" section (not a dense data or product section) as the candidate. Current assignments: Home → `ProvenAtScale`'s stat band is white (the band itself carries the visual weight via `StatBand`, see §4a) — Home is bracketed by its two `bg-[#3E63DD]` sections instead; About → `AboutBeliefs` [03]; Careers → `CareersCulture` [02] and `CareersHiring` [04] (two, both approved); Akashic → `AkashicTrust` [05]; Delivery → `DeliveryFit` [07]; EIS → `EisIntegration` [05]; Life → `LifeStory` [03]; Knowledge → `KnowledgeMorning` [04]; Public Sector → `PublicSectorMoments` [03]. Do not add a second blue band to a page without user direction — the point is one clean break, not another pattern to overuse.
 
 ### Rule 6 — Reduced Motion
 All animations must respect `prefers-reduced-motion`. The global CSS handles this for `*` via `animation-duration: 0.01ms`. Component-specific overrides exist for `.fl-sparkline`, `.fl-row-enter`, `.fl-sheen`. Any new animation you add must degrade safely.
@@ -491,9 +357,9 @@ Every section uses Tailwind utility classes as the styling method. `PowerfulPlat
 ### §8a — `demos/mockups/`: Simulated Product UI
 Everything in `components/demos/mockups/` renders **fake Akashic app screenshots**, not real product functionality: hardcoded numbers, hand-placed nodes, canned chat transcripts. They exist purely so the homepage can show "the product" without a real backend. This is a distinct category from the rest of `demos/` (`FieldLedger`, `VoicesDispatches`, `ProblemBlock`, `HeroConnections`), which render real, data-driven or purely decorative content.
 
-Every file in this subfolder is named with a `Mockup` suffix and carries a top-of-file comment starting with `SIMULATED PRODUCT UI`. If you add a new fake-screenshot component, put it here, suffix it `Mockup`, and add the same comment — don't let simulated UI drift back into the flat `demos/` folder where it looks indistinguishable from real components.
+Every file in this subfolder is named with a `Mockup` suffix (except `PlatformConnectors.tsx`, a shared SVG helper consumed only by other mockups) and carries a top-of-file comment starting with `SIMULATED PRODUCT UI`. If you add a new fake-screenshot component, put it here, suffix it `Mockup`, and add the same comment — don't let simulated UI drift back into the flat `demos/` folder where it looks indistinguishable from real components.
 
-Contents: `HeroProductsMockup.tsx` (Hero's 3-card carousel), `HeroProductScreensMockup.ts` (the three screen HTML strings, extracted so `/akashic` can reuse them), `AkashicModuleScreensMockup.tsx` (the `/akashic` 7-module screen carousel), `AkashicTeardownMockup.tsx` (the `/akashic` [02] 3D exploded-stack teardown scene), `AkashicTrustScreensMockup.ts` (the `/akashic` [05] four governance screens — roles, lineage, audit, residency — built on the hero screens' shared chrome), `StartAnywhereWalkthroughMockup.tsx` + `StartAnywherePanelsMockup.ts` (retired [02] record-journey walkthrough — no longer imported, kept for reference), `DeliveryCanvasMockup.tsx` (HowWeDeliver's phase console), `ProofComparisonMockup.tsx` (TheProof's drag slider), `EisBriefMockup.tsx` (the /solutions/eis hero's morning brief).
+Contents: `HeroProductsMockup.tsx` (Hero's 3-card carousel), `PlatformBIChartMockup.tsx` (BI module card in PowerfulPlatform), `PlatformConnectors.tsx` (shared connector SVGs + `ModIcon` badge), `DeliveryCanvasMockup.tsx` (HowWeDeliver's phase console), `ProofComparisonMockup.tsx` (TheProof's drag slider), `EisBriefMockup.tsx` (the /solutions/eis hero's morning brief).
 
 ### `demos/mockups/HeroProductsMockup.tsx` (large file)
 Three product card panels (Data Pipelines / Conversational AI / Data Models) rendered with `dangerouslySetInnerHTML` for the internal UI mocks. This is intentional — the card UIs are complex SVG+HTML mockups that are not React trees. State: `activeCard` (0|1|2), auto-cycles every 6000ms. `.hs-card` CSS class with `data-pos="center|left|right"` handles the fan layout. Tab progress bar uses `progressFill 6s linear` animation.

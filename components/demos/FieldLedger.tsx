@@ -173,7 +173,7 @@ function DeploymentPanel({ d, reduced }: { d: Deployment; reduced: boolean }) {
 
       {/* ── Metrics bar — always visible, no clicking ── */}
       <div className="mt-auto">
-        <div className="mt-6 grid grid-cols-3 divide-x divide-lineSoft border-t border-lineSoft">
+        <div className="mt-6 grid grid-cols-3 divide-x divide-dashed divide-lineSoft border-t border-dashed border-lineSoft">
           {metrics.map((m) => (
             <MetricCell key={m.label} m={m} kick={d.code} reduced={reduced} />
           ))}

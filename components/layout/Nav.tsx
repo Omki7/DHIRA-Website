@@ -110,13 +110,15 @@ function DropdownTrigger({ id, label, href, openMenu, setOpenMenu, children }: D
   );
 
   return (
-    <li className="relative">
+    <li
+      className="relative"
+      onMouseEnter={() => setOpenMenu(id)}
+      onMouseLeave={() => setOpenMenu(null)}
+    >
       {href ? (
         <Link
           href={href}
           className="btn-ghost"
-          onMouseEnter={() => setOpenMenu(id)}
-          onMouseLeave={() => setOpenMenu(null)}
           onClick={() => setOpenMenu(null)}
           aria-haspopup="true"
           aria-expanded={openMenu === id}
@@ -127,8 +129,7 @@ function DropdownTrigger({ id, label, href, openMenu, setOpenMenu, children }: D
       ) : (
         <button
           className="btn-ghost"
-          onMouseEnter={() => setOpenMenu(id)}
-          onMouseLeave={() => setOpenMenu(null)}
+          onClick={() => setOpenMenu(openMenu === id ? null : id)}
           aria-haspopup="true"
           aria-expanded={openMenu === id}
         >
@@ -138,11 +139,12 @@ function DropdownTrigger({ id, label, href, openMenu, setOpenMenu, children }: D
       )}
       {openMenu === id && (
         <div
-          onMouseEnter={() => setOpenMenu(id)}
-          onMouseLeave={() => setOpenMenu(null)}
-          className="absolute left-0 top-full z-50 mt-1 rounded-card border border-subtle-stroke bg-white p-4 shadow-lg"
+          className="absolute left-0 top-full z-50 pt-1"
+          onClick={() => setOpenMenu(null)}
         >
-          {children}
+          <div className="rounded-card border border-subtle-stroke bg-white p-4 shadow-lg">
+            {children}
+          </div>
         </div>
       )}
     </li>
