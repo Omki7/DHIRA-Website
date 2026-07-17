@@ -1,190 +1,152 @@
 /*
- * [05] Enterprise Trust — The Trust Stack.
- * Represented in layer form (design direction, Jul 2026): the answer sits on
- * four widening trust layers — access control, lineage, audit trails, data
- * residency — each carrying its micro-proof inline (SIMULATED PRODUCT UI,
- * §8a: canned roles, traces, and log lines). All accents blue. Sits on the
- * page's one soft blue band (site-wide consistency pass, 17 Jul) — Akashic
- * had zero background variation across all ten sections.
+ * [05] Enterprise Trust — one answer, four checks.
+ * The payoff of [01]: the same South-region answer sits at the top as an
+ * artifact, and four live product screens show it being verified. Each
+ * check leads with a plain-language question anyone can follow; the screen
+ * below it is a full app window (AkashicTrustScreensMockup, §8a) in the
+ * same chrome and demo world as the hero screens, so the checks read as
+ * the product, not as marketing boxes.
  */
 
 import Link from "next/link";
 import ScrollReveal from "@/components/ui/ScrollReveal";
-import DynamicSketchIcon from "@/components/icons/DynamicSketchIcon";
+import { Capillary } from "@/components/sections/akashic/AkashicCardChrome";
+import {
+  ROLES_SCREEN_HTML,
+  LINEAGE_SCREEN_HTML,
+  AUDIT_SCREEN_HTML,
+  RESIDENCY_SCREEN_HTML,
+} from "@/components/demos/mockups/AkashicTrustScreensMockup";
 
-type TrustLayer = {
-  depth: string;
-  icon: string;
-  name: string;
-  claim: string;
-  proof: React.ReactNode;
-  maxW: string;
-  dashed?: boolean;
-};
-
-function ProofChip({ children, mono = true }: { children: React.ReactNode; mono?: boolean }) {
-  return (
-    <span
-      className={`inline-flex items-center rounded-[7px] border border-subtle-stroke bg-primary-bg px-2 py-1 ${
-        mono ? "font-mono text-[9.5px]" : "text-[10.5px] font-medium"
-      } text-inkSoft`}
-    >
-      {children}
-    </span>
-  );
-}
-
-const layers: TrustLayer[] = [
+const checks = [
   {
-    depth: "L1",
-    icon: "Access Control",
-    name: "Access control",
-    claim: "Role-based permissions, enforced at every layer, not just the login screen.",
-    proof: (
-      <>
-        <ProofChip>Analyst · read</ProofChip>
-        <ProofChip>District lead · read/write</ProofChip>
-        <ProofChip>Auditor · read-only</ProofChip>
-      </>
-    ),
-    maxW: "lg:max-w-[640px]",
+    term: "Access control",
+    question: "Who can see it?",
+    line: "Permissions follow the person at every layer, not just the login screen.",
+    html: ROLES_SCREEN_HTML,
   },
   {
-    depth: "L2",
-    icon: "Lineage",
-    name: "Lineage",
-    claim: "Every number traces back to its sources and every transformation in between.",
-    proof: (
-      <ProofChip>
-        erp.orders&nbsp;<span className="text-blue">&rarr;</span>&nbsp;normalise&nbsp;
-        <span className="text-blue">&rarr;</span>&nbsp;dedupe&nbsp;
-        <span className="text-blue">&rarr;</span>&nbsp;answer
-      </ProofChip>
-    ),
-    maxW: "lg:max-w-[780px]",
+    term: "Lineage",
+    question: "Where did each number come from?",
+    line: "Pull on any figure and the full trail comes with it, down to the document.",
+    html: LINEAGE_SCREEN_HTML,
   },
   {
-    depth: "L3",
-    icon: "Audit Trails",
-    name: "Audit trails",
-    claim: "A complete, timestamped record of who accessed what, and when. Always on.",
-    proof: (
-      <>
-        <ProofChip>09:41:07 · asha.r viewed District 7 brief</ProofChip>
-        <ProofChip>09:21:45 · auditor granted read-only</ProofChip>
-      </>
-    ),
-    maxW: "lg:max-w-[920px]",
+    term: "Audit trail",
+    question: "Who has touched it?",
+    line: "A timestamped record of every view, change, and export. Always on.",
+    html: AUDIT_SCREEN_HTML,
   },
   {
-    depth: "L4",
-    icon: "Data Residency",
-    name: "Data residency",
-    claim: "The perimeter: deploy so data never leaves the jurisdiction it must stay in.",
-    proof: (
-      <>
-        <ProofChip mono={false}>Stored in-region</ProofChip>
-        <ProofChip mono={false}>Processed in-region</ProofChip>
-        <ProofChip mono={false}>Answered in-region</ProofChip>
-      </>
-    ),
-    maxW: "lg:max-w-[1060px]",
-    dashed: true,
+    term: "Data residency",
+    question: "Where did the data stay?",
+    line: "Stored, processed, and answered inside your boundary. Nothing crosses it.",
+    html: RESIDENCY_SCREEN_HTML,
   },
 ];
 
-function LayerJoint() {
-  return <span className="mx-auto block h-3 w-px bg-blue-border" aria-hidden />;
-}
-
 export default function AkashicTrust() {
   return (
-    <section
-      id="trust"
-      className="scroll-mt-24 border-t border-lineSoft bg-[linear-gradient(180deg,#FFFFFF_0%,#F1F5FE_16%,#F1F5FE_84%,#FFFFFF_100%)]"
-    >
-      <div className="rail-container pt-12 pb-24 lg:pt-16 lg:pb-32">
+    <section id="trust" className="ak-depth relative scroll-mt-24 overflow-hidden">
+      {/* The anchor is a precisely-cut dark slab, not a faded merge. Each
+          seam is crisp: a fine light-catch hairline where the two planes
+          meet, a blue horizon glow rising off it, and a machined texture on
+          the surface. The transition is carried by light, never gray fog. */}
+      <div className="dot-grid-dark pointer-events-none absolute inset-0 opacity-[0.14]" aria-hidden />
+      {/* top seam */}
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/25 to-transparent" aria-hidden />
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-[radial-gradient(70%_100%_at_50%_0%,rgba(62,99,221,0.22),transparent_72%)]" aria-hidden />
+      {/* bottom seam */}
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-white/18 to-transparent" aria-hidden />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-[radial-gradient(70%_100%_at_50%_100%,rgba(62,99,221,0.16),transparent_72%)]" aria-hidden />
+      <div className="relative rail-container border-x-0 pt-20 pb-24 lg:pt-28 lg:pb-32">
         <ScrollReveal>
           <p className="font-mono text-[11px] uppercase tracking-eyebrow">
-            <span className="text-overcast">[05]</span>
-            <span className="text-inkSoft">&nbsp;&nbsp;Enterprise trust</span>
+            <span className="text-white/40">[05]</span>
+            <span className="text-white/70">&nbsp;&nbsp;Trust, built in</span>
           </p>
-          <h2 className="mt-5 text-heading-sm font-semibold text-ink md:text-heading-md lg:text-heading-lg">
+          <h2 className="mt-5 text-balance text-heading-sm font-semibold text-white md:text-heading-md">
             An answer you can&rsquo;t trace is just an opinion.
           </h2>
-          <p className="mt-5 max-w-[32em] text-lg leading-relaxed text-secondary-text">
-            Every answer stands on four layers of trust, each one built to be
-            checked, not just believed.
+          <p className="mt-5 max-w-[40em] text-lg leading-relaxed text-white/70">
+            Every answer proves itself &mdash; the same four ways, every time.
           </p>
         </ScrollReveal>
 
-        <div className="mt-14 lg:mt-16">
-          {/* What the layers hold up */}
+        <div className="mt-12 lg:mt-14">
+          {/* The artifact under inspection */}
           <ScrollReveal>
-            <div className="mx-auto w-fit rounded-[12px] border border-blue-border bg-blue-subtle px-5 py-3 shadow-card">
-              <span className="flex items-center gap-2.5">
-                <span className="h-1.5 w-1.5 rounded-full bg-blue animate-[ps-pulse_2s_infinite]" aria-hidden />
-                <span className="text-[13.5px] font-semibold tracking-tight text-ink">
+            <div className="mx-auto max-w-[640px] overflow-hidden rounded-outer bg-white shadow-deep ring-1 ring-white/10">
+              <Capillary bright />
+              <div className="flex items-center gap-1.5 border-b border-card-divide bg-panel px-4 py-2">
+                <span className="h-1.5 w-1.5 rounded-full bg-positive" aria-hidden />
+                <span className="font-mono text-[9px] font-semibold uppercase tracking-[0.1em] text-secondary-text">
                   The answer someone acts on
                 </span>
-              </span>
+                <span className="ml-auto font-mono text-[9px] text-secondary-text">09:41</span>
+              </div>
+              <p className="px-4 py-3.5 text-[14.5px] font-semibold leading-snug text-ink sm:text-[15px]">
+                South is 8% behind target because two distributor renewals stalled in July.
+              </p>
             </div>
-            <LayerJoint />
+            <span className="mx-auto block h-4 w-px bg-white/25" aria-hidden />
+            <p className="text-center font-mono text-[10px] uppercase tracking-eyebrow text-white/50">
+              Four checks, built in
+            </p>
+            <span className="mx-auto block h-4 w-px bg-white/25" aria-hidden />
           </ScrollReveal>
 
-          {/* The four trust layers, widening downward */}
-          {layers.map((layer, idx) => (
-            <ScrollReveal key={layer.depth} delay={80 + idx * 90}>
-              <div className={`mx-auto w-full ${layer.maxW}`}>
-                <div
-                  className={`rounded-frame border bg-white px-5 py-4 shadow-card transition-all duration-250 ease-settle hover:-translate-y-0.5 hover:shadow-frame md:px-6 ${
-                    layer.dashed ? "border-dashed border-line bg-primary-bg" : "border-subtle-stroke"
-                  }`}
-                >
-                  <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between lg:gap-8">
-                    <div className="flex min-w-0 items-start gap-3.5">
-                      <span className="flex h-[34px] w-[34px] shrink-0 items-center justify-center rounded-[9px] border border-blue/20 bg-gradient-to-br from-[#E4EAFF] to-[#D4DEFF] shadow-[inset_0_1px_0_rgba(255,255,255,0.9)]">
-                        <DynamicSketchIcon text={layer.icon} className="h-[16px] w-[16px] text-blue" />
-                      </span>
-                      <div className="min-w-0">
-                        <div className="flex items-baseline gap-2.5">
-                          <span className="font-mono text-[9px] font-bold uppercase tracking-[0.08em] text-blue">
-                            {layer.depth}
-                          </span>
-                          <h3 className="text-[16px] font-semibold tracking-tight text-ink">
-                            {layer.name}
-                          </h3>
-                        </div>
-                        <p className="mt-1 max-w-[34em] text-[13px] leading-relaxed text-inkSoft">
-                          {layer.claim}
-                        </p>
-                      </div>
+          {/* The four checks, each a numbered strip: text left, live screen right.
+              A vertical spine runs down the number column (desktop) so the four
+              read as one sequence and the left text has something to sit against. */}
+          <div className="relative mt-12 lg:mt-14">
+            <div
+              className="pointer-events-none absolute left-4 top-0 bottom-0 hidden w-px bg-gradient-to-b from-transparent via-white/15 to-transparent lg:block"
+              aria-hidden
+            />
+            <div className="flex flex-col gap-10 lg:gap-14">
+            {checks.map((check, i) => (
+              <ScrollReveal key={check.term} delay={60 + i * 60}>
+                <div className="grid grid-cols-1 items-center gap-6 lg:grid-cols-[minmax(0,0.82fr)_minmax(0,1.4fr)] lg:gap-12">
+                  {/* left: number node + text */}
+                  <div className="flex gap-4 lg:gap-5">
+                    <span className="relative z-10 flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-white/15 bg-[#0A0E24] font-mono text-[12px] font-semibold tabular-nums text-white/55">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    <div className="min-w-0">
+                      <p className="font-mono text-[9.5px] font-semibold uppercase tracking-[0.1em] text-blue-border/80">
+                        {check.term}
+                      </p>
+                      <h3 className="mt-2 text-balance text-[22px] font-semibold leading-[1.15] tracking-tight text-white md:text-[26px]">
+                        {check.question}
+                      </h3>
+                      <p className="mt-2.5 max-w-[26em] text-[14px] leading-relaxed text-white/60">{check.line}</p>
                     </div>
-                    <div className="flex shrink-0 flex-wrap gap-1.5 lg:max-w-[380px] lg:justify-end">
-                      {layer.proof}
+                  </div>
+                  {/* right: the live screen */}
+                  <div className="overflow-hidden rounded-outer bg-white shadow-deep ring-1 ring-white/10">
+                    <Capillary bright />
+                    <div className="overflow-x-auto">
+                      <div
+                        className="h-[340px] min-w-[460px]"
+                        dangerouslySetInnerHTML={{ __html: check.html }}
+                      />
                     </div>
                   </div>
                 </div>
-                {idx < layers.length - 1 && <LayerJoint />}
-              </div>
-            </ScrollReveal>
-          ))}
-
-          {/* The floor label */}
-          <ScrollReveal delay={200}>
-            <p className="mt-5 text-center font-mono text-[10px] uppercase tracking-eyebrow text-overcast">
-              Surface to floor &middot; the deeper the layer, the wider it holds
-            </p>
-          </ScrollReveal>
+              </ScrollReveal>
+            ))}
+            </div>
+          </div>
         </div>
 
         <ScrollReveal>
           <div className="mt-16 flex flex-col items-center text-center lg:mt-20">
-            <p className="max-w-[22em] text-2xl font-semibold leading-snug tracking-tight text-ink md:text-[28px]">
+            <p className="max-w-[22em] text-2xl font-semibold leading-snug tracking-tight text-white md:text-[28px]">
               This is what makes an answer defensible, not just delivered.
             </p>
-            <Link href="#talk-to-our-team" className="btn-primary mt-8">
-              Talk to our team
+            <Link href="#open" className="btn-secondary mt-8">
+              See what you&rsquo;d take with you
             </Link>
           </div>
         </ScrollReveal>
