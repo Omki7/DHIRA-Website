@@ -95,7 +95,13 @@ export default function AboutProof() {
                 <div className="h-[3px] bg-gradient-to-r from-blue/50 via-blue/25 to-transparent" aria-hidden />
                 <div className="flex h-full flex-col p-6">
                   <div className="flex items-center gap-2.5">
-                    <span className="min-w-0 flex-1 truncate font-mono text-[10px] uppercase tracking-eyebrow text-inkSoft">
+                    <span className="flex min-w-0 flex-1 items-center gap-1.5 truncate font-mono text-[10px] uppercase tracking-eyebrow text-inkSoft">
+                      <span
+                        className={`h-[5px] w-[5px] shrink-0 rounded-full ${
+                          panel.live ? "bg-blue animate-[ps-pulse_2s_infinite]" : "bg-overcast"
+                        }`}
+                        aria-hidden
+                      />
                       {panel.tag}
                     </span>
                     {panel.live ? (
@@ -116,7 +122,7 @@ export default function AboutProof() {
                       />
                     ))}
                   </div>
-                  <div className="mt-6 flex items-center justify-between border-t border-subtle-stroke pt-4">
+                  <div className="mt-6 flex items-center justify-between border-t border-dashed border-lineSoft pt-4">
                     <span className="font-mono text-[9px] uppercase tracking-[0.08em] text-overcast">
                       {panel.live ? "In production" : "Delivered"}
                     </span>

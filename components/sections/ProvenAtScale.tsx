@@ -10,20 +10,23 @@
  * the section to any flag palette.
  *
  * Layout follows the same left-aligned pattern as all other sections.
- * Shape discipline (Rule 1): stats band uses gap-as-divider, not cards.
+ * Shape discipline (Rule 1): stats band uses the site-wide StatBand recipe
+ * (see components/ui/StatBand.tsx) — bordered light frame, dashed dividers,
+ * pulsing-dot eyebrows, dashed footer caption. Same chrome as CareersImpact,
+ * AkashicScale, and the Delivery/About/EIS/Life/Knowledge proof sections.
  * Rule 2 (✓ check): emitted only inside <FieldLedger />.
- * Rule 5 (dark section) is deliberately overridden here by user direction.
  */
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import FieldLedger from "@/components/demos/FieldLedger";
 import ScrollRevealRail from "@/components/ui/ScrollRevealRail";
 import AshokaChakra from "@/components/demos/AshokaChakra";
+import StatBand from "@/components/ui/StatBand";
 
 const STATS = [
-  { figure: "5.75B+", label: "Learning Sessions Analysed" },
-  { figure: "187M+", label: "Course Enrolments" },
-  { figure: "4M+", label: "Cross-border Clearances" },
-  { figure: "135", label: "Languages Served" },
+  { label: "National education platform", figure: "5.75B+", sublabel: "Learning sessions analysed" },
+  { label: "National education platform", figure: "187M+", sublabel: "Course enrolments" },
+  { label: "Workforce platform", figure: "4M+", sublabel: "Cross-border clearances" },
+  { label: "Workforce platform", figure: "135", sublabel: "Languages served" },
 ];
 
 export default function ProvenAtScale() {
@@ -69,18 +72,9 @@ export default function ProvenAtScale() {
           </ScrollReveal>
         </div>
 
-        {/* STATS BAND — dark ink band for high-contrast anchor */}
+        {/* STATS BAND — site-wide StatBand recipe */}
         <ScrollReveal delay={120}>
-          <div className="grid grid-cols-2 gap-px overflow-hidden rounded-card border border-ink/10 bg-ink/10 lg:grid-cols-4">
-            {STATS.map((s) => (
-              <div key={s.label} className="bg-ink p-8 lg:p-10">
-                <div className="text-4xl font-semibold tracking-tight tabular-nums text-white lg:text-5xl xl:text-6xl">
-                  {s.figure}
-                </div>
-                <div className="mt-2 text-sm font-medium text-white/55">{s.label}</div>
-              </div>
-            ))}
-          </div>
+          <StatBand items={STATS} caption="Where Akashic already runs · public-record numbers" />
         </ScrollReveal>
 
         {/* FIELD LEDGER — interactive centerpiece */}

@@ -3,7 +3,9 @@
  * Represented in layer form (design direction, Jul 2026): the answer sits on
  * four widening trust layers — access control, lineage, audit trails, data
  * residency — each carrying its micro-proof inline (SIMULATED PRODUCT UI,
- * §8a: canned roles, traces, and log lines). All accents blue.
+ * §8a: canned roles, traces, and log lines). All accents blue. Sits on the
+ * page's one soft blue band (site-wide consistency pass, 17 Jul) — Akashic
+ * had zero background variation across all ten sections.
  */
 
 import Link from "next/link";
@@ -97,7 +99,10 @@ function LayerJoint() {
 
 export default function AkashicTrust() {
   return (
-    <section id="trust" className="scroll-mt-24 border-t border-lineSoft bg-white">
+    <section
+      id="trust"
+      className="scroll-mt-24 border-t border-lineSoft bg-[linear-gradient(180deg,#FFFFFF_0%,#F1F5FE_16%,#F1F5FE_84%,#FFFFFF_100%)]"
+    >
       <div className="rail-container pt-12 pb-24 lg:pt-16 lg:pb-32">
         <ScrollReveal>
           <p className="font-mono text-[11px] uppercase tracking-eyebrow">
