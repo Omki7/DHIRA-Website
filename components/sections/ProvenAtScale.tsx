@@ -3,11 +3,13 @@
  * Section 03: Proven At Scale.
  * Light section on bg-white. India identity is a single quiet signal:
  * the shared brand-blue Ashoka Chakra ornament (demos/AshokaChakra, the
- * same slow-turning 24-spoke wheel used in CareersImpact), sat top-right.
+ * same slow-turning 24-spoke wheel used in CareersImpact) — sized and
+ * placed identically to CareersImpact (190/210/230px, inline beside the
+ * headline, full opacity), per user direction 17 Jul: the earlier 540px
+ * background-watermark treatment read as far too big.
  * Indians read it immediately; international clients see an elegant
  * geometric mandala. The copy ("India's national platforms") handles the
- * explicit India reference. A faint warm glow adds depth without anchoring
- * the section to any flag palette.
+ * explicit India reference.
  *
  * Layout follows the same left-aligned pattern as all other sections.
  * Shape discipline (Rule 1): stats band uses the site-wide StatBand recipe
@@ -36,16 +38,6 @@ export default function ProvenAtScale() {
       aria-labelledby="scale-h"
       className="relative overflow-hidden bg-white pt-12 pb-24 lg:pt-16 lg:pb-32"
     >
-      {/* Single warm-amber glow — top-right. Not saffron-coded; reads as
-          golden light. Creates depth without anchoring to any flag palette. */}
-      <div
-        className="pointer-events-none absolute -right-40 -top-40 h-[520px] w-[520px] blur-[110px]"
-        style={{ background: "radial-gradient(circle, rgba(215,155,60,0.09), transparent 70%)" }}
-      />
-
-      {/* Ashoka Chakra — shared brand-blue rotating ornament (matches CareersImpact) */}
-      <AshokaChakra className="pointer-events-none absolute -right-24 -top-16 h-[540px] w-[540px] opacity-50 lg:-right-12" />
-
       <ScrollRevealRail className="z-10">
         {/* Eyebrow + headline — left-aligned */}
         <div className="mb-14">
@@ -58,17 +50,26 @@ export default function ProvenAtScale() {
               <span className="text-overcast">/ PRODUCTION DEPLOYMENT</span>
             </div>
 
-            <h2
-              id="scale-h"
-              className="max-w-[14em] text-[48px] font-semibold leading-[1.1] tracking-tighter text-ink md:text-[56px] lg:text-[64px]"
-            >
-              Deployed at national scale.
-            </h2>
-            <p className="mt-5 max-w-[34em] text-lg leading-relaxed text-inkSoft">
-              The intelligence layer inside two of India&apos;s national platforms.
-              <br className="hidden sm:block" />
-              In production, at population scale.
-            </p>
+            {/* Headline beside the chakra — same grid, sizes, and full
+                opacity as CareersImpact's [01] The Work */}
+            <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-[minmax(0,1fr)_auto] lg:gap-16">
+              <div>
+                <h2
+                  id="scale-h"
+                  className="max-w-[14em] text-[48px] font-semibold leading-[1.1] tracking-tighter text-ink md:text-[56px] lg:text-[64px]"
+                >
+                  Deployed at national scale.
+                </h2>
+                <p className="mt-5 max-w-[34em] text-lg leading-relaxed text-inkSoft">
+                  The intelligence layer inside two of India&apos;s national platforms.
+                  <br className="hidden sm:block" />
+                  In production, at population scale.
+                </p>
+              </div>
+              <div className="mx-auto w-[190px] sm:w-[210px] lg:mr-4 lg:w-[230px]">
+                <AshokaChakra className="w-full" />
+              </div>
+            </div>
           </ScrollReveal>
         </div>
 

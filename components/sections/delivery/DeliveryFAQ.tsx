@@ -82,7 +82,7 @@ export default function DeliveryFAQ() {
                         Q{idx + 1}
                       </span>
                       <span
-                        className={`text-[17px] leading-snug tracking-tight md:text-[18px] ${
+                        className={`text-[16px] leading-snug tracking-tight md:text-[17px] ${
                           activeRow ? "font-semibold text-ink" : "font-medium text-inkSoft"
                         }`}
                       >
@@ -98,7 +98,7 @@ export default function DeliveryFAQ() {
           <ScrollReveal delay={180} className="h-full">
             <div className="relative flex h-full flex-col border-t border-lineSoft pt-6">
               <span
-                className="pointer-events-none absolute -top-2 right-0 select-none font-heading text-[170px] font-semibold leading-none tracking-tighter text-ink/[0.035]"
+                className="pointer-events-none absolute -top-2 right-0 select-none font-heading text-[140px] font-semibold leading-none tracking-tighter text-ink/[0.035]"
                 aria-hidden
               >
                 ?
@@ -107,7 +107,7 @@ export default function DeliveryFAQ() {
                 <p className="font-mono text-[10px] font-semibold uppercase tracking-eyebrow text-blue">
                   Q{activeIdx + 1}&nbsp;&middot;&nbsp;Straight answer
                 </p>
-                <p className="mt-5 max-w-[26em] text-[20px] leading-relaxed text-ink md:text-[22px]">
+                <p className="mt-5 max-w-[28em] text-[18px] leading-relaxed text-ink md:text-[20px]">
                   {active.a}
                 </p>
               </div>
@@ -145,7 +145,7 @@ export default function DeliveryFAQ() {
                     >
                       Q{idx + 1}
                     </span>
-                    <span className="flex-1 text-[18px] font-semibold leading-snug tracking-tight text-ink">
+                    <span className="flex-1 text-[17px] font-semibold leading-snug tracking-tight text-ink">
                       {faq.q}
                     </span>
                     <span
@@ -180,7 +180,7 @@ export default function DeliveryFAQ() {
 
         <ScrollReveal delay={200}>
           <div className="mt-10 flex flex-wrap items-baseline justify-between gap-3 border-t border-lineSoft pt-6 lg:mt-14">
-            <p className="text-[17px] font-semibold tracking-tight text-ink md:text-[19px]">
+            <p className="text-[16px] font-semibold tracking-tight text-ink md:text-[17px]">
               Something else on your mind? Bring it to the 30-minute discovery. No pitch deck.
             </p>
             <Link

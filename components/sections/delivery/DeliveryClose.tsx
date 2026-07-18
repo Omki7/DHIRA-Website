@@ -30,7 +30,7 @@ export default function DeliveryClose() {
                 Whichever door you enter through, the governance, documentation, and
                 accountability are the same.
               </p>
-              <p className="mx-auto mt-8 max-w-[30em] text-xl font-semibold tracking-tight text-white md:text-2xl">
+              <p className="mx-auto mt-8 max-w-[30em] text-lg font-semibold tracking-tight text-white md:text-xl">
                 A 30-minute technical discovery. No pitch deck.
               </p>
               <div className="mx-auto mt-5 w-full max-w-[420px]">

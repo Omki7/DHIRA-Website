@@ -63,7 +63,7 @@ function PathPanel({ path, align }: { path: BuildPath; align: "left" | "right" }
       >
         If this is you
       </p>
-      <p className="mt-3 max-w-[24em] text-[19px] font-medium leading-snug tracking-tight text-ink md:text-[21px]">
+      <p className="mt-3 max-w-[24em] text-[17px] font-medium leading-snug tracking-tight text-ink md:text-[19px]">
         {path.situation}
       </p>
       <p className="mt-2 text-[13.5px] leading-relaxed text-inkSoft">{path.situationNote}</p>
@@ -72,12 +72,12 @@ function PathPanel({ path, align }: { path: BuildPath; align: "left" | "right" }
         <p className="font-mono text-[10px] uppercase tracking-eyebrow text-overcast">
           We build it
         </p>
-        <h3 className="mt-2 text-[24px] font-semibold tracking-tight text-ink md:text-[26px]">
+        <h3 className="mt-2 text-[21px] font-semibold tracking-tight text-ink md:text-[23px]">
           {path.build}
         </h3>
         <div className="mt-4 flex items-baseline gap-3">
           <span
-            className={`text-[42px] font-semibold leading-none tracking-tighter md:text-[48px] ${
+            className={`text-[34px] font-semibold leading-none tracking-tighter md:text-[38px] ${
               path.blue ? "text-blue" : "text-ink"
             }`}
           >
@@ -91,7 +91,7 @@ function PathPanel({ path, align }: { path: BuildPath; align: "left" | "right" }
         <p className="font-mono text-[10px] uppercase tracking-eyebrow text-overcast">
           The advantage
         </p>
-        <p className="mt-2 max-w-[28em] text-[16.5px] font-medium leading-relaxed text-ink">
+        <p className="mt-2 max-w-[28em] text-[15.5px] font-medium leading-relaxed text-ink">
           {path.advantage}
         </p>
       </div>
