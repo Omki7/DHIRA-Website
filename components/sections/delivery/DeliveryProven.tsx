@@ -82,7 +82,7 @@ function HeroStat({ fig, label, isStatic }: { fig: string; label: string; isStat
   const { ref, display } = useCountUp(fig, { duration: 1500 });
   return (
     <div ref={ref}>
-      <div className="text-[42px] font-semibold leading-[0.95] tracking-tighter text-ink md:text-[48px]">
+      <div className="text-[34px] font-semibold leading-[0.95] tracking-tighter text-ink md:text-[38px]">
         {isStatic ? fig : display}
       </div>
       <div className="mt-2.5 max-w-[13em] text-[13px] leading-snug text-inkSoft">{label}</div>

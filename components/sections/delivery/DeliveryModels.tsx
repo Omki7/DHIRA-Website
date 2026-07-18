@@ -1,8 +1,12 @@
 /*
  * [01] Engagement Models — Start With the Problem.
- * Three plain rows, one reading order (simplified per design direction,
- * Jul 2026): the thing you'd say on a call → routes to → the model that
- * answers it. Each row is one link to its model section. No card chrome.
+ * Three plain rows, one reading order: the thing you'd say on the first
+ * call → routes to → the model that answers it. The spoken line is set in
+ * the sanctioned serif italic pull-quote voice (FieldLedger idiom) behind
+ * a blue rule with a "You, on the first call" tag — no quote glyphs (the
+ * old curly quotes read as fake testimonials). Animated route arrow on
+ * desktop, a mono "routes to" connector on mobile. Each row is one link
+ * to its model section. No card chrome.
  */
 
 import Link from "next/link";
@@ -69,34 +73,42 @@ export default function DeliveryModels() {
           </p>
         </ScrollReveal>
 
-        <div className="mt-12 lg:mt-14">
-          <ScrollReveal>
-            <div className="hidden border-b border-dashed border-lineSoft pb-3 font-mono text-[10px] uppercase tracking-eyebrow text-overcast lg:grid lg:grid-cols-[1.1fr_170px_1fr] lg:gap-8">
-              <span>The thing you&rsquo;d say on a call</span>
-              <span aria-hidden />
-              <span>The model that answers it</span>
-            </div>
-          </ScrollReveal>
-
+        <div className="mt-10 border-t border-subtle-stroke lg:mt-12">
           {routes.map((route, idx) => (
             <ScrollReveal key={route.num} delay={100 + idx * 100}>
               <Link
                 href={route.href}
-                className="group grid grid-cols-1 items-center gap-4 border-b border-subtle-stroke py-8 transition-colors duration-250 ease-settle hover:bg-primary-bg/60 lg:grid-cols-[1.1fr_170px_1fr] lg:gap-8 lg:py-10"
+                className="group grid grid-cols-1 items-center gap-5 border-b border-subtle-stroke py-7 transition-colors duration-250 ease-settle hover:bg-primary-bg/60 lg:grid-cols-[1.1fr_170px_1fr] lg:gap-8 lg:py-8"
               >
-                <p className="max-w-[24em] text-[20px] font-medium leading-snug tracking-tight text-ink md:text-[23px]">
-                  &ldquo;{route.quote}&rdquo;
-                </p>
+                <div className="max-w-[26em]">
+                  <p className="flex items-center gap-1.5 font-mono text-[9px] font-semibold uppercase tracking-eyebrow text-inkSoft">
+                    <span className="h-[5px] w-[5px] rounded-full bg-blue animate-[ps-pulse_2s_infinite]" aria-hidden />
+                    You, on the first call
+                  </p>
+                  <p className="mt-3 border-l-2 border-blue/35 pl-4 font-display text-[17px] italic leading-relaxed text-ink md:text-[19px]">
+                    {route.quote}
+                  </p>
+                </div>
 
                 <span className="hidden justify-center lg:flex">
                   <RouteArrow />
+                </span>
+
+                {/* Mobile connector */}
+                <span className="flex items-center gap-2.5 pl-4 lg:hidden" aria-hidden>
+                  <svg width="12" height="14" viewBox="0 0 12 14" fill="none">
+                    <path d="M6 1v9M2 7l4 4 4-4" stroke="#3E63DD" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                  <span className="font-mono text-[9px] uppercase tracking-eyebrow text-overcast">
+                    Routes to
+                  </span>
                 </span>
 
                 <div>
                   <p className="font-mono text-[10px] font-semibold uppercase tracking-eyebrow text-blue">
                     Model {route.num}
                   </p>
-                  <h3 className="mt-1.5 text-[22px] font-semibold leading-snug tracking-tight text-ink md:text-[24px]">
+                  <h3 className="mt-1.5 text-[20px] font-semibold leading-snug tracking-tight text-ink md:text-[22px]">
                     {route.model}
                   </h3>
                   <p className="mt-1.5 text-[15px] leading-relaxed text-inkSoft">{route.line}</p>
