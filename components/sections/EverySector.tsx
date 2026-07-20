@@ -10,23 +10,23 @@ import ScrollRevealRail from "@/components/ui/ScrollRevealRail";
 const EASE = "cubic-bezier(0.4, 0, 0.2, 1)";
 
 const SECTORS = [
-  { id: "smart-cities", index: "01", name: "Smart Cities", shortName: "Cities",
-    image: "/sectors/smart-cities-real.png",
-    description: "Transform urban operations with unified data. From transit to emergency response, one continuous signal across the entire city." },
+  { id: "manufacturing", index: "01", name: "Manufacturing", shortName: "Manufacturing",
+    image: "/sectors/manufacturing-hq.jpg",
+    description: "Connect the shop floor to the enterprise. Real-time visibility into production, quality, and equipment health, so downtime never catches you off guard." },
   { id: "healthcare", index: "02", name: "Healthcare", shortName: "Health",
-    image: "/sectors/healthcare-real.png",
+    image: "/sectors/healthcare-hq.jpg",
     description: "Move from fragmented legacy systems to a unified patient truth. Better care, delivered faster and with less overhead." },
   { id: "finance", index: "03", name: "Finance", shortName: "Finance",
-    image: "/sectors/finance-real.png",
+    image: "/sectors/finance-hq.jpg",
     description: "Real-time pattern recognition across every transaction. Catch risk before it materialises and maintain audit-ready compliance by design." },
   { id: "retail", index: "04", name: "Retail", shortName: "Retail",
-    image: "/sectors/retail-real.png",
+    image: "/sectors/retail-hq.jpg",
     description: "Forecast demand with unprecedented accuracy. Connect supply chain signals in real-time, catching defects before they ship." },
   { id: "education", index: "05", name: "Education", shortName: "Edu",
-    image: "/sectors/education-real.png",
+    image: "/sectors/education-hq.jpg",
     description: "Connect the entire student journey from enrolment to placement. Improve learning outcomes with predictive, data-driven insights." },
   { id: "energy", index: "06", name: "Energy", shortName: "Energy",
-    image: "/sectors/energy-real.png",
+    image: "/sectors/energy-hq.jpg",
     description: "Predict grid failures and optimise distribution on live signals. Build a smarter, more resilient infrastructure." },
 ];
 
@@ -39,14 +39,18 @@ export default function EverySector() {
       const hash = window.location.hash;
       if (!hash) return;
       
-      if (hash === "#public-sector" || hash === "#smart-cities") {
-        setActiveId("smart-cities");
+      if (hash === "#public-sector" || hash === "#manufacturing") {
+        setActiveId("manufacturing");
       } else if (hash === "#healthcare") {
         setActiveId("healthcare");
       } else if (hash === "#education") {
         setActiveId("education");
       } else if (hash === "#enterprise" || hash === "#finance") {
         setActiveId("finance");
+      } else if (hash === "#retail") {
+        setActiveId("retail");
+      } else if (hash === "#energy") {
+        setActiveId("energy");
       }
     };
 
@@ -88,7 +92,7 @@ export default function EverySector() {
               return (
                 <div
                   key={sector.id}
-                  id={sector.id === "smart-cities" ? "public-sector" : sector.id === "finance" ? "enterprise" : sector.id}
+                  id={sector.id === "manufacturing" ? "public-sector" : sector.id === "finance" ? "enterprise" : sector.id}
                   onClick={() => setActiveId(sector.id)}
                   className="relative overflow-hidden border-b border-lineSoft bg-white"
                   style={{
@@ -114,7 +118,7 @@ export default function EverySector() {
                     </div>
                     <div className="flex flex-1 flex-col justify-center px-6 py-5 bg-white">
                       <p className="mb-4 text-sm leading-relaxed text-inkSoft">{sector.description}</p>
-                      <Link href="#get-started" className="inline-flex items-center gap-2 text-sm font-medium text-ink hover:text-blue transition-colors duration-250 ease-settle">
+                      <Link href={`/sectors/${sector.id}`} className="inline-flex items-center gap-2 text-sm font-medium text-ink hover:text-blue transition-colors duration-250 ease-settle">
                         Deploy for {sector.shortName}
                         <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
                           <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.2" d="M2 6h8m0 0L7.5 3M10 6L7.5 9" />
@@ -143,7 +147,7 @@ export default function EverySector() {
               return (
                 <div
                   key={sector.id}
-                  id={`${sector.id === "smart-cities" ? "public-sector" : sector.id === "finance" ? "enterprise" : sector.id}-desktop`}
+                  id={`${sector.id === "manufacturing" ? "public-sector" : sector.id === "finance" ? "enterprise" : sector.id}-desktop`}
                   onClick={() => setActiveId(sector.id)}
                   onMouseEnter={() => setHoveredId(sector.id)}
                   className={`relative overflow-hidden${idx < SECTORS.length - 1 ? " border-r border-white/10" : ""}`}
@@ -233,7 +237,7 @@ export default function EverySector() {
               </div>
 
               <Link
-                href="#get-started"
+                href={`/sectors/${displaySector.id}`}
                 className="inline-flex items-center gap-2 text-sm font-medium text-ink hover:text-blue transition-colors duration-250 ease-settle"
               >
                 Deploy for {displaySector.shortName}

@@ -51,10 +51,12 @@ const solutionsGroups = [
   {
     heading: "Sectors",
     items: [
-      { title: "Public Sector", desc: "Secure, compliant data infrastructure for government", href: "/sectors/public-sector" },
-      { title: "Healthcare", desc: "Unified patient records meeting strict privacy standards", href: slug("Healthcare") },
-      { title: "Education", desc: "Connected data systems for institutions and learners", href: slug("Education") },
-      { title: "Enterprise", desc: "Scalable data architecture for global organisations", href: slug("Enterprise") },
+      { title: "Manufacturing", desc: "Real-time visibility into production, quality, and equipment health", href: "/sectors/manufacturing" },
+      { title: "Healthcare", desc: "Unified patient records meeting strict privacy standards", href: "/sectors/healthcare" },
+      { title: "Finance", desc: "Real-time risk detection and audit-ready compliance", href: "/sectors/finance" },
+      { title: "Retail", desc: "Accurate demand forecasting and real-time supply chain signals", href: "/sectors/retail" },
+      { title: "Education", desc: "Connected data systems for institutions and learners", href: "/sectors/education" },
+      { title: "Energy", desc: "Predictive grid maintenance and resilient infrastructure", href: "/sectors/energy" },
     ] as MenuLink[],
   },
 ];
