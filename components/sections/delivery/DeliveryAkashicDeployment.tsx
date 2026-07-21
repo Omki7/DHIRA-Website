@@ -12,6 +12,7 @@
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import ScrollReveal from "@/components/ui/ScrollReveal";
+import ScrollRevealRail from "@/components/ui/ScrollRevealRail";
 import DynamicSketchIcon from "@/components/icons/DynamicSketchIcon";
 import { CardHeader, BlueChip } from "@/components/sections/akashic/AkashicCardChrome";
 
@@ -305,8 +306,8 @@ function RolloutSequence() {
 
 export default function DeliveryAkashicDeployment() {
   return (
-    <section id="akashic-deployment" className="scroll-mt-24 border-t border-lineSoft bg-background">
-      <div className="rail-container pt-12 pb-24 lg:pt-16 lg:pb-32">
+    <section id="akashic-deployment" className="scroll-mt-24 border-t border-lineSoft bg-background pt-12 pb-24 lg:pt-16 lg:pb-32">
+      <ScrollRevealRail>
         <ScrollReveal>
           <div className="flex items-baseline justify-between font-mono text-[11px] uppercase tracking-eyebrow">
             <p>
@@ -327,7 +328,7 @@ export default function DeliveryAkashicDeployment() {
         </ScrollReveal>
 
         <RolloutSequence />
-      </div>
+      </ScrollRevealRail>
     </section>
   );
 }

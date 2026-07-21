@@ -7,6 +7,7 @@
 
 import Link from "next/link";
 import ScrollReveal from "@/components/ui/ScrollReveal";
+import ScrollRevealRail from "@/components/ui/ScrollRevealRail";
 
 export default function CareersHero() {
   return (
@@ -14,7 +15,7 @@ export default function CareersHero() {
       <div className="dot-grid absolute inset-0 opacity-60" aria-hidden />
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-48 bg-gradient-to-b from-transparent to-white" aria-hidden />
 
-      <div className="rail-container relative border-x-0">
+      <ScrollRevealRail>
         <div className="flex min-h-[50vh] flex-col items-center justify-center pt-24 pb-20 text-center lg:pt-32 lg:pb-24">
           <ScrollReveal>
             <figure className="mb-8 inline-flex items-center gap-2.5 rounded-full border border-subtle-stroke bg-white/95 px-3.5 py-1.5 text-xs shadow-sm backdrop-blur-md sm:text-sm">
@@ -78,7 +79,7 @@ export default function CareersHero() {
             </p>
           </ScrollReveal>
         </div>
-      </div>
+      </ScrollRevealRail>
     </section>
   );
 }

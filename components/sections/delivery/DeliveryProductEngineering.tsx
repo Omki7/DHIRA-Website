@@ -7,6 +7,7 @@
  */
 
 import ScrollReveal from "@/components/ui/ScrollReveal";
+import ScrollRevealRail from "@/components/ui/ScrollRevealRail";
 
 type BuildPath = {
   blue: boolean;
@@ -109,8 +110,8 @@ function PathPanel({ path, align }: { path: BuildPath; align: "left" | "right" }
 
 export default function DeliveryProductEngineering() {
   return (
-    <section id="product-engineering" className="scroll-mt-24 border-t border-lineSoft bg-background">
-      <div className="rail-container pt-12 pb-24 lg:pt-16 lg:pb-32">
+    <section id="product-engineering" className="scroll-mt-24 border-t border-lineSoft bg-background pt-12 pb-24 lg:pt-16 lg:pb-32">
+      <ScrollRevealRail>
         <ScrollReveal>
           <div className="flex items-baseline justify-between font-mono text-[11px] uppercase tracking-eyebrow">
             <p>
@@ -161,7 +162,7 @@ export default function DeliveryProductEngineering() {
             Both paths &middot; governed by DHIRA standards &middot; you own the code
           </p>
         </ScrollReveal>
-      </div>
+      </ScrollRevealRail>
     </section>
   );
 }

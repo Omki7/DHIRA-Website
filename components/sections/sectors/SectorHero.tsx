@@ -6,6 +6,7 @@
 
 import Link from "next/link";
 import ScrollReveal from "@/components/ui/ScrollReveal";
+import ScrollRevealRail from "@/components/ui/ScrollRevealRail";
 import { SECTOR_BOARDS } from "./SectorBoards";
 import type { SectorContent } from "./sectorContent";
 
@@ -17,7 +18,7 @@ export default function SectorHero({ content }: { content: SectorContent }) {
       <div className="dot-grid absolute inset-0 opacity-60" aria-hidden />
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-gradient-to-b from-transparent to-white" aria-hidden />
 
-      <div className="rail-container relative border-x-0">
+      <ScrollRevealRail>
         <div className="grid grid-cols-1 items-center gap-12 pt-20 pb-10 lg:grid-cols-[1.1fr_1fr] lg:gap-16 lg:pt-24 lg:pb-12">
           <div>
             <ScrollReveal>
@@ -74,7 +75,7 @@ export default function SectorHero({ content }: { content: SectorContent }) {
             {content.heroFootnote}
           </p>
         </ScrollReveal>
-      </div>
+      </ScrollRevealRail>
     </section>
   );
 }

@@ -10,6 +10,7 @@
  */
 
 import ScrollReveal from "@/components/ui/ScrollReveal";
+import ScrollRevealRail from "@/components/ui/ScrollRevealRail";
 import DynamicSketchIcon from "@/components/icons/DynamicSketchIcon";
 import { BlueChip } from "@/components/sections/akashic/AkashicCardChrome";
 import useCountUp from "@/hooks/useCountUp";
@@ -44,7 +45,6 @@ const cases: {
     sector: "Cross-border workforce platform",
     sectorIcon: "Workforce",
     hero: { fig: "4M+", label: "cross-border clearances" },
-    sub: { fig: "135", label: "languages supported" },
     outcome: "Custom product embedded inside Ministry infrastructure.",
     status: "In production",
     live: true,
@@ -92,8 +92,8 @@ function HeroStat({ fig, label, isStatic }: { fig: string; label: string; isStat
 
 export default function DeliveryProven() {
   return (
-    <section id="proven-at-scale" className="scroll-mt-24 border-t border-lineSoft bg-background">
-      <div className="rail-container pt-12 pb-24 lg:pt-16 lg:pb-32">
+    <section id="proven-at-scale" className="scroll-mt-24 border-t border-lineSoft bg-background pt-12 pb-24 lg:pt-16 lg:pb-32">
+      <ScrollRevealRail>
         <ScrollReveal>
           <div className="flex items-baseline justify-between font-mono text-[11px] uppercase tracking-eyebrow">
             <p>
@@ -191,7 +191,7 @@ export default function DeliveryProven() {
             Same team, same platform, same standard &middot; whichever model you engage
           </p>
         </ScrollReveal>
-      </div>
+      </ScrollRevealRail>
     </section>
   );
 }

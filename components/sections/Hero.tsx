@@ -6,6 +6,8 @@ import AkashicLogo from "@/components/icons/AkashicLogo";
 import HeroProductsMockup from "@/components/demos/mockups/HeroProductsMockup";
 import HeroConnections from "@/components/demos/HeroConnections";
 
+import ScrollRevealRail from "@/components/ui/ScrollRevealRail";
+
 /* Rotating phrase — same context, different emotional lever.
    "act on" is deliberately absent: the subhead owns it. */
 const heroPhrases = [
@@ -140,12 +142,12 @@ export default function Hero() {
         ref={heroRef}
         className="absolute inset-x-0 top-0 z-10 flex w-full flex-col bg-background"
       >
-        <div className="rail-container border-x-0">
+        <ScrollRevealRail>
           {/* Centered text block — sized so the wireframe cards peek in the opening viewport */}
           <div className="flex min-h-[55vh] flex-col items-center justify-center pt-24 pb-4 text-center lg:pt-28 lg:pb-8">
             <Link
               href="/akashic"
-              className="group relative mb-10 inline-flex items-center gap-2 rounded-full border border-subtle-stroke bg-white/95 px-3.5 py-1.5 text-xs shadow-sm transition-shadow ease-settle hover:shadow sm:text-sm"
+              className="group relative mb-10 inline-flex items-center gap-2 rounded-full border border-subtle-stroke bg-white px-3.5 py-1.5 text-xs shadow-sm transition-shadow ease-settle hover:shadow sm:text-sm"
             >
               <span className="text-secondary-text font-normal">Powered by</span>
               <span className="inline-flex items-center font-semibold text-primary-text">
@@ -218,7 +220,7 @@ export default function Hero() {
               <HeroProductsMockup />
             </div>
           </div>
-        </div>
+        </ScrollRevealRail>
       </div>
     </div>
   );

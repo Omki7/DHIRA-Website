@@ -11,6 +11,14 @@
  * so neither the system nor the commissioning ministry is identified — each
  * story is carried by its sector and its public-record figures instead. Do
  * not reintroduce platform or authority names here.
+ *
+ * METRIC TEST (user direction, Jul 2026): every figure here must be something
+ * DHIRA can defend as its OWN result, not a property of the domain it landed
+ * in. "135 languages connected" and "18 destination corridors" were removed on
+ * that test — they describe the programme's scope (the languages the course
+ * material was already in), not anything the platform computed. Volume figures
+ * that describe what Akashic actually unified and reconciled stay. Before
+ * adding a metric, ask: would we defend this in the room as our result?
  */
 
 import { useCallback, useEffect, useState } from "react";
@@ -19,9 +27,9 @@ import { usePrefersReducedMotion } from "@/hooks/useCountUp";
 
 const CYCLE_MS = 7000;
 
-type Metric = { value: string; label: string };
+export type Metric = { value: string; label: string };
 
-type Story = {
+export type Story = {
   id: string;
   platform: string;
   authority: string;
@@ -44,7 +52,6 @@ const STORIES: Story[] = [
     alt: "Students at their desks in a school classroom",
     metrics: [
       { value: "5.75B+", label: "Learning interactions connected" },
-      { value: "135", label: "Languages connected" },
     ],
   },
   {
@@ -58,7 +65,6 @@ const STORIES: Story[] = [
     alt: "Travellers crossing a sunlit airport departure hall",
     metrics: [
       { value: "4M+", label: "Worker clearances on record" },
-      { value: "18", label: "Destination corridors" },
     ],
   },
   {
@@ -88,7 +94,7 @@ function MetricCell({ metric }: { metric: Metric }) {
 
   return (
     <div>
-      <div className="mb-2 flex items-baseline leading-none text-blue">
+      <div className="mb-2 flex items-baseline leading-none text-ink">
         <span className="text-[42px] font-semibold leading-none tracking-tighter tabular-nums sm:text-5xl md:text-[56px]">
           {figure}
         </span>
@@ -123,14 +129,24 @@ function Chevron({ dir }: { dir: "left" | "right" }) {
   );
 }
 
-export default function ProvenStories() {
+interface ProvenStoriesProps {
+  stories?: Story[];
+  ariaLabel?: string;
+  itemNoun?: string;
+}
+
+export default function ProvenStories({
+  stories = STORIES,
+  ariaLabel = "Akashic deployments in production",
+  itemNoun = "deployment",
+}: ProvenStoriesProps = {}) {
   const reduced = usePrefersReducedMotion();
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
 
   const go = useCallback(
-    (next: number) => setIndex((next + STORIES.length) % STORIES.length),
-    []
+    (next: number) => setIndex((next + stories.length) % stories.length),
+    [stories]
   );
 
   useEffect(() => {
@@ -144,14 +160,14 @@ export default function ProvenStories() {
       className="relative"
       role="group"
       aria-roledescription="carousel"
-      aria-label="Akashic deployments in production"
+      aria-label={ariaLabel}
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
       onFocusCapture={() => setPaused(true)}
       onBlurCapture={() => setPaused(false)}
     >
       <div className="relative w-full overflow-hidden rounded-2xl border border-lineSoft bg-white shadow-frame">
-        {STORIES.map((story, i) => {
+        {stories.map((story, i) => {
           const isActive = i === index;
           return (
             <div
@@ -216,7 +232,7 @@ export default function ProvenStories() {
       <button
         type="button"
         onClick={() => go(index - 1)}
-        aria-label="Previous deployment"
+        aria-label={`Previous ${itemNoun}`}
         className="absolute left-5 top-1/2 z-20 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-lineSoft bg-white/95 text-ink shadow-[0_10px_30px_-10px_rgba(16,24,40,0.35)] backdrop-blur transition-colors duration-settle ease-settle hover:border-blue/50 hover:text-blue lg:flex"
       >
         <Chevron dir="left" />
@@ -224,14 +240,14 @@ export default function ProvenStories() {
       <button
         type="button"
         onClick={() => go(index + 1)}
-        aria-label="Next deployment"
+        aria-label={`Next ${itemNoun}`}
         className="absolute right-5 top-1/2 z-20 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-lineSoft bg-white/95 text-ink shadow-[0_10px_30px_-10px_rgba(16,24,40,0.35)] backdrop-blur transition-colors duration-settle ease-settle hover:border-blue/50 hover:text-blue lg:flex"
       >
         <Chevron dir="right" />
       </button>
 
       <div className="mt-6 flex items-center justify-center lg:mt-8">
-        {STORIES.map((story, i) => (
+        {stories.map((story, i) => (
           <button
             key={story.id}
             type="button"

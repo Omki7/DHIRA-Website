@@ -7,6 +7,8 @@ import SectorMap from "@/components/sections/sectors/SectorMap";
 import SectorSolution from "@/components/sections/sectors/SectorSolution";
 import SectorOutcomes from "@/components/sections/sectors/SectorOutcomes";
 import SectorClose from "@/components/sections/sectors/SectorClose";
+import PageMinimap from "@/components/layout/PageMinimap";
+import { FINANCE_SECTIONS } from "@/lib/financeSections";
 import { SECTOR_PAGES } from "@/components/sections/sectors/sectorContent";
 
 const content = SECTOR_PAGES.finance;
@@ -30,6 +32,7 @@ export default function FinancePage() {
         <SectorClose content={content} />
       </main>
       <Footer />
+      <PageMinimap sections={FINANCE_SECTIONS} aria-label="Finance page sections" />
     </>
   );
 }

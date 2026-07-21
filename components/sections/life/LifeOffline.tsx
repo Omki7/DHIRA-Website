@@ -6,6 +6,7 @@
  */
 
 import ScrollReveal from "@/components/ui/ScrollReveal";
+import ScrollRevealRail from "@/components/ui/ScrollRevealRail";
 
 function SignalBars({ level }: { level: 0 | 1 | 3 }) {
   const bars = [4, 8, 12, 16];
@@ -56,8 +57,8 @@ const states: { num: string; level: 0 | 1 | 3; title: string; desc: string; tag:
 
 export default function LifeOffline() {
   return (
-    <section id="offline" className="scroll-mt-24 border-t border-lineSoft bg-background">
-      <div className="rail-container pt-12 pb-24 lg:pt-16 lg:pb-32">
+    <section id="offline-first" className="scroll-mt-24 border-t border-lineSoft bg-background pt-12 pb-24 lg:pt-16 lg:pb-32">
+      <ScrollRevealRail>
         <ScrollReveal>
           <div className="flex items-baseline justify-between font-mono text-[11px] uppercase tracking-eyebrow">
             <p>
@@ -104,7 +105,7 @@ export default function LifeOffline() {
             </ScrollReveal>
           ))}
         </div>
-      </div>
+      </ScrollRevealRail>
     </section>
   );
 }

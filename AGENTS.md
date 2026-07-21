@@ -26,12 +26,14 @@ components/
   sections/            One file per page section, rendered in this order:
     Hero.tsx             [00] Hero — scroll word-reveal, rotating phrase, sticky backdrop
     ProblemSection.tsx   [01] The Problem — scrolling proof blocks with count-up watermarks
-    MeetAkashic.tsx       [—] Meet Akashic — the platform section in the dark Attio-derived
+    MeetAkashic.tsx      [02] Meet Akashic — the platform section in the dark Attio-derived
                             aesthetic (bg-uc-bg, font-inter; user direction 18–19 Jul).
                             Composer only; parts keep legacy UC* names in
-                            sections/universal-context/. Carries no [NN] eyebrow by design
-                            (later sections number [02]–[09]) and carries the #platform id
-                            that the Hero / TheProof / Closure CTAs target
+                            sections/universal-context/. FULL BLEED (22 Jul, user
+                            direction): the one homepage section NOT wrapped in
+                            ScrollRevealRail — see §6. Carries the #platform id that the
+                            Hero / TheProof / Closure CTAs target, and the [02] the
+                            ProblemSection CTA pill names
     ProvenAtScale.tsx    [02] Proven At Scale — one-deployment-at-a-time proof carousel
                             on white, headline paired with the AshokaChakra ornament
                             (user direction 20 Jul; the deep-navy band it briefly
@@ -57,14 +59,19 @@ components/
                              over pinstripe texture
       UCFeatureGrid.tsx      server — five-cell platform-capability ledger, ScrollReveal stagger
       ucIcons.ts             the five feature-grid icon path data (from Attio's markup)
-      UCSignals.tsx          client — "The platform" split: auto-rotating flow tabs (Ingest &
-                             unify / Store & predict / Explore & ask; 8s per tab: ~3s dwell +
-                             5s progress fill) left, GlyphMorphCanvas right; mobile stacked
-                             variant with segmented progress bars
-      UCConnectivity.tsx     server — "Connectivity" centred block + 11 source-system logo
+      UCSignals.tsx          client — "The platform" split: the four-step pipeline rail
+                             (Ingest & unify / Store & predict / Explore & ask / Govern &
+                             prove) left, GlyphMorphCanvas right, 7s per step on a dwell
+                             bar that fills while the step is live and sits full once it
+                             has passed. Clicking a step jumps to it. Index-matched to
+                             GlyphMorphCanvas's GLYPHS — reorder both together or the
+                             canvas desyncs. Mobile stacks canvas over rail. The block is
+                             framed by `border-y` hairlines that run to both screen edges
+                             (the section is full bleed — see §6)
+      UCConnectivity.tsx     server — "Connectivity" centred block + 12 source-system logo
                              tiles (Salesforce/SAP/NetSuite/Oracle/Postgres/…, files in
-                             public/universal-context/; `invert` flag renders dark wordmarks
-                             white), edge-masked row
+                             public/universal-context/), on one edge-masked marquee strip
+                             that pauses on hover and holds still under reduced motion
       UCSdk.tsx              client — "BI. AI. ML. Agents." block: 24×8 dashed drafting grid,
                              text plate, blueprint trace of the Akashic mark (hatched bars +
                              node circles + ghost accent dots) with draw-in
@@ -110,16 +117,35 @@ components/
     VoicesDispatches.tsx     Asymmetric editorial dispatch cards (Voices)
     AshokaChakra.tsx         Decorative 24-spoke wheel in brand blues, slow rotation (CareersImpact, ProvenAtScale)
     LineArtBust.tsx          Friendly line-art head+shoulders figure for SVG scenes (CareersHiring, AboutBeliefs)
-    GlyphMorphCanvas.tsx     rAF dot-particle canvas for the Meet Akashic "The platform"
-                             block: ~320–780 soft white dots (area-scaled) that scatter into
-                             an ambient field and re-form into one glyph per flow tab —
-                             confluence streams→ring (Ingest & unify), forecast sparkline +
-                             dotted future + spark (Store & predict), speech bubble +
-                             sparkle (Explore & ask). Antigravity-style: cubic-bezier
-                             ease-settle tweens with per-dot stagger, breathing drift,
-                             gentle cursor repulsion. SYNCED to the UCSignals tab rotation
-                             via the `active` prop (user direction 20 Jul 2026 — supersedes
-                             the old unsynced wireframe SignalsCanvas). Decorative, no data
+    GlyphMorphCanvas.tsx     rAF atom-field canvas for the Meet Akashic "The platform"
+                             block. ONE population of 700–1500 atoms (area-scaled) carries
+                             all four flow tabs: ~34% never leave the ambient field, the
+                             rest gather into the active tab's glyph — confluence
+                             streams→ring (Ingest & unify), forecast sparkline + dotted
+                             future + spark (Store & predict), speech bubble + sparkle
+                             (Explore & ask), shield + check (Govern & prove). SYNCED to
+                             the UCSignals tab rotation via the `active` prop.
+                             REWRITTEN 22 Jul 2026 (user direction, Google Antigravity as
+                             the reference) on three points, all load-bearing:
+                             • SHARP, NOT SOFT. Atoms are solid hard-edged discs painted
+                               through batched Path2D fills (alpha quantised into 16
+                               buckets × 2 tints, so ~1300 atoms cost ~32 fills). The old
+                               radial-gradient sprite read as blur, not as matter. Do not
+                               reintroduce a glow sprite
+                             • BREAK, THEN BUILD. A tab switch does not tween shape→shape:
+                               the standing glyph bursts outward into the free field, then
+                               the SAME atoms fly back in along the next glyph's own path
+                               order, so the four steps read as one continuing system
+                               rather than four pictures. ~2.6s of the 7s tab dwell
+                             • ATOMS, NOT A LINE. Atom count per glyph is derived from
+                               fitted path length ÷ PITCH (so pitch is equal on every
+                               glyph, and a per-stroke `density` still thins the dotted
+                               future / thickens the check), plus per-atom scatter off the
+                               ideal path. Nothing is ever fully still: formed atoms keep
+                               a per-atom wobble and alpha twinkle, free atoms drift on a
+                               slow curl field, and the cursor pushes the whole field
+                             Decorative, no data. Skips its whole frame when off-screen or
+                             zero-box, which is what keeps the display:none mobile twin free
 
     mockups/             SIMULATED PRODUCT UI — fake app screenshots for visual storytelling,
                           not real Akashic functionality. See §8a before touching any file here.
@@ -322,7 +348,7 @@ All keyframes live in `globals.css`. Do not add a component-local `<style danger
 | — | nav | `layout/Nav.tsx` | `bg-white/95 backdrop-blur-md` | Hides on scroll down (30px accumulated delta), shows on up (15px) or near top |
 | 00 | hero | `sections/Hero.tsx` | `bg-background` / `bg-blue` (sticky quote layer) | Uses `demos/mockups/HeroProductsMockup` + `demos/HeroConnections` |
 | 01 | problem | `sections/ProblemSection.tsx` | `bg-white` | **Rebuilt 21 Jul (user direction):** was four centred blocks stacked behind dashed rules (headline / axis plot / industry record / thesis) running ~1,900px, so it read as four sections and the argument never landed. Now one composition: argument left (three-line headline, lead, then the industry record demoted to a cited footnote under it), evidence right (`demos/DivergentAnswers`), one centred verdict below both. ~1,030px, so the whole argument fits one screen at 1440×800. Hierarchy is **inverted from the old rule**: the three answers (34–42px) now outrank $581B / 46% (30–34px), because the reader lives the three-answers moment and the market figures are what tell them it isn't their fault. Headline and verdict share one grammar: setup in `inkSoft`, payoff in `ink`. Grid uses explicit `lg:col-start`/`lg:row-start` placement, not source order, so the stacked order stays headline → ledger → citations. Closes on the real gap (infrastructure got funded, the data underneath was never made AI-ready), which sets up Meet Akashic. Stanford HAI 2026 + S&P Global data |
-| — | platform | `sections/MeetAkashic.tsx` + `sections/universal-context/` | `bg-uc-bg` (#0A0E24, deep indigo — same ground as the Akashic page's `.ak-depth` slabs; was neutral #101010 until 21 Jul) | Meet Akashic — the platform section in the dark Attio-derived aesthetic (user direction 18–19 Jul): pinstripe + orb hero ("Stop guessing. Get grounded." / "Meet Akashic"), five-cell capability grid, "The platform" flow tabs + GlyphMorphCanvas dot glyphs (synced to the tabs, 20 Jul), Connectivity source-system logo tiles, "BI. AI. ML. Agents." blueprint panel tracing the Akashic mark. Carries the `#platform` id targeted by Hero/TheProof/Closure CTAs; its own CTAs link to `/akashic` anchors. No [NN] eyebrow by design. Second dark region per Rule 5 |
+| 02 | platform | `sections/MeetAkashic.tsx` + `sections/universal-context/` | `bg-uc-bg` (#0A0E24, deep indigo — same ground as the Akashic page's `.ak-depth` slabs; was neutral #101010 until 21 Jul) | Meet Akashic — the platform section in the dark Attio-derived aesthetic (user direction 18–19 Jul): pinstripe + orb hero ("Stop guessing. Get grounded." / "Meet Akashic"), five-cell capability grid, "The platform" flow tabs + GlyphMorphCanvas atom glyphs (synced to the tabs), Connectivity source-system logo tiles, "BI. AI. ML. Agents." blueprint panel tracing the Akashic mark. Carries the `#platform` id targeted by Hero/TheProof/Closure CTAs; its own CTAs link to `/akashic` anchors. Second dark region per Rule 5. **FULL BLEED (22 Jul, user direction) — the one homepage section outside `ScrollRevealRail`:** its orb already ran to both screen edges while every rule and divider stopped at the 1440px rail, so the horizontal hairlines crossed the rail's vertical edge lines (two `w-screen` hacks were papering over exactly this) and the section read as narrower than its own artwork. Every rule now runs edge to edge, `w-screen` is gone, and content is inset by one shared gutter (`px-6 md:px-10 xl:px-14`; the feature grid's outer cells carry matching `first:pl-*`/`last:pr-*` so their text lines up with the eyebrow). Do not put this section back inside the rail, and do not reintroduce a `w-screen` rule anywhere in it |
 | 02 | scale | `sections/ProvenAtScale.tsx` | deep-navy gradient (`#02183E` → `#103169`) | Rebuilt 20 Jul (user direction) as a replica of Keboola's "Real Customers. Real Results." stage: centred dot-flanked eyebrow + white headline over `demos/ProvenStories`, a one-deployment-at-a-time cross-fade carousel (white `rounded-2xl` split card, story left, photography right). Masked 36px drafting grid + two corner glows. Third deliberate dark region — see §7, Rule 5 |
 | 03 | delivery | `sections/HowWeDeliver.tsx` | soft blue band | Three-engagement-model journey selector (Deployment / Product Engineering / Advisory): left situation rows route to a From→To journey per model, tied by a solid `AkashicFlowConnectors` line; detail panel tracks the selected row's level. Links to `/delivery` model anchors. No console mockup. The page's one blue band (Rule 5a, user direction 18 Jul) |
 | 04 | sectors | `sections/EverySector.tsx` | `bg-white` | Image-strip accordion desktop / accordion mobile |
@@ -348,8 +374,8 @@ Composed in `app/akashic/page.tsx` (Nav + sections + Footer). The nav's "Akashic
 | 06 | open | `sections/akashic/AkashicOpenFoundations.tsx` | `bg-white` | `akashic.stack` manifest card listing open technologies. ⚠ tech list flagged "representative" in the content script — confirm with engineering |
 | 07 | build-vs-buy | `sections/akashic/AkashicBuildVsBuy.tsx` | `bg-white` | The opportunity-cost argument, not a capability fight. |
 | 08 | scale | `sections/ProvenAtScale.tsx` | `bg-white` | Reuses homepage carousel design parameterized with id="scale", sectionNumber="08", eyebrowText="Proven at scale" |
-| 09 | stack | `sections/akashic/AkashicStack.tsx` | `bg-primary-bg` | Capabilities & connectors: pick a module to see its source/system connectors and capabilities database. |
-| 10 | solutions | `sections/akashic/AkashicPlatform.tsx` | `bg-uc-bg` (#0A0E24) | Reuses the dark Attio-replica vertical-tabs mockup solutions explorer. |
+| 09 | stack | `sections/akashic/AkashicStack.tsx` | `.ak-depth` (#0A0E24 dark slab) | Capabilities & connectors: pick a module to see its source/system connectors and capabilities database. **Dark ground moved here from [10] (user direction Jul 2026)** — the datasheet's white cards (selector rail + detail drawer) read as lifted panels on the indigo ground; both carry `shadow-float-dark`. Content chrome is otherwise unchanged, since it was already light-on-white |
+| 10 | solutions | `sections/akashic/AkashicPlatform.tsx` | `bg-background` (white) | Split-pane vertical-tabs solutions explorer. **Went white (user direction Jul 2026)** — the dark ak-depth slab moved up to [09]; the interactive card was already white, so this was chrome-only (ink-on-white header, house radius/border/shadow tokens). Title one line, subhead two |
 | 11 | talk-to-our-team | `sections/akashic/AkashicClose.tsx` | `bg-white` | Dark closure card (Rule 5's Closure precedent). ⚠ six-week commitment flagged "confirm" in the content script. Carries the `#talk-to-our-team` id the nav CTA targets |
 
 Shared pieces for this page: the blue-on-white animated connectors (`FlowPath`/`FanIn`/`MergeDown`/`SplitDown`/`MobileConn`) live in `demos/AkashicFlowConnectors.tsx` (decorative, no data), and the simulated-UI card chrome + MiniStack motif live in `sections/akashic/AkashicCardChrome.tsx`.
@@ -482,6 +508,8 @@ Wraps children in an `IntersectionObserver` that adds a fade-up class when the e
 
 ### `ui/ScrollRevealRail.tsx`
 Centred 1440px rail wrapper with animated left/right edge lines that fill as the section scrolls through the viewport. Takes a `dark` prop for use on dark backgrounds (currently only the Footer).
+
+The rail's vertical edge lines are why a section inside it **must not** carry a full-width horizontal rule: a `w-screen` divider crosses them and reads as an accidental intersection (and 100vw overflows the body by the scrollbar width). If a section genuinely wants edge-to-edge rules, take it out of the rail entirely rather than punching through — that is the call `MeetAkashic` made on 22 Jul (§6).
 
 ### `hooks/useCountUp.ts`
 Three related exports (see §1) covering the two distinct count-up needs in the codebase: a scroll-triggered single-string-figure animation (`useCountUp`, used by `DivergentAnswers`) and a re-triggerable numeric animation for content already inside a parent `ScrollReveal` (`useCountUpValue`, used by `FieldLedger`). Do not reintroduce a third local copy of this logic — extend one of these two.

@@ -1,12 +1,12 @@
 import type { PageSection } from "./pageSection";
 
 export const LIFE_SECTIONS: PageSection[] = [
-  { id: "hero", label: "Akashic Life" },
-  { id: "the-gap", label: "The gap" },
-  { id: "offline", label: "Offline" },
-  { id: "two-minutes", label: "Two minutes" },
-  { id: "village-to-policy", label: "Village to policy" },
-  { id: "how-its-built", label: "How it's built" },
+  { id: "hero", label: "Overview" },
+  { id: "the-gap", label: "Risk & Rescue" },
+  { id: "offline-first", label: "Offline First" },
+  { id: "life-story", label: "2-Min Story" },
+  { id: "village-to-policy", label: "Village to Policy" },
+  { id: "how-its-built", label: "How It's Built" },
   { id: "proof", label: "Proof" },
-  { id: "talk-to-our-team", label: "Talk to our team" },
+  { id: "talk-to-our-team", label: "Get Started" },
 ];

@@ -29,7 +29,7 @@ export default function AboutPage() {
         <AboutBeliefs />
         <AboutHow />
         <AboutCareers />
-        <ProvenAtScale id="proof" sectionNumber="06" eyebrowText="Proof" />
+        <ProvenAtScale id="proof" sectionNumber="06" eyebrowText="Proven at scale" />
         <AboutClose />
       </main>
       <Footer />

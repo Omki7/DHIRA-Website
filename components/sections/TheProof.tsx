@@ -109,10 +109,10 @@ export default function TheProof() {
       style={{ "--pos": pos } as React.CSSProperties}
     >
 
-      {/* AFTER background (base) */}
+      {/* AFTER background (base) — pristine brand white/blue */}
       <div 
         className="absolute inset-0 pointer-events-none z-0 bg-white"
-        style={{ background: "radial-gradient(125% 100% at 50% 42%, #FFFFFF 0%, #F8F9FA 55%, #EEF0F2 100%)" }}
+        style={{ background: "radial-gradient(125% 100% at 50% 42%, #FFFFFF 0%, #F0F4FF 55%, #E5EDFF 100%)" }}
       >
         <svg className="absolute inset-0 w-full h-full opacity-60">
           <defs>
@@ -124,18 +124,17 @@ export default function TheProof() {
         </svg>
       </div>
 
-      {/* BEFORE background (clipped) — the brand's soft blue band tint
-          (#F1F5FE, Rule 5a), not the stock slate #f1f5f9 it used to be. */}
+      {/* BEFORE background (clipped) — starts below the toggle button right at the mockup diagram */}
       <div
-        className={`comparison-before-bg absolute inset-y-0 left-0 pointer-events-none z-0 overflow-hidden bg-[#F1F5FE] transition-[width] ${
+        className={`comparison-before-bg absolute top-[320px] bottom-0 left-0 pointer-events-none z-0 overflow-hidden bg-[#EAEFF6] transition-[width] ${
           glide ? "duration-650 ease-settle" : "duration-0"
         }`}
       >
         <div className="absolute inset-y-0 left-0 w-screen">
-          <svg className="absolute inset-0 w-full h-full opacity-70">
+          <svg className="absolute inset-0 w-full h-full opacity-60">
             <defs>
               <pattern id="dotsSectionB" width="26" height="26" patternUnits="userSpaceOnUse">
-                <circle cx="1.3" cy="1.3" r="1.3" fill="#64748b" fillOpacity="0.12" />
+                <circle cx="1.3" cy="1.3" r="1.3" fill="#64748B" fillOpacity="0.18" />
               </pattern>
             </defs>
             <rect width="100%" height="100%" fill="url(#dotsSectionB)" />
@@ -143,12 +142,9 @@ export default function TheProof() {
         </div>
       </div>
 
-      {/* Section-wide slider line. This was a WHITE line with a faint blue
-          ring — invisible against the white "after" ground, which is exactly
-          where the seam matters most. It is now the seam itself: brand blue,
-          with a white halo so it stays legible over both grounds. */}
+      {/* Slider seam line (starts below the toggle button right at the mockup diagram) */}
       <div
-        className={`comparison-slider-line absolute top-0 bottom-0 -translate-x-1/2 w-[2px] pointer-events-none z-20 transition-[left] ${
+        className={`comparison-slider-line absolute top-[320px] bottom-0 -translate-x-1/2 w-[2px] pointer-events-none z-20 transition-[left] ${
           glide ? "duration-650 ease-settle" : "duration-0"
         }`}
         style={{
@@ -167,45 +163,53 @@ export default function TheProof() {
             </span>
           </div>
 
+          {/* Joined Title */}
           <h2 className="max-w-[16em] text-[40px] font-semibold leading-[1.1] tracking-tighter text-ink sm:text-[48px] lg:text-[56px]">
             Two realities. One organisation.
           </h2>
-          <p className="mt-5 max-w-[38em] text-[17px] leading-relaxed text-inkSoft md:text-[18px]">
-            The same team. The same data. Drag the divider, or use the buttons,
-            <br className="hidden sm:block" />
-            to see what changes when every system draws from one governed source of truth.
+
+          {/* Joined Subheader */}
+          <p className="mt-4 text-[17px] leading-relaxed text-inkSoft md:text-[18px]">
+            The same team. The same data.
           </p>
         </ScrollReveal>
 
-        {/* Plain-language way in. The drag handle is the richer interaction,
-            but it is a learned gesture and reads as decoration to anyone who
-            does not already know the pattern — these two buttons give the
-            same comparison with no gesture at all (user direction 21 Jul). */}
-        <ScrollReveal delay={60}>
+        {/* Mode Pill Toggle — Directly shown below subheader */}
+        <ScrollReveal delay={60} className="flex flex-col items-start sm:items-center w-full mt-8">
+          <div className="mb-2 flex items-center gap-2 font-mono text-[10px] uppercase tracking-widest text-inkSoft font-semibold">
+            <span className="h-1.5 w-1.5 rounded-full bg-blue animate-pulse" />
+            Select Comparison Mode
+          </div>
           <div
             role="group"
             aria-label="Choose which side to show"
-            className="mt-8 inline-flex rounded-full border border-subtle-stroke bg-white p-1 shadow-card"
+            className="inline-flex rounded-full border-2 border-lineSoft bg-white p-1.5 shadow-lg shadow-black/[0.04] ring-4 ring-black/[0.02]"
           >
             <button
               type="button"
               onClick={() => showSide(BEFORE_END)}
               aria-pressed={atBefore}
-              className={`rounded-full px-4 py-1.5 text-sm font-medium transition-colors duration-250 ease-settle ${
-                atBefore ? "bg-ink text-white" : "text-inkSoft hover:text-ink"
+              className={`flex items-center gap-2 rounded-full px-5 py-2.5 text-xs sm:text-sm font-semibold transition-all duration-300 ease-settle ${
+                atBefore
+                  ? "bg-[#334155] text-amber-300 shadow-md ring-1 ring-amber-400/30"
+                  : "text-inkSoft hover:text-ink hover:bg-tertiary-bg"
               }`}
             >
-              Before Akashic
+              <span className={`h-2.5 w-2.5 rounded-full transition-all ${atBefore ? "bg-amber-400 shadow-[0_0_8px_rgba(251,191,36,0.8)] animate-pulse" : "bg-inkSoft/30"}`} />
+              Before DHIRA
             </button>
             <button
               type="button"
               onClick={() => showSide(AFTER_END)}
               aria-pressed={atAfter}
-              className={`rounded-full px-4 py-1.5 text-sm font-medium transition-colors duration-250 ease-settle ${
-                atAfter ? "bg-ink text-white" : "text-inkSoft hover:text-ink"
+              className={`flex items-center gap-2 rounded-full px-5 py-2.5 text-xs sm:text-sm font-semibold transition-all duration-300 ease-settle ${
+                atAfter
+                  ? "bg-blue text-white shadow-md shadow-blue/30 ring-1 ring-white/30"
+                  : "text-inkSoft hover:text-ink hover:bg-tertiary-bg"
               }`}
             >
-              After Akashic
+              <span className={`h-2.5 w-2.5 rounded-full transition-all ${atAfter ? "bg-white shadow-[0_0_8px_rgba(255,255,255,0.8)] animate-pulse" : "bg-inkSoft/30"}`} />
+              After DHIRA
             </button>
           </div>
         </ScrollReveal>

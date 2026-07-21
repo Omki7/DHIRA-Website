@@ -111,7 +111,7 @@ export default function ProofComparisonMockup({ pos, width, glide = false, showH
         {/* After wordmark */}
         <div className="absolute top-[6%] left-1/2 w-1/2 pl-6 md:pl-8 flex items-center gap-3 pointer-events-none">
           <span className="text-[15px] md:text-[22px] font-semibold tracking-[0.16em] uppercase text-blue whitespace-nowrap">
-            After Akashic
+            After DHIRA
           </span>
           <span className="w-1.5 h-1.5 rounded-full bg-blue shadow-[0_0_0_4px_rgba(62,99,221,0.15)]" />
         </div>
@@ -195,9 +195,9 @@ export default function ProofComparisonMockup({ pos, width, glide = false, showH
         </div>
       </div>
 
-      {/* ════════ BEFORE layer (clipped) — tool sprawl ════════ */}
+      {/* ════════ BEFORE layer (clipped) — gloomy desaturated tool sprawl ════════ */}
       <div
-        className={`absolute inset-y-0 left-0 overflow-hidden bg-[#F1F5FE] transition-[width] ${ease}`}
+        className={`absolute inset-y-0 left-0 overflow-hidden bg-[#EAEFF6] transition-[width] ${ease}`}
         style={{ width: `${pos}%` }}
       >
         <div
@@ -210,161 +210,157 @@ export default function ProofComparisonMockup({ pos, width, glide = false, showH
           >
             <defs>
               <linearGradient id="beforeStroke" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0" stopColor="#64748b" stopOpacity="0.35" />
-                <stop offset="1" stopColor="#64748b" stopOpacity="0.1" />
+                <stop offset="0" stopColor="#64748b" stopOpacity="0.45" />
+                <stop offset="1" stopColor="#475569" stopOpacity="0.15" />
               </linearGradient>
               <filter id="glowB" x="-30%" y="-30%" width="160%" height="160%">
                 <feGaussianBlur stdDeviation="4" />
               </filter>
               <pattern id="dotsB" width="26" height="26" patternUnits="userSpaceOnUse">
-                <circle cx="1.3" cy="1.3" r="1.3" fill="#64748b" fillOpacity="0.1" />
+                <circle cx="1.3" cy="1.3" r="1.3" fill="#64748b" fillOpacity="0.2" />
               </pattern>
             </defs>
             <rect x="0" y="0" width="1100" height="660" fill="url(#dotsB)" />
-            <g filter="url(#glowB)" stroke="#64748b" strokeOpacity="0.15" strokeWidth="5" fill="none" strokeLinecap="round">
+            <g filter="url(#glowB)" stroke="#475569" strokeOpacity="0.2" strokeWidth="5" fill="none" strokeLinecap="round">
               {beforeConns.map((c, i) => <path key={i} d={c.d} />)}
             </g>
             <g stroke="url(#beforeStroke)" strokeWidth="1.5" fill="none" strokeLinecap="round">
               {beforeConns.map((c, i) => (
-                <path key={i} d={c.d} stroke={c.stroke} strokeOpacity="0.7" strokeDasharray={c.dash} />
+                <path key={i} d={c.d} stroke={c.stroke === "#f59e0b" ? "#ef4444" : "#64748b"} strokeOpacity="0.75" strokeDasharray={c.dash} />
               ))}
             </g>
           </svg>
 
           {/* Scatter nodes */}
-          <span className="absolute left-[43.6%] top-[45.5%] w-[11px] h-[11px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-white border-[1.5px] border-line shadow-sm" />
-          <span className="absolute left-[69%] top-[43.9%] w-[11px] h-[11px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-white border-[1.5px] border-line shadow-sm" />
-          <span className="absolute left-[30%] top-[54.5%] w-[12px] h-[12px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-amber-400 shadow-[0_0_0_5px_rgba(251,191,36,0.15),0_1px_4px_rgba(251,191,36,0.3)]" />
-          <span className="absolute left-[81.8%] top-[31.8%] w-[11px] h-[11px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-white border-[1.5px] border-line shadow-sm" />
-          <span className="absolute left-[50.9%] top-[71.2%] w-[11px] h-[11px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-white border-[1.5px] border-line shadow-sm" />
-          <span className="absolute left-[13.6%] top-[60.6%] w-[12px] h-[12px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-amber-400 shadow-[0_0_0_5px_rgba(251,191,36,0.15),0_1px_4px_rgba(251,191,36,0.3)]" />
+          <span className="absolute left-[43.6%] top-[45.5%] w-[11px] h-[11px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-white border-[1.5px] border-slate-400 shadow-sm" />
+          <span className="absolute left-[69%] top-[43.9%] w-[11px] h-[11px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-white border-[1.5px] border-slate-400 shadow-sm" />
+          <span className="absolute left-[30%] top-[54.5%] w-[12px] h-[12px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-rose-500 shadow-[0_0_0_5px_rgba(244,63,94,0.2),0_1px_4px_rgba(244,63,94,0.4)] animate-pulse" />
+          <span className="absolute left-[81.8%] top-[31.8%] w-[11px] h-[11px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-white border-[1.5px] border-slate-400 shadow-sm" />
+          <span className="absolute left-[50.9%] top-[71.2%] w-[11px] h-[11px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-white border-[1.5px] border-slate-400 shadow-sm" />
+          <span className="absolute left-[13.6%] top-[60.6%] w-[12px] h-[12px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-amber-500 shadow-[0_0_0_5px_rgba(245,158,11,0.2),0_1px_4px_rgba(245,158,11,0.4)] animate-pulse" />
 
           {/* Before wordmark — width matches half-container so it sits at the centre seam */}
           <div
             className="absolute top-[6%] left-0 pr-6 md:pr-8 flex items-center justify-end gap-3 pointer-events-none"
             style={{ width: `${width * 0.5}px` }}
           >
-            <span className="w-1.5 h-1.5 rounded-full bg-line shadow-[0_0_0_4px_rgba(211,216,223,0.3)]" />
-            <span className="text-[15px] md:text-[22px] font-semibold tracking-[0.16em] uppercase text-inkSoft whitespace-nowrap">
-              Before Akashic
+            <span className="w-2 h-2 rounded-full bg-slate-500 shadow-[0_0_6px_rgba(100,116,139,0.4)]" />
+            <span className="text-[15px] md:text-[22px] font-bold tracking-[0.16em] uppercase text-slate-700 whitespace-nowrap">
+              Before DHIRA
             </span>
           </div>
 
-          {/* ── Before cards: tool sprawl + time/effort pain ── */}
+          {/* ── Before cards: gloomy tool sprawl + time/effort pain ── */}
           {/* SAP ERP */}
           <div className="absolute left-[16%] top-[30.3%] -translate-x-1/2 -translate-y-1/2 -rotate-2">
-            <div className="animate-[ps-float_4.5s_ease-in-out_infinite] flex items-center gap-2.5 py-2 px-3.5 bg-white/90 backdrop-blur-[2px] border border-line rounded-outer shadow-card whitespace-nowrap">
-              <span className="flex-none inline-flex items-center justify-center w-6 h-6 rounded-tile bg-tertiary-bg text-inkSoft">
+            <div className="animate-[ps-float_4.5s_ease-in-out_infinite] flex items-center gap-2.5 py-2 px-3.5 bg-white/95 backdrop-blur-[2px] border border-slate-300 rounded-outer shadow-md whitespace-nowrap">
+              <span className="flex-none inline-flex items-center justify-center w-6 h-6 rounded-tile bg-slate-100 text-slate-500">
                 <DynamicSketchIcon text="Enterprise" className="w-4 h-4" />
               </span>
               <span className="flex flex-col">
-                <span className="text-[10px] font-medium uppercase tracking-[0.08em] text-overcast">SAP ERP</span>
-                <span className="text-[13px] font-medium tracking-[-0.01em] text-inkSoft">18-month integration timeline</span>
+                <span className="text-[10px] font-semibold uppercase tracking-[0.08em] text-slate-500">SAP ERP</span>
+                <span className="text-[13px] font-medium tracking-[-0.01em] text-slate-800">18-month integration timeline</span>
               </span>
             </div>
           </div>
 
           {/* Salesforce CRM */}
           <div className="absolute left-[35%] top-[68.5%] -translate-x-1/2 -translate-y-1/2 rotate-1">
-            <div className="animate-[ps-float_5s_ease-in-out_infinite_1s] flex items-center gap-2.5 py-2 px-3.5 bg-white/90 backdrop-blur-[2px] border border-line rounded-outer shadow-card whitespace-nowrap">
-              <span className="flex-none inline-flex items-center justify-center w-6 h-6 rounded-tile bg-tertiary-bg text-inkSoft">
+            <div className="animate-[ps-float_5s_ease-in-out_infinite_1s] flex items-center gap-2.5 py-2 px-3.5 bg-white/95 backdrop-blur-[2px] border border-slate-300 rounded-outer shadow-md whitespace-nowrap">
+              <span className="flex-none inline-flex items-center justify-center w-6 h-6 rounded-tile bg-slate-100 text-slate-500">
                 <DynamicSketchIcon text="Customer Stories" className="w-4 h-4" />
               </span>
               <span className="flex flex-col">
-                <span className="text-[10px] font-medium uppercase tracking-[0.08em] text-overcast">Salesforce CRM</span>
-                <span className="text-[13px] font-medium tracking-[-0.01em] text-inkSoft">Customer data locked in a silo</span>
+                <span className="text-[10px] font-semibold uppercase tracking-[0.08em] text-slate-500">Salesforce CRM</span>
+                <span className="text-[13px] font-medium tracking-[-0.01em] text-slate-800">Customer data locked in a silo</span>
               </span>
             </div>
           </div>
 
-          {/* Main pain badge — tool sprawl count */}
+          {/* Main pain badge — gloomy tool sprawl cost */}
           <div className="absolute left-[60%] top-[28.8%] -translate-x-1/2 -translate-y-1/2 -rotate-1">
-            <div className="animate-[ps-float_6s_ease-in-out_infinite_0.5s] flex items-center gap-2.5 py-2 px-3.5 bg-amber-50 border border-amber-200 rounded-outer shadow-[0_8px_22px_-12px_rgba(251,191,36,0.45)] whitespace-nowrap">
-              <span className="flex-none inline-flex items-center justify-center w-6 h-6 rounded-md bg-white text-amber-500">
-                {/* Grid-of-squares icon to represent many tools */}
+            <div className="animate-[ps-float_6s_ease-in-out_infinite_0.5s] flex items-center gap-2.5 py-2 px-3.5 bg-rose-50 border border-rose-300 rounded-outer shadow-md whitespace-nowrap">
+              <span className="flex-none inline-flex items-center justify-center w-6 h-6 rounded-md bg-rose-100 text-rose-700">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round">
                   <rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/>
                   <rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/>
                 </svg>
               </span>
-              <span className="text-[13px] font-semibold tracking-[-0.01em] text-amber-700">12+ tools. 5+ vendor contracts.</span>
+              <span className="text-[13px] font-semibold tracking-[-0.01em] text-rose-900">12+ tools. 5+ vendor contracts.</span>
             </div>
           </div>
 
           {/* Power BI */}
           <div className="absolute left-[73.6%] top-[65.2%] -translate-x-1/2 -translate-y-1/2 rotate-2">
-            <div className="animate-[ps-float_4s_ease-in-out_infinite_2s] flex items-center gap-2.5 py-2 px-3.5 bg-white/90 backdrop-blur-[2px] border border-line rounded-outer shadow-card whitespace-nowrap">
-              <span className="flex-none inline-flex items-center justify-center w-6 h-6 rounded-tile bg-tertiary-bg text-inkSoft">
+            <div className="animate-[ps-float_4s_ease-in-out_infinite_2s] flex items-center gap-2.5 py-2 px-3.5 bg-white/95 backdrop-blur-[2px] border border-slate-300 rounded-outer shadow-md whitespace-nowrap">
+              <span className="flex-none inline-flex items-center justify-center w-6 h-6 rounded-tile bg-slate-100 text-slate-500">
                 <DynamicSketchIcon text="Akashic BI" className="w-4 h-4" />
               </span>
               <span className="flex flex-col">
-                <span className="text-[10px] font-medium uppercase tracking-[0.08em] text-overcast">Power BI</span>
-                <span className="text-[13px] font-medium tracking-[-0.01em] text-inkSoft">Stale data by design</span>
+                <span className="text-[10px] font-semibold uppercase tracking-[0.08em] text-slate-500">Power BI</span>
+                <span className="text-[13px] font-medium tracking-[-0.01em] text-slate-800">Stale data by design</span>
               </span>
             </div>
           </div>
 
           {/* Legacy systems */}
           <div className="absolute left-[22.7%] top-[83%] -translate-x-1/2 -translate-y-1/2 -rotate-2">
-            <div className="animate-[ps-float_5.5s_ease-in-out_infinite_0.2s] flex items-center gap-2.5 py-2 px-3.5 bg-white/90 backdrop-blur-[2px] border border-line rounded-outer shadow-card whitespace-nowrap">
-              <span className="flex-none inline-flex items-center justify-center w-6 h-6 rounded-tile bg-tertiary-bg text-inkSoft">
+            <div className="animate-[ps-float_5.5s_ease-in-out_infinite_0.2s] flex items-center gap-2.5 py-2 px-3.5 bg-white/95 backdrop-blur-[2px] border border-slate-300 rounded-outer shadow-md whitespace-nowrap">
+              <span className="flex-none inline-flex items-center justify-center w-6 h-6 rounded-tile bg-slate-100 text-slate-500">
                 <DynamicSketchIcon text="Legacy Modernization" className="w-4 h-4" />
               </span>
               <span className="flex flex-col">
-                <span className="text-[10px] font-medium uppercase tracking-[0.08em] text-overcast">Legacy Systems</span>
-                <span className="text-[13px] font-medium tracking-[-0.01em] text-inkSoft">One more team, one more budget</span>
+                <span className="text-[10px] font-semibold uppercase tracking-[0.08em] text-slate-500">Legacy Systems</span>
+                <span className="text-[13px] font-medium tracking-[-0.01em] text-slate-800">One more team, one more budget</span>
               </span>
             </div>
           </div>
 
           {/* Excel */}
           <div className="absolute left-[62.7%] top-[84.8%] -translate-x-1/2 -translate-y-1/2 rotate-1">
-            <div className="animate-[ps-float_4.8s_ease-in-out_infinite_1.2s] flex items-center gap-2.5 py-2 px-3.5 bg-white/90 backdrop-blur-[2px] border border-line rounded-outer shadow-card whitespace-nowrap">
-              <span className="flex-none inline-flex items-center justify-center w-6 h-6 rounded-tile bg-tertiary-bg text-inkSoft">
+            <div className="animate-[ps-float_4.8s_ease-in-out_infinite_1.2s] flex items-center gap-2.5 py-2 px-3.5 bg-white/95 backdrop-blur-[2px] border border-slate-300 rounded-outer shadow-md whitespace-nowrap">
+              <span className="flex-none inline-flex items-center justify-center w-6 h-6 rounded-tile bg-slate-100 text-slate-500">
                 <DynamicSketchIcon text="Documentation" className="w-4 h-4" />
               </span>
               <span className="flex flex-col">
-                <span className="text-[10px] font-medium uppercase tracking-[0.08em] text-overcast">Excel Spreadsheets</span>
-                <span className="text-[13px] font-medium tracking-[-0.01em] text-inkSoft">The bridge between everything else</span>
+                <span className="text-[10px] font-semibold uppercase tracking-[0.08em] text-slate-500">Excel Spreadsheets</span>
+                <span className="text-[13px] font-medium tracking-[-0.01em] text-slate-800">The bridge between everything else</span>
               </span>
             </div>
           </div>
         </div>
       </div>
 
-      {/* ════════ Divider handle ════════ */}
+      {/* ════════ Divider handle with prominent Slide/Compare affordance ════════ */}
       <div
         onKeyDown={onKeyDown}
         tabIndex={0}
         role="slider"
-        aria-label="Drag to compare before and after Akashic"
+        aria-label="Slide to compare before and after DHIRA"
         aria-valuemin={0}
         aria-valuemax={100}
         aria-valuenow={Math.round(pos)}
-        className={`absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-16 h-32 flex items-center justify-center z-30 cursor-ew-resize outline-none transition-[left] ${ease}`}
+        className={`absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-20 h-36 flex items-center justify-center z-30 cursor-ew-resize outline-none transition-[left] ${ease}`}
         style={{ left: `${pos}%` }}
       >
-        <div className="relative flex flex-col items-center gap-[11px] pointer-events-none">
+        <div className="relative flex flex-col items-center gap-[10px] pointer-events-none">
+          {/* Prominent slide & compare cue pill */}
           <span
-            aria-hidden={!showHint}
-            className={`inline-flex items-center gap-1.5 px-3 py-1.5 bg-ink text-white text-[11px] font-semibold tracking-[0.02em] rounded-full whitespace-nowrap shadow-frame transition-opacity duration-400 ease-settle ${
-              showHint ? "opacity-100" : "opacity-0"
-            }`}
+            className="inline-flex items-center gap-2 px-3.5 py-1.5 bg-[#1E293B] text-white text-[11px] font-bold tracking-wider rounded-full whitespace-nowrap border border-blue-border/40 shadow-xl ring-2 ring-blue/20"
           >
-            See the change
-            <span className="inline-flex animate-[proofHint_1.5s_ease_infinite]">
-              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M5 12h14"/><path d="M13 6l6 6-6 6"/>
-              </svg>
-            </span>
+            <span className="text-amber-400 font-mono text-[12px] animate-pulse">◄</span>
+            <span className="uppercase text-[10px] tracking-widest text-blue-subtle font-mono">SLIDE TO COMPARE</span>
+            <span className="text-blue-400 font-mono text-[12px] animate-pulse">►</span>
           </span>
-          <div className="relative w-[50px] h-[50px] md:w-[60px] md:h-[60px]">
-            <span className="absolute inset-0 rounded-full bg-blue/20 animate-[proofKnobGlow_2.6s_ease-out_infinite] pointer-events-none" />
+
+          {/* Interactive Knob */}
+          <div className="relative w-[52px] h-[52px] md:w-[62px] md:h-[62px]">
+            <span className="absolute inset-0 rounded-full bg-blue/30 animate-[proofKnobGlow_2.2s_ease-out_infinite] pointer-events-none" />
             <div
-              className="relative w-full h-full rounded-full flex items-center justify-center border border-blue-border bg-gradient-to-b from-white to-blue-subtle"
-              style={{ boxShadow: "inset 0 1px 1px rgba(255,255,255,0.9), 0 2px 5px rgba(11,20,64,0.08), 0 12px 26px -8px rgba(62,99,221,0.45)" }}
+              className="relative w-full h-full rounded-full flex items-center justify-center border-2 border-white bg-gradient-to-b from-white via-blue-subtle to-blue/20 shadow-2xl"
+              style={{ boxShadow: "inset 0 2px 4px rgba(255,255,255,1), 0 0 0 3px rgba(62,99,221,0.3), 0 12px 30px rgba(11,20,64,0.4)" }}
             >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#3E63DD" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" className="block">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#3E63DD" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="block">
                 <path d="M9 6l-4 6 4 6"/><path d="M15 6l4 6-4 6"/>
               </svg>
             </div>

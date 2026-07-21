@@ -7,6 +7,7 @@
  */
 
 import ScrollReveal from "@/components/ui/ScrollReveal";
+import ScrollRevealRail from "@/components/ui/ScrollRevealRail";
 
 const beats = [
   {
@@ -30,10 +31,10 @@ const beats = [
 export default function LifeStory() {
   return (
     <section
-      id="two-minutes"
-      className="scroll-mt-24 border-t border-lineSoft bg-[linear-gradient(180deg,#FFFFFF_0%,#F1F5FE_16%,#F1F5FE_84%,#FFFFFF_100%)]"
+      id="life-story"
+      className="scroll-mt-24 border-t border-lineSoft bg-[linear-gradient(180deg,#FFFFFF_0%,#F1F5FE_16%,#F1F5FE_84%,#FFFFFF_100%)] pt-12 pb-24 lg:pt-16 lg:pb-32"
     >
-      <div className="rail-container pt-12 pb-24 lg:pt-16 lg:pb-32">
+      <ScrollRevealRail>
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-[1fr_1.4fr] lg:gap-16">
           <div className="self-start lg:sticky lg:top-32">
             <ScrollReveal>
@@ -103,7 +104,7 @@ export default function LifeStory() {
             </div>
           </div>
         </div>
-      </div>
+      </ScrollRevealRail>
     </section>
   );
 }

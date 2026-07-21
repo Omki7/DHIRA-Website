@@ -7,6 +7,7 @@
  */
 
 import ScrollReveal from "@/components/ui/ScrollReveal";
+import ScrollRevealRail from "@/components/ui/ScrollRevealRail";
 
 const sheets = [
   { name: "Q3_report_v1.xlsx", total: "4.2M", rotate: "-rotate-2", z: "z-10" },
@@ -75,8 +76,8 @@ function ProblemPanel() {
 
 export default function AboutWhy() {
   return (
-    <section id="why-we-exist" className="scroll-mt-24 border-t border-lineSoft bg-background">
-      <div className="rail-container pt-12 pb-24 lg:pt-16 lg:pb-32">
+    <section id="why-we-exist" className="scroll-mt-24 border-t border-lineSoft bg-background pt-12 pb-24 lg:pt-16 lg:pb-32">
+      <ScrollRevealRail>
         <ScrollReveal>
           <div className="flex items-baseline justify-between font-mono text-[11px] uppercase tracking-eyebrow">
             <p>
@@ -123,7 +124,7 @@ export default function AboutWhy() {
             <ProblemPanel />
           </ScrollReveal>
         </div>
-      </div>
+      </ScrollRevealRail>
     </section>
   );
 }

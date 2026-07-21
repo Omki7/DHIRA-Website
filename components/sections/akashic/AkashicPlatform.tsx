@@ -1,12 +1,15 @@
 "use client";
 
 /*
- * [09] Built on Akashic — start from a solution, not a blank platform.
- * Redesigned to use a split-pane vertical-tab interface based on user direction.
+ * [10] Built on Akashic — start from a solution, not a blank platform.
+ * Split-pane vertical-tab interface (user direction).
  * Left side: 3 vertical modules (tabs).
  * Right side: Active solution headline, description, and a premium empty image placeholder
  * waiting for actual platform screenshots.
- * Skinned in house tokens on the page's second ak-depth slab.
+ * On the white ground (user direction Jul 2026): the dark ak-depth slab this
+ * section used to carry moved up to [09] AkashicStack; the interactive card was
+ * already white, so this is chrome-only — house radii/border/shadow tokens,
+ * ink-on-white header.
  */
 
 import { useState, useEffect, useCallback } from "react";
@@ -97,33 +100,27 @@ export default function AkashicPlatform() {
   }, [nextSlide, isPaused]);
 
   return (
-    <section id="solutions" className="ak-depth relative scroll-mt-24 overflow-hidden">
-      {/* Same precisely-cut dark slab: crisp seams, blue horizon glows, machined dot texture. */}
-      <div className="dot-grid-dark pointer-events-none absolute inset-0 opacity-[0.14]" aria-hidden />
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/25 to-transparent" aria-hidden />
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-[radial-gradient(70%_100%_at_50%_0%,rgba(62,99,221,0.22),transparent_72%)]" aria-hidden />
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-white/18 to-transparent" aria-hidden />
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-[radial-gradient(70%_100%_at_50%_100%,rgba(62,99,221,0.16),transparent_72%)]" aria-hidden />
-
-      <div className="relative rail-container border-x-0 pt-20 pb-24 lg:pt-28 lg:pb-32">
+    <section id="solutions" className="relative scroll-mt-24 overflow-hidden border-t border-lineSoft bg-background">
+      <div className="rail-container pt-20 pb-24 lg:pt-28 lg:pb-32">
         <ScrollReveal>
-          <div className="flex items-center gap-2 mb-6">
-            <span className="font-mono text-[11px] uppercase tracking-eyebrow text-white/40">[10]</span>
-            <span className="font-mono text-[11px] uppercase tracking-eyebrow text-white/70">Built on Akashic</span>
-          </div>
-          <h2 className="text-balance text-[36px] font-semibold leading-[1.1] tracking-tighter text-white md:text-[48px] max-w-[20em]">
-            Works for Everyone —<br /> From Founders to Teams
+          <p className="mb-6 font-mono text-[11px] uppercase tracking-eyebrow">
+            <span className="text-overcast">[10]</span>
+            <span className="text-inkSoft">&nbsp;&nbsp;Built on Akashic</span>
+          </p>
+          <h2 className="text-[32px] font-semibold leading-[1.1] tracking-tighter text-ink md:text-[44px] lg:whitespace-nowrap">
+            Works for everyone, from founders to teams.
           </h2>
-          <p className="mt-5 max-w-[38em] text-[17px] leading-relaxed text-white/70 md:text-[18px]">
-            Whether you&rsquo;re leading the company or running operations on the ground, Akashic keeps everyone aligned. Three pre-configured assemblies, built for a job that already exists.
+          <p className="mt-5 max-w-[46em] text-[17px] leading-relaxed text-secondary-text md:text-[18px]">
+            Whether you lead the company or run operations on the ground, Akashic keeps everyone
+            aligned. Three pre-configured assemblies, each built for a job that already exists.
           </p>
         </ScrollReveal>
 
         <div className="mx-auto mt-14 max-w-[1200px]">
           <ScrollReveal delay={90}>
             {/* ── Split-Pane Container ── */}
-            <div 
-              className="flex flex-col lg:flex-row overflow-hidden rounded-2xl bg-white shadow-float-dark"
+            <div
+              className="flex flex-col lg:flex-row overflow-hidden rounded-outer border border-card-line bg-white shadow-frame"
               onMouseEnter={() => setIsPaused(true)}
               onMouseLeave={() => setIsPaused(false)}
               onFocusCapture={() => setIsPaused(true)}
@@ -131,7 +128,7 @@ export default function AkashicPlatform() {
             >
               
               {/* ── Left Strip: Vertical Tabs ── */}
-              <div className="flex w-full lg:w-[380px] shrink-0 flex-col border-r border-card-divide bg-[#FAFAFB]">
+              <div className="flex w-full lg:w-[380px] shrink-0 flex-col border-r border-card-divide bg-primary-bg">
                 {solutions.map((s, index) => {
                   const isActive = index === currentIndex;
                   const Icon = s.icon;
@@ -151,10 +148,10 @@ export default function AkashicPlatform() {
                       
                       <div className="flex items-center justify-between w-full">
                         <div className="flex items-center gap-3">
-                          <div className={`flex h-8 w-8 items-center justify-center rounded-md border transition-colors ${
+                          <div className={`flex h-8 w-8 items-center justify-center rounded-tile border transition-colors ${
                             isActive ? "border-blue-border bg-blue-subtle text-blue" : "border-card-line bg-white text-inkSoft group-hover:border-blue-border/50 group-hover:text-ink"
                           }`}>
-                            <Icon className="h-4.5 w-4.5" />
+                            <Icon className="h-[18px] w-[18px]" />
                           </div>
                           <span className={`text-[17px] font-semibold tracking-tight transition-colors ${
                             isActive ? "text-ink" : "text-inkSoft group-hover:text-ink"
@@ -162,7 +159,7 @@ export default function AkashicPlatform() {
                             {s.name}
                           </span>
                         </div>
-                        <svg className={`h-4.5 w-4.5 transition-transform duration-250 ${
+                        <svg className={`h-[18px] w-[18px] transition-transform duration-250 ${
                           isActive ? "text-blue translate-x-1" : "text-card-divide group-hover:text-inkSoft"
                         }`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
                           <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
@@ -170,7 +167,7 @@ export default function AkashicPlatform() {
                       </div>
                       
                       <p className="mt-3.5 text-[14px] leading-relaxed text-inkSoft pl-[44px]">
-                        <span className="font-medium text-ink/80">{s.term}</span> — {s.headline.length > 55 ? s.headline.substring(0, 52) + "..." : s.headline}
+                        <span className="font-medium text-ink/80">{s.term}</span>: {s.headline.length > 55 ? s.headline.substring(0, 52) + "..." : s.headline}
                       </p>
                     </button>
                   );
@@ -201,12 +198,12 @@ export default function AkashicPlatform() {
                       </div>
 
                       {/* ── Premium Empty Image Placeholder ── */}
-                      <div className="mt-10 flex-1 w-full rounded-xl border border-lineSoft bg-primary-bg shadow-[inset_0_2px_15px_rgba(0,0,0,0.02)] relative overflow-hidden flex flex-col items-center justify-center">
+                      <div className="mt-10 flex-1 w-full rounded-inner border border-card-line bg-primary-bg shadow-[inset_0_2px_15px_rgba(11,20,64,0.03)] relative overflow-hidden flex flex-col items-center justify-center">
                          {/* Subtle drafting grid background pattern */}
                          <div className="absolute inset-0 bg-[linear-gradient(rgba(26,28,29,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(26,28,29,0.03)_1px,transparent_1px)] bg-[size:32px_32px] [mask-image:linear-gradient(to_bottom,white,transparent)]" />
-                         
+
                          <div className="relative z-10 flex flex-col items-center justify-center gap-4 opacity-70">
-                            <div className="h-14 w-14 rounded-full bg-white border border-subtle-stroke shadow-sm flex items-center justify-center">
+                            <div className="h-14 w-14 rounded-full bg-white border border-subtle-stroke shadow-card flex items-center justify-center">
                               <svg className="w-6 h-6 text-overcast" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <rect x="3" y="3" width="18" height="18" rx="2" strokeWidth="1.5" />
                                 <circle cx="8.5" cy="8.5" r="1.5" fill="currentColor" />
@@ -245,11 +242,11 @@ export default function AkashicPlatform() {
         
         <ScrollReveal delay={120}>
           <div className="mt-12 flex flex-wrap items-center justify-center gap-x-2 gap-y-1 text-center lg:mt-16">
-            <span className="inline-flex items-center font-semibold text-white">
+            <span className="inline-flex items-center font-semibold text-ink">
               <AkashicLogo className="h-5 w-5" />
               <span className="-ml-1 text-[14px]">kashic</span>
             </span>
-            <span className="text-[14px] font-medium text-white/70">
+            <span className="text-[14px] font-medium text-secondary-text">
               &middot; Different problems. Same governed foundation underneath.
             </span>
           </div>

@@ -25,18 +25,18 @@ const akashicGroups: MenuGroup[] = [
   {
     heading: "Data Layer",
     items: [
-      { title: "Akashic Data Pipelines", desc: "Automate and scale data ingestion from any source", href: "/akashic#modules-data-pipelines" },
-      { title: "Akashic Master Data", desc: "Create a unified, accurate view of core business entities", href: "/akashic#modules-master-data" },
-      { title: "Akashic Data Warehouse", desc: "Centralised, secure storage for all your business records", href: "/akashic#modules-data-warehousing" },
+      { title: "Akashic Data Pipelines", desc: "Automate and scale data ingestion from any source", href: "/akashic#data-pipelines" },
+      { title: "Akashic Master Data", desc: "Create a unified, accurate view of core business entities", href: "/akashic#master-data" },
+      { title: "Akashic Data Warehouse", desc: "Centralised, secure storage for all your business records", href: "/akashic#data-warehousing" },
     ],
   },
   {
     heading: "Intelligence and Governance",
     items: [
-      { title: "Akashic Machine Learning", desc: "Train and deploy AI models on your proprietary data", href: "/akashic#modules-machine-learning" },
-      { title: "Akashic BI", desc: "Real-time analytics and dashboards for faster decisions", href: "/akashic#modules-business-intelligence" },
-      { title: "Ask Akashic", desc: "Plain-language questions answered from your governed data, with citations", href: "/akashic#modules-ask-ai" },
-      { title: "Akashic Governance", desc: "Control access, track lineage, and ensure compliance", href: "/akashic#modules-governance" },
+      { title: "Akashic Machine Learning", desc: "Train and deploy AI models on your proprietary data", href: "/akashic#machine-learning" },
+      { title: "Akashic BI", desc: "Real-time analytics and dashboards for faster decisions", href: "/akashic#business-intelligence" },
+      { title: "Ask Akashic", desc: "Plain-language questions answered from your governed data, with citations", href: "/akashic#ask-ai" },
+      { title: "Akashic Governance", desc: "Control access, track lineage, and ensure compliance", href: "/akashic#governance" },
     ],
   },
 ];

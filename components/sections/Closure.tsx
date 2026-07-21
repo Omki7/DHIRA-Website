@@ -12,15 +12,16 @@ export default function Closure() {
       aria-labelledby="get-started-h"
       className="relative overflow-hidden bg-background pt-12 pb-24 lg:pt-16 lg:pb-32"
     >
-      {/* Alias anchor: the nav CTA targets #talk-to-our-team on every page */}
+      {/* Alias anchor: the nav CTA targets #talk-to-our-team / #login on every page */}
       <span id="talk-to-our-team" className="absolute -top-24" aria-hidden />
+      <span id="login" className="absolute -top-24" aria-hidden />
       <ScrollRevealRail isLast={true} className="z-10">
         {/* Eyebrow / Section divider */}
         <ScrollReveal>
           <div className="mb-10 flex items-center border-t border-b border-dashed border-lineSoft py-[17px] px-[2px] font-mono text-[11px] uppercase tracking-eyebrow text-inkSoft">
             <span>
               <span className="text-overcast">[10]</span>
-              &nbsp;&nbsp;GET STARTED
+              &nbsp;&nbsp;READY WHEN YOU ARE
             </span>
           </div>
         </ScrollReveal>

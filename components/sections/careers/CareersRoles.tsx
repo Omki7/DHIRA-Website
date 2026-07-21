@@ -10,6 +10,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import ScrollReveal from "@/components/ui/ScrollReveal";
+import ScrollRevealRail from "@/components/ui/ScrollRevealRail";
 
 const DEPT_FILTERS = ["View all", "Engineering", "Machine Learning", "Product", "Delivery"] as const;
 type Dept = (typeof DEPT_FILTERS)[number];
@@ -51,8 +52,8 @@ export default function CareersRoles() {
     activeFilter === "View all" ? ROLES : ROLES.filter((role) => role.dept === activeFilter);
 
   return (
-    <section id="open-roles" className="scroll-mt-24 border-t border-lineSoft bg-background">
-      <div className="rail-container pt-12 pb-24 lg:pt-16 lg:pb-32">
+    <section id="open-roles" className="scroll-mt-24 border-t border-lineSoft bg-background pt-12 pb-24 lg:pt-16 lg:pb-32">
+      <ScrollRevealRail>
         <ScrollReveal>
           <div className="flex items-baseline justify-between font-mono text-[11px] uppercase tracking-eyebrow">
             <p>
@@ -154,7 +155,7 @@ export default function CareersRoles() {
             No perfect fit? Write to us anyway &middot; proof of work beats a perfect CV
           </p>
         </ScrollReveal>
-      </div>
+      </ScrollRevealRail>
     </section>
   );
 }

@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import AkashicLogo from "@/components/icons/AkashicLogo";
 import ScrollReveal from "@/components/ui/ScrollReveal";
+import ScrollRevealRail from "@/components/ui/ScrollRevealRail";
 
 /* Rotating "answer" word — same context, different noun. */
 const heroWords = ["answer", "number", "decision"];
@@ -26,7 +27,7 @@ export default function AkashicHero() {
       <div className="dot-grid absolute inset-0 opacity-60" aria-hidden />
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-48 bg-gradient-to-b from-transparent to-white" aria-hidden />
 
-      <div className="rail-container relative border-x-0">
+      <ScrollRevealRail>
         <div className="flex flex-col items-center justify-center min-h-[50vh] pt-24 pb-12 text-center lg:pt-28 lg:pb-14">
           <ScrollReveal>
             <figure className="group relative mb-8 inline-flex items-center justify-center overflow-hidden rounded-full bg-subtle-stroke p-[1px] shadow-sm transition-shadow hover:shadow">
@@ -109,7 +110,7 @@ export default function AkashicHero() {
 
 
         </div>
-      </div>
+      </ScrollRevealRail>
     </section>
   );
 }

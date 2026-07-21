@@ -149,32 +149,42 @@ function ToolIcon({ className = "h-5 w-5 text-overcast" }: { className?: string 
   );
 }
 
-/* Head-to-head rows for the comparison dashboard. `owner` says which side
-   carries the work / holds the edge — it drives the back-to-back bar lean.
-   No numbers: the bars are a qualitative "who carries it", not a benchmark
-   (AGENTS.md Rule 4). */
+/* Head-to-head rows for the comparison dashboard. `lean` is the blue
+   (Akashic) share of the back-to-back track, 0–100; the custom bar takes the
+   rest, less a constant centre gap. It is a QUALITATIVE editorial weight — how
+   decisively the balance tips on that row — not a measured benchmark, and no
+   figure is ever surfaced to the reader (AGENTS.md Rule 4). The values vary
+   per row on purpose: a uniform lean read as one bar repeated seven times, so
+   each capability now tips by a different amount and the last row (upfront
+   licence) tips the other way, the one thing custom wins on. */
 interface CompareRow {
   attr: string;
   ak: string;
   cu: string;
-  owner: "ak" | "cu";
+  lean: number;
 }
 
 const compare: CompareRow[] = [
-  { attr: "Integration", ak: "Prebuilt", cu: "Custom APIs", owner: "ak" },
-  { attr: "Knowledge graph", ak: "Maintained", cu: "You build it", owner: "ak" },
-  { attr: "Column lineage", ak: "Automatic", cu: "You instrument", owner: "ak" },
-  { attr: "Grounded answers", ak: "Included", cu: "From scratch", owner: "ak" },
-  { attr: "Compliance", ak: "Certified", cu: "You certify", owner: "ak" },
-  { attr: "Upkeep", ak: "Included", cu: "You carry it", owner: "ak" },
-  { attr: "Upfront licence", ak: "Subscription", cu: "$0 open-source", owner: "cu" },
+  { attr: "Integration", ak: "Prebuilt", cu: "Custom APIs", lean: 76 },
+  { attr: "Knowledge graph", ak: "Maintained", cu: "You build it", lean: 82 },
+  { attr: "Column lineage", ak: "Automatic", cu: "You instrument", lean: 78 },
+  { attr: "Grounded answers", ak: "Included", cu: "From scratch", lean: 70 },
+  { attr: "Compliance", ak: "Certified", cu: "You certify", lean: 65 },
+  { attr: "Upkeep", ak: "Included", cu: "You carry it", lean: 73 },
+  { attr: "Upfront licence", ak: "Subscription", cu: "$0 open-source", lean: 33 },
 ];
 
+/* Profile trait chips. The page's own chip idiom (see AkashicCardChrome's
+   BlueChip / LiveChip): chip-radius, subtle fill, hairline border, mono
+   uppercase micro-label — not the ad-hoc rounded-full pill this section used
+   before. Kept short so all three sit on one line in the 232px column. */
 function Tag({ tone, children }: { tone: "blue" | "gray"; children: React.ReactNode }) {
   return (
     <span
-      className={`rounded-full bg-white px-2.5 py-0.5 text-[10.5px] font-medium ring-1 ${
-        tone === "blue" ? "text-blue ring-blue-border" : "text-secondary-text ring-line"
+      className={`rounded-chip border px-2 py-1 font-mono text-[9px] font-bold uppercase tracking-[0.05em] ${
+        tone === "blue"
+          ? "border-blue-border bg-blue-subtle text-blue"
+          : "border-card-line bg-panel text-secondary-text"
       }`}
     >
       {children}
@@ -228,7 +238,7 @@ export default function AkashicBuildVsBuy() {
                   <Tag tone="blue">Open</Tag>
                   <Tag tone="blue">Governed</Tag>
                 </div>
-                <span className="mt-1 rounded-full bg-blue px-3 py-1 text-[11px] font-semibold text-white">
+                <span className="mt-1 rounded-chip bg-blue px-3 py-1 text-[11px] font-semibold text-white">
                   Weeks to live
                 </span>
               </div>
@@ -239,32 +249,29 @@ export default function AkashicBuildVsBuy() {
                   Who carries the work
                 </p>
                 <div className="flex flex-col gap-3.5">
-                  {compare.map((row) => {
-                    const akWin = row.owner === "ak";
-                    return (
-                      <div key={row.attr}>
-                        <p className="mb-1 text-center text-[11px] font-medium text-inkSoft">{row.attr}</p>
-                        <div className="flex items-center gap-2.5">
-                          <span className="w-[88px] shrink-0 text-right text-[11px] font-semibold text-blue">
-                            {row.ak}
-                          </span>
-                          <div className="relative h-2 flex-1 overflow-hidden rounded-full bg-panel">
-                            <span
-                              className="absolute left-0 top-0 h-full rounded-full bg-blue transition-[width] duration-500 ease-settle"
-                              style={{ width: akWin ? "66%" : "28%" }}
-                            />
-                            <span
-                              className="absolute right-0 top-0 h-full rounded-full bg-line transition-[width] duration-500 ease-settle"
-                              style={{ width: akWin ? "28%" : "66%" }}
-                            />
-                          </div>
-                          <span className="w-[88px] shrink-0 text-left text-[11px] text-secondary-text">
-                            {row.cu}
-                          </span>
+                  {compare.map((row) => (
+                    <div key={row.attr}>
+                      <p className="mb-1 text-center text-[11px] font-medium text-inkSoft">{row.attr}</p>
+                      <div className="flex items-center gap-2.5">
+                        <span className="w-[88px] shrink-0 text-right text-[11px] font-semibold text-blue">
+                          {row.ak}
+                        </span>
+                        <div className="relative h-2 flex-1 overflow-hidden rounded-full bg-panel">
+                          <span
+                            className="absolute left-0 top-0 h-full rounded-full bg-blue transition-[width] duration-500 ease-settle"
+                            style={{ width: `${row.lean}%` }}
+                          />
+                          <span
+                            className="absolute right-0 top-0 h-full rounded-full bg-line transition-[width] duration-500 ease-settle"
+                            style={{ width: `${94 - row.lean}%` }}
+                          />
                         </div>
+                        <span className="w-[88px] shrink-0 text-left text-[11px] text-secondary-text">
+                          {row.cu}
+                        </span>
                       </div>
-                    );
-                  })}
+                    </div>
+                  ))}
                 </div>
               </div>
 
@@ -283,9 +290,9 @@ export default function AkashicBuildVsBuy() {
                 <div className="flex flex-wrap justify-center gap-1.5">
                   <Tag tone="gray">DIY</Tag>
                   <Tag tone="gray">Self-run</Tag>
-                  <Tag tone="gray">Your upkeep</Tag>
+                  <Tag tone="gray">Upkeep</Tag>
                 </div>
-                <span className="mt-1 rounded-full border border-line bg-white px-3 py-1 text-[11px] font-semibold text-secondary-text">
+                <span className="mt-1 rounded-chip border border-card-line bg-white px-3 py-1 text-[11px] font-semibold text-secondary-text">
                   Quarters to live
                 </span>
               </div>

@@ -18,6 +18,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import ScrollReveal from "@/components/ui/ScrollReveal";
+import ScrollRevealRail from "@/components/ui/ScrollRevealRail";
 import DhiraLogo from "@/components/icons/DhiraLogo";
 import { usePrefersReducedMotion } from "@/hooks/useCountUp";
 
@@ -219,7 +220,7 @@ export default function CareersCulture() {
       <GhostBubble className="right-[4%] top-14 hidden w-[150px] opacity-45 animate-[ps-float_7s_ease-in-out_infinite] md:block" />
       <GhostBubble className="bottom-16 left-[3%] hidden w-[110px] opacity-35 animate-[ps-float_9s_ease-in-out_infinite] md:block" flip />
 
-      <div className="rail-container pt-12 pb-24 lg:pt-16 lg:pb-32">
+      <ScrollRevealRail>
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-[1fr_1.45fr] lg:gap-16">
           <div className="self-start lg:sticky lg:top-32">
             <ScrollReveal>
@@ -382,7 +383,7 @@ export default function CareersCulture() {
             </div>
           </ScrollReveal>
         </div>
-      </div>
+      </ScrollRevealRail>
     </section>
   );
 }

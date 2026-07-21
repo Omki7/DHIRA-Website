@@ -8,6 +8,7 @@
  */
 
 import ScrollReveal from "@/components/ui/ScrollReveal";
+import ScrollRevealRail from "@/components/ui/ScrollRevealRail";
 import DynamicSketchIcon from "@/components/icons/DynamicSketchIcon";
 
 const connectors = ["Oracle", "SAP", "Salesforce", "Snowflake", "SQL", "Flat files", "APIs"];
@@ -34,9 +35,9 @@ export default function EisIntegration() {
   return (
     <section
       id="integration"
-      className="scroll-mt-24 border-t border-lineSoft bg-[linear-gradient(180deg,#FFFFFF_0%,#F1F5FE_16%,#F1F5FE_84%,#FFFFFF_100%)]"
+      className="scroll-mt-24 border-t border-lineSoft bg-[linear-gradient(180deg,#FFFFFF_0%,#F1F5FE_16%,#F1F5FE_84%,#FFFFFF_100%)] pt-12 pb-24 lg:pt-16 lg:pb-32"
     >
-      <div className="rail-container pt-12 pb-24 lg:pt-16 lg:pb-32">
+      <ScrollRevealRail>
         <ScrollReveal>
           <div className="flex items-baseline justify-between font-mono text-[11px] uppercase tracking-eyebrow">
             <p>
@@ -105,7 +106,7 @@ export default function EisIntegration() {
             </div>
           </div>
         </ScrollReveal>
-      </div>
+      </ScrollRevealRail>
     </section>
   );
 }

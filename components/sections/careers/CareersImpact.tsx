@@ -1,38 +1,59 @@
-"use client";
-
 /*
  * [01] The Work — Production Is a Country.
  * Why the work matters: narrative beside a slow-turning 24-spoke wheel
- * (demos/AshokaChakra, brand-blue ornament), then one wide impact band of
- * the four public-record missions DHIRA's work already runs inside
- * (count-up figures, per Rule 4: same platform numbers as the Public
- * Sector page).
+ * (demos/AshokaChakra, brand-blue ornament), then the same one-project-at-a-
+ * time carousel the homepage and /akashic run (demos/ProvenStories), authored
+ * in careers voice — the national systems DHIRA's work already runs inside,
+ * framed as the work a candidate would join. Figures are the same defensible
+ * public-record numbers (Rule 4); platforms stay unnamed, as in the proof
+ * carousel. Left-aligned eyebrow kept to match the rest of the careers page.
  */
 
 import ScrollReveal from "@/components/ui/ScrollReveal";
-import useCountUp from "@/hooks/useCountUp";
+import ScrollRevealRail from "@/components/ui/ScrollRevealRail";
 import AshokaChakra from "@/components/demos/AshokaChakra";
+import ProvenStories, { type Story } from "@/components/demos/ProvenStories";
 
-const missions = [
-  { platform: "CoWIN / U-WIN", figure: "2B+", label: "vaccinations" },
-  { platform: "DIKSHA", figure: "564 Cr", label: "learning sessions" },
-  { platform: "Poshan Tracker", figure: "10 Cr+", label: "children & mothers" },
-  { platform: "eMigrate", figure: "3.87 L", label: "emigrations tracked" },
+const CAREERS_STORIES: Story[] = [
+  {
+    id: "learning",
+    platform: "National Learning Platform",
+    authority: "Education · Country-scale deployment",
+    title: "One learning record across 36 states and 135 languages",
+    description:
+      "The intelligence layer inside a national education platform. You'd turn transaction logs from every state into curriculum, retention, and resource signals programme owners act on — real ownership from your first weeks.",
+    image: "/proof/learning.jpg",
+    alt: "Students at their desks in a school classroom",
+    metrics: [{ value: "5.75B+", label: "Learning interactions connected" }],
+  },
+  {
+    id: "mobility",
+    platform: "Overseas Employment Registry",
+    authority: "Labour mobility · Country-scale deployment",
+    title: "Four million worker clearances, traceable end to end",
+    description:
+      "Visa clearances, immigration logs, and employer records unified into one auditable view. Correctness isn't optional here — the users are real people crossing borders for work.",
+    image: "/proof/mobility.jpg",
+    alt: "Travellers crossing a sunlit airport departure hall",
+    metrics: [{ value: "4M+", label: "Worker clearances on record" }],
+  },
+  {
+    id: "immunisation",
+    platform: "National Immunisation Registry",
+    authority: "Public health · Country-scale deployment",
+    title: "Two billion vaccinations, recorded and reconciled",
+    description:
+      "The intelligence layer behind a country's immunisation record. You'd reconcile doses, sessions, and coverage into figures health authorities defend in public — ship it wrong and it shows up in the news, not a bug tracker.",
+    image: "/proof/vaccination.jpg",
+    alt: "A health worker vaccinating an infant at an immunisation clinic",
+    metrics: [{ value: "2 Billion+", label: "Vaccinations recorded" }],
+  },
 ];
-
-function Figure({ figure }: { figure: string }) {
-  const { ref, display } = useCountUp(figure, { duration: 1500 });
-  return (
-    <div ref={ref} className="whitespace-nowrap text-[34px] font-semibold leading-none tracking-tighter text-ink md:text-[38px]">
-      {display}
-    </div>
-  );
-}
 
 export default function CareersImpact() {
   return (
-    <section id="the-work" className="scroll-mt-24 border-t border-lineSoft bg-background">
-      <div className="rail-container pt-12 pb-24 lg:pt-16 lg:pb-32">
+    <section id="the-work" className="scroll-mt-24 border-t border-lineSoft bg-background pt-12 pb-24 lg:pt-16 lg:pb-32">
+      <ScrollRevealRail>
         <ScrollReveal>
           <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-[minmax(0,1fr)_auto] lg:gap-16">
             <div>
@@ -60,33 +81,15 @@ export default function CareersImpact() {
         </ScrollReveal>
 
         <ScrollReveal delay={140}>
-          <div className="mt-12 overflow-hidden rounded-frame border border-subtle-stroke bg-primary-bg lg:mt-14">
-            <div className="h-[3px] bg-gradient-to-r from-blue/50 via-blue/25 to-transparent" aria-hidden />
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
-              {missions.map((mission, idx) => (
-                <div
-                  key={mission.platform}
-                  className={`flex flex-col p-6 ${
-                    idx > 0 ? "border-t border-dashed border-lineSoft sm:border-t-0 lg:border-l" : ""
-                  } ${idx >= 2 ? "sm:border-t lg:border-t-0" : ""} ${idx === 1 ? "sm:border-l" : ""} ${idx === 3 ? "sm:border-l" : ""}`}
-                >
-                  <span className="flex items-center gap-1.5 font-mono text-[9.5px] uppercase tracking-eyebrow text-inkSoft">
-                    <span className="h-[5px] w-[5px] rounded-full bg-blue animate-[ps-pulse_2s_infinite]" aria-hidden />
-                    {mission.platform}
-                  </span>
-                  <div className="mt-4">
-                    <Figure figure={mission.figure} />
-                  </div>
-                  <span className="mt-2 text-[12.5px] text-inkSoft">{mission.label}</span>
-                </div>
-              ))}
-            </div>
-            <div className="border-t border-dashed border-lineSoft px-6 py-3.5 font-mono text-[9px] uppercase tracking-[0.08em] text-overcast">
-              Where DHIRA&rsquo;s work already runs &middot; public-record numbers
-            </div>
+          <div className="mt-12 lg:mt-14">
+            <ProvenStories
+              stories={CAREERS_STORIES}
+              ariaLabel="The national systems DHIRA's work runs inside"
+              itemNoun="project"
+            />
           </div>
         </ScrollReveal>
-      </div>
+      </ScrollRevealRail>
     </section>
   );
 }

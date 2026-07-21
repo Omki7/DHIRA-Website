@@ -3,14 +3,14 @@
 import { useEffect, useRef } from "react";
 import { usePrefersReducedMotion } from "@/hooks/useCountUp";
 
-// GlyphMorphCanvas — dot-particle field for the Meet Akashic "The platform"
-// block. ~500 soft white dots scatter and re-form into one glyph per tab
-// (confluence / forecast / answer bubble), SYNCED to the UCSignals tab
-// rotation via the `active` prop (user direction 20 Jul 2026 — replaces the
-// unsynced wireframe SignalsCanvas). Antigravity-style: eased tweens with
-// per-dot stagger, ambient breathing, gentle cursor repulsion.
+// GlyphMorphCanvas — the atom field behind the Meet Akashic "The platform"
+// block. ONE population of atoms carries the whole pipeline: a third of them
+// drift freely at all times, the rest gather into the active flow tab's glyph,
+// then break apart and re-form into the next one, so the four steps read as a
+// continuation rather than four separate pictures (user direction 21 Jul 2026).
+// Nothing is ever fully still — formed atoms keep wobbling and twinkling.
 
-/* ---------- easing: exact cubic-bezier(0.2,0.8,0.2,1) = ease-settle token ---------- */
+/* ---------- easing ---------- */
 
 function makeBezier(x1: number, y1: number, x2: number, y2: number) {
   const cx = 3 * x1;
@@ -46,6 +46,7 @@ function makeBezier(x1: number, y1: number, x2: number, y2: number) {
 }
 
 const easeSettle = makeBezier(0.2, 0.8, 0.2, 1);
+const easeBurst = (p: number) => 1 - (1 - p) ** 3;
 
 /* ---------- seeded PRNG: deterministic layouts ---------- */
 
@@ -88,8 +89,8 @@ const UNIFY: Prim[] = [
 // Store & predict — forecast: dense past line, sparse dotted future, spark
 const PREDICT: Prim[] = [
   { kind: "line", pts: [[4, 78], [14, 70], [24, 73], [34, 60], [44, 63], [54, 50]] },
-  { kind: "cubic", pts: [54, 50, 64, 44, 74, 30, 84, 18], density: 0.38 },
-  { kind: "star4", c: [87, 15], r: 6.5, emphasis: true },
+  { kind: "cubic", pts: [54, 50, 64, 44, 74, 30, 84, 18], density: 0.42 },
+  { kind: "star4", c: [87, 14], r: 8, emphasis: true },
 ];
 
 // Explore & ask — answer bubble: rounded bubble outline + sparkle inside
@@ -113,7 +114,7 @@ const GOVERN: Prim[] = [
   { kind: "line", pts: [[26, 18], [74, 18]] },
   { kind: "cubic", pts: [74, 18, 74, 54, 67, 72, 50, 86] },
   { kind: "cubic", pts: [50, 86, 33, 72, 26, 54, 26, 18] },
-  { kind: "line", pts: [[38, 48], [46, 57], [63, 36]], density: 2, emphasis: true },
+  { kind: "line", pts: [[38, 48], [46, 57], [63, 36]], density: 1.8, emphasis: true },
 ];
 
 // Order = the pipeline the section narrates top-to-bottom: the question drops
@@ -122,7 +123,7 @@ const GOVERN: Prim[] = [
 // TABS — reorder both together or the canvas desyncs.
 const GLYPHS: Prim[][] = [UNIFY, PREDICT, ASK, GOVERN];
 
-/* ---------- flatten + sample: exactly n evenly spaced points per glyph ---------- */
+/* ---------- flatten + sample ---------- */
 
 type Chain = { xs: number[]; ys: number[]; density: number; emphasis: boolean };
 
@@ -180,135 +181,191 @@ function flattenPrim(p: Prim): Chain[] {
   }
 }
 
-function weightedLength(prims: Prim[]): number {
-  let w = 0;
-  for (const ch of prims.flatMap(flattenPrim)) {
-    for (let i = 0; i < ch.xs.length - 1; i++) {
-      w += Math.hypot(ch.xs[i + 1] - ch.xs[i], ch.ys[i + 1] - ch.ys[i]) * ch.density;
-    }
-  }
-  return w;
-}
+/* ---------- tunables ---------- */
 
-// densityScale equalizes dot pitch across glyphs (see W_REF at init)
-function sampleGlyph(
+const FIT = 0.68; // glyph size as a share of the short canvas edge
+const PITCH = 5.6; // px of path per atom — wide enough to read as atoms, not a line
+const PATH_JITTER = 1.5; // px of scatter off the ideal path, so strokes are bands of atoms
+const MIN_FREE = 0.34; // share of the population that never joins the glyph
+
+// Break + build runs ~2.6s of UCSignals' 7s tab dwell, so the glyph stands
+// readable for the remaining ~4.4s rather than being in motion half the time.
+const BREAK_MS = 520; // one atom's flight out of the old glyph
+const BREAK_STAGGER = 320; // the old glyph comes apart in a wave, not all at once
+const FLOAT_MS = 160; // free-drift beat between break and build
+const GATHER_MS = 940; // one atom's flight into the new glyph
+const GATHER_SPREAD = 640; // the new glyph builds up along its own path order
+
+const OMEGA = (Math.PI * 2) / 5.5;
+const CURSOR_R = 100;
+const CURSOR_R2 = CURSOR_R * CURSOR_R;
+const MAX_PUSH = 18;
+const SPRING_K = 0.08;
+const SPRING_DAMP = 0.86;
+
+const CURL = 0.000012; // slow rotation of the ambient field
+const WANDER = 0.022;
+const DRIFT_DAMP = 0.99;
+const MAX_SPEED = 2.6;
+const TAU = Math.PI * 2;
+
+// Atoms are drawn as solid, hard-edged discs — no sprite, no glow. A soft
+// radial-gradient sprite read as blur rather than as matter (user direction
+// 22 Jul 2026, Google Antigravity as the reference). Per-atom alpha is
+// quantised into ALPHA_STEPS buckets so the whole field paints in a couple of
+// dozen batched fills instead of a thousand state changes.
+const TINTS = ["rgb(250,250,251)", "rgb(125,152,246)"];
+const ALPHA_STEPS = 16;
+
+// Fills eng.gx/gy/gEm with the glyph's atom targets in canvas px and returns
+// how many atoms it needs — derived from path length, so dot pitch is the same
+// on every glyph and a per-stroke `density` still thins or thickens a stroke.
+function buildGlyph(
   prims: Prim[],
-  densityScale: number,
-  n: number,
+  w: number,
+  h: number,
+  cap: number,
   out: { x: Float32Array; y: Float32Array; em: Uint8Array },
-) {
+  exact = 0,
+): number {
   const chains = prims.flatMap(flattenPrim);
   const segs: { x0: number; y0: number; x1: number; y1: number; wl: number; em: boolean }[] = [];
+  let minX = Infinity;
+  let minY = Infinity;
+  let maxX = -Infinity;
+  let maxY = -Infinity;
   let W = 0;
   for (const ch of chains) {
-    const d = ch.density * densityScale;
+    for (let i = 0; i < ch.xs.length; i++) {
+      if (ch.xs[i] < minX) minX = ch.xs[i];
+      if (ch.xs[i] > maxX) maxX = ch.xs[i];
+      if (ch.ys[i] < minY) minY = ch.ys[i];
+      if (ch.ys[i] > maxY) maxY = ch.ys[i];
+    }
     for (let i = 0; i < ch.xs.length - 1; i++) {
       const len = Math.hypot(ch.xs[i + 1] - ch.xs[i], ch.ys[i + 1] - ch.ys[i]);
       if (len < 1e-4) continue;
-      segs.push({ x0: ch.xs[i], y0: ch.ys[i], x1: ch.xs[i + 1], y1: ch.ys[i + 1], wl: len * d, em: ch.emphasis });
-      W += len * d;
+      segs.push({
+        x0: ch.xs[i], y0: ch.ys[i],
+        x1: ch.xs[i + 1], y1: ch.ys[i + 1],
+        wl: len * ch.density, em: ch.emphasis,
+      });
+      W += len * ch.density;
     }
   }
-  const wStep = W / n;
-  let next = wStep * 0.5;
+
+  const scale = (FIT * Math.min(w, h)) / Math.max(maxX - minX, maxY - minY, 1e-3);
+  const ox = w * 0.5 - ((minX + maxX) / 2) * scale;
+  const oy = h * 0.48 - ((minY + maxY) / 2) * scale;
+  // `exact` re-fits an existing glyph at a new canvas size without changing how
+  // many atoms hold it, so a resize moves the shape instead of rebuilding it.
+  const n = exact > 0
+    ? Math.min(exact, out.x.length)
+    : Math.max(48, Math.min(cap, Math.round((W * scale) / PITCH)));
+
+  const rng = mulberry32(0x5eed);
+  const step = W / n;
+  let next = step * 0.5;
   let acc = 0;
   let k = 0;
   let lx = 50;
   let ly = 50;
+  let lem = 0;
   for (const s of segs) {
     while (acc + s.wl >= next && k < n) {
       const t = (next - acc) / s.wl;
       lx = s.x0 + (s.x1 - s.x0) * t;
       ly = s.y0 + (s.y1 - s.y0) * t;
-      out.x[k] = lx;
-      out.y[k] = ly;
-      out.em[k] = s.em ? 1 : 0;
+      lem = s.em ? 1 : 0;
+      const a = rng() * TAU;
+      const rr = Math.sqrt(rng()) * PATH_JITTER;
+      out.x[k] = lx * scale + ox + Math.cos(a) * rr;
+      out.y[k] = ly * scale + oy + Math.sin(a) * rr;
+      out.em[k] = lem;
       k++;
-      next += wStep;
+      next += step;
     }
     acc += s.wl;
     if (k >= n) break;
   }
   while (k < n) {
-    out.x[k] = lx;
-    out.y[k] = ly;
-    out.em[k] = 0;
+    out.x[k] = lx * scale + ox;
+    out.y[k] = ly * scale + oy;
+    out.em[k] = lem;
     k++;
   }
+  return n;
 }
 
-/* ---------- tunables ---------- */
+/* ---------- engine ---------- */
 
-const OMEGA = (Math.PI * 2) / 5.5; // breathing period ~5.5s
-const CURSOR_R = 90;
-const CURSOR_R2 = CURSOR_R * CURSOR_R;
-const MAX_PUSH = 16;
-const SPRING_K = 0.08;
-const SPRING_DAMP = 0.86;
-
-type Phase = "formed" | "gather";
-
+// mode: 0 = free-drifting · 1 = in flight to a glyph target · 2 = holding a target
 interface Engine {
   n: number;
   w: number;
   h: number;
-  phase: Phase;
-  phaseStart: number;
-  phaseEnd: number;
-  symbol: number; // glyph the field is in / gathering into
-  next: number; // glyph requested by the latest tab switch
+  symbol: number;
+  next: number;
   seed: number;
   needsRebuild: boolean;
-  sx: Float32Array; sy: Float32Array; // tween start
-  tx: Float32Array; ty: Float32Array; // tween target
-  cx: Float32Array; cy: Float32Array; // current rendered pos (interruption capture)
-  delay: Float32Array; dur: Float32Array;
-  br: Float32Array; ba: Float32Array; // base radius / alpha (seeded)
-  rs: Float32Array; rt: Float32Array; // radius tween start / target
-  as: Float32Array; at: Float32Array; // alpha tween start / target
-  cr: Float32Array; ca: Float32Array; // current rendered radius / alpha
-  ph1: Float32Array; ph2: Float32Array; // breathing phases
-  ox: Float32Array; oy: Float32Array; // cursor offset
-  ovx: Float32Array; ovy: Float32Array;
-  map: Uint32Array;
-  gx: Float32Array; gy: Float32Array; gEm: Uint8Array; // active glyph targets (canvas px)
+  k: number; // atoms currently holding the glyph
+  slot: Int32Array; // each atom's glyph target index, -1 while free
+  mode: Uint8Array; hasBreak: Uint8Array;
+  px: Float32Array; py: Float32Array; // physics position (render adds wobble)
+  vx: Float32Array; vy: Float32Array;
+  sx: Float32Array; sy: Float32Array; // flight origin
+  wx: Float32Array; wy: Float32Array; // scatter waypoint between the two glyphs
+  tx: Float32Array; ty: Float32Array; // glyph target
+  tb0: Float32Array; tb1: Float32Array; // break window
+  tg0: Float32Array; tg1: Float32Array; // gather window
+  rs: Float32Array; as: Float32Array; // look at flight origin
+  rt: Float32Array; at: Float32Array; // look on the glyph
+  fr: Float32Array; fa: Float32Array; // look while free
+  baseR: Float32Array; baseA: Float32Array; // seeded look, before emphasis
+  cr: Float32Array; ca: Float32Array; // rendered look, read back when a glyph breaks
+  ph1: Float32Array; ph2: Float32Array; wf1: Float32Array; wf2: Float32Array;
+  amp: Float32Array; tw: Float32Array; tph: Float32Array;
+  ox: Float32Array; oy: Float32Array; ovx: Float32Array; ovy: Float32Array;
+  tint: Uint8Array;
+  order: Uint32Array;
+  gx: Float32Array; gy: Float32Array; gEm: Uint8Array;
 }
 
 function alloc(n: number) {
   return {
+    slot: new Int32Array(n).fill(-1),
+    mode: new Uint8Array(n), hasBreak: new Uint8Array(n),
+    px: new Float32Array(n), py: new Float32Array(n),
+    vx: new Float32Array(n), vy: new Float32Array(n),
     sx: new Float32Array(n), sy: new Float32Array(n),
+    wx: new Float32Array(n), wy: new Float32Array(n),
     tx: new Float32Array(n), ty: new Float32Array(n),
-    cx: new Float32Array(n), cy: new Float32Array(n),
-    delay: new Float32Array(n), dur: new Float32Array(n),
-    br: new Float32Array(n), ba: new Float32Array(n),
-    rs: new Float32Array(n), rt: new Float32Array(n),
-    as: new Float32Array(n), at: new Float32Array(n),
+    tb0: new Float32Array(n), tb1: new Float32Array(n),
+    tg0: new Float32Array(n), tg1: new Float32Array(n),
+    rs: new Float32Array(n), as: new Float32Array(n),
+    rt: new Float32Array(n), at: new Float32Array(n),
+    fr: new Float32Array(n), fa: new Float32Array(n),
+    baseR: new Float32Array(n), baseA: new Float32Array(n),
     cr: new Float32Array(n), ca: new Float32Array(n),
     ph1: new Float32Array(n), ph2: new Float32Array(n),
+    wf1: new Float32Array(n), wf2: new Float32Array(n),
+    amp: new Float32Array(n), tw: new Float32Array(n), tph: new Float32Array(n),
     ox: new Float32Array(n), oy: new Float32Array(n),
     ovx: new Float32Array(n), ovy: new Float32Array(n),
-    map: new Uint32Array(n),
+    tint: new Uint8Array(n),
+    order: new Uint32Array(n),
     gx: new Float32Array(n), gy: new Float32Array(n), gEm: new Uint8Array(n),
   };
 }
 
-function particleCount(w: number, h: number) {
-  return Math.max(480, Math.min(1000, Math.round(Math.min(w, h) * 1.4)));
-}
+// An atom's look once it lands on the glyph — emphasis strokes (the unify core,
+// the forecast spark, the sparkle, the check) sit brighter and larger.
+const glyphR = (eng: Engine, i: number, em: boolean) => eng.baseR[i] * (em ? 1.5 : 1);
+const glyphA = (eng: Engine, i: number, em: boolean) =>
+  Math.min(0.97, eng.baseA[i] * (em ? 1.3 : 1));
 
-function makeSprite() {
-  const s = document.createElement("canvas");
-  s.width = 32;
-  s.height = 32;
-  const c = s.getContext("2d");
-  if (!c) return s;
-  const g = c.createRadialGradient(16, 16, 0, 16, 16, 16);
-  g.addColorStop(0, "rgba(250,250,251,1)");
-  g.addColorStop(0.55, "rgba(250,250,251,0.9)");
-  g.addColorStop(1, "rgba(250,250,251,0)");
-  c.fillStyle = g;
-  c.fillRect(0, 0, 32, 32);
-  return s;
+function particleCount(w: number, h: number) {
+  return Math.max(700, Math.min(1500, Math.round(Math.sqrt(w * h) * 1.75)));
 }
 
 export default function GlyphMorphCanvas({
@@ -320,14 +377,13 @@ export default function GlyphMorphCanvas({
 }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const engRef = useRef<Engine | null>(null);
-  const scatterRef = useRef<((next: number) => void) | null>(null);
+  const morphRef = useRef<((next: number) => void) | null>(null);
   const reduced = usePrefersReducedMotion();
   const activeRef = useRef(active);
 
-  // tab switch → scatter & re-form (or instant snap under reduced motion)
   useEffect(() => {
     activeRef.current = active;
-    scatterRef.current?.(active);
+    morphRef.current?.(active);
   }, [active]);
 
   useEffect(() => {
@@ -337,168 +393,215 @@ export default function GlyphMorphCanvas({
     if (!ctx) return;
 
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
-    const sprite = makeSprite();
-    const densityScale = GLYPHS.map((g) => weightedLength(g));
-    const wRef = Math.max(...densityScale);
-    const scales = densityScale.map((w) => wRef / w);
+    const buckets: (Path2D | null)[] = new Array(TINTS.length * ALPHA_STEPS).fill(null);
     const pointer = { x: 0, y: 0, on: false };
     let visible = true;
 
     const rectOf = () => canvas.getBoundingClientRect();
 
-    /* ----- glyph targets: sample in 100-space, bbox-fit to canvas ----- */
-    const computeTargets = (eng: Engine, symbol: number) => {
-      const tmp = {
-        x: new Float32Array(eng.n),
-        y: new Float32Array(eng.n),
-        em: new Uint8Array(eng.n),
-      };
-      sampleGlyph(GLYPHS[symbol], scales[symbol], eng.n, tmp);
-      let minX = Infinity;
-      let minY = Infinity;
-      let maxX = -Infinity;
-      let maxY = -Infinity;
-      for (let i = 0; i < eng.n; i++) {
-        if (tmp.x[i] < minX) minX = tmp.x[i];
-        if (tmp.x[i] > maxX) maxX = tmp.x[i];
-        if (tmp.y[i] < minY) minY = tmp.y[i];
-        if (tmp.y[i] > maxY) maxY = tmp.y[i];
-      }
-      const fit = Math.min(eng.w, eng.h) * 0.72;
-      const scale = fit / Math.max(maxX - minX, maxY - minY);
-      const ccx = eng.w * 0.5;
-      const ccy = eng.h * 0.47;
-      const ox = ccx - ((minX + maxX) / 2) * scale;
-      const oy = ccy - ((minY + maxY) / 2) * scale;
-      for (let i = 0; i < eng.n; i++) {
-        eng.gx[i] = tmp.x[i] * scale + ox;
-        eng.gy[i] = tmp.y[i] * scale + oy;
-        eng.gEm[i] = tmp.em[i];
-      }
-    };
+    /* ----- assign roles: K atoms to the glyph, the rest to the free field ----- */
+    const retarget = (eng: Engine, symbol: number, now: number, withBreak: boolean) => {
+      eng.symbol = symbol;
+      const cap = Math.floor(eng.n * (1 - MIN_FREE));
+      const K = buildGlyph(GLYPHS[symbol], eng.w, eng.h, cap, {
+        x: eng.gx, y: eng.gy, em: eng.gEm,
+      });
+      eng.k = K;
 
-    /* ----- phase transitions ----- */
-    const settle = (eng: Engine) => {
-      eng.sx.set(eng.tx);
-      eng.sy.set(eng.ty);
-      eng.rs.set(eng.rt);
-      eng.as.set(eng.at);
-    };
-
-    const startGather = (eng: Engine, now: number, delayMax = 350, durBase = 1250, durVar = 150) => {
-      eng.symbol = eng.next;
-      computeTargets(eng, eng.symbol);
       const rng = mulberry32(eng.seed++);
-      for (let i = 0; i < eng.n; i++) eng.map[i] = i;
+      for (let i = 0; i < eng.n; i++) eng.order[i] = i;
       for (let i = eng.n - 1; i > 0; i--) {
         const j = Math.floor(rng() * (i + 1));
-        const t = eng.map[i];
-        eng.map[i] = eng.map[j];
-        eng.map[j] = t;
+        const t = eng.order[i];
+        eng.order[i] = eng.order[j];
+        eng.order[j] = t;
       }
-      for (let i = 0; i < eng.n; i++) {
-        const j = eng.map[i];
+
+      const ccx = eng.w * 0.5;
+      const ccy = eng.h * 0.48;
+      const gatherBase = now + (withBreak ? BREAK_STAGGER + BREAK_MS + FLOAT_MS : FLOAT_MS * 0.5);
+
+      for (let j = 0; j < eng.n; j++) {
+        const i = eng.order[j];
+        const dx = eng.px[i] - ccx;
+        const dy = eng.py[i] - ccy;
+        const away = dx === 0 && dy === 0 ? rng() * TAU : Math.atan2(dy, dx);
+
+        if (j >= K) {
+          // released back into the ambient field, with a nudge outward
+          if (eng.mode[i] !== 0) {
+            const sp = 0.7 + rng() * 1.5;
+            eng.vx[i] = Math.cos(away) * sp;
+            eng.vy[i] = Math.sin(away) * sp;
+          }
+          eng.mode[i] = 0;
+          eng.slot[i] = -1;
+          continue;
+        }
+
+        eng.slot[i] = j;
         const em = eng.gEm[j] === 1;
-        eng.sx[i] = eng.cx[i];
-        eng.sy[i] = eng.cy[i];
+        const breaking = withBreak && eng.mode[i] !== 0;
+        eng.hasBreak[i] = breaking ? 1 : 0;
+        eng.sx[i] = eng.px[i];
+        eng.sy[i] = eng.py[i];
+
+        if (breaking) {
+          const a = away + (rng() - 0.5) * 0.9;
+          const dist = 60 + rng() * 190;
+          eng.wx[i] = eng.px[i] + Math.cos(a) * dist;
+          eng.wy[i] = eng.py[i] + Math.sin(a) * dist;
+          const sp = 0.15 + rng() * 0.3;
+          eng.vx[i] = Math.cos(a) * sp;
+          eng.vy[i] = Math.sin(a) * sp;
+          eng.rs[i] = eng.cr[i];
+          eng.as[i] = eng.ca[i];
+          eng.tb0[i] = now + rng() * BREAK_STAGGER;
+          eng.tb1[i] = eng.tb0[i] + BREAK_MS * (0.8 + rng() * 0.4);
+        } else {
+          eng.wx[i] = eng.px[i];
+          eng.wy[i] = eng.py[i];
+          eng.rs[i] = eng.fr[i];
+          eng.as[i] = eng.fa[i];
+          eng.tb0[i] = now;
+          eng.tb1[i] = now;
+        }
+
         eng.tx[i] = eng.gx[j];
         eng.ty[i] = eng.gy[j];
-        eng.as[i] = eng.ca[i];
-        eng.at[i] = Math.min(0.98, eng.ba[i] * (em ? 1.25 : 1));
-        eng.rs[i] = eng.cr[i];
-        eng.rt[i] = eng.br[i] * (em ? 1.5 : 1);
-        eng.delay[i] = rng() * delayMax;
-        eng.dur[i] = durBase + rng() * durVar;
+        eng.rt[i] = glyphR(eng, i, em);
+        eng.at[i] = glyphA(eng, i, em);
+        // build-up order: mostly along the glyph's own path, part random
+        const ord = 0.62 * (j / K) + 0.38 * rng();
+        eng.tg0[i] = gatherBase + ord * GATHER_SPREAD;
+        eng.tg1[i] = eng.tg0[i] + GATHER_MS * (0.85 + rng() * 0.3);
+        eng.mode[i] = 1;
       }
-      eng.phase = "gather";
-      eng.phaseStart = now;
-      eng.phaseEnd = now + delayMax + durBase + durVar;
     };
 
     const snapTo = (eng: Engine, symbol: number) => {
       eng.symbol = symbol;
       eng.next = symbol;
-      computeTargets(eng, symbol);
+      const cap = Math.floor(eng.n * (1 - MIN_FREE));
+      const K = buildGlyph(GLYPHS[symbol], eng.w, eng.h, cap, {
+        x: eng.gx, y: eng.gy, em: eng.gEm,
+      });
+      eng.k = K;
       for (let i = 0; i < eng.n; i++) {
-        const em = eng.gEm[i] === 1;
-        eng.tx[i] = eng.gx[i];
-        eng.ty[i] = eng.gy[i];
-        eng.rt[i] = eng.br[i] * (em ? 1.5 : 1);
-        eng.at[i] = Math.min(0.98, eng.ba[i] * (em ? 1.25 : 1));
+        eng.slot[i] = i < K ? i : -1;
+        if (i < K) {
+          const em = eng.gEm[i] === 1;
+          eng.mode[i] = 2;
+          eng.px[i] = eng.gx[i];
+          eng.py[i] = eng.gy[i];
+          eng.tx[i] = eng.gx[i];
+          eng.ty[i] = eng.gy[i];
+          eng.rt[i] = glyphR(eng, i, em);
+          eng.at[i] = glyphA(eng, i, em);
+          eng.cr[i] = eng.rt[i];
+          eng.ca[i] = eng.at[i];
+        } else {
+          eng.mode[i] = 0;
+          eng.vx[i] = 0;
+          eng.vy[i] = 0;
+          eng.cr[i] = eng.fr[i];
+          eng.ca[i] = eng.fa[i];
+        }
       }
-      settle(eng);
-      eng.cx.set(eng.tx);
-      eng.cy.set(eng.ty);
-      eng.cr.set(eng.rt);
-      eng.ca.set(eng.at);
-      eng.phase = "formed";
-      eng.phaseEnd = 0;
+    };
+
+    // A resize moves the glyph, it does not re-animate it: the same atoms keep
+    // their targets, re-fitted to the new box. Restarting the gather here is
+    // what made the shape never settle while the step rail changed height.
+    const refit = (eng: Engine, now: number) => {
+      if (eng.k <= 0) {
+        retarget(eng, eng.next, now, false);
+        return;
+      }
+      buildGlyph(
+        GLYPHS[eng.next],
+        eng.w,
+        eng.h,
+        Math.floor(eng.n * (1 - MIN_FREE)),
+        { x: eng.gx, y: eng.gy, em: eng.gEm },
+        eng.k,
+      );
+      for (let i = 0; i < eng.n; i++) {
+        const j = eng.slot[i];
+        if (j < 0) continue;
+        eng.tx[i] = eng.gx[j];
+        eng.ty[i] = eng.gy[j];
+        if (eng.mode[i] === 2) {
+          eng.px[i] = eng.tx[i];
+          eng.py[i] = eng.ty[i];
+        }
+      }
     };
 
     /* ----- (re)build: init and resize ----- */
-    const build = (eng: Engine | null, w: number, h: number, now: number): Engine => {
+    const build = (prev: Engine | null, w: number, h: number, now: number): Engine => {
       const n = particleCount(w, h);
+      if (prev && prev.n === n) {
+        prev.w = w;
+        prev.h = h;
+        prev.needsRebuild = false;
+        if (reduced) snapTo(prev, prev.next);
+        else refit(prev, now);
+        return prev;
+      }
+
       const rng = mulberry32(7601);
-      if (!eng || eng.n !== n) {
-        const fresh: Engine = {
-          n, w, h,
-          phase: "formed", phaseStart: 0, phaseEnd: 0,
-          symbol: activeRef.current, next: activeRef.current,
-          seed: 11, needsRebuild: false,
-          ...alloc(n),
-        };
-        const ccx = w * 0.5;
-        const ccy = h * 0.47;
-        const R = Math.min(w, h) * 0.42;
-        for (let i = 0; i < n; i++) {
-          const a = rng() * Math.PI * 2;
-          const rr = Math.sqrt(rng()) * R;
-          fresh.cx[i] = ccx + Math.cos(a) * rr;
-          fresh.cy[i] = ccy + Math.sin(a) * rr;
-          fresh.br[i] = 1.15 + rng() * 1.05;
-          fresh.ba[i] = 0.42 + rng() * 0.5;
-          fresh.ph1[i] = rng() * Math.PI * 2;
-          fresh.ph2[i] = rng() * Math.PI * 2;
-          fresh.cr[i] = fresh.br[i] * 0.8;
-          fresh.ca[i] = fresh.ba[i] * 0.45;
-        }
-        if (reduced) snapTo(fresh, fresh.symbol);
-        else startGather(fresh, now, 500, 1400, 200); // entrance: form from the field
-        return fresh;
+      const eng: Engine = {
+        n, w, h,
+        symbol: activeRef.current,
+        next: activeRef.current,
+        seed: 11,
+        needsRebuild: false,
+        k: 0,
+        ...alloc(n),
+      };
+
+      for (let i = 0; i < n; i++) {
+        const a = rng() * TAU;
+        const rr = Math.sqrt(rng()) * Math.min(w, h) * 0.46;
+        eng.px[i] = w * 0.5 + Math.cos(a) * rr;
+        eng.py[i] = h * 0.48 + Math.sin(a) * rr;
+        eng.vx[i] = (rng() - 0.5) * 0.3;
+        eng.vy[i] = (rng() - 0.5) * 0.3;
+        eng.baseR[i] = 1.2 + rng() * 0.95;
+        eng.baseA[i] = 0.74 + rng() * 0.26;
+        eng.fr[i] = 0.65 + rng() * 0.8;
+        eng.fa[i] = 0.18 + rng() * 0.3;
+        eng.cr[i] = eng.fr[i];
+        eng.ca[i] = eng.fa[i];
+        eng.ph1[i] = rng() * TAU;
+        eng.ph2[i] = rng() * TAU;
+        eng.wf1[i] = 0.55 + rng() * 0.95;
+        eng.wf2[i] = 0.55 + rng() * 0.95;
+        eng.amp[i] = 0.7 + rng() * 1.1;
+        eng.tw[i] = 0.4 + rng() * 1.1;
+        eng.tph[i] = rng() * TAU;
+        eng.tint[i] = rng() < 0.14 ? 1 : 0;
+        eng.mode[i] = 0;
       }
-      eng.w = w;
-      eng.h = h;
-      eng.needsRebuild = false;
-      if (reduced) {
-        snapTo(eng, eng.next);
-      } else {
-        computeTargets(eng, eng.next);
-        const r2 = mulberry32(eng.seed++);
-        for (let i = 0; i < eng.n; i++) {
-          eng.sx[i] = eng.cx[i];
-          eng.sy[i] = eng.cy[i];
-          eng.tx[i] = eng.gx[i];
-          eng.ty[i] = eng.gy[i];
-          eng.as[i] = eng.ca[i];
-          eng.at[i] = Math.min(0.98, eng.ba[i] * (eng.gEm[i] === 1 ? 1.25 : 1));
-          eng.rs[i] = eng.cr[i];
-          eng.rt[i] = eng.br[i] * (eng.gEm[i] === 1 ? 1.5 : 1);
-          eng.delay[i] = r2() * 120;
-          eng.dur[i] = 750;
-        }
-        eng.symbol = eng.next;
-        eng.phase = "gather";
-        eng.phaseStart = now;
-        eng.phaseEnd = now + 870;
-      }
+
+      if (reduced) snapTo(eng, eng.symbol);
+      else retarget(eng, eng.symbol, now, false);
       return eng;
     };
 
     /* ----- canvas sizing (house pattern) ----- */
+    // Only a real size change may rebuild. ResizeObserver also fires on observe
+    // and on no-op notifications, and the left column grows and shrinks by a few
+    // px every time a step's description opens or closes — rebuilding on those
+    // restarts the gather mid-flight, so the glyph never finishes forming.
     const resize = () => {
       const rect = rectOf();
-      canvas.width = Math.max(1, Math.round(rect.width * dpr));
-      canvas.height = Math.max(1, Math.round(rect.height * dpr));
+      const cw = Math.max(1, Math.round(rect.width * dpr));
+      const ch = Math.max(1, Math.round(rect.height * dpr));
+      if (canvas.width === cw && canvas.height === ch) return;
+      canvas.width = cw;
+      canvas.height = ch;
       const eng = engRef.current;
       if (eng) eng.needsRebuild = true;
     };
@@ -520,18 +623,14 @@ export default function GlyphMorphCanvas({
       canvas.addEventListener("pointerleave", onLeave);
     }
 
-    scatterRef.current = (next: number) => {
+    // Tab switch: the standing glyph breaks apart and the same atoms build the
+    // next one, so the four steps read as one continuous field.
+    morphRef.current = (next: number) => {
       const eng = engRef.current;
       if (!eng || eng.next === next) return;
       eng.next = next;
-      if (reduced) {
-        snapTo(eng, next);
-        return;
-      }
-      // Direct, staggered flow from wherever the dots are right now straight
-      // into the next glyph — no scatter-burst in between, so the shape morphs
-      // smoothly instead of flashing apart (user direction 20 Jul 2026).
-      startGather(eng, performance.now(), 620, 1650, 380);
+      if (reduced) snapTo(eng, next);
+      else retarget(eng, next, performance.now(), true);
     };
 
     /* ----- frame loop ----- */
@@ -544,46 +643,113 @@ export default function GlyphMorphCanvas({
         eng = build(eng, rect.width, rect.height, now);
         engRef.current = eng;
       }
-      if (!eng) return;
-
-      if (eng.phase === "gather" && now >= eng.phaseEnd) {
-        settle(eng);
-        eng.phase = "formed";
-      }
+      // Off-screen (and the display:none mobile twin) costs nothing: the field
+      // freezes and resumes where it left off, or lands settled if a tab
+      // rotated past while it was away.
+      if (!eng || eng.w < 2 || eng.h < 2 || !visible) return;
 
       const w = eng.w;
       const h = eng.h;
+      const ccx = w * 0.5;
+      const ccy = h * 0.48;
+      const rxs = w * 0.54;
+      const rys = h * 0.56;
       const tS = now / 1000;
-      const inTween = eng.phase === "gather";
-      // Ambient drift never stops — the field keeps breathing even once a glyph
-      // is formed, and lifts a little while it flows into the next shape.
-      const amp = eng.phase === "gather" ? 1.35 : 0.95;
 
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      if (visible) ctx.clearRect(0, 0, w, h);
+      ctx.clearRect(0, 0, w, h);
+      buckets.fill(null);
 
       for (let i = 0; i < eng.n; i++) {
-        let prog = 1;
-        if (inTween) {
-          const local = now - eng.phaseStart - eng.delay[i];
-          prog = local <= 0 ? 0 : local >= eng.dur[i] ? 1 : easeSettle(local / eng.dur[i]);
-        }
-        const bx = eng.sx[i] + (eng.tx[i] - eng.sx[i]) * prog;
-        const by = eng.sy[i] + (eng.ty[i] - eng.sy[i]) * prog;
-        const r = eng.rs[i] + (eng.rt[i] - eng.rs[i]) * prog;
-        const a = eng.as[i] + (eng.at[i] - eng.as[i]) * prog;
+        const m = eng.mode[i];
+        let tr: number;
+        let ta: number;
+        let wob = 1;
 
-        let bxx = 0;
-        let byy = 0;
+        if (m === 2) {
+          eng.px[i] = eng.tx[i];
+          eng.py[i] = eng.ty[i];
+          tr = eng.rt[i];
+          ta = eng.at[i];
+        } else if (m === 1) {
+          if (now < eng.tg0[i]) {
+            // the waypoint itself keeps drifting, so the loose cloud is alive
+            eng.wx[i] += eng.vx[i];
+            eng.wy[i] += eng.vy[i];
+            eng.vx[i] *= DRIFT_DAMP;
+            eng.vy[i] *= DRIFT_DAMP;
+          }
+          if (eng.hasBreak[i] === 1 && now < eng.tb1[i]) {
+            const span = Math.max(1, eng.tb1[i] - eng.tb0[i]);
+            const p = now <= eng.tb0[i] ? 0 : easeBurst((now - eng.tb0[i]) / span);
+            eng.px[i] = eng.sx[i] + (eng.wx[i] - eng.sx[i]) * p;
+            eng.py[i] = eng.sy[i] + (eng.wy[i] - eng.sy[i]) * p;
+            tr = eng.rs[i] + (eng.fr[i] - eng.rs[i]) * p;
+            ta = eng.as[i] + (eng.fa[i] - eng.as[i]) * p;
+            wob = 1.5;
+          } else if (now < eng.tg0[i]) {
+            eng.px[i] = eng.wx[i];
+            eng.py[i] = eng.wy[i];
+            tr = eng.fr[i];
+            ta = eng.fa[i];
+            wob = 1.6;
+          } else if (now < eng.tg1[i]) {
+            const span = Math.max(1, eng.tg1[i] - eng.tg0[i]);
+            const p = easeSettle((now - eng.tg0[i]) / span);
+            eng.px[i] = eng.wx[i] + (eng.tx[i] - eng.wx[i]) * p;
+            eng.py[i] = eng.wy[i] + (eng.ty[i] - eng.wy[i]) * p;
+            tr = eng.fr[i] + (eng.rt[i] - eng.fr[i]) * p;
+            ta = eng.fa[i] + (eng.at[i] - eng.fa[i]) * p;
+            wob = 1.6 - 0.6 * p;
+          } else {
+            eng.mode[i] = 2;
+            eng.px[i] = eng.tx[i];
+            eng.py[i] = eng.ty[i];
+            tr = eng.rt[i];
+            ta = eng.at[i];
+          }
+        } else {
+          // free atom: slow curl around the frame, random wander, soft bounds
+          const dx = eng.px[i] - ccx;
+          const dy = eng.py[i] - ccy;
+          eng.vx[i] += -dy * CURL + (Math.random() - 0.5) * WANDER;
+          eng.vy[i] += dx * CURL + (Math.random() - 0.5) * WANDER;
+          const rx = dx / rxs;
+          const ry = dy / rys;
+          const d = Math.hypot(rx, ry);
+          if (d > 1) {
+            const f = (d - 1) * 0.05;
+            eng.vx[i] -= rx * f;
+            eng.vy[i] -= ry * f;
+          }
+          eng.vx[i] *= DRIFT_DAMP;
+          eng.vy[i] *= DRIFT_DAMP;
+          const sp = Math.hypot(eng.vx[i], eng.vy[i]);
+          if (sp > MAX_SPEED) {
+            eng.vx[i] *= MAX_SPEED / sp;
+            eng.vy[i] *= MAX_SPEED / sp;
+          }
+          eng.px[i] += eng.vx[i];
+          eng.py[i] += eng.vy[i];
+          tr = eng.fr[i];
+          ta = eng.fa[i];
+          wob = 1.15;
+        }
+
+        let fx = eng.px[i];
+        let fy = eng.py[i];
+
         if (!reduced) {
-          bxx = Math.sin(tS * OMEGA + eng.ph1[i]) * amp;
-          byy = Math.cos(tS * OMEGA * 0.9 + eng.ph2[i]) * amp;
+          // nothing ever sits perfectly still, formed or not
+          const a1 = eng.amp[i] * wob;
+          fx += Math.sin(tS * OMEGA * eng.wf1[i] + eng.ph1[i]) * a1;
+          fy += Math.cos(tS * OMEGA * eng.wf2[i] + eng.ph2[i]) * a1;
 
           let tox = 0;
           let toy = 0;
           if (pointer.on) {
-            const dx = bx + bxx - pointer.x;
-            const dy = by + byy - pointer.y;
+            const dx = fx - pointer.x;
+            const dy = fy - pointer.y;
             const d2 = dx * dx + dy * dy;
             if (d2 < CURSOR_R2 && d2 > 0.01) {
               const d = Math.sqrt(d2);
@@ -596,18 +762,34 @@ export default function GlyphMorphCanvas({
           eng.ovy[i] = (eng.ovy[i] + (toy - eng.oy[i]) * SPRING_K) * SPRING_DAMP;
           eng.ox[i] += eng.ovx[i];
           eng.oy[i] += eng.ovy[i];
+          fx += eng.ox[i];
+          fy += eng.oy[i];
+          ta *= 0.9 + 0.1 * Math.sin(tS * eng.tw[i] + eng.tph[i]);
         }
 
-        const fx = bx + bxx + eng.ox[i];
-        const fy = by + byy + eng.oy[i];
-        eng.cx[i] = fx;
-        eng.cy[i] = fy;
-        eng.cr[i] = r;
-        eng.ca[i] = a;
+        eng.cr[i] = tr;
+        eng.ca[i] = ta;
 
-        if (visible) {
-          ctx.globalAlpha = a;
-          ctx.drawImage(sprite, fx - r, fy - r, r * 2, r * 2);
+        if (tr > 0.05 && ta > 0.02) {
+          const step = Math.min(ALPHA_STEPS - 1, (ta * ALPHA_STEPS) | 0);
+          const slot = eng.tint[i] * ALPHA_STEPS + step;
+          let path = buckets[slot];
+          if (!path) {
+            path = new Path2D();
+            buckets[slot] = path;
+          }
+          path.moveTo(fx + tr, fy);
+          path.arc(fx, fy, tr, 0, TAU);
+        }
+      }
+
+      for (let t = 0; t < TINTS.length; t++) {
+        ctx.fillStyle = TINTS[t];
+        for (let s = 0; s < ALPHA_STEPS; s++) {
+          const path = buckets[t * ALPHA_STEPS + s];
+          if (!path) continue;
+          ctx.globalAlpha = (s + 0.5) / ALPHA_STEPS;
+          ctx.fill(path);
         }
       }
       ctx.globalAlpha = 1;
@@ -620,7 +802,7 @@ export default function GlyphMorphCanvas({
       io.disconnect();
       canvas.removeEventListener("pointermove", onMove);
       canvas.removeEventListener("pointerleave", onLeave);
-      scatterRef.current = null;
+      morphRef.current = null;
       engRef.current = null;
     };
   }, [reduced]);

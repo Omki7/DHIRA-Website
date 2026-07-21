@@ -177,8 +177,11 @@ function ModuleTile({
   sub: string;
   caps: string[];
 }) {
+  const aliasId = id.startsWith("modules-") ? id.replace("modules-", "") : null;
+
   return (
-    <div id={id} className="flex min-w-0 scroll-mt-28 flex-col rounded-inner border border-card-divide bg-panel p-3">
+    <div id={id} className="relative flex min-w-0 scroll-mt-28 flex-col rounded-inner border border-card-divide bg-panel p-3">
+      {aliasId && <span id={aliasId} className="absolute -top-28" aria-hidden />}
       <div className="flex items-center gap-2.5">
         <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-tile bg-blue-subtle text-blue">
           <DynamicSketchIcon text={icon} className="h-4 w-4" />
@@ -492,7 +495,8 @@ export default function AkashicModules() {
           {/* The bracket closes: governance floor under everything */}
           <ScrollReveal delay={120}>
             <GovJunction />
-            <div id="modules-governance" className="mt-3 scroll-mt-28 overflow-hidden rounded-outer border border-card-line bg-white shadow-card lg:mt-0">
+            <div id="modules-governance" className="relative mt-3 scroll-mt-28 overflow-hidden rounded-outer border border-card-line bg-white shadow-card lg:mt-0">
+              <span id="governance" className="absolute -top-28" aria-hidden />
               <div className="h-[3px] bg-gradient-to-r from-ink/60 via-ink/25 to-transparent" aria-hidden />
               <div className="flex flex-col gap-4 px-4 py-4 lg:flex-row lg:items-center lg:gap-6 lg:px-5">
                 <div className="flex items-center gap-3.5 lg:min-w-[300px]">

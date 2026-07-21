@@ -60,7 +60,7 @@ export default function UCConnectivity() {
         }}
       />
 
-      <ScrollReveal className="flex flex-col items-center px-6 md:px-14">
+      <ScrollReveal className="flex flex-col items-center px-6 md:px-10 xl:px-14">
         <p className="inline-flex h-6 items-center rounded-lg bg-uc-pill px-1.5 text-[14px] font-medium leading-5 tracking-[-0.14px] text-uc-pilltext">
           Connectivity
         </p>
@@ -71,7 +71,7 @@ export default function UCConnectivity() {
           Business systems, databases, live streams, spreadsheets, documents: everything
           your organisation already runs on.
         </p>
-        <UCButton href="/akashic#data-pipelines" className="mt-8">
+        <UCButton href="/akashic#modules-data-pipelines" className="mt-8">
           See the pipelines
         </UCButton>
       </ScrollReveal>

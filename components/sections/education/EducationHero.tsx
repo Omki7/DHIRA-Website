@@ -10,6 +10,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import ScrollReveal from "@/components/ui/ScrollReveal";
+import ScrollRevealRail from "@/components/ui/ScrollRevealRail";
 import { LiveChip } from "@/components/sections/akashic/AkashicCardChrome";
 
 const signals = [
@@ -201,7 +202,7 @@ export default function EducationHero() {
       <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(10,10,12,0.1)_0%,rgba(10,10,12,0.28)_62%,rgba(10,10,12,0.82)_100%)]" aria-hidden />
       <div className="dot-grid absolute inset-0 opacity-[0.08] invert" aria-hidden />
 
-      <div className="relative mx-auto w-full max-w-[1440px] px-4 sm:px-6 lg:px-8">
+      <ScrollRevealRail dark>
         <div className="grid min-h-[calc(100vh-72px)] grid-cols-1 items-center gap-12 py-16 md:py-20 lg:grid-cols-[minmax(0,0.95fr)_minmax(420px,0.9fr)] lg:gap-16">
           <div>
             <ScrollReveal>
@@ -265,7 +266,7 @@ export default function EducationHero() {
         <ScrollReveal delay={340}>
           <EduSystemsRail />
         </ScrollReveal>
-      </div>
+      </ScrollRevealRail>
     </section>
   );
 }

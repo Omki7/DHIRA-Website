@@ -560,17 +560,25 @@ export default function AkashicStack() {
   const m = MODULES[active];
 
   return (
-    <section id="stack" className="scroll-mt-24 border-t border-lineSoft bg-primary-bg">
-      <div className="rail-container pt-12 pb-24 lg:pt-16 lg:pb-32">
+    <section id="stack" className="ak-depth relative scroll-mt-24 overflow-hidden">
+      {/* Dark ak-depth slab (moved here from [10] on user direction, Jul 2026):
+          crisp seams, blue horizon glows, machined dot texture. The datasheet's
+          white cards read as lifted panels on the indigo ground. */}
+      <div className="dot-grid-dark pointer-events-none absolute inset-0 opacity-[0.14]" aria-hidden />
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/25 to-transparent" aria-hidden />
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-[radial-gradient(70%_100%_at_50%_0%,rgba(62,99,221,0.22),transparent_72%)]" aria-hidden />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-white/18 to-transparent" aria-hidden />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-[radial-gradient(70%_100%_at_50%_100%,rgba(62,99,221,0.16),transparent_72%)]" aria-hidden />
+      <div className="relative rail-container border-x-0 pt-12 pb-24 lg:pt-16 lg:pb-32">
         <ScrollReveal>
           <p className="font-mono text-[11px] uppercase tracking-eyebrow">
-            <span className="text-overcast">[09]</span>
-            <span className="text-inkSoft">&nbsp;&nbsp;Capabilities &amp; connectors</span>
+            <span className="text-white/40">[09]</span>
+            <span className="text-white/70">&nbsp;&nbsp;Capabilities &amp; connectors</span>
           </p>
-          <h2 className="mt-5 text-balance text-heading-sm font-semibold text-ink md:text-heading-md">
+          <h2 className="mt-5 text-balance text-heading-sm font-semibold text-white md:text-heading-md">
             Every module, down to what it connects to and what it does.
           </h2>
-          <p className="mt-5 max-w-[36em] text-lg leading-relaxed text-secondary-text">
+          <p className="mt-5 max-w-[36em] text-lg leading-relaxed text-white/70">
             The technical reference: pick a module to see its source and system
             connectors, its capabilities, and the controls it ships with.
           </p>
@@ -578,53 +586,55 @@ export default function AkashicStack() {
 
         <ScrollReveal delay={120}>
           <div className="mt-10 grid gap-5 lg:mt-12 lg:grid-cols-[280px_minmax(0,1fr)] lg:gap-8">
-            {/* Selector */}
-            <div
-              role="tablist"
-              aria-label="Akashic modules"
-              className="flex gap-2 overflow-x-auto pb-1 lg:flex-col lg:gap-1.5 lg:overflow-x-visible lg:pb-0"
-            >
-              {MODULES.map((mod, i) => {
-                const isActive = i === active;
-                return (
-                  <button
-                    key={mod.id}
-                    type="button"
-                    role="tab"
-                    aria-selected={isActive}
-                    onClick={() => setActive(i)}
-                    className={`flex shrink-0 items-center gap-3 rounded-inner border px-3.5 py-3 text-left transition-all duration-250 ease-settle lg:w-full lg:shrink ${
-                      isActive
-                        ? "border-blue-border bg-blue-subtle/60 shadow-card"
-                        : "border-card-line bg-white hover:border-blue-border/60 hover:bg-primary-bg lg:border-transparent"
-                    }`}
-                  >
-                    <span
-                      className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-tile border ${
-                        isActive ? "border-blue/20 bg-white text-blue" : "border-subtle-stroke bg-white text-inkSoft"
+            {/* Selector — a white rail panel, lifted on the dark ground */}
+            <div className="self-start rounded-outer border border-card-line bg-white p-2 shadow-float-dark lg:p-2.5">
+              <div
+                role="tablist"
+                aria-label="Akashic modules"
+                className="flex gap-2 overflow-x-auto pb-1 lg:flex-col lg:gap-1.5 lg:overflow-x-visible lg:pb-0"
+              >
+                {MODULES.map((mod, i) => {
+                  const isActive = i === active;
+                  return (
+                    <button
+                      key={mod.id}
+                      type="button"
+                      role="tab"
+                      aria-selected={isActive}
+                      onClick={() => setActive(i)}
+                      className={`flex shrink-0 items-center gap-3 rounded-inner border px-3.5 py-3 text-left transition-all duration-250 ease-settle lg:w-full lg:shrink ${
+                        isActive
+                          ? "border-blue-border bg-blue-subtle/60 shadow-card"
+                          : "border-card-line bg-white hover:border-blue-border/60 hover:bg-primary-bg lg:border-transparent"
                       }`}
                     >
-                      <DynamicSketchIcon text={mod.icon} className="h-4 w-4" />
-                    </span>
-                    <span className="min-w-0 flex-1">
-                      <span className="block whitespace-nowrap text-[13px] font-semibold tracking-tight text-ink lg:truncate lg:whitespace-normal">
-                        {mod.name}
+                      <span
+                        className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-tile border ${
+                          isActive ? "border-blue/20 bg-white text-blue" : "border-subtle-stroke bg-white text-inkSoft"
+                        }`}
+                      >
+                        <DynamicSketchIcon text={mod.icon} className="h-4 w-4" />
                       </span>
-                      <span className="hidden truncate text-[11px] text-secondary-text lg:block">{mod.tagline}</span>
-                    </span>
-                    <span className="hidden font-mono text-[9px] font-bold tracking-eyebrow text-secondary-text lg:block">
-                      {String(i + 1).padStart(2, "0")}
-                    </span>
-                  </button>
-                );
-              })}
+                      <span className="min-w-0 flex-1">
+                        <span className="block whitespace-nowrap text-[13px] font-semibold tracking-tight text-ink lg:truncate lg:whitespace-normal">
+                          {mod.name}
+                        </span>
+                        <span className="hidden truncate text-[11px] text-secondary-text lg:block">{mod.tagline}</span>
+                      </span>
+                      <span className="hidden font-mono text-[9px] font-bold tracking-eyebrow text-secondary-text lg:block">
+                        {String(i + 1).padStart(2, "0")}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
             </div>
 
             {/* Detail drawer */}
             <div
               key={m.id}
               role="tabpanel"
-              className="animate-[ps-rise_450ms_cubic-bezier(0.2,0.8,0.2,1)_both] overflow-hidden rounded-outer border border-card-line bg-white shadow-frame"
+              className="animate-[ps-rise_450ms_cubic-bezier(0.2,0.8,0.2,1)_both] overflow-hidden rounded-outer border border-card-line bg-white shadow-float-dark"
             >
               <Capillary />
 

@@ -10,6 +10,7 @@
  */
 
 import ScrollReveal from "@/components/ui/ScrollReveal";
+import ScrollRevealRail from "@/components/ui/ScrollRevealRail";
 import Bust from "@/components/demos/LineArtBust";
 
 const beliefs = [
@@ -101,9 +102,9 @@ export default function AboutBeliefs() {
   return (
     <section
       id="what-we-believe"
-      className="scroll-mt-24 border-t border-lineSoft bg-[linear-gradient(180deg,#FFFFFF_0%,#F1F5FE_16%,#F1F5FE_84%,#FFFFFF_100%)]"
+      className="scroll-mt-24 border-t border-lineSoft bg-[linear-gradient(180deg,#FFFFFF_0%,#F1F5FE_16%,#F1F5FE_84%,#FFFFFF_100%)] pt-12 pb-24 lg:pt-16 lg:pb-32"
     >
-      <div className="rail-container pt-12 pb-24 lg:pt-16 lg:pb-32">
+      <ScrollRevealRail>
         <ScrollReveal>
           <p className="font-mono text-[11px] uppercase tracking-eyebrow">
             <span className="text-overcast">[03]</span>
@@ -172,7 +173,7 @@ export default function AboutBeliefs() {
             ))}
           </div>
         </div>
-      </div>
+      </ScrollRevealRail>
     </section>
   );
 }

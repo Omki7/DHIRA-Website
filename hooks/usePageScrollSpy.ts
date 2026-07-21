@@ -3,6 +3,8 @@
 import { useEffect, useRef, useState } from "react";
 import type { PageSection } from "@/lib/pageSection";
 
+export type { PageSection };
+
 function prefersReducedMotion(): boolean {
   if (typeof window === "undefined") return false;
   return window.matchMedia("(prefers-reduced-motion: reduce)").matches;

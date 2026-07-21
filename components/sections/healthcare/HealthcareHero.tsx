@@ -7,6 +7,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import ScrollReveal from "@/components/ui/ScrollReveal";
+import ScrollRevealRail from "@/components/ui/ScrollRevealRail";
 import SectorHero from "@/components/sections/sectors/SectorHero";
 import { LiveChip } from "@/components/sections/akashic/AkashicCardChrome";
 import type { SectorContent } from "@/components/sections/sectors/sectorContent";
@@ -109,7 +110,7 @@ export default function HealthcareHero({ content }: { content: SectorContent }) 
         <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(10,10,12,0.08)_0%,rgba(10,10,12,0.22)_58%,rgba(10,10,12,0.82)_100%)]" aria-hidden />
         <div className="dot-grid absolute inset-0 opacity-[0.07] invert" aria-hidden />
 
-        <div className="relative mx-auto w-full max-w-[1440px] px-8">
+        <ScrollRevealRail dark>
           <div className="grid min-h-[calc(100vh-72px)] grid-cols-[minmax(0,0.96fr)_minmax(420px,0.9fr)] items-center gap-16 py-16">
             <div>
               <ScrollReveal>
@@ -201,7 +202,7 @@ export default function HealthcareHero({ content }: { content: SectorContent }) 
               </div>
             </div>
           </ScrollReveal>
-        </div>
+        </ScrollRevealRail>
       </section>
     </>
   );

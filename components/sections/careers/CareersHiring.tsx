@@ -16,6 +16,7 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import { useEffect, useState } from "react";
 import ScrollReveal from "@/components/ui/ScrollReveal";
+import ScrollRevealRail from "@/components/ui/ScrollRevealRail";
 import Bust from "@/components/demos/LineArtBust";
 import { usePrefersReducedMotion } from "@/hooks/useCountUp";
 
@@ -235,7 +236,7 @@ export default function CareersHiring() {
       <div className="pointer-events-none absolute -left-24 top-10 h-72 w-72 rounded-full bg-blue/10 blur-3xl" aria-hidden />
       <div className="pointer-events-none absolute -right-20 top-1/3 h-80 w-80 rounded-full bg-blue/[0.08] blur-3xl" aria-hidden />
 
-      <div className="rail-container relative pt-12 pb-24 lg:pt-16 lg:pb-32">
+      <ScrollRevealRail>
         <ScrollReveal>
           <div className="flex items-baseline justify-between font-mono text-[11px] uppercase tracking-eyebrow">
             <p>
@@ -377,7 +378,7 @@ export default function CareersHiring() {
         <span className="sr-only" aria-live="polite">
           {step.name}. {step.desc}
         </span>
-      </div>
+      </ScrollRevealRail>
     </section>
   );
 }

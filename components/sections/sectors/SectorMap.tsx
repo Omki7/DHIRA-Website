@@ -11,6 +11,7 @@
 import { useEffect, useRef, useState } from "react";
 import { usePrefersReducedMotion } from "@/hooks/useCountUp";
 import ScrollReveal from "@/components/ui/ScrollReveal";
+import ScrollRevealRail from "@/components/ui/ScrollRevealRail";
 import SectorMapScene from "./map/SectorMapScene";
 import { MAP_SCENES } from "./map/mapData";
 import { SECTOR_PAGES } from "./sectorContent";
@@ -68,9 +69,9 @@ export default function SectorMap({ slug }: { slug: string }) {
   }, [scene.steps.length]);
 
   return (
-    <section id="map" className="scroll-mt-24 border-t border-lineSoft bg-background">
-      <div className="mx-auto max-w-[1440px] px-4 sm:px-6 lg:px-8">
-        <div className="pt-10 lg:pt-14">
+    <section id="map" className="scroll-mt-24 border-t border-lineSoft bg-background pt-10 pb-16 lg:pt-14 lg:pb-20">
+      <ScrollRevealRail>
+        <div>
           <ScrollReveal>
             <div className="mb-8 flex items-center justify-between border-t border-b border-dashed border-lineSoft py-[17px] px-[2px] font-mono text-[11px] uppercase tracking-eyebrow text-inkSoft">
               <span>
@@ -113,7 +114,7 @@ export default function SectorMap({ slug }: { slug: string }) {
             <StepsRail step={3} scene={scene} />
           </div>
         </div>
-      </div>
+      </ScrollRevealRail>
     </section>
   );
 }

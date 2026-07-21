@@ -5,6 +5,7 @@
  */
 
 import ScrollReveal from "@/components/ui/ScrollReveal";
+import ScrollRevealRail from "@/components/ui/ScrollRevealRail";
 
 const steps = [
   {
@@ -65,8 +66,8 @@ function FlowSegment() {
 
 export default function KnowledgeChain() {
   return (
-    <section id="how-its-built" className="scroll-mt-24 border-t border-lineSoft bg-background">
-      <div className="rail-container pt-12 pb-24 lg:pt-16 lg:pb-32">
+    <section id="how-its-built" className="scroll-mt-24 border-t border-lineSoft bg-background pt-12 pb-24 lg:pt-16 lg:pb-32">
+      <ScrollRevealRail>
         <ScrollReveal>
           <div className="flex items-baseline justify-between font-mono text-[11px] uppercase tracking-eyebrow">
             <p>
@@ -128,7 +129,7 @@ export default function KnowledgeChain() {
             ))}
           </div>
         </div>
-      </div>
+      </ScrollRevealRail>
     </section>
   );
 }

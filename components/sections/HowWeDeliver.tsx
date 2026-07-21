@@ -9,26 +9,53 @@ type Deliverable = {
   title: string;
   description: string;
   href: string;
+  /* Revealed on hover, once the tile turns white. Every row is lifted from
+     the matching /delivery model section (Rule 4: no invented figures) — the
+     white state used to repeat the description, which wasted the space it
+     had just opened up. */
+  revealLabel: string;
+  reveal: { k: string; v: string }[];
 };
 
 const deliverables: Deliverable[] = [
   {
     num: "1",
     title: "Platform Deployment",
-    description: "We deploy the core Akashic platform in your environment, connect raw data sources, and establish your governed knowledge graph in 6 weeks.",
+    description:
+      "We deploy Akashic in your environment, connect raw sources, and stand up your governed knowledge graph.",
     href: "/delivery#akashic-deployment",
+    revealLabel: "Six-week rollout",
+    reveal: [
+      { k: "System readiness audit", v: "WK 1–2" },
+      { k: "Platform build", v: "WK 2–6" },
+      { k: "Operational handover", v: "WK 6+" },
+    ],
   },
   {
     num: "2",
     title: "Product Engineering",
-    description: "We build custom, production-grade applications on top of Akashic or your stack. Complete codebase ownership is transferred to your team.",
+    description:
+      "We build production-grade applications on Akashic or on the stack you have already chosen.",
     href: "/delivery#product-engineering",
+    revealLabel: "Time to MVP",
+    reveal: [
+      { k: "Built on Akashic", v: "12–20 WKS" },
+      { k: "Built on your stack", v: "10–16 WKS" },
+      { k: "Codebase ownership", v: "YOURS" },
+    ],
   },
   {
     num: "3",
     title: "Advisory & Co-Engineering",
-    description: "We embed senior engineering squads into your sprints or conduct strategic audits to unblock roadmaps and build internal capability.",
+    description:
+      "We audit the architecture, or embed senior squads inside your sprints to build internal capability.",
     href: "/delivery#advisory-co-engineering",
+    revealLabel: "How it runs",
+    reveal: [
+      { k: "Strategic advisory", v: "2–4 WKS" },
+      { k: "Co-engineering squad", v: "1 + 4" },
+      { k: "Advisory deliverables", v: "D-01…03" },
+    ],
   },
 ];
 
@@ -71,17 +98,15 @@ export default function HowWeDeliver() {
 
             {/* Split layout: text left, empty right */}
             <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-              <div className="lg:col-span-7 flex flex-col items-start">
-                <h3 className="text-[36px] sm:text-[48px] md:text-[56px] font-semibold leading-[1.05] tracking-tighter text-white font-heading">
-                  We own the delivery.<br />
-                  <span className="text-white/40">End-to-end.</span>
+              <div className="lg:col-span-9 flex flex-col items-start">
+                {/* One line by direction: the headline sizes down a step at each
+                    breakpoint so "We own the delivery. End-to-end." never wraps. */}
+                <h3 className="text-[30px] sm:text-[40px] md:text-[46px] lg:text-[52px] font-semibold leading-[1.05] tracking-tighter text-white font-heading">
+                  We own the delivery. <span className="text-white/40">End-to-end.</span>
                 </h3>
-                
-                <p className="mt-6 max-w-[28em] text-[15px] sm:text-base leading-relaxed text-white/60 font-sans">
-                  We deploy our core data platform, engineer custom applications, and embed senior squads to accelerate your roadmap under a single, accountable partner.
-                </p>
-                <p className="mt-4 max-w-[28em] text-[15px] sm:text-base leading-relaxed text-white/40 font-normal font-sans">
-                  It's not just about installing software. It's about ensuring your organisation is built to build.
+
+                <p className="mt-6 max-w-[34em] text-[15px] sm:text-base leading-relaxed text-white/60 font-sans">
+                  Three engagement models. One accountable team, from readiness audit to handover.
                 </p>
 
                 <div className="mt-8">
@@ -96,7 +121,7 @@ export default function HowWeDeliver() {
                   </Link>
                 </div>
               </div>
-              <div className="hidden lg:col-span-5 lg:block" aria-hidden="true" />
+              <div className="hidden lg:col-span-3 lg:block" aria-hidden="true" />
             </div>
 
             {/* 3-Column Cards Grid */}
@@ -114,13 +139,39 @@ export default function HowWeDeliver() {
                   {/* Thin Divider Line */}
                   <div className="my-5 border-t border-white/10 group-hover/tile:border-lineSoft transition-colors duration-300" />
                   
-                  <h4 className="text-[20px] md:text-[22px] font-semibold tracking-tight leading-snug font-heading transition-colors duration-300">
+                  <h4 className="text-[22px] md:text-[26px] font-semibold tracking-tight leading-snug font-heading transition-colors duration-300">
                     {item.title}
                   </h4>
-                  
-                  <p className="mt-3 text-[14px] leading-relaxed text-white/60 group-hover/tile:text-secondary-text transition-colors duration-300 font-sans">
+
+                  <p className="mt-3 text-[15px] leading-relaxed text-white/70 group-hover/tile:text-secondary-text transition-colors duration-300 font-sans">
                     {item.description}
                   </p>
+
+                  {/* Hover detail. The slot is ALWAYS reserved (fixed height,
+                      mt-auto) so revealing it cannot resize the grid row and
+                      make the other two tiles jump. Only its contents fade in. */}
+                  <div className="mt-auto h-[132px] pt-6">
+                    <div className="h-full translate-y-1 opacity-0 transition-all duration-300 ease-settle group-hover/tile:translate-y-0 group-hover/tile:opacity-100">
+                      <div className="border-t border-white/10 pt-4 group-hover/tile:border-lineSoft">
+                        <p className="font-mono text-[10px] uppercase tracking-eyebrow text-overcast">
+                          {item.revealLabel}
+                        </p>
+                        <ul className="mt-2.5 space-y-1.5">
+                          {item.reveal.map((row) => (
+                            <li
+                              key={row.k}
+                              className="flex items-baseline justify-between gap-3 text-[12.5px]"
+                            >
+                              <span className="text-secondary-text">{row.k}</span>
+                              <span className="whitespace-nowrap font-mono text-[11px] font-semibold text-ink">
+                                {row.v}
+                              </span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
                 </Link>
               ))}
             </div>

@@ -10,6 +10,7 @@
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import ScrollReveal from "@/components/ui/ScrollReveal";
+import ScrollRevealRail from "@/components/ui/ScrollRevealRail";
 import { LiveChip } from "@/components/sections/akashic/AkashicCardChrome";
 import { useCountUpValue, usePrefersReducedMotion } from "@/hooks/useCountUp";
 
@@ -87,7 +88,7 @@ export default function LifeHero() {
       <div className="dot-grid absolute inset-0 opacity-60" aria-hidden />
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-48 bg-gradient-to-b from-transparent to-white" aria-hidden />
 
-      <div className="rail-container relative border-x-0">
+      <ScrollRevealRail>
         <div className="grid grid-cols-1 items-center gap-12 pt-20 pb-16 lg:grid-cols-[1.1fr_1fr] lg:gap-16 lg:pt-28 lg:pb-24">
           <div>
             <ScrollReveal>
@@ -141,7 +142,7 @@ export default function LifeHero() {
             </div>
           </ScrollReveal>
         </div>
-      </div>
+      </ScrollRevealRail>
     </section>
   );
 }

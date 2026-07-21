@@ -136,10 +136,41 @@ export default function ProblemSection() {
                 The data underneath was never made ready for AI to answer from.
               </span>
             </p>
-            <span
-              className="mx-auto mt-7 block h-12 w-px bg-gradient-to-b from-blue-border to-transparent"
-              aria-hidden
-            />
+            <div className="mt-8 flex flex-col items-center gap-3">
+              <span
+                className="h-10 w-px bg-gradient-to-b from-blue-border to-blue"
+                aria-hidden
+              />
+              <button
+                type="button"
+                onClick={() => {
+                  const el = document.getElementById("platform");
+                  if (el) {
+                    el.scrollIntoView({ behavior: "smooth" });
+                  }
+                }}
+                className="group relative inline-flex items-center gap-2 rounded-full border border-blue-border bg-blue-subtle/80 px-4 py-2 font-mono text-[11px] uppercase tracking-eyebrow text-blue transition-all duration-300 ease-settle hover:bg-blue hover:text-white shadow-sm hover:shadow-md hover:scale-105 active:scale-95"
+              >
+                <span className="relative flex h-2 w-2">
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-blue opacity-75 group-hover:bg-white" />
+                  <span className="relative inline-flex h-2 w-2 rounded-full bg-blue group-hover:bg-white" />
+                </span>
+                <span>[02] MEET AKASHIC</span>
+                <svg
+                  width="12"
+                  height="12"
+                  viewBox="0 0 12 12"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="transition-transform duration-300 ease-settle group-hover:translate-y-0.5"
+                >
+                  <path d="M6 2.5v7M2.5 6l3.5 3.5 3.5-3.5" />
+                </svg>
+              </button>
+            </div>
           </div>
         </ScrollReveal>
       </ScrollRevealRail>

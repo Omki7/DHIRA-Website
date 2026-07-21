@@ -10,6 +10,7 @@
  */
 
 import ScrollReveal from "@/components/ui/ScrollReveal";
+import ScrollRevealRail from "@/components/ui/ScrollRevealRail";
 import { CardHeader, BlueChip } from "@/components/sections/akashic/AkashicCardChrome";
 
 const steps = [
@@ -226,8 +227,8 @@ function EngagementConsole() {
 
 export default function DeliveryMethodology() {
   return (
-    <section id="methodology" className="scroll-mt-24 border-t border-lineSoft bg-background">
-      <div className="rail-container pt-12 pb-24 lg:pt-16 lg:pb-32">
+    <section id="methodology" className="scroll-mt-24 border-t border-lineSoft bg-background pt-12 pb-24 lg:pt-16 lg:pb-32">
+      <ScrollRevealRail>
         <ScrollReveal>
           <div className="flex items-baseline justify-between font-mono text-[11px] uppercase tracking-eyebrow">
             <p>
@@ -309,7 +310,7 @@ export default function DeliveryMethodology() {
             The same four moves govern every model &middot; platform, product, or advisory
           </p>
         </ScrollReveal>
-      </div>
+      </ScrollRevealRail>
     </section>
   );
 }

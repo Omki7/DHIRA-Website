@@ -146,16 +146,10 @@ export default function UCSignals() {
   }, [active, reduced]);
 
   return (
-    <div className="relative w-full">
-      {/* full-bleed hairlines framing the block */}
-      <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-50">
-        <div className="absolute left-1/2 top-0 h-px w-screen -translate-x-1/2 bg-uc-line" />
-        <div className="absolute bottom-0 left-1/2 h-px w-screen -translate-x-1/2 bg-uc-line" />
-      </div>
-
+    <div className="relative w-full border-y border-uc-line">
       {/* desktop split */}
       <div className="relative z-10 hidden lg:flex lg:flex-row">
-        <div className="flex flex-1 flex-col justify-center px-6 py-[clamp(64px,10svh,120px)] lg:px-[58px]">
+        <div className="flex flex-1 flex-col justify-center px-6 py-[clamp(64px,10svh,120px)] md:px-10 xl:px-14">
           <Heading />
           <div className="mt-10 w-full max-w-[520px]">
             <StepRail active={active} setActive={setActive} reduced={reduced} />
@@ -164,17 +158,17 @@ export default function UCSignals() {
             Explore Akashic
           </UCButton>
         </div>
-        <div className="relative overflow-hidden border-uc-line lg:w-1/2 lg:border-l lg:border-l-uc-stroke">
-          <div className="absolute inset-0 [mask-image:linear-gradient(to_right,transparent_0%,black_18%,black_82%,transparent_100%)]">
+        <div className="relative overflow-hidden border-l border-uc-stroke lg:w-1/2">
+          <div className="absolute inset-0 [mask-image:radial-gradient(ellipse_60%_64%_at_50%_48%,black_50%,transparent_100%)]">
             <GlyphMorphCanvas active={active} />
           </div>
         </div>
       </div>
 
       {/* mobile stack */}
-      <div className="relative z-10 flex w-full flex-col px-6 pb-24 pt-[88px] lg:hidden">
+      <div className="relative z-10 flex w-full flex-col px-6 pb-24 pt-[88px] md:px-10 lg:hidden">
         <Heading center />
-        <div className="relative mx-auto mt-8 aspect-square w-full max-w-[520px] [mask-image:radial-gradient(circle_at_center,black_45%,transparent_80%)]">
+        <div className="relative mx-auto mt-8 aspect-square w-full max-w-[520px] [mask-image:radial-gradient(circle_at_center,black_46%,transparent_82%)]">
           <GlyphMorphCanvas active={active} />
         </div>
         <div className="mx-auto mt-6 w-full max-w-[440px]">

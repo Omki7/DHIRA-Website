@@ -7,6 +7,8 @@ import SectorMap from "@/components/sections/sectors/SectorMap";
 import SectorSolution from "@/components/sections/sectors/SectorSolution";
 import SectorOutcomes from "@/components/sections/sectors/SectorOutcomes";
 import SectorClose from "@/components/sections/sectors/SectorClose";
+import PageMinimap from "@/components/layout/PageMinimap";
+import { ENERGY_SECTIONS } from "@/lib/energySections";
 import { SECTOR_PAGES } from "@/components/sections/sectors/sectorContent";
 
 const content = SECTOR_PAGES.energy;
@@ -30,6 +32,7 @@ export default function EnergyPage() {
         <SectorClose content={content} />
       </main>
       <Footer />
+      <PageMinimap sections={ENERGY_SECTIONS} aria-label="Energy page sections" />
     </>
   );
 }

@@ -96,13 +96,10 @@ export default function AkashicTrust() {
       <ScrollRevealRail dark={false}>
         {/* Eyebrow */}
         <ScrollReveal>
-          <div className="mb-14 flex items-center justify-between border-b border-t border-dashed border-lineSoft py-[17px] px-[2px] font-mono text-[11px] uppercase tracking-eyebrow text-inkSoft">
-            <span>
-              <span className="text-overcast">[05]</span>
-              &nbsp;&nbsp;DATA PRIVACY & SECURITY
-            </span>
-            <span className="text-overcast">/ SECURITY BY DESIGN</span>
-          </div>
+          <p className="mb-14 font-mono text-[11px] uppercase tracking-eyebrow">
+            <span className="text-overcast">[05]</span>
+            <span className="text-inkSoft">&nbsp;&nbsp;Data privacy &amp; security</span>
+          </p>
         </ScrollReveal>
 
         {/* Header Block */}

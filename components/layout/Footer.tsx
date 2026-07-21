@@ -24,12 +24,19 @@ const footerColumns: FooterColumn[] = [
       "Akashic Governance",
     ],
   },
+  /* Solutions and Sectors are two different things and used to share one
+     list. EIS / Life / Knowledge are vertical solutions that run ON TOP of
+     Akashic (they have /solutions/* pages); the rest are the domains we
+     deliver into (/sectors/*). Merging them implied DHIRA sells a
+     "Manufacturing product", which it does not. */
   {
-    heading: "Solutions",
+    heading: "Akashic Solutions",
+    links: ["EIS", "Life", "Knowledge"],
+  },
+  {
+    heading: "Sectors",
     links: [
-      "EIS",
-      "Life",
-      "Knowledge",
+      "Public Sector",
       "Manufacturing",
       "Healthcare",
       "Finance",
@@ -38,15 +45,18 @@ const footerColumns: FooterColumn[] = [
       "Energy",
     ],
   },
+  /* Was a list of six deliverable names (AI Readiness Audit, Sovereign
+     Blueprint, …) collapsed onto two generic anchors. /delivery is built
+     around three ENGAGEMENT MODELS, so the footer now mirrors the page. */
   {
     heading: "Delivery",
     links: [
-      "AI Readiness Audit",
-      "Sovereign Blueprint",
-      "Governance Framework",
-      "Platform Deployment",
-      "Legacy Modernization",
-      "Custom Accelerators",
+      "Akashic Deployment",
+      "Product Engineering",
+      "Advisory & Co-Engineering",
+      "How We Work",
+      "Partnership Fit",
+      "FAQ",
     ],
   },
   {
@@ -61,19 +71,56 @@ const slug = (s: string) =>
   `#${s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "")}`;
 
 const hrefOverrides: Record<string, string> = {
-  Manufacturing: "/sectors/manufacturing",
-  Healthcare: "/sectors/healthcare",
-  Finance: "/sectors/finance",
-  Retail: "/sectors/retail",
-  Education: "/sectors/education",
-  Energy: "/sectors/energy",
+  // Akashic
+  "Akashic Data Pipelines": "/akashic#modules-data-pipelines",
+  "Akashic Master Data": "/akashic#modules-master-data",
+  "Akashic Data Warehouse": "/akashic#modules-data-warehousing",
+  "Ask Akashic": "/akashic#modules-ask-ai",
+  "Akashic Machine Learning": "/akashic#modules-machine-learning",
+  "Akashic BI": "/akashic#modules-business-intelligence",
+  "Akashic Governance": "/akashic#modules-governance",
+
+  // Akashic Solutions — vertical solutions on top of the platform
+  "EIS": "/solutions/eis",
+  "Life": "/solutions/life",
+  "Knowledge": "/solutions/knowledge",
+
+  // Sectors — domains we deliver into
+  "Public Sector": "/sectors/public-sector",
+  "Manufacturing": "/sectors/manufacturing",
+  "Healthcare": "/sectors/healthcare",
+  "Finance": "/sectors/finance",
+  "Retail": "/sectors/retail",
+  "Education": "/sectors/education",
+  "Energy": "/sectors/energy",
+
+  // Delivery — the three engagement models, plus real page sections
+  "Akashic Deployment": "/delivery#akashic-deployment",
+  "Product Engineering": "/delivery#product-engineering",
+  "Advisory & Co-Engineering": "/delivery#advisory-co-engineering",
+  "How We Work": "/delivery#methodology",
+  "Partnership Fit": "/delivery#partnership-fit",
+  "FAQ": "/delivery#faq",
+
+  // Insights & Company
+  /* Was "/#proven-at-scale", which is not an id on any page — the home
+     ProvenAtScale renders with its default id="scale". */
+  "Customer Stories": "/#scale",
+  "Perspectives": "/#voices",
+  "Documentation": "/akashic#open",
+  "Guides": "/delivery#methodology",
+  "About Us": "/about",
+  "Careers": "/careers",
 };
 
 export default function Footer() {
   return (
     <footer className="bg-vault text-white pt-20 pb-10">
       <ScrollRevealRail dark>
-        <div className="grid grid-cols-2 gap-8 md:grid-cols-4 lg:grid-cols-6 lg:gap-12 mb-20">
+        {/* 7 columns on lg: brand spans 2, then the five link columns
+            (Akashic / Akashic Solutions / Sectors / Delivery / Insights).
+            Was 6 before Sectors was split out of Solutions. */}
+        <div className="grid grid-cols-2 gap-8 md:grid-cols-4 lg:grid-cols-7 lg:gap-10 mb-20">
           {/* Brand column */}
           <div className="col-span-2 lg:col-span-2 flex flex-col">
             <Link
@@ -120,7 +167,7 @@ export default function Footer() {
                     {col.subLinks.map((link) => (
                       <li key={link}>
                         <Link
-                          href={slug(link)}
+                          href={hrefOverrides[link] ?? slug(link)}
                           className="text-white/55 text-sm hover:text-white transition-colors duration-250 ease-settle"
                         >
                           {link}
@@ -134,6 +181,15 @@ export default function Footer() {
           ))}
         </div>
 
+        {/* ⚠ RIBBON — NOT SHIPPABLE AS IS. Every link below is a placeholder
+            in-page anchor that resolves to nothing:
+              #privacy   → needs a real /privacy page or hosted policy URL
+              #terms     → needs a real /terms page
+              #twitter   → needs the real X/Twitter profile URL
+              #linkedin  → needs the real LinkedIn company URL
+            Privacy Policy and Terms are also a legal requirement for a site
+            collecting enquiries, so these block launch rather than being
+            cosmetic. Replace the hrefs, then delete this comment. */}
         <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-xs text-white/35">
             <span>&copy; {new Date().getFullYear()} DHIRA Technologies. All rights reserved.</span>

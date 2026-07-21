@@ -9,6 +9,7 @@
 
 import Link from "next/link";
 import ScrollReveal from "@/components/ui/ScrollReveal";
+import ScrollRevealRail from "@/components/ui/ScrollRevealRail";
 
 const rightFit = [
   "You are an enterprise with a data problem actively hindering decisions.",
@@ -40,9 +41,9 @@ export default function DeliveryFit() {
   return (
     <section
       id="partnership-fit"
-      className="scroll-mt-24 border-t border-lineSoft bg-[linear-gradient(180deg,#FFFFFF_0%,#F1F5FE_16%,#F1F5FE_84%,#FFFFFF_100%)]"
+      className="scroll-mt-24 border-t border-lineSoft bg-[linear-gradient(180deg,#FFFFFF_0%,#F1F5FE_16%,#F1F5FE_84%,#FFFFFF_100%)] pt-12 pb-24 lg:pt-16 lg:pb-32"
     >
-      <div className="rail-container pt-12 pb-24 lg:pt-16 lg:pb-32">
+      <ScrollRevealRail>
         <ScrollReveal>
           <div className="flex items-baseline justify-between font-mono text-[11px] uppercase tracking-eyebrow">
             <p>
@@ -134,7 +135,7 @@ export default function DeliveryFit() {
             </ScrollReveal>
           </div>
         </div>
-      </div>
+      </ScrollRevealRail>
     </section>
   );
 }

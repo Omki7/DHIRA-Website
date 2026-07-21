@@ -384,6 +384,44 @@ function PointIcon({ glyph }: { glyph: string }) {
 /*  Component                                                        */
 /* ---------------------------------------------------------------- */
 
+const HASH_MODULE_MAP: Record<string, number> = {
+  "#data-pipelines": 0,
+  "#modules-data-pipelines": 0,
+  "#pipelines": 0,
+
+  "#master-data": 1,
+  "#modules-master-data": 1,
+
+  "#data-warehousing": 2,
+  "#modules-data-warehousing": 2,
+  "#warehouse": 2,
+
+  "#machine-learning": 3,
+  "#modules-machine-learning": 3,
+  "#ml": 3,
+
+  "#ask-ai": 4,
+  "#modules-ask-ai": 4,
+  "#ask": 4,
+
+  "#business-intelligence": 5,
+  "#modules-business-intelligence": 5,
+  "#bi": 5,
+
+  "#governance": 6,
+  "#modules-governance": 6,
+};
+
+const MODULE_HASHES = [
+  "#data-pipelines",
+  "#master-data",
+  "#data-warehousing",
+  "#machine-learning",
+  "#ask-ai",
+  "#business-intelligence",
+  "#governance",
+];
+
 type Props = {
   trackRef: React.RefObject<HTMLDivElement | null>;
   curtainHeight: number;
@@ -396,6 +434,9 @@ export default function AkashicTeardownMockup({ trackRef, curtainHeight }: Props
   const geomRef = useRef({ trackTop: 0, trackH: 1, vh: 800 });
   const reduced = usePrefersReducedMotion();
   const reducedRef = useRef(reduced);
+  const lastHashRef = useRef("");
+  const initialCheckedRef = useRef(false);
+  const measureRef = useRef<() => void>(() => {});
 
   useEffect(() => {
     curtainRef.current = curtainHeight;
@@ -477,6 +518,7 @@ export default function AkashicTeardownMockup({ trackRef, curtainHeight }: Props
       boundsRef.current = b;
     };
     measure();
+    measureRef.current = measure;
     const onResize = () => measure();
     window.addEventListener("resize", onResize);
 
@@ -793,39 +835,27 @@ export default function AkashicTeardownMockup({ trackRef, curtainHeight }: Props
       }
     };
 
-    let lastHash = "";
-    let initialChecked = false;
-
-    // After 1 second, the initial page layout is settled, so any further hash updates can scroll instantly.
-    setTimeout(() => {
-      initialChecked = true;
-    }, 1000);
-
     const checkHash = () => {
       const hash = typeof window !== "undefined" ? window.location.hash : "";
-      if (hash !== lastHash) {
-        lastHash = hash;
-        const map: Record<string, number> = {
-          "#data-pipelines": 0,
-          "#master-data": 1,
-          "#data-warehousing": 2,
-          "#machine-learning": 3,
-          "#ask-ai": 4,
-          "#business-intelligence": 5,
-          "#governance": 6,
-        };
-        if (hash in map) {
-          if (!initialChecked) {
-            initialChecked = true;
+      if (hash !== lastHashRef.current) {
+        lastHashRef.current = hash;
+        if (hash in HASH_MODULE_MAP) {
+          const modIdx = HASH_MODULE_MAP[hash];
+          if (!initialCheckedRef.current) {
+            initialCheckedRef.current = true;
             setTimeout(() => {
-              goToModule(map[hash]);
-            }, 600);
+              goToModule(modIdx);
+            }, 500);
           } else {
-            goToModule(map[hash]);
+            goToModule(modIdx);
           }
         }
       }
     };
+
+    const onHashChange = () => checkHash();
+    window.addEventListener("hashchange", onHashChange);
+    window.addEventListener("popstate", onHashChange);
 
     const frame = (tms: number) => {
       raf = requestAnimationFrame(frame);
@@ -860,12 +890,21 @@ export default function AkashicTeardownMockup({ trackRef, curtainHeight }: Props
       window.removeEventListener("resize", onResize);
       window.removeEventListener("wheel", nudgeAbort);
       window.removeEventListener("touchstart", nudgeAbort);
+      window.removeEventListener("hashchange", onHashChange);
+      window.removeEventListener("popstate", onHashChange);
     };
   }, [trackRef]);
 
   const goToModule = (c: number) => {
+    if (measureRef.current) measureRef.current();
     const b = boundsRef.current;
+    if (!b || b.length < c + 3) return;
     const dest = geomRef.current.trackTop + curtainRef.current + b[c + 1] + (b[c + 2] - b[c + 1]) * 0.5;
+    const hash = MODULE_HASHES[c];
+    if (hash && typeof window !== "undefined" && window.location.hash !== hash) {
+      lastHashRef.current = hash;
+      window.history.replaceState(null, "", hash);
+    }
     window.scrollTo({ top: dest, behavior: "smooth" });
   };
 
@@ -1265,9 +1304,10 @@ export default function AkashicTeardownMockup({ trackRef, curtainHeight }: Props
             <button
               key={name}
               type="button"
+              title={`Module 0${c + 1}: ${name}`}
               aria-label={`Go to module 0${c + 1}: ${name.toLowerCase()}`}
               onClick={() => goToModule(c)}
-              className="flex flex-col items-center gap-[7px] px-0.5 py-1.5"
+              className="group flex flex-col items-center gap-[7px] px-1 py-1.5 cursor-pointer transition-transform duration-150 hover:scale-110 focus-visible:outline-none"
             >
               <span data-ak-tickline className="block w-px transition-none" style={{ height: 16, background: inkA(0.4) }} />
               <span data-ak-ticknum className="font-mono text-[9px] tracking-[0.1em]" style={{ color: inkA(0.68) }}>

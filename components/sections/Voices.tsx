@@ -39,7 +39,7 @@ export default function Voices() {
         <ScrollReveal>
           <div className="mb-10 flex items-center border-t border-b border-dashed border-lineSoft py-[17px] px-[2px] font-mono text-[11px] uppercase tracking-eyebrow text-inkSoft">
             <span>
-              <span className="text-overcast">[06]</span>
+              <span className="text-overcast">[07]</span>
               &nbsp;&nbsp;PARTNER VOICES
             </span>
           </div>

@@ -6,18 +6,20 @@
 
 import Link from "next/link";
 import ScrollReveal from "@/components/ui/ScrollReveal";
+import ScrollRevealRail from "@/components/ui/ScrollRevealRail";
 
 export default function CareersClose() {
   return (
-    <section id="talk-to-our-team" className="scroll-mt-24 border-t border-lineSoft bg-background">
-      <div className="rail-container pt-12 pb-24 lg:pt-16 lg:pb-32">
+    <section id="talk-to-our-team" className="relative scroll-mt-24 border-t border-lineSoft bg-background pt-12 pb-24 lg:pt-16 lg:pb-32">
+      <span id="login" className="absolute -top-24" aria-hidden />
+      <ScrollRevealRail dark isLast>
         <ScrollReveal>
           <div className="fl-sheen relative mx-auto max-w-[1100px] overflow-hidden rounded-frame bg-ink px-6 py-14 text-center text-white md:px-12 md:py-20">
             <div className="absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r from-blue/70 via-blue/30 to-transparent" aria-hidden />
             <div className="dot-grid absolute inset-0 opacity-10 invert" aria-hidden />
             <div className="relative">
               <p className="font-mono text-[11px] uppercase tracking-eyebrow text-white/50">
-                <span className="text-white/30">[05]</span>&nbsp;&nbsp;Apply
+                <span className="text-white/30">[05]</span>&nbsp;&nbsp;Ready when you are
               </p>
               <h2 className="mx-auto mt-6 max-w-[16em] text-heading-sm font-semibold text-white md:text-heading-md">
                 If that matters to you, we should talk.
@@ -52,7 +54,7 @@ export default function CareersClose() {
             </div>
           </div>
         </ScrollReveal>
-      </div>
+      </ScrollRevealRail>
     </section>
   );
 }
