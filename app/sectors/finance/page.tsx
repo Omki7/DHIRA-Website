@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import Nav from "@/components/layout/Nav";
 import Footer from "@/components/layout/Footer";
-import SectorHero from "@/components/sections/sectors/SectorHero";
-import SectorProblem from "@/components/sections/sectors/SectorProblem";
+import FinanceHero from "@/components/sections/finance/FinanceHero";
+import FinanceChain from "@/components/sections/finance/FinanceChain";
 import SectorMap from "@/components/sections/sectors/SectorMap";
 import SectorSolution from "@/components/sections/sectors/SectorSolution";
 import SectorOutcomes from "@/components/sections/sectors/SectorOutcomes";
@@ -22,8 +22,8 @@ export default function FinancePage() {
     <>
       <Nav />
       <main className="bg-background">
-        <SectorHero content={content} />
-        <SectorProblem content={content} />
+        <FinanceHero />
+        <FinanceChain />
         <SectorMap slug="finance" />
         <SectorSolution content={content} />
         <SectorOutcomes content={content} />
