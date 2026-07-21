@@ -239,7 +239,7 @@ function PlateShell({ i, extra, children }: { i: number; extra?: React.ReactNode
 function FaceChip({ label, dot, style }: { label: string; dot?: string; style: React.CSSProperties }) {
   return (
     <div
-      style={{ position: "absolute", display: "flex", alignItems: "center", gap: 5, height: 20, padding: "0 8px", borderRadius: 999, border: "1px solid #EEEFF1", background: "rgba(255,255,255,0.92)", boxShadow: `0 2px 6px ${inkA(0.05)}`, ...style }}
+      style={{ position: "absolute", display: "flex", alignItems: "center", gap: 5, height: 20, padding: "0 8px", borderRadius: 999, border: "1px solid #EEEFF1", background: "rgba(255,255,255,0.92)", ...style }}
     >
       {dot && <span style={{ display: "block", width: 5, height: 5, borderRadius: "50%", background: dot }} />}
       <span style={{ ...mono, fontSize: 8.5, letterSpacing: "0.1em", color: inkA(0.75) }}>{label}</span>
@@ -1111,12 +1111,12 @@ export default function AkashicTeardownMockup({ trackRef, curtainHeight }: Props
               </div>
             }
           >
-            <div style={{ position: "absolute", left: 36, top: 44, width: 150, height: 112, border: `1px solid ${inkA(0.28)}`, borderRadius: 8, background: "rgba(255,255,255,0.92)", padding: "12px 14px", boxSizing: "border-box", boxShadow: `0 4px 12px ${inkA(0.06)}` }}>
+            <div style={{ position: "absolute", left: 36, top: 44, width: 150, height: 112, border: `1px solid ${inkA(0.28)}`, borderRadius: 8, background: "rgba(255,255,255,0.92)", padding: "12px 14px", boxSizing: "border-box" }}>
               <div style={{ ...mono, fontSize: 8.5, letterSpacing: "0.12em", color: inkA(0.5) }}>ON-TIME DELIVERY</div>
               <div data-ak="kpi" style={{ marginTop: 12, fontSize: 32, fontWeight: 600, letterSpacing: "-0.02em", color: "#1A1C1D" }}>0.0%</div>
               <div style={{ marginTop: 8, display: "inline-block", padding: "2px 6px", borderRadius: 4, background: "#EEF1FC", ...mono, fontSize: 9, letterSpacing: "0.1em", color: ACC }}>+2.4 PTS · QTD</div>
             </div>
-            <div style={{ position: "absolute", left: 210, top: 44, width: 160, height: 112, border: `1px solid ${inkA(0.28)}`, borderRadius: 8, background: "rgba(255,255,255,0.92)", padding: "12px 14px", boxSizing: "border-box", boxShadow: `0 4px 12px ${inkA(0.06)}` }}>
+            <div style={{ position: "absolute", left: 210, top: 44, width: 160, height: 112, border: `1px solid ${inkA(0.28)}`, borderRadius: 8, background: "rgba(255,255,255,0.92)", padding: "12px 14px", boxSizing: "border-box" }}>
               <div style={{ ...mono, fontSize: 8.5, letterSpacing: "0.12em", color: inkA(0.5) }}>ORDERS / WEEK</div>
               <div style={{ position: "absolute", left: 14, right: 14, bottom: 12, height: 60, display: "flex", alignItems: "flex-end", gap: 8 }}>
                 {[
@@ -1131,7 +1131,7 @@ export default function AkashicTeardownMockup({ trackRef, curtainHeight }: Props
                 ))}
               </div>
             </div>
-            <div style={{ position: "absolute", left: 394, top: 44, width: 130, height: 112, border: `1px solid ${inkA(0.28)}`, borderRadius: 8, background: "rgba(255,255,255,0.92)", padding: "12px 14px", boxSizing: "border-box", boxShadow: `0 4px 12px ${inkA(0.06)}` }}>
+            <div style={{ position: "absolute", left: 394, top: 44, width: 130, height: 112, border: `1px solid ${inkA(0.28)}`, borderRadius: 8, background: "rgba(255,255,255,0.92)", padding: "12px 14px", boxSizing: "border-box" }}>
               <div style={{ ...mono, fontSize: 8.5, letterSpacing: "0.12em", color: inkA(0.5) }}>MARGIN TREND</div>
               <svg width="102" height="60" viewBox="0 0 102 60" style={{ position: "absolute", left: 14, bottom: 12 }} fill="none">
                 <path data-ak="spark" d="M4,48 L22,32 L40,38 L58,18 L76,26 L98,10" stroke={ACC} strokeWidth="2" />

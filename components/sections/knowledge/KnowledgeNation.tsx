@@ -94,7 +94,7 @@ const engines = [
 
 export default function KnowledgeNation() {
   return (
-    <section id="nation-builder" className="scroll-mt-24 border-t border-lineSoft bg-white">
+    <section id="nation-builder" className="scroll-mt-24 border-t border-lineSoft bg-background">
       <div className="rail-container pt-12 pb-24 lg:pt-16 lg:pb-32">
         <ScrollReveal>
           <div className="flex items-baseline justify-between font-mono text-[11px] uppercase tracking-eyebrow">

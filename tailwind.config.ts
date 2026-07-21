@@ -8,6 +8,13 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        /* The ground is WHITE and stays white: it is what gives the page
+           its contrast and air, and it is the only neutral the cool blue
+           family (`blue-subtle` #EEF1FC, the Rule 5a band #F1F5FE) reads
+           cleanly against. A warm off-white ground was tried in Jul 2026
+           and reverted — warm ground + cool blue is two tints fighting.
+           Every <section> uses `bg-background` rather than a hardcoded
+           `bg-white`, so the ground stays a single-token change. */
         background: "#FFFFFF",
         "primary-bg": "#FAFAFB",
         "secondary-bg": "#FFFFFF",

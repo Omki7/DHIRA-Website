@@ -56,7 +56,7 @@ const states: { num: string; level: 0 | 1 | 3; title: string; desc: string; tag:
 
 export default function LifeOffline() {
   return (
-    <section id="offline" className="scroll-mt-24 border-t border-lineSoft bg-white">
+    <section id="offline" className="scroll-mt-24 border-t border-lineSoft bg-background">
       <div className="rail-container pt-12 pb-24 lg:pt-16 lg:pb-32">
         <ScrollReveal>
           <div className="flex items-baseline justify-between font-mono text-[11px] uppercase tracking-eyebrow">

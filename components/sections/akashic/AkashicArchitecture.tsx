@@ -204,9 +204,7 @@ function HybridPlate() {
 
 export default function AkashicArchitecture() {
   return (
-    <section id="architecture" className="relative scroll-mt-24 border-t border-lineSoft bg-white">
-      {/* Act bridge: eases the cinematic teardown [02] into the document act */}
-      <div className="pointer-events-none absolute inset-x-0 -top-px h-24 bg-gradient-to-b from-primary-bg to-white" aria-hidden />
+    <section id="architecture" className="relative scroll-mt-24 border-t border-lineSoft bg-background">
       <div className="relative rail-container pt-12 pb-14 lg:pt-16 lg:pb-16">
         <ScrollReveal>
           <p className="font-mono text-[11px] uppercase tracking-eyebrow">

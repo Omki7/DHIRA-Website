@@ -10,7 +10,7 @@ export default function Closure() {
     <section
       id="get-started"
       aria-labelledby="get-started-h"
-      className="relative overflow-hidden bg-white pt-12 pb-24 lg:pt-16 lg:pb-32"
+      className="relative overflow-hidden bg-background pt-12 pb-24 lg:pt-16 lg:pb-32"
     >
       {/* Alias anchor: the nav CTA targets #talk-to-our-team on every page */}
       <span id="talk-to-our-team" className="absolute -top-24" aria-hidden />

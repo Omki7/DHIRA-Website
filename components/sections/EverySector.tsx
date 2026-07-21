@@ -91,7 +91,7 @@ export default function EverySector() {
   return (
     <section
       id="sectors"
-      className="overflow-hidden bg-white pt-12 pb-24 lg:pt-16 lg:pb-32"
+      className="overflow-hidden bg-background pt-12 pb-24 lg:pt-16 lg:pb-32"
       onFocusCapture={() => setPaused(true)}
       onBlurCapture={() => setPaused(false)}
     >

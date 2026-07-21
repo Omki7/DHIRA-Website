@@ -17,7 +17,7 @@ const roles = [
 
 export default function AboutCareers() {
   return (
-    <section id="careers" className="scroll-mt-24 border-t border-lineSoft bg-white">
+    <section id="careers" className="scroll-mt-24 border-t border-lineSoft bg-background">
       <div className="rail-container pt-12 pb-24 lg:pt-16 lg:pb-32">
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-[1fr_1.4fr] lg:gap-16">
           <div>

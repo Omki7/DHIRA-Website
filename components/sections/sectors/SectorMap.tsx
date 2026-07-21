@@ -68,7 +68,7 @@ export default function SectorMap({ slug }: { slug: string }) {
   }, [scene.steps.length]);
 
   return (
-    <section id="map" className="scroll-mt-24 border-t border-lineSoft bg-white">
+    <section id="map" className="scroll-mt-24 border-t border-lineSoft bg-background">
       <div className="mx-auto max-w-[1440px] px-4 sm:px-6 lg:px-8">
         <div className="pt-10 lg:pt-14">
           <ScrollReveal>

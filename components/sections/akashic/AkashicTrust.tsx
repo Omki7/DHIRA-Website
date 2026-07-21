@@ -80,7 +80,7 @@ const CARDS = [
 
 export default function AkashicTrust() {
   return (
-    <section id="trust" className="relative overflow-hidden bg-white py-24 lg:py-32">
+    <section id="trust" className="relative overflow-hidden bg-background py-24 lg:py-32">
       {/* Subtle Background Grid */}
       <div className="pointer-events-none absolute inset-0 z-0 opacity-[0.15]">
         <svg className="h-full w-full" xmlns="http://www.w3.org/2000/svg">

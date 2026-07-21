@@ -48,7 +48,7 @@ const requirements = [
 
 export default function PublicSectorWhy() {
   return (
-    <section id="why-akashic" className="scroll-mt-24 border-t border-lineSoft bg-white">
+    <section id="why-akashic" className="scroll-mt-24 border-t border-lineSoft bg-background">
       <div className="rail-container pt-12 pb-24 lg:pt-16 lg:pb-32">
         <ScrollReveal>
           <div className="flex items-baseline justify-between font-mono text-[11px] uppercase tracking-eyebrow">

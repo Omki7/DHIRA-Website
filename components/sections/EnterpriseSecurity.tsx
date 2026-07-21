@@ -201,7 +201,7 @@ export default function EnterpriseSecurity() {
       id="governance"
       ref={sectionRef}
       aria-labelledby="gov-h"
-      className="relative overflow-hidden bg-white pt-12 pb-24 lg:pt-16 lg:pb-32"
+      className="relative overflow-hidden bg-background pt-12 pb-24 lg:pt-16 lg:pb-32"
     >
       <ScrollRevealRail>
 

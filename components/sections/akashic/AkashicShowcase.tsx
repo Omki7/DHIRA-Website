@@ -12,7 +12,7 @@ import HexConnectionsMockup from "@/components/demos/HexConnectionsMockup";
 
 export default function AkashicShowcase() {
   return (
-    <section id="platform-screens" className="relative overflow-x-clip scroll-mt-24 bg-white -mt-4 lg:-mt-6 xl:-mt-10">
+    <section id="platform-screens" className="relative overflow-x-clip scroll-mt-24 bg-background -mt-4 lg:-mt-6 xl:-mt-10">
       <div className="rail-container border-x-0 pt-4 pb-0 lg:pb-0">
         <ScrollReveal delay={120}>
           <AkashicModuleScreensMockup />

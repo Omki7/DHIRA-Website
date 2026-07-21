@@ -34,7 +34,7 @@ export default function ProvenAtScale({
     <section
       id={id}
       aria-labelledby={`${id}-h`}
-      className="relative overflow-hidden bg-white pt-12 pb-24 lg:pt-16 lg:pb-32"
+      className="relative overflow-hidden bg-background pt-12 pb-24 lg:pt-16 lg:pb-32"
     >
       <div className="dot-grid pointer-events-none absolute inset-0 opacity-[0.035]" />
 

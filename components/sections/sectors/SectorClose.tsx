@@ -11,7 +11,7 @@ export default function SectorClose({ content }: { content: SectorContent }) {
   const { close } = content;
 
   return (
-    <section id="talk-to-our-team" className="scroll-mt-24 border-t border-lineSoft bg-white">
+    <section id="talk-to-our-team" className="scroll-mt-24 border-t border-lineSoft bg-background">
       <div className="rail-container pt-10 pb-20 lg:pt-14 lg:pb-24">
         <ScrollReveal>
           <div className="fl-sheen relative mx-auto max-w-[1100px] overflow-hidden rounded-frame bg-ink px-6 py-14 text-center text-white md:px-12 md:py-20">

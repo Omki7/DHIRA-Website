@@ -524,7 +524,7 @@ export default function AkashicFourMoves() {
   }, [started, active, reduced]);
 
   const solidShadow = "shadow-frame";
-  const ctaClasses = `inline-flex items-center gap-2 rounded-full border border-blue-border bg-white px-4 py-2 text-sm font-medium text-blue shadow-card transition-colors duration-250 ease-settle hover:border-blue hover:bg-blue-subtle`;
+  const ctaClasses = `inline-flex items-center gap-2 rounded-full border border-blue-border bg-white px-4 py-2 text-sm font-medium text-blue transition-colors duration-250 ease-settle hover:border-blue hover:bg-blue-subtle`;
   const ctaReveal = revealed ? "opacity-100 translate-y-0" : "pointer-events-none opacity-0 translate-y-2";
 
   return (
@@ -555,7 +555,7 @@ export default function AkashicFourMoves() {
             <ScrollReveal delay={80}>
               <div className="mt-8 flex justify-center lg:justify-start">
                 <div
-                  className="inline-flex rounded-full border border-blue-border bg-white p-1 shadow-card"
+                  className="inline-flex rounded-full border border-blue-border bg-white p-1"
                   role="tablist"
                   aria-label="Choose an example"
                 >
@@ -570,7 +570,7 @@ export default function AkashicFourMoves() {
                       }}
                       className={`rounded-full px-4 py-1.5 text-sm font-medium transition-colors duration-250 ease-settle ${
                         i === active
-                          ? "bg-blue text-white shadow-card"
+                          ? "bg-blue text-white"
                           : "text-inkSoft hover:text-ink"
                       }`}
                     >

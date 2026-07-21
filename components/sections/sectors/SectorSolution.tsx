@@ -13,7 +13,7 @@ export default function SectorSolution({ content }: { content: SectorContent }) 
   const { solution } = content;
 
   return (
-    <section id="solution" className="scroll-mt-24 overflow-hidden bg-white pt-10 pb-16 lg:pt-14 lg:pb-20">
+    <section id="solution" className="scroll-mt-24 overflow-hidden bg-background pt-10 pb-16 lg:pt-14 lg:pb-20">
       <ScrollRevealRail>
         <ScrollReveal>
           <div className="mb-10 flex items-center justify-between border-t border-b border-dashed border-lineSoft py-[17px] px-[2px] font-mono text-[11px] uppercase tracking-eyebrow text-inkSoft">

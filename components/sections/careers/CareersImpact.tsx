@@ -31,7 +31,7 @@ function Figure({ figure }: { figure: string }) {
 
 export default function CareersImpact() {
   return (
-    <section id="the-work" className="scroll-mt-24 border-t border-lineSoft bg-white">
+    <section id="the-work" className="scroll-mt-24 border-t border-lineSoft bg-background">
       <div className="rail-container pt-12 pb-24 lg:pt-16 lg:pb-32">
         <ScrollReveal>
           <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-[minmax(0,1fr)_auto] lg:gap-16">

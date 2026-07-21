@@ -73,17 +73,27 @@ components/
 
   demos/               Interactive/animated sub-components used inside sections
     HeroConnections.tsx      Animated connection graph shown behind Hero (decorative, real component)
-    DivergentAnswers.tsx     One question answered three irreconcilable ways (ProblemSection).
-                             The question types itself in on scroll with a blinking caret
-                             (ps-caret-blink; full text immediately under reduced motion).
+    DivergentAnswers.tsx     One question answered three irreconcilable ways (ProblemSection),
+                             shaped as a reconciliation that does not reconcile: framed panel,
+                             ONE QUESTION / THREE ANSWERS header, the question typing itself in
+                             on scroll with a blinking caret (ps-caret-blink; full text
+                             immediately under reduced motion), three value-sorted ledger rows
+                             with right-aligned tabular count-up figures, and a VARIANCE footer
+                             (3-dot track scaled to the observed range + "120,000 people apart").
                              Each answer carries a lineage rail in the /akashic governance
                              idiom (source chips joined by a hairline arrow) showing which
                              ground it was traced from; colour encodes the source world
                              (blue warehouse / rose documents / green stream), not decoration.
+                             REPLACED the 262px horizontal "measurement" axis (21 Jul): it cost
+                             more height than the headline it was evidence for, and it spaced
+                             the three points by array index rather than by value, so the axis
+                             measured nothing. Deliberately NOT a §4a stat band — no blue
+                             gradient top bar, because that bar is the site's signature for
+                             proof figures and these figures are the opposite of proof.
                              UNIT-NEUTRAL BY DIRECTION (20 Jul): the scenario counts people
                              served, never money — a ₹/crore revenue question read as
                              India-only to a global audience and collided with the $ figures
-                             in the industry-record block below. Do not reintroduce a currency
+                             in the industry-record block. Do not reintroduce a currency
     FieldLedger.tsx          Live deployment panels with count-up metrics. NOT RENDERED
                              anywhere since the 20 Jul ProvenAtScale rebuild; kept on disk
                              pending a decision to delete or redeploy it
@@ -174,9 +184,20 @@ hooks/
 
 ### Colors
 
+**The ground is white and stays white.** A warm off-white ground (`#FAF9F6`)
+with a matching warm hairline/greige axis was built and reverted on user
+direction (Jul 2026). Two reasons, both worth keeping on record: white carries
+more contrast and air, and it is the only neutral the brand's cool blue family
+(`blue-subtle` `#EEF1FC`, the Rule 5a band `#F1F5FE`) reads cleanly against —
+a warm ground under a cool blue band is two tints fighting. Do not reintroduce
+a warm ground without also solving the blue.
+
+Sections carry `bg-background` rather than a hardcoded `bg-white`, so the ground
+remains a single-token change if it is ever revisited.
+
 | Token | Value | Use |
 |---|---|---|
-| `background` | `#FFFFFF` | Page background |
+| `background` | `#FFFFFF` | Page/section background. Every `<section>` uses `bg-background`, not `bg-white` |
 | `primary-bg` | `#FAFAFB` | Card surfaces, inset panels (e.g. `EverySector` text panel) |
 | `secondary-bg` | `#FFFFFF` | Nav menu-row icon tiles |
 | `tertiary-bg` | `#F3F3F4` | Subtle inset areas, hover fills |
@@ -192,7 +213,7 @@ hooks/
 | `blue-hover` | `#3351B8` | Blue accent hover state |
 | `blue-subtle` | `#EEF1FC` | Accent background tint |
 | `blue-border` | `#C8D2F5` | Accent border |
-| `red` | `#E5484D` | Problem section only: indicator bar/watermark, and the two AI industry figures ($581B / 46%) that carry the section's alarm. Not a general error colour |
+| `red` | `#E5484D` | Problem section only, and it means **cost**, not error: the DivergentAnswers variance figure (120,000) and the two AI industry figures ($581B / 46%). Not a general error colour |
 | `vault` | `#0a0a0c` | Footer background only |
 | `lineSoft` | `#e4e7ec` | Section borders, dividers |
 | `line` | `#d3d8df` | Stronger dividers |
@@ -300,7 +321,7 @@ All keyframes live in `globals.css`. Do not add a component-local `<style danger
 |---|---|---|---|---|
 | — | nav | `layout/Nav.tsx` | `bg-white/95 backdrop-blur-md` | Hides on scroll down (30px accumulated delta), shows on up (15px) or near top |
 | 00 | hero | `sections/Hero.tsx` | `bg-background` / `bg-blue` (sticky quote layer) | Uses `demos/mockups/HeroProductsMockup` + `demos/HeroConnections` |
-| 01 | problem | `sections/ProblemSection.tsx` | `bg-white` | Two-line headline (one sentence per `block` span), typed question + three lineage-traced answers via `demos/DivergentAnswers`, then "It isn't just you" — the industry record. Those two figures are deliberately the largest type in the section (58–80px, outranking the three answers at 30–36px): the answers are the anecdote, the figures are the verdict. Closes on the real gap — infrastructure got funded, the data underneath was never made AI-ready — which sets up Meet Akashic. Stanford HAI 2026 + S&P Global data |
+| 01 | problem | `sections/ProblemSection.tsx` | `bg-white` | **Rebuilt 21 Jul (user direction):** was four centred blocks stacked behind dashed rules (headline / axis plot / industry record / thesis) running ~1,900px, so it read as four sections and the argument never landed. Now one composition: argument left (three-line headline, lead, then the industry record demoted to a cited footnote under it), evidence right (`demos/DivergentAnswers`), one centred verdict below both. ~1,030px, so the whole argument fits one screen at 1440×800. Hierarchy is **inverted from the old rule**: the three answers (34–42px) now outrank $581B / 46% (30–34px), because the reader lives the three-answers moment and the market figures are what tell them it isn't their fault. Headline and verdict share one grammar: setup in `inkSoft`, payoff in `ink`. Grid uses explicit `lg:col-start`/`lg:row-start` placement, not source order, so the stacked order stays headline → ledger → citations. Closes on the real gap (infrastructure got funded, the data underneath was never made AI-ready), which sets up Meet Akashic. Stanford HAI 2026 + S&P Global data |
 | — | platform | `sections/MeetAkashic.tsx` + `sections/universal-context/` | `bg-uc-bg` (#0A0E24, deep indigo — same ground as the Akashic page's `.ak-depth` slabs; was neutral #101010 until 21 Jul) | Meet Akashic — the platform section in the dark Attio-derived aesthetic (user direction 18–19 Jul): pinstripe + orb hero ("Stop guessing. Get grounded." / "Meet Akashic"), five-cell capability grid, "The platform" flow tabs + GlyphMorphCanvas dot glyphs (synced to the tabs, 20 Jul), Connectivity source-system logo tiles, "BI. AI. ML. Agents." blueprint panel tracing the Akashic mark. Carries the `#platform` id targeted by Hero/TheProof/Closure CTAs; its own CTAs link to `/akashic` anchors. No [NN] eyebrow by design. Second dark region per Rule 5 |
 | 02 | scale | `sections/ProvenAtScale.tsx` | deep-navy gradient (`#02183E` → `#103169`) | Rebuilt 20 Jul (user direction) as a replica of Keboola's "Real Customers. Real Results." stage: centred dot-flanked eyebrow + white headline over `demos/ProvenStories`, a one-deployment-at-a-time cross-fade carousel (white `rounded-2xl` split card, story left, photography right). Masked 36px drafting grid + two corner glows. Third deliberate dark region — see §7, Rule 5 |
 | 03 | delivery | `sections/HowWeDeliver.tsx` | soft blue band | Three-engagement-model journey selector (Deployment / Product Engineering / Advisory): left situation rows route to a From→To journey per model, tied by a solid `AkashicFlowConnectors` line; detail panel tracks the selected row's level. Links to `/delivery` model anchors. No console mockup. The page's one blue band (Rule 5a, user direction 18 Jul) |
@@ -424,7 +445,7 @@ Three regions are permanently dark, each by explicit user direction: the Footer 
 **Every dark ground is blue-black, never neutral black.** `depth` / `uc-bg` `#0A0E24` (the Akashic page's `.ak-depth` slabs and, since 21 Jul, `MeetAkashic`), `vault` `#0a0a0c`, and the whole shadow ladder cast in `rgba(11,20,64)` are one indigo family. `MeetAkashic` was neutral `#101010` until 21 Jul, when it was re-tinted on user direction — near-black was the only dark region outside that family and read as a different site's section dropped into ours. This is a **hue** rule, not a lightness one: match the family, do not lighten toward `blue` `#3E63DD` (see the retired `PowerfulPlatform` above).
 
 ### Rule 5a — One Soft Blue Band Per Page
-Per user direction (17 Jul), every page gets exactly ONE section styled with the soft blue gradient band — `bg-[linear-gradient(180deg,#FFFFFF_0%,#F1F5FE_16%,#F1F5FE_84%,#FFFFFF_100%)]` — to break up an otherwise all-`bg-white` run. Pick the page's own narrative/trust/culture "breather" section (not a dense data or product section) as the candidate. Current assignments: Home → `HowWeDeliver` [03] soft blue band (user direction 18 Jul; `ProvenAtScale` [02] is a dark band, not a blue one, so it does not consume the page's blue slot); About → `AboutBeliefs` [03]; Careers → `CareersCulture` [02] and `CareersHiring` [04] (two, both approved); Akashic → `AkashicTrust` [05]; Delivery → `DeliveryFit` [07]; EIS → `EisIntegration` [05]; Life → `LifeStory` [03]; Knowledge → `KnowledgeMorning` [04]; Public Sector → `PublicSectorMoments` [03]; the six industry sector pages → `SectorOutcomes` [04] on each. Do not add a second blue band to a page without user direction — the point is one clean break, not another pattern to overuse.
+Per user direction (17 Jul), every page gets exactly ONE section styled with the soft blue gradient band — `bg-[linear-gradient(180deg,#FFFFFF_0%,#F1F5FE_16%,#F1F5FE_84%,#FFFFFF_100%)]` (the fade endpoints must always equal `background`, or the band fades to a colour the page does not have) — to break up an otherwise all-`bg-white` run. Pick the page's own narrative/trust/culture "breather" section (not a dense data or product section) as the candidate. Current assignments: Home → `HowWeDeliver` [03] soft blue band (user direction 18 Jul; `ProvenAtScale` [02] is a dark band, not a blue one, so it does not consume the page's blue slot); About → `AboutBeliefs` [03]; Careers → `CareersCulture` [02] and `CareersHiring` [04] (two, both approved); Akashic → `AkashicTrust` [05]; Delivery → `DeliveryFit` [07]; EIS → `EisIntegration` [05]; Life → `LifeStory` [03]; Knowledge → `KnowledgeMorning` [04]; Public Sector → `PublicSectorMoments` [03]; the six industry sector pages → `SectorOutcomes` [04] on each. Do not add a second blue band to a page without user direction — the point is one clean break, not another pattern to overuse.
 
 ### Rule 6 — Reduced Motion
 All animations must respect `prefers-reduced-motion`. The global CSS handles this for `*` via `animation-duration: 0.01ms`. Component-specific overrides exist for `.fl-sparkline`, `.fl-row-enter`, `.fl-sheen`. Any new animation you add must degrade safely.

@@ -186,7 +186,7 @@ export default function AkashicBuildVsBuy() {
   const [showMatrix, setShowMatrix] = useState(false);
 
   return (
-    <section id="build-vs-buy" className="scroll-mt-24 border-t border-lineSoft bg-white">
+    <section id="build-vs-buy" className="scroll-mt-24 border-t border-lineSoft bg-background">
       <div className="rail-container pt-12 pb-24 lg:pt-16 lg:pb-32">
         <ScrollReveal>
           <p className="font-mono text-[11px] uppercase tracking-eyebrow">

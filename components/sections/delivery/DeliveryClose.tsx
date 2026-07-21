@@ -11,7 +11,7 @@ const models = ["01 Platform", "02 Product", "03 Advisory"];
 
 export default function DeliveryClose() {
   return (
-    <section id="talk-to-our-team" className="scroll-mt-24 border-t border-lineSoft bg-white">
+    <section id="talk-to-our-team" className="scroll-mt-24 border-t border-lineSoft bg-background">
       <div className="rail-container pt-12 pb-24 lg:pt-16 lg:pb-32">
         <ScrollReveal>
           <div className="fl-sheen relative mx-auto max-w-[1100px] overflow-hidden rounded-frame bg-ink px-6 py-14 text-center text-white md:px-12 md:py-20">
