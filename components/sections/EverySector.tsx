@@ -12,27 +12,27 @@ const EASE = "cubic-bezier(0.4, 0, 0.2, 1)";
 
 const SECTORS = [
   { id: "manufacturing", index: "01", name: "Manufacturing", shortName: "Manufacturing",
-    image: "/sectors/manufacturing-pexels.png",
+    image: "/sectors/manufacturing-hq.jpg",
     alt: "A worker operating a textile production line on a factory floor",
     description: "Connect shop-floor signals with supply chain and quality data. Catch defects before they ship, and hold every line to the same numbers." },
   { id: "healthcare", index: "02", name: "Healthcare", shortName: "Health",
-    image: "/sectors/healthcare-real.png",
+    image: "/sectors/healthcare-hq.jpg",
     alt: "Monitoring equipment and screens in a hospital treatment room",
     description: "Move from fragmented legacy systems to a unified patient truth. Better care, delivered faster and with less overhead." },
   { id: "finance", index: "03", name: "Finance", shortName: "Finance",
-    image: "/sectors/finance-real.png",
+    image: "/sectors/finance-hq.jpg",
     alt: "A stack of coins resting on a spread of banknotes",
     description: "Real-time pattern recognition across every transaction. Catch risk before it materialises and maintain audit-ready compliance by design." },
   { id: "retail", index: "04", name: "Retail", shortName: "Retail",
-    image: "/sectors/retail-real.png",
+    image: "/sectors/retail-hq.jpg",
     alt: "Aisles of fresh produce in a supermarket, seen from above",
     description: "Forecast demand with greater certainty. Connect inventory, pricing, and store signals in real time, so every location works from one picture." },
   { id: "education", index: "05", name: "Education", shortName: "Education",
-    image: "/sectors/education-real.png",
+    image: "/sectors/education-hq.jpg",
     alt: "Rows of bookshelves receding down a library aisle",
     description: "Connect the entire student journey from enrolment to placement. Spot at-risk learners and measure what actually works." },
   { id: "energy", index: "06", name: "Energy", shortName: "Energy",
-    image: "/sectors/energy-real.png",
+    image: "/sectors/energy-hq.jpg",
     alt: "A wind turbine silhouetted against cloud at sunset",
     description: "Predict grid failures and optimise distribution on live signals. Build a smarter, more resilient infrastructure." },
 ];
@@ -73,6 +73,10 @@ export default function EverySector() {
         setActiveId("education");
       } else if (hash === "#enterprise" || hash === "#finance") {
         setActiveId("finance");
+      } else if (hash === "#retail") {
+        setActiveId("retail");
+      } else if (hash === "#energy") {
+        setActiveId("energy");
       }
     };
 
@@ -146,7 +150,7 @@ export default function EverySector() {
                     </div>
                     <div className="flex flex-1 flex-col justify-center px-6 py-5 bg-white">
                       <p className="mb-4 text-sm leading-relaxed text-inkSoft">{sector.description}</p>
-                      <Link href="#get-started" className="inline-flex items-center gap-2 text-sm font-medium text-ink hover:text-blue transition-colors duration-250 ease-settle">
+                      <Link href={`/sectors/${sector.id}`} className="inline-flex items-center gap-2 text-sm font-medium text-ink hover:text-blue transition-colors duration-250 ease-settle">
                         Deploy for {sector.shortName}
                         <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
                           <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.2" d="M2 6h8m0 0L7.5 3M10 6L7.5 9" />
@@ -265,7 +269,7 @@ export default function EverySector() {
               </div>
 
               <Link
-                href="#get-started"
+                href={`/sectors/${displaySector.id}`}
                 className="inline-flex items-center gap-2 text-sm font-medium text-ink hover:text-blue transition-colors duration-250 ease-settle"
               >
                 Deploy for {displaySector.shortName}

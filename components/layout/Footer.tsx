@@ -30,10 +30,12 @@ const footerColumns: FooterColumn[] = [
       "EIS",
       "Life",
       "Knowledge",
-      "Public Sector",
+      "Manufacturing",
       "Healthcare",
+      "Finance",
+      "Retail",
       "Education",
-      "Enterprise",
+      "Energy",
     ],
   },
   {
@@ -57,6 +59,15 @@ const footerColumns: FooterColumn[] = [
 
 const slug = (s: string) =>
   `#${s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "")}`;
+
+const hrefOverrides: Record<string, string> = {
+  Manufacturing: "/sectors/manufacturing",
+  Healthcare: "/sectors/healthcare",
+  Finance: "/sectors/finance",
+  Retail: "/sectors/retail",
+  Education: "/sectors/education",
+  Energy: "/sectors/energy",
+};
 
 export default function Footer() {
   return (
@@ -91,7 +102,7 @@ export default function Footer() {
                 {col.links.map((link) => (
                   <li key={link}>
                     <Link
-                      href={slug(link)}
+                      href={hrefOverrides[link] ?? slug(link)}
                       className="text-white/55 text-sm hover:text-white transition-colors duration-250 ease-settle"
                     >
                       {link}

@@ -81,6 +81,45 @@ const ICONS: Record<string, React.ReactNode[]> = {
     <rect key="2" x="14" y="4" width="6" height="16" rx="1" />,
     <circle key="3" cx="17" cy="8" r="1.5" fill="currentColor" stroke="none" />,
   ],
+  "Manufacturing": [
+    <path key="1" d="M4 20V11l4 3V11l4 3V11l4 3V4l4 4v12H4z" />,
+    <path key="2" d="M4 20h16" />,
+    <circle key="3" cx="16" cy="9" r="1.5" fill="currentColor" stroke="none" />,
+  ],
+  "Finance": [
+    <path key="1" d="M4 19h16" />,
+    <path key="2" d="M6 19V11m5 8V6m5 13v-9" />,
+    <circle key="3" cx="16" cy="10" r="1.5" fill="currentColor" stroke="none" />,
+  ],
+  "Retail": [
+    <path key="1" d="M5 8l1.5-4h11L19 8" />,
+    <path key="2" d="M4 8h16v11a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V8z" />,
+    <path key="3" d="M9 12a3 3 0 0 0 6 0" />,
+    <circle key="4" cx="18" cy="8" r="1.5" fill="currentColor" stroke="none" />,
+  ],
+  "Energy": [
+    <path key="1" d="M13 3L5 14h6l-1 7 8-11h-6l1-7z" />,
+    <circle key="2" cx="18" cy="12" r="1.5" fill="currentColor" stroke="none" />,
+  ],
+  "Akashic Deployment": [
+    <path key="1" d="M12 4v9" />,
+    <path key="2" d="M8 8l4-4 4 4" />,
+    <rect key="3" x="5" y="13" width="14" height="7" rx="2" />,
+    <circle key="4" cx="12" cy="16.5" r="1.5" fill="currentColor" stroke="none" />,
+  ],
+  "Product Engineering": [
+    <path key="1" d="M9 6 4 12l5 6" />,
+    <path key="2" d="M15 6l5 6-5 6" />,
+    <path key="3" d="M13 4 11 20" />,
+    <circle key="4" cx="12" cy="12" r="1.5" fill="currentColor" stroke="none" />,
+  ],
+  "Advisory & Co-Engineering": [
+    <circle key="1" cx="8" cy="8" r="3" />,
+    <circle key="2" cx="16" cy="16" r="3" />,
+    <path key="3" d="M10.2 10.2 13.8 13.8" />,
+    <path key="4" d="M16 5v5M13.5 7.5h5" />,
+    <circle key="5" cx="8" cy="8" r="1.2" fill="currentColor" stroke="none" />,
+  ],
   "AI Readiness Audit": [
     <path key="1" d="M9 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3" />,
     <path key="2" d="M16 3v6M13 6h6" />,

@@ -66,7 +66,7 @@ export default function DeliveryFit() {
             <ScrollReveal delay={100}>
               <div className="flex h-full flex-col lg:pr-16">
                 <div className="flex items-baseline justify-between gap-4 border-b-2 border-ink pb-4">
-                  <h3 className="text-[24px] font-semibold tracking-tight text-ink md:text-[26px]">
+                  <h3 className="text-[21px] font-semibold tracking-tight text-ink md:text-[23px]">
                     This is for you if
                   </h3>
                   <span className="inline-flex shrink-0 items-center gap-1.5 font-mono text-[10px] font-bold uppercase tracking-eyebrow text-blue">
@@ -82,14 +82,14 @@ export default function DeliveryFit() {
                       <span className="pt-[4px] font-mono text-[11px] font-semibold text-blue">
                         0{idx + 1}
                       </span>
-                      <span className="text-[17px] font-medium leading-relaxed text-ink md:text-[19px]">
+                      <span className="text-[16px] font-medium leading-relaxed text-ink md:text-[17px]">
                         {item}
                       </span>
                     </li>
                   ))}
                 </ul>
                 <div className="mt-7 flex flex-wrap items-baseline justify-between gap-3">
-                  <p className="text-[20px] font-semibold tracking-tight text-ink md:text-[22px]">
+                  <p className="text-[18px] font-semibold tracking-tight text-ink md:text-[20px]">
                     Then we should talk.
                   </p>
                   <Link
@@ -105,7 +105,7 @@ export default function DeliveryFit() {
             <ScrollReveal delay={180}>
               <div className="flex h-full flex-col lg:pl-16">
                 <div className="flex items-baseline justify-between gap-4 border-b-2 border-line pb-4">
-                  <h3 className="text-[24px] font-semibold tracking-tight text-overcast md:text-[26px]">
+                  <h3 className="text-[21px] font-semibold tracking-tight text-overcast md:text-[23px]">
                     It isn&rsquo;t if
                   </h3>
                   <span className="inline-flex shrink-0 items-center gap-1.5 font-mono text-[10px] font-bold uppercase tracking-eyebrow text-overcast">
@@ -121,13 +121,13 @@ export default function DeliveryFit() {
                       <span className="pt-[4px] font-mono text-[11px] text-overcast">
                         0{idx + 1}
                       </span>
-                      <span className="text-[17px] leading-relaxed text-inkSoft md:text-[19px]">
+                      <span className="text-[16px] leading-relaxed text-inkSoft md:text-[17px]">
                         {item}
                       </span>
                     </li>
                   ))}
                 </ul>
-                <p className="mt-7 text-[20px] font-semibold tracking-tight text-overcast md:text-[22px]">
+                <p className="mt-7 text-[18px] font-semibold tracking-tight text-overcast md:text-[20px]">
                   Then we&rsquo;re not your team.
                 </p>
               </div>

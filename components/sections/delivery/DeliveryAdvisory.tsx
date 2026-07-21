@@ -58,16 +58,16 @@ export default function DeliveryAdvisory() {
                 <p className="font-mono text-[10px] font-semibold uppercase tracking-eyebrow text-blue">
                   Engagement 01 &middot; Strategic Advisory
                 </p>
-                <h3 className="mt-3 text-[24px] font-semibold tracking-tight text-ink md:text-[26px]">
+                <h3 className="mt-3 text-[21px] font-semibold tracking-tight text-ink md:text-[23px]">
                   Diagnose before you build.
                 </h3>
                 <div className="mt-6 flex items-baseline gap-3">
-                  <span className="text-[42px] font-semibold leading-none tracking-tighter text-blue md:text-[48px]">
+                  <span className="text-[34px] font-semibold leading-none tracking-tighter text-blue md:text-[38px]">
                     2–4
                   </span>
                   <span className="text-[15px] font-medium text-inkSoft">weeks</span>
                 </div>
-                <p className="mt-6 max-w-[28em] text-[16px] leading-relaxed text-inkSoft">
+                <p className="mt-6 max-w-[28em] text-[15px] leading-relaxed text-inkSoft">
                   A focused engagement to audit your architecture and identify the
                   highest-leverage interventions.
                 </p>
@@ -85,7 +85,7 @@ export default function DeliveryAdvisory() {
                       <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.08em] text-blue">
                         {item.num}
                       </span>
-                      <span className="text-[17px] font-medium leading-snug tracking-tight text-ink md:text-[18px]">
+                      <span className="text-[16px] font-medium leading-snug tracking-tight text-ink md:text-[17px]">
                         {item.label}
                       </span>
                     </li>
@@ -101,16 +101,16 @@ export default function DeliveryAdvisory() {
                 <p className="font-mono text-[10px] font-semibold uppercase tracking-eyebrow text-blue">
                   Engagement 02 &middot; Co-Engineering Squad
                 </p>
-                <h3 className="mt-3 text-[24px] font-semibold tracking-tight text-ink md:text-[26px]">
+                <h3 className="mt-3 text-[21px] font-semibold tracking-tight text-ink md:text-[23px]">
                   Our squad, inside your sprints.
                 </h3>
                 <div className="mt-6 flex items-baseline gap-3">
-                  <span className="text-[42px] font-semibold leading-none tracking-tighter text-blue md:text-[48px]">
+                  <span className="text-[34px] font-semibold leading-none tracking-tighter text-blue md:text-[38px]">
                     1&#8202;+&#8202;4
                   </span>
                   <span className="text-[15px] font-medium text-inkSoft">architect-led squad</span>
                 </div>
-                <p className="mt-6 max-w-[28em] text-[16px] leading-relaxed text-inkSoft">
+                <p className="mt-6 max-w-[28em] text-[15px] leading-relaxed text-inkSoft">
                   Answerable for shipped code and outcomes, not logged hours. Our
                   talent, your stand-ups.
                 </p>
@@ -133,7 +133,7 @@ export default function DeliveryAdvisory() {
                         {member.count}
                       </span>
                       <span className="flex flex-wrap items-baseline gap-x-3 gap-y-0.5">
-                        <span className="text-[17px] font-medium leading-snug tracking-tight text-ink md:text-[18px]">
+                        <span className="text-[16px] font-medium leading-snug tracking-tight text-ink md:text-[17px]">
                           {member.role}
                         </span>
                         {member.lead && (

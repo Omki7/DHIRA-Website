@@ -210,7 +210,7 @@ function RolloutSequence() {
                       {phase.weeks}
                     </span>
                   </span>
-                  <h3 className="mt-2 text-[22px] font-semibold leading-snug tracking-tight text-ink md:text-[24px]">
+                  <h3 className="mt-2 text-[20px] font-semibold leading-snug tracking-tight text-ink md:text-[22px]">
                     {phase.title}
                   </h3>
                 </div>
@@ -220,7 +220,7 @@ function RolloutSequence() {
               </div>
 
               <div className="mt-3 grid gap-5 lg:grid-cols-[minmax(0,0.95fr)_minmax(260px,0.55fr)] lg:items-start">
-                <p className="max-w-[48em] text-[16px] leading-relaxed text-inkSoft">{phase.desc}</p>
+                <p className="max-w-[48em] text-[15px] leading-relaxed text-inkSoft">{phase.desc}</p>
                 <div className="flex flex-wrap items-center gap-2 lg:justify-end">
                   {phase.anchors?.map((anchor) => (
                     <span
@@ -262,10 +262,10 @@ function RolloutSequence() {
             <p className="font-mono text-[10px] font-semibold uppercase tracking-eyebrow text-blue">
               Targeted start path
             </p>
-            <h3 className="mt-3 text-[26px] font-semibold tracking-tight text-ink">
+            <h3 className="mt-3 text-[22px] font-semibold tracking-tight text-ink">
               Start with the module that hurts most.
             </h3>
-            <p className="mt-3 max-w-[48em] text-[16px] leading-relaxed text-inkSoft">
+            <p className="mt-3 max-w-[48em] text-[15px] leading-relaxed text-inkSoft">
               You don&rsquo;t have to adopt the full stack on day one. Start with
               Akashic Pipelines, Master Data, or Ask Akashic. Prove the value in
               four weeks, and snap the rest in later. The foundation never changes.
@@ -289,7 +289,7 @@ function RolloutSequence() {
               First module
             </p>
             <div className="mt-3">
-              <div className="text-[42px] font-semibold leading-none tracking-tighter text-ink">
+              <div className="text-[34px] font-semibold leading-none tracking-tighter text-ink md:text-[38px]">
                 4 weeks
               </div>
               <div className="mt-3 max-w-[14em] text-[13px] leading-snug text-inkSoft">
