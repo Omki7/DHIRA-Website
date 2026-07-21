@@ -8,6 +8,11 @@
  * approved culture copy verbatim — no invented perks; specifics stay
  * pointed at the intro call, on purpose (Rule 4 applied to ourselves).
  * The section sits on a soft blue band to break the page's white run.
+ *
+ * A Fresher / Experienced toggle (Jul 2026) swaps the whole question set:
+ * both audiences hang off the SAME six principles (W-01…W-06), only the
+ * questions they hold back — and the answers they need — differ. Fresher
+ * is the default view.
  */
 
 import Link from "next/link";
@@ -20,50 +25,108 @@ const CYCLE_MS = 7000;
 const TYPE_STEP = 2;
 const TYPE_TICK_MS = 16;
 
-const qa = [
-  {
-    num: "W-01",
-    principle: "You ship real things, early.",
-    question: "What will I actually be doing in my first month?",
-    answer:
-      "A small team has no bench of observers. Your work lands in production systems that a country depends on, within your first weeks.",
-  },
-  {
-    num: "W-02",
-    principle: "Outcomes over hours.",
-    question: "What are the working hours really like?",
-    answer:
-      "We measure by whether the answer is trusted, not by time logged. That is a written principle, and it applies inside the team too.",
-  },
-  {
-    num: "W-03",
-    principle: "An open stack that travels with you.",
-    question: "Will I grow here, or get locked into your stack?",
-    answer:
-      "We build on open technologies. The skills you sharpen here are inspectable, swappable, and yours to keep.",
-  },
-  {
-    num: "W-04",
-    principle: "Straight answers, both directions.",
-    question: "What is the feedback culture like?",
-    answer:
-      "Clear yes or no, with reasons: in hiring, in reviews, in daily work. We tell the truth. It is written down.",
-  },
-  {
-    num: "W-05",
-    principle: "Work where you work best.",
-    question: "Can I work from where I live?",
-    answer:
-      "New York, Hyderabad, Bangalore, and remote. The team already ships across three time zones.",
-  },
-  {
-    num: "W-06",
-    principle: "No throwaway projects, no throwaway teams.",
-    question: "Is this a place to build a long-term career?",
-    answer:
-      "We build systems meant to outlive budget cycles, and we staff them like it. Long-term is the whole point.",
-  },
+type Audience = "fresher" | "experienced";
+type QA = { num: string; principle: string; question: string; answer: string };
+
+const AUDIENCES: { id: Audience; label: string }[] = [
+  { id: "fresher", label: "Fresher" },
+  { id: "experienced", label: "Experienced" },
 ];
+
+/*
+ * Both sets hang off the SAME six principles (W-01…W-06). Only the question a
+ * candidate holds back — and the answer they need — changes with experience.
+ */
+const QA_SETS: Record<Audience, QA[]> = {
+  fresher: [
+    {
+      num: "W-01",
+      principle: "You ship real things, early.",
+      question: "What will I actually be doing in my first month?",
+      answer:
+        "A small team has no bench of observers. Your work lands in production systems that a country depends on, within your first weeks.",
+    },
+    {
+      num: "W-02",
+      principle: "Outcomes over hours.",
+      question: "What are the working hours really like?",
+      answer:
+        "We measure by whether the answer is trusted, not by time logged. That is a written principle, and it applies inside the team too.",
+    },
+    {
+      num: "W-03",
+      principle: "An open stack that travels with you.",
+      question: "Will I grow here, or get locked into your stack?",
+      answer:
+        "We build on open technologies. The skills you sharpen here are inspectable, swappable, and yours to keep.",
+    },
+    {
+      num: "W-04",
+      principle: "Straight answers, both directions.",
+      question: "What is the feedback culture like?",
+      answer:
+        "Clear yes or no, with reasons: in hiring, in reviews, in daily work. We tell the truth. It is written down.",
+    },
+    {
+      num: "W-05",
+      principle: "Work where you work best.",
+      question: "Can I work from where I live?",
+      answer:
+        "New York, Hyderabad, Bangalore, and remote. The team already ships across three time zones.",
+    },
+    {
+      num: "W-06",
+      principle: "No throwaway projects, no throwaway teams.",
+      question: "Is this a place to build a long-term career?",
+      answer:
+        "We build systems meant to outlive budget cycles, and we staff them like it. Long-term is the whole point.",
+    },
+  ],
+  experienced: [
+    {
+      num: "W-01",
+      principle: "You ship real things, early.",
+      question: "Will I own real scope, or inherit someone else's roadmap?",
+      answer:
+        "Senior hires take a system, not a ticket queue. You own an outcome a country depends on — and the decisions that shape it — from week one.",
+    },
+    {
+      num: "W-02",
+      principle: "Outcomes over hours.",
+      question: "Is there an on-call or crunch culture I should know about?",
+      answer:
+        "We measure by whether the answer is trusted, not by hours logged or heroics. It is a written principle, and it holds under deadline, not just on quiet weeks.",
+    },
+    {
+      num: "W-03",
+      principle: "An open stack that travels with you.",
+      question: "Will I be maintaining legacy, or building on modern tooling?",
+      answer:
+        "We build on open technologies your team already knows — inspectable and swappable. No black box to inherit, and nothing you sharpen here is locked to us.",
+    },
+    {
+      num: "W-04",
+      principle: "Straight answers, both directions.",
+      question: "How are technical decisions made — who has the final call?",
+      answer:
+        "Clear yes or no, with reasons: in architecture reviews as much as in hiring. Senior engineers own their calls; disagreement gets written down, not smoothed over.",
+    },
+    {
+      num: "W-05",
+      principle: "Work where you work best.",
+      question: "I lead across time zones — is distributed work real here?",
+      answer:
+        "New York, Hyderabad, Bangalore, and remote. The team already ships across three time zones. Distributed is how we work, not an exception we allow.",
+    },
+    {
+      num: "W-06",
+      principle: "No throwaway projects, no throwaway teams.",
+      question: "I've seen platforms rewritten every two years. Is this built to last?",
+      answer:
+        "We build systems meant to outlive budget cycles, and we staff them like it. If it cannot be maintained by someone who was not in the room, we did it wrong.",
+    },
+  ],
+};
 
 function CandidateAvatar() {
   return (
@@ -101,17 +164,19 @@ function GhostBubble({ className, flip }: { className: string; flip?: boolean })
 
 export default function CareersCulture() {
   const reduced = usePrefersReducedMotion();
+  const [audience, setAudience] = useState<Audience>("fresher");
   const [active, setActive] = useState(0);
   const [locked, setLocked] = useState(false);
   const [typed, setTyped] = useState(0);
 
+  const qa = QA_SETS[audience];
   const item = qa[active];
 
   useEffect(() => {
     if (locked || reduced) return;
     const id = setInterval(() => setActive((a) => (a + 1) % qa.length), CYCLE_MS);
     return () => clearInterval(id);
-  }, [locked, reduced]);
+  }, [locked, reduced, qa.length]);
 
   useEffect(() => {
     const full = qa[active].answer.length;
@@ -130,11 +195,19 @@ export default function CareersCulture() {
       });
     }, TYPE_TICK_MS);
     return () => clearInterval(id);
-  }, [active, reduced]);
+  }, [active, reduced, qa]);
 
   const pick = (idx: number) => {
     setLocked(true);
     setActive(idx);
+  };
+
+  // Switching audience resets to the first question and re-arms auto-cycle.
+  const switchAudience = (next: Audience) => {
+    if (next === audience) return;
+    setAudience(next);
+    setActive(0);
+    setLocked(false);
   };
   const doneTyping = typed >= item.answer.length;
 
@@ -173,7 +246,7 @@ export default function CareersCulture() {
 
           <ScrollReveal delay={120}>
             <div className="overflow-hidden rounded-frame border border-subtle-stroke bg-primary-bg shadow-frame">
-              <div className="flex items-center justify-between gap-3 border-b border-subtle-stroke bg-white px-5 py-3">
+              <div className="flex flex-col gap-3 border-b border-subtle-stroke bg-white px-5 py-4 sm:flex-row sm:items-center sm:justify-between">
                 <span className="flex items-center gap-2 font-mono text-[10px] font-semibold uppercase tracking-eyebrow text-ink">
                   <span className="relative flex h-2 w-2">
                     <span
@@ -184,9 +257,36 @@ export default function CareersCulture() {
                   </span>
                   Candid questions
                 </span>
-                <span className="hidden font-mono text-[10px] uppercase tracking-eyebrow text-overcast sm:inline">
-                  Team online · NY · HYD · BLR · Remote
-                </span>
+                <div className="flex items-center gap-2.5">
+                  <span className="font-mono text-[10px] font-semibold uppercase tracking-eyebrow text-overcast">
+                    Answering as
+                  </span>
+                  <div
+                    role="tablist"
+                    aria-label="Choose your experience level"
+                    className="flex items-center gap-1 rounded-full border border-subtle-stroke bg-primary-bg p-1"
+                  >
+                    {AUDIENCES.map((aud) => {
+                      const isOn = aud.id === audience;
+                      return (
+                        <button
+                          key={aud.id}
+                          type="button"
+                          role="tab"
+                          aria-selected={isOn}
+                          onClick={() => switchAudience(aud.id)}
+                          className={`rounded-full px-4 py-1.5 text-[12px] font-semibold leading-none tracking-tight transition-colors duration-250 ease-settle ${
+                            isOn
+                              ? "bg-blue text-white shadow-card"
+                              : "bg-transparent text-inkSoft hover:text-ink"
+                          }`}
+                        >
+                          {aud.label}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
               </div>
 
               <div className="grid grid-cols-1 lg:grid-cols-[248px_1fr]">
@@ -205,11 +305,8 @@ export default function CareersCulture() {
                             : "border-subtle-stroke bg-transparent text-inkSoft hover:bg-white/70 lg:hover:bg-white/60"
                         }`}
                       >
-                        <span className="hidden font-mono text-[9px] font-semibold uppercase tracking-[0.08em] text-blue lg:block">
-                          Q-{String(idx + 1).padStart(2, "0")}
-                        </span>
-                        <span className={`lg:mt-1 lg:block lg:leading-snug ${isActive ? "lg:text-ink" : ""}`}>
-                          <span className="lg:hidden">Q-{String(idx + 1).padStart(2, "0")}</span>
+                        <span className={`lg:block lg:leading-snug ${isActive ? "lg:text-ink" : ""}`}>
+                          <span className="lg:hidden">{idx + 1}</span>
                           <span className="hidden lg:inline">{entry.question}</span>
                         </span>
                         {isActive && !locked && !reduced && (
