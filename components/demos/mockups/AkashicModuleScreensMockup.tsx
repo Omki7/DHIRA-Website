@@ -17,6 +17,7 @@
 
 import { useState, useEffect } from "react";
 import AkashicHeroBIWireframe from "@/components/demos/mockups/AkashicHeroBIWireframe";
+import ScreenProgressRail from "@/components/ui/ScreenProgressRail";
 import {
   PIPELINES_SCREEN_HTML,
   MODELS_SCREEN_HTML,
@@ -800,7 +801,7 @@ export default function AkashicModuleScreensMockup() {
   };
 
   return (
-    <div style={{ padding: "6px 0 58px", fontFamily: "var(--font-sans)" }} className="relative z-10 mx-auto w-full max-w-[1152px]">
+    <div style={{ padding: "6px 0 12px", fontFamily: "var(--font-sans)" }} className="relative z-10 mx-auto w-full max-w-[1152px]">
       <div className="mx-auto mb-2 flex w-fit max-w-full items-center gap-5 overflow-x-auto px-4 lg:gap-8">
         {TABS.map((tab, id) => {
           const isActive = activeCard === id;
@@ -837,7 +838,10 @@ export default function AkashicModuleScreensMockup() {
       <p className="mx-auto mb-3 whitespace-nowrap px-4 text-center text-[12.5px] font-normal text-tertiary-text md:text-[13.5px]">
         Seven modules, one product, one governed foundation.
       </p>
-      <div style={{ position: "relative", height: "600px", width: "100%" }}>
+      {/* 690px, not 600px: `.hs-card` is 600px with `transform-origin: center
+          top` and the centre card is `scale(1.15)`, so the stack really stands
+          690px tall. Anything below a 600px box is painted over by the cards. */}
+      <div style={{ position: "relative", height: "690px", width: "100%" }}>
         {TABS.map((tab, i) => {
           const rp = (i - activeCard + N) % N;
           const pos = getPos(rp);
@@ -868,6 +872,14 @@ export default function AkashicModuleScreensMockup() {
           );
         })}
       </div>
+
+      <ScreenProgressRail
+        count={N}
+        active={activeCard}
+        durationMs={6000}
+        resetKey={resetTrigger}
+        className="mt-4"
+      />
     </div>
   );
 }

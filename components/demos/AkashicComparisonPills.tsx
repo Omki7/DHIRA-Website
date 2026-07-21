@@ -75,7 +75,7 @@ const CUSTOM_PILLS: CustomPill[] = [
 ];
 
 const CUSTOM_TONE: Record<CustomTone, string> = {
-  "gray-dark": "bg-[#E4E7EC] text-[#4A4D52] ring-1 ring-black/[0.04]",
+  "gray-dark": "bg-lineSoft text-[#4A4D52] ring-1 ring-black/[0.04]",
   "gray-mid": "bg-panel text-secondary-text ring-1 ring-card-line",
   "gray-light": "bg-white text-tertiary-text ring-1 ring-lineSoft",
 };

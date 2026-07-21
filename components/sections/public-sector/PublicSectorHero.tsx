@@ -28,7 +28,7 @@ function MissionsBoard() {
       <div className="divide-y divide-lineSoft">
         {missions.map((mission) => (
           <div key={mission.name} className="flex items-center gap-3 px-4 py-3">
-            <span className="h-[6px] w-[6px] shrink-0 rounded-full bg-[#30A46C] animate-[ps-pulse_2s_infinite]" aria-hidden />
+            <span className="h-[6px] w-[6px] shrink-0 rounded-full bg-positive animate-[ps-pulse_2s_infinite]" aria-hidden />
             <span className="min-w-0 flex-1 truncate text-[13px] font-semibold tracking-tight text-ink">
               {mission.name}
             </span>

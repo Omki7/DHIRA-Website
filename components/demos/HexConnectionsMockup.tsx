@@ -34,11 +34,11 @@ export default function HexConnectionsMockup() {
   const nodePositions = NODES.map((node, i) => ({
     ...node,
     x: spacing * (i + 1),
-    y: 80,
+    y: 36,
   }));
 
   const centerX = width / 2;
-  const bottomY = 250; // Where lines converge
+  const bottomY = 200; // Where lines converge
 
   // Helper to generate symmetric smooth curve path
   const generatePath = (startX: number, startY: number, endX: number, endY: number) => {
@@ -49,11 +49,11 @@ export default function HexConnectionsMockup() {
   return (
     <div 
       ref={containerRef} 
-      className="relative w-full max-w-[1440px] mx-auto h-[280px] overflow-hidden select-none mb-12"
-      style={{ fontFamily: "var(--font-mono)" }}
+      className="relative w-full max-w-[1440px] mx-auto h-[230px] overflow-hidden select-none mb-6"
+      style={{ fontFamily: "var(--font-sans)" }}
     >
       {/* Horizontal Axis Line */}
-      <div className="absolute top-[80px] left-0 right-0 h-px bg-gradient-to-r from-transparent via-default-stroke to-transparent opacity-60" />
+      <div className="absolute top-[36px] left-0 right-0 h-px bg-gradient-to-r from-transparent via-default-stroke to-transparent opacity-60" />
 
       {/* SVG Layer for Connections */}
       <svg className="absolute inset-0 w-full h-full pointer-events-none" style={{ overflow: "visible" }}>
@@ -68,7 +68,7 @@ export default function HexConnectionsMockup() {
             const targetX = centerX + offset;
             
             // Adjust start Y slightly so they fan out from the node
-            const startY = node.y + (isCenter ? 36 : 14);
+            const startY = node.y + (isCenter ? 30 : 14);
             const path = generatePath(node.x, startY, targetX, bottomY);
             
             // Generate some dots on the path for that specific Hex tech visual

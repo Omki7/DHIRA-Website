@@ -42,9 +42,9 @@ const phases = [
     weeks: "WK 2–6",
     bar: "02 · Platform build",
     nodeCls:
-      "bg-gradient-to-b from-[#4A6CE0] to-[#3E63DD] text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.25),0_2px_6px_-1px_rgba(62,99,221,0.4)]",
+      "bg-gradient-to-b from-[#4A6CE0] to-blue text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.25),0_2px_6px_-1px_rgba(62,99,221,0.4)]",
     tagCls:
-      "bg-gradient-to-b from-[#4A6CE0] to-[#3E63DD] text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.25),0_2px_6px_-1px_rgba(62,99,221,0.4)]",
+      "bg-gradient-to-b from-[#4A6CE0] to-blue text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.25),0_2px_6px_-1px_rgba(62,99,221,0.4)]",
     ruleCls: "bg-blue/60",
     title: "Platform build",
     desc: "Core deployment, legacy system bridging, and custom accelerators to get your organisation live without building from scratch.",
@@ -59,9 +59,9 @@ const phases = [
     weeks: "WK 6+",
     bar: "03 · Handover",
     nodeCls:
-      "bg-gradient-to-b from-[#2A2D2F] to-[#1A1C1D] text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.12)]",
+      "bg-gradient-to-b from-[#2A2D2F] to-ink text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.12)]",
     tagCls:
-      "bg-gradient-to-b from-[#2A2D2F] to-[#1A1C1D] text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.12)]",
+      "bg-gradient-to-b from-[#2A2D2F] to-ink text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.12)]",
     ruleCls: "bg-ink/50",
     live: true,
     title: "Operational handover",
@@ -115,12 +115,12 @@ function RolloutGantt() {
                 01 &middot; Audit
               </span>
             </div>
-            <div className="rollout-bar rollout-bar-build fl-sheen relative col-start-2 col-end-7 row-start-2 flex h-8 items-center overflow-hidden rounded-[7px] bg-gradient-to-b from-[#4A6CE0] to-[#3E63DD] px-2.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.25),0_2px_6px_-1px_rgba(62,99,221,0.4)]">
+            <div className="rollout-bar rollout-bar-build fl-sheen relative col-start-2 col-end-7 row-start-2 flex h-8 items-center overflow-hidden rounded-[7px] bg-gradient-to-b from-[#4A6CE0] to-blue px-2.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.25),0_2px_6px_-1px_rgba(62,99,221,0.4)]">
               <span className="truncate font-mono text-[9.5px] font-bold uppercase tracking-[0.06em] text-white">
                 02 &middot; Platform build
               </span>
             </div>
-            <div className="rollout-bar rollout-bar-handover col-start-6 col-end-8 row-start-3 flex h-8 items-center gap-1.5 rounded-[7px] bg-gradient-to-b from-[#2A2D2F] to-[#1A1C1D] px-2.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.12)]">
+            <div className="rollout-bar rollout-bar-handover col-start-6 col-end-8 row-start-3 flex h-8 items-center gap-1.5 rounded-[7px] bg-gradient-to-b from-[#2A2D2F] to-ink px-2.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.12)]">
               <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-blue-border animate-[ps-pulse_2s_infinite]" />
               <span className="truncate font-mono text-[9.5px] font-bold uppercase tracking-[0.06em] text-white">
                 03 &middot; Handover

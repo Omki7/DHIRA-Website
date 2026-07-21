@@ -67,7 +67,7 @@ export default function EisIntegration() {
                     key={c}
                     className="inline-flex items-center gap-1.5 rounded-full border border-subtle-stroke bg-white px-3 py-1.5 font-mono text-[10.5px] uppercase tracking-[0.06em] text-inkSoft shadow-card"
                   >
-                    <span className="h-[5px] w-[5px] rounded-full bg-[#30A46C]" aria-hidden />
+                    <span className="h-[5px] w-[5px] rounded-full bg-positive" aria-hidden />
                     {c}
                   </span>
                 ))}

@@ -108,7 +108,7 @@ export default function EisMoments() {
               <SourceFan />
               <div className="rounded-[12px] border border-subtle-stroke bg-white px-4 py-3 shadow-card">
                 <div className="flex items-center gap-2">
-                  <span className="h-1.5 w-1.5 rounded-full bg-[#30A46C] animate-[ps-pulse_2s_infinite]" />
+                  <span className="h-1.5 w-1.5 rounded-full bg-positive animate-[ps-pulse_2s_infinite]" />
                   <span className="text-[12px] font-semibold text-ink">One live board</span>
                 </div>
                 <div className="mt-1 max-w-[13em] text-[11px] text-inkSoft">

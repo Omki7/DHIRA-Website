@@ -19,34 +19,43 @@ const CAREERS_STORIES: Story[] = [
     id: "learning",
     platform: "National Learning Platform",
     authority: "Education · Country-scale deployment",
-    title: "One learning record across 36 states and 135 languages",
+    title: "Every state's learning data, read as one picture",
     description:
-      "The intelligence layer inside a national education platform. You'd turn transaction logs from every state into curriculum, retention, and resource signals programme owners act on — real ownership from your first weeks.",
+      "The intelligence layer inside a national education platform. You'd turn transaction logs from every state into the curriculum, retention, and resource signals programme owners read every week. Real ownership from your first weeks.",
     image: "/proof/learning.jpg",
     alt: "Students at their desks in a school classroom",
-    metrics: [{ value: "5.75B+", label: "Learning interactions connected" }],
+    metrics: [
+      { value: "5.75B+", label: "Learning interactions unified" },
+      { value: "187M+", label: "Enrolments resolved" },
+    ],
   },
   {
     id: "mobility",
     platform: "Overseas Employment Registry",
     authority: "Labour mobility · Country-scale deployment",
-    title: "Four million worker clearances, traceable end to end",
+    title: "Every clearance and recruiter in one auditable view",
     description:
-      "Visa clearances, immigration logs, and employer records unified into one auditable view. Correctness isn't optional here — the users are real people crossing borders for work.",
+      "Visa clearances, immigration logs, and employer records resolved into one governed view. Correctness isn't optional here: the records describe real people crossing borders for work.",
     image: "/proof/mobility.jpg",
-    alt: "Travellers crossing a sunlit airport departure hall",
-    metrics: [{ value: "4M+", label: "Worker clearances on record" }],
+    alt: "Travellers queuing with luggage at airport check-in counters",
+    metrics: [
+      { value: "4M+", label: "Worker clearances reconciled" },
+      { value: "282K+", label: "Employer profiles resolved" },
+    ],
   },
   {
     id: "immunisation",
     platform: "National Immunisation Registry",
     authority: "Public health · Country-scale deployment",
-    title: "Two billion vaccinations, recorded and reconciled",
+    title: "Every dose reconciled into one public figure",
     description:
-      "The intelligence layer behind a country's immunisation record. You'd reconcile doses, sessions, and coverage into figures health authorities defend in public — ship it wrong and it shows up in the news, not a bug tracker.",
+      "The intelligence layer behind a country's immunisation record. You'd reconcile doses, sessions, and coverage into figures health authorities defend in public. Ship it wrong and it shows up in the news, not a bug tracker.",
     image: "/proof/vaccination.jpg",
-    alt: "A health worker vaccinating an infant at an immunisation clinic",
-    metrics: [{ value: "2 Billion+", label: "Vaccinations recorded" }],
+    alt: "A mass vaccination hall with registration desks and rows of seating",
+    metrics: [
+      { value: "2 Billion+", label: "Dose records reconciled" },
+      { value: "26M+", label: "Vaccination sessions reconciled" },
+    ],
   },
 ];
 

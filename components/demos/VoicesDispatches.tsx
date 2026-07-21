@@ -141,10 +141,14 @@ export default function VoicesDispatches() {
               </blockquote>
 
               <div className="mt-8 md:mt-12 flex items-center gap-4">
-                <img 
-                  src={d.avatarPath} 
-                  alt={d.name} 
-                  className="h-12 w-12 sm:h-14 sm:w-14 shrink-0 rounded-full border border-subtle-stroke/50 shadow-sm transition-transform duration-500 hover:scale-105 object-cover" 
+                <img
+                  src={d.avatarPath}
+                  alt={d.name}
+                  width={56}
+                  height={56}
+                  loading="lazy"
+                  decoding="async"
+                  className="h-12 w-12 sm:h-14 sm:w-14 shrink-0 rounded-full border border-subtle-stroke/50 shadow-sm transition-transform duration-500 hover:scale-105 object-cover"
                 />
                 <div className="flex flex-col">
                   <span className="text-[15px] sm:text-[16px] font-semibold text-ink">

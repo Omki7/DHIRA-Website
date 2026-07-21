@@ -37,7 +37,7 @@ export default function SectorClose({ content }: { content: SectorContent }) {
                   </span>
                 ))}
                 <span className="flex items-center gap-1.5 text-white/80">
-                  <span className="h-[5px] w-[5px] rounded-full bg-[#30A46C] animate-[ps-pulse_2s_infinite]" aria-hidden />
+                  <span className="h-[5px] w-[5px] rounded-full bg-positive animate-[ps-pulse_2s_infinite]" aria-hidden />
                   {close.yourThing}
                 </span>
               </div>

@@ -24,7 +24,7 @@ const DEPLOYMENTS: Deployment[] = [
     system: "National Learning Intelligence Platform",
     figure: "5.75B+",
     unit: "learning interactions connected",
-    scope: "Akashic serves as the core intelligence layer inside India's national education portal. By unifying transaction logs across 135 languages and all 36 states and union territories, it provides federal and state ministries with real-time insight into curriculum efficacy, resource distribution, and learner retention.",
+    scope: "Akashic serves as the core intelligence layer inside a national education portal. By resolving transaction logs from every state into one governed model, it gives federal and state programme owners insight into curriculum efficacy, resource distribution, and learner retention.",
     year: "2026",
     quote: "Translating population-scale learning patterns into immediate regional policy.",
   },
@@ -34,24 +34,26 @@ const DEPLOYMENTS: Deployment[] = [
     system: "Global Labour Mobility Analytics",
     figure: "4M+",
     unit: "worker clearances on record",
-    scope: "Embedded within the national cross-border employment registry, Akashic unifies visa clearances, immigration logs, and overseas employer profiles. It provides the Ministry of External Affairs with a single, traceable dashboard to monitor labour corridors, audit recruitment compliance, and safeguard millions of Indian citizens working across 18 countries.",
+    scope: "Embedded within a national cross-border employment registry, Akashic resolves visa clearances, immigration logs, and overseas employer records into one governed view, so analysts can read how a labour corridor is moving and which recruiters are active in it.",
     year: "2024",
-    quote: "Securing the livelihoods of four million emigrant workers through unified, traceable data.",
+    quote: "Four million emigrant worker records, reconciled into one auditable view.",
   },
 ];
 
 type Metric = { figure: string; count: number; label: string; accent?: boolean };
 
 const METRICS: Record<string, Metric[]> = {
+  // "135 languages connected" and "18 destination corridors" were removed here
+  // too (22 Jul 2026): both describe the programme's scope, not anything Akashic
+  // computed, and this file is unrendered but still redeployable. See the METRIC
+  // TEST note in ProvenStories.tsx before adding a figure back.
   "Education Infrastructure": [
-    { figure: "187M+", count: 187, label: "Learner profiles", accent: true },
-    { figure: "135",  count: 135, label: "Languages connected" },
+    { figure: "187M+", count: 187, label: "Enrolments resolved", accent: true },
     { figure: "148M+", count: 148, label: "Courses completed" },
   ],
   "Workforce & Migration": [
-    { figure: "18",   count: 18,  label: "Destination corridors", accent: true },
-    { figure: "282K+",count: 0,   label: "Employer profiles" },
-    { figure: "400K+",count: 0,   label: "Workers served annually" },
+    { figure: "282K+",count: 0,   label: "Employer profiles resolved", accent: true },
+    { figure: "4M+",  count: 0,   label: "Worker clearances reconciled" },
   ],
 };
 

@@ -17,7 +17,7 @@ export default function AkashicShowcase() {
         <ScrollReveal delay={120}>
           <AkashicModuleScreensMockup />
         </ScrollReveal>
-        <div className="relative z-10 w-full mt-2">
+        <div className="relative z-10 w-full mt-0">
           <HexConnectionsMockup />
         </div>
       </div>

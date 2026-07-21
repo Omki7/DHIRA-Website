@@ -28,7 +28,7 @@ export default function Closure() {
 
         {/* Immersive typography-first card */}
         <ScrollReveal delay={120}>
-          <div className="group/card relative overflow-hidden rounded-[16px] border border-white/10 hover:border-white/20 bg-[#0A0A0C] hover:bg-[#0D0D10] px-6 py-24 md:py-32 lg:py-40 text-white shadow-2xl transition-all duration-500 ease-settle">
+          <div className="group/card relative overflow-hidden rounded-[16px] border border-white/10 hover:border-white/20 bg-vault hover:bg-[#0D0D10] px-6 py-24 md:py-32 lg:py-40 text-white shadow-2xl transition-all duration-500 ease-settle">
             {/* Custom dot-grid background */}
             <div className="dot-grid-dark absolute inset-0 opacity-40 pointer-events-none" />
 
@@ -75,7 +75,7 @@ export default function Closure() {
               <div className="mt-12 flex flex-col sm:flex-row items-center justify-center gap-4 w-full sm:w-auto">
                 <Link
                   href="#talk-to-our-team"
-                  className="inline-flex items-center justify-center gap-2 h-11 px-8 bg-white text-[#0A0A0C] font-semibold text-sm rounded-btn hover:bg-white/90 active:scale-[0.98] transition-all duration-250 ease-settle shadow-[0_1px_2px_rgba(255,255,255,0.05),0_12px_24px_-8px_rgba(255,255,255,0.2)]"
+                  className="inline-flex items-center justify-center gap-2 h-11 px-8 bg-white text-vault font-semibold text-sm rounded-btn hover:bg-white/90 active:scale-[0.98] transition-all duration-250 ease-settle shadow-[0_1px_2px_rgba(255,255,255,0.05),0_12px_24px_-8px_rgba(255,255,255,0.2)]"
                 >
                   Talk to our team
                 </Link>

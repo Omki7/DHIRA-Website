@@ -54,9 +54,9 @@ function ProvenancePopover() {
           <div className="flex items-center gap-3 px-3.5 py-2">
             <span className="w-[72px] shrink-0 font-mono text-[8.5px] font-bold uppercase tracking-[0.05em] text-overcast">Confidence</span>
             <span className="flex items-center gap-2">
-              <span className="font-bold text-[#1B7A47]">High &middot; 94%</span>
+              <span className="font-bold text-positive-text">High &middot; 94%</span>
               <span className="relative h-[5px] w-14 overflow-hidden rounded-full bg-tertiary-bg">
-                <span className="absolute inset-y-0 left-0 w-[94%] rounded-full bg-[#30A46C]" />
+                <span className="absolute inset-y-0 left-0 w-[94%] rounded-full bg-positive" />
               </span>
             </span>
           </div>

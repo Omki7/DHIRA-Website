@@ -79,7 +79,7 @@ export default function PublicSectorDeploy() {
             </div>
             <div className="flex flex-wrap items-center justify-between gap-2 border-t border-dashed border-lineSoft px-6 py-3.5 font-mono text-[9px] uppercase tracking-[0.08em]">
               <span className="flex items-center gap-1.5 text-inkSoft">
-                <span className="h-[5px] w-[5px] rounded-full bg-[#30A46C] animate-[ps-pulse_2s_infinite]" aria-hidden />
+                <span className="h-[5px] w-[5px] rounded-full bg-positive animate-[ps-pulse_2s_infinite]" aria-hidden />
                 Read-only connection &middot; no migration &middot; no downtime
               </span>
               <span className="text-overcast">Where your governance policy requires</span>

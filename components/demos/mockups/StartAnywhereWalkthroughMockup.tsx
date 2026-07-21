@@ -326,7 +326,7 @@ export default function StartAnywhereWalkthroughMockup({ stage, onNavigate }: Pr
             <div className="mt-1 font-mono text-[10px] text-[#6F7988]">customer 9042 · order 8814-2207</div>
           </div>
           <div className="relative mt-3 flex flex-col gap-2.5 pl-[15px]">
-            <span className="absolute bottom-2 left-[3px] top-2 w-0 border-l-2 border-dotted border-[#D3D8DF]" aria-hidden />
+            <span className="absolute bottom-2 left-[3px] top-2 w-0 border-l-2 border-dotted border-line" aria-hidden />
             <span
               aria-hidden
               style={{
@@ -511,7 +511,7 @@ export default function StartAnywhereWalkthroughMockup({ stage, onNavigate }: Pr
                   GOVERNANCE: ALWAYS ON — RBAC · LINEAGE · AUDIT
                 </span>
               </div>
-              <div className="mt-7 rounded-[6px] border-[1.6px] border-[#2F3132] bg-white px-5 pb-5 pt-4 sm:px-6">
+              <div className="mt-7 rounded-[6px] border-[1.6px] border-action-hover bg-white px-5 pb-5 pt-4 sm:px-6">
                 <div className="border-b border-lineSoft pb-3 font-mono text-[12px] font-semibold tracking-[0.1em] text-ink sm:text-[12.5px]">
                   AUDIT LOG — CUSTOMER 9042
                 </div>
@@ -613,7 +613,7 @@ export default function StartAnywhereWalkthroughMockup({ stage, onNavigate }: Pr
             aria-label="Previous stage"
             onClick={() => onNavigate(current - 1)}
             disabled={!started || stage === 0}
-            className="flex h-[34px] w-[34px] items-center justify-center rounded-[4px] border-[1.3px] border-[#2F3132] bg-white font-mono text-[14px] text-ink transition-opacity disabled:cursor-default disabled:opacity-30"
+            className="flex h-[34px] w-[34px] items-center justify-center rounded-[4px] border-[1.3px] border-action-hover bg-white font-mono text-[14px] text-ink transition-opacity disabled:cursor-default disabled:opacity-30"
           >
             ←
           </button>

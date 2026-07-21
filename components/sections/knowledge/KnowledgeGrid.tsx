@@ -17,7 +17,7 @@ function AccessVisual() {
           key={device}
           className="inline-flex items-center gap-1.5 rounded-full border border-subtle-stroke bg-white px-2.5 py-1 font-mono text-[9.5px] uppercase tracking-[0.05em] text-inkSoft shadow-card"
         >
-          <span className="h-[4px] w-[4px] rounded-full bg-[#30A46C]" aria-hidden />
+          <span className="h-[4px] w-[4px] rounded-full bg-positive" aria-hidden />
           {device}
         </span>
       ))}

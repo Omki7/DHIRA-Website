@@ -19,6 +19,25 @@
  * material was already in), not anything the platform computed. Volume figures
  * that describe what Akashic actually unified and reconciled stay. Before
  * adding a metric, ask: would we defend this in the room as our result?
+ *
+ * ANALYTICAL CLAIMS ONLY (user direction, 22 Jul 2026): on all three of these
+ * DHIRA built the intelligence layer, not the transaction system. So the copy
+ * may claim what was unified, resolved, reconciled, and read — never what was
+ * run, cleared, delivered, or enforced. Verbs like "recorded", "managed",
+ * "served", "traceable end to end" and "compliance stays verifiable" were cut
+ * for exactly this: they read as ownership of the operation, which is the one
+ * claim we could not defend in the room. Titles carry the claim and stay
+ * number-free; the two KPIs underneath carry the figures.
+ *
+ * SOURCES for the second KPI on each card (added 22 Jul 2026, Rule 4):
+ *   187M+ enrolments  — same figure DeliveryProven already carries.
+ *   282K+ employer profiles — same figure FieldLedger already carries.
+ *   26M+ vaccination sessions — public record. At the 200 crore dose milestone
+ *     (17 Jul 2022) the programme reported 2,00,00,15,631 doses administered
+ *     across 2,63,26,111 sessions, i.e. 2.63 crore. Deliberately the SAME
+ *     milestone the "2 Billion+" figure comes from, so the two numbers on the
+ *     card are consistent with each other. If the dose figure is ever revised
+ *     upward, revise the session figure from the same release or drop it.
  */
 
 import { useCallback, useEffect, useState } from "react";
@@ -45,38 +64,43 @@ const STORIES: Story[] = [
     id: "learning",
     platform: "National Learning Platform",
     authority: "Education · Country-scale deployment",
-    title: "One Learning Record Across 36 States and 135 Languages",
+    title: "Every State's Learning Data, Read as One Picture",
     description:
-      "Akashic is the intelligence layer inside a national education platform, turning transaction logs from every state into curriculum, retention, and resource insight that programme owners can act on.",
+      "Akashic is the intelligence layer inside a national education platform. Transaction logs from every state resolve into one governed model, so programme owners can read curriculum efficacy, learner retention, and where resources are going.",
     image: "/proof/learning.jpg",
     alt: "Students at their desks in a school classroom",
     metrics: [
-      { value: "5.75B+", label: "Learning interactions connected" },
+      { value: "5.75B+", label: "Learning interactions unified" },
+      { value: "187M+", label: "Enrolments resolved" },
     ],
   },
   {
     id: "mobility",
     platform: "Overseas Employment Registry",
     authority: "Labour mobility · Country-scale deployment",
-    title: "Four Million Worker Clearances, Traceable End to End",
+    title: "Every Clearance and Recruiter in One Auditable View",
     description:
-      "Visa clearances, immigration logs, and overseas employer records unified into a single auditable view, so labour corridors stay monitored and recruitment compliance stays verifiable.",
+      "Visa clearances, immigration logs, and overseas employer records resolve into one governed view. Analysts can see how a corridor is moving, which recruiters are active in it, and what the figures were on any given day.",
     image: "/proof/mobility.jpg",
-    alt: "Travellers crossing a sunlit airport departure hall",
+    alt: "Travellers queuing with luggage at airport check-in counters",
     metrics: [
-      { value: "4M+", label: "Worker clearances on record" },
+      { value: "4M+", label: "Worker clearances reconciled" },
+      { value: "282K+", label: "Employer profiles resolved" },
     ],
   },
   {
     id: "immunisation",
     platform: "National Immunisation Registry",
     authority: "Public health · Country-scale deployment",
-    title: "Two Billion Vaccinations, Recorded and Reconciled",
+    title: "Every Dose Reconciled Into One Public Figure",
     description:
-      "The intelligence layer behind a country's immunisation record, reconciling doses, sessions, and coverage into figures health authorities can stand behind.",
+      "The intelligence layer behind a country's immunisation record. Doses, sessions, and coverage reconcile into the figures health authorities publish, each one traceable back to the system it came from.",
     image: "/proof/vaccination.jpg",
-    alt: "A health worker vaccinating an infant at an immunisation clinic",
-    metrics: [{ value: "2 Billion+", label: "Vaccinations recorded" }],
+    alt: "A mass vaccination hall with registration desks and rows of seating",
+    metrics: [
+      { value: "2 Billion+", label: "Dose records reconciled" },
+      { value: "26M+", label: "Vaccination sessions reconciled" },
+    ],
   },
 ];
 
@@ -227,13 +251,16 @@ export default function ProvenStories({
         })}
       </div>
 
-      {/* Edge arrows are a desktop affordance only: on stacked mobile they
-          would sit on top of the story copy. Touch gets the padded dot rail. */}
+      {/* Arrows are a desktop affordance only: on stacked mobile they would sit
+          on top of the story copy. Touch gets the padded dot rail. Both flank
+          the photography half rather than the story half — at `left-5` the prev
+          arrow overlapped the paragraph's last line, since the text column's
+          `lg:p-14` inset is narrower than the arrow's own diameter. */}
       <button
         type="button"
         onClick={() => go(index - 1)}
         aria-label={`Previous ${itemNoun}`}
-        className="absolute left-5 top-1/2 z-20 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-lineSoft bg-white/95 text-ink shadow-[0_10px_30px_-10px_rgba(16,24,40,0.35)] backdrop-blur transition-colors duration-settle ease-settle hover:border-blue/50 hover:text-blue lg:flex"
+        className="absolute left-1/2 top-1/2 z-20 ml-5 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-lineSoft bg-white/95 text-ink shadow-[0_10px_30px_-10px_rgba(16,24,40,0.35)] backdrop-blur transition-colors duration-settle ease-settle hover:border-blue/50 hover:text-blue lg:flex"
       >
         <Chevron dir="left" />
       </button>

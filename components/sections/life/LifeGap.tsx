@@ -87,8 +87,8 @@ export default function LifeGap() {
                 <p className="font-mono text-[10px] font-semibold uppercase tracking-eyebrow text-blue">
                   Akashic Life
                 </p>
-                <span className="flex items-center gap-1.5 font-mono text-[9px] uppercase tracking-[0.08em] text-[#1B7A47]">
-                  <span className="h-[5px] w-[5px] rounded-full bg-[#30A46C] animate-[ps-pulse_2s_infinite]" aria-hidden />
+                <span className="flex items-center gap-1.5 font-mono text-[9px] uppercase tracking-[0.08em] text-positive-text">
+                  <span className="h-[5px] w-[5px] rounded-full bg-positive animate-[ps-pulse_2s_infinite]" aria-hidden />
                   Live at the edge
                 </span>
               </div>

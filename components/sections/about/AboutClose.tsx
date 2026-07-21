@@ -35,7 +35,7 @@ export default function AboutClose() {
                 <span>Bangalore</span>
                 <span className="h-[3px] w-[3px] rounded-full bg-white/30" aria-hidden />
                 <span className="flex items-center gap-1.5">
-                  <span className="h-[5px] w-[5px] rounded-full bg-[#30A46C] animate-[ps-pulse_2s_infinite]" aria-hidden />
+                  <span className="h-[5px] w-[5px] rounded-full bg-positive animate-[ps-pulse_2s_infinite]" aria-hidden />
                   Remote
                 </span>
               </div>

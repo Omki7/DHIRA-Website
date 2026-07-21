@@ -108,7 +108,7 @@ export default function PublicSectorProven() {
                   The national record &middot; systems in production
                 </span>
                 <span className="flex items-center gap-1.5 font-mono text-[9px] uppercase tracking-[0.08em] text-white/70">
-                  <span className="h-[5px] w-[5px] rounded-full bg-[#30A46C] animate-[ps-pulse_2s_infinite]" aria-hidden />
+                  <span className="h-[5px] w-[5px] rounded-full bg-positive animate-[ps-pulse_2s_infinite]" aria-hidden />
                   Live
                 </span>
               </div>
@@ -135,7 +135,7 @@ export default function PublicSectorProven() {
                     </div>
                     <div className="hidden items-center justify-end gap-3 md:flex">
                       <BoardSpark seed={idx + 2} />
-                      <span className="h-[6px] w-[6px] rounded-full bg-[#30A46C] animate-[ps-pulse_2s_infinite]" aria-hidden />
+                      <span className="h-[6px] w-[6px] rounded-full bg-positive animate-[ps-pulse_2s_infinite]" aria-hidden />
                     </div>
                   </div>
                 ))}

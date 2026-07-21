@@ -56,7 +56,7 @@ function SpineCap({ label, dark }: { label: string; dark?: boolean }) {
       }`}
     >
       <span
-        className={`h-[5px] w-[5px] rounded-full ${dark ? "bg-[#30A46C] animate-[ps-pulse_2s_infinite]" : "bg-blue"}`}
+        className={`h-[5px] w-[5px] rounded-full ${dark ? "bg-positive animate-[ps-pulse_2s_infinite]" : "bg-blue"}`}
         aria-hidden
       />
       {label}

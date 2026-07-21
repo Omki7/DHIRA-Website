@@ -78,7 +78,7 @@ export default function HowWeDeliver() {
 
         {/* ── Immersive Dark Container ── */}
         <ScrollReveal delay={100}>
-          <div className="group/container relative mt-12 lg:mt-16 overflow-hidden rounded-[20px] border border-white/10 bg-[#0A0A0C] px-6 py-12 md:p-12 lg:p-16 text-white shadow-2xl transition-all duration-500 ease-settle">
+          <div className="group/container relative mt-12 lg:mt-16 overflow-hidden rounded-[20px] border border-white/10 bg-vault px-6 py-12 md:p-12 lg:p-16 text-white shadow-2xl transition-all duration-500 ease-settle">
             {/* Custom dot-grid background */}
             <div className="dot-grid-dark absolute inset-0 opacity-20 pointer-events-none" />
 
@@ -112,10 +112,10 @@ export default function HowWeDeliver() {
                 <div className="mt-8">
                   <Link
                     href="/delivery"
-                    className="inline-flex items-center gap-2.5 px-6 h-11 bg-white text-[#0A0A0C] hover:bg-white/90 active:scale-[0.98] font-semibold text-sm rounded-full transition-all duration-200 shadow-[0_4px_12px_rgba(255,255,255,0.1)] group"
+                    className="inline-flex items-center gap-2.5 px-6 h-11 bg-white text-vault hover:bg-white/90 active:scale-[0.98] font-semibold text-sm rounded-full transition-all duration-200 shadow-[0_4px_12px_rgba(255,255,255,0.1)] group"
                   >
                     <span>Explore delivery</span>
-                    <span className="flex items-center justify-center w-5 h-5 rounded-full bg-[#0A0A0C] text-white text-[10px] transition-transform duration-200 group-hover:translate-x-0.5">
+                    <span className="flex items-center justify-center w-5 h-5 rounded-full bg-vault text-white text-[10px] transition-transform duration-200 group-hover:translate-x-0.5">
                       →
                     </span>
                   </Link>

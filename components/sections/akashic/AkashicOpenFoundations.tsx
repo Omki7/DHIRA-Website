@@ -87,10 +87,10 @@ export default function AkashicOpenFoundations() {
           </div>
         </ScrollReveal>
 
-        {/* Closing line — one line, standard Akashic mark + tagline (like [09]) */}
+        {/* Closing line — one line, standard Akashic mark + tagline (like [10]) */}
         <ScrollReveal delay={200}>
-          <div className="mt-16 flex flex-wrap items-center justify-center gap-x-2 gap-y-1 text-center">
-            <span className="inline-flex items-center font-semibold text-primary-text">
+          <div className="mt-12 flex flex-wrap items-center justify-center gap-x-2 gap-y-1 text-center lg:mt-16">
+            <span className="inline-flex items-center font-semibold text-ink">
               <AkashicLogo className="h-5 w-5" />
               <span className="-ml-1 text-[14px]">kashic</span>
             </span>

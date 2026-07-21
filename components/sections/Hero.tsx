@@ -1,12 +1,17 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import dynamic from "next/dynamic";
 import Link from "next/link";
 import AkashicLogo from "@/components/icons/AkashicLogo";
 import HeroProductsMockup from "@/components/demos/mockups/HeroProductsMockup";
-import HeroConnections from "@/components/demos/HeroConnections";
-
 import ScrollRevealRail from "@/components/ui/ScrollRevealRail";
+
+// Decorative background canvas: client-only + deferred so its animation JS is
+// off the initial critical path (it's absolutely positioned, so no layout shift).
+const HeroConnections = dynamic(() => import("@/components/demos/HeroConnections"), {
+  ssr: false,
+});
 
 /* Rotating phrase — same context, different emotional lever.
    "act on" is deliberately absent: the subhead owns it. */

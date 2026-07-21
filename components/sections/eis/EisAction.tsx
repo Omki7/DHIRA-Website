@@ -44,9 +44,9 @@ function ActionConsole() {
       <div className="flex items-center justify-between border-b border-subtle-stroke bg-gradient-to-b from-primary-bg to-transparent px-4 py-3">
         <span className="flex items-center gap-2">
           <span className="flex gap-1.5" aria-hidden>
-            <span className="h-[9px] w-[9px] rounded-full bg-[#E4E7EC]" />
-            <span className="h-[9px] w-[9px] rounded-full bg-[#E4E7EC]" />
-            <span className="h-[9px] w-[9px] rounded-full bg-[#E4E7EC]" />
+            <span className="h-[9px] w-[9px] rounded-full bg-lineSoft" />
+            <span className="h-[9px] w-[9px] rounded-full bg-lineSoft" />
+            <span className="h-[9px] w-[9px] rounded-full bg-lineSoft" />
           </span>
           <span className="text-[13px] font-bold tracking-tight text-ink">
             Akashic EIS &middot; Meridian Retail

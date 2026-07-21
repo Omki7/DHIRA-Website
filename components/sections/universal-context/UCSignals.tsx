@@ -1,10 +1,16 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import dynamic from "next/dynamic";
 import { motion } from "framer-motion";
-import GlyphMorphCanvas from "@/components/demos/GlyphMorphCanvas";
 import { usePrefersReducedMotion } from "@/hooks/useCountUp";
 import UCButton from "./UCButton";
+
+// Heavy rAF atom-field canvas (below the fold, absolutely positioned): client-only
+// + deferred to keep its animation JS off the initial bundle.
+const GlyphMorphCanvas = dynamic(() => import("@/components/demos/GlyphMorphCanvas"), {
+  ssr: false,
+});
 
 const ROTATE_MS = 7000;
 

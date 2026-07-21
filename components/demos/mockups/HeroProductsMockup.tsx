@@ -15,6 +15,7 @@
  */
 
 import { useState, useEffect } from "react";
+import ScreenProgressRail from "@/components/ui/ScreenProgressRail";
 import {
   PIPELINES_SCREEN_HTML,
   ASK_SCREEN_HTML,
@@ -92,7 +93,12 @@ export default function HeroProductsMockup() {
       {/* Simulated screens are pointer shortcuts only; the tabs above are the
           keyboard-accessible control for the same action, so the cards stay
           out of the accessibility tree. */}
-      <div style={{ position: "relative", height: "610px", width: "100%" }}>
+      {/* 690px = the tallest card's real extent: `.hs-card` is 600px with
+          `transform-origin: center top`, and the centre card is `scale(1.15)`.
+          At the old 610px the absolutely-positioned cards overflowed by 80px
+          and painted over anything below them — which is why the caption under
+          this stack was never actually visible on the page. */}
+      <div style={{ position: "relative", height: "690px", width: "100%" }}>
         <div
           className="hs-card"
           data-pos={pos0}
@@ -115,11 +121,24 @@ export default function HeroProductsMockup() {
           dangerouslySetInnerHTML={{ __html: MODELS_SCREEN_HTML }}
         />
       </div>
-      <div className="mt-[30px] text-center">
+      {/* The rail sits UNDER the caption, not between it and the cards:
+          `demos/HeroConnections` fans in and terminates on a node right below
+          the stack, and that caption is the node's label. A progress line
+          dropped between them cuts the one composition the Hero backdrop is
+          making. */}
+      <div className="mt-[70px] text-center">
         <span className="font-mono text-[11px] font-medium uppercase tracking-eyebrow text-tertiary-text">
           From every source · one trusted answer
         </span>
       </div>
+
+      <ScreenProgressRail
+        count={3}
+        active={activeCard}
+        durationMs={SCREEN_DURATIONS[activeCard]}
+        resetKey={resetTrigger}
+        className="mt-6"
+      />
     </div>
   );
 }

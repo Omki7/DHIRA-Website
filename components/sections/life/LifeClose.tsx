@@ -35,7 +35,7 @@ export default function LifeClose() {
                   <path d="M1 4h22M20 1.5L23.5 4 20 6.5" stroke="#C8D2F5" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
                 <span className="flex items-center gap-1.5 text-white/80">
-                  <span className="h-[5px] w-[5px] rounded-full bg-[#30A46C] animate-[ps-pulse_2s_infinite]" aria-hidden />
+                  <span className="h-[5px] w-[5px] rounded-full bg-positive animate-[ps-pulse_2s_infinite]" aria-hidden />
                   2 minutes
                 </span>
               </div>

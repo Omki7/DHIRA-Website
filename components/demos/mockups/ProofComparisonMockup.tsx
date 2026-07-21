@@ -340,7 +340,7 @@ export default function ProofComparisonMockup({ pos, width, glide = false, showH
         aria-valuemin={0}
         aria-valuemax={100}
         aria-valuenow={Math.round(pos)}
-        className={`absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-20 h-36 flex items-center justify-center z-30 cursor-ew-resize outline-none transition-[left] ${ease}`}
+        className={`absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-20 h-36 flex items-center justify-center z-30 cursor-ew-resize rounded-lg outline-none focus-visible:ring-2 focus-visible:ring-blue focus-visible:ring-offset-2 transition-[left] ${ease}`}
         style={{ left: `${pos}%` }}
       >
         <div className="relative flex flex-col items-center gap-[10px] pointer-events-none">
