@@ -564,7 +564,7 @@ export default function AkashicStack() {
       <div className="rail-container pt-12 pb-24 lg:pt-16 lg:pb-32">
         <ScrollReveal>
           <p className="font-mono text-[11px] uppercase tracking-eyebrow">
-            <span className="text-overcast">[08]</span>
+            <span className="text-overcast">[09]</span>
             <span className="text-inkSoft">&nbsp;&nbsp;Capabilities &amp; connectors</span>
           </p>
           <h2 className="mt-5 text-balance text-heading-sm font-semibold text-ink md:text-heading-md">

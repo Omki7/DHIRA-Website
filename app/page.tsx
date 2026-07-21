@@ -2,7 +2,7 @@ import Nav from "@/components/layout/Nav";
 import Footer from "@/components/layout/Footer";
 import Hero from "@/components/sections/Hero";
 import ProblemSection from "@/components/sections/ProblemSection";
-import PowerfulPlatform from "@/components/sections/PowerfulPlatform";
+import MeetAkashic from "@/components/sections/MeetAkashic";
 import ProvenAtScale from "@/components/sections/ProvenAtScale";
 import HowWeDeliver from "@/components/sections/HowWeDeliver";
 import EverySector from "@/components/sections/EverySector";
@@ -21,7 +21,7 @@ export default function Home() {
       <main className="bg-background">
         <Hero />
         <ProblemSection />
-        <PowerfulPlatform />
+        <MeetAkashic />
         <ProvenAtScale />
         <HowWeDeliver />
         <EverySector />

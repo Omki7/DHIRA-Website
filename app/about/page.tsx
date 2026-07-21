@@ -7,7 +7,7 @@ import AboutWho from "@/components/sections/about/AboutWho";
 import AboutBeliefs from "@/components/sections/about/AboutBeliefs";
 import AboutHow from "@/components/sections/about/AboutHow";
 import AboutCareers from "@/components/sections/about/AboutCareers";
-import AboutProof from "@/components/sections/about/AboutProof";
+import ProvenAtScale from "@/components/sections/ProvenAtScale";
 import AboutClose from "@/components/sections/about/AboutClose";
 import PageMinimap from "@/components/layout/PageMinimap";
 import { ABOUT_SECTIONS } from "@/lib/aboutSections";
@@ -29,7 +29,7 @@ export default function AboutPage() {
         <AboutBeliefs />
         <AboutHow />
         <AboutCareers />
-        <AboutProof />
+        <ProvenAtScale id="proof" sectionNumber="06" eyebrowText="Proof" />
         <AboutClose />
       </main>
       <Footer />

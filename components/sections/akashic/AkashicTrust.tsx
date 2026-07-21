@@ -1,156 +1,162 @@
-/*
- * [05] Enterprise Trust — one answer, four checks.
- * The payoff of [01]: the same South-region answer sits at the top as an
- * artifact, and four live product screens show it being verified. Each
- * check leads with a plain-language question anyone can follow; the screen
- * below it is a full app window (AkashicTrustScreensMockup, §8a) in the
- * same chrome and demo world as the hero screens, so the checks read as
- * the product, not as marketing boxes.
- */
+"use client";
 
-import Link from "next/link";
 import ScrollReveal from "@/components/ui/ScrollReveal";
-import { Capillary } from "@/components/sections/akashic/AkashicCardChrome";
-import {
-  ROLES_SCREEN_HTML,
-  LINEAGE_SCREEN_HTML,
-  AUDIT_SCREEN_HTML,
-  RESIDENCY_SCREEN_HTML,
-} from "@/components/demos/mockups/AkashicTrustScreensMockup";
+import ScrollRevealRail from "@/components/ui/ScrollRevealRail";
 
-const checks = [
+const CARDS = [
   {
-    term: "Access control",
-    question: "Who can see it?",
-    line: "Permissions follow the person at every layer, not just the login screen.",
-    html: ROLES_SCREEN_HTML,
+    title: "Zero AI Training",
+    text: "We never use your data or queries to train models. Your information stays strictly yours.",
+    visual: (
+      <div className="mt-8 flex flex-1 items-end justify-center pb-2">
+        <div className="flex h-14 w-14 items-center justify-center rounded-full border border-lineSoft bg-white shadow-sm">
+          <svg className="h-6 w-6 text-overcast" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" />
+          </svg>
+        </div>
+      </div>
+    ),
   },
   {
-    term: "Lineage",
-    question: "Where did each number come from?",
-    line: "Pull on any figure and the full trail comes with it, down to the document.",
-    html: LINEAGE_SCREEN_HTML,
+    title: "100% Data Security",
+    text: "Row and column-level permissions follow the person. If they can't see it in the database, they can't see it here.",
+    visual: (
+      <div className="mt-8 flex flex-1 items-end justify-center pb-2">
+        <div className="w-full max-w-[200px] overflow-hidden rounded-xl border border-lineSoft bg-white text-[9px] shadow-[0_2px_10px_rgb(0,0,0,0.02)]">
+          <div className="flex bg-primary-bg px-2.5 py-1.5 font-semibold text-inkSoft">
+            <div className="w-1/3">Name</div>
+            <div className="w-1/3">Revenue</div>
+            <div className="w-1/3">Salary</div>
+          </div>
+          <div className="flex border-t border-lineSoft px-2.5 py-1.5">
+            <div className="w-1/3 text-ink">Acme</div>
+            <div className="w-1/3 text-positive">$2.4M</div>
+            <div className="w-1/3 text-red-500/40 blur-[2px]">••••</div>
+          </div>
+          <div className="flex border-t border-lineSoft px-2.5 py-1.5">
+            <div className="w-1/3 text-ink">Beta</div>
+            <div className="w-1/3 text-positive">$1.8M</div>
+            <div className="w-1/3 text-red-500/40 blur-[2px]">••••</div>
+          </div>
+        </div>
+      </div>
+    ),
   },
   {
-    term: "Audit trail",
-    question: "Who has touched it?",
-    line: "A timestamped record of every view, change, and export. Always on.",
-    html: AUDIT_SCREEN_HTML,
+    title: "Semantic Governance",
+    text: "Centralized policy enforcement at the semantic layer ensures perfectly governed and consistent answers.",
+    visual: (
+      <div className="mt-8 flex flex-1 items-end justify-center gap-2 pb-2">
+        <div className="flex h-10 w-10 items-center justify-center rounded-full border border-lineSoft bg-white shadow-sm">
+          <svg className="h-4 w-4 text-inkSoft" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+        </div>
+        <svg className="h-5 w-5 text-line" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+        <div className="flex h-10 w-10 items-center justify-center rounded-full border border-lineSoft bg-blue text-white shadow-sm">
+          <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path d="M5 13l4 4L19 7" /></svg>
+        </div>
+      </div>
+    ),
   },
   {
-    term: "Data residency",
-    question: "Where did the data stay?",
-    line: "Stored, processed, and answered inside your boundary. Nothing crosses it.",
-    html: RESIDENCY_SCREEN_HTML,
-  },
+    title: "Strict Data Residency",
+    text: "Stored, processed, and answered inside your perimeter. Nothing crosses your VPC boundary.",
+    visual: (
+      <div className="mt-8 flex flex-1 items-end justify-center gap-3 pb-2">
+        <div className="flex h-12 w-12 items-center justify-center rounded-full border border-lineSoft bg-white shadow-sm">
+          <svg className="h-5 w-5 text-inkSoft" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z" /></svg>
+        </div>
+        <div className="flex gap-1.5 pb-5">
+          <span className="h-1.5 w-1.5 rounded-full bg-line" />
+          <span className="h-1.5 w-1.5 rounded-full bg-line" />
+          <span className="h-1.5 w-1.5 rounded-full bg-line" />
+        </div>
+        <div className="flex h-12 w-12 items-center justify-center rounded-full border border-blue-border bg-blue-subtle shadow-sm">
+          <svg className="h-5 w-5 text-blue" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>
+        </div>
+      </div>
+    ),
+  }
 ];
 
 export default function AkashicTrust() {
   return (
-    <section id="trust" className="ak-depth relative scroll-mt-24 overflow-hidden">
-      {/* The anchor is a precisely-cut dark slab, not a faded merge. Each
-          seam is crisp: a fine light-catch hairline where the two planes
-          meet, a blue horizon glow rising off it, and a machined texture on
-          the surface. The transition is carried by light, never gray fog. */}
-      <div className="dot-grid-dark pointer-events-none absolute inset-0 opacity-[0.14]" aria-hidden />
-      {/* top seam */}
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/25 to-transparent" aria-hidden />
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-[radial-gradient(70%_100%_at_50%_0%,rgba(62,99,221,0.22),transparent_72%)]" aria-hidden />
-      {/* bottom seam */}
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-white/18 to-transparent" aria-hidden />
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-[radial-gradient(70%_100%_at_50%_100%,rgba(62,99,221,0.16),transparent_72%)]" aria-hidden />
-      <div className="relative rail-container border-x-0 pt-20 pb-24 lg:pt-28 lg:pb-32">
-        <ScrollReveal>
-          <p className="font-mono text-[11px] uppercase tracking-eyebrow">
-            <span className="text-white/40">[05]</span>
-            <span className="text-white/70">&nbsp;&nbsp;Trust, built in</span>
-          </p>
-          <h2 className="mt-5 text-balance text-heading-sm font-semibold text-white md:text-heading-md">
-            An answer you can&rsquo;t trace is just an opinion.
-          </h2>
-          <p className="mt-5 max-w-[40em] text-lg leading-relaxed text-white/70">
-            Every answer proves itself &mdash; the same four ways, every time.
-          </p>
-        </ScrollReveal>
-
-        <div className="mt-12 lg:mt-14">
-          {/* The artifact under inspection */}
-          <ScrollReveal>
-            <div className="mx-auto max-w-[640px] overflow-hidden rounded-outer bg-white shadow-deep ring-1 ring-white/10">
-              <Capillary bright />
-              <div className="flex items-center gap-1.5 border-b border-card-divide bg-panel px-4 py-2">
-                <span className="h-1.5 w-1.5 rounded-full bg-positive" aria-hidden />
-                <span className="font-mono text-[9px] font-semibold uppercase tracking-[0.1em] text-secondary-text">
-                  The answer someone acts on
-                </span>
-                <span className="ml-auto font-mono text-[9px] text-secondary-text">09:41</span>
-              </div>
-              <p className="px-4 py-3.5 text-[14.5px] font-semibold leading-snug text-ink sm:text-[15px]">
-                South is 8% behind target because two distributor renewals stalled in July.
-              </p>
-            </div>
-            <span className="mx-auto block h-4 w-px bg-white/25" aria-hidden />
-            <p className="text-center font-mono text-[10px] uppercase tracking-eyebrow text-white/50">
-              Four checks, built in
-            </p>
-            <span className="mx-auto block h-4 w-px bg-white/25" aria-hidden />
-          </ScrollReveal>
-
-          {/* The four checks, each a numbered strip: text left, live screen right.
-              A vertical spine runs down the number column (desktop) so the four
-              read as one sequence and the left text has something to sit against. */}
-          <div className="relative mt-12 lg:mt-14">
-            <div
-              className="pointer-events-none absolute left-4 top-0 bottom-0 hidden w-px bg-gradient-to-b from-transparent via-white/15 to-transparent lg:block"
-              aria-hidden
-            />
-            <div className="flex flex-col gap-10 lg:gap-14">
-            {checks.map((check, i) => (
-              <ScrollReveal key={check.term} delay={60 + i * 60}>
-                <div className="grid grid-cols-1 items-center gap-6 lg:grid-cols-[minmax(0,0.82fr)_minmax(0,1.4fr)] lg:gap-12">
-                  {/* left: number node + text */}
-                  <div className="flex gap-4 lg:gap-5">
-                    <span className="relative z-10 flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-white/15 bg-[#0A0E24] font-mono text-[12px] font-semibold tabular-nums text-white/55">
-                      {String(i + 1).padStart(2, "0")}
-                    </span>
-                    <div className="min-w-0">
-                      <p className="font-mono text-[9.5px] font-semibold uppercase tracking-[0.1em] text-blue-border/80">
-                        {check.term}
-                      </p>
-                      <h3 className="mt-2 text-balance text-[22px] font-semibold leading-[1.15] tracking-tight text-white md:text-[26px]">
-                        {check.question}
-                      </h3>
-                      <p className="mt-2.5 max-w-[26em] text-[14px] leading-relaxed text-white/60">{check.line}</p>
-                    </div>
-                  </div>
-                  {/* right: the live screen */}
-                  <div className="overflow-hidden rounded-outer bg-white shadow-deep ring-1 ring-white/10">
-                    <Capillary bright />
-                    <div className="overflow-x-auto">
-                      <div
-                        className="h-[340px] min-w-[460px]"
-                        dangerouslySetInnerHTML={{ __html: check.html }}
-                      />
-                    </div>
-                  </div>
-                </div>
-              </ScrollReveal>
-            ))}
-            </div>
-          </div>
-        </div>
-
-        <ScrollReveal>
-          <div className="mt-16 flex flex-col items-center text-center lg:mt-20">
-            <p className="max-w-[22em] text-2xl font-semibold leading-snug tracking-tight text-white md:text-[28px]">
-              This is what makes an answer defensible, not just delivered.
-            </p>
-            <Link href="#open" className="btn-secondary mt-8">
-              See what you&rsquo;d take with you
-            </Link>
-          </div>
-        </ScrollReveal>
+    <section id="trust" className="relative overflow-hidden bg-white py-24 lg:py-32">
+      {/* Subtle Background Grid */}
+      <div className="pointer-events-none absolute inset-0 z-0 opacity-[0.15]">
+        <svg className="h-full w-full" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <pattern id="privacy-grid-white" width="60" height="60" patternUnits="userSpaceOnUse">
+              <path d="M 60 0 L 0 0 0 60" fill="none" stroke="#1A1C1D" strokeWidth="0.5" />
+            </pattern>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#privacy-grid-white)" />
+        </svg>
       </div>
+
+      <ScrollRevealRail dark={false}>
+        {/* Eyebrow */}
+        <ScrollReveal>
+          <div className="mb-14 flex items-center justify-between border-b border-t border-dashed border-lineSoft py-[17px] px-[2px] font-mono text-[11px] uppercase tracking-eyebrow text-inkSoft">
+            <span>
+              <span className="text-overcast">[05]</span>
+              &nbsp;&nbsp;DATA PRIVACY & SECURITY
+            </span>
+            <span className="text-overcast">/ SECURITY BY DESIGN</span>
+          </div>
+        </ScrollReveal>
+
+        {/* Header Block */}
+        <ScrollReveal delay={60}>
+          <div className="mb-16">
+            <h2 className="text-balance text-[40px] font-semibold leading-[1.1] tracking-tighter text-ink md:text-[48px] lg:text-[56px]">
+              Security & Privacy by Design.
+            </h2>
+            <p className="mt-5 max-w-[36em] text-[18px] leading-relaxed text-inkSoft">
+              Akashic operates directly on your existing data infrastructure. We provide full warehousing 
+              and ingestion without compromising privacy, and we never use your data for AI training.
+            </p>
+            
+            {/* Badges */}
+            <div className="mt-8 flex flex-wrap items-center gap-3">
+              <div className="flex items-center gap-2.5 rounded-full border border-lineSoft bg-primary-bg py-1.5 pl-1.5 pr-4 shadow-sm">
+                <span className="flex h-7 w-7 items-center justify-center rounded-full bg-ink font-mono text-[8px] font-bold text-white">SOC2</span>
+                <span className="text-[13px] font-medium text-ink">Type II Certified</span>
+              </div>
+              <div className="flex items-center gap-2.5 rounded-full border border-lineSoft bg-primary-bg py-1.5 pl-1.5 pr-4 shadow-sm">
+                <span className="flex h-7 w-7 items-center justify-center rounded-full bg-blue font-mono text-[8px] font-bold text-white">GDPR</span>
+                <span className="text-[13px] font-medium text-ink">Compliant</span>
+              </div>
+              <div className="flex items-center gap-2.5 rounded-full border border-lineSoft bg-primary-bg py-1.5 pl-1.5 pr-4 shadow-sm">
+                <span className="flex h-7 w-7 items-center justify-center rounded-full bg-blue text-white">
+                  <svg viewBox="0 0 24 24" className="h-3.5 w-3.5" fill="currentColor"><path d="M12 2l3 6.5L22 9l-5 5 1.5 7L12 17.5 5.5 21 7 14 2 9l7-1.5L12 2z"/></svg>
+                </span>
+                <span className="text-[13px] font-medium text-ink">Enterprise Hosted</span>
+              </div>
+            </div>
+          </div>
+        </ScrollReveal>
+
+        {/* 4-Column Row */}
+        <ScrollReveal delay={120}>
+          <div className="mt-4 grid w-full grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
+            {CARDS.map((card, i) => (
+              <div 
+                key={i}
+                className="group flex min-h-[240px] flex-col overflow-hidden rounded-[16px] bg-primary-bg p-6 ring-1 ring-ink/[0.04] transition-all duration-300 hover:-translate-y-1 hover:bg-white hover:shadow-card hover:ring-ink/[0.08]"
+              >
+                <h3 className="text-base font-semibold text-ink">{card.title}</h3>
+                <p className="mt-2 text-[13.5px] leading-relaxed text-inkSoft max-w-[96%]">
+                  {card.text}
+                </p>
+                {/* Visual wrapper scales down slightly to fit narrower columns */}
+                <div className="mt-8 transform transition-transform duration-500 group-hover:scale-105 origin-bottom">
+                  {card.visual}
+                </div>
+              </div>
+            ))}
+          </div>
+        </ScrollReveal>
+      </ScrollRevealRail>
     </section>
   );
 }

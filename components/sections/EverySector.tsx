@@ -5,42 +5,68 @@ import Link from "next/link";
 import Image from "next/image";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import ScrollRevealRail from "@/components/ui/ScrollRevealRail";
+import { usePrefersReducedMotion } from "@/hooks/useCountUp";
 
 // ease-smooth from AGENTS.md
 const EASE = "cubic-bezier(0.4, 0, 0.2, 1)";
 
 const SECTORS = [
-  { id: "smart-cities", index: "01", name: "Smart Cities", shortName: "Cities",
-    image: "/sectors/smart-cities-real.png",
-    description: "Transform urban operations with unified data. From transit to emergency response, one operating picture across the entire city." },
+  { id: "manufacturing", index: "01", name: "Manufacturing", shortName: "Manufacturing",
+    image: "/sectors/manufacturing-pexels.png",
+    alt: "A worker operating a textile production line on a factory floor",
+    description: "Connect shop-floor signals with supply chain and quality data. Catch defects before they ship, and hold every line to the same numbers." },
   { id: "healthcare", index: "02", name: "Healthcare", shortName: "Health",
     image: "/sectors/healthcare-real.png",
+    alt: "Monitoring equipment and screens in a hospital treatment room",
     description: "Move from fragmented legacy systems to a unified patient truth. Better care, delivered faster and with less overhead." },
   { id: "finance", index: "03", name: "Finance", shortName: "Finance",
     image: "/sectors/finance-real.png",
+    alt: "A stack of coins resting on a spread of banknotes",
     description: "Real-time pattern recognition across every transaction. Catch risk before it materialises and maintain audit-ready compliance by design." },
-  { id: "retail", index: "04", name: "Retail & Manufacturing", shortName: "Retail",
+  { id: "retail", index: "04", name: "Retail", shortName: "Retail",
     image: "/sectors/retail-real.png",
-    description: "Forecast demand with greater certainty. Connect supply chain and shop-floor signals in real time, catching quality issues before they reach the customer." },
+    alt: "Aisles of fresh produce in a supermarket, seen from above",
+    description: "Forecast demand with greater certainty. Connect inventory, pricing, and store signals in real time, so every location works from one picture." },
   { id: "education", index: "05", name: "Education", shortName: "Education",
     image: "/sectors/education-real.png",
+    alt: "Rows of bookshelves receding down a library aisle",
     description: "Connect the entire student journey from enrolment to placement. Spot at-risk learners and measure what actually works." },
   { id: "energy", index: "06", name: "Energy", shortName: "Energy",
     image: "/sectors/energy-real.png",
+    alt: "A wind turbine silhouetted against cloud at sunset",
     description: "Predict grid failures and optimise distribution on live signals. Build a smarter, more resilient infrastructure." },
 ];
+
+/* Matches [03]'s carousel cadence. Pauses on hover/focus so a reader who has
+   stopped on a sector keeps it, and rests entirely under reduced motion. */
+const CYCLE_MS = 6000;
 
 export default function EverySector() {
   const [activeId, setActiveId] = useState(SECTORS[0].id);
   const [hoveredId, setHoveredId] = useState<string | null>(null);
+  const [paused, setPaused] = useState(false);
+  const reduced = usePrefersReducedMotion();
+
+  // Auto-advance. `hoveredId` counts as paused: while a pointer is over the
+  // strip the reader is driving, and the panel is already previewing them.
+  useEffect(() => {
+    if (reduced || paused || hoveredId) return;
+    const timer = setTimeout(() => {
+      setActiveId((current) => {
+        const i = SECTORS.findIndex((s) => s.id === current);
+        return SECTORS[(i + 1) % SECTORS.length].id;
+      });
+    }, CYCLE_MS);
+    return () => clearTimeout(timer);
+  }, [activeId, hoveredId, paused, reduced]);
 
   useEffect(() => {
     const handleHashChange = () => {
       const hash = window.location.hash;
       if (!hash) return;
       
-      if (hash === "#public-sector" || hash === "#smart-cities") {
-        setActiveId("smart-cities");
+      if (hash === "#manufacturing") {
+        setActiveId("manufacturing");
       } else if (hash === "#healthcare") {
         setActiveId("healthcare");
       } else if (hash === "#education") {
@@ -59,23 +85,29 @@ export default function EverySector() {
   const displaySector = SECTORS.find(s => s.id === displayId)!;
 
   return (
-    <section id="sectors" className="overflow-hidden bg-white pt-12 pb-24 lg:pt-16 lg:pb-32">
+    <section
+      id="sectors"
+      className="overflow-hidden bg-white pt-12 pb-24 lg:pt-16 lg:pb-32"
+      onFocusCapture={() => setPaused(true)}
+      onBlurCapture={() => setPaused(false)}
+    >
       <ScrollRevealRail>
 
         <ScrollReveal>
-          <div className="mb-10 flex items-center justify-between border-t border-b border-dashed border-lineSoft py-[17px] px-[2px] font-mono text-[11px] uppercase tracking-eyebrow text-inkSoft">
+          <div className="mb-10 flex items-center border-t border-b border-dashed border-lineSoft py-[17px] px-[2px] font-mono text-[11px] uppercase tracking-eyebrow text-inkSoft">
             <span>
               <span className="text-overcast">[05]</span>
               &nbsp;&nbsp;EVERY SECTOR
             </span>
-            <span className="text-overcast">/ SIX SECTORS</span>
           </div>
         </ScrollReveal>
 
         <ScrollReveal delay={80}>
-          <h2 className="max-w-[14em] text-[48px] font-semibold leading-[1.1] tracking-tighter text-ink md:text-[56px] lg:text-[64px] mb-12">
-            <span className="text-ink">A foundation for</span>
-            <br />
+          {/* One line from sm up: no max-width and no <br>, with sizes tuned so
+              the sentence never needs to wrap. Mobile is allowed to wrap rather
+              than shrink the heading to an unreadable size. */}
+          <h2 className="mb-12 text-[40px] font-semibold leading-[1.1] tracking-tighter text-ink sm:text-[48px] lg:text-[56px]">
+            <span className="text-ink">A foundation for </span>
             <span className="text-overcast">every field.</span>
           </h2>
         </ScrollReveal>
@@ -88,7 +120,7 @@ export default function EverySector() {
               return (
                 <div
                   key={sector.id}
-                  id={sector.id === "smart-cities" ? "public-sector" : sector.id === "finance" ? "enterprise" : sector.id}
+                  id={sector.id === "finance" ? "enterprise" : sector.id}
                   onClick={() => setActiveId(sector.id)}
                   className="relative overflow-hidden border-b border-lineSoft bg-white"
                   style={{
@@ -110,7 +142,7 @@ export default function EverySector() {
                     }}
                   >
                     <div className="relative h-[200px] w-full overflow-hidden">
-                      <Image src={sector.image} alt={sector.name} fill sizes="100vw" className="object-cover" />
+                      <Image src={sector.image} alt={sector.alt} fill sizes="100vw" className="object-cover" />
                     </div>
                     <div className="flex flex-1 flex-col justify-center px-6 py-5 bg-white">
                       <p className="mb-4 text-sm leading-relaxed text-inkSoft">{sector.description}</p>
@@ -143,7 +175,7 @@ export default function EverySector() {
               return (
                 <div
                   key={sector.id}
-                  id={`${sector.id === "smart-cities" ? "public-sector" : sector.id === "finance" ? "enterprise" : sector.id}-desktop`}
+                  id={`${sector.id === "finance" ? "enterprise" : sector.id}-desktop`}
                   onClick={() => setActiveId(sector.id)}
                   onMouseEnter={() => setHoveredId(sector.id)}
                   className={`relative overflow-hidden${idx < SECTORS.length - 1 ? " border-r border-white/10" : ""}`}
@@ -156,7 +188,7 @@ export default function EverySector() {
                 >
                   <Image
                     src={sector.image}
-                    alt={sector.name}
+                    alt={sector.alt}
                     fill
                     sizes="(max-width: 1440px) 800px, 900px"
                     style={{

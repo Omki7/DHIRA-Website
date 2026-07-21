@@ -47,12 +47,34 @@ const config: Config = {
         "panel": "#F7F8FB",
         "depth": "#0A0E24",
         "depth-raised": "#141A38",
+        /* Universal Context section (Attio replica, user direction 18 Jul) —
+           the section's own dark palette, scoped by the `uc-` prefix so it
+           never leaks into the brand's light surfaces.
+           Re-tinted 21 Jul (user direction): the ramp was neutral gray
+           (#101010 → #505967), the one dark region on the site that wasn't in
+           the brand's indigo family — every other dark ground (`depth`
+           #0A0E24, ProvenAtScale #02183E, the shadow ladder's rgba(11,20,64))
+           is blue-black, so near-black read as borrowed, not ours. The surface
+           steps now sit on the `depth` family. Hue moved, LUMINANCE did not —
+           #101010 and #0A0E24 have the same relative luminance (0.0052), so
+           every text contrast ratio in the section is unchanged. */
+        "uc-bg": "#0A0E24",
+        "uc-surface": "#141A38",
+        "uc-stroke": "#1E2547",
+        "uc-line": "#2A3157",
+        "uc-vertex": "#545E82",
+        "uc-dim": "#6f7988",
+        "uc-mute": "#8f99a8",
+        "uc-text": "#fafafb",
+        "uc-pill": "#1B2550",
+        "uc-pilltext": "#c8dcff",
       },
       fontFamily: {
         sans: ["'Google Sans Text'", "system-ui", "-apple-system", "BlinkMacSystemFont", "sans-serif"],
         heading: ["'Google Sans'", "system-ui", "-apple-system", "BlinkMacSystemFont", "sans-serif"],
         mono: ["'Google Sans Mono'", "SF Mono", "Fira Code", "JetBrains Mono", "monospace"],
         display: ["Newsreader", "Georgia", "serif"],
+        inter: ["Inter", "system-ui", "-apple-system", "BlinkMacSystemFont", "sans-serif"],
       },
       fontSize: {
         "heading-sm": ["35px", { lineHeight: "1.1", letterSpacing: "-0.035em" }],
@@ -101,6 +123,11 @@ const config: Config = {
         "card": "0 1px 2px rgba(11,20,64,0.04), 0 4px 12px -2px rgba(11,20,64,0.06)",
         "frame": "0 4px 10px rgba(11,20,64,0.05), 0 18px 40px -8px rgba(11,20,64,0.14)",
         "deep": "0 2px 6px rgba(11,20,64,0.12), 0 28px 56px -22px rgba(11,20,64,0.55)",
+        /* For white cards on the dark ak-depth slab ([05], [09]): the navy
+           `deep` shadow is the same hue as the #0A0E24 ground and vanishes
+           into it, so cards read as glued-on. This uses true black (darker
+           than the slab) so the lift is actually visible. */
+        "float-dark": "0 2px 8px rgba(0,0,0,0.30), 0 30px 60px -20px rgba(0,0,0,0.72)",
       },
       transitionTimingFunction: {
         "smooth": "cubic-bezier(0.4,0,0.2,1)",

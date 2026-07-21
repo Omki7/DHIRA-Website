@@ -3,7 +3,7 @@ import type { PageSection } from "./pageSection";
 export const HOME_SECTIONS: PageSection[] = [
   { id: "hero", label: "Introduction" },
   { id: "problem", label: "The problem" },
-  { id: "platform", label: "The platform" },
+  { id: "platform", label: "Meet Akashic" },
   { id: "scale", label: "Proven at scale" },
   { id: "delivery", label: "How we deliver" },
   { id: "sectors", label: "Every sector" },

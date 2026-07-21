@@ -29,7 +29,7 @@ function govTopBar(section: string, page: string, right = "") {
     <span style="font-size:11px;color:#C4C5C9">/</span><span style="font-size:11px;color:#1A1C1D;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${page}</span>
     <div style="flex:1"></div>
     ${right}
-    <div style="width:25px;height:25px;border-radius:50%;background:linear-gradient(135deg,#3E63DD,#6E56CF);display:flex;align-items:center;justify-content:center;flex-shrink:0"><span style="font-size:10px;color:#fff;font-weight:600">PM</span></div>
+    <div style="width:25px;height:25px;border-radius:50%;background:linear-gradient(135deg,#3E63DD,#6E56CF);display:flex;align-items:center;justify-content:center;flex-shrink:0"><span style="font-size:10px;color:#fff;font-weight:600">AR</span></div>
   </div>`;
 }
 

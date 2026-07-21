@@ -1,9 +1,9 @@
 "use client";
 
 /*
- * [01] Akashic in action — the product page's first fold, on blue (#3E63DD),
- * a deliberate echo of the home page's "Meet Akashic" moment (AGENTS.md Rule 5
- * exception). Split stage: narrative + world toggle left, a live ask
+ * [01] Akashic in action — the product page's first fold, on the blue-tint
+ * band (#F1F5FE) shared with the careers/company pages. Split stage: narrative
+ * + world toggle left, a live ask
  * simulation right. The question types itself FIRST; the four moves stay
  * hidden until it finishes (their space is reserved so the fold never jumps),
  * then cascade in one by one, and the answer card pops in as a two-panel
@@ -523,12 +523,12 @@ export default function AkashicFourMoves() {
     };
   }, [started, active, reduced]);
 
-  const solidShadow = "shadow-deep";
-  const ctaClasses = `inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/10 px-4 py-2 text-sm font-medium text-white backdrop-blur-sm transition-colors duration-250 ease-settle hover:bg-white/15`;
+  const solidShadow = "shadow-frame";
+  const ctaClasses = `inline-flex items-center gap-2 rounded-full border border-blue-border bg-white px-4 py-2 text-sm font-medium text-blue shadow-card transition-colors duration-250 ease-settle hover:border-blue hover:bg-blue-subtle`;
   const ctaReveal = revealed ? "opacity-100 translate-y-0" : "pointer-events-none opacity-0 translate-y-2";
 
   return (
-    <section id="akashic-in-action" className="relative scroll-mt-24 bg-blue" ref={sectionRef}>
+    <section id="akashic-in-action" className="relative scroll-mt-24 bg-[#F1F5FE]" ref={sectionRef}>
       <div className="rail-container flex flex-col justify-center border-x-0 py-16 lg:min-h-screen lg:py-10">
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:items-center lg:gap-14">
 
@@ -537,14 +537,14 @@ export default function AkashicFourMoves() {
             <ScrollReveal>
               <div className="text-center lg:text-left">
                 <p className="font-mono text-[11px] uppercase tracking-eyebrow">
-                  <span className="text-white/90">[01]</span>
-                  <span className="text-white">&nbsp;&nbsp;Akashic in action</span>
+                  <span className="text-overcast">[01]</span>
+                  <span className="text-inkSoft">&nbsp;&nbsp;Akashic in action</span>
                 </p>
-                <h2 className="mt-5 text-balance text-heading-sm font-semibold text-white md:text-heading-md">
+                <h2 className="mt-5 text-balance text-heading-sm font-semibold text-ink md:text-heading-md">
                   Ask a real question.
                   <br className="hidden lg:block" /> Watch Akashic answer it.
                 </h2>
-                <p className="mx-auto mt-5 max-w-[34em] text-lg leading-relaxed text-white/90 lg:mx-0">
+                <p className="mx-auto mt-5 max-w-[34em] text-lg leading-relaxed text-inkSoft lg:mx-0">
                   Every real question has two halves. The number sits in a system. The
                   reason sits in a document nobody queries. Joining them by hand takes a
                   week: the answer arrives after the decision.
@@ -555,7 +555,7 @@ export default function AkashicFourMoves() {
             <ScrollReveal delay={80}>
               <div className="mt-8 flex justify-center lg:justify-start">
                 <div
-                  className="inline-flex rounded-full border border-white/20 bg-white/10 p-1 backdrop-blur-sm"
+                  className="inline-flex rounded-full border border-blue-border bg-white p-1 shadow-card"
                   role="tablist"
                   aria-label="Choose an example"
                 >
@@ -570,8 +570,8 @@ export default function AkashicFourMoves() {
                       }}
                       className={`rounded-full px-4 py-1.5 text-sm font-medium transition-colors duration-250 ease-settle ${
                         i === active
-                          ? "bg-white text-blue shadow-card"
-                          : "text-white/90 hover:text-white"
+                          ? "bg-blue text-white shadow-card"
+                          : "text-inkSoft hover:text-ink"
                       }`}
                     >
                       {w.label}
@@ -597,7 +597,7 @@ export default function AkashicFourMoves() {
             {/* Question card — a focused input while the run is underway */}
             <div
               className={`flex items-start gap-3.5 rounded-outer bg-white p-4 transition-all duration-400 ease-settle sm:p-5 ${solidShadow} ${
-                running ? "ring-[3px] ring-white/35" : "ring-1 ring-[#0B1440]/15"
+                running ? "ring-[3px] ring-blue/25" : "ring-1 ring-[#0B1440]/10"
               }`}
             >
               <svg
@@ -671,12 +671,12 @@ export default function AkashicFourMoves() {
                       lit ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0"
                     }`}
                   >
-                    <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white font-mono text-[11px] font-bold text-blue shadow-[0_2px_10px_rgba(255,255,255,0.35)]">
+                    <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-blue font-mono text-[11px] font-bold text-white shadow-card">
                       0{i + 1}
                     </span>
                     <p className="min-w-0 text-[13.5px] leading-snug">
-                      <span className="font-semibold text-white">{step.name}</span>
-                      <span className="ml-2 text-white/90">{step.line}</span>
+                      <span className="font-semibold text-ink">{step.name}</span>
+                      <span className="ml-2 text-inkSoft">{step.line}</span>
                     </p>
                   </div>
                 );
@@ -690,7 +690,7 @@ export default function AkashicFourMoves() {
               className={revealed ? "animate-[akx-pop_0.65s_cubic-bezier(0.34,1.56,0.64,1)_both]" : "invisible"}
               aria-hidden={!revealed}
             >
-              <div className={`overflow-hidden rounded-outer bg-white ring-1 ring-[#0B1440]/15 ${solidShadow}`}>
+              <div className={`overflow-hidden rounded-outer bg-white ring-1 ring-[#0B1440]/10 ${solidShadow}`}>
 
                 {/* Chrome strip: who answered, for whom */}
                 <div className="flex items-center border-b border-card-divide bg-panel px-4 py-2.5">
@@ -753,9 +753,9 @@ export default function AkashicFourMoves() {
           </div>
         </div>
       </div>
-      {/* Crisp machined seam out of the blue moment — a light-catch hairline,
-          not a gray fade. Matches the [05] anchor's seam language. */}
-      <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-white/35 to-transparent pointer-events-none" aria-hidden />
+      {/* Soft seam out of the tint band — a faint blue hairline into the white
+          section below. */}
+      <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-blue-border/70 to-transparent pointer-events-none" aria-hidden />
     </section>
   );
 }

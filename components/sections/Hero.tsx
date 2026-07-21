@@ -98,14 +98,14 @@ export default function Hero() {
     <div id="hero" className="relative">
       {/* Quote section — tall sticky backdrop */}
       <section
-        className="relative w-full bg-blue"
+        className="relative w-full bg-blue-subtle"
         style={{ height: `calc(150vh + ${heroHeight}px)` }}
       >
-        <div className="dot-grid absolute inset-0 opacity-20 invert" />
+        <div className="dot-grid absolute inset-0 opacity-60" />
 
         <div className="sticky top-16 flex h-[calc(100vh-64px)] w-full flex-col items-center justify-center text-center px-4">
           <div className="w-full flex justify-center">
-            <p className="max-w-[18em] text-[35px] font-medium leading-[1.1] tracking-tight text-white lg:text-[56px]">
+            <p className="max-w-[18em] text-[35px] font-medium leading-[1.1] tracking-tight text-ink lg:text-[56px]">
               {quoteWords.map((word, i) => {
                 const isActive = quoteProgress * totalWords >= i + 0.3;
                 return (
@@ -113,7 +113,7 @@ export default function Hero() {
                     <span
                       className="transition-colors duration-[250ms] ease-settle"
                       style={{
-                        color: isActive ? "#FFFFFF" : "rgba(255, 255, 255, 0.4)",
+                        color: isActive ? "#1A1C1D" : "rgba(26, 28, 29, 0.35)",
                       }}
                     >
                       {word}
@@ -128,8 +128,8 @@ export default function Hero() {
             </p>
           </div>
           {/* Author attribution — statically visible immediately as part of the quote */}
-          <div className="mt-8 flex flex-col items-center text-sm text-white/70">
-            <span className="font-semibold text-white">Ananya Rao</span>
+          <div className="mt-8 flex flex-col items-center text-sm text-inkSoft">
+            <span className="font-semibold text-ink">Ananya Rao</span>
             <span>Chief Operating Officer · Nexora</span>
           </div>
         </div>
@@ -195,9 +195,9 @@ export default function Hero() {
               </span>
             </h1>
             <p className="mt-8 max-w-[38em] text-lg text-secondary-text md:text-xl font-normal leading-relaxed">
-              Akashic unifies your structured, unstructured, and streaming data into one governed foundation.
+              DHIRA brings your data and AI together, grounded in the full picture.
               <br className="hidden sm:block" />
-              Every answer is one you can trust, trace, and act on.
+              Every answer is one you can trace, trust, and act on.
             </p>
   
             <div className="mt-10 flex flex-wrap items-center justify-center gap-4">

@@ -1,186 +1,133 @@
 "use client";
 
-/**
- * DESIGN INTENT:
- * Section 04: How We Deliver — "The Manifest"
- * Split-screen interactive timeline layout on desktop, inline responsive on mobile.
- * Shows the three delivery phases: Mapping Readiness, Platform Bridging, and Governed Operations.
- * Integrates DeliveryCanvasMockup, a simulated console mockup showcasing real-world deliverables.
- */
-import { useState } from "react";
 import Link from "next/link";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import ScrollRevealRail from "@/components/ui/ScrollRevealRail";
-import DeliveryCanvasMockup from "@/components/demos/mockups/DeliveryCanvasMockup";
 
-const steps = [
+type Deliverable = {
+  num: string;
+  title: string;
+  description: string;
+  href: string;
+};
+
+const deliverables: Deliverable[] = [
   {
-    num: "01",
-    week: "WK 1–2",
-    title: "We map your data readiness.",
-    desc: "A structured audit of your current foundation, followed by a Sovereign Blueprint and Governance Framework that show exactly where to intervene.",
-    services: [
-      { label: "AI Readiness Audit", href: "/delivery#ai-readiness-audit" },
-      { label: "Sovereign Blueprint", href: "/delivery#sovereign-blueprint" },
-      { label: "Governance Framework", href: "/delivery#governance-framework" },
-    ],
+    num: "1",
+    title: "Platform Deployment",
+    description: "We deploy the core Akashic platform in your environment, connect raw data sources, and establish your governed knowledge graph in 6 weeks.",
+    href: "/delivery#akashic-deployment",
   },
   {
-    num: "02",
-    week: "WK 2–6",
-    title: "We build what's missing.",
-    desc: "Platform Deployment, legacy modernisation, and custom accelerators. Engineered to get your organisation on Akashic without building from scratch.",
-    services: [
-      { label: "Platform Deployment", href: "/delivery#platform-deployment" },
-      { label: "Legacy Modernisation", href: "/delivery#legacy-modernization" },
-      { label: "Custom Accelerators", href: "/delivery#custom-accelerators" },
-    ],
+    num: "2",
+    title: "Product Engineering",
+    description: "We build custom, production-grade applications on top of Akashic or your stack. Complete codebase ownership is transferred to your team.",
+    href: "/delivery#product-engineering",
   },
   {
-    num: "03",
-    week: "WK 6+",
-    title: "Your team runs on Akashic.",
-    desc: "One governed data foundation for BI, machine learning, and conversational AI. One accountable partner, not a stack of vendors.",
-    services: [
-      { label: "Akashic BI", href: "/akashic#business-intelligence" },
-      { label: "Akashic Machine Learning", href: "/akashic#machine-learning" },
-      { label: "Ask Akashic", href: "/akashic#ask-ai" },
-    ],
+    num: "3",
+    title: "Advisory & Co-Engineering",
+    description: "We embed senior engineering squads into your sprints or conduct strategic audits to unblock roadmaps and build internal capability.",
+    href: "/delivery#advisory-co-engineering",
   },
 ];
 
 export default function HowWeDeliver() {
-  const [activeStep, setActiveStep] = useState(0);
-
   return (
     <section
       id="delivery"
-      className="bg-primary-bg pt-12 pb-24 lg:pt-16 lg:pb-32"
+      className="bg-[linear-gradient(180deg,#FFFFFF_0%,#F1F5FE_16%,#F1F5FE_84%,#FFFFFF_100%)] pt-12 pb-24 lg:pt-16 lg:pb-32 overflow-hidden"
     >
       <ScrollRevealRail>
-
-        {/* ── Zone 1: Header ── */}
+        {/* ── Outer Section Header Block ── */}
         <ScrollReveal>
-          <div className="mb-10 flex items-center justify-between border-t border-b border-dashed border-lineSoft py-[17px] px-[2px] font-mono text-[11px] uppercase tracking-eyebrow text-inkSoft">
+          <div className="flex items-center border-t border-b border-dashed border-lineSoft py-[17px] px-[2px] font-mono text-[11px] uppercase tracking-eyebrow text-inkSoft">
             <span>
               <span className="text-overcast font-mono">[04]</span>
-              &nbsp;&nbsp;HOW WE DELIVER
+              &nbsp;&nbsp;WHAT WE DELIVER
             </span>
-            <span className="text-overcast">/ AUDIT TO GO-LIVE</span>
-          </div>
-
-          <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
-            <div>
-              <h2 className="max-w-[14em] text-[48px] font-semibold leading-[1.1] tracking-tighter text-ink md:text-[56px] lg:text-[64px]">
-                Live in weeks, not quarters.
-              </h2>
-              <p className="mt-5 max-w-[34em] text-lg leading-relaxed text-inkSoft">
-                Akashic is the platform.
-                <br className="hidden sm:block" />
-                Our delivery team handles everything from readiness audit to go-live.
-              </p>
-            </div>
-            <div className="flex-shrink-0 flex flex-col sm:flex-row items-start sm:items-center gap-3">
-              <Link href="/delivery" className="btn-primary">
-                Explore delivery services
-              </Link>
-              <Link href="#get-started" className="btn-ghost text-sm text-inkSoft">
-                Talk to our team
-              </Link>
-            </div>
           </div>
         </ScrollReveal>
 
-        {/* ── Zone 2: Interactive Grid Layout ── */}
-        <div className="mt-14 lg:mt-20 grid grid-cols-1 lg:grid-cols-[1.3fr_1fr] gap-12 lg:gap-16">
-          
-          {/* Steps Timeline Column */}
-          <div className="flex flex-col">
-            {steps.map((step, idx) => {
-              const isActive = activeStep === idx;
-              return (
-                <ScrollReveal key={step.num} delay={120 + idx * 100}>
-                  <div
-                    onMouseEnter={() => setActiveStep(idx)}
-                    onClick={() => setActiveStep(idx)}
-                    onKeyDown={(e) => {
-                      if (e.key === "Enter" || e.key === " ") {
-                        e.preventDefault();
-                        setActiveStep(idx);
-                      }
-                    }}
-                    role="button"
-                    tabIndex={0}
-                    aria-label={`Delivery Phase ${idx + 1}: ${step.title}`}
-                    className={`group cursor-pointer border-t border-[#EEEFF1] py-8 lg:py-10 transition-all duration-300 ${
-                      isActive ? "opacity-100" : "opacity-50 hover:opacity-80"
-                    }`}
+        {/* ── Immersive Dark Container ── */}
+        <ScrollReveal delay={100}>
+          <div className="group/container relative mt-12 lg:mt-16 overflow-hidden rounded-[20px] border border-white/10 bg-[#0A0A0C] px-6 py-12 md:p-12 lg:p-16 text-white shadow-2xl transition-all duration-500 ease-settle">
+            {/* Custom dot-grid background */}
+            <div className="dot-grid-dark absolute inset-0 opacity-20 pointer-events-none" />
+
+            {/* Ambient glows (indigo/amber) */}
+            <div
+              className="absolute left-1/4 top-1/4 h-[350px] w-[350px] rounded-full blur-[80px] opacity-[0.1] pointer-events-none animate-[softpulse_10s_infinite_alternate]"
+              style={{
+                background: "radial-gradient(circle, #3E63DD, transparent 75%)",
+              }}
+            />
+            <div
+              className="absolute right-1/4 bottom-1/4 h-[350px] w-[350px] rounded-full blur-[80px] opacity-[0.06] pointer-events-none animate-[softpulse_12s_infinite_alternate]"
+              style={{
+                background: "radial-gradient(circle, #D9A034, transparent 75%)",
+              }}
+            />
+
+            {/* Split layout: text left, empty right */}
+            <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+              <div className="lg:col-span-7 flex flex-col items-start">
+                <h3 className="text-[36px] sm:text-[48px] md:text-[56px] font-semibold leading-[1.05] tracking-tighter text-white font-heading">
+                  We own the delivery.<br />
+                  <span className="text-white/40">End-to-end.</span>
+                </h3>
+                
+                <p className="mt-6 max-w-[28em] text-[15px] sm:text-base leading-relaxed text-white/60 font-sans">
+                  We deploy our core data platform, engineer custom applications, and embed senior squads to accelerate your roadmap under a single, accountable partner.
+                </p>
+                <p className="mt-4 max-w-[28em] text-[15px] sm:text-base leading-relaxed text-white/40 font-normal font-sans">
+                  It's not just about installing software. It's about ensuring your organisation is built to build.
+                </p>
+
+                <div className="mt-8">
+                  <Link
+                    href="/delivery"
+                    className="inline-flex items-center gap-2.5 px-6 h-11 bg-white text-[#0A0A0C] hover:bg-white/90 active:scale-[0.98] font-semibold text-sm rounded-full transition-all duration-200 shadow-[0_4px_12px_rgba(255,255,255,0.1)] group"
                   >
-                    <div className="flex flex-col gap-5 lg:flex-row lg:items-start lg:gap-8">
-                      
-                      {/* Week label */}
-                      <div className="flex-shrink-0 lg:w-24 lg:pt-[3px]">
-                        <span className={`font-mono text-[11px] uppercase tracking-eyebrow transition-colors duration-300 ${
-                          isActive ? "text-blue font-semibold" : "text-inkSoft"
-                        }`}>
-                          {step.week}
-                        </span>
-                      </div>
-
-                      {/* Phase content */}
-                      <div className="flex-1 min-w-0">
-                        <h3 className="text-[24px] lg:text-[28px] font-semibold tracking-tight text-ink leading-snug">
-                          {step.title}
-                        </h3>
-                        <div className={`mt-3 mb-4 w-8 border-t transition-colors duration-300 ${
-                          isActive ? "border-blue" : "border-[#D3D8DF]"
-                        }`} />
-                        <p className="text-base leading-relaxed text-inkSoft max-w-[44em]">
-                          {step.desc}
-                        </p>
-                        
-                        {/* Services links */}
-                        <div className="mt-5 flex flex-wrap items-center gap-2">
-                          {step.services.map((svc) => (
-                            <Link
-                              key={svc.label}
-                              href={svc.href}
-                              scroll={svc.href.includes('#') ? false : undefined}
-                              className="inline-flex items-center rounded-full border border-lineSoft bg-white px-3 py-1.5 font-mono text-[11px] uppercase tracking-eyebrow text-inkSoft transition-colors duration-200 ease-settle hover:border-blue/30 hover:bg-blue-subtle hover:text-blue"
-                            >
-                              {svc.label}
-                            </Link>
-                          ))}
-                        </div>
-
-                        {/* Inline Canvas on Mobile/Tablet */}
-                        <div className="mt-6 lg:hidden w-full">
-                          <DeliveryCanvasMockup activeStep={idx} />
-                        </div>
-
-                      </div>
-                    </div>
-                  </div>
-                </ScrollReveal>
-              );
-            })}
-            {/* Closing rule */}
-            <div className="border-t border-[#EEEFF1]" aria-hidden="true" />
-          </div>
-
-          {/* Sticky Canvas Column (Desktop Only) */}
-          <div className="hidden lg:block relative">
-            <div className="sticky top-32 self-start py-8">
-              <ScrollReveal delay={200}>
-                <DeliveryCanvasMockup activeStep={activeStep} />
-              </ScrollReveal>
+                    <span>Explore delivery</span>
+                    <span className="flex items-center justify-center w-5 h-5 rounded-full bg-[#0A0A0C] text-white text-[10px] transition-transform duration-200 group-hover:translate-x-0.5">
+                      →
+                    </span>
+                  </Link>
+                </div>
+              </div>
+              <div className="hidden lg:col-span-5 lg:block" aria-hidden="true" />
             </div>
+
+            {/* 3-Column Cards Grid */}
+            <div className="relative z-10 grid grid-cols-1 md:grid-cols-3 gap-6 mt-16 md:mt-24">
+              {deliverables.map((item) => (
+                <Link
+                  key={item.num}
+                  href={item.href}
+                  className="group/tile relative flex flex-col p-6 md:p-8 rounded-[12px] border border-white/5 bg-white/[0.02] hover:bg-white text-white hover:text-ink transition-all duration-300 ease-settle cursor-pointer shadow-card hover:shadow-frame"
+                >
+                  <span className="font-heading text-[64px] md:text-[80px] font-semibold leading-none text-white/20 group-hover/tile:text-ink/20 transition-colors duration-300">
+                    {item.num}
+                  </span>
+                  
+                  {/* Thin Divider Line */}
+                  <div className="my-5 border-t border-white/10 group-hover/tile:border-lineSoft transition-colors duration-300" />
+                  
+                  <h4 className="text-[20px] md:text-[22px] font-semibold tracking-tight leading-snug font-heading transition-colors duration-300">
+                    {item.title}
+                  </h4>
+                  
+                  <p className="mt-3 text-[14px] leading-relaxed text-white/60 group-hover/tile:text-secondary-text transition-colors duration-300 font-sans">
+                    {item.description}
+                  </p>
+                </Link>
+              ))}
+            </div>
+
           </div>
-
-        </div>
-
+        </ScrollReveal>
       </ScrollRevealRail>
     </section>
   );
 }
-

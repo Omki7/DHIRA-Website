@@ -11,10 +11,11 @@ import AkashicTrust from "@/components/sections/akashic/AkashicTrust";
 import AkashicOpenFoundations from "@/components/sections/akashic/AkashicOpenFoundations";
 import AkashicBuildVsBuy from "@/components/sections/akashic/AkashicBuildVsBuy";
 import AkashicStack from "@/components/sections/akashic/AkashicStack";
-import AkashicSolutions from "@/components/sections/akashic/AkashicSolutions";
-import AkashicScale from "@/components/sections/akashic/AkashicScale";
+import AkashicPlatform from "@/components/sections/akashic/AkashicPlatform";
+import ProvenAtScale from "@/components/sections/ProvenAtScale";
 import AkashicClose from "@/components/sections/akashic/AkashicClose";
 import PageMinimap from "@/components/layout/PageMinimap";
+import ScrollRevealRail from "@/components/ui/ScrollRevealRail";
 import { AKASHIC_SECTIONS } from "@/lib/akashicSections";
 
 export const metadata: Metadata = {
@@ -37,14 +38,18 @@ export default function AkashicPage() {
             </div>
           }
         />
-        <AkashicArchitecture />
+        <ScrollRevealRail>
+          <div className="relative border-b border-lineSoft bg-white">
+            <AkashicArchitecture />
+          </div>
+        </ScrollRevealRail>
         <AkashicModules />
         <AkashicTrust />
         <AkashicOpenFoundations />
         <AkashicBuildVsBuy />
+        <ProvenAtScale id="scale" sectionNumber="08" eyebrowText="Proven at scale" />
         <AkashicStack />
-        <AkashicSolutions />
-        <AkashicScale />
+        <AkashicPlatform />
         <AkashicClose />
       </main>
       <Footer />

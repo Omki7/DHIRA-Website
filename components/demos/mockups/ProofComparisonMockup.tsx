@@ -6,6 +6,15 @@
  * many-to-many "tool sprawl" diagram (before) vs. a hub-and-spoke diagram
  * centred on the DHIRA mark (after). All node positions and labels are
  * hand-placed for visual storytelling, not driven by real data.
+ *
+ * NOTE on the chip icons: DynamicSketchIcon looks its `text` up as an EXACT
+ * key in its ICONS map and silently returns a generic square-with-slash on a
+ * miss. Ten of the eleven chips here were passing invented strings ("Akashic
+ * AI", "Legacy Mainframe", …) and all rendered that same fallback glyph —
+ * fixed 21 Jul. Every `text` below must match a key in
+ * components/icons/DynamicSketchIcon.tsx verbatim; check the render, because
+ * a typo does not throw. Do not use "AI Readiness Audit" — its glyph contains
+ * a checkmark, and §7 Rule 2 keeps checkmarks out of the shipped site.
  */
 
 import React from "react";
@@ -51,10 +60,19 @@ const beforeConns = beforePairs.map((p, i) => {
 interface ProofComparisonMockupProps {
   pos: number;
   width: number;
+  /** Toggle-driven move: ease the wipe instead of tracking a pointer 1:1. */
+  glide?: boolean;
+  /** Show the "See the change" onboarding pill (until the reader has used either control). */
+  showHint?: boolean;
   onKeyDown?: React.KeyboardEventHandler<HTMLDivElement>;
 }
 
-export default function ProofComparisonMockup({ pos, width, onKeyDown }: ProofComparisonMockupProps) {
+export default function ProofComparisonMockup({ pos, width, glide = false, showHint = true, onKeyDown }: ProofComparisonMockupProps) {
+  // While dragging every layer must sit exactly under the pointer, so the
+  // transition is switched off rather than shortened. Before this, the section
+  // background eased over 75ms while the mockup layer had no transition at
+  // all — the two halves of the same wipe drifted apart mid-drag.
+  const ease = glide ? "duration-650 ease-settle" : "duration-0";
   return (
     <div className="absolute inset-0 w-full h-full">
 
@@ -92,82 +110,82 @@ export default function ProofComparisonMockup({ pos, width, onKeyDown }: ProofCo
 
         {/* After wordmark */}
         <div className="absolute top-[6%] left-1/2 w-1/2 pl-6 md:pl-8 flex items-center gap-3 pointer-events-none">
-          <span className="text-[15px] md:text-[22px] font-semibold tracking-[0.16em] uppercase text-[#3E63DD] whitespace-nowrap">
+          <span className="text-[15px] md:text-[22px] font-semibold tracking-[0.16em] uppercase text-blue whitespace-nowrap">
             After Akashic
           </span>
-          <span className="w-1.5 h-1.5 rounded-full bg-[#3E63DD] shadow-[0_0_0_4px_rgba(62,99,221,0.15)]" />
+          <span className="w-1.5 h-1.5 rounded-full bg-blue shadow-[0_0_0_4px_rgba(62,99,221,0.15)]" />
         </div>
 
         {/* ── After cards: platform value + ROI story ── */}
         {/* Top centre — speed */}
         <div className="absolute left-[50%] top-[19.7%] -translate-x-1/2 -translate-y-1/2">
-          <div className="animate-[ps-float_5s_ease-in-out_infinite] flex items-center gap-2.5 py-2.5 pr-4 pl-3 bg-[#3E63DD] border border-[#3E63DD] rounded-[14px] shadow-[0_8px_16px_-4px_rgba(62,99,221,0.25)] whitespace-nowrap">
-            <span className="flex-none inline-flex items-center justify-center w-7 h-7 rounded-lg bg-white/10 text-white">
-              <DynamicSketchIcon text="Akashic Fast Delivery" className="w-[18px] h-[18px]" />
+          <div className="animate-[ps-float_5s_ease-in-out_infinite] flex items-center gap-2.5 py-2 px-3.5 bg-white/90 backdrop-blur-[2px] border border-blue-border rounded-outer shadow-card whitespace-nowrap">
+            <span className="flex-none inline-flex items-center justify-center w-6 h-6 rounded-tile bg-blue-subtle text-blue">
+              <DynamicSketchIcon text="Platform Deployment" className="w-4 h-4" />
             </span>
-            <span className="text-[13.5px] font-semibold tracking-[-0.01em] text-white">Weeks to go-live, not months</span>
+            <span className="text-[13px] font-medium tracking-[-0.01em] text-ink">Weeks to go-live, not months</span>
           </div>
         </div>
 
         {/* Right upper — data pipelines */}
         <div className="absolute left-[78%] top-[37.1%] -translate-x-1/2 -translate-y-1/2">
-          <div className="animate-[ps-float_4s_ease-in-out_infinite_0.5s] flex items-center gap-2.5 py-2.5 pr-4 pl-3 bg-[#3E63DD] border border-[#3E63DD] rounded-[14px] shadow-[0_8px_16px_-4px_rgba(62,99,221,0.25)] whitespace-nowrap">
-            <span className="flex-none inline-flex items-center justify-center w-7 h-7 rounded-lg bg-white/10 text-white">
-              <DynamicSketchIcon text="Akashic Data Pipelines" className="w-[18px] h-[18px]" />
+          <div className="animate-[ps-float_4s_ease-in-out_infinite_0.5s] flex items-center gap-2.5 py-2 px-3.5 bg-white/90 backdrop-blur-[2px] border border-blue-border rounded-outer shadow-card whitespace-nowrap">
+            <span className="flex-none inline-flex items-center justify-center w-6 h-6 rounded-tile bg-blue-subtle text-blue">
+              <DynamicSketchIcon text="Akashic Data Pipelines" className="w-4 h-4" />
             </span>
-            <span className="text-[13.5px] font-semibold tracking-[-0.01em] text-white">Live data. No manual steps.</span>
+            <span className="text-[13px] font-medium tracking-[-0.01em] text-ink">Live data. No manual steps.</span>
           </div>
         </div>
 
         {/* Right lower — AI */}
         <div className="absolute left-[78%] top-[75.8%] -translate-x-1/2 -translate-y-1/2">
-          <div className="animate-[ps-float_6s_ease-in-out_infinite_1.5s] flex items-center gap-2.5 py-2.5 pr-4 pl-3 bg-[#3E63DD] border border-[#3E63DD] rounded-[14px] shadow-[0_8px_16px_-4px_rgba(62,99,221,0.25)] whitespace-nowrap">
-            <span className="flex-none inline-flex items-center justify-center w-7 h-7 rounded-lg bg-white/10 text-white">
-              <DynamicSketchIcon text="Akashic AI" className="w-[18px] h-[18px]" />
+          <div className="animate-[ps-float_6s_ease-in-out_infinite_1.5s] flex items-center gap-2.5 py-2 px-3.5 bg-white/90 backdrop-blur-[2px] border border-blue-border rounded-outer shadow-card whitespace-nowrap">
+            <span className="flex-none inline-flex items-center justify-center w-6 h-6 rounded-tile bg-blue-subtle text-blue">
+              <DynamicSketchIcon text="Akashic Machine Learning" className="w-4 h-4" />
             </span>
-            <span className="text-[13.5px] font-semibold tracking-[-0.01em] text-white">AI-native from day one</span>
+            <span className="text-[13px] font-medium tracking-[-0.01em] text-ink">AI-native from day one</span>
           </div>
         </div>
 
         {/* Bottom centre — accountability */}
         <div className="absolute left-[50%] top-[90.9%] -translate-x-1/2 -translate-y-1/2">
-          <div className="animate-[ps-float_4.5s_ease-in-out_infinite_0.8s] flex items-center gap-2.5 py-2.5 pr-4 pl-3 bg-[#3E63DD] border border-[#3E63DD] rounded-[14px] shadow-[0_8px_16px_-4px_rgba(62,99,221,0.25)] whitespace-nowrap">
-            <span className="flex-none inline-flex items-center justify-center w-7 h-7 rounded-lg bg-white/10 text-white">
-              <DynamicSketchIcon text="Akashic Contract" className="w-[18px] h-[18px]" />
+          <div className="animate-[ps-float_4.5s_ease-in-out_infinite_0.8s] flex items-center gap-2.5 py-2 px-3.5 bg-white/90 backdrop-blur-[2px] border border-blue-border rounded-outer shadow-card whitespace-nowrap">
+            <span className="flex-none inline-flex items-center justify-center w-6 h-6 rounded-tile bg-blue-subtle text-blue">
+              <DynamicSketchIcon text="Access Control" className="w-4 h-4" />
             </span>
-            <span className="text-[13.5px] font-semibold tracking-[-0.01em] text-white">One contract. Full accountability.</span>
+            <span className="text-[13px] font-medium tracking-[-0.01em] text-ink">One contract. Full accountability.</span>
           </div>
         </div>
 
         {/* Left lower — automation */}
         <div className="absolute left-[22%] top-[75.8%] -translate-x-1/2 -translate-y-1/2">
-          <div className="animate-[ps-float_5.5s_ease-in-out_infinite_2s] flex items-center gap-2.5 py-2.5 pr-4 pl-3 bg-[#3E63DD] border border-[#3E63DD] rounded-[14px] shadow-[0_8px_16px_-4px_rgba(62,99,221,0.25)] whitespace-nowrap">
-            <span className="flex-none inline-flex items-center justify-center w-7 h-7 rounded-lg bg-white/10 text-white">
-              <DynamicSketchIcon text="Akashic Automation" className="w-[18px] h-[18px]" />
+          <div className="animate-[ps-float_5.5s_ease-in-out_infinite_2s] flex items-center gap-2.5 py-2 px-3.5 bg-white/90 backdrop-blur-[2px] border border-blue-border rounded-outer shadow-card whitespace-nowrap">
+            <span className="flex-none inline-flex items-center justify-center w-6 h-6 rounded-tile bg-blue-subtle text-blue">
+              <DynamicSketchIcon text="Akashic Workflow" className="w-4 h-4" />
             </span>
-            <span className="text-[13.5px] font-semibold tracking-[-0.01em] text-white">Zero manual reconciliation</span>
+            <span className="text-[13px] font-medium tracking-[-0.01em] text-ink">Zero manual reconciliation</span>
           </div>
         </div>
 
         {/* Left upper — platform unity */}
         <div className="absolute left-[22%] top-[37.1%] -translate-x-1/2 -translate-y-1/2">
-          <div className="animate-[ps-float_4.2s_ease-in-out_infinite_0.2s] flex items-center gap-2.5 py-2.5 pr-4 pl-3 bg-[#3E63DD] border border-[#3E63DD] rounded-[14px] shadow-[0_8px_16px_-4px_rgba(62,99,221,0.25)] whitespace-nowrap">
-            <span className="flex-none inline-flex items-center justify-center w-7 h-7 rounded-lg bg-white/10 text-white">
-              <DynamicSketchIcon text="Akashic Platform" className="w-[18px] h-[18px]" />
+          <div className="animate-[ps-float_4.2s_ease-in-out_infinite_0.2s] flex items-center gap-2.5 py-2 px-3.5 bg-white/90 backdrop-blur-[2px] border border-blue-border rounded-outer shadow-card whitespace-nowrap">
+            <span className="flex-none inline-flex items-center justify-center w-6 h-6 rounded-tile bg-blue-subtle text-blue">
+              <DynamicSketchIcon text="Sovereign Blueprint" className="w-4 h-4" />
             </span>
-            <span className="text-[13.5px] font-semibold tracking-[-0.01em] text-white">1 platform. Everything covered.</span>
+            <span className="text-[13px] font-medium tracking-[-0.01em] text-ink">1 platform. Everything covered.</span>
           </div>
         </div>
 
         {/* Akashic core hub */}
         <div className="absolute left-1/2 top-[56.4%] -translate-x-1/2 -translate-y-1/2 flex flex-col items-center justify-center">
           <div className="relative w-[100px] h-[100px] md:w-[130px] md:h-[130px] flex items-center justify-center">
-            <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full rounded-full bg-[#3E63DD]/20 animate-[proofCorePulse_3.2s_ease-out_infinite] pointer-events-none" />
+            <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full rounded-full bg-blue/20 animate-[proofCorePulse_3.2s_ease-out_infinite] pointer-events-none" />
             <div
               className="relative w-full h-full rounded-full overflow-hidden flex items-center justify-center"
               style={{
                 background: "radial-gradient(135% 135% at 32% 24%, #FFFFFF 0%, #F5F7FF 52%, #DCE5FE 100%)",
-                boxShadow: "inset 0 2px 5px rgba(255,255,255,0.8), inset 0 -8px 16px rgba(0,0,0,0.05), 0 0 0 8px rgba(255,255,255,0.4), 0 18px 38px -12px rgba(0,0,0,0.2)",
+                boxShadow: "inset 0 2px 5px rgba(255,255,255,0.8), inset 0 -8px 16px rgba(11,20,64,0.05), 0 0 0 8px rgba(255,255,255,0.4), 0 18px 38px -12px rgba(11,20,64,0.2)",
               }}
             >
               <span className="absolute left-[18%] top-[12%] w-[54%] h-[42%] rounded-full bg-[radial-gradient(closest-side,rgba(255,255,255,0.8),rgba(255,255,255,0))] pointer-events-none" />
@@ -179,7 +197,7 @@ export default function ProofComparisonMockup({ pos, width, onKeyDown }: ProofCo
 
       {/* ════════ BEFORE layer (clipped) — tool sprawl ════════ */}
       <div
-        className="absolute inset-y-0 left-0 overflow-hidden bg-[#f1f5f9]"
+        className={`absolute inset-y-0 left-0 overflow-hidden bg-[#F1F5FE] transition-[width] ${ease}`}
         style={{ width: `${pos}%` }}
       >
         <div
@@ -235,12 +253,12 @@ export default function ProofComparisonMockup({ pos, width, onKeyDown }: ProofCo
           {/* ── Before cards: tool sprawl + time/effort pain ── */}
           {/* SAP ERP */}
           <div className="absolute left-[16%] top-[30.3%] -translate-x-1/2 -translate-y-1/2 -rotate-2">
-            <div className="animate-[ps-float_4.5s_ease-in-out_infinite] flex items-center gap-2.5 py-2 px-3.5 bg-white/90 backdrop-blur-[2px] border border-line rounded-[13px] shadow-sm whitespace-nowrap">
-              <span className="flex-none inline-flex items-center justify-center w-6 h-6 rounded-md bg-[#f3f4f6] text-inkSoft">
-                <DynamicSketchIcon text="Enterprise ERP" className="w-4 h-4" />
+            <div className="animate-[ps-float_4.5s_ease-in-out_infinite] flex items-center gap-2.5 py-2 px-3.5 bg-white/90 backdrop-blur-[2px] border border-line rounded-outer shadow-card whitespace-nowrap">
+              <span className="flex-none inline-flex items-center justify-center w-6 h-6 rounded-tile bg-tertiary-bg text-inkSoft">
+                <DynamicSketchIcon text="Enterprise" className="w-4 h-4" />
               </span>
               <span className="flex flex-col">
-                <span className="text-[10px] font-medium tracking-tight text-overcast/80 uppercase">SAP ERP</span>
+                <span className="text-[10px] font-medium uppercase tracking-[0.08em] text-overcast">SAP ERP</span>
                 <span className="text-[13px] font-medium tracking-[-0.01em] text-inkSoft">18-month integration timeline</span>
               </span>
             </div>
@@ -248,12 +266,12 @@ export default function ProofComparisonMockup({ pos, width, onKeyDown }: ProofCo
 
           {/* Salesforce CRM */}
           <div className="absolute left-[35%] top-[68.5%] -translate-x-1/2 -translate-y-1/2 rotate-1">
-            <div className="animate-[ps-float_5s_ease-in-out_infinite_1s] flex items-center gap-2.5 py-2 px-3.5 bg-white/90 backdrop-blur-[2px] border border-line rounded-[13px] shadow-sm whitespace-nowrap">
-              <span className="flex-none inline-flex items-center justify-center w-6 h-6 rounded-md bg-[#f3f4f6] text-inkSoft">
-                <DynamicSketchIcon text="CRM Customer" className="w-4 h-4" />
+            <div className="animate-[ps-float_5s_ease-in-out_infinite_1s] flex items-center gap-2.5 py-2 px-3.5 bg-white/90 backdrop-blur-[2px] border border-line rounded-outer shadow-card whitespace-nowrap">
+              <span className="flex-none inline-flex items-center justify-center w-6 h-6 rounded-tile bg-tertiary-bg text-inkSoft">
+                <DynamicSketchIcon text="Customer Stories" className="w-4 h-4" />
               </span>
               <span className="flex flex-col">
-                <span className="text-[10px] font-medium tracking-tight text-overcast/80 uppercase">Salesforce CRM</span>
+                <span className="text-[10px] font-medium uppercase tracking-[0.08em] text-overcast">Salesforce CRM</span>
                 <span className="text-[13px] font-medium tracking-[-0.01em] text-inkSoft">Customer data locked in a silo</span>
               </span>
             </div>
@@ -261,7 +279,7 @@ export default function ProofComparisonMockup({ pos, width, onKeyDown }: ProofCo
 
           {/* Main pain badge — tool sprawl count */}
           <div className="absolute left-[60%] top-[28.8%] -translate-x-1/2 -translate-y-1/2 -rotate-1">
-            <div className="animate-[ps-float_6s_ease-in-out_infinite_0.5s] flex items-center gap-2.5 py-2 px-3.5 bg-amber-50 border border-amber-200 rounded-[13px] shadow-[0_8px_22px_-12px_rgba(251,191,36,0.45)] whitespace-nowrap">
+            <div className="animate-[ps-float_6s_ease-in-out_infinite_0.5s] flex items-center gap-2.5 py-2 px-3.5 bg-amber-50 border border-amber-200 rounded-outer shadow-[0_8px_22px_-12px_rgba(251,191,36,0.45)] whitespace-nowrap">
               <span className="flex-none inline-flex items-center justify-center w-6 h-6 rounded-md bg-white text-amber-500">
                 {/* Grid-of-squares icon to represent many tools */}
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round">
@@ -275,12 +293,12 @@ export default function ProofComparisonMockup({ pos, width, onKeyDown }: ProofCo
 
           {/* Power BI */}
           <div className="absolute left-[73.6%] top-[65.2%] -translate-x-1/2 -translate-y-1/2 rotate-2">
-            <div className="animate-[ps-float_4s_ease-in-out_infinite_2s] flex items-center gap-2.5 py-2 px-3.5 bg-white/90 backdrop-blur-[2px] border border-line rounded-[13px] shadow-sm whitespace-nowrap">
-              <span className="flex-none inline-flex items-center justify-center w-6 h-6 rounded-md bg-[#f3f4f6] text-inkSoft">
-                <DynamicSketchIcon text="Analytics Dashboard" className="w-4 h-4" />
+            <div className="animate-[ps-float_4s_ease-in-out_infinite_2s] flex items-center gap-2.5 py-2 px-3.5 bg-white/90 backdrop-blur-[2px] border border-line rounded-outer shadow-card whitespace-nowrap">
+              <span className="flex-none inline-flex items-center justify-center w-6 h-6 rounded-tile bg-tertiary-bg text-inkSoft">
+                <DynamicSketchIcon text="Akashic BI" className="w-4 h-4" />
               </span>
               <span className="flex flex-col">
-                <span className="text-[10px] font-medium tracking-tight text-overcast/80 uppercase">Power BI</span>
+                <span className="text-[10px] font-medium uppercase tracking-[0.08em] text-overcast">Power BI</span>
                 <span className="text-[13px] font-medium tracking-[-0.01em] text-inkSoft">Stale data by design</span>
               </span>
             </div>
@@ -288,12 +306,12 @@ export default function ProofComparisonMockup({ pos, width, onKeyDown }: ProofCo
 
           {/* Legacy systems */}
           <div className="absolute left-[22.7%] top-[83%] -translate-x-1/2 -translate-y-1/2 -rotate-2">
-            <div className="animate-[ps-float_5.5s_ease-in-out_infinite_0.2s] flex items-center gap-2.5 py-2 px-3.5 bg-white/90 backdrop-blur-[2px] border border-line rounded-[13px] shadow-sm whitespace-nowrap">
-              <span className="flex-none inline-flex items-center justify-center w-6 h-6 rounded-md bg-[#f3f4f6] text-inkSoft">
-                <DynamicSketchIcon text="Legacy Mainframe" className="w-4 h-4" />
+            <div className="animate-[ps-float_5.5s_ease-in-out_infinite_0.2s] flex items-center gap-2.5 py-2 px-3.5 bg-white/90 backdrop-blur-[2px] border border-line rounded-outer shadow-card whitespace-nowrap">
+              <span className="flex-none inline-flex items-center justify-center w-6 h-6 rounded-tile bg-tertiary-bg text-inkSoft">
+                <DynamicSketchIcon text="Legacy Modernization" className="w-4 h-4" />
               </span>
               <span className="flex flex-col">
-                <span className="text-[10px] font-medium tracking-tight text-overcast/80 uppercase">Legacy Systems</span>
+                <span className="text-[10px] font-medium uppercase tracking-[0.08em] text-overcast">Legacy Systems</span>
                 <span className="text-[13px] font-medium tracking-[-0.01em] text-inkSoft">One more team, one more budget</span>
               </span>
             </div>
@@ -301,12 +319,12 @@ export default function ProofComparisonMockup({ pos, width, onKeyDown }: ProofCo
 
           {/* Excel */}
           <div className="absolute left-[62.7%] top-[84.8%] -translate-x-1/2 -translate-y-1/2 rotate-1">
-            <div className="animate-[ps-float_4.8s_ease-in-out_infinite_1.2s] flex items-center gap-2.5 py-2 px-3.5 bg-white/90 backdrop-blur-[2px] border border-line rounded-[13px] shadow-sm whitespace-nowrap">
-              <span className="flex-none inline-flex items-center justify-center w-6 h-6 rounded-md bg-[#f3f4f6] text-inkSoft">
-                <DynamicSketchIcon text="Excel Spreadsheet Data" className="w-4 h-4" />
+            <div className="animate-[ps-float_4.8s_ease-in-out_infinite_1.2s] flex items-center gap-2.5 py-2 px-3.5 bg-white/90 backdrop-blur-[2px] border border-line rounded-outer shadow-card whitespace-nowrap">
+              <span className="flex-none inline-flex items-center justify-center w-6 h-6 rounded-tile bg-tertiary-bg text-inkSoft">
+                <DynamicSketchIcon text="Documentation" className="w-4 h-4" />
               </span>
               <span className="flex flex-col">
-                <span className="text-[10px] font-medium tracking-tight text-overcast/80 uppercase">Excel Spreadsheets</span>
+                <span className="text-[10px] font-medium uppercase tracking-[0.08em] text-overcast">Excel Spreadsheets</span>
                 <span className="text-[13px] font-medium tracking-[-0.01em] text-inkSoft">The bridge between everything else</span>
               </span>
             </div>
@@ -323,11 +341,16 @@ export default function ProofComparisonMockup({ pos, width, onKeyDown }: ProofCo
         aria-valuemin={0}
         aria-valuemax={100}
         aria-valuenow={Math.round(pos)}
-        className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-16 h-32 flex items-center justify-center z-30 cursor-ew-resize outline-none"
+        className={`absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-16 h-32 flex items-center justify-center z-30 cursor-ew-resize outline-none transition-[left] ${ease}`}
         style={{ left: `${pos}%` }}
       >
         <div className="relative flex flex-col items-center gap-[11px] pointer-events-none">
-          <span className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-ink text-white text-[11px] font-semibold tracking-[0.02em] rounded-full whitespace-nowrap shadow-lg">
+          <span
+            aria-hidden={!showHint}
+            className={`inline-flex items-center gap-1.5 px-3 py-1.5 bg-ink text-white text-[11px] font-semibold tracking-[0.02em] rounded-full whitespace-nowrap shadow-frame transition-opacity duration-400 ease-settle ${
+              showHint ? "opacity-100" : "opacity-0"
+            }`}
+          >
             See the change
             <span className="inline-flex animate-[proofHint_1.5s_ease_infinite]">
               <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
@@ -336,12 +359,12 @@ export default function ProofComparisonMockup({ pos, width, onKeyDown }: ProofCo
             </span>
           </span>
           <div className="relative w-[50px] h-[50px] md:w-[60px] md:h-[60px]">
-            <span className="absolute inset-0 rounded-full bg-[#266df2]/20 animate-[proofKnobGlow_2.6s_ease-out_infinite] pointer-events-none" />
+            <span className="absolute inset-0 rounded-full bg-blue/20 animate-[proofKnobGlow_2.6s_ease-out_infinite] pointer-events-none" />
             <div
-              className="relative w-full h-full rounded-full flex items-center justify-center border border-[#266df2]/20 bg-gradient-to-b from-white to-[#F5F7FE]"
-              style={{ boxShadow: "inset 0 1px 1px rgba(255,255,255,0.9), 0 2px 5px rgba(28,29,31,0.08), 0 12px 26px -8px rgba(38,109,242,0.45)" }}
+              className="relative w-full h-full rounded-full flex items-center justify-center border border-blue-border bg-gradient-to-b from-white to-blue-subtle"
+              style={{ boxShadow: "inset 0 1px 1px rgba(255,255,255,0.9), 0 2px 5px rgba(11,20,64,0.08), 0 12px 26px -8px rgba(62,99,221,0.45)" }}
             >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#266df2" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" className="block">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#3E63DD" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" className="block">
                 <path d="M9 6l-4 6 4 6"/><path d="M15 6l4 6-4 6"/>
               </svg>
             </div>

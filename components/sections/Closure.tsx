@@ -17,12 +17,11 @@ export default function Closure() {
       <ScrollRevealRail isLast={true} className="z-10">
         {/* Eyebrow / Section divider */}
         <ScrollReveal>
-          <div className="mb-10 flex items-center justify-between border-t border-b border-dashed border-lineSoft py-[17px] px-[2px] font-mono text-[11px] uppercase tracking-eyebrow text-inkSoft">
+          <div className="mb-10 flex items-center border-t border-b border-dashed border-lineSoft py-[17px] px-[2px] font-mono text-[11px] uppercase tracking-eyebrow text-inkSoft">
             <span>
               <span className="text-overcast">[10]</span>
               &nbsp;&nbsp;GET STARTED
             </span>
-            <span className="text-overcast">/ TALK TO OUR TEAM</span>
           </div>
         </ScrollReveal>
 

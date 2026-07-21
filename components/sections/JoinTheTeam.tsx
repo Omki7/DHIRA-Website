@@ -89,11 +89,11 @@ export default function JoinTheTeam() {
           {/* ── Headline + subhead ── */}
           <h2
             id="careers-h"
-            className="max-w-[14em] text-balance text-[48px] font-semibold leading-[1.1] tracking-tighter text-ink md:text-[56px] lg:text-[64px]"
+            className="max-w-[14em] text-balance text-[40px] font-semibold leading-[1.1] tracking-tighter text-ink sm:text-[48px] lg:text-[56px]"
           >
             Join us in building India&apos;s intelligence&nbsp;layer.
           </h2>
-          <p className="mt-5 max-w-[34em] text-lg leading-relaxed text-inkSoft">
+          <p className="mt-5 max-w-[34em] text-[17px] leading-relaxed text-inkSoft md:text-[18px]">
             We are a small team that ships. Our work runs inside systems people depend on daily,
             <br className="hidden sm:block" />
             touches millions of lives, and lasts beyond any single budget cycle.

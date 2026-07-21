@@ -6,7 +6,7 @@
  * to tie back to the page spine): hero-sized count-up figure, model + sector
  * header, outcome anchored at the base, and a telemetry footer with drawn
  * sparkline + LIVE/DELIVERED status. Figures per Rule 4 (5.75B+, 187M+, 4M+,
- * 135 match AkashicScale / the home page stats).
+ * 135 match ProvenAtScale / the home page stats).
  */
 
 import ScrollReveal from "@/components/ui/ScrollReveal";

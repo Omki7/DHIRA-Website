@@ -41,7 +41,7 @@ const CHANNEL_BARS = [
   { name: "Partner", pct: 32, color: "#7C5CFC", note: "" },
   { name: "Online", pct: 22, color: "#2A9BE0", note: "▲ 18% QoQ" },
 ];
-const ASK_SCREEN_CHANNEL_HTML = `<div style="width:100%;height:100%;display:flex;flex-direction:column;font-family:Inter,sans-serif;background:#FAFAFB">
+const ASK_SCREEN_CHANNEL_HTML = `<div style="width:100%;height:100%;display:flex;flex-direction:column;font-family:var(--font-sans);background:#FAFAFB">
   ${WINDOW_BAR}
   ${appTopBar("Ask", "Channel growth")}
   <div style="flex:1;display:flex;overflow:hidden">
@@ -50,39 +50,41 @@ const ASK_SCREEN_CHANNEL_HTML = `<div style="width:100%;height:100%;display:flex
       <div style="width:200px;border-right:1px solid #E9EAEE;display:flex;flex-direction:column;flex-shrink:0;background:#fff">
         <div style="padding:10px 11px 6px"><div style="border:1px solid #E9EAEE;border-radius:8px;padding:6px 9px;display:flex;align-items:center;gap:7px;cursor:pointer;background:#fff"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#1A1C1D" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg><span style="font-size:11px;color:#1A1C1D;font-weight:600">New chat</span><div style="flex:1"></div><span style="font-size:8.5px;color:#8E8F91;border:1px solid #E9EAEE;border-radius:4px;padding:1px 4px">⌘N</span></div></div>
         <div style="flex:1;overflow:hidden;padding:0 9px">
-          <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 3px 4px"><span style="font-size:9.5px;font-weight:700;color:#8E8F91;letter-spacing:0.07em">TODAY</span></div>
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 3px 4px"><span style="display:inline-flex;align-items:center;gap:4px;font-size:9.5px;font-weight:700;color:#8E8F91;letter-spacing:0.07em;cursor:pointer"><svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="#B4BAC2" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>TODAY</span></div>
           <div style="display:flex;flex-direction:column;gap:1px">
             <div style="display:flex;align-items:center;gap:7px;padding:5.5px 7px;border-radius:7px;background:#EEF1FC"><span style="font-size:11px;color:#1A1C1D;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Channel growth</span></div>
             <div style="display:flex;align-items:center;gap:7px;padding:5.5px 7px;border-radius:7px"><span style="font-size:11px;color:#5C5E63;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Fastest-growing accounts</span></div>
-            <div style="display:flex;align-items:center;gap:7px;padding:5.5px 7px;border-radius:7px"><span style="font-size:11px;color:#5C5E63;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Margin by channel, Q2</span></div>
+            <div style="display:flex;align-items:center;gap:7px;padding:5.5px 7px;border-radius:7px;background:#F6F6F7"><span style="font-size:11px;color:#5C5E63;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Margin by channel, Q2</span></div>
           </div>
-          <div style="display:flex;align-items:center;justify-content:space-between;padding:9px 3px 4px"><span style="font-size:9.5px;font-weight:700;color:#8E8F91;letter-spacing:0.07em">LAST WEEK</span></div>
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:9px 3px 4px"><span style="display:inline-flex;align-items:center;gap:4px;font-size:9.5px;font-weight:700;color:#8E8F91;letter-spacing:0.07em;cursor:pointer"><svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="#B4BAC2" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>LAST WEEK</span></div>
           <div style="display:flex;flex-direction:column;gap:1px">
             <div style="display:flex;align-items:center;gap:7px;padding:5.5px 7px;border-radius:7px"><span style="font-size:11px;color:#5C5E63;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Board pack numbers</span></div>
           </div>
-          <div style="display:flex;align-items:center;justify-content:space-between;padding:9px 3px 4px"><span style="font-size:9.5px;font-weight:700;color:#8E8F91;letter-spacing:0.07em">CONTEXTS</span><span style="font-size:9px;color:#8E8F91;background:#F3F3F4;border-radius:5px;padding:0 5px;font-weight:600">1</span></div>
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:9px 3px 4px"><span style="display:inline-flex;align-items:center;gap:4px;font-size:9.5px;font-weight:700;color:#8E8F91;letter-spacing:0.07em;cursor:pointer"><svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="#B4BAC2" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>CONTEXTS</span><span style="font-size:9px;color:#8E8F91;background:#F3F3F4;border-radius:5px;padding:0 5px;font-weight:600">1</span></div>
           <div style="display:flex;flex-direction:column;gap:1px">
             <div style="display:flex;align-items:center;gap:8px;padding:5px 7px;border-radius:7px"><div style="width:18px;height:18px;border-radius:5px;background:linear-gradient(135deg,#3E63DD,#6E56CF);display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.7l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.7l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg></div><span style="font-size:11px;color:#1A1C1D">Sales Performance</span></div>
           </div>
         </div>
-        <div style="padding:9px 12px;border-top:1px solid #EEEFF1;display:flex;align-items:center;gap:7px"><div style="width:18px;height:18px;border-radius:5px;background:linear-gradient(135deg,#3E63DD,#6E56CF);display:flex;align-items:center;justify-content:center"><svg width="10" height="10" viewBox="0 0 24 24" fill="#fff" stroke="none"><path d="${ASK_SPARKLE}"/></svg></div><div style="min-width:0"><div style="font-size:10.5px;color:#1A1C1D;font-weight:600">Ask Akashic</div><div style="font-size:9px;color:#8E8F91">42 metrics · 5 sources</div></div></div>
+        <div style="padding:9px 12px;border-top:1px solid #EEEFF1;display:flex;align-items:center;gap:7px"><div style="width:18px;height:18px;border-radius:5px;background:linear-gradient(135deg,#3E63DD,#6E56CF);display:flex;align-items:center;justify-content:center"><svg width="10" height="10" viewBox="0 0 24 24" fill="#fff" stroke="none"><path d="${ASK_SPARKLE}"/></svg></div><div style="min-width:0"><div style="font-size:10.5px;color:#1A1C1D;font-weight:600">Ask Akashic</div><div style="font-size:9px;color:#8E8F91">3 metrics · 3 sources</div></div></div>
       </div>
       <div style="flex:1;display:flex;flex-direction:column;overflow:hidden;background:#fff;min-width:0">
         <div style="height:40px;border-bottom:1px solid #EEEFF1;display:flex;align-items:center;padding:0 16px;gap:10px;flex-shrink:0;background:#fff">
-          <span style="font-size:12px;font-weight:600;color:#1A1C1D">Where is growth coming from</span>
+          <span style="font-size:12px;font-weight:600;color:#1A1C1D">Channel growth</span>
           <div style="display:inline-flex;align-items:center;gap:4px"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#1F9D6B" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg><span style="font-size:10px;color:#1B8A5F;font-weight:600">Verified lineage</span></div>
           <div style="flex:1"></div>
           <span style="font-size:10px;color:#8E8F91">warehouse · 1.4s</span>
           <div style="width:26px;height:26px;border-radius:7px;border:1px solid #E9EAEE;display:flex;align-items:center;justify-content:center;cursor:pointer"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#5C5E63" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.6 13.5 6.8 4M15.4 6.5l-6.8 4"/></svg></div>
+          ${LIVE_CHIP}
         </div>
-        <div style="flex:1;overflow-y:auto;padding:12px 0 0;display:flex;flex-direction:column">
+        <div style="flex:1;overflow-y:auto;padding:12px 0 14px;background:#FAFAFB;display:flex;flex-direction:column">
           <div style="width:100%;max-width:600px;margin:0 auto;padding:0 20px;display:flex;flex-direction:column;gap:11px">
-            <div style="display:flex;justify-content:flex-end">
+            <div style="display:flex;flex-direction:column;align-items:flex-end;gap:3px">
               <div style="max-width:78%;background:#EEF1FC;border-radius:13px 13px 4px 13px;padding:8px 12px"><p style="margin:0;font-size:12.5px;color:#1A1C1D;line-height:1.5;font-weight:500">Which channel is growing fastest this quarter?</p></div>
+              <span style="font-size:8.5px;color:#B4BAC2;padding-right:2px">2m ago</span>
             </div>
             <div style="display:flex;gap:10px;align-items:flex-start">
               <div style="width:25px;height:25px;border-radius:7px;background:linear-gradient(135deg,#3E63DD,#6E56CF);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px"><svg width="13" height="13" viewBox="0 0 24 24" fill="white" stroke="none"><path d="${ASK_SPARKLE}"/></svg></div>
-              <div style="flex:1;min-width:0">
+              <div style="flex:1;min-width:0;background:#fff;border:1px solid #E9EAEE;border-radius:12px;padding:12px 14px">
                 <div style="display:flex;align-items:center;gap:6px;margin-bottom:9px;flex-wrap:wrap">
                   <span style="font-size:9.5px;font-weight:600;color:#8E8F91;letter-spacing:0.03em">GROUNDED IN</span>
                   <div style="display:inline-flex;align-items:center;gap:5px;padding:3px 8px 3px 4px;background:#fff;border:1px solid #E9EAEE;border-radius:7px"><div style="width:15px;height:15px;border-radius:4px;background:linear-gradient(135deg,#3E63DD,#6E56CF);display:flex;align-items:center;justify-content:center"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.7l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.7l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg></div><span style="font-size:10px;color:#1A1C1D;font-weight:600">Sales Performance</span></div>
@@ -90,17 +92,17 @@ const ASK_SCREEN_CHANNEL_HTML = `<div style="width:100%;height:100%;display:flex
                 </div>
                 <p style="margin:0 0 9px;font-size:13px;color:#1A1C1D;line-height:1.6">Online is your fastest-growing channel, <strong style="color:#1A1C1D">up 18% quarter on quarter</strong> and now 22% of revenue. Direct grew 6% and Partner was flat. At this pace, Online overtakes Partner by Q4.</p>
                 <div style="display:flex;align-items:center;gap:7px;margin-bottom:10px;padding:6px 11px;background:#FAFAFB;border:1px solid #EEEFF1;border-radius:9px;flex-wrap:wrap">
-                  <span style="font-size:10px;color:#7C5CFC;font-weight:700;font-family:ui-monospace,monospace">ƒx</span>
-                  <span style="font-size:9.5px;color:#5C5E63;font-family:ui-monospace,monospace">share = channel_revenue ÷ net_revenue</span>
+                  <span style="font-size:10px;color:#7C5CFC;font-weight:700;font-family:var(--font-mono)">ƒx</span>
+                  <span style="font-size:9.5px;color:#5C5E63;font-family:var(--font-mono)">share = channel_revenue ÷ net_revenue</span>
                   <span style="width:1px;height:10px;background:#E9EAEE"></span>
-                  <span style="font-size:9px;color:#8E8F91;font-family:ui-monospace,monospace">net_revenue: warehouse · gold</span>
+                  <span style="font-size:9px;color:#8E8F91;font-family:var(--font-mono)">net_revenue: warehouse · gold</span>
                   <div style="flex:1"></div>
                   <span style="font-size:9px;color:#1B8A5F;font-weight:600">computed on the fly</span>
                 </div>
                 <div style="border:1px solid #E9EAEE;border-radius:12px;padding:11px 14px;margin-bottom:10px;background:#fff">
                   <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:9px">
                     <span style="font-size:11.5px;font-weight:600;color:#1A1C1D">Revenue share by channel · Q2</span>
-                    <span style="font-size:9px;color:#8E8F91;font-family:ui-monospace,monospace">net_revenue · metric layer</span>
+                    <span style="font-size:9px;color:#8E8F91;font-family:var(--font-mono)">net_revenue · metric layer</span>
                   </div>
                   <div style="display:flex;flex-direction:column;gap:8px">
                     ${CHANNEL_BARS.map(
@@ -122,8 +124,29 @@ const ASK_SCREEN_CHANNEL_HTML = `<div style="width:100%;height:100%;display:flex
                   <div style="font-size:11.5px;color:#5C5E63;line-height:1.5">Shift Q4 acquisition budget toward Online. A <strong style="color:#1A1C1D">5-point share gain</strong> adds back roughly <strong style="color:#1A1C1D">$1.3M</strong> in H2.</div>
                   <div style="margin-top:8px;display:flex;gap:7px"><div style="display:inline-flex;align-items:center;height:25px;padding:0 11px;background:#3E63DD;border-radius:7px;cursor:pointer"><span style="font-size:10.5px;color:#fff;font-weight:600">Model the shift</span></div><div style="display:inline-flex;align-items:center;height:25px;padding:0 11px;background:#fff;border:1px solid #E9EAEE;border-radius:7px;cursor:pointer"><span style="font-size:10.5px;color:#3E63DD;font-weight:600">Open lineage</span></div></div>
                 </div>
+                <div style="display:flex;align-items:center;gap:2px;margin-top:9px">
+                  <div style="display:inline-flex;align-items:center;gap:5px;height:25px;padding:0 10px;border:1px solid #E9EAEE;border-radius:8px;cursor:pointer;background:#fff;margin-right:4px" title="Read this answer aloud"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#5C5E63" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H2v6h4l5 4z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg><span style="font-size:10px;color:#1A1C1D;font-weight:600">Listen</span><span style="font-size:9px;color:#8E8F91">0:31</span></div>
+                  <div style="width:25px;height:25px;border-radius:7px;display:flex;align-items:center;justify-content:center;cursor:pointer" title="Copy"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#8E8F91" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg></div>
+                  <div style="width:25px;height:25px;border-radius:7px;display:flex;align-items:center;justify-content:center;cursor:pointer" title="Good answer"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#8E8F91" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 10v12"/><path d="M15 5.88 14 10h5.83a2 2 0 0 1 1.92 2.56l-2.33 8A2 2 0 0 1 17.5 22H4a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h2.76a2 2 0 0 0 1.79-1.11L12 2a3.13 3.13 0 0 1 3 3.88Z"/></svg></div>
+                  <div style="width:25px;height:25px;border-radius:7px;display:flex;align-items:center;justify-content:center;cursor:pointer" title="Poor answer"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#8E8F91" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 14V2"/><path d="M9 18.12 10 14H4.17a2 2 0 0 1-1.92-2.56l2.33-8A2 2 0 0 1 6.5 2H20a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-2.76a2 2 0 0 0-1.79 1.11L12 22a3.13 3.13 0 0 1-3-3.88Z"/></svg></div>
+                  <div style="width:25px;height:25px;border-radius:7px;display:flex;align-items:center;justify-content:center;cursor:pointer" title="Re-run"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#8E8F91" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></svg></div>
+                  <div style="flex:1"></div>
+                  <span style="font-size:9px;color:#8E8F91">2 sources · full trace saved</span>
+                </div>
               </div>
             </div>
+          </div>
+        </div>
+        <div style="flex-shrink:0;background:#fff;border-top:1px solid #EEEFF1;padding:10px 20px 12px">
+          <div style="width:100%;max-width:600px;margin:0 auto">
+            <div style="border:1px solid #E4E5E9;border-radius:12px;padding:8px 10px;display:flex;align-items:center;gap:9px;background:#fff;box-shadow:0 1px 2px rgba(18,20,26,0.04)">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#8E8F91" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="cursor:pointer;flex-shrink:0"><path d="M5 12h14M12 5v14"/></svg>
+              <span style="flex:1;font-size:12.5px;color:#8E8F91">Ask a follow-up…</span>
+              <div style="display:flex;align-items:center;gap:5px;padding:3px 8px;background:#FAFAFB;border:1px solid #EEEFF1;border-radius:7px;cursor:pointer;flex-shrink:0"><div style="width:12px;height:12px;border-radius:3px;background:linear-gradient(135deg,#3E63DD,#6E56CF);display:flex;align-items:center;justify-content:center"><svg width="7" height="7" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.7l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.7l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg></div><span style="font-size:10.5px;color:#1A1C1D;font-weight:500">Sales Performance</span><svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="#8E8F91" stroke-width="3" stroke-linecap="round"><path d="m6 9 6 6 6-6"/></svg></div>
+              <div style="width:28px;height:28px;border:1px solid #E9EAEE;border-radius:8px;background:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0" title="Dictate"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#5C5E63" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><path d="M12 19v3"/></svg></div>
+              <div style="width:28px;height:28px;background:linear-gradient(135deg,#3E63DD,#6E56CF);border-radius:8px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 7-7 7 7M12 19V5"/></svg></div>
+            </div>
+            <div style="display:flex;align-items:center;justify-content:center;gap:5px;margin-top:7px"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="#8E8F91" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg><span style="font-size:9px;color:#8E8F91">Answers respect your row-level access · every claim traceable to source</span></div>
           </div>
         </div>
       </div>
@@ -137,19 +160,31 @@ const ASK_SCREEN_CHANNEL_HTML = `<div style="width:100%;height:100%;display:flex
 /* ---------------------------------------------------------------- */
 /* Master Data — three source records merge into one golden record   */
 /* ---------------------------------------------------------------- */
-const MASTER_DATA_SCREEN_HTML = `<div style="width:100%;height:100%;display:flex;flex-direction:column;font-family:Inter,sans-serif;background:#FAFAFB">
+const MASTER_DATA_SCREEN_HTML = `<div style="width:100%;height:100%;display:flex;flex-direction:column;font-family:var(--font-sans);background:#FAFAFB">
   ${WINDOW_BAR}
   ${appTopBar("Master Data", "Customers")}
   <div style="flex:1;display:flex;overflow:hidden">
     ${moduleRail("master")}
     <div style="flex:1;display:flex;flex-direction:column;min-width:0;overflow:hidden">
-      <div style="height:40px;border-bottom:1px solid #E9EAEE;display:flex;align-items:center;padding:0 14px;gap:12px;flex-shrink:0;background:#fff">
-        <div style="height:27px;padding:0 10px;border:1px solid #E9EAEE;border-radius:7px;display:flex;align-items:center;gap:6px;cursor:pointer;background:#fff"><span style="font-size:11.5px;color:#1A1C1D;font-weight:500">Actions</span><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="#8E8F91" stroke-width="3" stroke-linecap="round"><path d="m6 9 6 6 6-6"/></svg></div>
+      <div style="height:40px;border-bottom:1px solid #E9EAEE;display:flex;align-items:center;padding:0 14px;gap:10px;flex-shrink:0;background:#fff">
+        <span style="font-size:12px;font-weight:700;color:#1A1C1D;letter-spacing:-0.01em;white-space:nowrap">Customers</span>
         <div style="width:1px;height:18px;background:#E9EAEE"></div>
-        <div style="display:flex;align-items:center;gap:6px"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#5C5E63" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 17H7A5 5 0 0 1 7 7h2M15 7h2a5 5 0 1 1 0 10h-2M8 12h8"/></svg><span style="font-size:11.5px;color:#5C5E63;font-weight:500">Match rules v12</span></div>
-        <div style="height:24px;padding:0 9px;background:#EEF1FC;border:1px solid #D5DDF8;border-radius:20px;display:flex;align-items:center;gap:6px"><span style="font-size:10.5px;color:#3E63DD;font-weight:600">Auto-merge ≥ 0.95</span></div>
-        <div style="height:24px;padding:0 9px;border:1px solid #E9EAEE;border-radius:20px;display:flex;align-items:center;gap:5px;background:#fff"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#8E8F91" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="7" r="4"/><path d="M2 21v-1a7 7 0 0 1 14 0v1"/><path d="M19 8v6M22 11h-6"/></svg><span style="font-size:10.5px;color:#5C5E63;font-weight:500">Review queue · 3</span></div>
+        <div style="height:27px;padding:0 11px;background:#1A1C1D;border-radius:7px;display:flex;align-items:center;gap:6px;cursor:pointer;flex-shrink:0"><span style="font-size:11.5px;color:#fff;font-weight:600">Actions</span><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"><path d="m6 9 6 6 6-6"/></svg></div>
+        <div style="display:flex;align-items:center;height:27px;background:#F3F3F4;border-radius:8px;padding:2px;flex-shrink:0">
+          <span style="height:23px;display:flex;align-items:center;padding:0 10px;background:#fff;border-radius:6px;font-size:10.5px;font-weight:600;color:#1A1C1D;box-shadow:0 1px 2px rgba(18,20,26,0.07)">Canvas</span>
+          <span style="height:23px;display:flex;align-items:center;padding:0 10px;font-size:10.5px;color:#5C5E63;cursor:pointer">Records</span>
+          <span style="height:23px;display:flex;align-items:center;padding:0 10px;font-size:10.5px;color:#5C5E63;cursor:pointer">Rules</span>
+          <span style="height:23px;display:flex;align-items:center;padding:0 10px;font-size:10.5px;color:#5C5E63;cursor:pointer">Queue</span>
+        </div>
+        <div style="width:1px;height:18px;background:#E9EAEE"></div>
+        <div style="height:27px;padding:0 10px;border:1px solid #E9EAEE;border-radius:7px;display:flex;align-items:center;gap:6px;cursor:pointer;background:#fff;flex-shrink:0"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#5C5E63" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 17H7A5 5 0 0 1 7 7h2M15 7h2a5 5 0 1 1 0 10h-2M8 12h8"/></svg><span style="font-size:11.5px;color:#5C5E63;font-weight:500">Match rules v12</span><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="#8E8F91" stroke-width="3" stroke-linecap="round"><path d="m6 9 6 6 6-6"/></svg></div>
+        <div style="height:27px;padding:0 10px;background:#EEF1FC;border:1px solid #D5DDF8;border-radius:20px;display:flex;align-items:center;gap:5px;cursor:pointer;flex-shrink:0"><span style="font-size:10.5px;color:#3E63DD;font-weight:600">Auto-merge ≥ 0.95</span><svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="#3E63DD" stroke-width="3" stroke-linecap="round"><path d="m6 9 6 6 6-6"/></svg></div>
+        <div style="height:27px;padding:0 10px;border:1px solid #E9EAEE;border-radius:20px;display:flex;align-items:center;gap:5px;background:#fff;cursor:pointer;flex-shrink:0"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#8E8F91" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="7" r="4"/><path d="M2 21v-1a7 7 0 0 1 14 0v1"/><path d="M19 8v6M22 11h-6"/></svg><span style="font-size:10.5px;color:#5C5E63;font-weight:500">Review queue · 3</span></div>
         <div style="flex:1"></div>
+        <div style="display:flex;align-items:center;flex-shrink:0">
+          <div style="width:22px;height:22px;border-radius:50%;background:linear-gradient(135deg,#E0A93B,#E5547B);border:1.5px solid #fff;display:flex;align-items:center;justify-content:center"><span style="font-size:9px;color:#fff;font-weight:700">AR</span></div>
+          <div style="width:22px;height:22px;border-radius:50%;background:linear-gradient(135deg,#1F9D6B,#2A9BE0);border:1.5px solid #fff;display:flex;align-items:center;justify-content:center;margin-left:-7px"><span style="font-size:9px;color:#fff;font-weight:700">DK</span></div>
+        </div>
         <span style="font-size:10.5px;color:#8E8F91">12,447 golden records · 0 open conflicts</span>
         ${LIVE_CHIP}
       </div>
@@ -157,20 +192,20 @@ const MASTER_DATA_SCREEN_HTML = `<div style="width:100%;height:100%;display:flex
         <div style="width:200px;border-right:1px solid #E9EAEE;display:flex;flex-direction:column;flex-shrink:0;background:#fff">
           ${sidebarSearch("Search entities")}
           <div style="flex:1;overflow:hidden;padding:0 9px">
-            <div style="display:flex;align-items:center;justify-content:space-between;padding:7px 3px 4px"><span style="font-size:9.5px;font-weight:700;color:#8E8F91;letter-spacing:0.07em">ENTITIES</span><span style="font-size:9px;color:#8E8F91;background:#F3F3F4;border-radius:5px;padding:0 5px;font-weight:600">4</span></div>
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:7px 3px 4px"><span style="display:inline-flex;align-items:center;gap:4px;font-size:9.5px;font-weight:700;color:#8E8F91;letter-spacing:0.07em;cursor:pointer"><svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="#B4BAC2" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>ENTITIES</span><span style="font-size:9px;color:#8E8F91;background:#F3F3F4;border-radius:5px;padding:0 5px;font-weight:600">4</span></div>
             <div style="display:flex;flex-direction:column;gap:1px">
               <div style="display:flex;align-items:center;gap:8px;padding:5px 7px;border-radius:7px;background:#EEF1FC"><div style="width:19px;height:19px;border-radius:5px;background:#3E63DD;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0 1 12 0v1"/></svg></div><span style="font-size:11.5px;color:#1A1C1D;font-weight:600">Customers</span><div style="flex:1"></div><span style="font-size:9px;color:#8E8F91">12,447</span></div>
-              <div style="display:flex;align-items:center;gap:8px;padding:5px 7px;border-radius:7px"><div style="width:19px;height:19px;border-radius:5px;background:#F3F3F4;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#5C5E63" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V7l7-4 7 4v14M9 9h1M9 13h1M14 9h1M14 13h1"/></svg></div><span style="font-size:11.5px;color:#1A1C1D">Vendors</span><div style="flex:1"></div><span style="font-size:9px;color:#8E8F91">3,208</span></div>
+              <div style="display:flex;align-items:center;gap:8px;padding:5px 7px;border-radius:7px;background:#F6F6F7"><div style="width:19px;height:19px;border-radius:5px;background:#F3F3F4;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#5C5E63" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V7l7-4 7 4v14M9 9h1M9 13h1M14 9h1M14 13h1"/></svg></div><span style="font-size:11.5px;color:#1A1C1D">Vendors</span><div style="flex:1"></div><span style="font-size:9px;color:#8E8F91">3,208</span></div>
               <div style="display:flex;align-items:center;gap:8px;padding:5px 7px;border-radius:7px"><div style="width:19px;height:19px;border-radius:5px;background:#F3F3F4;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#5C5E63" stroke-width="2" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.7l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.7l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg></div><span style="font-size:11.5px;color:#1A1C1D">Products</span><div style="flex:1"></div><span style="font-size:9px;color:#8E8F91">18,662</span></div>
               <div style="display:flex;align-items:center;gap:8px;padding:5px 7px;border-radius:7px"><div style="width:19px;height:19px;border-radius:5px;background:#F3F3F4;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#5C5E63" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg></div><span style="font-size:11.5px;color:#1A1C1D">Locations</span><div style="flex:1"></div><span style="font-size:9px;color:#8E8F91">214</span></div>
             </div>
-            <div style="display:flex;align-items:center;justify-content:space-between;padding:9px 3px 4px"><span style="font-size:9.5px;font-weight:700;color:#8E8F91;letter-spacing:0.07em">MATCH KEYS</span><span style="font-size:9px;color:#8E8F91;background:#F3F3F4;border-radius:5px;padding:0 5px;font-weight:600">3</span></div>
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:9px 3px 4px"><span style="display:inline-flex;align-items:center;gap:4px;font-size:9.5px;font-weight:700;color:#8E8F91;letter-spacing:0.07em;cursor:pointer"><svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="#B4BAC2" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>MATCH KEYS</span><span style="font-size:9px;color:#8E8F91;background:#F3F3F4;border-radius:5px;padding:0 5px;font-weight:600">3</span></div>
             <div style="display:flex;flex-direction:column;gap:1px">
               <div style="display:flex;align-items:center;gap:8px;padding:5px 7px;border-radius:7px"><span style="font-size:11px;color:#1A1C1D;font-family:var(--font-mono)">tax_id</span><div style="flex:1"></div><span style="font-size:9px;color:#1B8A5F;font-weight:600">exact</span></div>
               <div style="display:flex;align-items:center;gap:8px;padding:5px 7px;border-radius:7px"><span style="font-size:11px;color:#1A1C1D;font-family:var(--font-mono)">address</span><div style="flex:1"></div><span style="font-size:9px;color:#8E8F91">fuzzy ≥ 0.9</span></div>
               <div style="display:flex;align-items:center;gap:8px;padding:5px 7px;border-radius:7px"><span style="font-size:11px;color:#1A1C1D;font-family:var(--font-mono)">phone</span><div style="flex:1"></div><span style="font-size:9px;color:#1B8A5F;font-weight:600">exact</span></div>
             </div>
-            <div style="display:flex;align-items:center;justify-content:space-between;padding:9px 3px 4px"><span style="font-size:9.5px;font-weight:700;color:#8E8F91;letter-spacing:0.07em">SURVIVORSHIP</span></div>
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:9px 3px 4px"><span style="display:inline-flex;align-items:center;gap:4px;font-size:9.5px;font-weight:700;color:#8E8F91;letter-spacing:0.07em;cursor:pointer"><svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="#B4BAC2" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>SURVIVORSHIP</span></div>
             <div style="display:flex;flex-direction:column;gap:1px">
               <div style="display:flex;align-items:center;gap:8px;padding:4px 7px"><span style="font-size:11px;color:#1A1C1D">Terms</span><div style="flex:1"></div><span style="font-size:9px;color:#8E8F91">prefer ERP</span></div>
               <div style="display:flex;align-items:center;gap:8px;padding:4px 7px"><span style="font-size:11px;color:#1A1C1D">Address</span><div style="flex:1"></div><span style="font-size:9px;color:#8E8F91">most recent</span></div>
@@ -195,7 +230,7 @@ const MASTER_DATA_SCREEN_HTML = `<div style="width:100%;height:100%;display:flex
           </div>
           <div style="position:absolute;left:20px;top:336px;width:160px;background:#fff;border:1px solid #E9EAEE;border-radius:10px;box-shadow:0 1px 2px rgba(18,20,26,0.05);overflow:hidden">
             <div style="display:flex;align-items:center;gap:8px;padding:9px 10px 7px"><div style="width:24px;height:24px;border-radius:7px;background:#E5547B;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg></div><div style="min-width:0;flex:1"><div style="font-size:11.5px;font-weight:600;color:#1A1C1D">WHITMORE RETAIL</div><div style="font-size:9px;color:#8E8F91">Invoice PDF · bill-to</div></div></div>
-            <div style="border-top:1px solid #EEEFF1;background:#FAFAFB;padding:5px 10px"><span style="display:block;font-size:9px;color:#B07289;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">no tax_id · fuzzy match 0.97</span></div>
+            <div style="border-top:1px solid #EEEFF1;background:#FAFAFB;padding:5px 10px"><span style="display:block;font-size:9px;color:#A97B12;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">no tax_id · fuzzy match 0.97</span></div>
           </div>
           <div style="position:absolute;left:288px;top:148px;width:186px;background:#fff;border:1.5px solid #3E63DD;border-radius:11px;box-shadow:0 1px 3px rgba(62,99,221,0.12);overflow:hidden">
             <div style="height:34px;background:linear-gradient(135deg,#3E63DD,#5870E8);display:flex;align-items:center;gap:8px;padding:0 12px"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0 1 12 0v1"/></svg><span style="font-size:12px;font-weight:700;color:#fff">Golden record</span><div style="flex:1"></div><span style="font-size:9px;color:#C7D3F7;font-weight:600">CU-9042</span></div>
@@ -205,10 +240,10 @@ const MASTER_DATA_SCREEN_HTML = `<div style="width:100%;height:100%;display:flex
               <div style="display:flex;align-items:center;justify-content:space-between"><span style="font-size:10px;color:#5C5E63">Address</span><span style="font-size:10px;color:#1A1C1D">500 Harbor Blvd, Ste 2</span></div>
               <div style="display:flex;align-items:center;justify-content:space-between"><span style="font-size:10px;color:#5C5E63">Terms</span><span style="font-size:10px;color:#1A1C1D">net-45 <span style="color:#8E8F91">· from ERP</span></span></div>
             </div>
-            <div style="border-top:1px solid #E3E8F8;background:#FAFAFB;padding:6px 12px;display:flex;align-items:center;gap:6px"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#1F9D6B" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg><span style="font-size:9.5px;color:#1B8A5F;font-weight:600">Confidence 0.98 · merged from 3 sources</span></div>
+            <div style="border-top:1px solid #E3E8F8;background:#FAFAFB;padding:6px 12px;display:flex;align-items:center;gap:6px"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#1F9D6B" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg><span style="font-size:9.5px;color:#1B8A5F;font-weight:600">Confidence 0.98 · 3 sources</span><div style="flex:1"></div><span style="font-size:9.5px;color:#3E63DD;font-weight:600;cursor:pointer">Open record →</span></div>
           </div>
-          <div style="position:absolute;left:200px;top:106px;font-size:9.5px;color:#8E8F91;font-family:var(--font-mono)">tax_id · exact match</div>
-          <div style="position:absolute;left:206px;top:384px;font-size:9.5px;color:#3E63DD;font-family:var(--font-mono)">steward approved · 06:12</div>
+          <div style="position:absolute;left:196px;top:100px;background:#fff;border:1px solid #E9EAEE;border-radius:20px;padding:2px 8px;font-size:9px;color:#5C5E63;font-family:var(--font-mono);box-shadow:0 1px 2px rgba(18,20,26,0.05)">tax_id · exact match</div>
+          <div style="position:absolute;left:202px;top:378px;background:#F5F7FE;border:1px solid #C8D2F5;border-radius:20px;padding:2px 8px;font-size:9px;color:#3E63DD;font-family:var(--font-mono);box-shadow:0 1px 2px rgba(18,20,26,0.05)">steward approved · 2m ago</div>
           <div style="position:absolute;left:508px;top:176px;width:100px;background:#FAFAFB;border:1px solid #E9EAEE;border-radius:9px;padding:8px 10px">
             <div style="font-size:9px;color:#8E8F91;font-family:var(--font-mono)">#4471</div>
             <div style="font-size:9px;color:#B4BAC2">superseded</div>
@@ -225,6 +260,8 @@ const MASTER_DATA_SCREEN_HTML = `<div style="width:100%;height:100%;display:flex
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#5C5E63" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="cursor:pointer"><path d="M5 12h14"/></svg>
             <span style="font-size:10.5px;color:#1A1C1D;font-weight:600;min-width:30px;text-align:center">100%</span>
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#5C5E63" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="cursor:pointer"><path d="M5 12h14M12 5v14"/></svg>
+            <div style="width:1px;height:14px;background:#E9EAEE"></div>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#5C5E63" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="cursor:pointer"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
           </div>
         </div>
       </div>
@@ -235,7 +272,7 @@ const MASTER_DATA_SCREEN_HTML = `<div style="width:100%;height:100%;display:flex
 /* ---------------------------------------------------------------- */
 /* ML — notebook + experiment tracking, trained where data lives     */
 /* ---------------------------------------------------------------- */
-const ML_SCREEN_HTML = `<div style="width:100%;height:100%;display:flex;flex-direction:column;font-family:Inter,sans-serif;background:#FAFAFB">
+const ML_SCREEN_HTML = `<div style="width:100%;height:100%;display:flex;flex-direction:column;font-family:var(--font-sans);background:#FAFAFB">
   ${WINDOW_BAR}
   ${appTopBar("ML", "forecast_training.ipynb")}
   <div style="flex:1;display:flex;overflow:hidden">
@@ -246,28 +283,33 @@ const ML_SCREEN_HTML = `<div style="width:100%;height:100%;display:flex;flex-dir
         <div style="width:26px;height:27px;border:1px solid #E9EAEE;border-radius:7px;display:flex;align-items:center;justify-content:center;cursor:pointer;background:#fff"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#5C5E63" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg></div>
         <div style="width:1px;height:18px;background:#E9EAEE"></div>
         <div style="display:flex;align-items:center;gap:6px"><span style="width:6px;height:6px;border-radius:50%;background:#1F9D6B"></span><span style="font-size:11px;color:#5C5E63;font-family:var(--font-mono)">Python 3.11 · idle</span></div>
-        <div style="display:flex;align-items:center;gap:6px;cursor:pointer"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#5C5E63" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M8 2v4M16 2v4M3 10h18"/></svg><span style="font-size:11.5px;color:#5C5E63;font-weight:500">Retrain weekly</span></div>
+        <div style="height:27px;padding:0 10px;border:1px solid #E9EAEE;border-radius:7px;background:#fff;display:flex;align-items:center;gap:6px;cursor:pointer;flex-shrink:0"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#5C5E63" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M8 2v4M16 2v4M3 10h18"/></svg><span style="font-size:11.5px;color:#5C5E63;font-weight:500">Schedule: Weekly</span><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="#8E8F91" stroke-width="3" stroke-linecap="round"><path d="m6 9 6 6 6-6"/></svg></div>
         <div style="flex:1"></div>
+        <div style="display:flex;align-items:center;flex-shrink:0">
+          <div style="width:22px;height:22px;border-radius:50%;background:linear-gradient(135deg,#E0A93B,#E5547B);border:1.5px solid #fff;display:flex;align-items:center;justify-content:center"><span style="font-size:9px;color:#fff;font-weight:700">AR</span></div>
+          <div style="width:22px;height:22px;border-radius:50%;background:linear-gradient(135deg,#1F9D6B,#2A9BE0);border:1.5px solid #fff;display:flex;align-items:center;justify-content:center;margin-left:-7px"><span style="font-size:9px;color:#fff;font-weight:700">DK</span></div>
+        </div>
         <span style="font-size:10.5px;color:#8E8F91">Autosaved 2m ago</span>
         <div style="height:24px;padding:0 9px;background:#EAF7F0;border:1px solid #CBE8D9;border-radius:20px;display:flex;align-items:center;gap:5px"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#1F9D6B" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg><span style="font-size:10.5px;color:#1B8A5F;font-weight:600">v3 · Production</span></div>
+        ${LIVE_CHIP}
       </div>
       <div style="flex:1;display:flex;overflow:hidden">
         <div style="width:200px;border-right:1px solid #E9EAEE;display:flex;flex-direction:column;flex-shrink:0;background:#fff">
           ${sidebarSearch("Search experiments")}
           <div style="flex:1;overflow:hidden;padding:0 9px">
-            <div style="display:flex;align-items:center;justify-content:space-between;padding:7px 3px 4px"><span style="font-size:9.5px;font-weight:700;color:#8E8F91;letter-spacing:0.07em">EXPERIMENTS</span><span style="font-size:9px;color:#8E8F91;background:#F3F3F4;border-radius:5px;padding:0 5px;font-weight:600">3</span></div>
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:7px 3px 4px"><span style="display:inline-flex;align-items:center;gap:4px;font-size:9.5px;font-weight:700;color:#8E8F91;letter-spacing:0.07em;cursor:pointer"><svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="#B4BAC2" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>EXPERIMENTS</span><span style="font-size:9px;color:#8E8F91;background:#F3F3F4;border-radius:5px;padding:0 5px;font-weight:600">3</span></div>
             <div style="display:flex;flex-direction:column;gap:1px">
               <div style="display:flex;align-items:center;gap:8px;padding:5px 7px;border-radius:7px;background:#EEF1FC"><div style="width:19px;height:19px;border-radius:5px;background:#3E63DD;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8"/><path d="M14 7h7v7"/></svg></div><span style="font-size:11px;color:#1A1C1D;font-weight:600;font-family:var(--font-mono)">demand_forecast</span><div style="flex:1"></div><span style="font-size:9px;color:#8E8F91">24</span></div>
               <div style="display:flex;align-items:center;gap:8px;padding:5px 7px;border-radius:7px"><div style="width:19px;height:19px;border-radius:5px;background:#F3F3F4;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#5C5E63" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0 1 12 0v1"/></svg></div><span style="font-size:11px;color:#1A1C1D;font-family:var(--font-mono)">churn_risk</span><div style="flex:1"></div><span style="font-size:9px;color:#8E8F91">11</span></div>
               <div style="display:flex;align-items:center;gap:8px;padding:5px 7px;border-radius:7px"><div style="width:19px;height:19px;border-radius:5px;background:#F3F3F4;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#5C5E63" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 3 7v10l9 5 9-5V7z"/><path d="M12 22V12M3 7l9 5 9-5"/></svg></div><span style="font-size:11px;color:#1A1C1D;font-family:var(--font-mono)">stockout_alert</span><div style="flex:1"></div><span style="font-size:9px;color:#8E8F91">6</span></div>
             </div>
-            <div style="display:flex;align-items:center;justify-content:space-between;padding:9px 3px 4px"><span style="font-size:9.5px;font-weight:700;color:#8E8F91;letter-spacing:0.07em">MODEL REGISTRY</span><span style="font-size:9px;color:#8E8F91;background:#F3F3F4;border-radius:5px;padding:0 5px;font-weight:600">3</span></div>
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:9px 3px 4px"><span style="display:inline-flex;align-items:center;gap:4px;font-size:9.5px;font-weight:700;color:#8E8F91;letter-spacing:0.07em;cursor:pointer"><svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="#B4BAC2" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>MODEL REGISTRY</span><span style="font-size:9px;color:#8E8F91;background:#F3F3F4;border-radius:5px;padding:0 5px;font-weight:600">3</span></div>
             <div style="display:flex;flex-direction:column;gap:1px">
               <div style="display:flex;align-items:center;gap:8px;padding:4px 7px"><span style="width:6px;height:6px;border-radius:50%;background:#1F9D6B;flex-shrink:0"></span><span style="font-size:11px;color:#1A1C1D;font-family:var(--font-mono)">demand_forecast</span><div style="flex:1"></div><span style="font-size:9px;color:#1B8A5F;font-weight:600">v3 · prod</span></div>
               <div style="display:flex;align-items:center;gap:8px;padding:4px 7px"><span style="width:6px;height:6px;border-radius:50%;background:#E0A93B;flex-shrink:0"></span><span style="font-size:11px;color:#1A1C1D;font-family:var(--font-mono)">churn_risk</span><div style="flex:1"></div><span style="font-size:9px;color:#B08419;font-weight:600">v2 · staging</span></div>
               <div style="display:flex;align-items:center;gap:8px;padding:4px 7px"><span style="width:6px;height:6px;border-radius:50%;background:#B4BAC2;flex-shrink:0"></span><span style="font-size:11px;color:#1A1C1D;font-family:var(--font-mono)">stockout_alert</span><div style="flex:1"></div><span style="font-size:9px;color:#8E8F91">v1 · dev</span></div>
             </div>
-            <div style="display:flex;align-items:center;justify-content:space-between;padding:9px 3px 4px"><span style="font-size:9.5px;font-weight:700;color:#8E8F91;letter-spacing:0.07em">COMPUTE</span></div>
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:9px 3px 4px"><span style="display:inline-flex;align-items:center;gap:4px;font-size:9.5px;font-weight:700;color:#8E8F91;letter-spacing:0.07em;cursor:pointer"><svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="#B4BAC2" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>COMPUTE</span></div>
             <div style="display:flex;flex-direction:column;gap:1px">
               <div style="display:flex;align-items:center;gap:8px;padding:4px 7px"><span style="width:6px;height:6px;border-radius:50%;background:#1F9D6B;animation:softpulse 2.4s infinite;flex-shrink:0"></span><span style="font-size:11px;color:#1A1C1D;font-family:var(--font-mono)">ml-gpu-01</span><div style="flex:1"></div><span style="font-size:9px;color:#8E8F91">4× T4</span></div>
             </div>
@@ -329,21 +371,21 @@ run.<span style="color:#3E63DD">evaluate</span>(test)</pre>
           </div>
         </div>
         <div style="width:224px;border-left:1px solid #E9EAEE;background:#fff;display:flex;flex-direction:column;flex-shrink:0;overflow:hidden">
-          <div style="padding:11px 13px 8px;border-bottom:1px solid #EEEFF1;display:flex;align-items:center;gap:7px"><span style="font-size:11.5px;font-weight:700;color:#1A1C1D">Runs</span><span style="font-size:9.5px;color:#8E8F91;font-family:var(--font-mono)">demand_forecast</span><div style="flex:1"></div><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#5C5E63" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h3M16 3h3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-3"/></svg></div>
+          <div style="padding:11px 13px 8px;border-bottom:1px solid #EEEFF1;display:flex;align-items:center;gap:7px"><span style="font-size:11.5px;font-weight:700;color:#1A1C1D">Runs</span><span style="font-size:9.5px;color:#8E8F91;font-family:var(--font-mono)">demand_forecast</span><div style="flex:1"></div><span style="font-size:9.5px;color:#5C5E63;cursor:pointer" title="Compare runs">Compare</span><span style="font-size:9.5px;color:#3E63DD;font-weight:600;cursor:pointer">+ New</span></div>
           <div style="padding:8px 10px;display:flex;flex-direction:column;gap:3px">
             <div style="display:flex;align-items:center;gap:8px;padding:6px 8px;border-radius:7px;background:#EEF1FC;border:1px solid #D5DDF8"><span style="font-size:9.5px;color:#3E63DD;font-family:var(--font-mono);font-weight:700">#24</span><span style="font-size:10px;color:#1A1C1D;font-weight:600">MAPE 6.2%</span><div style="flex:1"></div><span style="font-size:8.5px;color:#1B8A5F;background:#EAF7F0;border:1px solid #CBE8D9;border-radius:4px;padding:1px 5px;font-weight:600">prod</span></div>
-            <div style="display:flex;align-items:center;gap:8px;padding:6px 8px;border-radius:7px"><span style="font-size:9.5px;color:#8E8F91;font-family:var(--font-mono)">#23</span><span style="font-size:10px;color:#5C5E63">MAPE 6.9%</span><div style="flex:1"></div><span style="font-size:8.5px;color:#8E8F91">2d ago</span></div>
+            <div style="display:flex;align-items:center;gap:8px;padding:6px 8px;border-radius:7px;background:#F6F6F7"><span style="font-size:9.5px;color:#8E8F91;font-family:var(--font-mono)">#23</span><span style="font-size:10px;color:#5C5E63">MAPE 6.9%</span><div style="flex:1"></div><span style="font-size:8.5px;color:#8E8F91">2d ago</span></div>
             <div style="display:flex;align-items:center;gap:8px;padding:6px 8px;border-radius:7px"><span style="font-size:9.5px;color:#8E8F91;font-family:var(--font-mono)">#22</span><span style="font-size:10px;color:#5C5E63">MAPE 7.4%</span><div style="flex:1"></div><span style="font-size:8.5px;color:#8E8F91">4d ago</span></div>
             <div style="display:flex;align-items:center;gap:8px;padding:6px 8px;border-radius:7px"><span style="font-size:9.5px;color:#8E8F91;font-family:var(--font-mono)">#19</span><span style="font-size:10px;color:#5C5E63">MAPE 9.8%</span><div style="flex:1"></div><span style="font-size:8.5px;color:#8E8F91">1w ago</span></div>
           </div>
-          <div style="padding:2px 13px 4px"><span style="font-size:9.5px;font-weight:700;color:#8E8F91;letter-spacing:0.07em">PARAMETERS</span></div>
+          <div style="padding:2px 13px 4px"><span style="display:inline-flex;align-items:center;gap:4px;font-size:9.5px;font-weight:700;color:#8E8F91;letter-spacing:0.07em;cursor:pointer"><svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="#B4BAC2" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>PARAMETERS</span></div>
           <div style="padding:0 13px;display:flex;flex-direction:column;gap:4px">
             <div style="display:flex;align-items:center;justify-content:space-between"><span style="font-size:10px;color:#5C5E63;font-family:var(--font-mono)">learning_rate</span><span style="font-size:10px;color:#1A1C1D;font-family:var(--font-mono)">0.08</span></div>
             <div style="display:flex;align-items:center;justify-content:space-between"><span style="font-size:10px;color:#5C5E63;font-family:var(--font-mono)">max_depth</span><span style="font-size:10px;color:#1A1C1D;font-family:var(--font-mono)">6</span></div>
             <div style="display:flex;align-items:center;justify-content:space-between"><span style="font-size:10px;color:#5C5E63;font-family:var(--font-mono)">n_estimators</span><span style="font-size:10px;color:#1A1C1D;font-family:var(--font-mono)">400</span></div>
             <div style="display:flex;align-items:center;justify-content:space-between"><span style="font-size:10px;color:#5C5E63;font-family:var(--font-mono)">holdout</span><span style="font-size:10px;color:#1A1C1D;font-family:var(--font-mono)">12 wk</span></div>
           </div>
-          <div style="padding:10px 13px 4px"><span style="font-size:9.5px;font-weight:700;color:#8E8F91;letter-spacing:0.07em">MONITORS</span></div>
+          <div style="padding:10px 13px 4px"><span style="display:inline-flex;align-items:center;gap:4px;font-size:9.5px;font-weight:700;color:#8E8F91;letter-spacing:0.07em;cursor:pointer"><svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="#B4BAC2" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>MONITORS</span></div>
           <div style="padding:0 13px;display:flex;flex-direction:column;gap:4px">
             <div style="display:flex;align-items:center;justify-content:space-between"><span style="font-size:10px;color:#1A1C1D">Drift · PSI 0.04</span><span style="font-size:9px;color:#1B8A5F;font-weight:600">ok</span></div>
             <div style="display:flex;align-items:center;justify-content:space-between"><span style="font-size:10px;color:#1A1C1D">Feature freshness</span><span style="font-size:9px;color:#1B8A5F;font-weight:600">ok</span></div>
@@ -363,7 +405,7 @@ run.<span style="color:#3E63DD">evaluate</span>(test)</pre>
 /* ---------------------------------------------------------------- */
 /* Governance — catalog entity page: lineage, metadata, quality      */
 /* ---------------------------------------------------------------- */
-const GOVERNANCE_SCREEN_HTML = `<div style="width:100%;height:100%;display:flex;flex-direction:column;font-family:Inter,sans-serif;background:#FAFAFB">
+const GOVERNANCE_SCREEN_HTML = `<div style="width:100%;height:100%;display:flex;flex-direction:column;font-family:var(--font-sans);background:#FAFAFB">
   ${WINDOW_BAR}
   ${appTopBar("Governance", "fact_sales")}
   <div style="flex:1;display:flex;overflow:hidden">
@@ -372,7 +414,7 @@ const GOVERNANCE_SCREEN_HTML = `<div style="width:100%;height:100%;display:flex;
       <!-- Breadcrumbs & Asset Header (OpenMetadata style) -->
       <div style="border-bottom:1px solid #E9EAEE;padding:10px 14px;background:#fff;flex-shrink:0;display:flex;flex-direction:column;gap:5px">
         <div style="display:flex;align-items:center;gap:6px;font-size:10px;color:#8E8F91;font-family:var(--font-mono)">
-          <span>Database Service</span>
+          <span style="cursor:pointer">Database service</span>
           <span style="color:#C4C5C9">/</span>
           <span>snowflake_prod</span>
           <span style="color:#C4C5C9">/</span>
@@ -391,39 +433,38 @@ const GOVERNANCE_SCREEN_HTML = `<div style="width:100%;height:100%;display:flex;
             <div style="width:1px;height:12px;background:#E9EAEE;margin:0 2px"></div>
             <span style="display:inline-flex;align-items:center;gap:3px;font-size:9.5px;color:#5C5E63;background:#F3F3F4;padding:2px 6px;border-radius:4px">
               <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/></svg>
-              Fintech
+              Sales
             </span>
             <span style="display:inline-flex;align-items:center;gap:4px;font-size:9.5px;color:#5C5E63">
-              <div style="width:14px;height:14px;border-radius:50%;background:linear-gradient(135deg,#3E63DD,#6E56CF);display:flex;align-items:center;justify-content:center;color:#fff;font-size:7px;font-weight:600">PM</div>
-              Priya Mehta
+              <div style="width:14px;height:14px;border-radius:50%;background:linear-gradient(135deg,#3E63DD,#6E56CF);display:flex;align-items:center;justify-content:center;color:#fff;font-size:7px;font-weight:600">KI</div>
+              Kavya Iyer
             </span>
-            <span style="font-size:9.5px;color:#8E8F91">Tier: <b style="color:#A97B12;font-weight:600">Tier-1</b></span>
-            <span style="font-size:9.5px;color:#8E8F91">Type: <b style="color:#1A1C1D;font-weight:600">Regular</b></span>
+            <span style="font-size:9px;color:#A97B12;background:#FFF9E6;border:1px solid #F0E1B0;border-radius:4px;padding:1px 5px;font-weight:600">Tier 1</span>
+            <span style="font-size:9.5px;color:#8E8F91">Type: <b style="color:#1A1C1D;font-weight:600">Fact table</b></span>
             <span style="font-size:9.5px;color:#8E8F91">Usage: <b style="color:#1A1C1D;font-weight:600">94th pctile</b></span>
           </div>
-          <div style="display:flex;align-items:center;gap:6px;border:1px solid #E9EAEE;border-radius:6px;padding:3px 6px;background:#FAFAFB">
-            <span style="display:inline-flex;align-items:center;gap:2px;font-size:9px;color:#5C5E63"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>110</span>
-            <span style="width:1px;height:10px;background:#E9EAEE"></span>
-            <span style="display:inline-flex;align-items:center;gap:2px;font-size:9px;color:#5C5E63"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm12-5v7a2 2 0 0 1-2 2h-3"/></svg>0</span>
-            <span style="width:1px;height:10px;background:#E9EAEE"></span>
-            <span style="display:inline-flex;align-items:center;gap:2px;font-size:9px;color:#5C5E63"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>27</span>
-            <span style="width:1px;height:10px;background:#E9EAEE"></span>
-            <span style="display:inline-flex;align-items:center;gap:2px;font-size:9px;color:#5C5E63"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>1.0</span>
-            <span style="width:1px;height:10px;background:#E9EAEE"></span>
-            <span style="display:inline-flex;align-items:center;gap:2px;font-size:9px;color:#5C5E63"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>20</span>
+          <div style="display:flex;align-items:center;gap:8px">
+            <div style="display:flex;align-items:center;gap:10px;border:1px solid #E9EAEE;border-radius:6px;padding:3px 8px;background:#FAFAFB">
+              <span style="display:inline-flex;align-items:center;gap:3px;font-size:9px;color:#5C5E63"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>110 upvotes</span>
+              <span style="width:1px;height:10px;background:#E9EAEE"></span>
+              <span style="display:inline-flex;align-items:center;gap:3px;font-size:9px;color:#5C5E63"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>27 watching</span>
+              <span style="width:1px;height:10px;background:#E9EAEE"></span>
+              <span style="display:inline-flex;align-items:center;gap:3px;font-size:9px;color:#5C5E63"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>20 starred</span>
+            </div>
+            ${LIVE_CHIP}
           </div>
         </div>
       </div>
 
       <!-- Tab rows (OpenMetadata style) -->
       <div style="height:32px;border-bottom:1px solid #E9EAEE;display:flex;align-items:center;padding:0 14px;gap:16px;flex-shrink:0;background:#fff">
-        <span style="font-size:10.5px;color:#5C5E63;padding:8px 0;cursor:pointer">Schema <span style="font-size:8.5px;color:#8E8F91">12</span></span>
-        <span style="font-size:10.5px;color:#5C5E63;padding:8px 0;cursor:pointer">Activity Feed & Tasks <span style="font-size:8.5px;color:#8E8F91;background:#F3F3F4;padding:1px 4px;border-radius:4px">23</span></span>
-        <span style="font-size:10.5px;color:#5C5E63;padding:8px 0;cursor:pointer">Sample Data</span>
-        <span style="font-size:10.5px;color:#5C5E63;padding:8px 0;cursor:pointer">Queries <span style="font-size:8.5px;color:#8E8F91">10</span></span>
-        <span style="font-size:10.5px;color:#5C5E63;padding:8px 0;cursor:pointer">Profiler & Data Quality</span>
+        <span style="font-size:10.5px;color:#5C5E63;padding:8px 0;cursor:pointer">Schema <span style="font-size:8.5px;color:#8E8F91;background:#F3F3F4;padding:1px 4px;border-radius:4px">12</span></span>
+        <span style="font-size:10.5px;color:#5C5E63;padding:8px 0;cursor:pointer">Activity feed & tasks <span style="font-size:8.5px;color:#8E8F91;background:#F3F3F4;padding:1px 4px;border-radius:4px">23</span></span>
+        <span style="font-size:10.5px;color:#5C5E63;padding:8px 0;cursor:pointer">Sample data</span>
+        <span style="font-size:10.5px;color:#5C5E63;padding:8px 0;cursor:pointer">Queries <span style="font-size:8.5px;color:#8E8F91;background:#F3F3F4;padding:1px 4px;border-radius:4px">10</span></span>
+        <span style="font-size:10.5px;color:#5C5E63;padding:8px 0;cursor:pointer">Profiler & data quality</span>
         <span style="font-size:10.5px;color:#3E63DD;font-weight:600;padding:8px 0 6px;border-bottom:2px solid #3E63DD;cursor:default">Lineage</span>
-        <span style="font-size:10.5px;color:#5C5E63;padding:8px 0;cursor:pointer">Custom Properties</span>
+        <span style="font-size:10.5px;color:#5C5E63;padding:8px 0;cursor:pointer">Custom properties</span>
       </div>
 
       <!-- Lineage Canvas Area -->
@@ -432,16 +473,12 @@ const GOVERNANCE_SCREEN_HTML = `<div style="width:100%;height:100%;display:flex;
         <div style="position:absolute;top:10px;left:10px;display:flex;align-items:center;gap:6px;z-index:5">
           <div style="background:#fff;border:1px solid #E9EAEE;border-radius:6px;padding:3.5px 8px;display:flex;align-items:center;gap:6px;box-shadow:0 1px 2px rgba(18,20,26,0.05)">
             <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#8E8F91" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-            <input type="text" placeholder="Search Lineage" style="border:none;outline:none;font-size:9.5px;color:#1A1C1D;width:90px;padding:0;background:transparent" disabled />
+            <span style="font-size:9.5px;color:#8E8F91;width:90px">Search lineage</span>
           </div>
           <span style="font-size:9.5px;color:#3E63DD;font-weight:600;cursor:pointer">Advanced ></span>
-        </div>
-
-        <!-- Announcement Banner -->
-        <div style="position:absolute;top:10px;left:180px;right:262px;background:#EEF1FC;border:1px solid #C8D2F5;border-radius:6px;padding:4px 8px;display:flex;align-items:center;gap:6px;z-index:4">
-          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#3E63DD" stroke-width="2.5"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0zM12 9v4M12 17h.01"/></svg>
-          <span style="font-size:9px;color:#3E63DD;font-weight:600">Announcement:</span>
-          <span style="font-size:9px;color:#5C5E63;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:320px">Schema Changes: Take a look at this data asset and refer to version logs.</span>
+          <div style="background:#fff;border:1px solid #E9EAEE;border-radius:6px;padding:3.5px 7px;display:flex;align-items:center;gap:4px;cursor:pointer;box-shadow:0 1px 2px rgba(18,20,26,0.05)"><span style="font-size:9px;color:#5C5E63">Upstream</span><span style="font-size:9px;color:#1A1C1D;font-weight:700">2</span><svg width="7" height="7" viewBox="0 0 24 24" fill="none" stroke="#8E8F91" stroke-width="3" stroke-linecap="round"><path d="m6 9 6 6 6-6"/></svg></div>
+          <div style="background:#fff;border:1px solid #E9EAEE;border-radius:6px;padding:3.5px 7px;display:flex;align-items:center;gap:4px;cursor:pointer;box-shadow:0 1px 2px rgba(18,20,26,0.05)"><span style="font-size:9px;color:#5C5E63">Downstream</span><span style="font-size:9px;color:#1A1C1D;font-weight:700">1</span><svg width="7" height="7" viewBox="0 0 24 24" fill="none" stroke="#8E8F91" stroke-width="3" stroke-linecap="round"><path d="m6 9 6 6 6-6"/></svg></div>
+          <div style="background:#EEF1FC;border:1px solid #C8D2F5;border-radius:6px;padding:3.5px 7px;display:flex;align-items:center;gap:5px;cursor:pointer"><span style="font-size:9px;color:#3E63DD;font-weight:600">Column level</span><span style="position:relative;width:16px;height:9px;border-radius:5px;background:#3E63DD;display:inline-block"><span style="position:absolute;right:1px;top:1px;width:7px;height:7px;border-radius:50%;background:#fff"></span></span></div>
         </div>
 
         <!-- SVG Lineage Paths — solid fine lines, OpenMetadata style -->
@@ -469,7 +506,7 @@ const GOVERNANCE_SCREEN_HTML = `<div style="width:100%;height:100%;display:flex;
 
         <!-- Upstream Nodes -->
         <!-- Salesforce orders node -->
-        <div style="position:absolute;left:12px;top:36px;width:154px;background:#fff;border:1px solid #E9EAEE;border-radius:8px;box-shadow:0 1px 2px rgba(18,20,26,0.05);font-family:Inter,sans-serif">
+        <div style="position:absolute;left:12px;top:36px;width:154px;background:#fff;border:1px solid #E9EAEE;border-radius:8px;box-shadow:0 1px 2px rgba(18,20,26,0.05);font-family:var(--font-sans)">
           <div style="position:absolute;left:-7px;top:50%;transform:translateY(-50%);width:14px;height:14px;border:1px solid #C4C5C9;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;font-size:8px;color:#8E8F91;cursor:pointer;z-index:2">+</div>
           <div style="position:absolute;right:-7px;top:50%;transform:translateY(-50%);width:14px;height:14px;border:1px solid #C4C5C9;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;font-size:8px;color:#8E8F91;cursor:pointer;z-index:2">-</div>
           
@@ -497,7 +534,7 @@ const GOVERNANCE_SCREEN_HTML = `<div style="width:100%;height:100%;display:flex;
         </div>
 
         <!-- NetSuite invoices node (expanded) -->
-        <div style="position:absolute;left:12px;top:124px;width:154px;background:#fff;border:1.5px solid #3E63DD;border-radius:8px;box-shadow:0 2px 4px rgba(62,99,221,0.12);font-family:Inter,sans-serif;z-index:3">
+        <div style="position:absolute;left:12px;top:124px;width:154px;background:#fff;border:1.5px solid #3E63DD;border-radius:8px;box-shadow:0 2px 4px rgba(62,99,221,0.12);font-family:var(--font-sans);z-index:3">
           <div style="position:absolute;left:-7px;top:20px;width:14px;height:14px;border:1px solid #3E63DD;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;font-size:8px;color:#3E63DD;cursor:pointer;z-index:2">+</div>
           <div style="position:absolute;right:-7px;top:20px;width:14px;height:14px;border:1px solid #3E63DD;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;font-size:8px;color:#3E63DD;cursor:pointer;z-index:2">-</div>
 
@@ -507,7 +544,7 @@ const GOVERNANCE_SCREEN_HTML = `<div style="width:100%;height:100%;display:flex;
               <span style="font-size:7px;color:#3E63DD;background:#EEF1FC;border-radius:3px;padding:0 3px;font-weight:600;flex-shrink:0">Table</span>
             </div>
             <div style="display:flex;align-items:center;gap:6px">
-              <div style="width:16px;height:16px;border-radius:4px;background:#1F2A52;display:flex;align-items:center;justify-content:center;flex-shrink:0"><span style="font-size:8.5px;color:#fff;font-weight:700;font-family:Inter">N</span></div>
+              <div style="width:16px;height:16px;border-radius:4px;background:#1F2A52;display:flex;align-items:center;justify-content:center;flex-shrink:0"><span style="font-size:8.5px;color:#fff;font-weight:700;font-family:var(--font-sans)">N</span></div>
               <div style="min-width:0">
                 <div style="font-size:10px;font-weight:700;color:#1A1C1D;font-family:var(--font-mono);line-height:1">ns.invoices</div>
                 <div style="font-size:8px;color:#8E8F91;line-height:1;margin-top:2px">Billed invoices</div>
@@ -527,21 +564,21 @@ const GOVERNANCE_SCREEN_HTML = `<div style="width:100%;height:100%;display:flex;
           <div style="padding:4px">
             <div style="background:#FAFAFB;border:1px solid #E9EAEE;border-radius:4px;padding:2px 5px;display:flex;align-items:center;gap:4px;margin-bottom:4px">
               <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="#8E8F91" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-              <input type="text" placeholder="Search Columns" style="border:none;outline:none;font-size:8px;color:#1A1C1D;width:100%;padding:0;background:transparent" disabled />
+              <span style="font-size:8px;color:#8E8F91;width:100%">Search columns</span>
             </div>
             <div style="display:flex;flex-direction:column;gap:1.5px">
               <div style="display:flex;align-items:center;justify-content:space-between;padding:2px 4px;background:#F5F7FE;border-radius:3px"><span style="font-size:8.5px;color:#3E63DD;font-weight:600;font-family:var(--font-mono)">customer_id</span><span style="font-size:7px;color:#8E8F91">varchar</span></div>
               <div style="display:flex;align-items:center;justify-content:space-between;padding:2px 4px"><span style="font-size:8.5px;color:#5C5E63;font-family:var(--font-mono)">invoice_id</span><span style="font-size:7px;color:#8E8F91">bigint</span></div>
               <div style="display:flex;align-items:center;justify-content:space-between;padding:2px 4px"><span style="font-size:8.5px;color:#5C5E63;font-family:var(--font-mono)">amount</span><span style="font-size:7px;color:#8E8F91">numeric</span></div>
               <div style="display:flex;align-items:center;justify-content:space-between;padding:2px 4px"><span style="font-size:8.5px;color:#5C5E63;font-family:var(--font-mono)">invoice_date</span><span style="font-size:7px;color:#8E8F91">date</span></div>
-              <div style="display:flex;align-items:center;justify-content:space-between;padding:2px 4px"><span style="font-size:8.5px;color:#5C5E63;font-family:var(--font-mono)">status</span><span style="font-size:7.5px;color:#1B8A5F;background:#EAF7F0;border-radius:2px;padding:0 2px;font-weight:600">FK</span></div>
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:2px 4px"><span style="font-size:8.5px;color:#5C5E63;font-family:var(--font-mono)">status</span><span style="font-size:7px;color:#8E8F91">varchar</span></div>
             </div>
             <div style="text-align:center;padding:4px 0 2px;border-top:1px solid #EEEFF1;margin-top:4px"><span style="font-size:8px;color:#3E63DD;font-weight:600;cursor:pointer">Show more columns</span></div>
           </div>
         </div>
 
         <!-- Middle Node: fact_sales -->
-        <div style="position:absolute;left:224px;top:60px;width:172px;background:#fff;border:1.5px solid #3E63DD;border-radius:8px;box-shadow:0 3px 6px rgba(62,99,221,0.15);font-family:Inter,sans-serif;z-index:3">
+        <div style="position:absolute;left:224px;top:60px;width:172px;background:#fff;border:1.5px solid #3E63DD;border-radius:8px;box-shadow:0 3px 6px rgba(62,99,221,0.15);font-family:var(--font-sans);z-index:3">
           <div style="position:absolute;left:-7px;top:20px;width:14px;height:14px;border:1px solid #3E63DD;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;font-size:8px;color:#3E63DD;cursor:pointer;z-index:2">-</div>
           <div style="position:absolute;right:-7px;top:20px;width:14px;height:14px;border:1px solid #3E63DD;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;font-size:8px;color:#3E63DD;cursor:pointer;z-index:2">-</div>
 
@@ -571,13 +608,13 @@ const GOVERNANCE_SCREEN_HTML = `<div style="width:100%;height:100%;display:flex;
           <div style="padding:4px">
             <div style="background:#FAFAFB;border:1px solid #E9EAEE;border-radius:4px;padding:2px 5px;display:flex;align-items:center;gap:4px;margin-bottom:4px">
               <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="#8E8F91" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-              <input type="text" placeholder="Search Columns" style="border:none;outline:none;font-size:8px;color:#1A1C1D;width:100%;padding:0;background:transparent" disabled />
+              <span style="font-size:8px;color:#8E8F91;width:100%">Search columns</span>
             </div>
             <div style="display:flex;flex-direction:column;gap:1.5px">
               <div style="display:flex;align-items:center;justify-content:space-between;padding:2px 4px"><span style="font-size:8.5px;color:#5C5E63;font-family:var(--font-mono)">order_id</span><span style="font-size:7px;color:#8E8F91">bigint</span></div>
-              <div style="display:flex;align-items:center;justify-content:space-between;padding:2px 4px;background:#F5F7FE;border-radius:3px"><span style="font-size:8.5px;color:#3E63DD;font-weight:600;font-family:var(--font-mono)">customer_sk</span><span style="font-size:7.5px;color:#3E63DD;background:#EEF1FC;border-radius:2px;padding:0 2px;font-weight:600">FK</span></div>
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:2px 4px;background:#F5F7FE;border-radius:3px"><span style="font-size:8.5px;color:#3E63DD;font-weight:600;font-family:var(--font-mono)">customer_id</span><span style="font-size:7.5px;color:#3E63DD;background:#EEF1FC;border-radius:2px;padding:0 2px;font-weight:600">FK</span></div>
               <div style="display:flex;align-items:center;justify-content:space-between;padding:2px 4px;background:#F5F7FE;border-radius:3px"><span style="font-size:8.5px;color:#3E63DD;font-weight:600;font-family:var(--font-mono)">net_amount</span><span style="font-size:7px;color:#8E8F91">numeric</span></div>
-              <div style="display:flex;align-items:center;justify-content:space-between;padding:2px 4px"><span style="font-size:8.5px;color:#5C5E63;font-family:var(--font-mono)">region_key</span><span style="font-size:7px;color:#8E8F91">int</span></div>
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:2px 4px"><span style="font-size:8.5px;color:#5C5E63;font-family:var(--font-mono)">region_id</span><span style="font-size:7px;color:#8E8F91">int</span></div>
               <div style="display:flex;align-items:center;justify-content:space-between;padding:2px 4px"><span style="font-size:8.5px;color:#C13059;font-family:var(--font-mono)">tax_id</span><span style="font-size:7.5px;color:#C13059;background:#FDF0F4;border-radius:2px;padding:0 3px;font-weight:600">PII · masked</span></div>
             </div>
             <div style="text-align:center;padding:4px 0 2px;border-top:1px solid #EEEFF1;margin-top:4px"><span style="font-size:8px;color:#3E63DD;font-weight:600;cursor:pointer">Show more columns</span></div>
@@ -586,7 +623,7 @@ const GOVERNANCE_SCREEN_HTML = `<div style="width:100%;height:100%;display:flex;
 
         <!-- Downstream Nodes -->
         <!-- Tableau sales node -->
-        <div style="position:absolute;left:444px;top:48px;width:140px;background:#fff;border:1px solid #E9EAEE;border-radius:8px;box-shadow:0 1px 2px rgba(18,20,26,0.05);font-family:Inter,sans-serif">
+        <div style="position:absolute;left:444px;top:48px;width:140px;background:#fff;border:1px solid #E9EAEE;border-radius:8px;box-shadow:0 1px 2px rgba(18,20,26,0.05);font-family:var(--font-sans)">
           <div style="position:absolute;left:-7px;top:50%;transform:translateY(-50%);width:14px;height:14px;border:1px solid #C4C5C9;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;font-size:8px;color:#8E8F91;cursor:pointer;z-index:2">-</div>
           <div style="position:absolute;right:-7px;top:50%;transform:translateY(-50%);width:14px;height:14px;border:1px solid #C4C5C9;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;font-size:8px;color:#8E8F91;cursor:pointer;z-index:2">+</div>
 
@@ -609,7 +646,7 @@ const GOVERNANCE_SCREEN_HTML = `<div style="width:100%;height:100%;display:flex;
         </div>
 
         <!-- demand_forecast model node -->
-        <div style="position:absolute;left:444px;top:144px;width:140px;background:#fff;border:1px solid #E9EAEE;border-radius:8px;box-shadow:0 1px 2px rgba(18,20,26,0.05);font-family:Inter,sans-serif">
+        <div style="position:absolute;left:444px;top:144px;width:140px;background:#fff;border:1px solid #E9EAEE;border-radius:8px;box-shadow:0 1px 2px rgba(18,20,26,0.05);font-family:var(--font-sans)">
           <div style="position:absolute;left:-7px;top:50%;transform:translateY(-50%);width:14px;height:14px;border:1px solid #C4C5C9;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;font-size:8px;color:#8E8F91;cursor:pointer;z-index:2">-</div>
           <div style="position:absolute;right:-7px;top:50%;transform:translateY(-50%);width:14px;height:14px;border:1px solid #C4C5C9;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;font-size:8px;color:#8E8F91;cursor:pointer;z-index:2">+</div>
 
@@ -632,7 +669,7 @@ const GOVERNANCE_SCREEN_HTML = `<div style="width:100%;height:100%;display:flex;
         </div>
 
         <!-- finance_ledger table node -->
-        <div style="position:absolute;left:444px;top:240px;width:140px;background:#fff;border:1px solid #E9EAEE;border-radius:8px;box-shadow:0 1px 2px rgba(18,20,26,0.05);font-family:Inter,sans-serif">
+        <div style="position:absolute;left:444px;top:240px;width:140px;background:#fff;border:1px solid #E9EAEE;border-radius:8px;box-shadow:0 1px 2px rgba(18,20,26,0.05);font-family:var(--font-sans)">
           <div style="position:absolute;left:-7px;top:50%;transform:translateY(-50%);width:14px;height:14px;border:1px solid #C4C5C9;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;font-size:8px;color:#8E8F91;cursor:pointer;z-index:2">-</div>
           <div style="position:absolute;right:-7px;top:50%;transform:translateY(-50%);width:14px;height:14px;border:1px solid #C4C5C9;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;font-size:8px;color:#8E8F91;cursor:pointer;z-index:2">+</div>
 
@@ -655,9 +692,9 @@ const GOVERNANCE_SCREEN_HTML = `<div style="width:100%;height:100%;display:flex;
         </div>
 
         <!-- Floating panel (Edge Information) -->
-        <div style="position:absolute;right:10px;top:10px;bottom:10px;width:242px;background:#fff;border:1px solid #E9EAEE;border-radius:8px;box-shadow:-2px 0 8px rgba(18,20,26,0.06);display:flex;flex-direction:column;overflow:hidden;z-index:5;font-family:Inter,sans-serif">
+        <div style="position:absolute;right:10px;top:10px;bottom:10px;width:242px;background:#fff;border:1px solid #E9EAEE;border-radius:8px;box-shadow:-2px 0 8px rgba(18,20,26,0.06);display:flex;flex-direction:column;overflow:hidden;z-index:5;font-family:var(--font-sans)">
           <div style="padding:8px 10px;border-bottom:1px solid #EEEFF1;display:flex;align-items:center;justify-content:space-between">
-            <span style="font-size:10.5px;font-weight:700;color:#1A1C1D">Edge Information</span>
+            <span style="font-size:10.5px;font-weight:700;color:#1A1C1D">Edge information</span>
             <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="#8E8F91" stroke-width="2.5" style="cursor:pointer"><path d="M18 6 6 18M6 6l12 12"/></svg>
           </div>
           <div style="padding:10px;display:flex;flex-direction:column;gap:8px;flex:1;min-height:0">
@@ -669,29 +706,31 @@ const GOVERNANCE_SCREEN_HTML = `<div style="width:100%;height:100%;display:flex;
             </div>
             <div style="display:flex;flex-direction:column;gap:2px">
               <span style="font-size:8px;color:#8E8F91;font-weight:600;text-transform:uppercase;letter-spacing:0.03em">Description</span>
-              <span style="font-size:9.5px;color:#5C5E63;line-height:1.4">Calculate billing sums, sync currency codes, and merge downstream transactions daily.</span>
+              <span style="font-size:9.5px;color:#5C5E63;line-height:1.4">Joins billed invoice totals onto orders on order_no to produce net_amount per sale. Runs daily at 02:00.</span>
             </div>
             <div style="display:flex;flex-direction:column;gap:4px;flex:1;min-height:0">
               <span style="font-size:8.5px;color:#8E8F91;font-weight:600;text-transform:uppercase;letter-spacing:0.03em">SQL Query</span>
               
               <!-- Monospace Code Editor mockup -->
-              <div style="flex:1;background:#FAFAFB;border:1px solid #E9EAEE;border-radius:6px;padding:6px;font-family:ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,Liberation Mono,monospace;font-size:8.5px;line-height:1.35;overflow-y:auto;color:#5C5E63">
-                <span style="color:#7C5CFC;font-weight:600">WITH</span> order_counts <span style="color:#7C5CFC;font-weight:600">AS</span> (<br/>
+              <div style="flex:1;background:#FAFAFB;border:1px solid #E9EAEE;border-radius:6px;padding:6px;font-family:var(--font-mono);font-size:8.5px;line-height:1.35;overflow-y:auto;color:#5C5E63">
+                <span style="color:#7C5CFC;font-weight:600">WITH</span> invoice_totals <span style="color:#7C5CFC;font-weight:600">AS</span> (<br/>
                 &nbsp;&nbsp;<span style="color:#3E63DD;font-weight:600">SELECT</span><br/>
-                &nbsp;&nbsp;&nbsp;&nbsp;c.customer_id,<br/>
-                &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#3E63DD;font-weight:600">COUNT</span>(o.order_id) <span style="color:#7C5CFC;font-weight:600">AS</span> order_count<br/>
-                &nbsp;&nbsp;<span style="color:#3E63DD;font-weight:600">FROM</span> stg_customers c<br/>
-                &nbsp;&nbsp;<span style="color:#3E63DD;font-weight:600">LEFT JOIN</span> stg_orders o <span style="color:#3E63DD;font-weight:600">ON</span> c.customer_id = o.customer_id<br/>
-                &nbsp;&nbsp;<span style="color:#3E63DD;font-weight:600">GROUP BY</span> c.customer_id<br/>
-                ),<br/>
-                order_amounts <span style="color:#7C5CFC;font-weight:600">AS</span> (<br/>
-                &nbsp;&nbsp;<span style="color:#3E63DD;font-weight:600">SELECT</span><br/>
-                &nbsp;&nbsp;&nbsp;&nbsp;o.customer_id,<br/>
-                &nbsp;&nbsp;&nbsp;&nbsp;o.order_id<br/>
-                &nbsp;&nbsp;<span style="color:#3E63DD;font-weight:600">FROM</span> stg_orders o<br/>
+                &nbsp;&nbsp;&nbsp;&nbsp;order_no,<br/>
+                &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#3E63DD;font-weight:600">SUM</span>(amount) <span style="color:#7C5CFC;font-weight:600">AS</span> billed_amount<br/>
+                &nbsp;&nbsp;<span style="color:#3E63DD;font-weight:600">FROM</span> stg_invoices<br/>
+                &nbsp;&nbsp;<span style="color:#3E63DD;font-weight:600">GROUP BY</span> order_no<br/>
                 )<br/>
-                <span style="color:#3E63DD;font-weight:600">SELECT</span> * <span style="color:#3E63DD;font-weight:600">FROM</span> order_counts;
+                <span style="color:#3E63DD;font-weight:600">SELECT</span><br/>
+                &nbsp;&nbsp;o.*,<br/>
+                &nbsp;&nbsp;i.billed_amount <span style="color:#7C5CFC;font-weight:600">AS</span> net_amount<br/>
+                <span style="color:#3E63DD;font-weight:600">FROM</span> stg_orders o<br/>
+                <span style="color:#3E63DD;font-weight:600">LEFT JOIN</span> invoice_totals i<br/>
+                &nbsp;&nbsp;<span style="color:#3E63DD;font-weight:600">ON</span> o.order_no = i.order_no;
               </div>
+            </div>
+            <div style="display:flex;gap:6px;padding-top:8px;border-top:1px solid #EEEFF1">
+              <div style="flex:1;display:inline-flex;align-items:center;justify-content:center;height:24px;background:#3E63DD;border-radius:6px;cursor:pointer"><span style="font-size:10px;color:#fff;font-weight:600">Open pipeline</span></div>
+              <div style="display:inline-flex;align-items:center;justify-content:center;height:24px;padding:0 12px;background:#fff;border:1px solid #E9EAEE;border-radius:6px;cursor:pointer"><span style="font-size:10px;color:#5C5E63;font-weight:600">Edit</span></div>
             </div>
           </div>
         </div>
@@ -703,6 +742,14 @@ const GOVERNANCE_SCREEN_HTML = `<div style="width:100%;height:100%;display:flex;
           <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#5C5E63" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="cursor:pointer"><path d="M5 12h14M12 5v14"/></svg>
           <div style="width:1px;height:10px;background:#E9EAEE"></div>
           <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#5C5E63" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="cursor:pointer"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
+        </div>
+
+        <!-- Test-count legend: decodes the green/amber/red chips on every node -->
+        <div style="position:absolute;bottom:10px;left:148px;background:#fff;border:1px solid #E9EAEE;border-radius:6px;padding:4px 9px;display:flex;align-items:center;gap:8px;box-shadow:0 1px 2px rgba(18,20,26,0.05)">
+          <span style="font-size:8px;color:#8E8F91;font-weight:700;letter-spacing:0.06em">TESTS</span>
+          <span style="display:inline-flex;align-items:center;gap:3px"><span style="width:7px;height:7px;border-radius:2px;background:#EAF7F0;border:1px solid #CBE8D9"></span><span style="font-size:8.5px;color:#5C5E63">passed</span></span>
+          <span style="display:inline-flex;align-items:center;gap:3px"><span style="width:7px;height:7px;border-radius:2px;background:#FFF9E6;border:1px solid #F0E1B0"></span><span style="font-size:8.5px;color:#5C5E63">warning</span></span>
+          <span style="display:inline-flex;align-items:center;gap:3px"><span style="width:7px;height:7px;border-radius:2px;background:#FDF0F4;border:1px solid #F2C9D6"></span><span style="font-size:8.5px;color:#5C5E63">failed</span></span>
         </div>
 
         <!-- Security indicator -->
@@ -754,7 +801,7 @@ export default function AkashicModuleScreensMockup() {
 
   return (
     <div style={{ padding: "6px 0 58px", fontFamily: "var(--font-sans)" }} className="relative z-10 mx-auto w-full max-w-[1152px]">
-      <div className="mx-auto mb-12 flex w-fit max-w-full items-center gap-5 overflow-x-auto px-4 lg:gap-8">
+      <div className="mx-auto mb-2 flex w-fit max-w-full items-center gap-5 overflow-x-auto px-4 lg:gap-8">
         {TABS.map((tab, id) => {
           const isActive = activeCard === id;
           return (
@@ -787,6 +834,9 @@ export default function AkashicModuleScreensMockup() {
           );
         })}
       </div>
+      <p className="mx-auto mb-3 whitespace-nowrap px-4 text-center text-[12.5px] font-normal text-tertiary-text md:text-[13.5px]">
+        Seven modules, one product, one governed foundation.
+      </p>
       <div style={{ position: "relative", height: "600px", width: "100%" }}>
         {TABS.map((tab, i) => {
           const rp = (i - activeCard + N) % N;

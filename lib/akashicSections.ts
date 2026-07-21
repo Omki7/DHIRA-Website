@@ -45,18 +45,18 @@ export const AKASHIC_SECTIONS: PageSection[] = [
     eyebrow: "[07]",
   },
   {
+    id: "scale",
+    label: "Proven at scale",
+    eyebrow: "[08]",
+  },
+  {
     id: "stack",
     label: "The stack",
-    eyebrow: "[08]",
+    eyebrow: "[09]",
   },
   {
     id: "solutions",
     label: "Built on Akashic",
-    eyebrow: "[09]",
-  },
-  {
-    id: "scale",
-    label: "Proven at scale",
     eyebrow: "[10]",
   },
   {

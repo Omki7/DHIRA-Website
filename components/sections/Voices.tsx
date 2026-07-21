@@ -37,21 +37,17 @@ export default function Voices() {
             but the section id is intentionally abstract (no nav anchor
             contract on this section). */}
         <ScrollReveal>
-          <div className="mb-10 flex items-center justify-between border-t border-b border-dashed border-lineSoft py-[17px] px-[2px] font-mono text-[11px] uppercase tracking-eyebrow text-inkSoft">
+          <div className="mb-10 flex items-center border-t border-b border-dashed border-lineSoft py-[17px] px-[2px] font-mono text-[11px] uppercase tracking-eyebrow text-inkSoft">
             <span>
-              <span className="text-overcast">[07]</span>
+              <span className="text-overcast">[06]</span>
               &nbsp;&nbsp;PARTNER VOICES
             </span>
-            <span className="text-overcast">/ FROM THE FIELD</span>
           </div>
 
-          <h2 className="max-w-[14em] text-[48px] font-semibold leading-[1.1] tracking-tighter text-ink md:text-[56px] lg:text-[64px]">
+          <h2 className="max-w-[20em] text-[40px] font-semibold leading-[1.1] tracking-tighter text-ink sm:text-[48px] lg:text-[56px]">
             Proven in the field, not in a pitch deck.
           </h2>
 
-          <p className="mt-6 max-w-[34em] text-lg leading-relaxed text-inkSoft">
-            Quotes from partners running Akashic in production today. Public-sector partners are quoted by role, not name &mdash; standard practice for government engagements.
-          </p>
         </ScrollReveal>
 
         {/* Field Dispatches — interactive centerpiece, client child */}

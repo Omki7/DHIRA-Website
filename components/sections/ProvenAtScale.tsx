@@ -1,97 +1,77 @@
 /**
  * DESIGN INTENT:
  * Section 03: Proven At Scale.
- * Light section on bg-white. India identity is a single quiet signal:
- * the shared brand-blue Ashoka Chakra ornament (demos/AshokaChakra, the
- * same slow-turning 24-spoke wheel used in CareersImpact), sat top-right.
- * Indians read it immediately; international clients see an elegant
- * geometric mandala. The copy ("India's national platforms") handles the
- * explicit India reference. A faint warm glow adds depth without anchoring
- * the section to any flag palette.
+ * One deployment at a time: eyebrow + headline beside the brand chakra
+ * ornament, over a white split card (story left, photography right), with
+ * edge arrows and a progress-dot rail. Sits on white like every other
+ * light section — the deep-navy band it briefly carried was dropped so the
+ * page keeps one ground.
  *
- * Layout follows the same left-aligned pattern as all other sections.
- * Shape discipline (Rule 1): stats band uses the site-wide StatBand recipe
- * (see components/ui/StatBand.tsx) — bordered light frame, dashed dividers,
- * pulsing-dot eyebrows, dashed footer caption. Same chrome as CareersImpact,
- * AkashicScale, and the Delivery/About/EIS/Life/Knowledge proof sections.
- * Rule 2 (✓ check): emitted only inside <FieldLedger />.
+ * Shape discipline (Rule 1): this is a story stage, not a stat band. The old
+ * StatBand + FieldLedger treatment was replaced wholesale.
  */
 import ScrollReveal from "@/components/ui/ScrollReveal";
-import FieldLedger from "@/components/demos/FieldLedger";
 import ScrollRevealRail from "@/components/ui/ScrollRevealRail";
+import ProvenStories from "@/components/demos/ProvenStories";
 import AshokaChakra from "@/components/demos/AshokaChakra";
-import StatBand from "@/components/ui/StatBand";
 
-const STATS = [
-  { label: "National education platform", figure: "5.75B+", sublabel: "Learning sessions analysed" },
-  { label: "National education platform", figure: "187M+", sublabel: "Course enrolments" },
-  { label: "Workforce platform", figure: "4M+", sublabel: "Cross-border clearances" },
-  { label: "Workforce platform", figure: "135", sublabel: "Languages served" },
-];
+interface ProvenAtScaleProps {
+  id?: string;
+  sectionNumber?: string;
+  eyebrowText?: string;
+  title?: string;
+  description?: string;
+}
 
-export default function ProvenAtScale() {
+export default function ProvenAtScale({
+  id = "scale",
+  sectionNumber = "03",
+  eyebrowText = "Proven at scale",
+  title = "Real platform. Real citizens.",
+  description = "Not pilots. National systems in production, on the public record.",
+}: ProvenAtScaleProps) {
   return (
     <section
-      id="scale"
-      aria-labelledby="scale-h"
+      id={id}
+      aria-labelledby={`${id}-h`}
       className="relative overflow-hidden bg-white pt-12 pb-24 lg:pt-16 lg:pb-32"
     >
-      {/* Single warm-amber glow — top-right. Not saffron-coded; reads as
-          golden light. Creates depth without anchoring to any flag palette. */}
-      <div
-        className="pointer-events-none absolute -right-40 -top-40 h-[520px] w-[520px] blur-[110px]"
-        style={{ background: "radial-gradient(circle, rgba(215,155,60,0.09), transparent 70%)" }}
-      />
+      <div className="dot-grid pointer-events-none absolute inset-0 opacity-[0.035]" />
 
-      {/* Ashoka Chakra — shared brand-blue rotating ornament (matches CareersImpact) */}
-      <AshokaChakra className="pointer-events-none absolute -right-24 -top-16 h-[540px] w-[540px] opacity-50 lg:-right-12" />
+      <ScrollRevealRail className="relative z-10">
+        <ScrollReveal>
+          <div className="mb-12 flex flex-col items-center gap-10 lg:mb-14 lg:flex-row lg:items-center lg:justify-between lg:gap-16">
+            <div className="text-center lg:text-left">
+              <div className="flex items-center justify-center gap-2.5 font-mono text-[11px] uppercase tracking-eyebrow text-inkSoft lg:justify-start">
+                <span className="h-[5px] w-[5px] rounded-full bg-blue/70" aria-hidden />
+                <span>
+                  <span className="text-overcast">[{sectionNumber}]</span>
+                  &nbsp;&nbsp;{eyebrowText}
+                </span>
+                <span className="h-[5px] w-[5px] rounded-full bg-blue/70" aria-hidden />
+              </div>
 
-      <ScrollRevealRail className="z-10">
-        {/* Eyebrow + headline — left-aligned */}
-        <div className="mb-14">
-          <ScrollReveal>
-            <div className="mb-10 flex items-center justify-between border-t border-b border-dashed border-lineSoft py-[17px] px-[2px] font-mono text-[11px] uppercase tracking-eyebrow text-inkSoft">
-              <span>
-                <span className="text-overcast">[03]</span>
-                &nbsp;&nbsp;PROVEN AT SCALE
-              </span>
-              <span className="text-overcast">/ PRODUCTION DEPLOYMENT</span>
+              <h2
+                id={`${id}-h`}
+                className="mx-auto mt-6 max-w-[16em] text-[40px] font-semibold leading-[1.1] tracking-tighter text-ink sm:text-[48px] lg:mx-0 lg:text-[56px]"
+              >
+                {title}
+              </h2>
+
+              {/* Carries the credibility the removed client names used to */}
+              <p className="mx-auto mt-5 max-w-[30em] text-[17px] leading-relaxed text-inkSoft md:text-[18px] lg:mx-0">
+                {description}
+              </p>
             </div>
 
-            <h2
-              id="scale-h"
-              className="max-w-[14em] text-[48px] font-semibold leading-[1.1] tracking-tighter text-ink md:text-[56px] lg:text-[64px]"
-            >
-              Deployed at national scale.
-            </h2>
-            <p className="mt-5 max-w-[34em] text-lg leading-relaxed text-inkSoft">
-              The intelligence layer inside two of India&apos;s national platforms.
-              <br className="hidden sm:block" />
-              In production, at population scale.
-            </p>
-          </ScrollReveal>
-        </div>
-
-        {/* STATS BAND — site-wide StatBand recipe */}
-        <ScrollReveal delay={120}>
-          <StatBand items={STATS} caption="Where Akashic already runs · public-record numbers" />
+            <div className="w-[150px] shrink-0 sm:w-[170px] lg:w-[190px]">
+              <AshokaChakra className="w-full" />
+            </div>
+          </div>
         </ScrollReveal>
 
-        {/* FIELD LEDGER — interactive centerpiece */}
-        <div className="mt-12">
-          <ScrollReveal delay={200}>
-            <FieldLedger />
-          </ScrollReveal>
-        </div>
-
-        {/* Footer note */}
-        <ScrollReveal delay={300}>
-          <p className="mt-10 text-sm leading-relaxed text-overcast">
-            <span className="font-medium text-inkSoft">
-              The intelligence layer. Not the application.
-            </span>{" "}
-            Embedded inside existing systems without disrupting core infrastructure, turning raw operational data into decision-ready insight.
-          </p>
+        <ScrollReveal delay={150}>
+          <ProvenStories />
         </ScrollReveal>
       </ScrollRevealRail>
     </section>

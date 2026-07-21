@@ -3,7 +3,7 @@
 /*
  * Shared stat-tile design: the recipe first established in
  * CareersImpact.tsx's mission band, now the site-wide standard for any
- * "band of figures" (home ProvenAtScale, AkashicScale, FieldLedger,
+ * "band of figures" (home ProvenAtScale, FieldLedger,
  * Delivery/About/EIS/Life/Knowledge proof panels). One bordered light
  * frame (`bg-primary-bg`), a thin blue gradient top bar, dashed dividers
  * between cells, a pulsing-dot eyebrow above each count-up figure, and an
