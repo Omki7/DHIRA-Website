@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import Nav from "@/components/layout/Nav";
 import Footer from "@/components/layout/Footer";
-import SectorHero from "@/components/sections/sectors/SectorHero";
-import SectorProblem from "@/components/sections/sectors/SectorProblem";
+import RetailHero from "@/components/sections/retail/RetailHero";
+import RetailShelf from "@/components/sections/retail/RetailShelf";
 import SectorMap from "@/components/sections/sectors/SectorMap";
 import SectorSolution from "@/components/sections/sectors/SectorSolution";
 import SectorOutcomes from "@/components/sections/sectors/SectorOutcomes";
@@ -22,8 +22,8 @@ export default function RetailPage() {
     <>
       <Nav />
       <main className="bg-background">
-        <SectorHero content={content} />
-        <SectorProblem content={content} />
+        <RetailHero />
+        <RetailShelf />
         <SectorMap slug="retail" />
         <SectorSolution content={content} />
         <SectorOutcomes content={content} />

@@ -12,7 +12,7 @@ import { SECTOR_PAGES } from "@/components/sections/sectors/sectorContent";
 const content = SECTOR_PAGES.manufacturing;
 
 export const metadata: Metadata = {
-  title: "Manufacturing — The line already knows. Now you will.",
+  title: "Manufacturing: The line already knows. Now you will.",
   description:
     "Akashic connects the shop floor to the enterprise: MES, SCADA, and ERP unified into one governed record, so drift is caught while the shift can still act.",
 };
