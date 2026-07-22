@@ -5,6 +5,20 @@ import ScrollReveal from "@/components/ui/ScrollReveal";
 import ScrollRevealRail from "@/components/ui/ScrollRevealRail";
 import AkashicLogo from "@/components/icons/AkashicLogo";
 
+/*
+ * [10] Ready when you are.
+ *
+ * Black card, black footer under it. [10] and [04] swapped grounds on
+ * 22 Jul 2026 (user direction): the woven light-blue panel moved up to [04],
+ * so the page now runs light → dark into the footer rather than closing on two
+ * dark blocks with no edge between them.
+ *
+ * The typographic polish built during the blue round stays: `closeRule` draws
+ * the hairline under the headline on reveal, and the two ambient auras drift
+ * on offset cycles (`closeFloat`) so the card is never quite still. Both are
+ * decorative and stop dead under the global reduced-motion override.
+ */
+
 export default function Closure() {
   return (
     <section
@@ -28,28 +42,30 @@ export default function Closure() {
 
         {/* Immersive typography-first card */}
         <ScrollReveal delay={120}>
-          <div className="group/card relative overflow-hidden rounded-[16px] border border-white/10 hover:border-white/20 bg-vault hover:bg-[#0D0D10] px-6 py-24 md:py-32 lg:py-40 text-white shadow-2xl transition-all duration-500 ease-settle">
+          <div className="group/card relative overflow-hidden rounded-outer border border-white/10 bg-vault px-6 py-24 text-white shadow-2xl transition-all duration-500 ease-settle hover:border-white/20 md:py-32 lg:py-40">
             {/* Custom dot-grid background */}
-            <div className="dot-grid-dark absolute inset-0 opacity-40 pointer-events-none" />
+            <div className="dot-grid-dark pointer-events-none absolute inset-0 opacity-40" />
 
-            {/* Glowing amber ambient background — centered */}
+            {/* Glowing amber ambient background — centred */}
             <div
-              className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-[600px] w-[600px] rounded-full blur-[140px] opacity-[0.16] group-hover/card:opacity-[0.20] pointer-events-none animate-[pulse_12s_infinite_alternate] transition-opacity duration-500"
+              aria-hidden
+              className="pointer-events-none absolute left-1/2 top-1/2 h-[600px] w-[600px] -translate-x-1/2 -translate-y-1/2 animate-[closeFloat_18s_ease-in-out_infinite_alternate] rounded-full opacity-[0.16] blur-[140px] transition-opacity duration-500 group-hover/card:opacity-[0.22]"
               style={{
                 background: "radial-gradient(circle, #D9A034, transparent 75%)",
               }}
             />
 
-            {/* Glowing blue ambient background — offset center */}
+            {/* Glowing blue ambient background — offset centre, counter-drifting */}
             <div
-              className="absolute left-[45%] top-[55%] -translate-x-1/2 -translate-y-1/2 h-[520px] w-[520px] rounded-full blur-[130px] opacity-[0.12] group-hover/card:opacity-[0.15] pointer-events-none animate-[pulse_15s_infinite_alternate] transition-opacity duration-500"
+              aria-hidden
+              className="pointer-events-none absolute left-[45%] top-[55%] h-[520px] w-[520px] -translate-x-1/2 -translate-y-1/2 animate-[closeFloat_23s_ease-in-out_infinite_alternate-reverse] rounded-full opacity-[0.14] blur-[130px] transition-opacity duration-500 group-hover/card:opacity-[0.2]"
               style={{
                 background: "radial-gradient(circle, #3E63DD, transparent 75%)",
               }}
             />
 
             {/* Immersive Typography CTA Content */}
-            <div className="relative z-10 mx-auto max-w-[54rem] flex flex-col items-center text-center">
+            <div className="relative z-10 mx-auto flex max-w-[54rem] flex-col items-center text-center">
               {/* Minimalist Accent Badge */}
               <div className="mb-8 flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 font-mono text-[11px] tracking-eyebrow text-white/70">
                 <AkashicLogo className="h-3.5 w-3.5" accentColor="#D9A034" />
@@ -58,12 +74,18 @@ export default function Closure() {
 
               <h2
                 id="get-started-h"
-                className="text-balance font-semibold leading-[1.03] tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-white via-[#F8F9FA] to-[#C3C5C9] text-[44px] sm:text-[60px] md:text-[80px] lg:text-[96px] pb-1"
+                className="text-balance bg-gradient-to-b from-white via-[#F8F9FA] to-[#C3C5C9] bg-clip-text pb-1 text-[44px] font-semibold leading-[1.03] tracking-tighter text-transparent sm:text-[60px] md:text-[80px] lg:text-[96px]"
               >
                 Ground every decision in fact.
               </h2>
-              
-              <p className="mt-8 max-w-[34em] text-base md:text-lg lg:text-xl leading-relaxed text-white/60">
+
+              {/* Hairline that draws itself in under the headline. */}
+              <span
+                aria-hidden
+                className="mt-6 h-px w-[min(420px,70%)] origin-center animate-[closeRule_900ms_cubic-bezier(0.2,0.8,0.2,1)_320ms_both] bg-gradient-to-r from-transparent via-white/40 to-transparent"
+              />
+
+              <p className="mt-7 max-w-[34em] text-base leading-relaxed text-white/60 md:text-lg lg:text-xl">
                 Unify structured, unstructured, and streaming data.
                 <br className="hidden sm:block" />
                 Resolve core entities through a governed knowledge layer,
@@ -72,16 +94,16 @@ export default function Closure() {
               </p>
 
               {/* Centered CTA Buttons */}
-              <div className="mt-12 flex flex-col sm:flex-row items-center justify-center gap-4 w-full sm:w-auto">
+              <div className="mt-12 flex w-full flex-col items-center justify-center gap-4 sm:w-auto sm:flex-row">
                 <Link
                   href="#talk-to-our-team"
-                  className="inline-flex items-center justify-center gap-2 h-11 px-8 bg-white text-vault font-semibold text-sm rounded-btn hover:bg-white/90 active:scale-[0.98] transition-all duration-250 ease-settle shadow-[0_1px_2px_rgba(255,255,255,0.05),0_12px_24px_-8px_rgba(255,255,255,0.2)]"
+                  className="btn-primary-invert btn-lg transition-transform duration-250 ease-settle hover:-translate-y-0.5"
                 >
                   Talk to our team
                 </Link>
                 <Link
                   href="#platform"
-                  className="inline-flex items-center justify-center gap-2 h-11 px-8 border border-white/15 hover:border-white/30 text-white font-medium text-sm rounded-btn hover:bg-white/5 active:scale-[0.98] transition-all duration-250 ease-settle"
+                  className="btn-secondary-invert btn-lg transition-transform duration-250 ease-settle hover:-translate-y-0.5"
                 >
                   Explore the platform
                 </Link>

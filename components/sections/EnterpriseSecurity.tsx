@@ -240,8 +240,11 @@ export default function EnterpriseSecurity() {
                 id="gov-h"
                 className="mt-6 text-[38px] font-semibold leading-[1.08] tracking-tighter sm:text-[44px] lg:text-[52px]"
               >
-                <span className="block text-ink">Trusted at any scale.</span>
+                {/* Setup soft, payoff in full ink. The lines were the other
+                    way up, so the section opened on its conclusion and faded
+                    out on its subject. */}
                 <span className="block text-inkSoft">Enterprise governance, inside your walls.</span>
+                <span className="block text-ink">Trusted at any scale.</span>
               </h2>
 
               <div className="mt-11 grid grid-cols-2 gap-x-10 gap-y-9">

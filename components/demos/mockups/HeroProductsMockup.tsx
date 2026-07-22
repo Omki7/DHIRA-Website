@@ -23,8 +23,11 @@ import {
 } from "@/components/demos/mockups/HeroProductScreensMockup";
 
 /* Per-screen dwell times — the Ask screen carries the full South-region
-   answer (paragraph + formula + chart) and needs longer to read. */
-const SCREEN_DURATIONS = [6000, 9000, 6000];
+   answer (paragraph + formula + chart) and needs longer to read.
+   Each screen gained 2.5s on 22 Jul 2026 (team feedback): at 6s/9s a reader
+   who started on the table had the card swapped out from under them before
+   they had finished the first column. */
+const SCREEN_DURATIONS = [8500, 11500, 8500];
 
 export default function HeroProductsMockup() {
   const [activeCard, setActiveCard] = useState(0);
@@ -52,7 +55,7 @@ export default function HeroProductsMockup() {
   const pos2 = getPos(rp[2]);
 
   return (
-    <div style={{ padding: "36px 0 58px", minHeight: "792px", fontFamily: "Inter, system-ui, sans-serif" }} className="w-full max-w-[1152px] mx-auto mt-8 relative z-10 mb-24">
+    <div style={{ padding: "36px 0 0", fontFamily: "Inter, system-ui, sans-serif" }} className="w-full max-w-[1152px] mx-auto mt-8 relative z-10">
       <div className="mx-auto mb-12 flex w-fit items-center gap-10">
         {[
           { id: 0, label: "Akashic Data Pipelines" },
@@ -121,24 +124,19 @@ export default function HeroProductsMockup() {
           dangerouslySetInnerHTML={{ __html: MODELS_SCREEN_HTML }}
         />
       </div>
-      {/* The rail sits UNDER the caption, not between it and the cards:
-          `demos/HeroConnections` fans in and terminates on a node right below
-          the stack, and that caption is the node's label. A progress line
-          dropped between them cuts the one composition the Hero backdrop is
-          making. */}
-      <div className="mt-[70px] text-center">
-        <span className="font-mono text-[11px] font-medium uppercase tracking-eyebrow text-tertiary-text">
-          From every source · one trusted answer
-        </span>
-      </div>
-
       <ScreenProgressRail
         count={3}
         active={activeCard}
         durationMs={SCREEN_DURATIONS[activeCard]}
         resetKey={resetTrigger}
-        className="mt-6"
+        className="mt-8"
       />
+
+      <div className="mt-5 text-center">
+        <span className="font-mono text-[11px] font-medium uppercase tracking-eyebrow text-tertiary-text">
+          From every source · one trusted answer
+        </span>
+      </div>
     </div>
   );
 }

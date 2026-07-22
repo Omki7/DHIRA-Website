@@ -25,10 +25,14 @@ export default function MeetAkashic() {
     >
       <ScrollReveal>
         <div className="flex items-center border-b border-dashed border-uc-line px-6 py-[17px] font-mono text-[11px] uppercase tracking-eyebrow text-uc-dim md:px-10 xl:px-14">
-          <span className="inline-flex items-center gap-2">
-            <span className="inline-flex h-2 w-2 rounded-full bg-blue animate-pulse" />
+          {/* No accent dot. Every other section eyebrow on the page is a bare
+              `[NN]  LABEL`; the pulsing blue dot here made [02] the one
+              section that announced itself, which is what the team flagged as
+              "odd in blue". The section already earns its emphasis from being
+              the only dark ground on the page. */}
+          <span>
             <span className="text-uc-mute">[02]</span>
-            &nbsp;MEET AKASHIC
+            &nbsp;&nbsp;MEET AKASHIC
           </span>
         </div>
       </ScrollReveal>

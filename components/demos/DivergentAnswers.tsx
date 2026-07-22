@@ -248,7 +248,7 @@ export default function DivergentAnswers() {
           </span>
         </div>
         <p className="whitespace-nowrap font-mono text-[10.5px] uppercase tracking-eyebrow text-inkSoft">
-          <span className="text-[13px] font-semibold tracking-tight text-red">{SPREAD}</span>
+          <span className="text-[13px] font-semibold tracking-tight text-red-deep">{SPREAD}</span>
           &nbsp;&nbsp;people apart
         </p>
       </div>

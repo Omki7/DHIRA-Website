@@ -66,7 +66,8 @@ token (see Rule 8 and the tokenisation note below).
 | `blue-hover` | `#3351B8` | Blue accent hover |
 | `blue-subtle` | `#EEF1FC` | Accent background tint |
 | `blue-border` | `#C8D2F5` | Accent border |
-| `red` | `#E5484D` | Problem section only, means **cost** not error |
+| `red` | `#E5484D` | Problem section only, means **cost** not error. Chips, bars, rules |
+| `red-deep` | `#9B1C21` | Section [01]'s large cost **figures** only (8.1:1, ledger ink) |
 | `positive` | `#30A46C` | Positive/"live" family — accent |
 | `positive-text` | `#1B7A47` | Positive text |
 | `positive-subtle` | `#EDF7F1` | Positive background tint |
@@ -81,7 +82,7 @@ token (see Rule 8 and the tokenisation note below).
 | `panel` | `#F7F8FB` | Simulated-UI header tint |
 | `depth` | `#0A0E24` | Deep "anchor" ground (`.ak-depth` slabs) |
 | `depth-raised` | `#141A38` | Raised surface on depth |
-| `vault` | `#0a0a0c` | Footer background only |
+| `vault` | `#0a0a0c` | Footer ground; the dark cards in `Closure` [10] and `HowWeDeliver` [04] |
 | `uc-bg` | `#0A0E24` | MeetAkashic section ground (= `depth`) |
 | `uc-surface` | `#141A38` | UC tile/card surfaces |
 | `uc-stroke` | `#1E2547` | UC hairlines, dividers |
@@ -120,11 +121,24 @@ Near-miss greys not equal to any token (e.g. `#E9EAEE`) should be consolidated t
 | Small body | 14px | 400–500 | default |
 | Eyebrow | 11–13px | 500 | `tracking-eyebrow` (0.14em), UPPERCASE font-mono |
 
+**Two-tone headline grammar (one rule, sitewide):** a headline split across two
+colours is always **soft setup → ink payoff** — `text-inkSoft` (or `text-uc-mute`
+on the dark ground) for the setup line, `text-ink` / `text-uc-text` for the line
+that carries the claim. Never the reverse, and never a third grey. Before 22 Jul
+2026 the site ran all three variants at once — `ProblemSection` soft→ink,
+`EnterpriseSecurity` ink→soft, `EverySector` ink→`overcast`,
+`AkashicOpenFoundations` ink→`secondary-text`, `UCSignals`/`UCSdk` white→mute —
+which is what the team read as "some titles are black, some are black and grey".
+
 **Eyebrow pattern:** `[NN]  SECTION NAME` — numbers in `text-overcast`, rest in
 `text-inkSoft`. Homepage eyebrow rails are **left-only** (`flex items-center`);
 the right-hand `/ DESCRIPTOR` was removed from every homepage section (exception:
 `JoinTheTeam` right slot holds the live "NOW HIRING" pulse). Sub-page sections
 still carry the right descriptor in the borderless variant.
+**No accent colour and no status dot on a section eyebrow**: the one that
+carried a pulsing blue dot ([02]) read as a different class of thing from its
+neighbours. The [01]→[02] bridge control uses the same palette and earns its
+emphasis by filling to `ink` on hover.
 
 ### Spacing, shape, timing
 
@@ -159,15 +173,40 @@ divider beside an SVG chart); `PublicSectorProven`'s dark row-based record board
 | Class | Description |
 |---|---|
 | `.btn-primary` | Dark (ink) fill, 36px, 10px radius |
-| `.btn-secondary` | White bordered, 36px, 10px radius |
+| `.btn-secondary` | White, `default-stroke` border, 36px, 10px radius |
+| `.btn-primary-invert` | White fill, ink text — the primary **on a dark ground** |
+| `.btn-secondary-invert` | Transparent, `white/34` border, white text — dark ground |
+| `.btn-lg` | Size modifier: 44px / 28px padding. Compose, e.g. `btn-primary-invert btn-lg` |
 | `.btn-ghost` | Transparent, tints to `tertiary-bg` on hover |
 | `.dot-grid` | 1px dot radial-gradient at 10px pitch |
 | `.rail-container` | Centred 1440px wrapper, `border-x border-lineSoft` |
 | `.comparison-before-bg` / `.comparison-slider-line` | TheProof slider |
 | `.hs-card` | Absolute 840×592 card for HeroProducts carousel (`data-pos`) |
 
+**Controls sit on `default-stroke`, cards sit on `subtle-stroke`.**
+`.btn-secondary` used to rest on `subtle-stroke` #EEEFF1 — a 1.06:1 edge against
+the white ground, so the site's most-used CTA ("Talk to our team") looked
+unbordered until you hovered it. Do not put a control back on the card edge.
+
+**Dark grounds use the `-invert` pair, never `btn-secondary`.** Every closure
+card and dark hero previously hand-rolled its CTAs: `.btn-secondary` (a *white*
+button, i.e. the primary) beside an inline `h-9 border-white/25` link, or an
+`h-10 bg-white/[0.08]` pair — three heights and three border weights for one
+recipe. All of them now compose the two classes above.
+
+### §5a — Onboarding a non-obvious control
+
+[06]'s drag-compare is the pattern: a seam parked at 50% does not read as a
+control however loud the knob is, so on first entry the slider **plays its own
+comparison** — one slow pass holding 750ms a side, one quick pass, settle back
+to 50/50, then `proofNudge` throws the knob both ways to hand the gesture over.
+Three rules any copy of this must keep: **once per mount** (first intersection,
+never a loop); **any interaction kills it mid-flight** (`stopDemo()` on
+pointerdown, arrow keys and the toggle, so it never fights the reader for the
+handle); and **nothing moves under `prefers-reduced-motion`**.
+
 All `@keyframes` live in `globals.css` (`ps-*` family, `fl-*`, `softpulse`,
-`dashmove`, `progressFill`, `vconn-flow`, `proof*`). **Do not add a
+`dashmove`, `progressFill`, `vconn-flow`, `proof*`, `closeRule`/`closeFloat`). **Do not add a
 component-local `<style dangerouslySetInnerHTML>` keyframe block** — it risks
 silently redefining a global keyframe.
 
@@ -189,7 +228,14 @@ silently redefining a global keyframe.
    - **5a — One soft blue band per page.**
      `bg-[linear-gradient(180deg,#FFFFFF_0%,#F1F5FE_16%,#F1F5FE_84%,#FFFFFF_100%)]`
      (fade endpoints must equal `background`). Pick the page's narrative/trust
-     "breather" section. Do not add a second without user direction.
+     "breather" section. Do not add a second without user direction. On the
+     homepage that is [04], as a wash behind its black card.
+   - **5b — the page's dark cards are [04] and [10], both `vault`.** Three
+     recolours were tried and reverted on 22 Jul 2026: deep blue #10265F on
+     [10] + footer; a light woven blue panel on [10]; the same panel swapped up
+     to [04]. The settled answer is the original — [04] and [10] black, footer
+     black — so do not reach for a coloured closing card again without fresh
+     direction. The nine sub-page closure cards stay on `bg-ink`.
 6. **Reduced motion.** Global CSS zeroes `*` animation-duration under
    `prefers-reduced-motion`. Any new animation must degrade safely.
 7. **Images require real files.** Never point `<Image>`/`<img>` at a path not in

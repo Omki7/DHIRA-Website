@@ -1,5 +1,5 @@
 import ScrollReveal from "@/components/ui/ScrollReveal";
-import { UC_ICON_PATHS } from "./ucIcons";
+import UCFeatureIcon from "./UCFeatureIcon";
 
 const FEATURES = [
   {
@@ -33,16 +33,7 @@ export default function UCFeatureGrid() {
           delay={i * 70}
           className="flex flex-col justify-between gap-8 px-6 py-8 first:pl-6 last:pr-6 max-lg:items-center max-lg:gap-4 max-lg:text-center max-lg:[&:not(:first-child)]:border-t md:first:pl-10 md:last:pr-10 lg:aspect-[5/4] lg:px-7 lg:[&:not(:first-child)]:border-l [&:not(:first-child)]:border-uc-stroke xl:first:pl-14 xl:last:pr-14 2xl:aspect-[3/2]"
         >
-          <svg
-            width="14"
-            height="14"
-            viewBox="0 0 14 14"
-            fill="none"
-            aria-hidden="true"
-            className="size-6 text-uc-mute"
-          >
-            <path d={UC_ICON_PATHS[i]} fill="currentColor" />
-          </svg>
+          <UCFeatureIcon index={i} className="size-8 text-uc-mute" />
           <div className="flex flex-col gap-1.5">
             <p className="text-balance text-[16px] font-medium leading-[1.4] tracking-[-0.16px] text-uc-text">
               {feature.title}

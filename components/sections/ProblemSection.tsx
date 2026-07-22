@@ -85,8 +85,9 @@ export default function ProblemSection() {
                 {RECORD.map((fact) => (
                   <div key={fact.figure} className="flex items-baseline gap-4 sm:gap-5">
                     {/* Red is scoped to this section (see §4) and marks the
-                        cost: these two figures and the ledger's variance. */}
-                    <div className="w-[86px] shrink-0 text-right font-sans text-[30px] font-semibold leading-none tracking-tightest text-red sm:w-[96px] sm:text-[34px]">
+                        cost: these two figures and the ledger's variance.
+                        `red-deep`, not `red` — see the token's note. */}
+                    <div className="w-[86px] shrink-0 text-right font-sans text-[30px] font-semibold leading-none tracking-tightest text-red-deep sm:w-[96px] sm:text-[34px]">
                       {fact.figure}
                     </div>
                     <div className="min-w-0">
@@ -136,9 +137,17 @@ export default function ProblemSection() {
                 The data underneath was never made ready for AI to answer from.
               </span>
             </p>
+            {/* Bridge into [02]. This used to be a blue pill with a pinging
+                blue dot: it is an EYEBROW — the same `[NN] SECTION NAME` label
+                every section opens with — and dressing one of them in the
+                accent colour made [02] look like a different kind of thing
+                from [01] and [03] a screen apart. It now carries the eyebrow's
+                own palette (number `overcast`, label `inkSoft`, mono
+                uppercase) and earns its emphasis from being a control:
+                hovering fills it to ink. */}
             <div className="mt-8 flex flex-col items-center gap-3">
               <span
-                className="h-10 w-px bg-gradient-to-b from-blue-border to-blue"
+                className="h-10 w-px bg-gradient-to-b from-lineSoft to-line"
                 aria-hidden
               />
               <button
@@ -149,13 +158,14 @@ export default function ProblemSection() {
                     el.scrollIntoView({ behavior: "smooth" });
                   }
                 }}
-                className="group relative inline-flex items-center gap-2 rounded-full border border-blue-border bg-blue-subtle/80 px-4 py-2 font-mono text-[11px] uppercase tracking-eyebrow text-blue transition-all duration-300 ease-settle hover:bg-blue hover:text-white shadow-sm hover:shadow-md hover:scale-105 active:scale-95"
+                className="group relative inline-flex items-center gap-2 rounded-full border border-default-stroke bg-background px-4 py-2 font-mono text-[11px] uppercase tracking-eyebrow text-inkSoft shadow-card transition-all duration-300 ease-settle hover:border-ink hover:bg-ink hover:text-white hover:shadow-frame active:scale-95"
               >
-                <span className="relative flex h-2 w-2">
-                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-blue opacity-75 group-hover:bg-white" />
-                  <span className="relative inline-flex h-2 w-2 rounded-full bg-blue group-hover:bg-white" />
+                <span>
+                  <span className="text-overcast transition-colors duration-300 ease-settle group-hover:text-white/60">
+                    [02]
+                  </span>
+                  &nbsp;&nbsp;MEET AKASHIC
                 </span>
-                <span>[02] MEET AKASHIC</span>
                 <svg
                   width="12"
                   height="12"

@@ -247,13 +247,13 @@ export default function EnergyHero() {
               <div className="mt-9 flex flex-wrap items-center gap-3">
                 <Link
                   href="#solution"
-                  className="inline-flex h-10 items-center justify-center rounded-btn bg-white px-4 text-sm font-semibold text-ink transition-colors duration-250 ease-settle hover:bg-blue-subtle"
+                  className="btn-primary-invert"
                 >
                   See how Akashic tackles it
                 </Link>
                 <Link
                   href="#talk-to-our-team"
-                  className="inline-flex h-10 items-center justify-center rounded-btn border border-white/[0.22] bg-white/[0.08] px-4 text-sm font-semibold text-white backdrop-blur-md transition-colors duration-250 ease-settle hover:bg-white/[0.14]"
+                  className="btn-secondary-invert backdrop-blur-md"
                 >
                   Talk to our team
                 </Link>

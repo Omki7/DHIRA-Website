@@ -64,10 +64,12 @@ interface ProofComparisonMockupProps {
   glide?: boolean;
   /** Show the "See the change" onboarding pill (until the reader has used either control). */
   showHint?: boolean;
+  /** Hand the gesture over: nudge the knob left-right once the auto-demo has finished. */
+  nudge?: boolean;
   onKeyDown?: React.KeyboardEventHandler<HTMLDivElement>;
 }
 
-export default function ProofComparisonMockup({ pos, width, glide = false, showHint = true, onKeyDown }: ProofComparisonMockupProps) {
+export default function ProofComparisonMockup({ pos, width, glide = false, showHint = true, nudge = false, onKeyDown }: ProofComparisonMockupProps) {
   // While dragging every layer must sit exactly under the pointer, so the
   // transition is switched off rather than shortened. Before this, the section
   // background eased over 75ms while the mockup layer had no transition at
@@ -344,17 +346,27 @@ export default function ProofComparisonMockup({ pos, width, glide = false, showH
         style={{ left: `${pos}%` }}
       >
         <div className="relative flex flex-col items-center gap-[10px] pointer-events-none">
-          {/* Prominent slide & compare cue pill */}
-          <span
-            className="inline-flex items-center gap-2 px-3.5 py-1.5 bg-[#1E293B] text-white text-[11px] font-bold tracking-wider rounded-full whitespace-nowrap border border-blue-border/40 shadow-xl ring-2 ring-blue/20"
-          >
-            <span className="text-amber-400 font-mono text-[12px] animate-pulse">◄</span>
-            <span className="uppercase text-[10px] tracking-widest text-blue-subtle font-mono">SLIDE TO COMPARE</span>
-            <span className="text-blue-400 font-mono text-[12px] animate-pulse">►</span>
-          </span>
+          {/* Prominent slide & compare cue pill. `showHint` was declared and
+              then never read, so the pill outlived its own job and clipped
+              against the container at the 4%/96% ends. */}
+          {showHint && (
+            <span
+              className="inline-flex items-center gap-2 px-3.5 py-1.5 bg-[#1E293B] text-white text-[11px] font-bold tracking-wider rounded-full whitespace-nowrap border border-blue-border/40 shadow-xl ring-2 ring-blue/20"
+            >
+              <span className="text-amber-400 font-mono text-[12px] animate-pulse">◄</span>
+              <span className="uppercase text-[10px] tracking-widest text-blue-subtle font-mono">SLIDE TO COMPARE</span>
+              <span className="text-blue-400 font-mono text-[12px] animate-pulse">►</span>
+            </span>
+          )}
 
-          {/* Interactive Knob */}
-          <div className="relative w-[52px] h-[52px] md:w-[62px] md:h-[62px]">
+          {/* Interactive Knob. `nudge` runs three left-right passes right after
+              the auto-demo lands, which is the moment the reader has just been
+              shown what the control does and needs telling it is now theirs. */}
+          <div
+            className={`relative w-[52px] h-[52px] md:w-[62px] md:h-[62px] ${
+              nudge ? "animate-[proofNudge_1.5s_ease-in-out_3]" : ""
+            }`}
+          >
             <span className="absolute inset-0 rounded-full bg-blue/30 animate-[proofKnobGlow_2.2s_ease-out_infinite] pointer-events-none" />
             <div
               className="relative w-full h-full rounded-full flex items-center justify-center border-2 border-white bg-gradient-to-b from-white via-blue-subtle to-blue/20 shadow-2xl"

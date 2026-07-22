@@ -28,16 +28,105 @@ export default function TheProof() {
   // left beside the knob, so the container clips it mid-word.
   const [used, setUsed] = useState(false);
 
+  /* Auto-demonstration on first entry (team feedback, 22 Jul 2026: "the scroll
+     is not intuitive to end users").
+
+     A seam parked at dead centre does not read as a control, however loud the
+     knob is — readers were scrolling past the section's entire argument. So
+     the slider plays the comparison itself before asking anyone to drag it:
+     one slow pass with a beat held on each side (long enough to actually read
+     the two states), one quick pass to make the mechanism obvious, then it
+     settles back to centre and the knob nudges left-right to hand the gesture
+     over.
+
+     Three rules this must keep:
+       - once per mount, on first intersection — never a loop, never on every
+         scroll back;
+       - ANY interaction (drag, toggle, arrow key) kills it mid-flight, so the
+         animation is never fighting the reader for the handle;
+       - Rule 6: under `prefers-reduced-motion` nothing moves. The reader gets
+         the resting 50/50 split and the static cue instead. */
+  const [demoPlayed, setDemoPlayed] = useState(false);
+  const [nudge, setNudge] = useState(false);
+  const demoTimers = useRef<ReturnType<typeof setTimeout>[]>([]);
+
+  const stopDemo = useCallback(() => {
+    demoTimers.current.forEach(clearTimeout);
+    demoTimers.current = [];
+    setNudge(false);
+  }, []);
+
   // Only claim a side once the wipe has actually landed there. At the 50/50
   // default neither button is pressed, which is the truthful state.
   const atBefore = pos >= BEFORE_END - 6;
   const atAfter = pos <= AFTER_END + 6;
 
   const showSide = (target: number) => {
+    stopDemo();
     setGlide(true);
     setUsed(true);
     setPos(target);
   };
+
+  useEffect(() => {
+    if (demoPlayed) return;
+    const node = graphContainerRef.current;
+    if (!node) return;
+
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      setDemoPlayed(true);
+      return;
+    }
+
+    /* Trigger on the KNOB being on screen, not on an area fraction.
+       A plain `threshold: 0.45` was wrong in both directions: a reader who
+       stops with the section header at the top of the viewport has only ~37%
+       of the mockup visible, so nothing ever fired — and had it fired earlier,
+       the knob (vertically centred in the mockup) would still have been below
+       the fold, so the sweep would have played off screen. The geometry check
+       below is viewport-height independent; the threshold list just re-runs
+       the callback often enough for it to catch the right moment. */
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const entry = entries[entries.length - 1];
+        if (!entry?.isIntersecting) return;
+        const { top, height } = entry.boundingClientRect;
+        const knobY = top + height / 2;
+        if (knobY < 0 || knobY > window.innerHeight - 60) return;
+
+        observer.disconnect();
+        setDemoPlayed(true);
+
+        /* [start, target]. Each hop is the 650ms `ease-settle` glide; the gaps
+           are the dwell. Pass one holds 750ms a side, pass two runs straight
+           through, then it lands back on the honest 50/50 default. */
+        const script: [number, number][] = [
+          [600, BEFORE_END],
+          [2000, AFTER_END],
+          [3400, BEFORE_END],
+          [4150, AFTER_END],
+          [4900, 50],
+        ];
+
+        for (const [at, target] of script) {
+          demoTimers.current.push(
+            setTimeout(() => {
+              setGlide(true);
+              setPos(target);
+            }, at),
+          );
+        }
+        demoTimers.current.push(setTimeout(() => setNudge(true), 5600));
+      },
+      { threshold: [0, 0.15, 0.3, 0.45, 0.6, 0.8, 1] },
+    );
+
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, [demoPlayed]);
+
+  // Timers outlive the component if the reader scrolls away mid-demo.
+  useEffect(() => stopDemo, [stopDemo]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -53,6 +142,7 @@ export default function TheProof() {
   }, []);
 
   const handlePointerDown = (e: React.PointerEvent) => {
+    stopDemo();
     isDragging.current = true;
     setGlide(false);
     setUsed(true);
@@ -86,6 +176,7 @@ export default function TheProof() {
     else if (e.key === "End") p = BEFORE_END;
     else return;
     e.preventDefault();
+    stopDemo();
     setUsed(true);
     // Arrow keys nudge and should feel immediate; Home/End jump the whole
     // width, so they get the same glide the toggle uses.
@@ -226,6 +317,7 @@ export default function TheProof() {
               width={containerWidth}
               glide={glide}
               showHint={!used}
+              nudge={nudge}
               onKeyDown={handleKeyDown}
             />
           </div>

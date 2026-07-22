@@ -106,8 +106,10 @@ export default function UCSdk() {
               Modules
             </p>
             <h2 className="text-[32px] font-medium leading-[36px] tracking-[-0.01em] lg:text-[40px] lg:leading-[44px]">
-              <span className="block text-uc-text">BI. AI. ML. Agents.</span>
-              <span className="block text-uc-dim">All on one governed foundation.</span>
+              {/* Setup soft, payoff in full ink. The module list is the setup;
+                  the governed foundation is the claim, so it takes the ink. */}
+              <span className="block text-uc-mute">BI. AI. ML. Agents.</span>
+              <span className="block text-uc-text">All on one governed foundation.</span>
             </h2>
             <UCButton href="/akashic#modules">Explore the modules</UCButton>
           </div>

@@ -134,8 +134,10 @@ function Heading({ center = false }: { center?: boolean }) {
         The platform
       </p>
       <h2 className="max-w-[478px] text-balance text-[32px] font-medium leading-[36px] tracking-[-0.01em] text-uc-text lg:text-[40px] lg:leading-[44px]">
-        <span>One question, answered end to end. </span>
-        <span className="text-uc-mute">Grounded at every step.</span>
+        {/* Setup soft, payoff in full ink — the same two-tone grammar the
+            light sections use, so [02] does not run it upside down. */}
+        <span className="text-uc-mute">One question, answered end to end. </span>
+        <span className="text-uc-text">Grounded at every step.</span>
       </h2>
     </div>
   );

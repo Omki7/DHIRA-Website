@@ -42,8 +42,7 @@ export default function HeroConnections() {
         <path d="M 900 300 C 900 600, 720 700, 700 750" stroke="url(#line-fade)" strokeWidth="1" fill="none" />
         <circle cx="900" cy="300" r="3" fill="#8E8F91" />
 
-        {/* Base Central Node */}
-        <circle cx="700" cy="750" r="5" fill="#15171D" />
+
 
         {/* Labels positioned near the top of the lines */}
         <g style={{ fontFamily: "Inter, sans-serif", fontSize: "11px", fill: "#5C5E63", letterSpacing: "0.08em", fontWeight: 500 }}>

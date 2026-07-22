@@ -30,6 +30,13 @@ const config: Config = {
         "blue-subtle": "#EEF1FC",
         "blue-border": "#C8D2F5",
         red: "#E5484D",
+        /* Section [01]'s cost FIGURES only. `red` #E5484D is a UI alert red —
+           at 34px it reads as an error state and, at 3.4:1 on white, as a
+           warning light rather than a loss. This is the same hue dropped to
+           8.1:1: heavier, closer to a ledger's red ink, which is the mood the
+           section is arguing (user direction, 22 Jul 2026). Inline chips,
+           bars and rules stay on `red` — only the big numbers come here. */
+        "red-deep": "#9B1C21",
         /* Positive / "live" family — mirrors the blue family's four steps.
            These four values were already in use as raw hex across LiveChip,
            [01], [04], [05] and [09]; tokenising them stops the next

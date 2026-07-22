@@ -23,6 +23,20 @@ const heroPhrases = [
 ];
 const PHRASE_INTERVAL = 2600;
 
+/* Sticky quote track, in viewport heights.
+   The quote panel is `sticky top-16` inside a section `QUOTE_TRACK_VH + heroHeight`
+   tall, so it UNSTICKS and starts scrolling away once scrollY passes
+   `heroHeight + (QUOTE_TRACK_VH - 100)vh`. The word-by-word ink has to finish
+   inside that window.
+
+   It did not: the track was 150vh (a 50vh sticky window) while the reveal was
+   spread over 150vh of scroll, so the quote was only a third inked at the
+   moment it began leaving, and hit full ink when it was already off screen.
+   The reader never saw the sentence land. QUOTE_REVEAL_VH must stay below
+   `QUOTE_TRACK_VH - 100`; the gap is the beat the finished quote holds still. */
+const QUOTE_TRACK_VH = 200;
+const QUOTE_REVEAL_VH = 75;
+
 const quoteWords = [
   "“I",
   "didn’t",
@@ -70,12 +84,15 @@ export default function Hero() {
   useEffect(() => {
     const handleScroll = () => {
       const scrollPos = window.scrollY;
-      
-      // Calculate progress starting after the hero has fully scrolled out
-      // We divide by window.innerHeight * 1.5 because the sticky track is 150vh long
+
+      // Progress starts once the hero curtain has fully risen and finishes
+      // while the quote is still stuck to the viewport — see QUOTE_REVEAL_VH.
       const scrolledPastHero = Math.max(0, scrollPos - heroHeight);
-      const progress = Math.max(0, Math.min(scrolledPastHero / (window.innerHeight * 1.5), 1));
-      
+      const revealDistance = (window.innerHeight * QUOTE_REVEAL_VH) / 100;
+      const progress = revealDistance > 0
+        ? Math.max(0, Math.min(scrolledPastHero / revealDistance, 1))
+        : 1;
+
       setQuoteProgress(progress);
     };
 
@@ -106,7 +123,7 @@ export default function Hero() {
       {/* Quote section — tall sticky backdrop */}
       <section
         className="relative w-full bg-blue-subtle"
-        style={{ height: `calc(150vh + ${heroHeight}px)` }}
+        style={{ height: `calc(${QUOTE_TRACK_VH}vh + ${heroHeight}px)` }}
       >
         <div className="dot-grid absolute inset-0 opacity-60" />
 
@@ -150,20 +167,36 @@ export default function Hero() {
         <ScrollRevealRail>
           {/* Centered text block — sized so the wireframe cards peek in the opening viewport */}
           <div className="flex min-h-[55vh] flex-col items-center justify-center pt-24 pb-4 text-center lg:pt-28 lg:pb-8">
+            {/* Same pill chrome as /akashic's hero (AkashicHero.tsx): a 1px
+                `subtle-stroke` rim with a conic gradient spinning inside it, so
+                a single blue arc travels the edge. The homepage carried a
+                static bordered pill, which read as the plain version of the
+                same component one page over. Kept as a Link here (it goes to
+                /akashic) where the platform page uses a non-interactive
+                <figure>; the arrow and hover lift stay.
+
+                The spin is Tailwind's built-in `spin` keyframe, so it is
+                covered by the global reduced-motion override. */}
             <Link
               href="/akashic"
-              className="group relative mb-10 inline-flex items-center gap-2 rounded-full border border-subtle-stroke bg-white px-3.5 py-1.5 text-xs shadow-sm transition-shadow ease-settle hover:shadow sm:text-sm"
+              className="group relative mb-10 inline-flex items-center justify-center overflow-hidden rounded-full bg-subtle-stroke p-[1px] shadow-sm transition-shadow ease-settle hover:shadow"
             >
-              <span className="text-secondary-text font-normal">Powered by</span>
-              <span className="inline-flex items-center font-semibold text-primary-text">
-                <AkashicLogo className="h-5 w-5" />
-                <span className="-ml-1">kashic</span>
+              <span
+                aria-hidden
+                className="absolute inset-[-1000%] animate-[spin_3s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,transparent_0%,transparent_85%,#266DF2_100%)] opacity-75 transition-opacity group-hover:opacity-100"
+              />
+              <span className="relative flex items-center gap-2 rounded-full bg-white/95 px-3.5 py-1.5 text-xs backdrop-blur-md transition-colors group-hover:bg-white sm:text-sm">
+                <span className="text-secondary-text font-normal">Powered by</span>
+                <span className="inline-flex items-center font-semibold text-primary-text">
+                  <AkashicLogo className="h-5 w-5" />
+                  <span className="-ml-1">kashic</span>
+                </span>
+                <span className="mx-1 h-3.5 w-px bg-default-stroke" />
+                <span className="font-medium text-primary-text">Deployed at national scale</span>
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" className="text-secondary-text ml-0.5 transition-transform ease-settle group-hover:translate-x-0.5">
+                  <path d="M2.5 6H9.5M9.5 6L6 2.5M9.5 6L6 9.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
               </span>
-              <span className="mx-1 h-3.5 w-px bg-default-stroke" />
-              <span className="font-medium text-primary-text">Deployed at national scale</span>
-              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" className="text-secondary-text ml-0.5 transition-transform ease-settle group-hover:translate-x-0.5">
-                <path d="M2.5 6H9.5M9.5 6L6 2.5M9.5 6L6 9.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
             </Link>
             
             <h1 className="max-w-[22em] text-5xl font-semibold leading-[1.05] tracking-tightest text-primary-text md:text-6xl lg:text-7xl">
@@ -219,7 +252,7 @@ export default function Hero() {
   
           {/* Product UI mockup — peeks from the bottom. Negative pull is kept
               small so the module tabs never crowd the CTA buttons above. */}
-          <div className="relative -mt-8 w-full pb-10 lg:-mt-12">
+          <div className="relative -mt-8 w-full pb-0 lg:-mt-12">
             <HeroConnections />
             <div className="flex flex-col items-center w-full relative z-10">
               <HeroProductsMockup />

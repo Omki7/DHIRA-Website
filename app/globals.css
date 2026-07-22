@@ -102,6 +102,13 @@ h1, h2, h3, h4, h5, h6 {
     transform: scale(0.98);
   }
 
+  /* Resting border was `subtle-stroke` #EEEFF1 — a card edge, not a control
+     edge. Against the white page ground it is a 1.06:1 edge, so the site's
+     most-used CTA ("Talk to our team") read as unbordered and faint, and only
+     grew a visible edge on hover. The control family now sits on
+     `default-stroke` #D9DADB at rest and darkens on hover, so the button has
+     the same weight sitting still that it had under the cursor. Keep card
+     chrome on `subtle-stroke`; controls belong here. */
   .btn-secondary {
     display: inline-flex;
     align-items: center;
@@ -114,16 +121,78 @@ h1, h2, h3, h4, h5, h6 {
     font-size: 14px;
     font-weight: 500;
     border-radius: 10px;
-    border: 1px solid #EEEFF1;
+    border: 1px solid #D9DADB;
+    box-shadow: 0 1px 2px rgba(11, 20, 64, 0.04);
     transition: background-color 200ms ease, border-color 200ms ease, transform 200ms ease;
   }
   .btn-secondary:hover {
     background-color: #F3F3F4;
-    border-color: #D9DADB;
+    border-color: #B6B8BB;
   }
   .btn-secondary:active {
     background-color: #EEEEEF;
+    border-color: #B6B8BB;
     transform: scale(0.98);
+  }
+
+  /* Dark-ground pair. Every closure card and dark hero used to hand-roll these
+     two: `btn-secondary` (a WHITE-filled button, i.e. the primary) beside an
+     inline `border-white/25` link, so the pair had two different heights of
+     intent and a border weight picked per file. One recipe, both grounds. */
+  .btn-primary-invert {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    height: 36px;
+    padding: 0 16px;
+    background-color: #FFFFFF;
+    color: #1A1C1D;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 10px;
+    border: 1px solid transparent;
+    transition: background-color 200ms ease, transform 200ms ease;
+  }
+  .btn-primary-invert:hover {
+    background-color: #E8EAEE;
+  }
+  .btn-primary-invert:active {
+    background-color: #D9DCE2;
+    transform: scale(0.98);
+  }
+
+  .btn-secondary-invert {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    height: 36px;
+    padding: 0 16px;
+    background-color: transparent;
+    color: #FFFFFF;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.34);
+    transition: background-color 200ms ease, border-color 200ms ease, transform 200ms ease;
+  }
+  .btn-secondary-invert:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.6);
+  }
+  .btn-secondary-invert:active {
+    background-color: rgba(255, 255, 255, 0.16);
+    transform: scale(0.98);
+  }
+
+  /* Size modifier for the page-closing CTA pair, which sits under 96px type
+     and needs more than the 36px control height. Compose: `btn-primary-invert
+     btn-lg`. */
+  .btn-lg {
+    height: 44px;
+    padding: 0 28px;
+    font-size: 15px;
   }
 
   .btn-ghost {
@@ -445,6 +514,31 @@ h1, h2, h3, h4, h5, h6 {
 @keyframes proofHint {
   0%, 100% { transform: translateX(0); }
   50%      { transform: translateX(5px); }
+}
+/* Hand-over cue after [06]'s auto-demonstration lands: the knob is thrown
+   both ways and damps out, so it reads as "this is yours to drag" rather than
+   as one more thing playing by itself. Runs a fixed 3 iterations, never a
+   loop. Reduced motion is covered by the global `*` duration override. */
+@keyframes proofNudge {
+  0%, 100% { transform: translateX(0); }
+  14%      { transform: translateX(-9px); }
+  32%      { transform: translateX(9px); }
+  50%      { transform: translateX(-5px); }
+  68%      { transform: translateX(5px); }
+  84%      { transform: translateX(0); }
+}
+/* [10]'s closing card. `closeRule` draws the hairline under the headline on
+   reveal; `closeFloat` gives the two ambient auras a slow, offset drift so the
+   card never looks static. Both decorative, both stop dead under the global
+   reduced-motion override. (A third, `closeSheen`, drove a drifting highlight
+   across a woven light panel — that treatment was reverted, so it is gone.) */
+@keyframes closeRule {
+  from { transform: scaleX(0); opacity: 0; }
+  to   { transform: scaleX(1); opacity: 1; }
+}
+@keyframes closeFloat {
+  0%   { transform: translate3d(0, 0, 0) scale(1); }
+  100% { transform: translate3d(3%, -4%, 0) scale(1.08); }
 }
 
 /* EverySector — right panel text entrance */

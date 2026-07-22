@@ -65,8 +65,11 @@ export default function AkashicOpenFoundations() {
             </p>
 
             <h2 className="max-w-[28em] text-balance text-heading-sm font-semibold text-ink md:text-heading-md">
-              Open by design.{" "}
-              <span className="text-secondary-text">Yours to control, end to end.</span>
+              {/* Setup soft, payoff in full ink — was ink then
+                  `secondary-text`, a third grey running the grammar
+                  backwards. */}
+              <span className="text-inkSoft">Open by design.</span>{" "}
+              <span className="text-ink">Yours to control, end to end.</span>
             </h2>
           </div>
         </ScrollReveal>

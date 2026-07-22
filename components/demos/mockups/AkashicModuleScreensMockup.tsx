@@ -776,6 +776,11 @@ const TABS = [
 
 const N = TABS.length;
 
+/* Dwell per screen. Raised from 6000ms on 22 Jul 2026 (team feedback) to match
+   the home hero rail: six modules at 6s cycled faster than a reader could
+   take in one screen, let alone recognise it as a different module. */
+const SCREEN_DURATION_MS = 8500;
+
 export default function AkashicModuleScreensMockup() {
   const [activeCard, setActiveCard] = useState(0);
   const [resetTrigger, setResetTrigger] = useState(0);
@@ -788,7 +793,7 @@ export default function AkashicModuleScreensMockup() {
   useEffect(() => {
     const timer = setInterval(() => {
       setActiveCard((prev) => (prev + 1) % N);
-    }, 6000);
+    }, SCREEN_DURATION_MS);
     return () => clearInterval(timer);
   }, [activeCard, resetTrigger]);
 
@@ -877,7 +882,7 @@ export default function AkashicModuleScreensMockup() {
       <ScreenProgressRail
         count={N}
         active={activeCard}
-        durationMs={6000}
+        durationMs={SCREEN_DURATION_MS}
         resetKey={resetTrigger}
         className="mt-4"
       />

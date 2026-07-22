@@ -111,8 +111,11 @@ export default function EverySector() {
               the sentence never needs to wrap. Mobile is allowed to wrap rather
               than shrink the heading to an unreadable size. */}
           <h2 className="mb-12 text-[40px] font-semibold leading-[1.1] tracking-tighter text-ink sm:text-[48px] lg:text-[56px]">
-            <span className="text-ink">A foundation for </span>
-            <span className="text-overcast">every field.</span>
+            {/* Setup soft, payoff in full ink — the site's one two-tone
+                headline grammar. Was ink then `overcast`, which read the
+                sentence backwards and used a third grey. */}
+            <span className="text-inkSoft">A foundation for </span>
+            <span className="text-ink">every field.</span>
           </h2>
         </ScrollReveal>
 

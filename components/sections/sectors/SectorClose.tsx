@@ -42,12 +42,12 @@ export default function SectorClose({ content }: { content: SectorContent }) {
                 </span>
               </div>
               <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
-                <Link href="/#get-started" className="btn-secondary">
+                <Link href="/#get-started" className="btn-primary-invert">
                   Talk to our team
                 </Link>
                 <Link
                   href="/akashic"
-                  className="inline-flex h-9 items-center justify-center gap-2 rounded-[10px] border border-white/25 px-4 text-sm font-medium text-white transition-colors duration-250 ease-settle hover:bg-white/10"
+                  className="btn-secondary-invert"
                 >
                   Explore the platform
                 </Link>
