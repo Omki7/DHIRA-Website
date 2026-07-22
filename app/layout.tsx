@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import ContactModal from "@/components/layout/ContactModal";
 
 export const metadata: Metadata = {
   title: "DHIRA — Answers you can act on.",
@@ -37,6 +38,7 @@ export default function RootLayout({
         className="font-sans bg-background text-primary-text antialiased overflow-x-clip"
       >
         {children}
+        <ContactModal />
       </body>
     </html>
   );
