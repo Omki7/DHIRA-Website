@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
+import ContactModal from "@/components/layout/ContactModal";
 
 export const viewport: Viewport = {
   themeColor: "#0A0E24",
@@ -104,6 +105,7 @@ export default function RootLayout({
         className="font-sans bg-background text-primary-text antialiased overflow-x-clip"
       >
         {children}
+        <ContactModal />
       </body>
     </html>
   );
