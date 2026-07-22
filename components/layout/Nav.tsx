@@ -319,15 +319,53 @@ function SolutionsPanel() {
   );
 }
 
-function FlatPanel({ items, href, label, copy }: { items: MenuLink[]; href: string; label: string; copy: string }) {
+function DeliveryPanel() {
+  return (
+    <div className="p-2.5">
+      <Link
+        href="/delivery"
+        className="group mb-2.5 flex items-center justify-between gap-3 rounded-card border border-blue-border/50 bg-blue-subtle/40 px-3 py-2 transition-colors duration-250 ease-settle hover:border-blue-border hover:bg-blue-subtle focus-visible:border-blue/40 focus-visible:outline-none"
+      >
+        <div className="flex items-center gap-2.5 min-w-0">
+          <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-btn bg-blue text-white shadow-xs">
+            <DynamicSketchIcon text="Delivery Overview" className="h-3.5 w-3.5" />
+          </span>
+          <div className="flex items-center gap-2 min-w-0">
+            <span className="text-[13px] font-semibold text-primary-text transition-colors group-hover:text-blue truncate">
+              Delivery Overview
+            </span>
+            <span className="hidden sm:inline-block text-[12px] text-secondary-text truncate">
+              — Engagement & Rollout Models
+            </span>
+          </div>
+        </div>
+        <span className="inline-flex shrink-0 items-center gap-1 rounded-btn bg-blue px-2.5 py-1 text-[12px] font-semibold text-white transition-colors group-hover:bg-blue-hover">
+          View delivery
+          <ArrowIcon className="opacity-100 transition-transform duration-200 group-hover:translate-x-0.5" />
+        </span>
+      </Link>
+
+      <div className="border-t border-subtle-stroke pt-2.5">
+        <MenuHeading>Engagement Models</MenuHeading>
+        <div className="space-y-1">
+          {deliveryItems.map((item) => (
+            <MenuRow key={item.title} item={item} />
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function CompanyPanel() {
   return (
     <div className="p-3">
+      <MenuHeading>Company</MenuHeading>
       <div className="space-y-1">
-        {items.map((item) => (
+        {companyItems.map((item) => (
           <MenuRow key={item.title} item={item} />
         ))}
       </div>
-      <PanelFooter href={href} label={label} copy={copy} />
     </div>
   );
 }
@@ -499,13 +537,8 @@ export default function Nav() {
               <SolutionsPanel />
             </DropdownTrigger>
 
-            <DropdownTrigger id="delivery" label="Delivery" href="/delivery" widthClassName="w-[420px] max-w-[calc(100vw-32px)]" openMenu={openMenu} setOpenMenu={setOpenMenu}>
-              <FlatPanel
-                items={deliveryItems}
-                href="/delivery"
-                label="View delivery"
-                copy="Three engagement models for platform rollout, product builds, and advisory."
-              />
+            <DropdownTrigger id="delivery" label="Delivery" href="/delivery" widthClassName="w-[480px] max-w-[calc(100vw-32px)]" openMenu={openMenu} setOpenMenu={setOpenMenu}>
+              <DeliveryPanel />
             </DropdownTrigger>
 
             <li>
@@ -518,12 +551,7 @@ export default function Nav() {
             </li>
 
             <DropdownTrigger id="company" label="Company" widthClassName="w-[360px] max-w-[calc(100vw-32px)]" openMenu={openMenu} setOpenMenu={setOpenMenu}>
-              <FlatPanel
-                items={companyItems}
-                href="/about"
-                label="Meet DHIRA"
-                copy="Offices in New York, Hyderabad, and Bangalore."
-              />
+              <CompanyPanel />
             </DropdownTrigger>
           </ul>
         </div>
