@@ -199,9 +199,9 @@ function MenuHeading({ children }: { children: ReactNode }) {
   );
 }
 
-function ArrowIcon() {
+function ArrowIcon({ className = "opacity-0 transition-opacity duration-250 ease-settle group-hover:opacity-100" }: { className?: string }) {
   return (
-    <svg width="13" height="13" viewBox="0 0 13 13" fill="none" className="opacity-0 transition-opacity duration-250 ease-settle group-hover:opacity-100" aria-hidden>
+    <svg width="13" height="13" viewBox="0 0 13 13" fill="none" className={className} aria-hidden>
       <path fillRule="evenodd" clipRule="evenodd" d="M10.85 6.85a.5.5 0 0 0 0-.7L8.35 3.65a.5.5 0 1 0-.7.7L9.29 6H2.5a.5.5 0 0 0 0 1h6.79L7.65 8.65a.5.5 0 1 0 .7.7l2.5-2.5Z" fill="currentColor" />
     </svg>
   );
@@ -268,17 +268,35 @@ function GroupColumn({ group, dense = false }: { group: MenuGroup; dense?: boole
 
 function AkashicPanel() {
   return (
-    <div className="p-3">
-      <div className="grid grid-cols-2 gap-4">
+    <div className="p-2.5">
+      <Link
+        href="/akashic"
+        className="group mb-2 flex items-center justify-between gap-3 rounded-card border border-blue-border/50 bg-blue-subtle/40 px-3 py-2 transition-colors duration-250 ease-settle hover:border-blue-border hover:bg-blue-subtle focus-visible:border-blue/40 focus-visible:outline-none"
+      >
+        <div className="flex items-center gap-2.5 min-w-0">
+          <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-btn bg-blue text-white shadow-xs">
+            <DynamicSketchIcon text="Akashic Platform" className="h-3.5 w-3.5" />
+          </span>
+          <div className="flex items-center gap-2 min-w-0">
+            <span className="text-[13px] font-semibold text-primary-text transition-colors group-hover:text-blue truncate">
+              Akashic Platform Overview
+            </span>
+            <span className="hidden sm:inline-block text-[12px] text-secondary-text truncate">
+              — Governed data foundation
+            </span>
+          </div>
+        </div>
+        <span className="inline-flex shrink-0 items-center gap-1 rounded-btn bg-blue px-2.5 py-1 text-[12px] font-semibold text-white transition-colors group-hover:bg-blue-hover">
+          View platform
+          <ArrowIcon className="opacity-100 transition-transform duration-200 group-hover:translate-x-0.5" />
+        </span>
+      </Link>
+
+      <div className="grid grid-cols-2 gap-3 border-t border-subtle-stroke pt-2">
         {akashicGroups.map((group) => (
           <GroupColumn key={group.heading} group={group} />
         ))}
       </div>
-      <PanelFooter
-        href="/akashic"
-        label="View platform"
-        copy="One governed foundation for structured, unstructured, and streaming data."
-      />
     </div>
   );
 }

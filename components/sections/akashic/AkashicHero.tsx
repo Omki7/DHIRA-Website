@@ -51,7 +51,7 @@ export default function AkashicHero() {
           </ScrollReveal>
 
           <ScrollReveal delay={140}>
-            <h1 className="mt-6 max-w-[22em] text-5xl font-semibold leading-[1.05] tracking-tightest text-primary-text md:text-6xl lg:text-7xl">
+            <h1 className="mt-6 max-w-[24em] text-5xl font-semibold leading-[1.2] tracking-tightest text-primary-text md:text-6xl lg:text-7xl">
               Every{" "}
               <span className="inline-grid align-baseline">
                 {/* every word occupies the same grid cell, so the cell is always
@@ -85,8 +85,7 @@ export default function AkashicHero() {
                 ))}
               </span>{" "}
               <span className="whitespace-nowrap">your organisation needs</span>
-              <br />
-              is already in your data.
+              <span className="mt-1.5 block sm:mt-2.5">is already in your data.</span>
             </h1>
           </ScrollReveal>
 
