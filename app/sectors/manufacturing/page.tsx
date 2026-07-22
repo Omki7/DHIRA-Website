@@ -14,9 +14,22 @@ import { SECTOR_PAGES } from "@/components/sections/sectors/sectorContent";
 const content = SECTOR_PAGES.manufacturing;
 
 export const metadata: Metadata = {
-  title: "Manufacturing: The line already knows. Now you will.",
+  title: "Manufacturing Sector",
   description:
     "Akashic connects the shop floor to the enterprise: MES, SCADA, and ERP unified into one governed record, so drift is caught while the shift can still act.",
+  openGraph: {
+    title: "Manufacturing Sector | DHIRA",
+    description:
+      "Akashic connects the shop floor to the enterprise: MES, SCADA, and ERP unified into one governed record.",
+    images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "Manufacturing Sector — DHIRA" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Manufacturing Sector | DHIRA",
+    description:
+      "MES, SCADA, and ERP unified into one governed record for real-time manufacturing intelligence.",
+    images: ["/og-image.png"],
+  },
 };
 
 export default function ManufacturingPage() {

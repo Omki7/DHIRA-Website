@@ -14,9 +14,22 @@ import { SECTOR_PAGES } from "@/components/sections/sectors/sectorContent";
 const content = SECTOR_PAGES.healthcare;
 
 export const metadata: Metadata = {
-  title: "Healthcare: Every patient deserves one record. Not seven.",
+  title: "Healthcare Sector",
   description:
     "Akashic resolves fragmented hospital systems into one governed longitudinal patient record, with consent and audit built into the platform itself.",
+  openGraph: {
+    title: "Healthcare Sector | DHIRA",
+    description:
+      "Akashic resolves fragmented hospital systems into one governed longitudinal patient record.",
+    images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "Healthcare Sector — DHIRA" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Healthcare Sector | DHIRA",
+    description:
+      "One governed longitudinal patient record across fragmented health systems.",
+    images: ["/og-image.png"],
+  },
 };
 
 export default function HealthcarePage() {

@@ -13,9 +13,22 @@ import PageMinimap from "@/components/layout/PageMinimap";
 import { ABOUT_SECTIONS } from "@/lib/aboutSections";
 
 export const metadata: Metadata = {
-  title: "About — Technology that outlasts the budget cycle.",
+  title: "About Us",
   description:
     "A small team of engineers and product builders who believe technology should outlast the budget cycle that funded it.",
+  openGraph: {
+    title: "About Us | DHIRA",
+    description:
+      "A small team of engineers and product builders who believe technology should outlast the budget cycle that funded it.",
+    images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "About DHIRA" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "About Us | DHIRA",
+    description:
+      "A small team of engineers and product builders building technology for national scale.",
+    images: ["/og-image.png"],
+  },
 };
 
 export default function AboutPage() {

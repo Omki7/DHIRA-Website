@@ -13,9 +13,22 @@ import PageMinimap from "@/components/layout/PageMinimap";
 import { KNOWLEDGE_SECTIONS } from "@/lib/knowledgeSections";
 
 export const metadata: Metadata = {
-  title: "Akashic Knowledge — Intelligence at civilisation scale.",
+  title: "Akashic Knowledge Solution",
   description:
     "The national knowledge grid: adaptive content, language, and pace for 1.89 crore registered learners, on the architecture that runs DIKSHA.",
+  openGraph: {
+    title: "Akashic Knowledge Solution | DHIRA",
+    description:
+      "The national knowledge grid: adaptive content, language, and pace for millions of registered learners.",
+    images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "Akashic Knowledge Solution — DHIRA" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Akashic Knowledge Solution | DHIRA",
+    description:
+      "Adaptive learning infrastructure at national scale.",
+    images: ["/og-image.png"],
+  },
 };
 
 export default function KnowledgePage() {

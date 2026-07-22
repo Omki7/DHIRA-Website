@@ -13,9 +13,22 @@ import PageMinimap from "@/components/layout/PageMinimap";
 import { PUBLIC_SECTOR_SECTIONS } from "@/lib/publicSectorSections";
 
 export const metadata: Metadata = {
-  title: "Public Sector — We don't pitch government. We've already built for it.",
+  title: "Public Sector",
   description:
-    "Akashic already powers India's largest public digital infrastructure: CoWIN, DIKSHA, eMigrate, and Poshan Tracker. Real citizens, real scale, public-record numbers.",
+    "Akashic powers national-scale public digital infrastructure with real citizens, real scale, and audited public records.",
+  openGraph: {
+    title: "Public Sector | DHIRA",
+    description:
+      "Akashic powers national-scale public digital infrastructure.",
+    images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "Public Sector — DHIRA" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Public Sector | DHIRA",
+    description:
+      "National-scale public digital infrastructure powered by Akashic.",
+    images: ["/og-image.png"],
+  },
 };
 
 export default function PublicSectorPage() {

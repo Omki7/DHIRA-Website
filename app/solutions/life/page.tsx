@@ -13,9 +13,22 @@ import PageMinimap from "@/components/layout/PageMinimap";
 import { LIFE_SECTIONS } from "@/lib/lifeSections";
 
 export const metadata: Metadata = {
-  title: "Akashic Life — AI where it matters most.",
+  title: "Akashic Life Solution",
   description:
-    "Specialist-grade diagnostics at the remote edge: predicting high-risk pregnancies in seconds, even without the internet. Built on the platform behind India's national health data systems.",
+    "Specialist-grade diagnostics at the remote edge: predicting high-risk pregnancies in seconds, even without the internet.",
+  openGraph: {
+    title: "Akashic Life Solution | DHIRA",
+    description:
+      "Specialist-grade diagnostics at the remote edge: predicting high-risk pregnancies in seconds, even without the internet.",
+    images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "Akashic Life Solution — DHIRA" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Akashic Life Solution | DHIRA",
+    description:
+      "Specialist-grade AI diagnostics at the remote edge.",
+    images: ["/og-image.png"],
+  },
 };
 
 export default function LifePage() {

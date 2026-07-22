@@ -14,9 +14,22 @@ import { SECTOR_PAGES } from "@/components/sections/sectors/sectorContent";
 const content = SECTOR_PAGES.education;
 
 export const metadata: Metadata = {
-  title: "Education — Every learner. One connected journey.",
+  title: "Education Sector",
   description:
-    "The intelligence layer inside India's national learning platform, deployed for institutions: one governed learner record from enrolment to placement.",
+    "The intelligence layer inside national learning platforms, deployed for institutions: one governed learner record from enrolment to placement.",
+  openGraph: {
+    title: "Education Sector | DHIRA",
+    description:
+      "The intelligence layer inside national learning platforms: one governed learner record from enrolment to placement.",
+    images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "Education Sector — DHIRA" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Education Sector | DHIRA",
+    description:
+      "Connected systems for educational institutions and national learning platforms.",
+    images: ["/og-image.png"],
+  },
 };
 
 export default function EducationPage() {

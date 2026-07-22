@@ -14,9 +14,22 @@ import { SECTOR_PAGES } from "@/components/sections/sectors/sectorContent";
 const content = SECTOR_PAGES.retail;
 
 export const metadata: Metadata = {
-  title: "Retail — Know what sells. Before it ships.",
+  title: "Retail & Supply Chain",
   description:
     "Akashic connects POS, ERP, warehouse, and supplier feeds into one live picture, so the demand forecast runs on today's signal, not last month's export.",
+  openGraph: {
+    title: "Retail & Supply Chain Sector | DHIRA",
+    description:
+      "Akashic connects POS, ERP, warehouse, and supplier feeds into one live picture.",
+    images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "Retail & Supply Chain Sector — DHIRA" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Retail & Supply Chain Sector | DHIRA",
+    description:
+      "Connect POS, ERP, warehouse, and supplier feeds into one live governed picture.",
+    images: ["/og-image.png"],
+  },
 };
 
 export default function RetailPage() {

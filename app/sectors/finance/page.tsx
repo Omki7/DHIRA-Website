@@ -14,9 +14,22 @@ import { SECTOR_PAGES } from "@/components/sections/sectors/sectorContent";
 const content = SECTOR_PAGES.finance;
 
 export const metadata: Metadata = {
-  title: "Finance — Catch risk before it clears.",
+  title: "Finance & Banking",
   description:
     "Akashic watches every transaction against the whole graph: one resolved customer across products, real-time pattern recognition, and lineage on every alert.",
+  openGraph: {
+    title: "Finance & Banking Sector | DHIRA",
+    description:
+      "Akashic watches every transaction against the whole graph: one resolved customer across products, real-time pattern recognition, and lineage on every alert.",
+    images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "Finance & Banking Sector — DHIRA" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Finance & Banking Sector | DHIRA",
+    description:
+      "Akashic watches every transaction against the whole graph: one resolved customer across products.",
+    images: ["/og-image.png"],
+  },
 };
 
 export default function FinancePage() {

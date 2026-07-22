@@ -15,9 +15,22 @@ import PageMinimap from "@/components/layout/PageMinimap";
 import { DELIVERY_SECTIONS } from "@/lib/deliverySections";
 
 export const metadata: Metadata = {
-  title: "Delivery — Delivered on your terms. One standard.",
+  title: "Delivery & Services",
   description:
-    "Akashic deployment, product engineering, or advisory and co-engineering. Three engagement models, one standard of accountability: from readiness audit to production.",
+    "Akashic deployment, product engineering, or advisory and co-engineering. Three engagement models, one standard of accountability.",
+  openGraph: {
+    title: "Delivery & Services | DHIRA",
+    description:
+      "Akashic deployment, product engineering, or advisory and co-engineering. Three engagement models, one standard of accountability.",
+    images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "Delivery & Services — DHIRA" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Delivery & Services | DHIRA",
+    description:
+      "Three engagement models, one standard of accountability: from readiness audit to production.",
+    images: ["/og-image.png"],
+  },
 };
 
 export default function DeliveryPage() {

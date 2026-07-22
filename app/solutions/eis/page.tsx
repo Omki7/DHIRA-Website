@@ -14,9 +14,22 @@ import PageMinimap from "@/components/layout/PageMinimap";
 import { EIS_SECTIONS } from "@/lib/eisSections";
 
 export const metadata: Metadata = {
-  title: "Akashic EIS — Your entire business. One screen. Right now.",
+  title: "Akashic EIS Solution",
   description:
     "The executive intelligence system that writes your morning brief, traces every number to its source, and turns approved decisions into audited actions.",
+  openGraph: {
+    title: "Akashic EIS Solution | DHIRA",
+    description:
+      "The executive intelligence system that writes your morning brief and traces every number to its source.",
+    images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "Akashic EIS Solution — DHIRA" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Akashic EIS Solution | DHIRA",
+    description:
+      "Executive intelligence on a governed Akashic foundation.",
+    images: ["/og-image.png"],
+  },
 };
 
 export default function EisPage() {

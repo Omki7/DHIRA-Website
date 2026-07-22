@@ -19,9 +19,22 @@ import ScrollRevealRail from "@/components/ui/ScrollRevealRail";
 import { AKASHIC_SECTIONS } from "@/lib/akashicSections";
 
 export const metadata: Metadata = {
-  title: "Akashic — Every answer your organisation needs is already in your data.",
+  title: "Akashic Platform",
   description:
-    "Akashic is a single governed platform for your data, analytics, and AI. Pipelines, master data, warehouse, ML, BI, and plain-language answers on one foundation, with lineage, access control, and audit under every layer. Deploy on your cloud, in your own racks, or across both.",
+    "Akashic is a single governed platform for your data, analytics, and AI. Pipelines, master data, warehouse, ML, BI, and plain-language answers on one foundation, with lineage, access control, and audit under every layer.",
+  openGraph: {
+    title: "Akashic Platform | DHIRA",
+    description:
+      "Akashic is a single governed platform for your data, analytics, and AI. Pipelines, master data, warehouse, ML, BI, and plain-language answers on one foundation.",
+    images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "Akashic Platform — DHIRA" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Akashic Platform | DHIRA",
+    description:
+      "Akashic is a single governed platform for your data, analytics, and AI.",
+    images: ["/og-image.png"],
+  },
 };
 
 export default function AkashicPage() {
