@@ -22,7 +22,7 @@ const deliverables: Deliverable[] = [
     num: "1",
     title: "Platform Deployment",
     description:
-      "We deploy Akashic in your environment, connect raw sources, and stand up your governed knowledge graph.",
+      "We deploy Akashic in your environment, connect raw sources, and stand up your governed knowledge layer.",
     href: "/delivery#akashic-deployment",
     revealLabel: "Six-week rollout",
     reveal: [

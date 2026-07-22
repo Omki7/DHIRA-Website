@@ -66,7 +66,7 @@ export default function Closure() {
               <p className="mt-8 max-w-[34em] text-base md:text-lg lg:text-xl leading-relaxed text-white/60">
                 Unify structured, unstructured, and streaming data.
                 <br className="hidden sm:block" />
-                Resolve core entities through a governed knowledge graph,
+                Resolve core entities through a governed knowledge layer,
                 <br className="hidden sm:block" />
                 and run enterprise intelligence with complete traceability.
               </p>

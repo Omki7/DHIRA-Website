@@ -7,6 +7,21 @@
  * same top bar, same left module rail with a different active module.
  * Static HTML strings consumed via dangerouslySetInnerHTML — see AGENTS.md
  * §8a and the note on HeroProductsMockup before refactoring.
+ *
+ * ONE DEMO WORLD, IN USD (unified Jul 2026). These three screens are shared
+ * verbatim by the home hero and the /akashic showcase, so their numbers are
+ * canon for every wireframe on both pages:
+ *   Sales Performance · Q2 FY26 · $25.4M net revenue · 82,401 fact rows
+ *   plan attainment — North 106 · West 102 · Central 99 · East 97 · South 92
+ *   South is the only laggard, 8% short, on two unsigned distributor
+ *   renewals; the gap is $80,500 (matches [01] AkashicFourMoves)
+ *   top accounts — Whitmore Retail $4.2M · Kirkwood Traders $3.1M ·
+ *   Ardmore Foods $2.4M
+ * The Ask screen previously ran its own contradictory set (₹3.8 Cr, South
+ * 71%, East 63%, "delayed store openings") against the same fact_sales and
+ * plan_attainment metrics — that is what made the two pages disagree. Never
+ * reintroduce ₹ here: the enterprise demo world is $, the public-programmes
+ * world is ₹, and they never share a screen (content decisions memo, 4).
  */
 
 /* ---------------------------------------------------------------- */
@@ -295,7 +310,7 @@ export const ASK_SCREEN_HTML = `<div style="width:100%;height:100%;display:flex;
         <div style="flex:1;overflow-y:auto;padding:10px 0 14px;background:#FAFAFB;display:flex;flex-direction:column">
           <div style="width:100%;max-width:600px;margin:0 auto;padding:0 20px;display:flex;flex-direction:column;gap:9px">
             <div style="display:flex;flex-direction:column;align-items:flex-end;gap:3px">
-              <div style="max-width:78%;background:#EEF1FC;border-radius:13px 13px 4px 13px;padding:7px 11px"><p style="margin:0;font-size:12.5px;color:#1A1C1D;line-height:1.5;font-weight:500">Which sales regions are behind plan this quarter, and what’s driving it?</p></div>
+              <div style="max-width:78%;background:#EEF1FC;border-radius:13px 13px 4px 13px;padding:7px 11px"><p style="margin:0;font-size:12.5px;color:#1A1C1D;line-height:1.5;font-weight:500">Is any sales region behind plan this quarter, and what’s driving it?</p></div>
               <span style="font-size:8.5px;color:#B4BAC2;padding-right:2px">2m ago</span>
             </div>
             <div style="display:flex;gap:10px;align-items:flex-start">
@@ -307,7 +322,7 @@ export const ASK_SCREEN_HTML = `<div style="width:100%;height:100%;display:flex;
                   <div style="display:inline-flex;align-items:center;gap:5px;padding:3px 8px 3px 4px;background:#fff;border:1px solid #E9EAEE;border-radius:7px"><div style="width:15px;height:15px;border-radius:4px;background:#3E63DD;display:flex;align-items:center;justify-content:center"><span style="font-size:9px;color:#fff;font-weight:700">❄</span></div><span style="font-size:10px;color:#1A1C1D;font-weight:600">fact_sales</span><span style="font-size:8.5px;color:#8E8F91">gold</span></div>
                   <div style="display:inline-flex;align-items:center;gap:5px;padding:3px 8px 3px 4px;background:#fff;border:1px solid #E9EAEE;border-radius:7px"><div style="width:15px;height:15px;border-radius:4px;background:#E5547B;display:flex;align-items:center;justify-content:center"><svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg></div><span style="font-size:10px;color:#1A1C1D;font-weight:600">Q2 Board Review</span><span style="font-size:8.5px;color:#8E8F91">PDF · p.8</span></div>
                 </div>
-                <p style="margin:0 0 8px;font-size:13px;color:#1A1C1D;line-height:1.55">Two regions are tracking well below plan. Comparing warehouse revenue against the targets in your board deck, <strong style="color:#1A1C1D">South</strong> and <strong style="color:#1A1C1D">East</strong> are pacing 29–37% under target, driven by delayed store openings and inventory shortfalls.</p>
+                <p style="margin:0 0 8px;font-size:13px;color:#1A1C1D;line-height:1.55">One region is behind. Comparing warehouse revenue against the targets in your board deck, <strong style="color:#1A1C1D">South</strong> is at 92% of target — 8% short — and the gap traces to two distributor renewals still unsigned. No other region is more than 3 points off target.</p>
                 <div style="display:flex;align-items:center;gap:7px;margin-bottom:8px;padding:5px 11px;background:#FAFAFB;border:1px solid #EEEFF1;border-radius:9px;flex-wrap:wrap">
                   <span style="font-size:10px;color:#7C5CFC;font-weight:700;font-family:var(--font-mono)">ƒx</span>
                   <span style="font-size:9.5px;color:#5C5E63;font-family:var(--font-mono)">attainment = net_revenue ÷ plan_target</span>
@@ -319,26 +334,26 @@ export const ASK_SCREEN_HTML = `<div style="width:100%;height:100%;display:flex;
                 <div style="border:1px solid #E9EAEE;border-radius:12px;padding:9px 13px;margin-bottom:9px;background:#fff">
                   <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:3px">
                     <span style="font-size:11.5px;font-weight:600;color:#1A1C1D">Plan attainment by region · Q2</span>
-                    <div style="display:flex;align-items:center;gap:10px"><span style="display:inline-flex;align-items:center;gap:4px"><span style="width:8px;height:8px;border-radius:2px;background:#3E9E78"></span><span style="font-size:9.5px;color:#5C5E63">On track</span></span><span style="display:inline-flex;align-items:center;gap:4px"><span style="width:8px;height:8px;border-radius:2px;background:#E0A93B"></span><span style="font-size:9.5px;color:#5C5E63">Watch</span></span><span style="display:inline-flex;align-items:center;gap:4px"><span style="width:8px;height:8px;border-radius:2px;background:#E5547B"></span><span style="font-size:9.5px;color:#5C5E63">Behind</span></span></div>
+                    <div style="display:flex;align-items:center;gap:10px"><span style="display:inline-flex;align-items:center;gap:4px"><span style="width:8px;height:8px;border-radius:2px;background:#3E9E78"></span><span style="font-size:9.5px;color:#5C5E63">On track</span></span><span style="display:inline-flex;align-items:center;gap:4px"><span style="width:8px;height:8px;border-radius:2px;background:#E0A93B"></span><span style="font-size:9.5px;color:#5C5E63">Behind</span></span></div>
                   </div>
                   <div style="display:flex;align-items:center;gap:20px">
                     <svg width="104" height="104" viewBox="0 0 150 150" style="flex-shrink:0">
                       <circle cx="75" cy="75" r="30" fill="none" stroke="#F1F2F5" stroke-width="1"/>
                       <circle cx="75" cy="75" r="45" fill="none" stroke="#F1F2F5" stroke-width="1"/>
                       <circle cx="75" cy="75" r="60" fill="none" stroke="#B7BAC4" stroke-width="1" stroke-dasharray="3 3"/>
-                      <path d="M75,75 L75,12.6 A62.4,62.4 0 0 1 134.3,55.7 Z" fill="#3E9E78" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/>
-                      <path d="M75,75 L130.4,57 A58.2,58.2 0 0 1 109.2,122.1 Z" fill="#3E9E78" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/>
-                      <path d="M75,75 L106.1,117.7 A52.8,52.8 0 0 1 43.9,117.7 Z" fill="#E0A93B" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/>
-                      <path d="M75,75 L50,109.5 A42.6,42.6 0 0 1 34.5,61.8 Z" fill="#E5547B" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/>
-                      <path d="M75,75 L39.1,63.3 A37.8,37.8 0 0 1 75,37.2 Z" fill="#E5547B" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/>
+                      <path d="M75,75 L75,11.4 A63.6,63.6 0 0 1 135.5,55.4 Z" fill="#3E9E78" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/>
+                      <path d="M75,75 L133.2,56.1 A61.2,61.2 0 0 1 111,124.5 Z" fill="#3E9E78" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/>
+                      <path d="M75,75 L109.9,123.1 A59.4,59.4 0 0 1 40.1,123.1 Z" fill="#3E9E78" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/>
+                      <path d="M75,75 L40.8,122.1 A58.2,58.2 0 0 1 19.7,57 Z" fill="#3E9E78" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/>
+                      <path d="M75,75 L22.5,57.9 A55.2,55.2 0 0 1 75,19.8 Z" fill="#E0A93B" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/>
                       <text x="120" y="26" font-size="9.5" fill="#8E8F91" font-family="ui-monospace,monospace">100%</text>
                     </svg>
                     <div style="flex:1;display:flex;flex-direction:column;gap:4px;min-width:0">
-                      <div style="display:flex;align-items:center;gap:8px"><span style="width:8px;height:8px;border-radius:2px;background:#3E9E78;flex-shrink:0"></span><span style="width:46px;font-size:10.5px;color:#5C5E63">North</span><span style="font-size:10.5px;color:#1A1C1D;font-weight:600">104%</span><span style="font-size:9px;color:#8E8F91">ahead of plan</span></div>
-                      <div style="display:flex;align-items:center;gap:8px"><span style="width:8px;height:8px;border-radius:2px;background:#3E9E78;flex-shrink:0"></span><span style="width:46px;font-size:10.5px;color:#5C5E63">West</span><span style="font-size:10.5px;color:#1A1C1D;font-weight:600">97%</span><span style="font-size:9px;color:#8E8F91">on track</span></div>
-                      <div style="display:flex;align-items:center;gap:8px"><span style="width:8px;height:8px;border-radius:2px;background:#E0A93B;flex-shrink:0"></span><span style="width:46px;font-size:10.5px;color:#5C5E63">Central</span><span style="font-size:10.5px;color:#1A1C1D;font-weight:600">88%</span><span style="font-size:9px;color:#8E8F91">watch</span></div>
-                      <div style="display:flex;align-items:center;gap:8px"><span style="width:8px;height:8px;border-radius:2px;background:#E5547B;flex-shrink:0"></span><span style="width:46px;font-size:10.5px;color:#C13059;font-weight:600">South</span><span style="font-size:10.5px;color:#C13059;font-weight:700">71%</span><span style="font-size:9px;color:#8E8F91">behind</span></div>
-                      <div style="display:flex;align-items:center;gap:8px"><span style="width:8px;height:8px;border-radius:2px;background:#E5547B;flex-shrink:0"></span><span style="width:46px;font-size:10.5px;color:#C13059;font-weight:600">East</span><span style="font-size:10.5px;color:#C13059;font-weight:700">63%</span><span style="font-size:9px;color:#8E8F91">behind</span></div>
+                      <div style="display:flex;align-items:center;gap:8px"><span style="width:8px;height:8px;border-radius:2px;background:#3E9E78;flex-shrink:0"></span><span style="width:46px;font-size:10.5px;color:#5C5E63">North</span><span style="font-size:10.5px;color:#1A1C1D;font-weight:600">106%</span><span style="font-size:9px;color:#8E8F91">ahead of plan</span></div>
+                      <div style="display:flex;align-items:center;gap:8px"><span style="width:8px;height:8px;border-radius:2px;background:#3E9E78;flex-shrink:0"></span><span style="width:46px;font-size:10.5px;color:#5C5E63">West</span><span style="font-size:10.5px;color:#1A1C1D;font-weight:600">102%</span><span style="font-size:9px;color:#8E8F91">ahead of plan</span></div>
+                      <div style="display:flex;align-items:center;gap:8px"><span style="width:8px;height:8px;border-radius:2px;background:#3E9E78;flex-shrink:0"></span><span style="width:46px;font-size:10.5px;color:#5C5E63">Central</span><span style="font-size:10.5px;color:#1A1C1D;font-weight:600">99%</span><span style="font-size:9px;color:#8E8F91">on track</span></div>
+                      <div style="display:flex;align-items:center;gap:8px"><span style="width:8px;height:8px;border-radius:2px;background:#3E9E78;flex-shrink:0"></span><span style="width:46px;font-size:10.5px;color:#5C5E63">East</span><span style="font-size:10.5px;color:#1A1C1D;font-weight:600">97%</span><span style="font-size:9px;color:#8E8F91">on track</span></div>
+                      <div style="display:flex;align-items:center;gap:8px"><span style="width:8px;height:8px;border-radius:2px;background:#E0A93B;flex-shrink:0"></span><span style="width:46px;font-size:10.5px;color:#A97B12;font-weight:600">South</span><span style="font-size:10.5px;color:#A97B12;font-weight:700">92%</span><span style="font-size:9px;color:#8E8F91">behind</span></div>
                     </div>
                   </div>
                   <div style="display:flex;align-items:center;justify-content:space-between;margin-top:6px;padding-top:6px;border-top:1px solid #F1F2F5">
@@ -348,7 +363,7 @@ export const ASK_SCREEN_HTML = `<div style="width:100%;height:100%;display:flex;
                 </div>
                 <div style="background:#F7F9FE;border-left:2px solid #3E63DD;border-radius:0 10px 10px 0;padding:10px 13px">
                   <div style="font-size:11.5px;font-weight:600;color:#1A1C1D;margin-bottom:3px">Suggested action</div>
-                  <div style="font-size:11.5px;color:#5C5E63;line-height:1.5">The combined shortfall is <strong style="color:#1A1C1D">₹3.8 Cr</strong>. Recovering East to 90% of plan adds back <strong style="color:#1A1C1D">₹1.6 Cr</strong> in H2.</div>
+                  <div style="font-size:11.5px;color:#5C5E63;line-height:1.5">The shortfall is <strong style="color:#1A1C1D">$80,500</strong>, and the two stalled renewals account for all of it. Signing both brings South back to plan this quarter.</div>
                   <div style="margin-top:8px;display:flex;gap:7px"><div style="display:inline-flex;align-items:center;height:25px;padding:0 11px;background:#3E63DD;border-radius:7px;cursor:pointer"><span style="font-size:10.5px;color:#fff;font-weight:600">Build recovery plan</span></div><div style="display:inline-flex;align-items:center;height:25px;padding:0 11px;background:#fff;border:1px solid #E9EAEE;border-radius:7px;cursor:pointer"><span style="font-size:10.5px;color:#3E63DD;font-weight:600">Open lineage</span></div></div>
                 </div>
                 <div style="display:flex;align-items:center;gap:2px;margin-top:9px">

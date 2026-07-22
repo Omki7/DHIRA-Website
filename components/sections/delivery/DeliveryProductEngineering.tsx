@@ -29,7 +29,7 @@ const paths: BuildPath[] = [
     figure: "12–20",
     advantage:
       "Launch months faster by not rebuilding complex data infrastructure from scratch.",
-    engine: "Akashic as the engine · Data layer · Knowledge graph · AI runtime",
+    engine: "Akashic as the engine · Data layer · Knowledge layer · AI runtime",
   },
   {
     blue: false,

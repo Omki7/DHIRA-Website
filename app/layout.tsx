@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     "DHIRA",
     "Akashic",
     "Enterprise AI",
-    "Knowledge Graph",
+    "Knowledge Layer",
     "Data Platform",
     "Master Data",
     "Data Pipelines",

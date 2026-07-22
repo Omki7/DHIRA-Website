@@ -10,9 +10,10 @@
  * same idiom (Master Data, ML, Governance), and the interactive BI screen
  * from AkashicHeroBIWireframe. Same carousel mechanics as HeroProductsMockup:
  * `.hs-card` fan layout with a `far` off-stage position, auto-cycling every
- * 6000ms. /akashic demo world is in USD (Sales Performance: 82,401 rows,
- * South the mild laggard at 92%, $25.4M net revenue) and the [04] walkthrough
- * (12,400 units, MAPE 6.2%). Home keeps its own ₹ / South-71% version.
+ * 6000ms. ONE demo world in USD, shared with the home hero and canonical for
+ * both pages — see the header of HeroProductScreensMockup for the full figure
+ * set (Sales Performance: 82,401 rows, South the laggard at 92%, $25.4M net
+ * revenue), plus the [04] walkthrough (12,400 units, MAPE 6.2%).
  */
 
 import { useState, useEffect } from "react";
@@ -30,11 +31,11 @@ import {
 
 /* ---------------------------------------------------------------- */
 /* Ask Akashic — /akashic-local fork of the shared hero Ask screen.  */
-/* The shared screen answers "which regions are behind plan" (South  */
-/* 71%, store openings) — the site-wide demo spine that [01] owns on  */
-/* this page. To avoid restating South's attainment with a second    */
-/* value, the /akashic showcase asks a non-colliding question:        */
-/* channel growth. Home keeps the original.                           */
+/* The shared screen answers "is any region behind plan" (South 92%, */
+/* two unsigned renewals) — the demo spine [01] owns on this page.   */
+/* Rather than restate South's attainment a third time in one page,  */
+/* the /akashic showcase asks a non-colliding question: channel      */
+/* growth. Both screens now read from the same figure set.           */
 /* ---------------------------------------------------------------- */
 const ASK_SPARKLE = "M12 2l2.4 7.6L22 12l-7.6 2.4L12 22l-2.4-7.6L2 12l7.6-2.4z";
 const CHANNEL_BARS = [

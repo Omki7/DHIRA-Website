@@ -79,7 +79,7 @@ const groups: ComparisonGroup[] = [
     name: "Who carries it",
     rows: [
       {
-        label: "Unified knowledge graph",
+        label: "Unified knowledge layer",
         build: "Design it, then maintain it",
         akashic: "Included, maintained",
         akashicHighlight: true,
@@ -166,7 +166,7 @@ interface CompareRow {
 
 const compare: CompareRow[] = [
   { attr: "Integration", ak: "Prebuilt", cu: "Custom APIs", lean: 76 },
-  { attr: "Knowledge graph", ak: "Maintained", cu: "You build it", lean: 82 },
+  { attr: "Knowledge layer", ak: "Maintained", cu: "You build it", lean: 82 },
   { attr: "Column lineage", ak: "Automatic", cu: "You instrument", lean: 78 },
   { attr: "Grounded answers", ak: "Included", cu: "From scratch", lean: 70 },
   { attr: "Compliance", ak: "Certified", cu: "You certify", lean: 65 },

@@ -8,8 +8,9 @@
  * thing it existed to show (three layers, seven modules).
  *
  * Flow: IN sources stratum → LAYER 01 Data (Pipelines / Master Data /
- * Warehouse) → LAYER 02 Knowledge (no modules: built by Master Data, viz +
- * capability lines) → LAYER 03 Intelligence (ML / Ask Akashic / BI) → OUT
+ * Warehouse) → LAYER 02 Knowledge (no modules of its own: the governed
+ * knowledge layer, fed by Master Data — viz + capability lines) → LAYER 03
+ * Intelligence (ML / Ask Akashic / BI) → OUT
  * decision bar. Static three-lane lineage beams (BeamTriple / BeamMerge)
  * connect the strata on the shared BAND_GRID template so lanes track the
  * tile columns. The signature device is the GOVERNANCE BRACKET: a vertical
@@ -25,10 +26,21 @@
  * checkmarks (Rule 2). NOTHING TRUNCATES: the old `truncate` subs/metas
  * cut copy mid-word and triggered this rebuild. Vertical rhythm is
  * deliberately tight so the schematic reads as ONE DRAWING, not a scroll.
- * Still no worked examples (§8a; decoupled from [01]'s story), and
- * on-screen copy says "knowledge layer", never "knowledge graph" (user
- * direction, Jul 2026). Nav anchor ids kept (#modules-data-pipelines …
- * #modules-governance).
+ * Still no worked examples (§8a; decoupled from [01]'s story). Nav anchor
+ * ids kept (#modules-data-pipelines … #modules-governance).
+ *
+ * TERMINOLOGY — "KNOWLEDGE LAYER", NEVER "KNOWLEDGE GRAPH" (user direction,
+ * reaffirmed 22 Jul 2026 and now enforced SITEWIDE, not just here). A
+ * knowledge graph names a specific artifact a reader will expect to be
+ * shown; what Akashic actually guarantees is that the meaning of things is
+ * preserved and carried, which is what "knowledge layer" claims and what we
+ * can defend in any room. Every other page was converted to match — see
+ * docs/DESIGN_SYSTEM.md.
+ *
+ * Master Data FEEDS this layer; it does not own it. The tagline used to read
+ * "Built by Master Data: …", which made the layer read as a by-product of a
+ * Layer 01 module while the home page was billing it as a headline. Do not
+ * re-subordinate this stratum.
  *
  * Chrome: SINGLE-ELEVATION. Each stratum and the governance floor is a
  * white card carrying the section's only shadow-card; everything inside is
@@ -332,9 +344,9 @@ const intelligenceLayerModules = [
 ];
 
 const knowledgeCaps = [
-  "Entities & hierarchies",
+  "Entities, hierarchies & relationships",
   "Category · history · policy",
-  "Context for every answer",
+  "Context under every answer",
 ];
 
 const govTiles = [
@@ -421,13 +433,15 @@ export default function AkashicModules() {
               <BeamTriple />
               <MobileConn />
 
-              {/* LAYER 02: Knowledge (no modules — built by Master Data) */}
+              {/* LAYER 02: Knowledge — the governed knowledge layer. No
+                  modules of its own; Master Data feeds it, every module
+                  above and below reads from it. */}
               <ScrollReveal delay={160}>
                 <Stratum>
                   <Spine
                     index="Layer 02"
                     name="Knowledge Layer"
-                    tagline="Built by Master Data: every record linked to its context."
+                    tagline="Every record linked to the context that gives it meaning."
                     footer="One meaning, everywhere it&rsquo;s used"
                     watermark="02"
                   />

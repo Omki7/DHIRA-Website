@@ -56,7 +56,7 @@ const MODULES = [
     points: [
       { icon: "merge", text: "Every duplicate collapses into one golden record" },
       { icon: "sliders", text: "Survivorship rules settle which value wins" },
-      { icon: "graph", text: "Records link into the knowledge graph as they merge" },
+      { icon: "graph", text: "Records link into the knowledge layer as they merge" },
     ],
   },
   {
@@ -84,7 +84,7 @@ const MODULES = [
     name: "Ask Akashic",
     lede: "Plain-language answers, grounded.",
     points: [
-      { icon: "graph", text: "Grounded in the metric layer and knowledge graph" },
+      { icon: "graph", text: "Grounded in the metric layer and knowledge layer" },
       { icon: "quote", text: "A citation on every line, never a guess" },
       { icon: "lock", text: "Row-level security enforced at answer time" },
     ],

@@ -9,8 +9,15 @@ accessibility standards. Tokens are the single source of truth in
 - **DHIRA** = the company. **Akashic** = the platform. Keep distinct. Never write
   "DHIRA's Akashic."
 - Akashic unifies structured, unstructured, and streaming data into one governed
-  foundation, links it via a knowledge graph, and runs BI, conversational AI, ML,
-  and agentic orchestration on top.
+  foundation, links it through a governed knowledge layer, and runs BI,
+  conversational AI, ML, and agentic orchestration on top.
+- **"Knowledge layer", never "knowledge graph"** (user direction, 22 Jul 2026,
+  enforced sitewide). A knowledge graph names a specific artifact the reader will
+  then expect to be shown. What Akashic guarantees is that the *meaning* of things
+  is preserved and carried, which is what "knowledge layer" claims and what is
+  defensible in any room. This is a claims decision, not a styling one: do not
+  reintroduce "graph" anywhere in on-screen copy, page metadata, or product-UI
+  mockups.
 - Positioning: one accountable partner (platform + delivery), not a stack of
   vendors. Not pure SaaS, not pure consultancy.
 - Proof points: national-scale DPI delivery in India; Maha Hackathon 2025 winner;
@@ -30,7 +37,7 @@ accessibility standards. Tokens are the single source of truth in
 - **Claims must be verifiable.** No invented SLA numbers, certifications, or
   client names.
 - Two-tier motif: "trust / trace / act on" is the emotional promise; "grounded"
-  is the technical mechanism (knowledge graph). Keep distinct.
+  is the technical mechanism (the governed knowledge layer). Keep distinct.
 
 ## Design tokens
 

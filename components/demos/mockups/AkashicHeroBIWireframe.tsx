@@ -37,7 +37,7 @@ const SUGGESTIONS: Array<{ id: QueryId; label: string }> = [
 
 const ANSWERS: Record<QueryId, { text: string; sources: string[] }> = {
   south: {
-    text: "South is the only region behind plan, at 92% of target — 8% short. The gap traces to two distributor renewals still unsigned; every other region is at or above plan.",
+    text: "South is the only region behind plan, at 92% of target — 8% short. The gap traces to two distributor renewals still unsigned; no other region is more than 3 points off target.",
     sources: ["fact_sales · gold", "plan_attainment", "renewals"],
   },
   channel: {

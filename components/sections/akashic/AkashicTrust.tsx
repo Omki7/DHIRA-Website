@@ -28,14 +28,17 @@ const CARDS = [
             <div className="w-1/3">Revenue</div>
             <div className="w-1/3">Salary</div>
           </div>
+          {/* Account names and revenue read from the shared demo world's top
+              accounts (AkashicHeroBIWireframe) — "Acme"/"Beta" were off-cast
+              and $2.4M collided with a different account's figure. */}
           <div className="flex border-t border-lineSoft px-2.5 py-1.5">
-            <div className="w-1/3 text-ink">Acme</div>
-            <div className="w-1/3 text-positive">$2.4M</div>
+            <div className="w-1/3 truncate text-ink">Whitmore</div>
+            <div className="w-1/3 text-positive">$4.2M</div>
             <div className="w-1/3 text-red-500/40 blur-[2px]">••••</div>
           </div>
           <div className="flex border-t border-lineSoft px-2.5 py-1.5">
-            <div className="w-1/3 text-ink">Beta</div>
-            <div className="w-1/3 text-positive">$1.8M</div>
+            <div className="w-1/3 truncate text-ink">Kirkwood</div>
+            <div className="w-1/3 text-positive">$3.1M</div>
             <div className="w-1/3 text-red-500/40 blur-[2px]">••••</div>
           </div>
         </div>

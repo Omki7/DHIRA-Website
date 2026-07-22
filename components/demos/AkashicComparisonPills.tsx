@@ -35,7 +35,7 @@ interface AkCategory {
    top, brand core in the middle, the solid governed foundation at the base. */
 const AKASHIC_CATEGORIES: AkCategory[] = [
   { label: "Speed", theme: "white", items: ["Prebuilt connectors", "One deployment", "Live in weeks"] },
-  { label: "Built in", theme: "blue", items: ["Knowledge graph", "Column lineage", "Grounded answers"] },
+  { label: "Built in", theme: "blue", items: ["Knowledge layer", "Column lineage", "Grounded answers"] },
   { label: "Governed", theme: "ink", items: ["Certified", "Open standards", "Predictable cost"] },
 ];
 

@@ -316,7 +316,7 @@ const MODULES: ModuleDef[] = [
     icon: "Akashic Master Data",
     name: "Akashic Master Data",
     tagline: "Entity resolution",
-    desc: "Every version of an entity resolves into one golden record, with the lineage of everything merged kept intact.",
+    desc: "Every version of an entity resolves into one golden record, with the lineage of everything merged kept intact. Those records and the links between them are what the governed knowledge layer is built from.",
     groups: [
       {
         label: "Matching",
@@ -346,6 +346,20 @@ const MODULES: ModuleDef[] = [
           { icon: "hierarchy", term: "Hierarchy management", sub: "parent-child rollups" },
           { icon: "refresh", term: "Standardisation", sub: "cleansing rules" },
           { icon: "merge", term: "Deduplication", sub: "cross-source" },
+        ],
+      },
+      {
+        /* The knowledge layer named where it is actually built ([04]'s
+           Layer 02 is the same thing). Without this the phrase only
+           appeared under Ask Akashic, and the home page's "governed
+           knowledge layer" promise had nowhere to land. Never "graph" —
+           see the terminology note in AkashicModules. */
+        label: "Knowledge layer",
+        kind: "cap",
+        items: [
+          { icon: "link", term: "Entity relationships", sub: "typed & versioned" },
+          { icon: "tag", term: "Classification", sub: "taxonomies · policy tags" },
+          { icon: "history", term: "Change history", sub: "point-in-time queries" },
         ],
       },
     ],
@@ -434,7 +448,7 @@ const MODULES: ModuleDef[] = [
     icon: "Akashic Insights",
     name: "Ask Akashic",
     tagline: "Natural language",
-    desc: "Plain-language questions answered from the governed metric layer and the knowledge graph, with lineage attached to every answer.",
+    desc: "Plain-language questions answered from the governed metric layer and the knowledge layer, with lineage attached to every answer.",
     groups: [
       {
         label: "Model providers · bring your own key",
@@ -452,7 +466,7 @@ const MODULES: ModuleDef[] = [
         kind: "cap",
         items: [
           { icon: "database", term: "Metric-layer grounding", sub: "governed definitions" },
-          { icon: "lineage", term: "Knowledge-graph reasoning", sub: "entity relationships" },
+          { icon: "lineage", term: "Knowledge-layer reasoning", sub: "entity relationships" },
           { icon: "file-lines", term: "Source citations", sub: "on every answer" },
           { icon: "funnel", term: "Scoped contexts", sub: "per domain" },
         ],
