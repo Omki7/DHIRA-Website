@@ -64,9 +64,10 @@ const solutionsGroups: MenuGroup[] = [
 ];
 
 const deliveryItems: MenuLink[] = [
-  { title: "Akashic Deployment", desc: "Bring Akashic into your environment", href: "/delivery#akashic-deployment" },
-  { title: "Product Engineering", desc: "Custom products on Akashic or your stack", href: "/delivery#product-engineering" },
-  { title: "Advisory & Co-Engineering", desc: "Audits, roadmaps, and senior squads", href: "/delivery#advisory-co-engineering" },
+  { title: "Akashic", desc: "SaaS & White Label platform adoption", href: "/delivery#engagement-models" },
+  { title: "Custom Technology Services", desc: "Build solutions around your requirements", href: "/delivery#engagement-models" },
+  { title: "Product Engineering", desc: "Build and evolve products with us", href: "/delivery#engagement-models" },
+  { title: "Staff Augmentation", desc: "Extend your engineering team", href: "/delivery#engagement-models" },
 ];
 
 const companyItems: MenuLink[] = [
@@ -331,11 +332,11 @@ function DeliveryPanel() {
             <DynamicSketchIcon text="Delivery Overview" className="h-3.5 w-3.5" />
           </span>
           <div className="flex items-center gap-2 min-w-0">
-            <span className="text-[13px] font-semibold text-primary-text transition-colors group-hover:text-blue truncate">
+            <span className="text-[13px] font-semibold text-primary-text transition-colors group-hover:text-blue whitespace-nowrap">
               Delivery Overview
             </span>
             <span className="hidden sm:inline-block text-[12px] text-secondary-text truncate">
-              — Engagement & Rollout Models
+              — How we work with you
             </span>
           </div>
         </div>
@@ -346,7 +347,7 @@ function DeliveryPanel() {
       </Link>
 
       <div className="border-t border-subtle-stroke pt-2.5">
-        <MenuHeading>Engagement Models</MenuHeading>
+        <MenuHeading>Ways to Work With Us</MenuHeading>
         <div className="space-y-1">
           {deliveryItems.map((item) => (
             <MenuRow key={item.title} item={item} />
@@ -537,7 +538,7 @@ export default function Nav() {
               <SolutionsPanel />
             </DropdownTrigger>
 
-            <DropdownTrigger id="delivery" label="Delivery" href="/delivery" widthClassName="w-[480px] max-w-[calc(100vw-32px)]" openMenu={openMenu} setOpenMenu={setOpenMenu}>
+            <DropdownTrigger id="delivery" label="Delivery" href="/delivery" widthClassName="w-[520px] max-w-[calc(100vw-32px)]" openMenu={openMenu} setOpenMenu={setOpenMenu}>
               <DeliveryPanel />
             </DropdownTrigger>
 

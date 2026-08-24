@@ -6,12 +6,16 @@
 import Link from "next/link";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import ScrollRevealRail from "@/components/ui/ScrollRevealRail";
+import AboutHeroFloatingPills from "@/components/demos/AboutHeroFloatingPills";
 
 export default function AboutHero() {
   return (
     <section id="hero" className="relative overflow-hidden bg-background">
       <div className="dot-grid absolute inset-0 opacity-60" aria-hidden />
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-48 bg-gradient-to-b from-transparent to-white" aria-hidden />
+
+      {/* Animated Floating Pills & Tiles Layer (Copied animation from mission page) */}
+      <AboutHeroFloatingPills />
 
       <ScrollRevealRail>
         <div className="flex min-h-[52vh] flex-col items-center justify-center pt-24 pb-20 text-center lg:pt-32 lg:pb-24">

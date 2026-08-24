@@ -7,6 +7,6 @@ export const ABOUT_SECTIONS: PageSection[] = [
   { id: "what-we-believe", label: "What we believe" },
   { id: "how-we-work", label: "How we work" },
   { id: "careers", label: "Careers" },
-  { id: "proof", label: "Proof" },
+  { id: "proof", label: "Our story" },
   { id: "talk-to-our-team", label: "Talk to our team" },
 ];

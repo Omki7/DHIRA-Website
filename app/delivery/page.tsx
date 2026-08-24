@@ -3,9 +3,7 @@ import Nav from "@/components/layout/Nav";
 import Footer from "@/components/layout/Footer";
 import DeliveryHero from "@/components/sections/delivery/DeliveryHero";
 import DeliveryModels from "@/components/sections/delivery/DeliveryModels";
-import DeliveryAkashicDeployment from "@/components/sections/delivery/DeliveryAkashicDeployment";
-import DeliveryProductEngineering from "@/components/sections/delivery/DeliveryProductEngineering";
-import DeliveryAdvisory from "@/components/sections/delivery/DeliveryAdvisory";
+import DeliveryCapabilities from "@/components/sections/delivery/DeliveryCapabilities";
 import DeliveryMethodology from "@/components/sections/delivery/DeliveryMethodology";
 import DeliveryProven from "@/components/sections/delivery/DeliveryProven";
 import DeliveryFit from "@/components/sections/delivery/DeliveryFit";
@@ -17,18 +15,18 @@ import { DELIVERY_SECTIONS } from "@/lib/deliverySections";
 export const metadata: Metadata = {
   title: "Delivery & Services",
   description:
-    "Akashic deployment, product engineering, or advisory and co-engineering. Three engagement models, one standard of accountability.",
+    "Delivered on your terms: Akashic SaaS, White Label, custom technology services, product engineering, or staff augmentation. One standard of accountability.",
   openGraph: {
     title: "Delivery & Services | DHIRA",
     description:
-      "Akashic deployment, product engineering, or advisory and co-engineering. Three engagement models, one standard of accountability.",
+      "Five engagement models, one standard of accountability. From platform rollout to bespoke engineering.",
     images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "Delivery & Services — DHIRA" }],
   },
   twitter: {
     card: "summary_large_image",
     title: "Delivery & Services | DHIRA",
     description:
-      "Three engagement models, one standard of accountability: from readiness audit to production.",
+      "Five engagement models, one standard of accountability. From platform rollout to bespoke engineering.",
     images: ["/og-image.png"],
   },
 };
@@ -40,9 +38,7 @@ export default function DeliveryPage() {
       <main className="bg-background">
         <DeliveryHero />
         <DeliveryModels />
-        <DeliveryAkashicDeployment />
-        <DeliveryProductEngineering />
-        <DeliveryAdvisory />
+        <DeliveryCapabilities />
         <DeliveryMethodology />
         <DeliveryProven />
         <DeliveryFit />

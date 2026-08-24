@@ -260,7 +260,7 @@ export default function ProvenStories({
         type="button"
         onClick={() => go(index - 1)}
         aria-label={`Previous ${itemNoun}`}
-        className="absolute left-1/2 top-1/2 z-20 ml-5 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-lineSoft bg-white/95 text-ink shadow-[0_10px_30px_-10px_rgba(16,24,40,0.35)] backdrop-blur transition-colors duration-settle ease-settle hover:border-blue/50 hover:text-blue lg:flex"
+        className="absolute -left-5 lg:-left-6 top-1/2 z-20 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-lineSoft bg-white text-ink shadow-[0_10px_30px_-10px_rgba(16,24,40,0.35)] backdrop-blur transition-colors duration-settle ease-settle hover:border-blue/50 hover:text-blue lg:flex"
       >
         <Chevron dir="left" />
       </button>
@@ -268,7 +268,7 @@ export default function ProvenStories({
         type="button"
         onClick={() => go(index + 1)}
         aria-label={`Next ${itemNoun}`}
-        className="absolute right-5 top-1/2 z-20 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-lineSoft bg-white/95 text-ink shadow-[0_10px_30px_-10px_rgba(16,24,40,0.35)] backdrop-blur transition-colors duration-settle ease-settle hover:border-blue/50 hover:text-blue lg:flex"
+        className="absolute -right-5 lg:-right-6 top-1/2 z-20 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-lineSoft bg-white text-ink shadow-[0_10px_30px_-10px_rgba(16,24,40,0.35)] backdrop-blur transition-colors duration-settle ease-settle hover:border-blue/50 hover:text-blue lg:flex"
       >
         <Chevron dir="right" />
       </button>
