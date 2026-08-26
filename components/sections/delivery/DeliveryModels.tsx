@@ -1,80 +1,97 @@
 "use client";
 
 /*
- * [01] Ways to Work with Dhira — One partner. Multiple ways to move forward.
- * Architectural split layout: sticky orientation on the left, clean ruled directory on the right.
- * Avoids generic boxy card grids; emphasizes typographic precision and clear engagement models.
+ * [01] Ways to Work with Dhira — One partner. Five ways to ship.
+ * Split visual interactive model layout matching modern feature showcase standard.
  */
 
+import { useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
+import { motion, AnimatePresence } from "framer-motion";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import ScrollRevealRail from "@/components/ui/ScrollRevealRail";
 
-interface OfferingRow {
-  num: string;
-  category: "Platform" | "Engineering";
+interface DeliveryModelItem {
+  id: string;
+  number: string;
   title: string;
   tagline: string;
-  desc: string;
-  deliverables: string[];
-  ctaLabel: string;
-  ctaHref: string;
+  description: string;
+  image: string;
+  badge: string;
+  icon: string;
+  bullets: string[];
+  href: string;
 }
 
-const offerings: OfferingRow[] = [
+const DELIVERY_MODELS: DeliveryModelItem[] = [
   {
-    num: "01",
-    category: "Platform",
+    id: "saas",
+    number: "01",
     title: "Akashic SaaS",
-    tagline: "Ready-to-use platform instance",
-    desc: "Deploy Akashic as a managed SaaS environment. We handle the data pipelines, governance layer, and continuous platform infrastructure.",
-    deliverables: ["Managed sovereign cloud instance", "Pre-built connectors & pipelines", "Enterprise SLAs & automated maintenance"],
-    ctaLabel: "Explore Akashic SaaS",
-    ctaHref: "/akashic",
+    tagline: "Instant Managed Cloud",
+    description: "Turnkey managed sovereign cloud instance. Zero setup friction, continuous automated pipelines, and 99.99% SLA.",
+    image: "/delivery/saas.jpg",
+    badge: "Managed Platform",
+    icon: "🔄",
+    bullets: ["99.99% Availability SLA", "Automated streaming pipelines", "Zero-drift data sync"],
+    href: "/akashic",
   },
   {
-    num: "02",
-    category: "Platform",
-    title: "Akashic White Label",
-    tagline: "Dedicated deployment under your brand",
-    desc: "Deploy the Akashic platform within your own enterprise ecosystem, fully branded and customized for your internal or external users.",
-    deliverables: ["Custom branding & UI integration", "Dedicated tenant security architecture", "Tailored API & ecosystem integrations"],
-    ctaLabel: "Discuss White Label",
-    ctaHref: "#talk-to-our-team",
+    id: "whitelabel",
+    number: "02",
+    title: "White Label",
+    tagline: "Sovereign Private Cloud",
+    description: "Deploy Akashic inside your private ecosystem under your brand. Dedicated isolated VPC with customer-managed keys.",
+    image: "/delivery/whitelabel.jpg",
+    badge: "100% Whitelabeled",
+    icon: "🛡️",
+    bullets: ["Isolated VPC perimeter", "Customer-Managed Keys (CMEK)", "SAML 2.0 & SSO integration"],
+    href: "#talk-to-our-team",
   },
   {
-    num: "03",
-    category: "Engineering",
-    title: "Custom Technology Services",
-    tagline: "Solutions built around your specific requirements",
-    desc: "Engage our engineering teams for initiatives outside Akashic: AI applications, data infrastructure, custom software, and system modernisation.",
-    deliverables: ["End-to-end architecture & delivery", "Custom data & AI pipelines", "100% sovereign code ownership"],
-    ctaLabel: "View Capabilities",
-    ctaHref: "#capabilities",
+    id: "customai",
+    number: "03",
+    title: "Custom Tech & AI",
+    tagline: "Bespoke Architectures",
+    description: "Custom AI applications, specialized ML pipelines, and microservices built for your stack with 100% IP ownership.",
+    image: "/delivery/customai.jpg",
+    badge: "100% Sovereign IP",
+    icon: "⚡",
+    bullets: ["Custom PyTorch / LLM pipelines", "Distributed microservices", "Full code IP transfer"],
+    href: "#capabilities",
   },
   {
-    num: "04",
-    category: "Engineering",
+    id: "engineering",
+    number: "04",
     title: "Product Engineering",
-    tagline: "Build, modernize, and scale products",
-    desc: "Partner with a dedicated engineering team to build new software products from the ground up or modernize legacy enterprise systems.",
-    deliverables: ["Full-lifecycle product delivery", "Sprint-based milestone execution", "Production-grade QA & security"],
-    ctaLabel: "Review Process",
-    ctaHref: "#methodology",
+    tagline: "Full Lifecycle Delivery",
+    description: "Build new software products from scratch or modernise legacy systems with 2-week sprint cadences and production CI/CD.",
+    image: "/delivery/engineering.jpg",
+    badge: "Agile 2-Wk Sprints",
+    icon: "📈",
+    bullets: ["Automated QA & testing", "2-week sprint iterations", "Production CI/CD pipelines"],
+    href: "#methodology",
   },
   {
-    num: "05",
-    category: "Engineering",
+    id: "augmentation",
+    number: "05",
     title: "Staff Augmentation",
-    tagline: "Extend your engineering capacity",
-    desc: "Embed senior AI, data, cloud, and software engineers directly into your existing agile squads to accelerate delivery.",
-    deliverables: ["Senior architects & engineers", "Seamless sprint integration", "Flexible engagement duration"],
-    ctaLabel: "Request Engineers",
-    ctaHref: "#talk-to-our-team",
+    tagline: "Embedded Senior Engineers",
+    description: "Embed principal AI, cloud, and distributed systems engineers directly into your squads to accelerate release velocity.",
+    image: "/delivery/augmentation.jpg",
+    badge: "Direct Squad Sync",
+    icon: "👥",
+    bullets: ["Principal AI & Cloud leads", "Zero management overhead", "Direct GitHub & Jira sync"],
+    href: "#talk-to-our-team",
   },
 ];
 
 export default function DeliveryModels() {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const activeModel = DELIVERY_MODELS[activeIndex];
+
   return (
     <section
       id="engagement-models"
@@ -85,7 +102,7 @@ export default function DeliveryModels() {
       <span id="advisory-co-engineering" className="absolute -top-24" aria-hidden />
 
       <ScrollRevealRail>
-        {/* Section Header */}
+        {/* Section Eyebrow */}
         <ScrollReveal>
           <div className="flex items-baseline justify-between font-mono text-[11px] uppercase tracking-eyebrow">
             <p>
@@ -94,102 +111,160 @@ export default function DeliveryModels() {
             </p>
             <span className="hidden text-overcast sm:inline">/ Five engagement options</span>
           </div>
-          <h2 className="mt-5 text-heading-sm font-semibold text-ink md:text-heading-md lg:text-heading-lg">
-            One partner. Multiple ways to move forward.
-          </h2>
-          <p className="mt-5 max-w-[44em] text-lg leading-relaxed text-secondary-text">
-            Choose the engagement model that fits your business, your team, and your technical goals. We support each path with the same standard of engineering quality and accountability.
-          </p>
         </ScrollReveal>
 
-        {/* Editorial Split Directory (Zero Box-in-a-Box Clutter) */}
-        <div className="mt-12 border-t border-subtle-stroke lg:mt-16">
-          <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,0.38fr)_minmax(0,0.62fr)] lg:gap-16">
-            {/* Left Column: Context / Track Guide */}
-            <div className="pt-8 lg:sticky lg:top-28 lg:self-start lg:pt-10">
-              <div className="border-l-2 border-blue pl-5">
-                <p className="font-mono text-[11px] font-semibold uppercase tracking-eyebrow text-blue">
-                  Flexible Engagement Structure
-                </p>
-                <p className="mt-3 text-[16.5px] font-medium leading-snug text-ink">
-                  Adopt a proven product, build custom software, or extend your existing team.
-                </p>
-                <p className="mt-2.5 text-[14px] leading-relaxed text-secondary-text">
-                  You don&rsquo;t have to force your requirement into a rigid consulting model. Every engagement gives you direct access to experienced engineers with clear milestones.
-                </p>
+        {/* Split Container: Left visual showcase, Right interactive model selector */}
+        <div className="mt-8 grid grid-cols-1 items-center gap-10 lg:mt-12 lg:grid-cols-12 lg:gap-14">
+          
+          {/* Left Column: Visual Card Image Display */}
+          <ScrollReveal delay={100} className="lg:col-span-6 xl:col-span-7">
+            <div className="relative aspect-[4/3] overflow-hidden rounded-[28px] border border-subtle-stroke bg-vault shadow-frame">
+              
+              {/* Animated Image Transition */}
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={activeModel.id}
+                  initial={{ opacity: 0, scale: 1.03 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.98 }}
+                  transition={{ duration: 0.4, ease: [0.2, 0.8, 0.2, 1] }}
+                  className="absolute inset-0"
+                >
+                  <Image
+                    src={activeModel.image}
+                    alt={activeModel.title}
+                    fill
+                    sizes="(max-width: 1024px) 100vw, 55vw"
+                    priority
+                    className="object-cover object-center"
+                  />
+                  {/* Subtle inner gradient shadow overlay */}
+                  <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-vault/90 via-vault/20 to-transparent" />
+                </motion.div>
+              </AnimatePresence>
+
+              {/* Floating Glassmorphism Pill Badge Overlay */}
+              <div className="absolute top-5 left-5 right-5 flex items-center justify-between pointer-events-none">
+                <div className="flex items-center gap-2 rounded-full border border-white/20 bg-vault/70 px-3.5 py-1.5 backdrop-blur-md">
+                  <span className="h-2 w-2 rounded-full bg-blue animate-[ps-pulse_2s_infinite]" />
+                  <span className="font-mono text-[11px] font-bold tracking-eyebrow text-white uppercase">
+                    {activeModel.badge}
+                  </span>
+                </div>
+                <span className="rounded-full border border-white/10 bg-black/40 px-3 py-1 font-mono text-[10.5px] font-bold text-white/80 backdrop-blur-md">
+                  {activeModel.number} / 05
+                </span>
               </div>
 
-              <div className="mt-8 space-y-3 font-mono text-[11.5px]">
-                <div className="flex items-center gap-3 text-ink">
-                  <span className="flex h-5 w-5 items-center justify-center rounded bg-blue-subtle font-bold text-blue">
-                    01-02
-                  </span>
-                  <span>Platform Track &middot; Akashic SaaS &amp; White Label</span>
-                </div>
-                <div className="flex items-center gap-3 text-ink">
-                  <span className="flex h-5 w-5 items-center justify-center rounded bg-tertiary-bg font-bold text-inkSoft">
-                    03-05
-                  </span>
-                  <span>Engineering Track &middot; Custom Services &amp; Squads</span>
+              {/* Bottom Image Info Bar */}
+              <div className="absolute bottom-0 inset-x-0 p-6 pointer-events-none">
+                <div className="rounded-2xl border border-white/15 bg-vault/80 p-4 text-white backdrop-blur-xl">
+                  <p className="font-mono text-[10px] uppercase tracking-eyebrow text-blue font-bold">
+                    {activeModel.tagline}
+                  </p>
+                  <h4 className="mt-1 text-xl font-bold tracking-tight text-white">
+                    {activeModel.title}
+                  </h4>
+                  {/* Bullet points */}
+                  <div className="mt-3 flex flex-wrap gap-2">
+                    {activeModel.bullets.map((b, idx) => (
+                      <span
+                        key={idx}
+                        className="inline-flex items-center gap-1.5 rounded-md border border-white/10 bg-white/10 px-2.5 py-1 font-mono text-[10.5px] text-white/90"
+                      >
+                        <span className="text-blue font-bold">&bull;</span>
+                        {b}
+                      </span>
+                    ))}
+                  </div>
                 </div>
               </div>
             </div>
+          </ScrollReveal>
 
-            {/* Right Column: Ruled Directory Rows */}
-            <div className="divide-y divide-subtle-stroke">
-              {offerings.map((item, idx) => (
-                <ScrollReveal key={item.num} delay={80 + idx * 50}>
-                  <div className="py-8 transition-colors duration-250 ease-settle hover:bg-primary-bg/30 lg:py-9">
-                    <div className="flex flex-col justify-between gap-4 md:flex-row md:items-start">
-                      <div className="flex items-start gap-4">
-                        <span className="font-mono text-[12px] font-bold text-blue">
-                          {item.num}
-                        </span>
+          {/* Right Column: Content & Interactive Model List */}
+          <ScrollReveal delay={150} className="lg:col-span-6 xl:col-span-5">
+            <div>
+              <h2 className="text-3xl font-bold tracking-tight text-ink md:text-4xl lg:text-4xl">
+                One partner. Five ways to ship.
+              </h2>
+              <p className="mt-3 text-base leading-relaxed text-secondary-text">
+                Choose the engagement model that fits your timeline, team, and architecture. Every path delivers with sovereign engineering accountability.
+              </p>
+
+              {/* Models List with Icons & Divider Lines */}
+              <div className="mt-8 divide-y divide-subtle-stroke border-y border-subtle-stroke">
+                {DELIVERY_MODELS.map((model, idx) => {
+                  const isActive = idx === activeIndex;
+                  return (
+                    <button
+                      key={model.id}
+                      type="button"
+                      onClick={() => setActiveIndex(idx)}
+                      className={`group flex w-full items-center justify-between py-4 px-3 text-left transition-all duration-200 rounded-xl my-0.5 ${
+                        isActive
+                          ? "bg-blue-subtle/70 shadow-sm"
+                          : "hover:bg-primary-bg"
+                      }`}
+                    >
+                      <div className="flex items-center gap-4">
+                        {/* Icon Container */}
+                        <div
+                          className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl text-lg transition-all duration-200 ${
+                            isActive
+                              ? "bg-blue text-white shadow-sm scale-105"
+                              : "bg-primary-bg text-secondary-text group-hover:bg-white group-hover:text-ink border border-subtle-stroke"
+                          }`}
+                        >
+                          <span>{model.icon}</span>
+                        </div>
+
                         <div>
-                          <div className="flex items-center gap-2.5">
-                            <h3 className="text-[20px] font-semibold tracking-tight text-ink md:text-[22px]">
-                              {item.title}
-                            </h3>
-                            <span className="rounded bg-tertiary-bg px-2 py-0.5 font-mono text-[9px] uppercase tracking-eyebrow text-inkSoft">
-                              {item.category}
+                          <div className="flex items-center gap-2">
+                            <span className="font-semibold text-base text-ink group-hover:text-blue transition-colors">
+                              {model.title}
                             </span>
                           </div>
-                          <p className="mt-1 text-[13.5px] font-medium text-blue">
-                            {item.tagline}
+                          <p className="text-xs text-secondary-text mt-0.5 font-sans">
+                            {model.tagline}
                           </p>
-                          <p className="mt-2.5 max-w-[36em] text-[14.5px] leading-relaxed text-secondary-text">
-                            {item.desc}
-                          </p>
-
-                          {/* Concrete deliverables list */}
-                          <div className="mt-4 flex flex-wrap gap-x-5 gap-y-1.5 text-[12.5px] text-inkSoft">
-                            {item.deliverables.map((d) => (
-                              <span key={d} className="flex items-center gap-1.5">
-                                <span className="h-1 w-1 rounded-full bg-blue" />
-                                {d}
-                              </span>
-                            ))}
-                          </div>
                         </div>
                       </div>
 
-                      <div className="mt-2 shrink-0 md:mt-0">
-                        <Link
-                          href={item.ctaHref}
-                          className="inline-flex items-center gap-1.5 font-mono text-[11px] font-semibold uppercase tracking-eyebrow text-blue transition-colors hover:text-blue-hover"
-                        >
-                          <span>{item.ctaLabel}</span>
-                          <span>&rarr;</span>
-                        </Link>
+                      {/* Right indicator */}
+                      <div className="flex items-center gap-2">
+                        {isActive ? (
+                          <span className="rounded-full bg-blue px-2.5 py-0.5 font-mono text-[10px] font-bold uppercase tracking-eyebrow text-white">
+                            Active
+                          </span>
+                        ) : (
+                          <span className="text-overcast group-hover:text-blue group-hover:translate-x-0.5 transition-all text-sm">
+                            &rarr;
+                          </span>
+                        )}
                       </div>
-                    </div>
-                  </div>
-                </ScrollReveal>
-              ))}
+                    </button>
+                  );
+                })}
+              </div>
+
+              {/* Pill CTA Button */}
+              <div className="mt-8 flex items-center gap-4">
+                <Link
+                  href={activeModel.href}
+                  className="inline-flex items-center gap-2 rounded-full bg-ink px-7 py-3 text-sm font-semibold text-white shadow-md transition-all hover:bg-action-hover hover:shadow-lg"
+                >
+                  <span>Explore {activeModel.title}</span>
+                  <span>&rarr;</span>
+                </Link>
+              </div>
+
             </div>
-          </div>
+          </ScrollReveal>
+
         </div>
       </ScrollRevealRail>
     </section>
   );
 }
+
