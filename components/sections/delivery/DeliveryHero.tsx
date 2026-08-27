@@ -1,6 +1,6 @@
 /*
- * [00] Delivery Hero — Delivered on your terms. One standard.
- * Clean, bold, and focused hero with concise positioning and perfect alignment.
+ * [00] Delivery Hero — Platform & Custom Engineering for Data and AI Products
+ * Clean, bold, and focused hero with Ashoka Chakra background motif and perfect alignment.
  */
 
 import Link from "next/link";
@@ -8,9 +8,9 @@ import ScrollReveal from "@/components/ui/ScrollReveal";
 import ScrollRevealRail from "@/components/ui/ScrollRevealRail";
 
 const metrics = [
-  { label: "Engagement paths", val: "5 Models" },
-  { label: "Engineering standard", val: "1 Standard" },
-  { label: "Delivery ownership", val: "100% Sovereign" },
+  { label: "Flexible Engagement", val: "5 Delivery Paths" },
+  { label: "Full Code Transfer", val: "100% IP Ownership" },
+  { label: "Enterprise Guarantees", val: "99.99% Production SLA" },
 ];
 
 export default function DeliveryHero() {
@@ -22,13 +22,14 @@ export default function DeliveryHero() {
         aria-hidden
       />
       <div className="dot-grid absolute inset-0 opacity-30" aria-hidden />
+
       <div
         className="pointer-events-none absolute inset-x-0 bottom-0 h-28 bg-gradient-to-b from-transparent to-white"
         aria-hidden
       />
 
       <ScrollRevealRail>
-        <div className="flex flex-col items-center justify-center pt-20 pb-16 text-center lg:pt-28 lg:pb-20">
+        <div className="relative z-10 flex flex-col items-center justify-center pt-20 pb-16 text-center lg:pt-28 lg:pb-20">
           
           {/* Top Pill Badge */}
           <ScrollReveal>
@@ -44,10 +45,10 @@ export default function DeliveryHero() {
 
           {/* Main Headline */}
           <ScrollReveal delay={100}>
-            <h1 className="mt-2 max-w-3xl text-4xl font-bold leading-[1.08] tracking-tight text-ink sm:text-5xl md:text-6xl lg:text-7xl">
-              Delivered on your terms.{" "}
-              <span className="relative inline-block whitespace-nowrap text-blue">
-                One standard.
+            <h1 className="mt-2 max-w-4xl text-4xl font-bold leading-[1.08] tracking-tight text-ink sm:text-5xl md:text-6xl lg:text-7xl">
+              Platform &amp; Custom Engineering{" "}
+              <span className="relative inline-block text-blue">
+                for Data and AI Products.
                 <span
                   className="absolute -bottom-[0.04em] left-0 h-[0.08em] w-full rounded-full bg-blue/30"
                   aria-hidden
@@ -56,10 +57,10 @@ export default function DeliveryHero() {
             </h1>
           </ScrollReveal>
 
-          {/* Concise Subheadline (Short, clean 2-line statement) */}
+          {/* Subheadline Paragraph */}
           <ScrollReveal delay={180}>
-            <p className="mt-5 max-w-xl text-base text-secondary-text leading-relaxed sm:text-lg">
-              Platform adoption, custom engineering, or embedded capacity. Choose how you ship—with one sovereign standard of accountability.
+            <p className="mt-5 max-w-2xl text-base text-secondary-text leading-relaxed sm:text-lg">
+              Choose a ready platform, build custom AI and data systems, or add senior engineers to your team.
             </p>
           </ScrollReveal>
 
@@ -93,4 +94,6 @@ export default function DeliveryHero() {
     </section>
   );
 }
+
+
 

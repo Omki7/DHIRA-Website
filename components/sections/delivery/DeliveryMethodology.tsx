@@ -2,7 +2,7 @@
 
 /*
  * [03] Delivery Process — Start with the outcome, not the technology.
- * OpenAI-inspired 4-Card visual grid with code/icon graphic tiles and clean typography underneath.
+ * OpenAI-inspired 4-Card visual grid with connected sequential process flow indicators.
  */
 
 import Link from "next/link";
@@ -98,8 +98,30 @@ export default function DeliveryMethodology() {
           </div>
         </ScrollReveal>
 
-        {/* 4-Card OpenAI-Style Visual Feature Grid */}
-        <div className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 lg:gap-7">
+        {/* Horizontal Process Flow Stepper Rail (Desktop) */}
+        <ScrollReveal delay={80}>
+          <div className="mt-10 hidden lg:block">
+            <div className="relative flex items-center justify-between rounded-2xl border border-subtle-stroke bg-primary-bg/80 p-3.5 shadow-sm">
+              {/* Connected Dashed Line */}
+              <div className="absolute left-[12%] right-[12%] top-1/2 -translate-y-1/2 h-0.5 border-t-2 border-dashed border-blue-border/70" aria-hidden />
+
+              {STAGES.map((s, idx) => (
+                <div key={s.id} className="relative z-10 flex items-center gap-2.5 bg-white px-4 py-1.5 rounded-full border border-subtle-stroke shadow-sm">
+                  <span className="flex h-5 w-5 items-center justify-center rounded-full bg-blue text-white font-mono text-[10px] font-bold">
+                    {s.num}
+                  </span>
+                  <span className="font-semibold text-xs text-ink">{s.name}</span>
+                  {idx < STAGES.length - 1 && (
+                    <span className="hidden xl:inline text-blue font-bold text-xs ml-1">&rarr;</span>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        </ScrollReveal>
+
+        {/* 4-Card Visual Feature Grid */}
+        <div className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 lg:gap-6">
           {STAGES.map((stage, idx) => (
             <ScrollReveal key={stage.id} delay={100 + idx * 50}>
               <div className="group flex h-full flex-col justify-between">
@@ -226,6 +248,7 @@ export default function DeliveryMethodology() {
     </section>
   );
 }
+
 
 
 
