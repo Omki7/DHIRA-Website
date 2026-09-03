@@ -1,74 +1,54 @@
+"use client";
+
 /*
- * [00] About Hero — We Build Things That Last.
- * Centred hero on the dot-grid backdrop.
+ * [01] About Hero — We Build Things That Last for Data and AI
+ * OpenAI-inspired editorial simplicity:
+ * - Generous whitespace, calm, confident typography
+ * - Focused headline, restrained blue accent
+ * - Direct, high-trust CTAs
  */
 
 import Link from "next/link";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import ScrollRevealRail from "@/components/ui/ScrollRevealRail";
-import AboutHeroFloatingPills from "@/components/demos/AboutHeroFloatingPills";
 
 export default function AboutHero() {
   return (
-    <section id="hero" className="relative overflow-hidden bg-background">
-      <div className="dot-grid absolute inset-0 opacity-60" aria-hidden />
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-48 bg-gradient-to-b from-transparent to-white" aria-hidden />
-
-      {/* Animated Floating Pills & Tiles Layer (Copied animation from mission page) */}
-      <AboutHeroFloatingPills />
-
+    <section id="hero" className="relative overflow-hidden bg-background pt-24 pb-20 sm:pt-32 sm:pb-28 lg:pt-40 lg:pb-36">
       <ScrollRevealRail>
-        <div className="flex min-h-[52vh] flex-col items-center justify-center pt-24 pb-20 text-center lg:pt-32 lg:pb-24">
+        <div className="max-w-4xl">
+          {/* Eyebrow */}
           <ScrollReveal>
-            <figure className="mb-8 inline-flex items-center gap-2 rounded-full border border-subtle-stroke bg-white/95 px-3.5 py-1.5 text-xs shadow-sm backdrop-blur-md sm:text-sm">
-              <span className="font-semibold text-primary-text">About</span>
-              <span className="h-3.5 w-px bg-default-stroke" aria-hidden />
-              <span className="font-medium text-primary-text">The team behind Akashic</span>
-            </figure>
-          </ScrollReveal>
-
-          <ScrollReveal delay={80}>
             <p className="font-mono text-[11px] uppercase tracking-eyebrow text-inkSoft">
-              Small team <span className="text-overcast">&middot;</span> National scale{" "}
-              <span className="text-overcast">&middot;</span> Built to last
+              <span className="text-overcast">[01]</span>&nbsp;&nbsp;About Dhira
             </p>
           </ScrollReveal>
 
-          <ScrollReveal delay={140}>
-            <h1 className="mt-6 max-w-[13em] text-5xl font-semibold leading-[1.05] tracking-tightest text-primary-text md:text-6xl lg:text-7xl">
-              We build things that{" "}
-              <span className="relative inline-block whitespace-nowrap">
-                last.
-                <span
-                  className="absolute -bottom-[0.06em] left-0 h-[0.08em] w-full rounded-full bg-blue/35"
-                  aria-hidden
-                />
-              </span>
+          {/* Large Editorial Headline */}
+          <ScrollReveal delay={80}>
+            <h1 className="mt-6 text-4xl font-semibold tracking-tight text-ink sm:text-6xl md:text-7xl lg:text-[80px] leading-[1.06]">
+              We build things that last. <br className="hidden sm:inline" />
+              <span className="text-blue font-medium">for Data and AI.</span>
             </h1>
           </ScrollReveal>
 
-          <ScrollReveal delay={220}>
-            <p className="mt-8 max-w-[34em] text-lg font-normal leading-relaxed text-secondary-text md:text-xl">
-              A small team of engineers and product builders who believe technology
-              should outlast the budget cycle that funded it.
+          {/* Supporting Text */}
+          <ScrollReveal delay={160}>
+            <p className="mt-8 max-w-2xl text-lg text-secondary-text leading-relaxed sm:text-xl md:text-2xl font-normal">
+              Products, platforms, and engineering systems built for the real world — from the first idea to everything that follows.
             </p>
           </ScrollReveal>
 
-          <ScrollReveal delay={300}>
-            <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
-              <Link href="#talk-to-our-team" className="btn-primary">
-                Talk to our team
+          {/* Restrained CTAs */}
+          <ScrollReveal delay={220}>
+            <div className="mt-10 flex flex-wrap items-center gap-4">
+              <Link href="#talk-to-our-team" className="btn-primary rounded-full px-6 py-2.5 text-xs font-semibold">
+                Work with us
               </Link>
-              <Link href="#what-we-believe" className="btn-secondary">
-                What we believe
+              <Link href="#people" className="btn-secondary rounded-full px-6 py-2.5 text-xs font-semibold">
+                Meet the team &rarr;
               </Link>
             </div>
-          </ScrollReveal>
-
-          <ScrollReveal delay={380}>
-            <p className="mt-10 font-mono text-[10px] uppercase tracking-eyebrow text-overcast">
-              New York &middot; Hyderabad &middot; Bangalore
-            </p>
           </ScrollReveal>
         </div>
       </ScrollRevealRail>

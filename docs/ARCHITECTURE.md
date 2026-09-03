@@ -159,9 +159,10 @@ Company menu: "About Us" → `/about`, "Careers" → `/about#careers` (teaser �
 | 02 | who-we-are | `about/AboutWho.tsx` | `bg-white` |
 | 03 | what-we-believe | `about/AboutBeliefs.tsx` | soft blue band (Rule 5a) |
 | 04 | how-we-work | `about/AboutHow.tsx` | `bg-white` |
-| 05 | careers | `about/AboutCareers.tsx` | `bg-white` |
-| 06 | proof | `about/AboutJourney.tsx` | `bg-white` (Our Story timeline + The Enablers) |
-| 07 | talk-to-our-team | `about/AboutClose.tsx` | `bg-white` (dark card) |
+| 05 | vision | `about/AboutVision.tsx` | `bg-white` |
+| 06 | journey | `about/AboutJourney.tsx` | `bg-white` (Our Story timeline) |
+| 07 | people | `about/AboutPeople.tsx` | `bg-white` (Leadership team) |
+| 08 | talk-to-our-team | `about/AboutClose.tsx` | `bg-white` (dark card; `#talk-to-our-team` / `#careers`) |
 
 ### Careers (`app/careers/page.tsx`)
 
