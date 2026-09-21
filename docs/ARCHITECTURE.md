@@ -156,22 +156,16 @@ MobileConn), `akashic/AkashicCardChrome.tsx` (simulated-UI chrome + MiniStack).
 
 ### Delivery (`app/delivery/page.tsx`)
 
-Dropdown anchors (all in [02]): `#ai-readiness-audit`, `#sovereign-blueprint`,
-`#governance-framework`, `#platform-deployment`, `#legacy-modernization`,
-`#custom-accelerators`.
-
 | Order | ID | File | Background |
 |---|---|---|---|
-| 00 | — | `delivery/DeliveryHero.tsx` | `bg-background` |
+| 00 | hero | `delivery/DeliveryHero.tsx` | `bg-background` |
 | 01 | engagement-models | `delivery/DeliveryModels.tsx` | `bg-white` |
-| 02 | akashic-deployment | `delivery/DeliveryAkashicDeployment.tsx` | `bg-white` |
-| 03 | product-engineering | `delivery/DeliveryProductEngineering.tsx` | `bg-white` |
-| 04 | advisory-co-engineering | `delivery/DeliveryAdvisory.tsx` | `bg-white` |
-| 05 | methodology | `delivery/DeliveryMethodology.tsx` | `bg-white` |
-| 06 | proven-at-scale | `delivery/DeliveryProven.tsx` | `bg-white` |
-| 07 | partnership-fit | `delivery/DeliveryFit.tsx` | soft blue band (Rule 5a) |
-| 08 | faq | `delivery/DeliveryFAQ.tsx` | `bg-white` |
-| 09 | talk-to-our-team | `delivery/DeliveryClose.tsx` | `bg-white` (dark card; `#talk-to-our-team`) |
+| 02 | capabilities | `delivery/DeliveryCapabilities.tsx` | `bg-white` |
+| 03 | methodology | `delivery/DeliveryMethodology.tsx` | `bg-white` |
+| 04 | proven-at-scale | `delivery/DeliveryProven.tsx` | `bg-white` |
+| 05 | partnership-fit | `delivery/DeliveryFit.tsx` | soft blue band (Rule 5a) |
+| 06 | faq | `delivery/DeliveryFAQ.tsx` | `bg-white` |
+| 07 | talk-to-our-team | `delivery/DeliveryClose.tsx` | `bg-white` (dark card; `#talk-to-our-team`) |
 
 ### About (`app/about/page.tsx`)
 
@@ -185,9 +179,10 @@ Company menu: "About Us" → `/about`, "Careers" → `/about#careers` (teaser �
 | 02 | who-we-are | `about/AboutWho.tsx` | `bg-white` |
 | 03 | what-we-believe | `about/AboutBeliefs.tsx` | soft blue band (Rule 5a) |
 | 04 | how-we-work | `about/AboutHow.tsx` | `bg-white` |
-| 05 | careers | `about/AboutCareers.tsx` | `bg-white` |
-| 06 | proof | `sections/ProvenAtScale.tsx` | `bg-white` (reused, id="proof") |
-| 07 | talk-to-our-team | `about/AboutClose.tsx` | `bg-white` (dark card) |
+| 05 | vision | `about/AboutVision.tsx` | `bg-white` |
+| 06 | journey | `about/AboutJourney.tsx` | `bg-white` (Our Story timeline) |
+| 07 | people | `about/AboutPeople.tsx` | `bg-white` (Leadership team) |
+| 08 | talk-to-our-team | `about/AboutClose.tsx` | `bg-white` (dark card; `#talk-to-our-team` / `#careers`) |
 
 ### Careers (`app/careers/page.tsx`)
 

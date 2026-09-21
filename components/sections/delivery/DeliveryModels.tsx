@@ -1,184 +1,224 @@
+"use client";
+
 /*
- * [01] Engagement Models — Start With the Problem.
- * The page's one dark immersive break (a vault container floating in a white
- * section, the homepage HowWeDeliver idiom): ambient indigo/amber glows,
- * dot-grid-dark, and three "door" tiles. Each door leads with the client's
- * first-call problem (serif-italic pull-quote, Rule 3) and routes to its
- * model section. The facts that used to hide behind a hover-to-white flip
- * are now always on the tile — the doors are the page's routing decision,
- * and a routing decision the reader cannot read is decoration (touch has no
- * hover). Hover is polish only: lift, border glow, arrow slide. Figures
- * match the model sections (Rule 4); Product Engineering shows the derived
- * 10–20 WKS union so the two build paths never read as a race.
+ * [01] Ways to Work with Dhira — One partner. Five ways to ship.
+ * Feature showcase layout with pill tab switcher matching modern web standard.
  */
 
+import { useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
+import { motion, AnimatePresence } from "framer-motion";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import ScrollRevealRail from "@/components/ui/ScrollRevealRail";
 
-type Model = {
-  num: string;
-  model: string;
-  quote: string;
-  line: string;
+interface DeliveryModelItem {
+  id: string;
+  number: string;
+  title: string;
+  tagline: string;
+  description: string;
+  image: string;
+  badge: string;
+  icon: string;
+  bullets: string[];
   href: string;
-  factsLabel: string;
-  facts: { k: string; v: string }[];
-};
+}
 
-const models: Model[] = [
+const DELIVERY_MODELS: DeliveryModelItem[] = [
   {
-    num: "01",
-    model: "Akashic Deployment",
-    quote: "Our data is fragmented and nobody trusts the final numbers.",
-    line: "We bring the platform to you. Live in six weeks.",
-    href: "#akashic-deployment",
-    factsLabel: "Six-week rollout",
-    facts: [
-      { k: "Readiness audit", v: "WK 1–2" },
-      { k: "Platform build", v: "WK 2–6" },
-      { k: "Operational handover", v: "WK 6+" },
-    ],
+    id: "saas",
+    number: "01",
+    title: "Akashic SaaS",
+    tagline: "Instant Managed Cloud",
+    description: "Turnkey managed sovereign cloud instance. Zero setup friction, continuous automated pipelines, and 99.99% SLA.",
+    image: "/delivery/saas.jpg",
+    badge: "Managed Platform",
+    icon: "🔄",
+    bullets: ["99.99% Availability SLA", "Automated streaming pipelines", "Zero-drift data sync"],
+    href: "/akashic",
   },
   {
-    num: "02",
-    model: "Product Engineering",
-    quote: "We need to ship a custom product, and a team to build it.",
-    line: "We build it, on Akashic or on your own stack.",
-    href: "#product-engineering",
-    factsLabel: "What you get",
-    facts: [
-      { k: "Time to MVP", v: "10–20 WKS" },
-      { k: "Akashic", v: "OPTIONAL" },
-      { k: "Codebase", v: "YOURS" },
-    ],
+    id: "whitelabel",
+    number: "02",
+    title: "White Label",
+    tagline: "Sovereign Private Cloud",
+    description: "Deploy Akashic inside your private ecosystem under your brand. Dedicated isolated VPC with customer-managed keys.",
+    image: "/delivery/whitelabel.jpg",
+    badge: "100% Whitelabeled",
+    icon: "🛡️",
+    bullets: ["Isolated VPC perimeter", "Customer-Managed Keys (CMEK)", "SAML 2.0 & SSO integration"],
+    href: "#talk-to-our-team",
   },
   {
-    num: "03",
-    model: "Advisory & Co-Engineering",
-    quote: "We need senior engineering bandwidth to move faster.",
-    line: "Strategic audits, or our squad inside your sprints.",
-    href: "#advisory-co-engineering",
-    factsLabel: "How it runs",
-    facts: [
-      { k: "Strategic advisory", v: "2–4 WKS" },
-      { k: "Architect-led squad", v: "1 + 4" },
-      { k: "Deliverables, yours", v: "3" },
-    ],
+    id: "customai",
+    number: "03",
+    title: "Custom Tech & AI",
+    tagline: "Bespoke Architectures",
+    description: "Custom AI applications, specialized ML pipelines, and microservices built for your stack with 100% IP ownership.",
+    image: "/delivery/customai.jpg",
+    badge: "100% Sovereign IP",
+    icon: "⚡",
+    bullets: ["Custom PyTorch / LLM pipelines", "Distributed microservices", "Full code IP transfer"],
+    href: "#capabilities",
+  },
+  {
+    id: "engineering",
+    number: "04",
+    title: "Product Engineering",
+    tagline: "Full Lifecycle Delivery",
+    description: "Build new software products from scratch or modernise legacy systems with 2-week sprint cadences and production CI/CD.",
+    image: "/delivery/engineering.jpg",
+    badge: "Agile 2-Wk Sprints",
+    icon: "📈",
+    bullets: ["Automated QA & testing", "2-week sprint iterations", "Production CI/CD pipelines"],
+    href: "#methodology",
+  },
+  {
+    id: "augmentation",
+    number: "05",
+    title: "Staff Augmentation",
+    tagline: "Embedded Senior Engineers",
+    description: "Embed principal AI, cloud, and distributed systems engineers directly into your squads to accelerate release velocity.",
+    image: "/delivery/augmentation.jpg",
+    badge: "Direct Squad Sync",
+    icon: "👥",
+    bullets: ["Principal AI & Cloud leads", "Zero management overhead", "Direct GitHub & Jira sync"],
+    href: "#talk-to-our-team",
   },
 ];
 
 export default function DeliveryModels() {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const activeModel = DELIVERY_MODELS[activeIndex];
+
   return (
-    <section id="engagement-models" className="scroll-mt-24 border-t border-lineSoft bg-background pt-12 pb-24 lg:pt-16 lg:pb-32">
+    <section
+      id="engagement-models"
+      className="relative scroll-mt-24 border-t border-lineSoft bg-background pt-16 pb-24 lg:pt-20 lg:pb-32"
+    >
+      <span id="akashic-deployment" className="absolute -top-24" aria-hidden />
+      <span id="product-engineering" className="absolute -top-24" aria-hidden />
+      <span id="advisory-co-engineering" className="absolute -top-24" aria-hidden />
+
       <ScrollRevealRail>
+        {/* Section Header */}
         <ScrollReveal>
-          <div className="flex items-baseline justify-between font-mono text-[11px] uppercase tracking-eyebrow">
+          <div className="flex items-center justify-center font-mono text-[11px] uppercase tracking-eyebrow text-center">
             <p>
               <span className="text-overcast">[01]</span>
-              <span className="text-inkSoft">&nbsp;&nbsp;Engagement models</span>
+              <span className="text-inkSoft">&nbsp;&nbsp;Ways to work with Dhira</span>
             </p>
-            <span className="hidden text-overcast sm:inline">/ One blueprint, three models</span>
+          </div>
+
+          <h2 className="mt-4 text-center text-3xl font-bold tracking-tight text-ink md:text-4xl lg:text-5xl">
+            One partner. Five ways to ship.
+          </h2>
+          <p className="mt-3 text-center max-w-2xl mx-auto text-base text-inkSoft">
+            Choose the engagement model that fits your timeline, team, and architecture. Every path delivers with sovereign engineering accountability.
+          </p>
+        </ScrollReveal>
+
+        {/* Center Pill Tab Switcher */}
+        <ScrollReveal delay={50}>
+          <div className="mt-8 flex items-center justify-center">
+            <div className="inline-flex flex-wrap items-center justify-center gap-1.5 rounded-full border border-subtle-stroke bg-tertiary-bg/60 p-1.5 shadow-inner">
+              {DELIVERY_MODELS.map((model, idx) => {
+                const isActive = idx === activeIndex;
+                return (
+                  <button
+                    key={model.id}
+                    type="button"
+                    onClick={() => setActiveIndex(idx)}
+                    className={`rounded-full px-4 py-2 text-xs font-medium transition-all duration-200 ${
+                      isActive
+                        ? "bg-white text-ink shadow-sm border border-subtle-stroke font-semibold"
+                        : "text-secondary-text hover:text-ink hover:bg-white/50"
+                    }`}
+                  >
+                    {model.title}
+                  </button>
+                );
+              })}
+            </div>
           </div>
         </ScrollReveal>
 
-        {/* Dark immersive container — the page's one dark break */}
-        <ScrollReveal delay={100}>
-          <div className="relative mt-10 overflow-hidden rounded-[20px] border border-white/10 bg-vault px-6 py-12 text-white shadow-2xl md:p-12 lg:mt-12 lg:p-16">
-            <div className="dot-grid-dark pointer-events-none absolute inset-0 opacity-20" aria-hidden />
-            <div
-              className="pointer-events-none absolute left-1/4 top-0 h-[360px] w-[360px] animate-[softpulse_10s_infinite_alternate] rounded-full opacity-[0.12] blur-[90px]"
-              style={{ background: "radial-gradient(circle, #3E63DD, transparent 75%)" }}
-              aria-hidden
-            />
-            <div
-              className="pointer-events-none absolute bottom-0 right-1/4 h-[360px] w-[360px] animate-[softpulse_13s_infinite_alternate] rounded-full opacity-[0.06] blur-[90px]"
-              style={{ background: "radial-gradient(circle, #D9A034, transparent 75%)" }}
-              aria-hidden
-            />
+        {/* 2-Column Interactive Content Display */}
+        <div className="mt-12 lg:mt-16 grid grid-cols-1 items-center gap-10 lg:grid-cols-12 lg:gap-14">
+          
+          {/* Left Column: Copy, Bullets & CTA */}
+          <ScrollReveal delay={100} className="lg:col-span-6 xl:col-span-5">
+            <div className="space-y-6">
+              <div>
+                <h3 className="text-2xl font-bold tracking-tight text-ink sm:text-3xl">
+                  {activeModel.title}
+                </h3>
+                <p className="mt-1 font-mono text-xs uppercase tracking-eyebrow text-blue font-semibold">
+                  {activeModel.tagline}
+                </p>
+              </div>
 
-            {/* Header inside the dark ground */}
-            <div className="relative z-10 max-w-[38em]">
-              <h2 className="font-heading text-[30px] font-semibold leading-[1.05] tracking-tighter text-white sm:text-[40px] md:text-[46px] lg:text-[50px]">
-                Start with the problem. <span className="text-white/40">Not the product.</span>
-              </h2>
-              <p className="mt-6 max-w-[34em] text-[15px] leading-relaxed text-white/60 sm:text-base">
-                <span className="text-white/85">Tell us the problem on the first call.</span> We map it
-                to the right model and open with the Sovereign Blueprint. You never pick the wrong door.
+              <p className="text-base leading-relaxed text-inkSoft">
+                {activeModel.description}
               </p>
-            </div>
 
-            {/* The three doors */}
-            <div className="relative z-10 mt-14 grid grid-cols-1 gap-6 md:mt-16 md:grid-cols-3">
-              {models.map((m) => (
-                <Link
-                  key={m.num}
-                  href={m.href}
-                  className="group/tile relative flex flex-col rounded-[14px] border border-white/10 bg-white/[0.03] p-6 text-white transition-all duration-300 ease-settle hover:-translate-y-1 hover:border-white/25 hover:bg-white/[0.06] hover:shadow-frame md:p-7"
-                >
-                  <div className="flex items-start justify-between">
-                    <span className="font-mono text-[10px] font-semibold uppercase tracking-eyebrow text-blue-300">
-                      Model {m.num}
-                    </span>
-                    <span className="font-heading text-[52px] font-semibold leading-none text-white/15 md:text-[64px]">
-                      {m.num}
-                    </span>
-                  </div>
-
-                  <p className="mt-1 flex items-center gap-1.5 font-mono text-[9px] uppercase tracking-eyebrow text-white/40">
-                    <span className="h-[5px] w-[5px] rounded-full bg-blue animate-[ps-pulse_2s_infinite]" aria-hidden />
-                    You, on the first call
-                  </p>
-                  <p className="mt-2.5 font-display text-[17px] italic leading-snug text-white/85 md:text-[18px]">
-                    {m.quote}
-                  </p>
-
-                  <div className="my-5 border-t border-white/10" />
-
-                  <h3 className="font-heading text-[22px] font-semibold leading-snug tracking-tight md:text-[24px]">
-                    {m.model}
-                  </h3>
-                  <p className="mt-2 text-[14px] leading-relaxed text-white/60">
-                    {m.line}
-                  </p>
-
-                  {/* The facts, always on the door — a routing decision the
-                      reader cannot read is decoration. */}
-                  <div className="mt-auto pt-6">
-                    <div className="border-t border-white/10 pt-4">
-                      <p className="font-mono text-[10px] uppercase tracking-eyebrow text-white/40">
-                        {m.factsLabel}
-                      </p>
-                      <ul className="mt-2.5 space-y-1.5">
-                        {m.facts.map((row) => (
-                          <li key={row.k} className="flex items-baseline justify-between gap-3 text-[12.5px]">
-                            <span className="text-white/60">{row.k}</span>
-                            <span className="whitespace-nowrap font-mono text-[11px] font-semibold text-white">
-                              {row.v}
-                            </span>
-                          </li>
-                        ))}
-                      </ul>
+              {/* Bullet list (Rule 2: bullet indicators, no checkmarks) */}
+              <div className="space-y-3 pt-2">
+                {activeModel.bullets.map((bullet, idx) => (
+                  <div key={idx} className="flex items-start gap-3">
+                    <div className="mt-1 flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-blue/10 text-blue">
+                      <span className="h-1.5 w-1.5 rounded-full bg-blue" />
                     </div>
+                    <span className="text-sm font-medium text-ink">{bullet}</span>
                   </div>
+                ))}
+              </div>
 
-                  <span className="mt-5 inline-flex items-center gap-1.5 font-mono text-[10px] font-semibold uppercase tracking-eyebrow text-blue-300">
-                    View model
-                    <svg width="14" height="10" viewBox="0 0 14 10" fill="none" className="transition-transform duration-300 group-hover/tile:translate-x-0.5" aria-hidden>
-                      <path d="M1 5h11M8.5 1.5 12 5l-3.5 3.5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                  </span>
+              {/* CTA Link */}
+              <div className="pt-4">
+                <Link
+                  href={activeModel.href}
+                  className="inline-flex items-center gap-2 font-semibold text-sm text-blue hover:text-blue-hover transition-colors group"
+                >
+                  <span>Learn more about {activeModel.title}</span>
+                  <span className="transition-transform group-hover:translate-x-1">&rarr;</span>
                 </Link>
-              ))}
+              </div>
             </div>
+          </ScrollReveal>
 
-            {/* Closing thread — ties back to the hero */}
-            <p className="relative z-10 mt-12 border-t border-white/10 pt-6 font-mono text-[10px] uppercase tracking-eyebrow text-white/45">
-              All three begin with the Sovereign Blueprint &middot; no wrong door
-            </p>
-          </div>
-        </ScrollReveal>
+          {/* Right Column: Visual Card Showcase */}
+          <ScrollReveal delay={150} className="lg:col-span-6 xl:col-span-7">
+            <div className="relative aspect-[4/3] overflow-hidden rounded-[24px] border border-subtle-stroke bg-vault shadow-frame">
+              {/* Animated Image Transition */}
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={activeModel.id}
+                  initial={{ opacity: 0, scale: 1.02 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.98 }}
+                  transition={{ duration: 0.35, ease: [0.2, 0.8, 0.2, 1] }}
+                  className="absolute inset-0"
+                >
+                  <Image
+                    src={activeModel.image}
+                    alt={activeModel.title}
+                    fill
+                    sizes="(max-width: 1024px) 100vw, 55vw"
+                    priority
+                    className="object-cover object-center"
+                  />
+                  <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-vault/40 via-transparent to-transparent" />
+                </motion.div>
+              </AnimatePresence>
+            </div>
+          </ScrollReveal>
+
+        </div>
       </ScrollRevealRail>
     </section>
   );
 }
+
+

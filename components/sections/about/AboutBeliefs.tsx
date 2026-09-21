@@ -26,8 +26,8 @@ const beliefs = [
   },
   {
     num: "B-03",
-    title: "Open is better than locked.",
-    body: "We build on technologies your team already knows. Inspectable. Swappable. No permission required.",
+    title: "Operate better than before.",
+    body: "We build on inspectable, swappable technologies. We leave your systems, data, and teams operating better than we found them.",
   },
   {
     num: "B-04",
@@ -108,13 +108,13 @@ export default function AboutBeliefs() {
         <ScrollReveal>
           <p className="font-mono text-[11px] uppercase tracking-eyebrow">
             <span className="text-overcast">[03]</span>
-            <span className="text-inkSoft">&nbsp;&nbsp;What we believe</span>
+            <span className="text-inkSoft">&nbsp;&nbsp;Principles</span>
           </p>
           <h2 className="mt-5 text-heading-sm font-semibold text-ink md:text-heading-md lg:text-heading-lg">
             The things that do not change.
           </h2>
           <p className="mt-5 max-w-[30em] text-lg leading-relaxed text-secondary-text">
-            Five principles. Every engagement is held against them.
+            Five principles that guide every engagement.
           </p>
         </ScrollReveal>
 

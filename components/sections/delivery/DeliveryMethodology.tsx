@@ -1,316 +1,255 @@
+"use client";
+
 /*
- * [05] Methodology — One Process, No Hand-offs.
- * Four numbered stations on one unbroken, flowing dashed line (the visual
- * argument for "no hand-offs"), then the Engagement Console: a simulated
- * delivery dashboard (§8a — canned statuses, week counts, and artefact
- * names) showing what week four of a six-week deployment actually looks
- * like — phase tracker bars, the sprint ledger, and the artefact register
- * that is yours at handover. Complements [02]'s Gantt (the plan) with the
- * live operational view (the delivery). All accents blue.
+ * [03] Delivery Process — Start with the outcome, not the technology.
+ * OpenAI-inspired 4-Card visual grid with connected sequential process flow indicators.
  */
 
+import Link from "next/link";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import ScrollRevealRail from "@/components/ui/ScrollRevealRail";
-import { CardHeader, BlueChip } from "@/components/sections/akashic/AkashicCardChrome";
 
-const steps = [
+interface StageCard {
+  id: string;
+  num: string;
+  name: string;
+  tagline: string;
+  description: string;
+  deliverable: string;
+  gradient: string;
+  type: "code" | "icons" | "apps" | "telemetry";
+}
+
+const STAGES: StageCard[] = [
   {
+    id: "understand",
     num: "01",
-    name: "Discover",
-    desc: "Map your current state, blockers, and the gap between investment and outcome. Zero assumptions.",
+    name: "Understand",
+    tagline: "Discovery & Boundaries",
+    description: "Evaluate constraints, security boundaries, and legacy systems to define exact technical outcomes.",
+    deliverable: "Baseline SOW & Compliance Map",
+    gradient: "from-blue-500/20 via-indigo-500/10 to-vault",
+    type: "code",
   },
   {
+    id: "align",
     num: "02",
-    name: "Design",
-    desc: "Architect the Sovereign Blueprint, timeline, and exact team configuration required.",
+    name: "Align",
+    tagline: "Architecture & Sprint Roadmap",
+    description: "Select technology topology, agree on milestone roadmaps, and deploy senior engineering capacity.",
+    deliverable: "Architecture Blueprint",
+    gradient: "from-cyan-500/25 via-blue-600/15 to-vault",
+    type: "icons",
   },
   {
+    id: "deliver",
     num: "03",
-    name: "Deliver",
-    desc: "Execute engineering sprints or platform deployments. Governed, documented, and traceable.",
+    name: "Build & Deliver",
+    tagline: "Iterative Sprint Execution",
+    description: "Ship production code in 2-week sprints with automated QA, performance stress testing, and live demos.",
+    deliverable: "Production Codebase (>90% QA)",
+    gradient: "from-sky-400/25 via-indigo-600/15 to-vault",
+    type: "apps",
   },
   {
+    id: "evolve",
     num: "04",
-    name: "Transfer",
-    desc: "You own the outcome. We document lineage, train your team, and step back, or stay on as an accountable partner.",
+    name: "Evolve",
+    tagline: "Sovereign IP & Telemetry",
+    description: "Transfer 100% sovereign code ownership, set up enterprise SLA monitoring, and provide continuous support.",
+    deliverable: "Sovereign IP Handover",
+    gradient: "from-emerald-500/20 via-teal-600/15 to-vault",
+    type: "telemetry",
   },
 ];
-
-const phaseTracker = [
-  { name: "Discover", width: "100%", state: "complete" as const },
-  { name: "Design", width: "100%", state: "complete" as const },
-  { name: "Deliver", width: "68%", state: "active" as const },
-  { name: "Transfer", width: "0%", state: "queued" as const },
-];
-
-const sprintLedger = [
-  { item: "Pipelines connected to ERP", status: "SHIPPED", state: "done" as const },
-  { item: "Master data reconciliation", status: "IN REVIEW", state: "review" as const },
-  { item: "BI rollout · district dashboards", status: "IN PROGRESS", state: "active" as const },
-];
-
-const artefacts = [
-  { name: "Sovereign Blueprint", meta: "Signed · WK 2" },
-  { name: "Governance Framework", meta: "v1.2" },
-  { name: "Lineage documentation", meta: "Auto-updating", live: true },
-];
-
-function RailNode({ num, last }: { num: string; last?: boolean }) {
-  return (
-    <span
-      className={`relative z-10 flex h-8 w-8 shrink-0 items-center justify-center rounded-full border bg-white font-mono text-[10px] font-bold shadow-card ${
-        last ? "border-blue bg-blue-subtle text-blue" : "border-blue-border text-blue"
-      }`}
-    >
-      {num}
-      {last && (
-        <span className="absolute inset-0 rounded-full border border-blue/40 animate-[ps-ring_2.4s_ease-out_infinite]" aria-hidden />
-      )}
-    </span>
-  );
-}
-
-function FlowSegment() {
-  return (
-    <span
-      className="h-px flex-1 bg-[length:16px_1px] bg-repeat-x bg-[repeating-linear-gradient(90deg,#C8D2F5_0_8px,transparent_8px_16px)] animate-[ps-dash_1.4s_linear_infinite]"
-      aria-hidden
-    />
-  );
-}
-
-function StatusChip({ label, state }: { label: string; state: "done" | "review" | "active" }) {
-  if (state === "done") {
-    return (
-      <span className="inline-flex shrink-0 items-center rounded-[6px] bg-blue px-2 py-[3px] font-mono text-[8.5px] font-bold tracking-[0.05em] text-white">
-        {label}
-      </span>
-    );
-  }
-  if (state === "active") {
-    return (
-      <span className="inline-flex shrink-0 items-center gap-1.5 rounded-[6px] border border-blue-border bg-blue-subtle px-2 py-[3px] font-mono text-[8.5px] font-bold tracking-[0.05em] text-blue">
-        <span className="h-[5px] w-[5px] rounded-full bg-blue animate-[ps-pulse_2s_infinite]" aria-hidden />
-        {label}
-      </span>
-    );
-  }
-  return (
-    <span className="inline-flex shrink-0 items-center rounded-[6px] border border-subtle-stroke bg-white px-2 py-[3px] font-mono text-[8.5px] font-bold tracking-[0.05em] text-inkSoft">
-      {label}
-    </span>
-  );
-}
-
-function EngagementConsole() {
-  return (
-    <div className="overflow-hidden rounded-[14px] border border-subtle-stroke bg-white shadow-frame">
-      <CardHeader
-        icon="Platform Deployment"
-        name="Engagement console"
-        sub="Week four of a six-week deployment"
-        chip={<BlueChip label="WK 4 / 6" />}
-      />
-
-      <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.15fr_1fr]">
-        {/* Phase tracker */}
-        <div className="p-5 md:p-6">
-          <p className="font-mono text-[9px] uppercase tracking-eyebrow text-overcast">
-            Phase tracker
-          </p>
-          <div className="mt-4 space-y-4">
-            {phaseTracker.map((phase) => (
-              <div key={phase.name}>
-                <div className="flex items-baseline justify-between gap-3">
-                  <span
-                    className={`text-[12.5px] font-medium ${
-                      phase.state === "queued" ? "text-overcast" : "text-ink"
-                    }`}
-                  >
-                    {phase.name}
-                  </span>
-                  <span className="font-mono text-[8.5px] uppercase tracking-[0.08em] text-overcast">
-                    {phase.state === "complete" ? "Complete" : phase.state === "active" ? "In progress" : "Queued"}
-                  </span>
-                </div>
-                <div className="mt-1.5 h-[6px] overflow-hidden rounded-full bg-primary-bg">
-                  <div
-                    className={`h-full rounded-full ${
-                      phase.state === "complete"
-                        ? "bg-blue/35"
-                        : phase.state === "active"
-                          ? "fl-sheen relative overflow-hidden bg-gradient-to-r from-[#4A6CE0] to-blue"
-                          : ""
-                    }`}
-                    style={{ width: phase.width }}
-                  />
-                </div>
-              </div>
-            ))}
-          </div>
-          <p className="mt-5 border-t border-dashed border-lineSoft pt-3 font-mono text-[8.5px] uppercase tracking-[0.08em] text-inkSoft">
-            One team, audit to handover
-          </p>
-        </div>
-
-        {/* Sprint ledger */}
-        <div className="border-t border-dashed border-lineSoft p-5 md:p-6 lg:border-l lg:border-t-0">
-          <div className="flex items-baseline justify-between gap-3">
-            <p className="font-mono text-[9px] uppercase tracking-eyebrow text-overcast">
-              This sprint
-            </p>
-            <span className="flex items-center gap-1.5 font-mono text-[8.5px] uppercase tracking-[0.08em] text-blue">
-              <span className="h-[5px] w-[5px] rounded-full bg-blue animate-[ps-pulse_2s_infinite]" aria-hidden />
-              Live
-            </span>
-          </div>
-          <div className="mt-4">
-            {sprintLedger.map((row) => (
-              <div
-                key={row.item}
-                className="flex items-center justify-between gap-3 border-b border-dashed border-lineSoft py-3 last:border-b-0"
-              >
-                <span className="min-w-0 truncate text-[13px] font-medium text-ink">{row.item}</span>
-                <StatusChip label={row.status} state={row.state} />
-              </div>
-            ))}
-          </div>
-          <div className="mt-3 rounded-[8px] border border-subtle-stroke bg-primary-bg px-3 py-2.5">
-            <p className="font-mono text-[8.5px] uppercase tracking-[0.08em] text-overcast">
-              Stand-up note · your team in the room
-            </p>
-            <p className="mt-1 text-[12.5px] leading-relaxed text-inkSoft">
-              District dashboards demoed to your analysts today. Their edits ship
-              tomorrow.
-            </p>
-          </div>
-        </div>
-
-        {/* Artefact register */}
-        <div className="border-t border-dashed border-lineSoft p-5 md:p-6 lg:border-l lg:border-t-0">
-          <p className="font-mono text-[9px] uppercase tracking-eyebrow text-overcast">
-            Artefact register · yours at handover
-          </p>
-          <div className="mt-4">
-            {artefacts.map((artefact) => (
-              <div
-                key={artefact.name}
-                className="flex items-center justify-between gap-3 border-b border-dashed border-lineSoft py-3"
-              >
-                <span className="min-w-0 truncate text-[13px] font-medium text-ink">
-                  {artefact.name}
-                </span>
-                <span className="flex shrink-0 items-center gap-1.5 font-mono text-[8.5px] uppercase tracking-[0.08em] text-inkSoft">
-                  {artefact.live && (
-                    <span className="h-[5px] w-[5px] rounded-full bg-blue animate-[ps-pulse_2s_infinite]" aria-hidden />
-                  )}
-                  {artefact.meta}
-                </span>
-              </div>
-            ))}
-          </div>
-          <div className="mt-4 flex items-center gap-2.5">
-            <span className="h-[8px] w-[8px] shrink-0 rotate-45 border border-blue bg-blue-subtle animate-[ps-pulse_2.4s_infinite]" aria-hidden />
-            <span className="font-mono text-[9px] font-semibold uppercase tracking-[0.08em] text-blue">
-              Next milestone · go-live · WK 6
-            </span>
-          </div>
-        </div>
-      </div>
-
-      <div className="border-t border-dashed border-lineSoft px-5 py-3 font-mono text-[8.5px] uppercase tracking-[0.08em] text-overcast md:px-6">
-        Every artefact on this screen is yours at handover
-      </div>
-    </div>
-  );
-}
 
 export default function DeliveryMethodology() {
   return (
-    <section id="methodology" className="scroll-mt-24 border-t border-lineSoft bg-background pt-12 pb-24 lg:pt-16 lg:pb-32">
+    <section
+      id="methodology"
+      className="scroll-mt-24 border-t border-lineSoft bg-background pt-16 pb-24 lg:pt-20 lg:pb-32"
+    >
       <ScrollRevealRail>
+        {/* Section Header */}
         <ScrollReveal>
           <div className="flex items-baseline justify-between font-mono text-[11px] uppercase tracking-eyebrow">
             <p>
-              <span className="text-overcast">[05]</span>
-              <span className="text-inkSoft">&nbsp;&nbsp;Methodology</span>
+              <span className="text-overcast">[03]</span>
+              <span className="text-inkSoft">&nbsp;&nbsp;Delivery process</span>
             </p>
-            <span className="hidden text-overcast sm:inline">/ One unbroken line</span>
+            <span className="hidden text-overcast sm:inline">/ Outcome-first engineering</span>
           </div>
-          <h2 className="mt-5 text-heading-sm font-semibold text-ink md:text-heading-md lg:text-heading-lg">
-            One process. Three models. No hand-offs.
-          </h2>
+
+          <div className="mt-5 flex flex-col justify-between gap-4 md:flex-row md:items-end">
+            <div>
+              <h2 className="text-3xl font-bold tracking-tight text-ink md:text-4xl lg:text-4xl">
+                Start with the outcome, not the technology.
+              </h2>
+              <p className="mt-3 max-w-[36em] text-base leading-relaxed text-secondary-text">
+                Four clear stages designed to eliminate risk, maintain accountability, and ship production-ready systems on schedule.
+              </p>
+            </div>
+
+            <div className="flex items-center gap-3">
+              <Link href="#talk-to-our-team" className="btn-secondary text-xs">
+                Talk to our team &rarr;
+              </Link>
+            </div>
+          </div>
         </ScrollReveal>
 
-        {/* Desktop: one continuous horizontal rail */}
-        <div className="mt-12 hidden md:grid md:grid-cols-4 lg:mt-16">
-          {steps.map((step, idx) => (
-            <ScrollReveal key={step.num} delay={100 + idx * 90}>
-              <div className="relative">
-                <span
-                  className="pointer-events-none absolute -top-2 right-6 select-none text-[64px] font-semibold leading-none tracking-tighter text-ink/[0.04]"
-                  aria-hidden
-                >
-                  {step.num}
-                </span>
-                <div className="flex items-center">
-                  <RailNode num={step.num} last={idx === steps.length - 1} />
-                  {idx < steps.length - 1 && <FlowSegment />}
+        {/* Horizontal Process Flow Stepper Rail (Desktop) */}
+        <ScrollReveal delay={80}>
+          <div className="mt-10 hidden lg:block">
+            <div className="relative flex items-center justify-between rounded-2xl border border-subtle-stroke bg-primary-bg/80 p-3.5 shadow-sm">
+              {/* Connected Dashed Line */}
+              <div className="absolute left-[12%] right-[12%] top-1/2 -translate-y-1/2 h-0.5 border-t-2 border-dashed border-blue-border/70" aria-hidden />
+
+              {STAGES.map((s, idx) => (
+                <div key={s.id} className="relative z-10 flex items-center gap-2.5 bg-white px-4 py-1.5 rounded-full border border-subtle-stroke shadow-sm">
+                  <span className="flex h-5 w-5 items-center justify-center rounded-full bg-blue text-white font-mono text-[10px] font-bold">
+                    {s.num}
+                  </span>
+                  <span className="font-semibold text-xs text-ink">{s.name}</span>
+                  {idx < STAGES.length - 1 && (
+                    <span className="hidden xl:inline text-blue font-bold text-xs ml-1">&rarr;</span>
+                  )}
                 </div>
-                <div className={idx < steps.length - 1 ? "pr-10" : ""}>
-                  <h3 className="mt-5 text-[20px] font-semibold tracking-tight text-ink">
-                    {step.name}
-                  </h3>
-                  <div className="mt-2.5 mb-3 w-8 border-t border-blue/40" aria-hidden />
-                  <p className="text-[14.5px] leading-relaxed text-inkSoft">{step.desc}</p>
+              ))}
+            </div>
+          </div>
+        </ScrollReveal>
+
+        {/* 4-Card Visual Feature Grid */}
+        <div className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 lg:gap-6">
+          {STAGES.map((stage, idx) => (
+            <ScrollReveal key={stage.id} delay={100 + idx * 50}>
+              <div className="group flex h-full flex-col justify-between">
+                <div>
+                  {/* Top Visual Graphic Container */}
+                  <div
+                    className={`relative aspect-[1.1] w-full overflow-hidden rounded-2xl border border-subtle-stroke bg-gradient-to-br ${stage.gradient} p-4 shadow-sm transition-all duration-300 group-hover:-translate-y-1 group-hover:border-blue-border group-hover:shadow-frame flex items-center justify-center`}
+                  >
+                    {/* Visual Graphic Type 1: IDE Code Window */}
+                    {stage.type === "code" && (
+                      <div className="w-full rounded-xl border border-white/15 bg-vault/90 p-3.5 shadow-md backdrop-blur-md">
+                        <div className="flex items-center gap-1.5 border-b border-white/10 pb-2">
+                          <span className="h-2 w-2 rounded-full bg-red-400" />
+                          <span className="h-2 w-2 rounded-full bg-yellow-400" />
+                          <span className="h-2 w-2 rounded-full bg-emerald-400" />
+                          <span className="ml-2 font-mono text-[9px] text-white/60">discovery.py</span>
+                        </div>
+                        <div className="mt-2.5 font-mono text-[10px] leading-relaxed text-white/90">
+                          <p className="text-blue-subtle"><span className="text-pink-400">from</span> dhira <span className="text-pink-400">import</span> Pipeline</p>
+                          <p className="mt-1"><span className="text-yellow-300">manifest</span> = Understand(</p>
+                          <p className="pl-3 text-emerald-300">&quot;sovereign_vpc&quot;,&nbsp;<span className="text-blue-subtle">99.99% SLA</span></p>
+                          <p>)</p>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Visual Graphic Type 2: Floating 2x3 Icon Grid */}
+                    {stage.type === "icons" && (
+                      <div className="grid grid-cols-3 gap-2.5">
+                        {["{}", "🌐", "⚡", "🛡️", "</>", "📊"].map((icon, i) => (
+                          <div
+                            key={i}
+                            className="flex h-11 w-11 items-center justify-center rounded-xl border border-white/20 bg-white/15 text-lg shadow-sm backdrop-blur-md transition-transform group-hover:scale-105"
+                          >
+                            <span>{icon}</span>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+
+                    {/* Visual Graphic Type 3: App Integration Badges */}
+                    {stage.type === "apps" && (
+                      <div className="grid grid-cols-2 gap-3">
+                        <div className="flex items-center gap-2 rounded-xl border border-white/20 bg-white/15 p-2.5 backdrop-blur-md">
+                          <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-ink text-white font-mono text-xs font-bold">
+                            GH
+                          </div>
+                          <span className="font-mono text-[10px] font-bold text-white">GitHub</span>
+                        </div>
+                        <div className="flex items-center gap-2 rounded-xl border border-white/20 bg-white/15 p-2.5 backdrop-blur-md">
+                          <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-blue text-white font-mono text-xs font-bold">
+                            JR
+                          </div>
+                          <span className="font-mono text-[10px] font-bold text-white">Jira</span>
+                        </div>
+                        <div className="flex items-center gap-2 rounded-xl border border-white/20 bg-white/15 p-2.5 backdrop-blur-md">
+                          <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-indigo-600 text-white font-mono text-xs font-bold">
+                            K8s
+                          </div>
+                          <span className="font-mono text-[10px] font-bold text-white">K8s</span>
+                        </div>
+                        <div className="flex items-center gap-2 rounded-xl border border-white/20 bg-white/15 p-2.5 backdrop-blur-md">
+                          <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-cyan-600 text-white font-mono text-xs font-bold">
+                            CI
+                          </div>
+                          <span className="font-mono text-[10px] font-bold text-white">CI/CD</span>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Visual Graphic Type 4: Live Telemetry Pulse */}
+                    {stage.type === "telemetry" && (
+                      <div className="w-full rounded-xl border border-white/20 bg-vault/90 p-4 shadow-md backdrop-blur-md">
+                        <div className="flex items-center justify-between border-b border-white/10 pb-2.5">
+                          <div className="flex items-center gap-2">
+                            <span className="h-2 w-2 rounded-full bg-emerald-400 animate-ping" />
+                            <span className="font-mono text-[10px] font-bold text-white">Live Telemetry</span>
+                          </div>
+                          <span className="font-mono text-[9.5px] font-bold text-emerald-400">99.99%</span>
+                        </div>
+                        <div className="mt-3 flex items-center justify-between">
+                          <div>
+                            <p className="font-mono text-[9px] text-white/60 uppercase">Code Sovereignty</p>
+                            <p className="font-mono text-[11px] font-bold text-white">100% Client IP</p>
+                          </div>
+                          <span className="rounded-full bg-emerald-500/20 px-2 py-0.5 font-mono text-[9px] text-emerald-300 border border-emerald-400/30">
+                            Verified SLA
+                          </span>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Stage Number Badge Overlay */}
+                    <div className="absolute top-3 left-3">
+                      <span className="flex h-6 w-6 items-center justify-center rounded-lg bg-vault/80 font-mono text-[10px] font-bold text-white backdrop-blur-md border border-white/15">
+                        {stage.num}
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Text Details Underneath Graphic Box */}
+                  <div className="mt-4">
+                    <h3 className="text-xl font-bold text-ink group-hover:text-blue transition-colors">
+                      {stage.name}
+                    </h3>
+                    <p className="mt-1.5 text-xs text-secondary-text leading-relaxed font-sans">
+                      {stage.description}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Bottom Deliverable Tag */}
+                <div className="mt-4 border-t border-dashed border-lineSoft pt-2.5">
+                  <span className="inline-flex items-center gap-1.5 font-mono text-[10.5px] font-semibold text-blue">
+                    <span>&bull;</span>
+                    <span>{stage.deliverable}</span>
+                  </span>
                 </div>
               </div>
             </ScrollReveal>
           ))}
         </div>
-
-        {/* Mobile: one continuous vertical rail */}
-        <div className="relative mt-10 md:hidden">
-          <span
-            className="absolute bottom-4 left-4 top-4 w-px bg-[length:1px_16px] bg-repeat-y bg-[repeating-linear-gradient(180deg,#C8D2F5_0_8px,transparent_8px_16px)]"
-            aria-hidden
-          />
-          <div className="space-y-9">
-            {steps.map((step, idx) => (
-              <ScrollReveal key={step.num} delay={100 + idx * 90}>
-                <div className="flex gap-5">
-                  <RailNode num={step.num} last={idx === steps.length - 1} />
-                  <div className="min-w-0 pt-1">
-                    <h3 className="text-[19px] font-semibold tracking-tight text-ink">{step.name}</h3>
-                    <p className="mt-2 text-[14.5px] leading-relaxed text-inkSoft">{step.desc}</p>
-                  </div>
-                </div>
-              </ScrollReveal>
-            ))}
-          </div>
-        </div>
-
-        {/* The Engagement Console — what week four actually looks like */}
-        <ScrollReveal delay={160}>
-          <div className="mt-12 lg:mt-14">
-            <div className="mb-4 flex items-baseline justify-between gap-3">
-              <p className="font-mono text-[10px] font-semibold uppercase tracking-eyebrow text-blue">
-                What week four actually looks like
-              </p>
-              <p className="hidden font-mono text-[9px] uppercase tracking-[0.08em] text-overcast sm:block">
-                Simulated view
-              </p>
-            </div>
-            <EngagementConsole />
-          </div>
-        </ScrollReveal>
-
-        <ScrollReveal delay={200}>
-          <p className="mt-10 border-t border-dashed border-lineSoft pt-5 font-mono text-[10px] uppercase tracking-eyebrow text-overcast lg:mt-12">
-            The same four moves govern every model &middot; platform, product, or advisory
-          </p>
-        </ScrollReveal>
       </ScrollRevealRail>
     </section>
   );
 }
+
+
+
+
+
