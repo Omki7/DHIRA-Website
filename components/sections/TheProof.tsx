@@ -196,7 +196,14 @@ export default function TheProof() {
   return (
     <section
       id="proof"
-      className="relative overflow-hidden border-y border-lineSoft shadow-[0_20px_40px_-15px_rgba(11,20,64,0.06)] pt-12 pb-24 lg:pt-16 lg:pb-32 font-sans"
+      /* HEIGHT TRIMMED (23 Jul 2026, homepage pacing pass). The section stays
+         — it is the one place the reader proves the thesis to themselves
+         instead of being told it — but it was 1.44 screens, and roughly half
+         of that was chrome around a 660px mockup. Everything below came out of
+         padding and one redundant label; the mockup keeps its 1100px width
+         because its callout pills are fixed-size text, so narrowing the frame
+         would scale them UP relative to the diagram and collide them. */
+      className="relative overflow-hidden border-y border-lineSoft shadow-[0_20px_40px_-15px_rgba(11,20,64,0.06)] pt-10 pb-12 lg:pt-14 lg:pb-16 font-sans"
       style={{ "--pos": pos } as React.CSSProperties}
     >
 
@@ -247,10 +254,17 @@ export default function TheProof() {
 
       <ScrollRevealRail className="relative z-10">
         <ScrollReveal>
-          <div className="mb-10 flex items-center border-t border-b border-dashed border-lineSoft py-[17px] px-[2px] font-mono text-[11px] uppercase tracking-eyebrow text-inkSoft">
+          <div className="mb-8 flex items-center border-t border-b border-dashed border-lineSoft py-[17px] px-[2px] font-mono text-[11px] uppercase tracking-eyebrow text-inkSoft">
             <span>
+              {/* Was "THE PROOF", which made three sections mean evidence:
+                  [03] PROVEN AT SCALE, this one, and [07]'s "Proven in the
+                  field, not in a pitch deck." [03] keeps the word — national
+                  systems on the public record is the literal proof. This
+                  section is a before/after of the whole company (the mockup's
+                  own labels are "Before DHIRA" / "After DHIRA"), so it is
+                  named for the change it shows. */}
               <span className="text-overcast">[06]</span>
-              &nbsp;&nbsp;THE PROOF
+              &nbsp;&nbsp;THE DIFFERENCE
             </span>
           </div>
 
@@ -266,11 +280,12 @@ export default function TheProof() {
         </ScrollReveal>
 
         {/* Mode Pill Toggle — Directly shown below subheader */}
-        <ScrollReveal delay={60} className="flex flex-col items-start sm:items-center w-full mt-8">
-          <div className="mb-2 flex items-center gap-2 font-mono text-[10px] uppercase tracking-widest text-inkSoft font-semibold">
-            <span className="h-1.5 w-1.5 rounded-full bg-blue animate-pulse" />
-            Select Comparison Mode
-          </div>
+        <ScrollReveal delay={60} className="flex flex-col items-start sm:items-center w-full mt-6">
+          {/* "● SELECT COMPARISON MODE" removed. Two labelled pills with a lit
+              dot on the active one already read as a mode switch, so the line
+              was captioning a control that captions itself — and it was the
+              third thing on screen teaching one gesture, after the auto-demo
+              sweep and the draggable seam. */}
           <div
             role="group"
             aria-label="Choose which side to show"
@@ -309,7 +324,7 @@ export default function TheProof() {
           <div
             ref={graphContainerRef}
             onPointerDown={handlePointerDown}
-            className="relative w-full overflow-hidden cursor-ew-resize select-none max-w-full lg:max-w-[1100px] mx-auto mt-12 lg:mt-14 mb-8 bg-transparent"
+            className="relative w-full overflow-hidden cursor-ew-resize select-none max-w-full lg:max-w-[1100px] mx-auto mt-8 lg:mt-10 mb-6 bg-transparent"
             style={{ aspectRatio: "1100 / 660", touchAction: "none" }}
           >
             <ProofComparisonMockup
@@ -323,7 +338,7 @@ export default function TheProof() {
           </div>
         </ScrollReveal>
 
-        <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-6 mt-6 lg:mt-8 max-w-[1100px] mx-auto">
+        <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-6 mt-5 lg:mt-6 max-w-[1100px] mx-auto">
           <ScrollReveal delay={220}>
             <p className="text-sm leading-relaxed text-inkSoft max-w-[54ch]">
               <span className="font-medium text-ink">Left,</span> four source systems, four different answers, and a reconciliation queue measured in days. <span className="font-medium text-ink">Right,</span> one certified master record every system trusts.
@@ -331,8 +346,13 @@ export default function TheProof() {
           </ScrollReveal>
 
           <ScrollReveal delay={280}>
-            <Link href="#platform" className="btn-primary whitespace-nowrap">
-              See how the foundation works
+            {/* Was "See how the foundation works" → #platform: a backward
+                link at section 6 of 10, and it narrowed a company-scale
+                before/after into a product anchor. The "after" state is earned
+                by the platform AND the engineering, so it exits into the half
+                the reader has just met. */}
+            <Link href="/delivery" className="btn-primary whitespace-nowrap">
+              See how we deliver it
             </Link>
           </ScrollReveal>
         </div>

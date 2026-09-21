@@ -1,109 +1,132 @@
 /*
- * [03] Model 2 — Product Engineering.
- * Two build paths as one editorial decision split (no card chrome,
- * five-second read): each side opens with the reader's situation, answers
- * with what we build and the week-range figure, divided by a dashed axis
- * with a floating OR node.
+ * [03] Model 02 — Product Engineering: the fork.
+ * One brief, two routes. The old two-column prose split is replaced by the
+ * junction drawn for real: a dashed spine descends from ONE BRIEF and
+ * branches into two labelled route bands, each ending in its destination
+ * figure (MVP · 12–20 WKS on Akashic, MVP · 10–16 WKS on your stack).
+ * Figures are deliberately NOT bars on a shared axis: the two paths are
+ * not the same job (the Akashic path includes the data layer), and two
+ * numbers racing on one scale read as a race whatever the labels say
+ * (HowWeDeliver precedent). Colour encodes the engine: blue = Akashic,
+ * ink = your stack. Copy is terse cells under mono labels.
  */
 
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import ScrollRevealRail from "@/components/ui/ScrollRevealRail";
 
-type BuildPath = {
+type Route = {
   blue: boolean;
+  engine: string;
+  figure: string;
+  unit: string;
   situation: string;
   situationNote: string;
-  build: string;
-  figure: string;
+  engineDetail: string;
+  engineChips: string;
   advantage: string;
-  engine: string;
 };
 
-const paths: BuildPath[] = [
+const routes: Route[] = [
   {
     blue: true,
+    engine: "On Akashic",
+    figure: "12–20",
+    unit: "WKS TO MVP",
     situation:
       "Your product needs a data layer that is sovereign, traceable, and AI-ready from day one.",
     situationNote: "Common in healthcare, finance, and public sector.",
-    build: "On Akashic.",
-    figure: "12–20",
-    advantage:
-      "Launch months faster by not rebuilding complex data infrastructure from scratch.",
-    engine: "Akashic as the engine · Data layer · Knowledge layer · AI runtime",
+    engineDetail: "Akashic as the engine",
+    engineChips: "Data layer · Knowledge layer · AI runtime",
+    advantage: "No data-infrastructure rebuild. Launch months faster.",
   },
   {
     blue: false,
+    engine: "On your stack",
+    figure: "10–16",
+    unit: "WKS TO MVP",
     situation: "Your stack is already decided: SAP, mainframe, or a custom environment.",
     situationNote: "Or the product is a brand-specific, customer-facing application.",
-    build: "On your stack.",
-    figure: "10–16",
-    advantage:
-      "High-velocity engineering on your existing architecture, governed by our standards.",
-    engine: "Your existing stack · SAP · Mainframe · Custom",
+    engineDetail: "Your architecture, our standards",
+    engineChips: "SAP · Mainframe · Custom",
+    advantage: "High-velocity engineering on the architecture you already run.",
   },
 ];
 
-function OrNode({ className = "" }: { className?: string }) {
-  return (
-    <span
-      className={`items-center justify-center rounded-full border border-subtle-stroke bg-white font-mono text-[11px] font-bold uppercase tracking-[0.08em] text-inkSoft shadow-frame ${className}`}
-      aria-hidden
-    >
-      or
-    </span>
-  );
-}
+function RouteBand({ route, index }: { route: Route; index: number }) {
+  const chipCls = route.blue
+    ? "border border-blue-border bg-gradient-to-b from-[#F3F6FF] to-[#E8EDFC] text-blue shadow-[inset_0_1px_0_rgba(255,255,255,0.9)]"
+    : "bg-gradient-to-b from-[#2A2D2F] to-ink text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.12)]";
+  const lineCls = route.blue
+    ? "bg-[repeating-linear-gradient(90deg,#3E63DD_0_8px,transparent_8px_16px)]"
+    : "bg-[repeating-linear-gradient(90deg,#8E8F91_0_8px,transparent_8px_16px)]";
 
-function PathPanel({ path, align }: { path: BuildPath; align: "left" | "right" }) {
   return (
-    <div className={`flex h-full flex-col ${align === "left" ? "lg:pr-16" : "lg:pl-16"}`}>
-      <p
-        className={`font-mono text-[10px] font-semibold uppercase tracking-eyebrow ${
-          path.blue ? "text-blue" : "text-inkSoft"
+    <div className={`relative border-t border-lineSoft py-6 lg:py-7 ${index === routes.length - 1 ? "border-b" : ""}`}>
+      {/* The branch from the spine into this route */}
+      <span
+        className={`absolute -left-7 top-[42px] hidden w-7 border-t border-dashed lg:block ${
+          route.blue ? "border-blue/50" : "border-ink/30"
         }`}
-      >
-        If this is you
-      </p>
-      <p className="mt-3 max-w-[24em] text-[17px] font-medium leading-snug tracking-tight text-ink md:text-[19px]">
-        {path.situation}
-      </p>
-      <p className="mt-2 text-[13.5px] leading-relaxed text-inkSoft">{path.situationNote}</p>
+        aria-hidden
+      />
 
-      <div className="mt-7 border-t border-dashed border-lineSoft pt-5">
-        <p className="font-mono text-[10px] uppercase tracking-eyebrow text-overcast">
-          We build it
-        </p>
-        <h3 className="mt-2 text-[21px] font-semibold tracking-tight text-ink md:text-[23px]">
-          {path.build}
-        </h3>
-        <div className="mt-4 flex items-baseline gap-3">
-          <span
-            className={`text-[34px] font-semibold leading-none tracking-tighter md:text-[38px] ${
-              path.blue ? "text-blue" : "text-ink"
-            }`}
+      {/* Route header: engine chip, the route line, destination figure */}
+      <div className="flex flex-wrap items-center gap-x-4 gap-y-3">
+        <span className={`inline-flex items-center rounded-[7px] px-2.5 py-1 font-mono text-[10px] font-bold uppercase tracking-[0.06em] ${chipCls}`}>
+          {route.engine}
+        </span>
+        <span className={`relative h-px min-w-[60px] flex-1 bg-[length:16px_1px] bg-repeat-x ${lineCls}`} aria-hidden>
+          <svg
+            className={`absolute -right-1 top-1/2 -translate-y-1/2 ${route.blue ? "text-blue" : "text-tertiary-text"}`}
+            width="12"
+            height="10"
+            viewBox="0 0 12 10"
+            fill="none"
+            aria-hidden
           >
-            {path.figure}
+            <path d="M1 5h9M7 1.5 10.5 5 7 8.5" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </span>
+        <span className="flex items-baseline gap-2.5">
+          <span className="font-mono text-[9px] uppercase tracking-eyebrow text-overcast">MVP</span>
+          <span className={`text-[26px] font-semibold leading-none tracking-tighter md:text-[30px] ${route.blue ? "text-blue" : "text-ink"}`}>
+            {route.figure}
           </span>
-          <span className="text-[15px] font-medium text-inkSoft">weeks to MVP</span>
+          <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.08em] text-inkSoft">
+            {route.unit}
+          </span>
+        </span>
+      </div>
+
+      {/* The route's three cells, terse under mono labels */}
+      <div className="mt-5 grid gap-x-8 gap-y-5 md:grid-cols-3">
+        <div>
+          <p className="font-mono text-[9px] uppercase tracking-eyebrow text-overcast">
+            If this is you
+          </p>
+          <p className="mt-2 max-w-[26em] text-[14px] font-medium leading-snug text-ink">
+            {route.situation}
+          </p>
+          <p className="mt-1.5 text-[12.5px] leading-snug text-inkSoft">{route.situationNote}</p>
+        </div>
+        <div>
+          <p className="font-mono text-[9px] uppercase tracking-eyebrow text-overcast">
+            The engine
+          </p>
+          <p className="mt-2 text-[14px] font-medium leading-snug text-ink">{route.engineDetail}</p>
+          <p className={`mt-1.5 font-mono text-[10px] uppercase tracking-[0.06em] ${route.blue ? "text-blue" : "text-inkSoft"}`}>
+            {route.engineChips}
+          </p>
+        </div>
+        <div>
+          <p className="font-mono text-[9px] uppercase tracking-eyebrow text-overcast">
+            The advantage
+          </p>
+          <p className="mt-2 max-w-[26em] text-[14px] font-medium leading-snug text-ink">
+            {route.advantage}
+          </p>
         </div>
       </div>
-
-      <div className="mt-6 border-t border-dashed border-lineSoft pt-5">
-        <p className="font-mono text-[10px] uppercase tracking-eyebrow text-overcast">
-          The advantage
-        </p>
-        <p className="mt-2 max-w-[28em] text-[15.5px] font-medium leading-relaxed text-ink">
-          {path.advantage}
-        </p>
-      </div>
-
-      <p
-        className={`mt-auto border-t pt-4 font-mono text-[10px] uppercase tracking-eyebrow ${
-          path.blue ? "border-blue-border text-blue" : "border-lineSoft text-inkSoft"
-        }`}
-      >
-        {path.engine}
-      </p>
     </div>
   );
 }
@@ -121,44 +144,43 @@ export default function DeliveryProductEngineering() {
             <span className="hidden text-overcast sm:inline">/ Akashic optional</span>
           </div>
           <h2 className="mt-5 text-heading-sm font-semibold text-ink md:text-heading-md lg:text-heading-lg">
-            We build what you need. Akashic is optional.
+            <span className="text-inkSoft">We build what you need.</span>
+            <br />
+            Akashic is optional.
           </h2>
           <p className="mt-5 max-w-[42em] text-lg leading-relaxed text-secondary-text">
-            Sometimes you need a bespoke application, not a platform. We&nbsp;engineer it.
-            <br />
-            If&nbsp;Akashic accelerates the outcome, we use it as the engine.
-            <br />
-            If&nbsp;your environment demands a native build, we engineer it to your exact
-            specifications.
+            Sometimes you need a bespoke application, not a platform. Two engines
+            for the same brief:
           </p>
         </ScrollReveal>
 
-        <div className="relative mt-12 lg:mt-16">
-          <span
-            className="absolute inset-y-2 left-1/2 hidden w-px -translate-x-1/2 bg-[repeating-linear-gradient(180deg,#e4e7ec_0_8px,transparent_8px_16px)] lg:block"
-            aria-hidden
-          />
-          <OrNode className="absolute left-1/2 top-1/2 z-10 hidden h-12 w-12 -translate-x-1/2 -translate-y-1/2 lg:flex" />
-
-          <div className="grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-0">
-            <ScrollReveal delay={100}>
-              <PathPanel path={paths[0]} align="left" />
-            </ScrollReveal>
-
-            <div className="flex items-center gap-4 lg:hidden" aria-hidden>
-              <span className="h-px flex-1 border-t border-dashed border-lineSoft" />
-              <OrNode className="flex h-10 w-10" />
-              <span className="h-px flex-1 border-t border-dashed border-lineSoft" />
+        {/* The fork: one brief descends, two routes branch off */}
+        <ScrollReveal delay={120}>
+          <div className="relative mt-10 lg:mt-12 lg:pl-7">
+            {/* Spine + entry node (desktop) */}
+            <span
+              className="absolute bottom-10 left-[7px] top-14 hidden border-l border-dashed border-line lg:block"
+              aria-hidden
+            />
+            <div className="mb-6 hidden items-center gap-2.5 lg:flex" aria-hidden>
+              <span className="flex h-[15px] w-[15px] items-center justify-center rounded-full border border-ink/25 bg-white">
+                <span className="h-[5px] w-[5px] rounded-full bg-ink" />
+              </span>
+              <span className="font-mono text-[9.5px] font-semibold uppercase tracking-eyebrow text-inkSoft">
+                One brief
+              </span>
             </div>
 
-            <ScrollReveal delay={180}>
-              <PathPanel path={paths[1]} align="right" />
-            </ScrollReveal>
+            <div className="lg:-mt-2">
+              {routes.map((route, idx) => (
+                <RouteBand key={route.engine} route={route} index={idx} />
+              ))}
+            </div>
           </div>
-        </div>
+        </ScrollReveal>
 
         <ScrollReveal delay={200}>
-          <p className="mt-12 border-t border-lineSoft pt-5 text-center font-mono text-[10px] uppercase tracking-eyebrow text-overcast lg:mt-14">
+          <p className="mt-8 font-mono text-[10px] uppercase tracking-eyebrow text-overcast lg:mt-10">
             Both paths &middot; governed by DHIRA standards &middot; you own the code
           </p>
         </ScrollReveal>

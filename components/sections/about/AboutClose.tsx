@@ -18,10 +18,7 @@ export default function AboutClose() {
             <div className="absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r from-blue/70 via-blue/30 to-transparent" aria-hidden />
             <div className="dot-grid absolute inset-0 opacity-10 invert" aria-hidden />
             <div className="relative">
-              <p className="font-mono text-[11px] uppercase tracking-eyebrow text-white/50">
-                <span className="text-white/30">[07]</span>&nbsp;&nbsp;Ready when you are
-              </p>
-              <h2 className="mx-auto mt-6 max-w-[16em] text-heading-sm font-semibold text-white md:text-heading-md">
+              <h2 className="mx-auto mt-2 max-w-[16em] text-heading-sm font-semibold text-white md:text-heading-md">
                 We are a small team that ships.
               </h2>
               <p className="mx-auto mt-6 max-w-[30em] text-lg leading-relaxed text-white/65">

@@ -48,7 +48,10 @@ export default function EisConsoleMockup() {
   const [approved, setApproved] = useState(false);
 
   return (
-    <div className="w-full overflow-hidden rounded-[14px] border border-[#242D5A] bg-[#0D122B]/95 text-left shadow-2xl backdrop-blur-md">
+    /* No radius or border of its own: on /solutions/eis this sits inside a
+       browser chrome that already supplies both, and two nested frames read
+       as a screenshot pasted into a screenshot. */
+    <div className="w-full overflow-hidden bg-[#0D122B] text-left">
       <div className="flex">
         {/* Sidebar */}
         <aside className="hidden w-[186px] shrink-0 flex-col border-r border-white/10 bg-white/[0.02] lg:flex">

@@ -48,7 +48,7 @@ components/
 
   sections/            One file per page section (see Section Maps below)
     universal-context/ Parts of MeetAkashic (legacy UC* names from the Attio-replica origin)
-    about/ akashic/ careers/ delivery/ eis/ life/ knowledge/ public-sector/
+    about/ akashic/ careers/ delivery/ eis/ life/ public-sector/
     manufacturing/ education/ energy/ finance/ healthcare/ retail/ sectors/
                        Per-page section families; the six industry sectors share sectors/ + sectorContent.ts
 
@@ -66,7 +66,27 @@ components/
     mockups/           SIMULATED PRODUCT UI — fake app screenshots, not real functionality (see §8a)
       HeroProductsMockup.tsx     Hero 3-card carousel (renders via dangerouslySetInnerHTML — intentional)
       ProofComparisonMockup.tsx  TheProof drag-to-compare slider (role="slider", keyboard operable)
-      EisBriefMockup.tsx         /solutions/eis morning-brief hero
+      Eis*Mockup.tsx             /solutions/eis. Every one of these is the EVIDENCE for the caption
+                                 printed beside it, not decoration — if you change a section's claim,
+                                 change its wireframe too. They render frameless (no radius/border of
+                                 their own) because the section supplies the frame.
+        EisBrowserChromeMockup     macOS window chrome (`light` | `dark`), wraps the app screens
+        eis/EisAppChrome           shared light chrome for the app screens: top bar, module rail,
+                                   live chip, CARD/CANVAS tokens
+        eis/EisBriefScreenMockup   hero — the morning brief. Taxonomy line, convergence diagram,
+                                   decision runway, and the loop closing live on Approve
+        eis/EisEstateScreenMockup  [one-picture] — the estate, ranked, columns built per industry
+        eis/EisSchemaMatrixMockup  [one-picture] — all four industries' schemas at once. The two
+                                   right columns repeat verbatim; that repetition IS the argument
+        eis/EisGapTimelineMockup   [the-gap] — one incident, three routes, on an axis of days
+        eis/EisCapabilityEvidence  [capabilities] — the six evidence panels
+        eis/EisLoopCircuitMockup   [the-loop] — five stations plus the drawn return leg
+        eis/EisLensCompareMockup   [your-lens] — the same morning from three seats, side by side
+
+        Rebuilt Jul 2026. Four patterns were removed on purpose and should not come back:
+        horizontal carousels and tab strips (they leave most of a section unpublished),
+        panels clipped by their frame (unreadable), 4:5 atmosphere tiles that are ~55% empty
+        gradient, and white cards floating on a grey canvas (the 2010 dashboard shape).
 
   icons/               Static SVG components, no logic (AkashicLogo, DhiraLogo, DynamicSketchIcon)
 
@@ -83,7 +103,7 @@ hooks/
 
 lib/                   Static content config, one file per page (see STATE_AND_DATA.md)
   pageSection.ts       Shared section typing
-  {home,about,akashic,careers,delivery,eis,life,knowledge,publicSector}Sections.ts
+  {home,about,akashic,careers,delivery,eis,life,publicSector}Sections.ts
   {education,energy,finance,healthcare,manufacturing,retail}Sections.ts + sectorContent.ts
 ```
 
@@ -183,16 +203,151 @@ before ship.
 | 04 | how-we-hire | `careers/CareersHiring.tsx` (second, deeper blue band — approved) |
 | 05 | talk-to-our-team | `careers/CareersClose.tsx` |
 
-### Solution pages (`/solutions/{eis,life,knowledge}`)
+### Solution pages (`/solutions/{eis,life}`)
 
-Split hero + six-step chain rail + count-up proof panels, so the family reads as
-siblings. ⚠ Some figures differ from home/Akashic stats — reconcile before ship.
+⚠ **Neither solution page follows the old family pattern any more.** Both were
+rebuilt to their own visual systems on user direction (EIS Jul 2026, Life
+23 Jul 2026). The split hero + six-step chain rail + count-up proof panels
+recipe now survives only on `/solutions/knowledge`. Do not "restore
+consistency" across the three without checking first.
 
-| Page | Sections (`components/sections/…`) |
+| Page | Status |
 |---|---|
-| `/solutions/eis` | `eis/` — EisHero, EisBrief[01], EisProvenance[02], EisSpine[03], EisAction[04], EisMoments[05], EisIntegration[06] (blue band), EisProof[07], EisClose[08] |
-| `/solutions/life` | `life/` — LifeHero, LifeGap[01], LifeOffline[02], LifeStory[03] (blue band), LifeChain[04], LifeBuilt[05], LifeProof[06], LifeClose[07] |
-| `/solutions/knowledge` | `knowledge/` — KnowledgeHero, KnowledgeFracture[01], KnowledgeGrid[02], KnowledgeNation[03], KnowledgeMorning[04] (blue band), KnowledgeProof[05], KnowledgeChain[06], KnowledgeClose[07] |
+| `/solutions/eis` | own system, `eis-*` tokens — see below |
+| `/solutions/life` | own system, `life-*` tokens — see below |
+
+#### `/solutions/life` — the ocean system (rebuilt 23 Jul 2026)
+
+Rebuilt against a healthcare reference the user supplied (vitaspan.ai) on the
+instruction to take its flow and skin and carry DHIRA's content. Runs the
+page-scoped `life-*` navy→cyan ramp, headings at **weight 500 on near-normal
+tracking** rather than the site's `font-semibold tracking-tighter`, and a
+`+ LABEL` eyebrow instead of the `[NN]` rail. Shared marks live in
+`components/ui/life/LifeChrome.tsx` (eyebrow, square glyph, capsule CTA,
+corner arc).
+
+**The hero photograph.** `public/proof/point-of-care.jpg`, stock under a
+free commercial licence (Pexels, equivalent footing to the Unsplash shots
+already in that folder). Three drawn subjects were tried and rejected first —
+a contour profile ("disturbing"), the handset mockup ("generic"), two
+silhouettes (a pictogram). A page about people needs a photograph of people.
+The treatment in `demos/life/LifeVisitPhoto.tsx` is a **weak** duotone plus an
+edge mask; the first pass screened cyan at 70% and the photograph disappeared.
+
+**Family ties, added 23 Jul 2026** after the page was compared side by side
+with home and `/akashic`, which it had drifted away from. Four small anchors,
+none of which touch the reference's structure: the hero opens with the Akashic
+badge every other DHIRA hero opens with; `life-abyss` is now the same value as
+`depth`, so the five dark sections are the site's black and not a second,
+bluer one; the eyebrow and both capsules set in `font-mono` like every other
+section label on the site; and the hero and the closing card each carry a CTA
+**pair**, since a lone button appears nowhere else. Deliberately left alone:
+the weight-500 headings, the cyan accent, the `+` cross, the circles and the
+dark-forward ground rhythm. Those are the commissioned skin.
+
+**Claims rules specific to this page.** Akashic Life is not sold, so it
+carries **no figures of its own** anywhere: no parameter count, no risk score,
+no case volume, no elapsed-time claim. Its evidence is what it is built on.
+Figures for the traditional referral pathway ([02]'s 4 days / 0 bars / 7
+steps) are fine — those describe the problem, not the product. And the
+national programmes are **never named**: home and `/akashic` call them
+"National Immunisation Registry", "National Learning Platform" and carry the
+figures underneath. Only `/sectors/public-sector` names them. Match home.
+
+Ground rhythm is deliberate and alternates in pairs — dark, light, dark, dark,
+light, light, dark, dark, light, light, dark — so no two adjacent movements
+share a register.
+
+| # | `id` | Component | Ground |
+|---|---|---|---|
+| 1 | hero | `life/LifeHero.tsx` + `demos/life/LifeVisitPhoto.tsx` | `life-abyss` |
+| 2 | the-gap | `life/LifeGap.tsx` (pinned headline, ghost figures) | white |
+| 3 | the-solution | `life/LifeSolution.tsx` (pinned 3-circle track) | navy ramp |
+| 4 | what-changes | `life/LifeBenefits.tsx` (zig-zag) | navy ramp |
+| 5 | the-record | `life/LifeRecord.tsx` + `demos/mockups/life/LifeRecordAnatomyMockup.tsx` | `life-ice`→`life-cream` |
+| 6 | altitude | `life/LifeAltitude.tsx` (two-tone statement) | `life-cream` |
+| 7 | record-of-work | `life/LifeRecordOfWork.tsx` (vertical circle chain) | navy ramp |
+| 8 | how-its-built | `life/LifeBuilt.tsx` (3 Akashic layers) | `life-cream` |
+| 9 | the-stake | `life/LifeStake.tsx` (two-tone + kicker) | white |
+| 10 | talk-to-our-team | `life/LifeClose.tsx` — the SHARED closure recipe, same as `Closure.tsx` and `AkashicClose.tsx` | white + `bg-ink` card |
+
+An eleventh section, a `LifeVoice` quote band, sat between [06] and [07] and
+was **removed 23 Jul 2026**. Its only attribution was "from a customer
+platform review" — an unnamed testimonial, which this page cannot carry for a
+product that is not sold. Stripping the attribution and keeping the quote
+would have been worse (an unsourced claim). Do not reinstate without a named,
+printable source.
+
+**Two traps, both already paid for.** (1) `the-gap` and `the-solution` pin a
+column with `position: sticky`; an `overflow-hidden` ancestor silently turns
+sticky back into static, so those two sections must never carry it and
+`LifeCornerArc` sits flush rather than bleeding off the corner. (2) Widths in
+`em` must live on the element that owns the type size — `max-w` in `em`
+resolves against the element's **own** `font-size`, so putting it on a wrapper
+measures in 16px units.
+
+#### `/solutions/eis` — the other outlier (rebuilt Jul 2026)
+
+EIS was rebuilt to a different visual system on user direction and **no longer
+shares the solution-page family pattern**: no numbered `[01]`-style eyebrows,
+no chain rail, no `ProvenAtScale`. Do not "restore consistency" with
+`knowledge/` without checking first.
+
+| # | `id` | Component | Ground |
+|---|---|---|---|
+| 1 | hero | `eis/EisHero.tsx` (industry switcher) | atmosphere (`hero`) |
+| 2 | the-gap | `eis/EisGap.tsx` (decision timeline) | `eis-band` #F4F5F0 |
+| 3 | capabilities | `eis/EisCapabilities.tsx` (2 bands × 3, grid) | white |
+| 4 | one-picture | `eis/EisOnePicture.tsx` (schema matrix + estate) | white + `dusk` panel |
+| 5 | the-loop | `eis/EisLoop.tsx` (5-station circuit) | white |
+| 6 | your-lens | `eis/EisLenses.tsx` (3 seats side by side) | white |
+| 7 | proof | `eis/EisProof.tsx` (3 deployments, all shown) | white |
+| 8 | questions | `eis/EisFaq.tsx` (3 bands, first answer open) | white |
+| 9 | talk-to-our-team | `eis/EisClose.tsx` | atmosphere (`dusk`) |
+
+**Section [03]'s id is `capabilities`, not `the-brief`** — `lib/eisSections.ts`
+drives the minimap from these ids and they must match the `id` attributes.
+
+**Every section is left-aligned at `max-w-[1180px]` with a two-tone headline**
+(soft setup line, ink payoff line, per DESIGN_SYSTEM's two-tone rule). Two
+sections used to carry a second full headline inside a `dusk` panel further
+down ([one-picture], [the-loop]); both were removed, because a section with two
+headlines has not decided what it is about.
+
+Page-scoped primitives live in `components/ui/eis/`: `EisAtmosphere` (the
+CSS/SVG sky that replaces photography) and `EisPill` (the page's one button
+shape). Its palette is the `eis-*` token block in `tailwind.config.ts`.
+
+Every wireframe on the page is **live React**, not a screenshot, and each one
+is the evidence for the claim beside it — see §8a.
+
+**Claims rules for this page (do not regress these).** A 22 Jul 2026 domain
+review found four statements that a CIO, data lead, or finance team would have
+rejected on sight. They are fixed; keep them fixed.
+
+1. **Two planes, never one word.** Ingestion is read-only. Write-back is a
+   short per-system list of *named actions*, scoped, approved, idempotent,
+   reversible. The page previously said "READ ONLY" in five places and "writes
+   to SAP" in six, which reads as either not understanding our own
+   architecture or hiding the write path. Never state one without the other.
+2. **No confidence score on a deterministic metric.** A `SUM` over a governed
+   ledger is right or wrong; a percentage there reads as an LLM artefact
+   bolted where it does not belong and undermines the provenance panel it sits
+   in. Match confidence on **entity resolution** is real and is where it now
+   lives (`CapSpineCard`).
+3. **Lineage shows the definition, not the SQL.** When three teams produce
+   three revenue numbers, the dispute is never the `SELECT` — it is recognised
+   vs billed, which entities consolidate, intercompany eliminations, and the
+   FX date. Show those.
+4. **Systems corroborate, they do not "agree".** Contracts, delivery and HR
+   hold different facts about one account. "3 systems agree" invites "about
+   what?" and there is no answer.
+
+Related: the loop's **scenario** station must show baseline, delta,
+*sensitivity*, and the decision it argues for. A single variance number over an
+unlabelled bar is a chart of nothing. It is also allowed to show a trade going
+the customer's way (losing the account improves concentration), because a model
+that only moves one direction is a sales tool, not a model.
 
 ### Sector pages (`/sectors/*`)
 

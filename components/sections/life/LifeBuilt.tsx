@@ -1,146 +1,72 @@
 /*
- * [05] How It's Built — Edge AI on the National Backbone.
- * Three build-layer cards on the shared AkashicCardChrome header, each closed
- * by a SIMULATED-UI micro-visual (§8a: canned score, record merge, and
- * governance tags): on-device scoring, MDM golden records, BI + governance.
+ * [08] Built on Akashic — what is actually underneath.
+ *
+ * The reference gives this slot to the team. Ours goes to the platform,
+ * because on this page that is the same claim: the reason a village app can
+ * be trusted at a ministry is that it is not a village app. It is three
+ * Akashic modules pointed at a village.
+ *
+ * Light ground, centred headline, three columns hung off a hairline. No
+ * cards: the page has spent five sections establishing that a rule and a
+ * label are enough (Design Rule 1).
  */
 
 import ScrollReveal from "@/components/ui/ScrollReveal";
-import ScrollRevealRail from "@/components/ui/ScrollRevealRail";
-import { CARD, CardHeader } from "@/components/sections/akashic/AkashicCardChrome";
-
-function VisScore() {
-  return (
-    <div className="flex flex-wrap items-center gap-1.5">
-      <span className="rounded-[6px] border border-subtle-stroke bg-white px-2 py-[3px] font-mono text-[8.5px] text-inkSoft">
-        45+ PARAMETERS
-      </span>
-      <span className="rounded-[6px] border border-subtle-stroke bg-white px-2 py-[3px] font-mono text-[8.5px] text-inkSoft">
-        OFFLINE
-      </span>
-      <span className="ml-auto flex items-center gap-1.5 rounded-[6px] border border-[#EEDFC4] bg-[#FDF9F1] px-2 py-[3px] font-mono text-[8.5px] font-bold text-[#8A6A33]">
-        <span className="h-[5px] w-[5px] rounded-full bg-[#C0883A] animate-[ps-pulse_2s_infinite]" aria-hidden />
-        RISK 0.98
-      </span>
-    </div>
-  );
-}
-
-function VisGolden() {
-  const sources = ["ASHA", "PHC", "DISTRICT"];
-  return (
-    <div className="flex flex-wrap items-center gap-y-1.5">
-      {sources.map((source, idx) => (
-        <span key={source} className="flex items-center">
-          <span className="rounded-[6px] border border-subtle-stroke bg-white px-2 py-[3px] font-mono text-[8.5px] text-inkSoft">
-            {source}
-          </span>
-          {idx < sources.length - 1 && <span className="mx-1 font-mono text-[8.5px] text-overcast">&middot;</span>}
-        </span>
-      ))}
-      <svg width="16" height="8" viewBox="0 0 16 8" fill="none" aria-hidden className="mx-1 shrink-0">
-        <path d="M1 4h12M10.5 1.5L13 4l-2.5 2.5" stroke="#3E63DD" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
-      </svg>
-      <span className="rounded-[6px] border-[1.5px] border-blue bg-blue-subtle px-2 py-[3px] font-mono text-[8.5px] font-bold text-blue">
-        ONE GOLDEN RECORD
-      </span>
-    </div>
-  );
-}
-
-function VisGoverned() {
-  return (
-    <div className="flex items-end justify-between gap-3">
-      <svg viewBox="0 0 96 28" fill="none" aria-hidden className="h-7 w-24 shrink-0">
-        {[
-          { x: 2, h: 12 },
-          { x: 18, h: 18 },
-          { x: 34, h: 9 },
-          { x: 50, h: 22 },
-          { x: 66, h: 15 },
-          { x: 82, h: 24 },
-        ].map((bar) => (
-          <rect key={bar.x} x={bar.x} y={28 - bar.h} width="10" height={bar.h} rx="2" fill="#3E63DD" opacity="0.55" />
-        ))}
-      </svg>
-      <span className="flex flex-wrap justify-end gap-1.5">
-        <span className="rounded-[6px] border border-subtle-stroke bg-white px-2 py-[3px] font-mono text-[8.5px] text-inkSoft">
-          AUDIT TRAIL
-        </span>
-        <span className="rounded-[6px] border border-subtle-stroke bg-white px-2 py-[3px] font-mono text-[8.5px] text-inkSoft">
-          RBAC
-        </span>
-      </span>
-    </div>
-  );
-}
+import { LifeEyebrow, LifeCornerArc } from "@/components/ui/life/LifeChrome";
 
 const layers = [
   {
-    icon: "Akashic Machine Learning",
-    name: "On-device scoring",
-    sub: "Edge ML",
-    desc: "Lightweight ML models, tuned to run on basic Android devices used by frontline health workers, score risk locally. No data leaves the phone until there is signal.",
-    visual: <VisScore />,
+    module: "Akashic Machine Learning",
+    name: "On-device risk reading",
+    body: "Models tuned small enough to run on the basic Android handsets frontline workers already carry, and to read a full antenatal screen locally with nothing leaving the device.",
   },
   {
-    icon: "Akashic Master Data",
-    name: "Akashic MDM",
-    sub: "One golden record",
-    desc: "Every mother, every village, every clinical record is unified into a single Golden Record: the same patient is recognised correctly whether she's seen by an ASHA worker, a PHC, or a district hospital.",
-    visual: <VisGolden />,
+    module: "Akashic Master Data",
+    name: "One golden record",
+    body: "The same mother is recognised as the same mother whether she is seen by a health worker, a primary health centre or a district hospital. One record, not three.",
   },
   {
-    icon: "Akashic Data Governance",
-    name: "Akashic BI + Governance",
-    sub: "Audited by design",
-    desc: "Aggregated, anonymised risk data flows into real-time dashboards for district and national health administrators, with full audit trails and RBAC: the same governance layer used in every Akashic deployment.",
-    visual: <VisGoverned />,
+    module: "Akashic BI and Governance",
+    name: "Audited by design",
+    body: "Aggregated, anonymised risk flows into district and national dashboards with full lineage, audit trails and role-based access, exactly as in every other Akashic deployment.",
   },
 ];
 
 export default function LifeBuilt() {
   return (
-    <section id="how-its-built" className="scroll-mt-24 border-t border-lineSoft bg-background pt-12 pb-24 lg:pt-16 lg:pb-32">
-      <ScrollRevealRail>
-        <ScrollReveal>
-          <div className="flex items-baseline justify-between font-mono text-[11px] uppercase tracking-eyebrow">
-            <p>
-              <span className="text-overcast">[05]</span>
-              <span className="text-inkSoft">&nbsp;&nbsp;How Akashic Life is built</span>
-            </p>
-            <span className="hidden text-overcast sm:inline">/ Edge to ministry</span>
-          </div>
-          <h2 className="mt-5 text-heading-sm font-semibold text-ink md:text-heading-md lg:text-heading-lg">
-            Edge AI, on the platform that runs India&rsquo;s health data.
+    <section id="how-its-built" className="relative scroll-mt-20 bg-life-cream">
+      <div
+        aria-hidden
+        className="absolute inset-0 bg-[linear-gradient(178deg,#FBF8F1_0%,#F3F8F6_40%,#E7F5F9_100%)]"
+      />
+      <LifeCornerArc tone="light" />
+
+      <div className="relative mx-auto w-full max-w-[1440px] px-6 pb-28 pt-28 sm:px-10 lg:px-14 lg:pb-36 lg:pt-40">
+        <ScrollReveal className="flex flex-col items-center text-center">
+          <LifeEyebrow num="07" tone="light">What is underneath</LifeEyebrow>
+          <h2 className="mt-9 max-w-[15em] text-[30px] font-medium leading-[1.28] tracking-[-0.005em] text-life-navy sm:text-[38px] lg:text-[46px]">
+            Nothing here is bespoke. It is Akashic, pointed at a village.
           </h2>
         </ScrollReveal>
 
-        <div className="mt-12 grid grid-cols-1 gap-4 md:grid-cols-3 md:gap-5 lg:mt-14">
-          {layers.map((layer, idx) => (
-            <ScrollReveal key={layer.name} delay={100 + idx * 90}>
-              <div className={`${CARD} h-full`}>
-                <CardHeader
-                  icon={layer.icon}
-                  name={layer.name}
-                  sub={layer.sub}
-                  chip={
-                    <span className="font-mono text-[10px] text-overcast">
-                      {String(idx + 1).padStart(2, "0")}
-                    </span>
-                  }
-                />
-                <p className="flex-1 px-4 pt-3 text-[13.5px] leading-relaxed text-inkSoft">
-                  {layer.desc}
+        <div className="mt-20 grid grid-cols-1 gap-12 md:grid-cols-3 md:gap-8 lg:mt-28 lg:gap-12">
+          {layers.map((layer, i) => (
+            <ScrollReveal key={layer.module} delay={i * 90}>
+              <div className="border-t border-life-navy/20 pt-7">
+                <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-life-blue">
+                  {layer.module}
                 </p>
-                <div className="mt-4 border-t border-dashed border-lineSoft px-4 pb-4 pt-3.5">
-                  {layer.visual}
-                </div>
+                <h3 className="mt-5 text-[22px] font-medium leading-[1.28] text-life-navy lg:text-[25px]">
+                  {layer.name}
+                </h3>
+                <p className="mt-4 text-[15.5px] leading-[1.6] text-life-body">
+                  {layer.body}
+                </p>
               </div>
             </ScrollReveal>
           ))}
         </div>
-      </ScrollRevealRail>
+      </div>
     </section>
   );
 }

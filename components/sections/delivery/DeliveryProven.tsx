@@ -1,18 +1,20 @@
 "use client";
 
 /*
- * [06] Proven at Scale — The Numbers Are Real.
- * Three live deployment case-files, one per engagement model (badged 01/02/03
- * to tie back to the page spine): hero-sized count-up figure, model + sector
- * header, outcome anchored at the base, and a telemetry footer with drawn
- * sparkline + LIVE/DELIVERED status. Figures per Rule 4 (5.75B+, 187M+, 4M+,
- * 135 match ProvenAtScale / the home page stats).
+ * [06] Proven at Scale — Tested where the numbers are real.
+ * Rebuilt Jul 2026 from three KPI-cards-on-tint (each carrying a decorative
+ * sparkline — invented trend, against Rule 4) into the page's hairline
+ * case-ledger idiom: one indexed row per engagement model on a shared dashed
+ * axis, count-up hero figure anchored left, outcome as the payoff, status at
+ * the base. Closes with a thin strip of named, verifiable institutional proof
+ * (constitution proof points), so the section carries an institutional trust
+ * mark and not only figures. Figures per Rule 4 match ProvenAtScale / the home
+ * page stats.
  */
 
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import ScrollRevealRail from "@/components/ui/ScrollRevealRail";
 import DynamicSketchIcon from "@/components/icons/DynamicSketchIcon";
-import { BlueChip } from "@/components/sections/akashic/AkashicCardChrome";
 import useCountUp from "@/hooks/useCountUp";
 
 type Figure = { fig: string; label: string; static?: boolean };
@@ -61,31 +63,22 @@ const cases: {
   },
 ];
 
-function TelemetrySpark({ live }: { live: boolean }) {
-  return (
-    <svg width="72" height="20" viewBox="0 0 72 20" fill="none" aria-hidden className="shrink-0">
-      <polyline
-        points="2,16 12,13 22,15 32,9 42,11 52,5 62,7 70,3"
-        stroke={live ? "#3E63DD" : "#8E8F91"}
-        strokeWidth="1.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        className="fl-sparkline"
-        opacity={live ? "0.7" : "0.45"}
-      />
-      {live && <circle cx="70" cy="3" r="2" fill="#3E63DD" className="animate-[ps-pulse_2s_infinite]" />}
-    </svg>
-  );
-}
+/* Verifiable institutional proof — from the brand proof points, not invented. */
+const trustMarks = [
+  "National-scale DPI delivery, India",
+  "Maha Hackathon 2025 winner",
+  "Telangana AI Rising 2025 winner",
+  "Offices: New York · Hyderabad · Bangalore",
+];
 
-function HeroStat({ fig, label, isStatic }: { fig: string; label: string; isStatic?: boolean }) {
+function HeroFigure({ fig, label, isStatic }: { fig: string; label: string; isStatic?: boolean }) {
   const { ref, display } = useCountUp(fig, { duration: 1500 });
   return (
     <div ref={ref}>
-      <div className="text-[34px] font-semibold leading-[0.95] tracking-tighter text-ink md:text-[38px]">
+      <div className="text-[38px] font-semibold leading-[0.95] tracking-tighter text-ink md:text-[46px]">
         {isStatic ? fig : display}
       </div>
-      <div className="mt-2.5 max-w-[13em] text-[13px] leading-snug text-inkSoft">{label}</div>
+      <div className="mt-2 text-[13.5px] leading-snug text-inkSoft">{label}</div>
     </div>
   );
 }
@@ -100,7 +93,7 @@ export default function DeliveryProven() {
               <span className="text-overcast">[06]</span>
               <span className="text-inkSoft">&nbsp;&nbsp;Proven at scale</span>
             </p>
-            <span className="hidden text-overcast sm:inline">/ Live engagements</span>
+            <span className="hidden text-overcast sm:inline">/ One per model</span>
           </div>
           <h2 className="mt-5 text-heading-sm font-semibold text-ink md:text-heading-md lg:text-heading-lg">
             Tested where the numbers are real.
@@ -113,81 +106,77 @@ export default function DeliveryProven() {
           </p>
         </ScrollReveal>
 
-        <div className="mt-12 grid grid-cols-1 gap-4 md:grid-cols-3 md:gap-5 lg:mt-14">
+        {/* Case ledger — one indexed row per model on a shared dashed axis */}
+        <div className="mt-12 border-t border-lineSoft lg:mt-14">
           {cases.map((c, idx) => (
-            <ScrollReveal key={c.model} delay={100 + idx * 100}>
-              <div className="group relative flex h-full flex-col overflow-hidden rounded-frame border border-subtle-stroke bg-primary-bg transition-all duration-250 ease-settle hover:-translate-y-1 hover:border-blue/25 hover:shadow-frame">
-                <div className="h-[3px] bg-gradient-to-r from-blue/55 via-blue/25 to-transparent" aria-hidden />
-                <div className="relative flex flex-1 flex-col p-6">
-                  <span
-                    className="pointer-events-none absolute right-5 top-4 select-none text-[60px] font-semibold leading-none tracking-tighter text-ink/[0.045]"
-                    aria-hidden
-                  >
-                    {c.model}
+            <ScrollReveal key={c.model} delay={100 + idx * 90}>
+              <div className="grid grid-cols-1 items-baseline gap-6 border-b border-dashed border-lineSoft py-8 md:grid-cols-[minmax(0,1fr)_minmax(0,1.25fr)_auto] md:gap-10 lg:py-9">
+                {/* left — engagement identity */}
+                <div className="flex items-start gap-3">
+                  <span className="mt-0.5 flex h-[34px] w-[34px] shrink-0 items-center justify-center rounded-[9px] border border-blue/20 bg-gradient-to-br from-[#E4EAFF] to-[#D4DEFF] shadow-[inset_0_1px_0_rgba(255,255,255,0.9)]">
+                    <DynamicSketchIcon text={c.sectorIcon} className="h-[15px] w-[15px] text-blue" />
                   </span>
-
-                  <div className="relative flex items-center justify-between">
-                    <span className="font-mono text-[9.5px] font-bold uppercase tracking-[0.08em] text-blue">
+                  <div className="min-w-0">
+                    <p className="font-mono text-[9.5px] font-bold uppercase tracking-[0.08em] text-blue">
                       Model {c.model}
-                    </span>
-                    {c.live ? (
-                      <BlueChip label="LIVE" />
-                    ) : (
-                      <span className="inline-flex shrink-0 items-center rounded-[7px] border border-default-stroke bg-tertiary-bg px-2 py-1 text-[9px] font-bold tracking-[0.03em] text-secondary-text">
-                        DELIVERED
-                      </span>
-                    )}
+                    </p>
+                    <p className="mt-1 text-[16px] font-semibold tracking-tight text-ink">
+                      {c.engagement}
+                    </p>
+                    <p className="mt-0.5 text-[12.5px] text-tertiary-text">{c.sector}</p>
                   </div>
+                </div>
 
-                  <div className="mt-4 flex items-center gap-2.5">
-                    <span className="flex h-[32px] w-[32px] shrink-0 items-center justify-center rounded-[9px] border border-blue/20 bg-gradient-to-br from-[#E4EAFF] to-[#D4DEFF] shadow-[inset_0_1px_0_rgba(255,255,255,0.9)]">
-                      <DynamicSketchIcon text={c.sectorIcon} className="h-[15px] w-[15px] text-blue" />
-                    </span>
-                    <div className="min-w-0">
-                      <div className="truncate text-[15px] font-bold tracking-tight text-ink">
-                        {c.engagement}
-                      </div>
-                      <div className="truncate text-[11px] text-tertiary-text">{c.sector}</div>
-                    </div>
-                  </div>
-
-                  <div className="mt-7">
-                    <HeroStat fig={c.hero.fig} label={c.hero.label} isStatic={c.hero.static} />
-                  </div>
-
+                {/* middle — the figure + outcome */}
+                <div>
+                  <HeroFigure fig={c.hero.fig} label={c.hero.label} isStatic={c.hero.static} />
                   {c.sub && (
-                    <div className="mt-4 flex items-baseline gap-2">
-                      <span className="font-mono text-[16px] font-semibold tracking-tight text-ink">
+                    <div className="mt-3 flex items-baseline gap-2">
+                      <span className="font-mono text-[15px] font-semibold tracking-tight text-ink">
                         {c.sub.fig}
                       </span>
                       <span className="text-[12.5px] text-inkSoft">{c.sub.label}</span>
                     </div>
                   )}
-
-                  <p className="mt-auto border-t border-dashed border-lineSoft pt-5 text-[15px] font-medium leading-snug text-ink">
+                  <p className="mt-4 max-w-[26em] text-[15px] font-medium leading-snug text-ink">
                     {c.outcome}
                   </p>
+                </div>
 
-                  <div className="mt-4 flex items-center justify-between border-t border-dashed border-lineSoft pt-3.5">
-                    <span className="flex items-center gap-1.5 font-mono text-[9px] uppercase tracking-[0.08em] text-inkSoft">
-                      <span
-                        className={`h-[5px] w-[5px] rounded-full ${
-                          c.live ? "bg-blue animate-[ps-pulse_2s_infinite]" : "bg-overcast"
-                        }`}
-                        aria-hidden
-                      />
-                      {c.status}
-                    </span>
-                    <TelemetrySpark live={c.live} />
-                  </div>
+                {/* right — status */}
+                <div className="md:justify-self-end md:text-right">
+                  <span className="inline-flex items-center gap-1.5 font-mono text-[9px] uppercase tracking-[0.08em] text-inkSoft">
+                    <span
+                      className={`h-[5px] w-[5px] rounded-full ${
+                        c.live ? "bg-blue animate-[ps-pulse_2s_infinite]" : "bg-overcast"
+                      }`}
+                      aria-hidden
+                    />
+                    {c.status}
+                  </span>
                 </div>
               </div>
             </ScrollReveal>
           ))}
         </div>
 
-        <ScrollReveal delay={200}>
-          <p className="mt-8 font-mono text-[10px] uppercase tracking-eyebrow text-overcast">
+        {/* Institutional trust strip — named, verifiable proof */}
+        <ScrollReveal delay={160}>
+          <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3">
+            <span className="font-mono text-[10px] uppercase tracking-eyebrow text-overcast">
+              On the record
+            </span>
+            {trustMarks.map((mark) => (
+              <span key={mark} className="flex items-center gap-2 text-[13px] font-medium text-inkSoft">
+                <span className="h-[5px] w-[5px] shrink-0 rotate-45 bg-blue/50" aria-hidden />
+                {mark}
+              </span>
+            ))}
+          </div>
+        </ScrollReveal>
+
+        <ScrollReveal delay={220}>
+          <p className="mt-8 border-t border-dashed border-lineSoft pt-5 font-mono text-[10px] uppercase tracking-eyebrow text-overcast">
             Same team, same platform, same standard &middot; whichever model you engage
           </p>
         </ScrollReveal>

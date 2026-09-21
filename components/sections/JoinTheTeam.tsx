@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import ScrollRevealRail from "@/components/ui/ScrollRevealRail";
+import FlyingEagleSketch from "@/components/icons/FlyingEagleSketch";
 
 const DEPT_FILTERS = ["View all", "Engineering", "Machine Learning", "Product", "Delivery"] as const;
 type Dept = (typeof DEPT_FILTERS)[number];
@@ -70,7 +71,7 @@ export default function JoinTheTeam() {
           <div className="mb-10 flex items-center justify-between border-t border-b border-dashed border-lineSoft py-[17px] px-[2px] font-mono text-[11px] uppercase tracking-eyebrow text-inkSoft">
             <span>
               <span className="text-overcast">[09]</span>
-              &nbsp;&nbsp;CAREERS / OPEN ROLES
+              &nbsp;&nbsp;CAREERS
             </span>
 
             {/* Live hiring indicator — the section's signature */}
@@ -86,20 +87,30 @@ export default function JoinTheTeam() {
             </span>
           </div>
 
-          {/* ── Headline + subhead ── */}
-          <h2
-            id="careers-h"
-            className="max-w-[14em] text-balance text-[40px] font-semibold leading-[1.1] tracking-tighter text-ink sm:text-[48px] lg:text-[56px]"
-          >
-            Join us in building India&apos;s intelligence&nbsp;layer.
-          </h2>
-          <p className="mt-5 max-w-[34em] text-[17px] leading-relaxed text-inkSoft md:text-[18px]">
-            We are a small team that ships. Our work runs inside systems people depend on daily,
-            <br className="hidden sm:block" />
-            touches millions of lives, and lasts beyond any single budget cycle.
-            <br className="hidden sm:block" />
-            If that matters to you, we should talk.
-          </p>
+          {/* ── Headline + Eagle Sketch + Subhead ── */}
+          <div className="flex flex-col gap-5">
+            <div className="flex flex-wrap items-center gap-4 sm:gap-8">
+              <h2
+                id="careers-h"
+                className="max-w-[14em] text-balance text-[40px] font-semibold leading-[1.1] tracking-tighter text-ink sm:text-[48px] lg:text-[56px]"
+              >
+                Join us in building India&apos;s intelligence&nbsp;layer.
+              </h2>
+              <div className="flex-shrink-0 self-center">
+                <FlyingEagleSketch className="h-32 w-48 sm:h-40 sm:w-60 md:h-48 md:w-72 text-ink/85 transition-all duration-300 hover:scale-105 hover:text-ink" />
+              </div>
+            </div>
+
+            <p className="mt-2 max-w-[42em] text-[17px] leading-relaxed text-inkSoft md:text-[18px]">
+              {/* The explicit {" "} is load-bearing — JSX drops the whitespace
+                  around the newline before the <br>, so below `md`, where the
+                  break is hidden, this closed up into "depend on daily.If work
+                  with real reach…". */}
+              We build software running inside systems millions depend on daily.{" "}
+              <br className="hidden md:block" />
+              If work with real reach and lasting impact matters to you, we should talk.
+            </p>
+          </div>
         </ScrollReveal>
 
         {/* ── Open roles ── */}

@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import { motion } from "framer-motion";
 import { usePrefersReducedMotion } from "@/hooks/useCountUp";
-import UCButton from "./UCButton";
 
 // Heavy rAF atom-field canvas (below the fold, absolutely positioned): client-only
 // + deferred to keep its animation JS off the initial bundle.
@@ -159,12 +158,14 @@ export default function UCSignals() {
       <div className="relative z-10 hidden lg:flex lg:flex-row">
         <div className="flex flex-1 flex-col justify-center px-6 py-[clamp(64px,10svh,120px)] md:px-10 xl:px-14">
           <Heading />
+          {/* No CTA here. [02] carried three — "Explore Akashic" (this one),
+              "See the pipelines" (UCConnectivity) and "Explore the modules"
+              (UCSdk) — inside one section, which is a section that does not
+              know its own job. Its job is one click. The single exit now sits
+              at the end of the section, in UCSdk. */}
           <div className="mt-10 w-full max-w-[520px]">
             <StepRail active={active} setActive={setActive} reduced={reduced} />
           </div>
-          <UCButton href="/akashic" className="mt-10">
-            Explore Akashic
-          </UCButton>
         </div>
         <div className="relative overflow-hidden border-l border-uc-stroke lg:w-1/2">
           <div className="absolute inset-0 [mask-image:radial-gradient(ellipse_60%_64%_at_50%_48%,black_50%,transparent_100%)]">
@@ -181,9 +182,6 @@ export default function UCSignals() {
         </div>
         <div className="mx-auto mt-6 w-full max-w-[440px]">
           <StepRail active={active} setActive={setActive} reduced={reduced} />
-        </div>
-        <div className="mt-8 flex justify-center">
-          <UCButton href="/akashic">Explore Akashic</UCButton>
         </div>
       </div>
     </div>

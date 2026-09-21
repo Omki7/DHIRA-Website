@@ -111,7 +111,12 @@ export default function UCSdk() {
               <span className="block text-uc-mute">BI. AI. ML. Agents.</span>
               <span className="block text-uc-text">All on one governed foundation.</span>
             </h2>
-            <UCButton href="/akashic#modules">Explore the modules</UCButton>
+            {/* [02]'s ONE exit. UCSignals and UCConnectivity gave theirs up so
+                this could be the single click the section is asking for; it
+                goes to the platform overview, not a module anchor, because a
+                reader who has only met Akashic on this page is not yet asking
+                a module-shaped question. */}
+            <UCButton href="/akashic">Explore Akashic</UCButton>
           </div>
         </ScrollReveal>
 
@@ -201,7 +206,7 @@ export default function UCSdk() {
           </svg>
         </div>
       </div>
-      <div aria-hidden="true" className="h-16 md:h-32" />
+      <div aria-hidden="true" className="h-10 md:h-16" />
     </>
   );
 }

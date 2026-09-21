@@ -25,13 +25,13 @@ const footerColumns: FooterColumn[] = [
     ],
   },
   /* Solutions and Sectors are two different things and used to share one
-     list. EIS / Life / Knowledge are vertical solutions that run ON TOP of
+     list. EIS / Life are vertical solutions that run ON TOP of
      Akashic (they have /solutions/* pages); the rest are the domains we
      deliver into (/sectors/*). Merging them implied DHIRA sells a
      "Manufacturing product", which it does not. */
   {
     heading: "Akashic Solutions",
-    links: ["EIS", "Life", "Knowledge"],
+    links: ["EIS", "Life"],
   },
   {
     heading: "Sectors",
@@ -83,7 +83,6 @@ const hrefOverrides: Record<string, string> = {
   // Akashic Solutions — vertical solutions on top of the platform
   "EIS": "/solutions/eis",
   "Life": "/solutions/life",
-  "Knowledge": "/solutions/knowledge",
 
   // Sectors — domains we deliver into
   "Public Sector": "/sectors/public-sector",

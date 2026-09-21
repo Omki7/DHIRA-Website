@@ -69,56 +69,6 @@ function LifeBody() {
   );
 }
 
-function DocGlyph() {
-  return (
-    <svg
-      width="11"
-      height="13"
-      viewBox="0 0 12 14"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.2"
-      strokeLinejoin="round"
-      className="shrink-0 text-overcast"
-      aria-hidden
-    >
-      <path d="M2 1.5h5.5L10.5 4.5v8H2z" />
-      <path d="M7.5 1.5v3h3" />
-    </svg>
-  );
-}
-
-/* Knowledge: unmistakably documents — a small stack of files, then the
-   plain-language question being typed against them. */
-function KnowledgeBody() {
-  const docs = [
-    { name: "Procurement_policy.pdf", tag: "policy" },
-    { name: "Vendor_MSA_2025.docx", tag: "contract" },
-    { name: "Data_sharing_MOU.pdf", tag: "agreement" },
-  ];
-  return (
-    <div className="flex h-full flex-col justify-between gap-1.5 p-3.5">
-      <div className="flex flex-col gap-1.5">
-        {docs.map((d) => (
-          <div key={d.name} className="flex items-center gap-2 rounded-inner border border-card-line bg-white px-2.5 py-1.5">
-            <DocGlyph />
-            <span className="min-w-0 flex-1 truncate font-mono text-[9.5px] text-ink">{d.name}</span>
-            <span className="shrink-0 rounded-micro bg-[#F1F2F4] px-1.5 py-0.5 font-mono text-[8.5px] text-[#7C828C]">
-              {d.tag}
-            </span>
-          </div>
-        ))}
-      </div>
-      <div className="rounded-inner border border-blue-border bg-blue-subtle/60 px-2.5 py-2">
-        <span className="text-[11px] leading-relaxed text-ink">
-          &ldquo;What does the exit clause say?&rdquo;
-          <span className="ml-0.5 font-bold text-blue">|</span>
-        </span>
-      </div>
-    </div>
-  );
-}
-
 interface SolutionStat {
   value: string;
   label: string;
@@ -167,20 +117,6 @@ const solutions: Solution[] = [
     ],
     href: "/solutions/life",
     body: <LifeBody />,
-  },
-  {
-    id: "akashic-knowledge",
-    name: "Akashic Knowledge",
-    term: "Document intelligence",
-    headline: "Ask your documents a question.",
-    para: "Policies, contracts, and institutional knowledge — readable, searchable, and citable at last.",
-    stats: [
-      { value: "Plain language", label: "ask in a sentence" },
-      { value: "Cited", label: "every answer points to the clause" },
-      { value: "Institutional", label: "policies, contracts, minutes" },
-    ],
-    href: "/solutions/knowledge",
-    body: <KnowledgeBody />,
   },
 ];
 

@@ -1,101 +1,146 @@
-"use client";
+import Image from "next/image";
+import ScrollReveal from "@/components/ui/ScrollReveal";
 
-/*
- * [06] Proof at Scale — Built by the National-Platform Team.
- * Three count-up deployment panels (CoWIN / DIKSHA / eMigrate figures as
- * supplied in the content script) and the country-to-company pivot line.
+/* [proof] — the only section on this page whose figures are real.
+ *
+ * DESIGN RULE 4 APPLIES HARDEST HERE. Every figure below is one already
+ * published on this site's proof section: none is estimated, rounded up, or
+ * summed across deployments. They are deliberately NOT added together into
+ * one headline number, because "learning interactions", "worker clearances"
+ * and "dose records" are different units and a combined total would be a
+ * claim nobody could verify.
+ *
+ * WHAT CHANGED. The previous build put all three deployments behind a pill
+ * switcher, so a reader saw one national system and had to click twice to
+ * learn there were three. The cumulative weight IS the argument, so all
+ * three are on screen. The photographs also shrank from a 220px hero strip
+ * to a band: they are mood, per Design Rule 7, and they were sitting above
+ * the evidence in the most valuable space on the card.
+ *
+ * The section also now states the bridge it only implied. An executive who
+ * accepts that we run national systems still has to be told, in a sentence,
+ * why that matters for twelve plants.
  */
 
-import ScrollReveal from "@/components/ui/ScrollReveal";
-import ScrollRevealRail from "@/components/ui/ScrollRevealRail";
-import { LiveChip } from "@/components/sections/akashic/AkashicCardChrome";
-import useCountUp from "@/hooks/useCountUp";
-
-const panels = [
+const DEPLOYMENTS = [
   {
-    figure: "1.89 Crore",
-    label: "Students",
-    line: "One real-time national dashboard. DIKSHA, Ministry of Education.",
+    key: "education",
+    tab: "Education",
+    name: "National Learning Platform",
+    image: "/proof/learning.jpg",
+    line: "Every state's learning data, read as one picture.",
+    body: "Transaction logs from every state resolve into one governed model, so programme owners can read curriculum efficacy and where resources are going.",
+    figures: [
+      { value: "5.75", unit: "B+", label: "Learning interactions unified" },
+      { value: "187", unit: "M+", label: "Enrolments resolved" },
+    ],
   },
   {
-    figure: "3.87 Lakh",
-    label: "Emigrations",
-    line: "Tracked, visualised, and acted on. eMigrate, Ministry of External Affairs.",
+    key: "mobility",
+    tab: "Labour mobility",
+    name: "Overseas Employment Registry",
+    image: "/proof/mobility.jpg",
+    line: "Every clearance and recruiter in one auditable view.",
+    body: "Visa clearances, immigration logs and overseas employer records resolve into one governed view, with the figures as they stood on any given day.",
+    figures: [
+      { value: "4", unit: "M+", label: "Worker clearances reconciled" },
+      { value: "282", unit: "K+", label: "Employer profiles resolved" },
+    ],
   },
   {
-    figure: "2 Billion",
-    label: "Vaccinations",
-    line: "End-to-end data infrastructure. CoWIN / U-WIN.",
+    key: "health",
+    tab: "Public health",
+    name: "National Immunisation Registry",
+    image: "/proof/vaccination.jpg",
+    line: "Every dose reconciled into one public figure.",
+    body: "Doses, sessions and coverage reconcile into the figures health authorities publish, each one traceable back to the system it came from.",
+    figures: [
+      { value: "2", unit: "B+", label: "Dose records reconciled" },
+      { value: "26", unit: "M+", label: "Vaccination sessions reconciled" },
+    ],
   },
 ];
 
-function Stat({ figure }: { figure: string }) {
-  const { ref, display } = useCountUp(figure, { duration: 1500 });
-  return (
-    <div ref={ref} className="whitespace-nowrap text-[38px] font-semibold leading-none tracking-tighter text-ink md:text-[44px]">
-      {display}
-    </div>
-  );
-}
-
 export default function EisProof() {
   return (
-    <section id="proof" className="scroll-mt-24 border-t border-lineSoft bg-background pt-12 pb-24 lg:pt-16 lg:pb-32">
-      <ScrollRevealRail>
+    <section
+      id="proof"
+      className="scroll-mt-24 bg-background px-6 pb-20 pt-20 sm:pt-24 lg:pb-28 lg:pt-32"
+    >
+      <div className="mx-auto max-w-[1180px]">
         <ScrollReveal>
-          <div className="flex items-baseline justify-between font-mono text-[11px] uppercase tracking-eyebrow">
-            <p>
-              <span className="text-overcast">[07]</span>
-              <span className="text-inkSoft">&nbsp;&nbsp;Proof at scale</span>
-            </p>
-            <span className="hidden text-overcast sm:inline">/ Public record</span>
-          </div>
-          <h2 className="mt-5 text-heading-sm font-semibold text-ink md:text-heading-md lg:text-heading-lg">
-            Built by the team behind India&rsquo;s largest data platforms.
+          <h2 className="max-w-[24ch] font-heading text-4xl font-medium leading-[1.05] tracking-tighter sm:text-5xl md:text-6xl">
+            <span className="text-eis-body">If it reconciles a country,</span>
+            <br />
+            <span className="text-eis-ink">it will reconcile your business units.</span>
           </h2>
-          <p className="mt-5 max-w-[40em] text-lg leading-relaxed text-secondary-text">
-            The team behind Akashic EIS built the data infrastructure for CoWIN,
-            DIKSHA, eMigrate, and Poshan Tracker: national systems where the
-            numbers are public record and the stakes allow no guesswork.
+          <p className="mt-5 max-w-[620px] text-balance text-base leading-[1.5] tracking-tight text-eis-body sm:mt-6 sm:text-lg">
+            Not pilots. Three systems in production at country scale, on the
+            public record. The team that built Akashic runs them.
           </p>
         </ScrollReveal>
 
-        <div className="mt-12 grid grid-cols-1 gap-4 md:grid-cols-3 md:gap-5 lg:mt-14">
-          {panels.map((panel, idx) => (
-            <ScrollReveal key={panel.label} delay={100 + idx * 90}>
-              <div className="h-full overflow-hidden rounded-frame border border-subtle-stroke bg-primary-bg">
-                <div className="h-[3px] bg-gradient-to-r from-blue/50 via-blue/25 to-transparent" aria-hidden />
-                <div className="flex h-full flex-col p-6">
-                  <div className="flex items-center justify-between">
-                    <span className="flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-eyebrow text-inkSoft">
-                      <span className="h-[5px] w-[5px] shrink-0 rounded-full bg-blue animate-[ps-pulse_2s_infinite]" aria-hidden />
-                      {panel.label}
-                    </span>
-                    <LiveChip label="NATIONAL" />
-                  </div>
-                  <div className="mt-5">
-                    <Stat figure={panel.figure} />
-                  </div>
-                  <p className="mt-4 border-t border-dashed border-lineSoft pt-4 text-[13.5px] leading-relaxed text-inkSoft">
-                    {panel.line}
+        <div className="mt-10 grid gap-5 sm:mt-14 sm:grid-cols-2 lg:grid-cols-3">
+          {DEPLOYMENTS.map((d, i) => (
+            <ScrollReveal key={d.key} delay={i * 80}>
+              <div className="flex h-full flex-col overflow-hidden rounded-outer border border-eis-line bg-white">
+                <div className="relative h-[104px] w-full">
+                  <Image
+                    src={d.image}
+                    alt=""
+                    fill
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 380px"
+                    className="object-cover"
+                  />
+                  {/* The photograph is a mood, not evidence. It fades into the
+                      panel so the figures below stay the loudest thing. */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-white via-white/40 to-transparent" />
+                </div>
+
+                <div className="flex flex-1 flex-col p-5">
+                  <span className="block text-[9.5px] font-medium uppercase tracking-eyebrow text-eis-caption">
+                    {d.name}
+                  </span>
+                  <p className="mt-2 text-balance text-[17px] font-medium leading-snug tracking-tight text-eis-ink">
+                    {d.line}
                   </p>
+                  <p className="mt-2 text-[13px] leading-[1.45] text-eis-caption">
+                    {d.body}
+                  </p>
+
+                  <div className="mt-auto grid grid-cols-2 gap-4 border-t border-eis-line pt-5">
+                    {d.figures.map((f) => (
+                      <div key={f.label}>
+                        <span className="flex items-baseline gap-0.5">
+                          <span className="font-heading text-[34px] font-medium leading-none tracking-tighter text-eis-ink">
+                            {f.value}
+                          </span>
+                          <span className="text-base font-medium tracking-tight text-eis-body">
+                            {f.unit}
+                          </span>
+                        </span>
+                        <span className="mt-1.5 block text-[11.5px] leading-tight text-eis-caption">
+                          {f.label}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
             </ScrollReveal>
           ))}
         </div>
 
-        <ScrollReveal delay={200}>
-          <p className="mt-14 max-w-[26em] text-[26px] font-semibold leading-snug tracking-tight text-ink md:text-[30px] lg:mt-16">
-            If we can give a ministry a live view of an entire country, we can give
-            your leadership team a live view of{" "}
-            <span className="relative inline-block whitespace-nowrap">
-              your business.
-              <span className="absolute -bottom-[0.04em] left-0 h-[0.09em] w-full rounded-full bg-blue/35" aria-hidden />
-            </span>
+        {/* The bridge the section previously left the reader to make alone. */}
+        <ScrollReveal delay={150}>
+          <p className="mt-8 max-w-[760px] text-balance text-base leading-[1.5] text-eis-body sm:text-lg">
+            Akashic EIS is the executive layer on that same governed
+            foundation. Reconciling every dose in a country into one published
+            figure and reconciling twelve plants into one morning brief are the
+            same problem at different sizes.
           </p>
         </ScrollReveal>
-      </ScrollRevealRail>
+      </div>
     </section>
   );
 }

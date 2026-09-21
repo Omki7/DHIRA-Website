@@ -63,6 +63,7 @@ token (see Rule 8 and the tokenisation note below).
 | `inkSoft` | `#6f7988` | Section body copy |
 | `action-hover` | `#2F3132` | Button hover |
 | `blue` | `#3E63DD` | Accent links, highlighted data, focus rings |
+| `blue-500` / `blue-400` / `blue-300` | `#5B7FEA` / `#8AA8FB` / `#AEC3FF` | The same accent lifted for **dark grounds** (`depth`, `uc-bg`, the EIS wireframes). Added Jul 2026: `blue` was a bare string, so Tailwind generated no numbered steps and the ~60 `text-blue-400` classes already in the EIS mockups compiled to nothing |
 | `blue-hover` | `#3351B8` | Blue accent hover |
 | `blue-subtle` | `#EEF1FC` | Accent background tint |
 | `blue-border` | `#C8D2F5` | Accent border |
@@ -93,6 +94,48 @@ token (see Rule 8 and the tokenisation note below).
 | `uc-text` | `#fafafb` | UC primary text on dark |
 | `uc-pill` | `#1B2550` | UC eyebrow pill background |
 | `uc-pilltext` | `#c8dcff` | UC eyebrow pill text |
+
+**`eis-*` — `/solutions/eis` only.** Scoped exactly like `uc-*` above. This page
+runs a **neutral warm-grey** text ramp instead of the cool `primary-text` family,
+because its grounds are photographic atmosphere and a warm `#F4F5F0` band, and
+the cool greys go blue against both. Do not use these anywhere else.
+
+| Token | Value | Where |
+|---|---|---|
+| `eis-ink` | `#111111` | Headings and primary text |
+| `eis-body` | `#666666` | Section body copy |
+| `eis-caption` | `#989898` | Card captions, wireframe labels |
+| `eis-muted` | `#999999` | Closing lines, idle tab labels |
+| `eis-idle` | `#bdbdbd` | Unselected role in the lens switcher |
+| `eis-line` | `#e5e5e5` | Hairlines, FAQ dividers, outline buttons |
+| `eis-chip` / `eis-chip-hover` | `#f9f9f9` / `#e9e9e9` | Carousel arrows, toggle track |
+| `eis-band` | `#F4F5F0` | The one warm ground on the site. This page only |
+| `eis-sky-high` … `eis-ridge-near` | see config | The `EisAtmosphere` ramp (aerial perspective: further = closer to haze) |
+
+**`life-*` — `/solutions/life` only.** Scoped exactly like `uc-*` and `eis-*`
+above. A single **navy → cyan ocean ramp** carries every ground, rule, glyph
+and heading on that page. It exists because the brand `blue` #3E63DD is an
+indigo *accent*, not a ramp: it has no light cyan end to sit a glyph on a navy
+ground with, and no deep end to build a ground from, so running the page on it
+gave either indigo-on-indigo mush or a third of the reference's contrast.
+`life-abyss` stays inside Rule 5's blue-black family (cf. `depth` #0A0E24).
+Do not use these anywhere else.
+
+| Token | Value | Where |
+|---|---|---|
+| `life-abyss` | `#0A0E24` | The page's five dark grounds. **Deliberately the same value as `depth` / `uc-bg`** — the page's darkest ground is the site's darkest ground, so these read as the same black as MeetAkashic. Was #020A33 until 23 Jul 2026 |
+| `life-navy` | `#03045E` | Headings on the light grounds |
+| `life-deep` | `#050E38` | Eyebrow labels on light |
+| `life-ocean` | `#023E8A` | Mid stop in the navy ground ramps |
+| `life-blue` | `#0077B6` | Uppercase sub-headings on light (5.3:1) |
+| `life-cyan` | `#00B4D8` | The accent: square glyphs, CTA capsule, leaders |
+| `life-sky` | `#48CAE4` | The same accent lifted for navy grounds (7.5:1+) |
+| `life-mist` / `life-frost` | `#90E0EF` / `#B2F5FF` | Pale cyan; `frost` is the eyebrow cross |
+| `life-ice` | `#CAF0F8` | Light ground start, skeleton rows, hairlines in the mockup |
+| `life-cream` | `#FBF8F1` | Light ground end. The page's warm note |
+| `life-body` | `#333333` | Body copy on light (12.6:1) |
+| `life-ghost` | `#E1EAF5` | The giant ghost figures behind [02]'s evidence blocks |
+| `life-line` | `#DCE3EC` | Column rule and ticks on the light grounds |
 
 **Keep this table in sync with `tailwind.config.ts`** — add a token, add a row;
 remove usage, remove the config row in the same change.
@@ -182,6 +225,7 @@ divider beside an SVG chart); `PublicSectorProven`'s dark row-based record board
 | `.rail-container` | Centred 1440px wrapper, `border-x border-lineSoft` |
 | `.comparison-before-bg` / `.comparison-slider-line` | TheProof slider |
 | `.hs-card` | Absolute 840×592 card for HeroProducts carousel (`data-pos`) |
+| `.alife-*` | `/solutions/life` only — `eyebrow`, `wavefield`, `aurora`, `orbit`/`orbit-rev`, `sonar`, `leader`. Page-scoped like the `life-*` tokens. `.alife-eyebrow` sets in `font-mono` on purpose: the reference uses its body sans, but the mono face is what every other section label on the site is set in, and it is the cheapest thing that stops nine labels reading as another company's |
 
 **Controls sit on `default-stroke`, cards sit on `subtle-stroke`.**
 `.btn-secondary` used to rest on `subtle-stroke` #EEEFF1 — a 1.06:1 edge against
@@ -205,10 +249,11 @@ never a loop); **any interaction kills it mid-flight** (`stopDemo()` on
 pointerdown, arrow keys and the toggle, so it never fights the reader for the
 handle); and **nothing moves under `prefers-reduced-motion`**.
 
-All `@keyframes` live in `globals.css` (`ps-*` family, `fl-*`, `softpulse`,
-`dashmove`, `progressFill`, `vconn-flow`, `proof*`, `closeRule`/`closeFloat`). **Do not add a
-component-local `<style dangerouslySetInnerHTML>` keyframe block** — it risks
-silently redefining a global keyframe.
+All `@keyframes` live in `globals.css` (`ps-*` family, `fl-*`, `alife-*`,
+`softpulse`, `dashmove`, `progressFill`, `vconn-flow`, `proof*`,
+`closeRule`/`closeFloat`). **Do not add a component-local
+`<style dangerouslySetInnerHTML>` keyframe block** — it risks silently
+redefining a global keyframe.
 
 ## §7 — Design rules
 
@@ -225,11 +270,24 @@ silently redefining a global keyframe.
    dark ground is blue-black, never neutral black** — match the indigo family
    (`#0A0E24` / `#0a0a0c`), do not lighten toward `blue`. New sections default to
    `bg-white`/`bg-background`.
+   - **5c — the EIS wireframes are light. All of them.** A dark
+     `EisBriefScreenMockup` on `depth`/`uc-*` (plus a `tone="depth"` browser
+     chrome) was built and reverted on user direction, 22 Jul 2026. Do not
+     reach for a dark product screen on `/solutions/eis` again without fresh
+     direction. Light does not mean the card grid, though: the brief's content
+     area is **white with hairline dividers**, not white cards floating on
+     `CANVAS` grey, because that nesting is what made its first build read as a
+     2010 dashboard.
    - **5a — One soft blue band per page.**
      `bg-[linear-gradient(180deg,#FFFFFF_0%,#F1F5FE_16%,#F1F5FE_84%,#FFFFFF_100%)]`
      (fade endpoints must equal `background`). Pick the page's narrative/trust
      "breather" section. Do not add a second without user direction. On the
      homepage that is [04], as a wash behind its black card.
+     `/solutions/life` is exempt and runs its own ground rhythm: it alternates
+     dark and light **in pairs** across eleven sections on the `life-*` ramp,
+     which is the whole point of that page's system. Its `life-ice`→`life-cream`
+     band at [05]–[06] is the local equivalent of this rule, not a violation of
+     it. `/solutions/eis` is exempt in the same way via `eis-band`.
    - **5b — the page's dark cards are [04] and [10], both `vault`.** Three
      recolours were tried and reverted on 22 Jul 2026: deep blue #10265F on
      [10] + footer; a light woven blue panel on [10]; the same panel swapped up

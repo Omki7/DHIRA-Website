@@ -24,22 +24,12 @@ export default function Closure() {
     <section
       id="get-started"
       aria-labelledby="get-started-h"
-      className="relative overflow-hidden bg-background pt-12 pb-24 lg:pt-16 lg:pb-32"
+      className="relative overflow-hidden bg-background pt-10 pb-12 lg:pt-14 lg:pb-16"
     >
       {/* Alias anchor: the nav CTA targets #talk-to-our-team / #login on every page */}
       <span id="talk-to-our-team" className="absolute -top-24" aria-hidden />
       <span id="login" className="absolute -top-24" aria-hidden />
       <ScrollRevealRail isLast={true} className="z-10">
-        {/* Eyebrow / Section divider */}
-        <ScrollReveal>
-          <div className="mb-10 flex items-center border-t border-b border-dashed border-lineSoft py-[17px] px-[2px] font-mono text-[11px] uppercase tracking-eyebrow text-inkSoft">
-            <span>
-              <span className="text-overcast">[10]</span>
-              &nbsp;&nbsp;READY WHEN YOU ARE
-            </span>
-          </div>
-        </ScrollReveal>
-
         {/* Immersive typography-first card */}
         <ScrollReveal delay={120}>
           <div className="group/card relative overflow-hidden rounded-outer border border-white/10 bg-vault px-6 py-24 text-white shadow-2xl transition-all duration-500 ease-settle hover:border-white/20 md:py-32 lg:py-40">
@@ -86,9 +76,14 @@ export default function Closure() {
               />
 
               <p className="mt-7 max-w-[34em] text-base leading-relaxed text-white/60 md:text-lg lg:text-xl">
-                Unify structured, unstructured, and streaming data.
+                {/* The explicit {" "} are load-bearing — JSX drops the
+                    whitespace around the newline before a <br>, so below `sm`,
+                    where these breaks are hidden, the lines closed up into
+                    "streaming data.Resolve core entities" and "knowledge
+                    layer,and run enterprise intelligence". */}
+                Unify structured, unstructured, and streaming data.{" "}
                 <br className="hidden sm:block" />
-                Resolve core entities through a governed knowledge layer,
+                Resolve core entities through a governed knowledge layer,{" "}
                 <br className="hidden sm:block" />
                 and run enterprise intelligence with complete traceability.
               </p>
@@ -101,8 +96,12 @@ export default function Closure() {
                 >
                   Talk to our team
                 </Link>
+                {/* Was `#platform` — at the closing CTA, half the exits
+                    pointed BACK UP the page the reader has just finished. A
+                    close should only offer forward moves, so this goes to the
+                    platform page. */}
                 <Link
-                  href="#platform"
+                  href="/akashic"
                   className="btn-secondary-invert btn-lg transition-transform duration-250 ease-settle hover:-translate-y-0.5"
                 >
                   Explore the platform

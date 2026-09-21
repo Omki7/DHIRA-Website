@@ -201,13 +201,13 @@ export default function EnterpriseSecurity() {
       id="governance"
       ref={sectionRef}
       aria-labelledby="gov-h"
-      className="relative overflow-hidden bg-background pt-12 pb-24 lg:pt-16 lg:pb-32"
+      className="relative overflow-hidden bg-background pt-10 pb-12 lg:pt-14 lg:pb-16"
     >
       <ScrollRevealRail>
 
         {/* Eyebrow */}
         <ScrollReveal>
-          <div className="mb-12 flex items-center border-b border-t border-dashed border-lineSoft py-[17px] px-[2px] font-mono text-[11px] uppercase tracking-eyebrow text-inkSoft">
+          <div className="mb-8 flex items-center border-b border-t border-dashed border-lineSoft py-[17px] px-[2px] font-mono text-[11px] uppercase tracking-eyebrow text-inkSoft lg:mb-10">
             <span>
               <span className="text-overcast">[08]</span>
               &nbsp;&nbsp;GOVERNANCE

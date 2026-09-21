@@ -25,7 +25,22 @@ const config: Config = {
         "tertiary-text": "#8E8F91",
         action: "#1A1C1D",
         "action-hover": "#2F3132",
-        blue: "#3E63DD",
+        /* `blue` is an object rather than a string so the family has light
+           steps for dark grounds. It was a bare "#3E63DD", which meant
+           Tailwind generated NO numbered steps — so the ~60 `text-blue-400`
+           / `bg-blue-400` / `border-blue-400/40` classes already written
+           across the EIS mockups compiled to nothing at all and those
+           accents silently rendered as inherited colour. `DEFAULT` keeps
+           every existing `bg-blue` / `text-blue` / `border-blue/40` working
+           unchanged; 300 and 400 are the same hue lifted to carry on the
+           `depth` navy at AA. The separate `blue-hover` / `blue-subtle` /
+           `blue-border` keys are untouched and still resolve. */
+        blue: {
+          DEFAULT: "#3E63DD",
+          300: "#AEC3FF",
+          400: "#8AA8FB",
+          500: "#5B7FEA",
+        },
         "blue-hover": "#3351B8",
         "blue-subtle": "#EEF1FC",
         "blue-border": "#C8D2F5",
@@ -82,6 +97,72 @@ const config: Config = {
         "uc-text": "#fafafb",
         "uc-pill": "#1B2550",
         "uc-pilltext": "#c8dcff",
+        /* Akashic EIS page (/solutions/eis) — an editorial, atmospheric
+           surface treatment scoped to that one page, in the same spirit as
+           the `uc-` block above: prefixed so it cannot leak into the brand's
+           standard light surfaces, and tokenised so the page's greys are one
+           family rather than nine eyedropped hexes.
+           The ramp is a NEUTRAL warm-grey ladder (#111 → #666 → #989898 →
+           #bdbdbd), not the cool `primary-text`/`secondary-text` family —
+           the page's whole argument is photographic atmosphere behind
+           near-black type, and the cool ramp greys go blue against a warm
+           #F4F5F0 band. `eis-band` is that band; it is the ONE warm ground on
+           the site and is confined to this page. */
+        "eis-ink": "#111111",
+        "eis-body": "#666666",
+        "eis-caption": "#989898",
+        "eis-muted": "#999999",
+        "eis-idle": "#bdbdbd",
+        "eis-line": "#e5e5e5",
+        "eis-chip": "#f9f9f9",
+        "eis-chip-hover": "#e9e9e9",
+        "eis-band": "#F4F5F0",
+        /* Atmosphere ramp — the CSS-rendered sky in EisAtmosphere. Aerial
+           perspective: the further a ridge sits, the closer it gets to the
+           haze value. Blue-slate, so the page's one dark ground stays in the
+           brand's blue-black family (Rule 5). */
+        "eis-sky-high": "#6F8CAC",
+        "eis-sky-mid": "#9BB0C6",
+        "eis-haze": "#CBD4DC",
+        "eis-horizon": "#EDEAE1",
+        "eis-ridge-far": "#A9B9C7",
+        "eis-ridge-mid": "#8DA2B5",
+        "eis-ridge-near": "#73899E",
+        /* Akashic Life (/solutions/life) — a page-scoped OCEAN ramp, in the
+           same spirit as the `uc-` and `eis-` blocks above: prefixed so it
+           cannot leak into the brand's standard surfaces, and tokenised so
+           the page's blues are one family rather than a dozen eyedropped
+           hexes.
+           Why a second blue family at all: the page was redesigned Jul 2026
+           against a healthcare reference whose entire argument is a single
+           navy→cyan ocean ramp carrying every ground, rule, glyph and
+           heading. The brand `blue` #3E63DD is an indigo accent, not a ramp
+           — it has no light cyan end to put a glyph on a navy ground with,
+           and no deep end to build a ground from. Running the page on
+           `blue` produced either indigo-on-indigo mush or a third of the
+           reference's contrast.
+           `life-abyss` is deliberately the SAME value as `depth` / `uc-bg`:
+           the page's darkest ground is the site's darkest ground, so the five
+           dark sections here read as the same black as MeetAkashic rather than
+           as a second, bluer one. It started at #020A33 and was retuned
+           23 Jul 2026 when the page was compared side by side with the
+           homepage. Only the mid-tones of the ramps are this page's own.
+           AA on every pairing: `life-blue` on white 5.3:1, `life-cyan` on
+           `life-abyss` 7.9:1, `life-navy` on white 15:1, `life-body` 12.6:1. */
+        "life-abyss": "#0A0E24",
+        "life-navy": "#03045E",
+        "life-deep": "#050E38",
+        "life-ocean": "#023E8A",
+        "life-blue": "#0077B6",
+        "life-cyan": "#00B4D8",
+        "life-sky": "#48CAE4",
+        "life-mist": "#90E0EF",
+        "life-frost": "#B2F5FF",
+        "life-ice": "#CAF0F8",
+        "life-cream": "#FBF8F1",
+        "life-body": "#333333",
+        "life-ghost": "#E1EAF5",
+        "life-line": "#DCE3EC",
       },
       fontFamily: {
         sans: ["'Google Sans Text'", "system-ui", "-apple-system", "BlinkMacSystemFont", "sans-serif"],

@@ -31,13 +31,13 @@ import ScrollRevealRail from "@/components/ui/ScrollRevealRail";
 
 export default function Voices() {
   return (
-    <section id="voices" className="relative bg-primary-bg pt-12 pb-24 lg:pt-16 lg:pb-32 overflow-hidden">
+    <section id="voices" className="relative bg-primary-bg pt-10 pb-12 lg:pt-14 lg:pb-16 overflow-hidden">
       <ScrollRevealRail>
         {/* Eyebrow + headline — kept as the section's existing voice,
             but the section id is intentionally abstract (no nav anchor
             contract on this section). */}
         <ScrollReveal>
-          <div className="mb-10 flex items-center border-t border-b border-dashed border-lineSoft py-[17px] px-[2px] font-mono text-[11px] uppercase tracking-eyebrow text-inkSoft">
+          <div className="mb-8 flex items-center border-t border-b border-dashed border-lineSoft py-[17px] px-[2px] font-mono text-[11px] uppercase tracking-eyebrow text-inkSoft lg:mb-10">
             <span>
               <span className="text-overcast">[07]</span>
               &nbsp;&nbsp;PARTNER VOICES

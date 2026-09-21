@@ -9,7 +9,7 @@ import EverySector from "@/components/sections/EverySector";
 import TheProof from "@/components/sections/TheProof";
 import Voices from "@/components/sections/Voices";
 import EnterpriseSecurity from "@/components/sections/EnterpriseSecurity";
-import JoinTheTeam from "@/components/sections/JoinTheTeam";
+import CareersStrip from "@/components/sections/CareersStrip";
 import Closure from "@/components/sections/Closure";
 import PageMinimap from "@/components/layout/PageMinimap";
 import { HOME_SECTIONS } from "@/lib/homeSections";
@@ -22,13 +22,36 @@ export default function Home() {
         <Hero />
         <ProblemSection />
         <MeetAkashic />
-        <ProvenAtScale />
+        <ProvenAtScale
+          /* "The other half is the team that builds IT with you" was the first
+             draft, and "it" pointed straight back at the platform — so the
+             second half read as platform implementation, still Akashic-
+             dependent, which is the exact misreading this bridge exists to
+             kill. It now says the opposite out loud, and sets up /delivery's
+             own "Akashic is optional". */
+          bridge={{
+            lead: "Akashic is one half of what we do.",
+            payoff: "The other half doesn't require it.",
+            targetId: "delivery",
+            number: "04",
+            label: "HOW WE DELIVER",
+          }}
+        />
         <HowWeDeliver />
         <EverySector />
+        {/* TheProof stays, by direction (23 Jul 2026). It was cut for one
+            afternoon as the page's third telling of a single argument — [01]
+            says your systems disagree, [02] says we unify them, this says
+            before/after — and put back because that repetition is the point:
+            it is VISUAL reaffirmation, not a new claim. [01] argues it in a
+            ledger, [02] in product UI, and this lets the reader move the seam
+            themselves, which is the only place on the page where they prove it
+            to themselves rather than being told. Its height is trimmed instead
+            (see TheProof.tsx). Do not cut it again without asking. */}
         <TheProof />
         <Voices />
         <EnterpriseSecurity />
-        <JoinTheTeam />
+        <CareersStrip />
         <Closure />
       </main>
       <Footer />

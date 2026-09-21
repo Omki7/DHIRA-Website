@@ -56,11 +56,32 @@ export default function HeroProductsMockup() {
 
   return (
     <div style={{ padding: "36px 0 0", fontFamily: "Inter, system-ui, sans-serif" }} className="w-full max-w-[1152px] mx-auto mt-8 relative z-10">
-      <div className="mx-auto mb-12 flex w-fit items-center gap-10">
+      {/* `w-fit` alone meant that below ~640px the three labels were squeezed
+          into whatever width was left and each wrapped onto three lines, so
+          the row read as a nine-line grey block colliding with the scroll-to-
+          top button. It was already doing this before the relabel.
+
+          Mobile now gets a single nowrap row that scrolls horizontally — the
+          standard pattern, and honest about there being three of them. The
+          scrollbar is hidden because the row auto-advances and the dots
+          already signal position. Desktop is unchanged: centred, `w-fit`,
+          gap-10. */}
+      <div className="mx-auto mb-8 flex w-full max-w-full items-center gap-6 overflow-x-auto px-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:mb-12 sm:w-fit sm:gap-10 sm:overflow-visible sm:px-0">
+        {/* Plain language, not SKUs (23 Jul 2026, hero pass). These read
+            "Akashic Data Pipelines / Ask Akashic / Akashic Data Warehouse" —
+            internal product taxonomy, shown to a reader who at that moment had
+            not yet been told what Akashic is. Three module names cannot teach
+            anyone anything on first contact.
+
+            They now narrate the headline directly above them: "Every system
+            you run. One answer you can trace." becomes connect → resolve →
+            ask, in that order, so the three screens read as one journey
+            instead of a product list. Same three screens, same order, same
+            SCREEN_DURATIONS indices — labels only. */}
         {[
-          { id: 0, label: "Akashic Data Pipelines" },
-          { id: 1, label: "Ask Akashic" },
-          { id: 2, label: "Akashic Data Warehouse" }
+          { id: 0, label: "Connect every source" },
+          { id: 1, label: "Ask in plain language" },
+          { id: 2, label: "One governed record" }
         ].map((tab) => {
           const isActive = activeCard === tab.id;
           return (
@@ -70,7 +91,7 @@ export default function HeroProductsMockup() {
               role="button"
               tabIndex={0}
               onKeyDown={(e) => (e.key === "Enter" || e.key === " ") && handleSelect(tab.id)}
-              className={`group relative flex cursor-pointer select-none items-center gap-2.5 pb-2 text-[17px] tracking-tight transition-colors duration-200 ${
+              className={`group relative flex shrink-0 cursor-pointer select-none items-center gap-2.5 whitespace-nowrap pb-2 text-[15px] tracking-tight transition-colors duration-200 sm:text-[17px] ${
                 isActive ? "text-primary-text" : "text-tertiary-text hover:text-secondary-text"
               }`}
               style={{ fontFamily: "Inter, sans-serif", fontWeight: isActive ? 600 : 400 }}

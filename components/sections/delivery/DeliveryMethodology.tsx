@@ -108,7 +108,7 @@ function EngagementConsole() {
       <CardHeader
         icon="Platform Deployment"
         name="Engagement console"
-        sub="Simulated view · week four of a six-week deployment"
+        sub="Week four of a six-week deployment"
         chip={<BlueChip label="WK 4 / 6" />}
       />
 
@@ -219,7 +219,7 @@ function EngagementConsole() {
       </div>
 
       <div className="border-t border-dashed border-lineSoft px-5 py-3 font-mono text-[8.5px] uppercase tracking-[0.08em] text-overcast md:px-6">
-        Simulated engagement view &middot; every artefact on this screen is yours at handover
+        Every artefact on this screen is yours at handover
       </div>
     </div>
   );

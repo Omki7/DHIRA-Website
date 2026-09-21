@@ -6,9 +6,19 @@ const FEATURES = [
     title: "Every source, connected.",
     sub: "Structured, unstructured, streaming. All in, all live.",
   },
+  /* The differentiator, finally named. This cell read "One record of truth. /
+     Customers, products, places: resolved into one golden record." — a true
+     claim, and one every MDM vendor since 2010 has made in those words. The
+     five cells together contained no proprietary term at all, while the thing
+     that actually separates us, the knowledge layer, appeared nowhere in the
+     list.
+
+     "knowledge layer", never "knowledge graph" — sitewide rule. And the claim
+     is meaning PRESERVED, not a graph produced: a graph is an outcome we
+     cannot show a visitor, preserving meaning through resolution is. */
   {
-    title: "One record of truth.",
-    sub: "Customers, products, places: resolved into one golden record.",
+    title: "One knowledge layer.",
+    sub: "Customers, products, places: resolved once, meaning preserved.",
   },
   {
     title: "Forecasts you can trust.",

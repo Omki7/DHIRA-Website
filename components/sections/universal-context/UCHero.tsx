@@ -19,9 +19,21 @@ export default function UCHero() {
   });
 
   return (
+    /* HEIGHTS CUT ~26% (23 Jul 2026, homepage pacing pass). At lg:816px in a
+       900px viewport this was a full screen of scroll carrying six words, and
+       it opened the longest section on the page (3.5 screens) with a title
+       card. It is a band now, not a screen.
+
+       The orb geometry below is UNCHANGED — its offsets are measured from the
+       container's BOTTOM edge, so shrinking the height only removes dead space
+       above the headline; the arc still breaks the frame at the same distance
+       from the bottom. The `pb` values on the headline block were retuned to
+       hold a constant ~44–54px of clearance above the planet's apex at every
+       breakpoint. Change one of these two ladders and you must recheck the
+       other, or the headline sits on the arc. */
     <div
       ref={ref}
-      className="relative h-[500px] overflow-hidden sm:h-[580px] md:h-[680px] lg:h-[816px]"
+      className="relative h-[380px] overflow-hidden sm:h-[430px] md:h-[500px] lg:h-[600px]"
     >
       {/* vertical pinstripe texture */}
       <div
@@ -164,7 +176,7 @@ export default function UCHero() {
             : { opacity: 0, y: 55, scale: 0.9, filter: "blur(14px)" }
         }
         transition={{ duration: 0.9, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
-        className="absolute inset-x-0 bottom-0 z-20 flex flex-col items-center px-6 pb-[230px] sm:pb-[270px] md:pb-[330px] lg:pb-[360px] xl:pb-[416px]"
+        className="absolute inset-x-0 bottom-0 z-20 flex flex-col items-center px-6 pb-[210px] sm:pb-[250px] md:pb-[310px] lg:pb-[350px] xl:pb-[400px]"
       >
         <div className="flex max-w-full flex-col items-center gap-1 text-center">
           <p className="font-mono text-sm uppercase tracking-wide text-uc-mute sm:text-base">
@@ -173,8 +185,18 @@ export default function UCHero() {
           <h2 className="max-w-full text-balance text-[40px] font-semibold leading-none tracking-[-0.024em] text-uc-text sm:text-[48px] md:text-[56px] lg:text-[72px] xl:text-[96px]">
             Meet Akashic
           </h2>
-          <p className="mt-5 text-sm text-uc-dim sm:mt-6 sm:text-base">
-            Ask once. Get one answer.
+          {/* THE DEFINING SENTENCE. This slot used to read "Ask once. Get one
+              answer." — a nice line, and the third place on the page saying it
+              (the feature grid's "Ask in plain language", UCSignals' "One
+              question, answered end to end"). Meanwhile nothing on the
+              homepage ever said what Akashic IS, so a reader left knowing it
+              connects, resolves, forecasts, answers and governs — i.e. that it
+              does everything, which reads as a suite or as vapour.
+
+              Deliberately not a verbatim repeat of the hero's category line:
+              the hero names the thing, this names the mechanism. */}
+          <p className="mt-5 max-w-[34em] text-balance text-sm text-uc-dim sm:mt-6 sm:text-base">
+            Every source, resolved into one governed layer — and every answer traced back to it.
           </p>
         </div>
       </motion.div>

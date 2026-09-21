@@ -7,6 +7,7 @@
  */
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import ScrollRevealRail from "@/components/ui/ScrollRevealRail";
+import SectionBridge from "@/components/ui/SectionBridge";
 import ProvenStories from "@/components/demos/ProvenStories";
 import AshokaChakra from "@/components/demos/AshokaChakra";
 
@@ -17,6 +18,16 @@ interface ProvenAtScaleProps {
   title?: string;
   description?: string;
   dark?: boolean;
+  /* Opt-in hand-off into the next section. Off by default because this
+     section is also rendered on /about and /akashic, where nothing about
+     delivery follows it. Light ground only — see SectionBridge. */
+  bridge?: {
+    lead: string;
+    payoff: string;
+    targetId: string;
+    number: string;
+    label: string;
+  };
 }
 
 export default function ProvenAtScale({
@@ -26,20 +37,21 @@ export default function ProvenAtScale({
   title = "Real platform. Real citizens.",
   description = "Not pilots. National systems in production, on the public record.",
   dark = false,
+  bridge,
 }: ProvenAtScaleProps) {
   return (
     <section
       id={id}
       aria-labelledby={`${id}-h`}
-      className={`relative overflow-hidden pt-12 pb-24 lg:pt-16 lg:pb-32 ${
-        dark ? "bg-transparent text-white" : "bg-background text-ink"
-      }`}
+      className={`relative overflow-hidden ${
+        bridge ? "pt-10 pb-10 lg:pt-14 lg:pb-14" : "pt-10 pb-12 lg:pt-14 lg:pb-16"
+      } ${dark ? "bg-transparent text-white" : "bg-background text-ink"}`}
     >
       <div className={`dot-grid pointer-events-none absolute inset-0 ${dark ? "opacity-[0.08] invert" : "opacity-[0.035]"}`} />
 
       <ScrollRevealRail dark={dark} className="relative z-10">
         <ScrollReveal>
-          <div className="mb-12 flex flex-col items-center gap-10 lg:mb-14 lg:flex-row lg:items-center lg:justify-between lg:gap-16">
+          <div className="mb-8 flex flex-col items-center gap-10 lg:mb-10 lg:flex-row lg:items-center lg:justify-between lg:gap-16">
             <div className="text-center lg:text-left">
               <div className={`flex items-center justify-center gap-2.5 font-mono text-[11px] uppercase tracking-eyebrow lg:justify-start ${
                 dark ? "text-white/70" : "text-inkSoft"
@@ -77,6 +89,16 @@ export default function ProvenAtScale({
         <ScrollReveal delay={150}>
           <ProvenStories />
         </ScrollReveal>
+
+        {/* The turn from "here is the platform" to "here is who builds with
+            you". Everything above this point — hero, [01], [02], [03] — is a
+            product argument, so [04] used to open on the word "delivery" with
+            nothing behind it. */}
+        {bridge && !dark && (
+          <ScrollReveal>
+            <SectionBridge {...bridge} className="mt-16 lg:mt-20" />
+          </ScrollReveal>
+        )}
       </ScrollRevealRail>
     </section>
   );

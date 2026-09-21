@@ -27,13 +27,13 @@ export default function ProblemSection() {
   return (
     <section
       id="problem"
-      className="relative w-full overflow-clip bg-background pt-12 pb-16 lg:pt-16 lg:pb-24"
+      className="relative w-full overflow-clip bg-background pt-10 pb-10 lg:pt-14 lg:pb-14"
     >
       <div className="dot-grid pointer-events-none absolute inset-0 opacity-[0.035]" />
 
       <ScrollRevealRail className="z-10">
         <ScrollReveal>
-          <div className="mb-10 flex items-center border-t border-b border-dashed border-lineSoft py-[17px] px-[2px] font-mono text-[11px] uppercase tracking-eyebrow text-inkSoft lg:mb-12">
+          <div className="mb-8 flex items-center border-t border-b border-dashed border-lineSoft py-[17px] px-[2px] font-mono text-[11px] uppercase tracking-eyebrow text-inkSoft lg:mb-10">
             <span>
               <span className="text-overcast">[01]</span>
               &nbsp;&nbsp;THE PROBLEM

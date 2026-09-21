@@ -3,9 +3,13 @@
 /*
  * [10] Built on Akashic — start from a solution, not a blank platform.
  * Split-pane vertical-tab interface (user direction).
- * Left side: 3 vertical modules (tabs).
- * Right side: Active solution headline, description, and a premium empty image placeholder
- * waiting for actual platform screenshots.
+ * Left side: the two ready solutions as vertical tabs.
+ * Right side: the active solution's headline, description, and its REAL product
+ * mockup (Jul 2026: the empty "screenshot placeholder" is retired now that EIS
+ * and Life ship). EIS → the live morning-brief screen (EisBriefScreenMockup) in
+ * browser chrome; Life → the frontline handset (LifeHandsetMockup) on its cyan
+ * ground. Reusing the solutions' own mockups keeps this section a real product
+ * surface, not an image, and it stays true as those pages evolve.
  * On the white ground (user direction Jul 2026): the dark ak-depth slab this
  * section used to carry moved up to [09] AkashicStack; the interactive card was
  * already white, so this is chrome-only — house radii/border/shadow tokens,
@@ -16,6 +20,9 @@ import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import AkashicLogo from "@/components/icons/AkashicLogo";
+import EisBriefScreenMockup from "@/components/demos/mockups/eis/EisBriefScreenMockup";
+import { DEFAULT_DOMAIN } from "@/lib/eisDomains";
+import LifeHandsetMockup from "@/components/demos/mockups/life/LifeHandsetMockup";
 
 interface Solution {
   id: string;
@@ -44,15 +51,6 @@ function BeakerIcon({ className }: { className?: string }) {
   );
 }
 
-function DocumentSearchIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-      <path d="M14 2v6h6M10 18a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM12.12 16.12L15 19" />
-    </svg>
-  );
-}
-
 const solutions: Solution[] = [
   {
     id: "akashic-eis",
@@ -71,15 +69,6 @@ const solutions: Solution[] = [
     para: "Clinical, regulatory, and commercial data brought together for the people who file, approve, and launch. Audit-ready lineage under every figure.",
     href: "/solutions/life",
     icon: BeakerIcon,
-  },
-  {
-    id: "akashic-knowledge",
-    name: "Akashic Knowledge",
-    term: "Document intelligence",
-    headline: "Ask your documents a question.",
-    para: "Policies, contracts, and institutional knowledge — readable, searchable, and citable at last. Every plain-language answer points directly to the source clause.",
-    href: "/solutions/knowledge",
-    icon: DocumentSearchIcon,
   },
 ];
 
@@ -112,7 +101,7 @@ export default function AkashicPlatform() {
           </h2>
           <p className="mt-5 max-w-[46em] text-[17px] leading-relaxed text-secondary-text md:text-[18px]">
             Whether you lead the company or run operations on the ground, Akashic keeps everyone
-            aligned. Three pre-configured assemblies, each built for a job that already exists.
+            aligned. Two pre-configured assemblies, each built for a job that already exists.
           </p>
         </ScrollReveal>
 
@@ -175,7 +164,7 @@ export default function AkashicPlatform() {
               </div>
 
               {/* ── Right Strip: Main Content & Platform Image Placeholder ── */}
-              <div className="relative flex min-w-0 flex-1 flex-col bg-white p-8 md:p-12 lg:p-14 min-h-[640px]">
+              <div className="relative flex min-w-0 flex-1 flex-col bg-white p-8 md:p-12 lg:p-14 min-h-[720px]">
                 {solutions.map((s, index) => {
                   const isActive = index === currentIndex;
                   return (
@@ -197,26 +186,29 @@ export default function AkashicPlatform() {
                         </p>
                       </div>
 
-                      {/* ── Premium Empty Image Placeholder ── */}
-                      <div className="mt-10 flex-1 w-full rounded-inner border border-card-line bg-primary-bg shadow-[inset_0_2px_15px_rgba(11,20,64,0.03)] relative overflow-hidden flex flex-col items-center justify-center">
-                         {/* Subtle drafting grid background pattern */}
-                         <div className="absolute inset-0 bg-[linear-gradient(rgba(26,28,29,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(26,28,29,0.03)_1px,transparent_1px)] bg-[size:32px_32px] [mask-image:linear-gradient(to_bottom,white,transparent)]" />
-
-                         <div className="relative z-10 flex flex-col items-center justify-center gap-4 opacity-70">
-                            <div className="h-14 w-14 rounded-full bg-white border border-subtle-stroke shadow-card flex items-center justify-center">
-                              <svg className="w-6 h-6 text-overcast" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <rect x="3" y="3" width="18" height="18" rx="2" strokeWidth="1.5" />
-                                <circle cx="8.5" cy="8.5" r="1.5" fill="currentColor" />
-                                <path d="M21 15l-5-5L5 21" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                              </svg>
-                            </div>
-                            <div className="flex flex-col items-center">
-                              <span className="font-semibold text-[14px] text-ink">Platform Interface</span>
-                              <span className="font-mono text-[10px] uppercase tracking-wider text-secondary-text mt-1 text-center">
-                                Placeholder ready for<br/> {s.name} screenshot
+                      {/* ── Live product preview — the real solution mockup ── */}
+                      <div className="mt-8 min-h-0 flex-1 w-full overflow-hidden rounded-inner border border-card-line bg-white shadow-[inset_0_2px_15px_rgba(11,20,64,0.03)]">
+                        {s.id === "akashic-eis" ? (
+                          <div className="flex h-full flex-col">
+                            {/* Browser chrome, matching the hero product screen */}
+                            <div className="flex flex-shrink-0 items-center gap-1.5 border-b border-card-divide bg-panel px-3.5 py-2.5">
+                              <span className="h-2.5 w-2.5 rounded-full bg-card-line" aria-hidden />
+                              <span className="h-2.5 w-2.5 rounded-full bg-card-line" aria-hidden />
+                              <span className="h-2.5 w-2.5 rounded-full bg-card-line" aria-hidden />
+                              <span className="ml-2 truncate font-mono text-[10px] tracking-tight text-tertiary-text">
+                                app.akashic.dhira.io
                               </span>
                             </div>
-                         </div>
+                            <div className="min-h-0 flex-1 overflow-hidden">
+                              <EisBriefScreenMockup domain={DEFAULT_DOMAIN} />
+                            </div>
+                          </div>
+                        ) : (
+                          <div className="relative flex h-full items-center justify-center bg-gradient-to-b from-[#F4FBFD] to-[#E7F5FA] py-8">
+                            <div className="dot-grid pointer-events-none absolute inset-0 opacity-40" aria-hidden />
+                            <LifeHandsetMockup className="relative z-10" />
+                          </div>
+                        )}
                       </div>
 
                       {/* ── CTA Link ── */}

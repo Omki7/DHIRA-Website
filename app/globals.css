@@ -228,6 +228,18 @@ h1, h2, h3, h4, h5, h6 {
     background-size: 10px 10px;
   }
 
+  /* The /solutions/eis capability carousel. The rail is driven by its own
+     arrow buttons and by swipe, so the scrollbar is a second control for the
+     same thing and it cuts into the card captions. Keyboard and swipe access
+     are unaffected: only the bar is hidden, not the overflow. */
+  .eis-rail {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .eis-rail::-webkit-scrollbar {
+    display: none;
+  }
+
   /* Akashic act-anchor ground: a deep indigo "vault" that rhymes with the
      blue [01] moment. Soft blue aurora at the top so white product cards
      lift off it. Used by the mid-page Trust chapter. */
@@ -292,6 +304,7 @@ h1, h2, h3, h4, h5, h6 {
 
 @keyframes softpulse { 0%,100%{opacity:1} 50%{opacity:0.35} }
 @keyframes dashmove { to { stroke-dashoffset: -16; } }
+@keyframes route-flow { from { stroke-dashoffset: 140; } to { stroke-dashoffset: 0; } }
 @keyframes progressFill { 0% { width: 0%; } 100% { width: 100%; } }
 @keyframes sa-info { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
 .sa-info-in { animation: sa-info 0.4s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
@@ -398,6 +411,31 @@ h1, h2, h3, h4, h5, h6 {
 @keyframes rolloutSpineIn {
   from { transform: scaleY(0); }
   to { transform: scaleY(1); }
+}
+
+/* ── Engagement clock (delivery hero) ─────────────────────────────────────
+   The hero's "three models on one 20-week axis" instrument. Bars/windows/
+   continuations scale in from the left with a per-lane stagger, reusing the
+   rolloutBarIn keyframe above. Reduced motion: everything rests visible. */
+.engagement-clock[data-visible="false"] .ec-bar {
+  opacity: 0;
+}
+.engagement-clock[data-visible="true"] .ec-bar {
+  animation: rolloutBarIn 700ms cubic-bezier(0.2,0.8,0.2,1) both;
+  transform-origin: left center;
+}
+.engagement-clock[data-visible="true"] .ec-lane-1 { animation-delay: 60ms; }
+.engagement-clock[data-visible="true"] .ec-lane-2 { animation-delay: 200ms; }
+.engagement-clock[data-visible="true"] .ec-lane-2w { animation-delay: 340ms; }
+.engagement-clock[data-visible="true"] .ec-lane-3 { animation-delay: 460ms; }
+.engagement-clock[data-visible="true"] .ec-lane-3w { animation-delay: 580ms; }
+.engagement-clock[data-visible="true"] .ec-lane-3c { animation-delay: 700ms; }
+@media (prefers-reduced-motion: reduce) {
+  .engagement-clock .ec-bar {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
 }
 
 .hs-card {
@@ -590,3 +628,99 @@ h1, h2, h3, h4, h5, h6 {
 
 
 
+
+/* ==================================================================
+   Akashic Life (/solutions/life) — page-scoped chrome.
+   Prefixed `alife-` for the same reason the colour tokens are prefixed
+   `life-`: this page runs its own ocean ramp and its own motion, and
+   none of it should reach the rest of the site. Every animation here is
+   decorative and is zeroed by the global reduced-motion override at the
+   top of this file; the two that also need their static state pinned
+   declare it explicitly at the bottom of this block.
+   ================================================================== */
+
+/* The eyebrow marker. Every section label on this page is prefixed by a
+   thin cyan cross rather than the site's `[NN]` rail — the page has no
+   numbered spine, so a number would be pointing at nothing. */
+/* Set in the MONO face, like every other section label on the site
+   (`[01]  RISK AND RESCUE`). The reference sets its eyebrows in its body
+   sans; keeping the cross but borrowing DHIRA's face is what stops nine
+   section labels reading as another company's. */
+.alife-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+/* Hero signal field — concentric wavefronts spreading OUT OF THE HANDSET.
+   The centre (72% 50%) is the handset's own position in the hero, so the
+   device reads as the SOURCE of the signal rather than as an object sitting
+   in front of a pattern. Move the handset and you must move these three
+   centres with it. Both are placed in percentages of the same box, so they
+   stay locked together at every viewport with no measurement at runtime.
+   Pure CSS: cheaper than an SVG of eighty circles. */
+.alife-wavefield {
+  background-image:
+    repeating-radial-gradient(circle at 70% 84%,
+      rgba(144,224,239,0.34) 0px, rgba(144,224,239,0.34) 1px,
+      transparent 1px, transparent 21px),
+    repeating-radial-gradient(circle at 70% 84%,
+      rgba(0,180,216,0.2) 0px, rgba(0,180,216,0.2) 1px,
+      transparent 1px, transparent 63px);
+  /* Falls away toward the left so the headline never sits in the weave. */
+  -webkit-mask-image: radial-gradient(96% 128% at 70% 84%, #000 0%, rgba(0,0,0,0.82) 24%, rgba(0,0,0,0.22) 60%, transparent 86%);
+  mask-image: radial-gradient(96% 128% at 70% 84%, #000 0%, rgba(0,0,0,0.82) 24%, rgba(0,0,0,0.22) 60%, transparent 86%);
+  animation: alife-breathe 26s cubic-bezier(0.4,0,0.2,1) infinite alternate;
+}
+@keyframes alife-breathe {
+  from { transform: scale(1) translate3d(0,0,0); }
+  to   { transform: scale(1.08) translate3d(-1.5%, 1%, 0); }
+}
+
+/* Aurora — the soft colour blooms behind the closing CTA and the light
+   statement grounds. Multi-stop radial layers are the Rule 8 exception. */
+.alife-aurora {
+  filter: blur(90px);
+  animation: alife-drift 22s cubic-bezier(0.4,0,0.2,1) infinite alternate;
+}
+@keyframes alife-drift {
+  from { transform: translate3d(0,0,0) scale(1); }
+  to   { transform: translate3d(4%,-5%,0) scale(1.14); }
+}
+
+/* Orbit markers — the two dots that ride the perimeter of an ACTIVE
+   outline circle. The dot is placed at the top of a square the size of
+   the circle and the whole square is spun, so the dot tracks the edge
+   exactly without any trigonometry per frame. */
+.alife-orbit { animation: alife-spin 14s linear infinite; }
+.alife-orbit-rev { animation: alife-spin 14s linear infinite reverse; }
+@keyframes alife-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* Sonar — one ring expanding out of the live marker. */
+.alife-sonar { animation: alife-ping 3s cubic-bezier(0.2,0.8,0.2,1) infinite; }
+@keyframes alife-ping {
+  0%       { transform: scale(0.9); opacity: 0.55; }
+  70%,100% { transform: scale(2.6); opacity: 0; }
+}
+
+/* The dashed leader lines in the record anatomy. */
+.alife-leader { stroke-dasharray: 3 5; animation: alife-crawl 1.1s linear infinite; }
+@keyframes alife-crawl { to { stroke-dashoffset: -8; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .alife-wavefield,
+  .alife-aurora,
+  .alife-orbit,
+  .alife-orbit-rev,
+  .alife-sonar { animation: none; transform: none; }
+  .alife-sonar { opacity: 0.35; }
+  .alife-leader { animation: none; }
+}

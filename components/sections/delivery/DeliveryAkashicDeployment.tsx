@@ -1,12 +1,16 @@
 "use client";
 
 /*
- * [02] Model 1 — Akashic Deployment.
- * The six-week rollout as a simulated-UI Gantt console (chrome via
- * AkashicCardChrome, §8a look): gradient phase bars with a sheen sweep,
- * milestone diamonds at blueprint sign-off and go-live. Three phase
- * dossiers with ghost numerals carry the nav's Strategize/Engineer anchor
- * ids, and a modular-start branch shows targeted module adoption.
+ * [02] Model 01 — Akashic Deployment: the six-week timeline.
+ * The Gantt is the section's whole argument, so the section is now built
+ * around it instead of past it: the three old phase dossiers (which only
+ * re-said what the plan already shows, in paragraphs) collapse into three
+ * terse payload columns pinned under the plan, each carrying its bar's
+ * visual identity (Rule 1: one instrument, everything attached). The
+ * modular-start band becomes a dashed "branch" row — the same window/
+ * option grammar as the hero clock. Phase-level anchor ids were dropped:
+ * nothing outside this file ever linked to them (nav/footer target the
+ * section id only). Figures per Rule 4.
  */
 
 import Link from "next/link";
@@ -16,62 +20,35 @@ import ScrollRevealRail from "@/components/ui/ScrollRevealRail";
 import DynamicSketchIcon from "@/components/icons/DynamicSketchIcon";
 import { CardHeader, BlueChip } from "@/components/sections/akashic/AkashicCardChrome";
 
-/* Each phase carries the exact visual identity of its Gantt bar above
-   (node circle, week tag, and connector rule), so the plan and its
-   explanation read as one system. */
+/* Each phase column carries the exact visual identity of its Gantt bar
+   (tag chip colour and week tag), so the plan and its payload read as one
+   system. Payloads are terse noun phrases — the plan shows the when, the
+   columns only name the what. */
 const phases = [
   {
-    num: "01",
-    weeks: "WK 1–2",
     bar: "01 · Audit",
-    nodeCls:
-      "border border-blue-border bg-gradient-to-b from-[#F3F6FF] to-[#E8EDFC] text-blue shadow-[inset_0_1px_0_rgba(255,255,255,0.9)]",
+    weeks: "WK 1–2",
     tagCls:
       "border border-blue-border bg-gradient-to-b from-[#F3F6FF] to-[#E8EDFC] text-blue shadow-[inset_0_1px_0_rgba(255,255,255,0.9)]",
-    ruleCls: "bg-blue-border",
     title: "System readiness audit",
-    desc: "A structured mapping of your current architecture, yielding a Sovereign Blueprint and Governance Framework.",
-    id: "ai-readiness-audit",
-    anchors: [
-      { label: "Sovereign Blueprint", id: "sovereign-blueprint" },
-      { label: "Governance Framework", id: "governance-framework" },
-    ],
+    payload: ["Architecture map", "Sovereign Blueprint", "Governance Framework"],
   },
   {
-    num: "02",
-    weeks: "WK 2–6",
     bar: "02 · Platform build",
-    nodeCls:
-      "bg-gradient-to-b from-[#4A6CE0] to-blue text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.25),0_2px_6px_-1px_rgba(62,99,221,0.4)]",
+    weeks: "WK 2–6",
     tagCls:
       "bg-gradient-to-b from-[#4A6CE0] to-blue text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.25),0_2px_6px_-1px_rgba(62,99,221,0.4)]",
-    ruleCls: "bg-blue/60",
     title: "Platform build",
-    desc: "Core deployment, legacy system bridging, and custom accelerators to get your organisation live without building from scratch.",
-    id: "platform-deployment",
-    anchors: [
-      { label: "Legacy Modernisation", id: "legacy-modernization" },
-      { label: "Custom Accelerators", id: "custom-accelerators" },
-    ],
+    payload: ["Core deployment", "Legacy bridging", "Custom accelerators"],
   },
   {
-    num: "03",
-    weeks: "WK 6+",
     bar: "03 · Handover",
-    nodeCls:
-      "bg-gradient-to-b from-[#2A2D2F] to-ink text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.12)]",
+    weeks: "WK 6+",
     tagCls:
       "bg-gradient-to-b from-[#2A2D2F] to-ink text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.12)]",
-    ruleCls: "bg-ink/50",
     live: true,
     title: "Operational handover",
-    desc: "One governed data foundation for BI, ML, and conversational AI. Your team runs it; we stay accountable.",
-    id: "operational-handover",
-    links: [
-      { label: "Akashic BI", href: "/akashic#business-intelligence" },
-      { label: "Akashic ML", href: "/akashic#machine-learning" },
-      { label: "Ask Akashic", href: "/akashic#ask-ai" },
-    ],
+    payload: ["BI · ML · Ask live", "Your team runs it", "We stay accountable"],
   },
 ];
 
@@ -143,20 +120,19 @@ function RolloutGantt() {
   );
 }
 
-function RolloutSequence() {
+/* Scroll-triggered bar entrance — the rollout-sequence CSS contract
+   (globals.css), which also carries the reduced-motion override. */
+function GanttReveal() {
   const ref = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
     const node = ref.current;
     if (!node) return;
-
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduced) {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       setVisible(true);
       return;
     }
-
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -166,140 +142,13 @@ function RolloutSequence() {
       },
       { threshold: 0.18, rootMargin: "0px 0px -120px 0px" }
     );
-
     observer.observe(node);
     return () => observer.disconnect();
   }, []);
 
   return (
-    <div ref={ref} data-visible={visible ? "true" : "false"} className="rollout-sequence mt-12 lg:mt-14">
+    <div ref={ref} data-visible={visible ? "true" : "false"} className="rollout-sequence">
       <RolloutGantt />
-
-      <div className="relative mt-8 border-y border-lineSoft py-3 lg:mt-10">
-        <div className="rollout-spine absolute bottom-0 left-[18px] top-0 w-px bg-lineSoft md:left-[72px]" aria-hidden />
-        {phases.map((phase) => (
-          <div
-            key={phase.num}
-            id={phase.id}
-            className={`rollout-phase rollout-phase-${phase.num} relative grid scroll-mt-24 grid-cols-[40px_minmax(0,1fr)] gap-4 py-6 md:grid-cols-[96px_minmax(0,1fr)] md:gap-8`}
-          >
-            <div className="relative flex justify-center md:justify-start md:pl-[58px]">
-              <span
-                className={`relative z-10 flex h-9 w-9 items-center justify-center rounded-full font-mono text-[10px] font-semibold ${phase.nodeCls}`}
-              >
-                {phase.num}
-              </span>
-              <span
-                className={`rollout-phase-rule absolute left-[18px] top-[18px] hidden h-px w-[calc(100%-18px)] md:block ${phase.ruleCls}`}
-                aria-hidden
-              />
-            </div>
-
-            <div className="relative min-w-0 border-b border-dashed border-lineSoft pb-6">
-              <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
-                <div className="min-w-0">
-                  <span className="flex flex-wrap items-center gap-2.5">
-                    <span
-                      className={`inline-flex items-center gap-1.5 rounded-[7px] px-2.5 py-1 font-mono text-[9.5px] font-bold uppercase tracking-[0.06em] ${phase.tagCls}`}
-                    >
-                      {phase.live && (
-                        <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-blue-border animate-[ps-pulse_2s_infinite]" aria-hidden />
-                      )}
-                      {phase.bar}
-                    </span>
-                    <span className="font-mono text-[11px] font-semibold uppercase tracking-eyebrow text-inkSoft">
-                      {phase.weeks}
-                    </span>
-                  </span>
-                  <h3 className="mt-2 text-[20px] font-semibold leading-snug tracking-tight text-ink md:text-[22px]">
-                    {phase.title}
-                  </h3>
-                </div>
-                <span className="hidden select-none font-heading text-[56px] font-semibold leading-none tracking-tighter text-ink/[0.045] md:block">
-                  {phase.num}
-                </span>
-              </div>
-
-              <div className="mt-3 grid gap-5 lg:grid-cols-[minmax(0,0.95fr)_minmax(260px,0.55fr)] lg:items-start">
-                <p className="max-w-[48em] text-[15px] leading-relaxed text-inkSoft">{phase.desc}</p>
-                <div className="flex flex-wrap items-center gap-2 lg:justify-end">
-                  {phase.anchors?.map((anchor) => (
-                    <span
-                      key={anchor.id}
-                      id={anchor.id}
-                      className="inline-flex scroll-mt-24 items-center rounded-full border border-lineSoft bg-white px-3 py-1.5 font-mono text-[10.5px] uppercase tracking-eyebrow text-inkSoft"
-                    >
-                      {anchor.label}
-                    </span>
-                  ))}
-                  {phase.links?.map((link) => (
-                    <Link
-                      key={link.href}
-                      href={link.href}
-                      scroll={link.href.includes('#') ? false : undefined}
-                      className="inline-flex items-center rounded-full border border-lineSoft bg-white px-3 py-1.5 font-mono text-[10.5px] uppercase tracking-eyebrow text-inkSoft transition-colors duration-200 ease-settle hover:border-blue/30 hover:bg-blue-subtle hover:text-blue"
-                    >
-                      {link.label}
-                    </Link>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      <div className="rollout-modular relative grid gap-4 border-b border-lineSoft bg-blue-subtle/55 py-8 md:grid-cols-[96px_minmax(0,1fr)] md:gap-8 lg:py-10">
-        <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-blue-border" aria-hidden />
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-blue-border/70" aria-hidden />
-        <div className="relative hidden md:block">
-          <span className="absolute left-[72px] top-0 h-full w-px bg-blue-border" aria-hidden />
-          <span className="relative z-10 ml-[58px] flex h-9 w-9 items-center justify-center rounded-full border border-blue-border bg-white font-mono text-[10px] font-semibold text-blue shadow-sm">
-            +
-          </span>
-        </div>
-        <div className="grid min-w-0 gap-8 px-4 md:px-0 lg:grid-cols-[minmax(0,1fr)_300px] lg:items-center">
-          <div>
-            <p className="font-mono text-[10px] font-semibold uppercase tracking-eyebrow text-blue">
-              Targeted start path
-            </p>
-            <h3 className="mt-3 text-[22px] font-semibold tracking-tight text-ink">
-              Start with the module that hurts most.
-            </h3>
-            <p className="mt-3 max-w-[48em] text-[15px] leading-relaxed text-inkSoft">
-              You don&rsquo;t have to adopt the full stack on day one. Start with
-              Akashic Pipelines, Master Data, or Ask Akashic. Prove the value in
-              four weeks, and snap the rest in later. The foundation never changes.
-            </p>
-            <div className="mt-5 flex flex-wrap items-center gap-2">
-              {modularModules.map((mod) => (
-                <Link
-                  key={mod.label}
-                  href={mod.href}
-                  scroll={mod.href.includes('#') ? false : undefined}
-                  className="inline-flex items-center gap-2 rounded-full border border-blue-border bg-white px-3.5 py-2 font-mono text-[10.5px] uppercase tracking-eyebrow text-blue transition-colors duration-200 ease-settle hover:border-blue hover:bg-white"
-                >
-                  <DynamicSketchIcon text={mod.icon} className="h-[13px] w-[13px] text-blue" />
-                  {mod.label}
-                </Link>
-              ))}
-            </div>
-          </div>
-          <div className="border-l border-blue-border pl-5 lg:justify-self-end lg:pr-4">
-            <p className="font-mono text-[10px] uppercase tracking-eyebrow text-blue">
-              First module
-            </p>
-            <div className="mt-3">
-              <div className="text-[34px] font-semibold leading-none tracking-tighter text-ink md:text-[38px]">
-                4 weeks
-              </div>
-              <div className="mt-3 max-w-[14em] text-[13px] leading-snug text-inkSoft">
-                to a proven first module on the same governed foundation
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
   );
 }
@@ -317,17 +166,101 @@ export default function DeliveryAkashicDeployment() {
             <span className="hidden text-overcast sm:inline">/ Six weeks to live</span>
           </div>
           <h2 className="mt-5 text-heading-sm font-semibold text-ink md:text-heading-md lg:text-heading-lg">
-            The platform, live and governed in your environment.
+            <span className="text-inkSoft">The platform, live and governed in your environment.</span>
+            <br />
+            Six weeks from audit to go-live.
           </h2>
           <p className="mt-5 max-w-[45em] text-lg leading-relaxed text-secondary-text">
             When your data foundation is the bottleneck, we bring Akashic to you.
-            <br />
-            From readiness audit to production-ready in six weeks. We do not
-            prototype. We&nbsp;productionise.
+            We do not prototype. We&nbsp;productionise.
           </p>
         </ScrollReveal>
 
-        <RolloutSequence />
+        <ScrollReveal delay={100}>
+          <GanttReveal />
+        </ScrollReveal>
+
+        {/* The payload columns — what each phase yields, named tersely and
+            pinned under the plan in the plan's own order. */}
+        <div className="mt-8 grid gap-x-8 gap-y-7 border-t border-dashed border-lineSoft pt-7 md:grid-cols-3 lg:mt-10 lg:pt-8">
+          {phases.map((phase, idx) => (
+            <ScrollReveal key={phase.bar} delay={140 + idx * 70}>
+              <div>
+                <span className="flex flex-wrap items-center gap-2.5">
+                  <span
+                    className={`inline-flex items-center gap-1.5 rounded-[7px] px-2.5 py-1 font-mono text-[9.5px] font-bold uppercase tracking-[0.06em] ${phase.tagCls}`}
+                  >
+                    {phase.live && (
+                      <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-blue-border animate-[ps-pulse_2s_infinite]" aria-hidden />
+                    )}
+                    {phase.bar}
+                  </span>
+                  <span className="font-mono text-[10px] font-semibold uppercase tracking-eyebrow text-overcast">
+                    {phase.weeks}
+                  </span>
+                </span>
+                <h3 className="mt-3 text-[18px] font-semibold tracking-tight text-ink">
+                  {phase.title}
+                </h3>
+                <div className="mt-3 flex flex-wrap gap-1.5">
+                  {phase.payload.map((item) => (
+                    <span
+                      key={item}
+                      className="rounded-full border border-lineSoft bg-white px-2.5 py-1 font-mono text-[9.5px] uppercase tracking-[0.06em] text-inkSoft"
+                    >
+                      {item}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </ScrollReveal>
+          ))}
+        </div>
+
+        {/* The branch — start with one module. Dashed border: the same
+            window/option grammar as the hero clock's MVP window. */}
+        <ScrollReveal delay={220}>
+          <div className="relative mt-10 rounded-[12px] border border-dashed border-blue-border bg-blue-subtle/40 px-5 py-6 md:px-7 md:py-7 lg:mt-12">
+            <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center">
+              <div>
+                <p className="font-mono text-[10px] font-semibold uppercase tracking-eyebrow text-blue">
+                  + Targeted start path
+                </p>
+                <h3 className="mt-2.5 text-[20px] font-semibold tracking-tight text-ink md:text-[22px]">
+                  Start with the module that hurts most.
+                </h3>
+                <p className="mt-2.5 max-w-[46em] text-[15px] leading-relaxed text-inkSoft">
+                  Prove the value in four weeks on the same governed foundation.
+                  Snap the rest in later.
+                </p>
+                <div className="mt-4 flex flex-wrap items-center gap-2">
+                  {modularModules.map((mod) => (
+                    <Link
+                      key={mod.label}
+                      href={mod.href}
+                      scroll={mod.href.includes("#") ? false : undefined}
+                      className="inline-flex items-center gap-2 rounded-full border border-blue-border bg-white px-3.5 py-2 font-mono text-[10.5px] uppercase tracking-eyebrow text-blue transition-colors duration-200 ease-settle hover:border-blue"
+                    >
+                      <DynamicSketchIcon text={mod.icon} className="h-[13px] w-[13px] text-blue" />
+                      {mod.label}
+                    </Link>
+                  ))}
+                </div>
+              </div>
+              <div className="border-t border-blue-border/70 pt-4 lg:border-l lg:border-t-0 lg:pl-7 lg:pt-0">
+                <p className="font-mono text-[10px] uppercase tracking-eyebrow text-blue">
+                  First module
+                </p>
+                <div className="mt-2 text-[34px] font-semibold leading-none tracking-tighter text-ink md:text-[38px]">
+                  4 weeks
+                </div>
+                <div className="mt-2 max-w-[14em] text-[13px] leading-snug text-inkSoft">
+                  to a proven first module on the same governed foundation
+                </div>
+              </div>
+            </div>
+          </div>
+        </ScrollReveal>
       </ScrollRevealRail>
     </section>
   );

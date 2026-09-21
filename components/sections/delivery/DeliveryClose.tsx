@@ -20,10 +20,7 @@ export default function DeliveryClose() {
             <div className="absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r from-blue/70 via-blue/30 to-transparent" aria-hidden />
             <div className="dot-grid absolute inset-0 opacity-10 invert" aria-hidden />
             <div className="relative">
-              <p className="font-mono text-[11px] uppercase tracking-eyebrow text-white/50">
-                <span className="text-white/30">[09]</span>&nbsp;&nbsp;Ready when you are
-              </p>
-              <h2 className="mx-auto mt-6 max-w-[18em] text-heading-sm font-semibold text-white md:text-heading-md">
+              <h2 className="mx-auto mt-2 max-w-[18em] text-heading-sm font-semibold text-white md:text-heading-md">
                 Three models.
                 <br />
                 One standard of accountability.
@@ -41,14 +38,10 @@ export default function DeliveryClose() {
                   <span>The right tier</span>
                 </div>
                 <div className="mt-2 flex gap-1.5" aria-hidden>
-                  {models.map((model, idx) => (
+                  {models.map((model) => (
                     <span
                       key={model}
-                      className={`flex flex-1 items-center justify-center rounded-full border py-1.5 font-mono text-[9px] uppercase tracking-[0.08em] ${
-                        idx === 0
-                          ? "border-blue-border/50 text-blue-border animate-[ps-pulse_2s_infinite]"
-                          : "border-white/20 text-white/60"
-                      }`}
+                      className="flex flex-1 items-center justify-center rounded-full border border-white/25 py-1.5 font-mono text-[9px] uppercase tracking-[0.08em] text-white/70"
                     >
                       {model}
                     </span>

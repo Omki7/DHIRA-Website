@@ -1,5 +1,4 @@
 import ScrollReveal from "@/components/ui/ScrollReveal";
-import UCButton from "./UCButton";
 
 // Ordered to walk the source types the copy above claims: business systems,
 // then relational, then NoSQL, then streaming, then object storage, then the
@@ -71,9 +70,7 @@ export default function UCConnectivity() {
           Business systems, databases, live streams, spreadsheets, documents: everything
           your organisation already runs on.
         </p>
-        <UCButton href="/akashic#modules-data-pipelines" className="mt-8">
-          See the pipelines
-        </UCButton>
+        {/* CTA removed — see UCSignals. [02] funnels to one exit, at its end. */}
       </ScrollReveal>
 
       {/* Single-row marquee: the whole estate scrolls past on one strip. Two

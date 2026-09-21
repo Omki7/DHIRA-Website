@@ -1,124 +1,129 @@
 /*
- * [01] The Gap — Risk vs Rescue.
- * The 4-days-versus-2-minutes comparison as two pathway panels: the
- * traditional referral chain as a long muted step sequence, the Akashic Life
- * chain as a short blue one with a pulse. Anchored by the Poshan precedent.
+ * [01] The problem — the distance between a health signal and a response.
+ *
+ * Pinned left, scrolling right. The headline holds still for the whole
+ * section while the reader travels down four blocks of evidence, each one
+ * sitting inside a giant ghost figure. That pairing is the whole device: the
+ * number is scenery until the sentence tells you what it costs.
+ *
+ * Every figure here is already argued elsewhere on the page or on the site:
+ * the four-day referral pathway and its seven steps, and the offline reality
+ * the product is built for. Nothing is invented (Design Rule 4).
  */
 
 import ScrollReveal from "@/components/ui/ScrollReveal";
-import ScrollRevealRail from "@/components/ui/ScrollRevealRail";
+import { LifeEyebrow, LifeCornerArc } from "@/components/ui/life/LifeChrome";
 
-const traditional = [
-  "Symptoms appear",
-  "Travel to clinic",
-  "Manual checks",
-  "Sample transport",
-  "Lab processing",
-  "Return travel",
-  "Diagnosis",
+type Block = {
+  ghost: string;
+  /** Narrow figures ("0") need to be pushed off the text or they read as a stray mark. */
+  ghostClass?: string;
+  head: string;
+  body: string;
+};
+
+const blocks: Block[] = [
+  {
+    ghost: "4 DAYS",
+    head: "Time, not pathology, is what takes her",
+    body: "A mother in a remote village can wait four days between the first sign of danger and a diagnosis. Travel to a clinic. Manual checks. A sample sent away. A lab queue. The journey back.",
+  },
+  {
+    ghost: "0 BARS",
+    head: "The need is worst exactly where the network is not",
+    body: "Cloud diagnostics assume a connection. The places that most need specialist judgement are the ones with no broadband, no specialist, and often no signal at all.",
+  },
+  {
+    ghost: "7 STEPS",
+    head: "Every handoff is somewhere to lose her",
+    body: "Symptom, clinic, checks, sample, lab, return, diagnosis. Seven places for a record to be re-keyed, misfiled or quietly dropped, and nobody holding the whole thread.",
+  },
 ];
 
-const akashic = ["Vitals input", "On-device AI", "Instant risk score", "Hospital alerted"];
+const closer = {
+  ghost: "ZERO",
+  lead: "Not one of those four days is clinical.",
+  tail: "They are travel, transcription and waiting. Every one of them is a systems problem, and systems problems can be rebuilt.",
+};
 
-function StepChain({ steps, blue }: { steps: string[]; blue?: boolean }) {
+function Ghost({ children, className = "" }: { children: React.ReactNode; className?: string }) {
   return (
-    <div className="mt-4 flex flex-wrap items-center gap-y-2">
-      {steps.map((step, idx) => (
-        <span key={step} className="flex items-center">
-          <span
-            className={`rounded-[6px] border px-2 py-[3px] font-mono text-[9px] uppercase tracking-[0.05em] ${
-              blue
-                ? "border-blue-border bg-blue-subtle text-blue"
-                : "border-subtle-stroke bg-white text-inkSoft"
-            }`}
-          >
-            {step}
-          </span>
-          {idx < steps.length - 1 && (
-            <svg width="14" height="8" viewBox="0 0 14 8" fill="none" aria-hidden className="mx-0.5 shrink-0">
-              <path d="M1 4h10M8.5 1.5L11 4 8.5 6.5" stroke={blue ? "#3E63DD" : "#B0B1B3"} strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          )}
-        </span>
-      ))}
-    </div>
+    <span
+      aria-hidden
+      className={`pointer-events-none absolute -top-[0.42em] left-[-0.06em] select-none whitespace-nowrap text-[92px] font-normal leading-[0.78] tracking-[-0.02em] text-life-ghost sm:text-[128px] lg:text-[150px] xl:text-[172px] ${className}`}
+    >
+      {children}
+    </span>
+  );
+}
+
+/* The tick where a block meets the column rule. */
+function Tick() {
+  return (
+    <span
+      aria-hidden
+      className="absolute -left-8 top-[0.7em] hidden h-px w-8 bg-life-line lg:block"
+    />
   );
 }
 
 export default function LifeGap() {
   return (
-    <section id="the-gap" className="scroll-mt-24 border-t border-lineSoft bg-background pt-12 pb-24 lg:pt-16 lg:pb-32">
-      <ScrollRevealRail>
-        <ScrollReveal>
-          <div className="flex items-baseline justify-between font-mono text-[11px] uppercase tracking-eyebrow">
-            <p>
-              <span className="text-overcast">[01]</span>
-              <span className="text-inkSoft">&nbsp;&nbsp;Risk and rescue</span>
-            </p>
-            <span className="hidden text-overcast sm:inline">/ The distance between them</span>
+    // No `overflow-hidden` on this section: it would turn the pinned column
+    // back into a static one. See the note on LifeCornerArc.
+    <section id="the-gap" className="relative scroll-mt-20 bg-background">
+      <LifeCornerArc tone="light" />
+
+      <div className="mx-auto w-full max-w-[1440px] px-6 sm:px-10 lg:px-14">
+        <div className="grid grid-cols-1 lg:grid-cols-2">
+          {/* Pinned side */}
+          <div className="pt-24 lg:sticky lg:top-[120px] lg:self-start lg:pb-24 lg:pt-40">
+            <ScrollReveal>
+              <LifeEyebrow num="01" tone="light">The problem</LifeEyebrow>
+              <h2 className="mt-7 max-w-[10em] text-[34px] font-medium leading-[1.24] tracking-[-0.005em] text-life-navy sm:text-[40px] lg:text-[46px]">
+                The signal arrives. The response does not.
+              </h2>
+            </ScrollReveal>
           </div>
-          <h2 className="mt-5 text-heading-sm font-semibold text-ink md:text-heading-md lg:text-heading-lg">
-            In rural healthcare, the enemy isn&rsquo;t pathology. It&rsquo;s time.
-          </h2>
-        </ScrollReveal>
 
-        <div className="mt-12 grid grid-cols-1 gap-5 lg:mt-14 lg:grid-cols-2">
-          <ScrollReveal delay={100}>
-            <div className="h-full overflow-hidden rounded-frame border border-subtle-stroke bg-primary-bg p-6 opacity-70 md:p-8">
-              <p className="font-mono text-[10px] uppercase tracking-eyebrow text-overcast">
-                Traditional care
-              </p>
-              <div className="mt-4 flex items-baseline gap-3">
-                <span className="text-[52px] font-semibold leading-none tracking-tighter text-inkSoft md:text-[60px]">
-                  4 days
-                </span>
-                <span className="font-mono text-[10px] uppercase tracking-eyebrow text-overcast">
-                  to identify high risk
-                </span>
+          {/* Scrolling side */}
+          <div className="relative pb-24 pt-16 lg:border-l lg:border-life-line lg:pb-40 lg:pl-16 lg:pt-40 xl:pl-24">
+            {blocks.map((block) => (
+              <div
+                key={block.ghost}
+                className="relative flex min-h-[300px] flex-col justify-center py-16 first:pt-0 lg:min-h-[420px] lg:py-24"
+              >
+                <ScrollReveal>
+                  <div className="relative">
+                    <Ghost className={block.ghostClass}>{block.ghost}</Ghost>
+                    <Tick />
+                    <h3 className="relative max-w-[22em] text-[15px] font-bold uppercase leading-[1.5] tracking-[0.04em] text-life-blue sm:text-[16px]">
+                      {block.head}
+                    </h3>
+                    <p className="relative mt-5 max-w-[26em] text-[17px] leading-[1.45] text-life-body sm:text-[19px]">
+                      {block.body}
+                    </p>
+                  </div>
+                </ScrollReveal>
               </div>
-              <div className="mt-5 h-[6px] w-full rounded-full bg-default-stroke" aria-hidden />
-              <StepChain steps={traditional} />
-            </div>
-          </ScrollReveal>
+            ))}
 
-          <ScrollReveal delay={180}>
-            <div className="h-full overflow-hidden rounded-frame border border-blue-border bg-white p-6 shadow-card md:p-8">
-              <div className="flex items-center justify-between">
-                <p className="font-mono text-[10px] font-semibold uppercase tracking-eyebrow text-blue">
-                  Akashic Life
-                </p>
-                <span className="flex items-center gap-1.5 font-mono text-[9px] uppercase tracking-[0.08em] text-positive-text">
-                  <span className="h-[5px] w-[5px] rounded-full bg-positive animate-[ps-pulse_2s_infinite]" aria-hidden />
-                  Live at the edge
-                </span>
-              </div>
-              <div className="mt-4 flex items-baseline gap-3">
-                <span className="text-[52px] font-semibold leading-none tracking-tighter text-ink md:text-[60px]">
-                  2 min
-                </span>
-                <span className="font-mono text-[10px] uppercase tracking-eyebrow text-inkSoft">
-                  to identify high risk
-                </span>
-              </div>
-              <div className="mt-5 flex items-center gap-1.5" aria-hidden>
-                <span className="h-[6px] w-[9%] rounded-full bg-gradient-to-r from-[#5B7BE8] to-blue" />
-                <span className="h-1.5 w-1.5 rounded-full bg-blue animate-[ps-pulse_2s_infinite]" />
-              </div>
-              <StepChain steps={akashic} blue />
+            {/* Closer: no sub-heading, the statement itself carries it. */}
+            <div className="relative flex min-h-[300px] flex-col justify-center py-16 lg:min-h-[440px] lg:py-24">
+              <ScrollReveal>
+                <div className="relative">
+                  <Ghost className="text-life-ice">{closer.ghost}</Ghost>
+                  <Tick />
+                  <p className="relative max-w-[15em] text-[26px] font-medium leading-[1.3] tracking-[-0.005em] sm:text-[31px] lg:text-[34px]">
+                    <span className="text-life-navy">{closer.lead} </span>
+                    <span className="text-[#7FB4D8]">{closer.tail}</span>
+                  </p>
+                </div>
+              </ScrollReveal>
             </div>
-          </ScrollReveal>
+          </div>
         </div>
-
-        <ScrollReveal delay={220}>
-          <p className="mt-12 max-w-[52em] border-t border-dashed border-lineSoft pt-8 text-lg leading-relaxed text-secondary-text lg:mt-14">
-            This is the same gap DHIRA closed at national scale with Poshan Tracker,
-            which today tracks nutrition and health indicators for 10 crore+
-            children and mothers across India. Akashic Life takes that same
-            philosophy, close the gap between a health signal and a response, down
-            to the level of a single ASHA worker, a single village, a single mother.
-          </p>
-        </ScrollReveal>
-      </ScrollRevealRail>
+      </div>
     </section>
   );
 }

@@ -55,11 +55,6 @@ const ICONS: Record<string, React.ReactNode[]> = {
     <path key="2" d="M6 20c0-3.3 2.7-6 6-6s6 2.7 6 6" />,
     <circle key="3" cx="12" cy="8" r="1.5" fill="currentColor" stroke="none" />,
   ],
-  "Akashic Knowledge": [
-    <path key="1" d="M4 6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6z" />,
-    <path key="2" d="M4 10h16M8 4v16" />,
-    <circle key="3" cx="12" cy="14" r="1.5" fill="currentColor" stroke="none" />,
-  ],
   "Public Sector": [
     <path key="1" d="M12 3L4 8v1h16V8L12 3z" />,
     <path key="2" d="M6 9v8M10 9v8M14 9v8M18 9v8" />,

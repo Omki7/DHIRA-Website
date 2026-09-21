@@ -17,18 +17,32 @@ const faqs = [
   {
     q: "Can we start with advisory and switch to a product build?",
     a: "Yes. The Sovereign Blueprint becomes the strict specification for the build. No rework. No re-discovery.",
+    link: { label: "Advisory & co-engineering", href: "#advisory-co-engineering" },
+  },
+  {
+    q: "How do you price an engagement?",
+    a: "By scope and outcome, not by the hour. Once the Sovereign Blueprint is signed you get a fixed scope and timeline. We are not the cheapest hourly shop, and we never bill for logged hours: we are answerable for shipped outcomes.",
+    link: { label: "Who this is for", href: "#partnership-fit" },
+  },
+  {
+    q: "How do you handle security and data residency?",
+    a: "Akashic deploys inside your perimeter: your own cloud (AWS, Azure, GCP) or bare-metal racks. Your data never leaves your environment. Governance and lineage are built into the foundation, not bolted on afterwards.",
+    link: { label: "Akashic deployment", href: "#akashic-deployment" },
   },
   {
     q: "How is co-engineering different from standard staff augmentation?",
     a: "Staff augmentation just fills empty seats. We deploy a dedicated squad led by a DHIRA architect who is accountable for the actual output. We bring our own methodology. When we leave, you keep the knowledge and the governance framework.",
+    link: { label: "Advisory & co-engineering", href: "#advisory-co-engineering" },
   },
   {
     q: "What happens if we pause or exit?",
-    a: "You own everything. The code, documentation, lineage graphs, and infrastructure-as-code are yours. We build on open technologies so you are never locked in. No hostage data.",
+    a: "You own everything. The code, documentation, lineage, and infrastructure-as-code are yours. We build on open technologies so you are never locked in. No hostage data.",
+    link: { label: "The methodology", href: "#methodology" },
   },
   {
     q: "Do you work on-premises?",
     a: "Yes. Akashic deploys on AWS, Azure, GCP, or your own bare-metal racks. Product engineering and advisory work securely inside your perimeter.",
+    link: { label: "Akashic deployment", href: "#akashic-deployment" },
   },
 ];
 
@@ -111,6 +125,15 @@ export default function DeliveryFAQ() {
                 <p className="mt-5 max-w-[28em] text-[18px] leading-relaxed text-ink md:text-[20px]">
                   {active.a}
                 </p>
+                {active.link && (
+                  <Link
+                    href={active.link.href}
+                    scroll={false}
+                    className="mt-8 inline-flex items-center gap-1.5 border-t border-dashed border-lineSoft pt-5 font-mono text-[10px] font-semibold uppercase tracking-eyebrow text-blue transition-colors duration-200 ease-settle hover:text-blue-hover"
+                  >
+                    See {active.link.label} &darr;
+                  </Link>
+                )}
               </div>
             </div>
           </ScrollReveal>
@@ -168,9 +191,19 @@ export default function DeliveryFAQ() {
                     }`}
                   >
                     <div className="overflow-hidden">
-                      <p className="pb-7 pl-[52px] pr-4 text-[15.5px] leading-relaxed text-inkSoft">
+                      <p className="pl-[52px] pr-4 text-[15.5px] leading-relaxed text-inkSoft">
                         {faq.a}
                       </p>
+                      {faq.link && (
+                        <Link
+                          href={faq.link.href}
+                          scroll={false}
+                          className="mb-7 ml-[52px] mt-4 inline-flex items-center gap-1.5 font-mono text-[10px] font-semibold uppercase tracking-eyebrow text-blue"
+                        >
+                          See {faq.link.label} &darr;
+                        </Link>
+                      )}
+                      {!faq.link && <div className="pb-7" />}
                     </div>
                   </div>
                 </div>

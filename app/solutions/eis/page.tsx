@@ -1,18 +1,15 @@
 import type { Metadata } from "next";
 import Nav from "@/components/layout/Nav";
 import Footer from "@/components/layout/Footer";
-import EisSkyBackground from "@/components/ui/EisSkyBackground";
 import EisHero from "@/components/sections/eis/EisHero";
 import EisGap from "@/components/sections/eis/EisGap";
-import EisBrief from "@/components/sections/eis/EisBrief";
-import EisLens from "@/components/sections/eis/EisLens";
-import EisSpine from "@/components/sections/eis/EisSpine";
-import EisProvenance from "@/components/sections/eis/EisProvenance";
+import EisCapabilities from "@/components/sections/eis/EisCapabilities";
+import EisOnePicture from "@/components/sections/eis/EisOnePicture";
 import EisLoop from "@/components/sections/eis/EisLoop";
-import EisIntegration from "@/components/sections/eis/EisIntegration";
-import EisFoundation from "@/components/sections/eis/EisFoundation";
+import EisLenses from "@/components/sections/eis/EisLenses";
+import EisProof from "@/components/sections/eis/EisProof";
+import EisFaq from "@/components/sections/eis/EisFaq";
 import EisClose from "@/components/sections/eis/EisClose";
-import ProvenAtScale from "@/components/sections/ProvenAtScale";
 import PageMinimap from "@/components/layout/PageMinimap";
 import { EIS_SECTIONS } from "@/lib/eisSections";
 
@@ -39,30 +36,20 @@ export default function EisPage() {
   return (
     <>
       <Nav />
-      <EisSkyBackground>
-        <main className="bg-transparent">
-          <EisHero />
-          <EisGap />
-          <EisBrief />
-          <EisLens />
-          <EisSpine />
-          <EisProvenance />
-          <EisLoop />
-          <EisIntegration />
-          <EisFoundation />
-          <ProvenAtScale
-            id="proof"
-            sectionNumber="09"
-            eyebrowText="Proof at scale"
-            title="The team that built this runs data platforms at national scale."
-            description="Not pilots. Systems in production, on the public record. If a platform reconciles a country, it will reconcile your business units."
-            dark={true}
-          />
-          <EisClose />
-        </main>
-      </EisSkyBackground>
+      <main className="bg-white">
+        <EisHero />
+        <EisGap />
+        <EisCapabilities />
+        <EisOnePicture />
+        <EisLoop />
+        <EisLenses />
+        <EisProof />
+        <EisFaq />
+        <EisClose />
+      </main>
       <Footer />
       <PageMinimap sections={EIS_SECTIONS} aria-label="EIS page sections" />
     </>
   );
 }
+

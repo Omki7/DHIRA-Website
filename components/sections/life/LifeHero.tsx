@@ -1,148 +1,123 @@
-"use client";
-
 /*
- * [00] Life Hero — AI Where It Matters Most.
- * Split hero: pitch left, live-counter telemetry card right (count-up to the
- * month's identified high-risk mothers, per the content script). The counter
- * uses useCountUpValue for Indian-locale digit grouping.
+ * [00] Hero — the intelligence layer for care that cannot wait.
+ *
+ * Rebuilt 23 Jul 2026. The first pass copied the reference's asymmetry
+ * literally: headline top-left, paragraph floating low-right, one capsule.
+ * That composition only holds up over a full-bleed photograph, which anchors
+ * the paragraph and fills the lower-left. Over a line drawing that dissolves,
+ * the paragraph had nothing under it and a quarter of the frame was empty
+ * navy, which is what read as odd.
+ *
+ * So: a left stack (badge, headline, paragraph, buttons) with the figure
+ * owning the right. That is the site's own sub-page hero skeleton wearing
+ * this page's skin, and it fixes the hole without giving up the reference.
+ *
+ * Three deliberate carry-overs from the rest of the site: the Akashic badge
+ * every DHIRA hero opens with, a pair of CTAs rather than one, and a headline
+ * that still runs at weight 500 on near-normal tracking because that is what
+ * this page is.
  */
 
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
-import ScrollReveal from "@/components/ui/ScrollReveal";
-import ScrollRevealRail from "@/components/ui/ScrollRevealRail";
-import { LiveChip } from "@/components/sections/akashic/AkashicCardChrome";
-import { useCountUpValue, usePrefersReducedMotion } from "@/hooks/useCountUp";
-
-function CounterSpark() {
-  return (
-    <svg viewBox="0 0 120 26" fill="none" aria-hidden className="h-6 w-full">
-      <polyline
-        points="2,20 16,18 30,19 44,13 58,15 72,10 86,12 100,7 118,5"
-        stroke="#3E63DD"
-        strokeWidth="1.6"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        className="fl-sparkline"
-        opacity="0.75"
-      />
-    </svg>
-  );
-}
-
-function LiveCounterCard() {
-  const reduced = usePrefersReducedMotion();
-  const ref = useRef<HTMLDivElement>(null);
-  const [kick, setKick] = useState(0);
-
-  useEffect(() => {
-    const node = ref.current;
-    if (!node) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setKick(1);
-          observer.disconnect();
-        }
-      },
-      { threshold: 0.4 }
-    );
-    observer.observe(node);
-    return () => observer.disconnect();
-  }, []);
-
-  const value = useCountUpValue(12402, kick, reduced, 1600);
-
-  return (
-    <div ref={ref} className="w-full max-w-[440px] overflow-hidden rounded-[14px] border border-subtle-stroke bg-white text-left shadow-frame">
-      <div className="flex items-center justify-between border-b border-blue/10 bg-gradient-to-b from-blue-subtle/70 to-transparent px-4 py-3">
-        <span className="font-mono text-[10px] font-semibold uppercase tracking-eyebrow text-inkSoft">
-          Akashic Life &middot; this month
-        </span>
-        <LiveChip />
-      </div>
-      <div className="p-5">
-        <div className="text-[52px] font-semibold leading-none tracking-tighter text-ink md:text-[60px]">
-          {kick ? Math.round(value).toLocaleString("en-IN") : "0"}
-        </div>
-        <p className="mt-3 text-[14px] font-medium text-ink">High-risk mothers identified</p>
-        <p className="mt-1 text-[12.5px] leading-relaxed text-inkSoft">
-          Scored on-device by frontline health workers. No internet required at the
-          point of care.
-        </p>
-      </div>
-      <div className="flex items-center justify-between border-t border-dashed border-lineSoft bg-primary-bg px-4 py-2.5">
-        <span className="flex items-center gap-1.5 font-mono text-[9px] uppercase tracking-[0.08em] text-inkSoft">
-          <span className="h-[5px] w-[5px] rounded-full bg-positive animate-[ps-pulse_2s_infinite]" aria-hidden />
-          Edge scoring active
-        </span>
-        <div className="w-24"><CounterSpark /></div>
-      </div>
-    </div>
-  );
-}
+import AkashicLogo from "@/components/icons/AkashicLogo";
+import LifeVisitPhoto from "@/components/demos/life/LifeVisitPhoto";
+import { LifePill } from "@/components/ui/life/LifeChrome";
 
 export default function LifeHero() {
   return (
-    <section id="hero" className="relative overflow-hidden bg-background">
-      <div className="dot-grid absolute inset-0 opacity-60" aria-hidden />
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-48 bg-gradient-to-b from-transparent to-white" aria-hidden />
+    <section id="hero" className="relative isolate overflow-hidden bg-life-abyss">
+      {/* Ground: deep at the edges, opening toward the source on the right. */}
+      <div
+        aria-hidden
+        className="absolute inset-0 bg-[radial-gradient(120%_130%_at_78%_26%,#12356F_0%,#0B1E4E_40%,#0A0E24_76%)]"
+      />
 
-      <ScrollRevealRail>
-        <div className="grid grid-cols-1 items-center gap-12 pt-20 pb-16 lg:grid-cols-[1.1fr_1fr] lg:gap-16 lg:pt-28 lg:pb-24">
-          <div>
-            <ScrollReveal>
-              <figure className="mb-7 inline-flex items-center gap-2 rounded-full border border-subtle-stroke bg-white/95 px-3.5 py-1.5 text-xs shadow-sm backdrop-blur-md sm:text-sm">
-                <span className="font-semibold text-primary-text">Akashic Life</span>
-                <span className="h-3.5 w-px bg-default-stroke" aria-hidden />
-                <span className="font-medium text-primary-text">Built on Akashic</span>
-              </figure>
-            </ScrollReveal>
+      {/* LAYER ORDER MATTERS, bottom to top: photograph, then the wavefront
+          over it, then the glow, then the left scrim that guarantees the
+          type's contrast. Put the photograph last and it paints over its own
+          scrim and the headline goes unreadable. */}
 
-            <ScrollReveal delay={80}>
-              <p className="font-mono text-[11px] uppercase tracking-eyebrow text-inkSoft">
-                Edge AI <span className="text-overcast">&middot;</span> Maternal health{" "}
-                <span className="text-overcast">&middot;</span> Offline-first
-              </p>
-            </ScrollReveal>
+      {/* The subject: the visit itself. Occupies the right of the frame and
+          bleeds off it, so the hero is a scene the type sits in rather than a
+          panel beside a picture. Dropped below md, where there is no room for
+          it and the hero is type only. */}
+      <div
+        className="pointer-events-none absolute inset-y-0 right-0 hidden w-[58%] md:block lg:w-[56%]"
+        aria-hidden
+      >
+        <LifeVisitPhoto className="h-full w-full" />
+      </div>
 
-            <ScrollReveal delay={140}>
-              <h1 className="mt-6 text-5xl font-semibold leading-[1.05] tracking-tightest text-primary-text md:text-6xl lg:text-[64px]">
-                AI where it{" "}
-                <span className="relative inline-block whitespace-nowrap">
-                  matters most.
-                  <span className="absolute -bottom-[0.06em] left-0 h-[0.08em] w-full rounded-full bg-blue/35" aria-hidden />
-                </span>
-              </h1>
-            </ScrollReveal>
+      {/* The wavefront, riding over the photograph so the reading being taken
+          in it is visibly the source of the signal. */}
+      <div aria-hidden className="alife-wavefield absolute inset-0 hidden opacity-40 md:block" />
 
-            <ScrollReveal delay={220}>
-              <p className="mt-7 max-w-[34em] text-lg leading-relaxed text-secondary-text">
-                Every day of delay puts a mother at risk. Akashic Life brings
-                specialist-grade diagnostics to the remote edge: predicting
-                high-risk pregnancies in seconds, even without the internet.
-              </p>
-            </ScrollReveal>
+      <div
+        aria-hidden
+        className="alife-aurora absolute bottom-0 left-[72%] hidden h-[560px] w-[680px] -translate-x-1/2 translate-y-1/3 rounded-full bg-[#0096C7]/25 md:block"
+      />
 
-            <ScrollReveal delay={300}>
-              <div className="mt-9 flex flex-wrap items-center gap-4">
-                <Link href="#proof" className="btn-primary">
-                  See the impact
-                </Link>
-                <Link href="#talk-to-our-team" className="btn-secondary">
-                  Partner with us
-                </Link>
-              </div>
-            </ScrollReveal>
+      {/* Left scrim. */}
+      <div
+        aria-hidden
+        className="absolute inset-0 bg-[linear-gradient(90deg,#0A0E24_0%,rgba(10,14,36,0.86)_20%,rgba(10,14,36,0.34)_40%,transparent_62%)]"
+      />
+      {/* Seam into the next section. */}
+      <div
+        aria-hidden
+        className="absolute inset-x-0 bottom-0 h-28 bg-[linear-gradient(180deg,transparent_0%,rgba(10,14,36,0.7)_62%,#0A0E24_100%)]"
+      />
+
+      <div className="relative mx-auto flex min-h-[calc(100vh-65px)] w-full max-w-[1440px] flex-col justify-center px-6 py-24 sm:px-10 lg:px-14 lg:py-28">
+        <div className="max-w-[36rem] lg:max-w-[40rem]">
+          {/* The badge every other DHIRA hero opens with, in this page's
+              register. It is also the claim the page has to make in its first
+              second: this is not a village app, it is Akashic. */}
+          <figure className="inline-flex items-center gap-2.5 rounded-full border border-white/[0.18] bg-white/[0.06] px-3.5 py-1.5 text-xs backdrop-blur-md sm:text-[13px]">
+            <span className="font-medium text-white">Akashic Life</span>
+            <span className="h-3.5 w-px bg-white/20" aria-hidden />
+            <span className="inline-flex items-center gap-1 font-medium text-life-mist">
+              <AkashicLogo className="h-[17px] w-[17px]" accentColor="#48CAE4" />
+              Built on Akashic
+            </span>
+          </figure>
+
+          <h1 className="mt-9 text-[38px] font-medium leading-[1.2] tracking-[-0.005em] text-white sm:text-[46px] lg:text-[54px] xl:text-[58px]">
+            The intelligence layer for care that cannot wait.
+          </h1>
+
+          <p className="mt-8 max-w-[33em] text-[16.5px] leading-[1.62] text-white/80 lg:text-[17px]">
+            Akashic Life puts specialist-grade risk detection in the hands of a
+            frontline health worker, on a basic phone, with no signal. A mother
+            is screened where she is, and the district hospital knows before the
+            ambulance starts its engine.
+          </p>
+
+          <div className="mt-11 flex flex-wrap items-center gap-3.5">
+            <LifePill href="#talk-to-our-team">Talk to our team</LifePill>
+            <LifePill href="#the-solution" variant="ghost">
+              See how it works
+            </LifePill>
           </div>
-
-          <ScrollReveal delay={260} className="min-w-0">
-            <div className="flex justify-center lg:justify-end">
-              <LiveCounterCard />
-            </div>
-          </ScrollReveal>
         </div>
-      </ScrollRevealRail>
+      </div>
+
+      {/* Anchors the eye to the fold without competing with the buttons. */}
+      <Link
+        href="#the-gap"
+        aria-label="Skip to the problem"
+        className="absolute bottom-8 left-1/2 hidden -translate-x-1/2 text-white/35 transition-colors duration-250 ease-settle hover:text-white/80 lg:block"
+      >
+        <svg width="20" height="26" viewBox="0 0 20 26" fill="none" aria-hidden>
+          <path
+            d="M10 4v16M4.5 14.5 10 20.5l5.5-6"
+            stroke="currentColor"
+            strokeWidth="1.3"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+      </Link>
     </section>
   );
 }

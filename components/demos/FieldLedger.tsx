@@ -336,7 +336,7 @@ function DeploymentPanel({ d, reduced }: { d: Deployment; reduced: boolean }) {
           <div className="flex items-center justify-between border-b border-dashed border-lineSoft pb-4">
             <div className="flex items-center gap-3">
               <div className={`flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-btn ${iconBg}`}>
-                <DynamicSketchIcon text={isEducation ? "Education" : "Workforce"} className="h-4.5 w-4.5" />
+                <DynamicSketchIcon text={isEducation ? "Education" : "Workforce"} className="h-[18px] w-[18px]" />
               </div>
               <div>
                 <div className="font-mono text-[9px] uppercase tracking-eyebrow text-overcast">

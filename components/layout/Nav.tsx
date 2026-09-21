@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import DynamicSketchIcon from "@/components/icons/DynamicSketchIcon";
 import DhiraLogo from "@/components/icons/DhiraLogo";
+import AkashicLogo from "@/components/icons/AkashicLogo";
 
 /* ------------------------------------------------------------------ */
 /*  Menu data                                                          */
@@ -47,7 +48,6 @@ const solutionsGroups: MenuGroup[] = [
     items: [
       { title: "Akashic EIS", desc: "Executive intelligence for leadership teams", href: "/solutions/eis" },
       { title: "Akashic Life", desc: "Life-saving AI diagnostics at the remote edge", href: "/solutions/life" },
-      { title: "Akashic Knowledge", desc: "Adaptive learning infrastructure at national scale", href: "/solutions/knowledge" },
     ],
   },
   {
@@ -274,15 +274,10 @@ function AkashicPanel() {
         className="group mb-2 flex items-center justify-between gap-3 rounded-card border border-blue-border/50 bg-blue-subtle/40 px-3 py-2 transition-colors duration-250 ease-settle hover:border-blue-border hover:bg-blue-subtle focus-visible:border-blue/40 focus-visible:outline-none"
       >
         <div className="flex items-center gap-2.5 min-w-0">
-          <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-btn bg-blue text-white shadow-xs">
-            <DynamicSketchIcon text="Akashic Platform" className="h-3.5 w-3.5" />
-          </span>
+          <AkashicLogo className="h-6 w-6 shrink-0 text-ink" />
           <div className="flex items-center gap-2 min-w-0">
             <span className="text-[13px] font-semibold text-primary-text transition-colors group-hover:text-blue truncate">
               Akashic Platform Overview
-            </span>
-            <span className="hidden sm:inline-block text-[12px] text-secondary-text truncate">
-              — Governed data foundation
             </span>
           </div>
         </div>

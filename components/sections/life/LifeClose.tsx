@@ -1,59 +1,77 @@
 /*
- * [07] Close — Ready to Deploy Life-Saving AI?
- * Dark closure card per the Closure precedent (Rule 5). Carries the
- * #talk-to-our-team id the nav CTA targets.
+ * [10] Close — Ready When You Are.
+ *
+ * Rebuilt 23 Jul 2026 to the SITE-WIDE closure recipe (user direction: the
+ * closing block must be consistent on every page). This is the same card as
+ * `sections/Closure.tsx` [10] and `akashic/AkashicClose.tsx` [11]: white
+ * ground, `bg-ink` card at max-w-[1100px], inverted dot-grid, the 3px blue
+ * top accent, a mono eyebrow, and the `.btn-primary-invert` /
+ * `.btn-secondary-invert` pair.
+ *
+ * The page's own aurora-and-capsule closing frame was dropped for it. Two
+ * knock-on effects that are deliberate, not oversights: this is the only
+ * `blue` #3E63DD on the page (the 3px accent, part of the shared recipe), and
+ * the page now ends on white rather than navy, which is how every other page
+ * hands over to the black footer.
  */
 
 import Link from "next/link";
 import ScrollReveal from "@/components/ui/ScrollReveal";
-import ScrollRevealRail from "@/components/ui/ScrollRevealRail";
 
 export default function LifeClose() {
   return (
-    <section id="talk-to-our-team" className="relative scroll-mt-24 border-t border-lineSoft bg-background pt-12 pb-24 lg:pt-16 lg:pb-32">
+    <section
+      id="talk-to-our-team"
+      className="relative scroll-mt-24 border-t border-lineSoft bg-background"
+    >
       <span id="login" className="absolute -top-24" aria-hidden />
-      <ScrollRevealRail dark isLast>
+      <div className="rail-container pt-12 pb-24 lg:pt-16 lg:pb-32">
         <ScrollReveal>
-          <div className="fl-sheen relative mx-auto max-w-[1100px] overflow-hidden rounded-frame bg-ink px-6 py-14 text-center text-white md:px-12 md:py-20">
-            <div className="absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r from-blue/70 via-blue/30 to-transparent" aria-hidden />
-            <div className="dot-grid absolute inset-0 opacity-10 invert" aria-hidden />
+          {/* Ground is `life-abyss`, not `ink`.
+              #0A0E24 is deliberately the same value as `depth` / `uc-bg` — the
+              ground MeetAkashic runs on — so this slab is simultaneously the
+              page's own darkest blue AND the homepage's dark blue. `ink`
+              (#1A1C1D) is a neutral charcoal with no blue in it at all, which
+              made the LAST thing the reader sees the one section that dropped
+              out of the page's colour system, at the end of nine sections of
+              ocean. The other four dark sections here already anchor their
+              ramps on #0A0E24; this is the fifth. */}
+          <div className="fl-sheen relative mx-auto max-w-[1100px] overflow-hidden rounded-outer bg-life-abyss px-6 py-14 text-center text-white md:px-12 md:py-20">
+            {/* Accent follows the ground: sitewide `blue` (#266DF2) on a navy
+                slab is indigo on indigo. `life-cyan` is this page's accent and
+                carries 7.9:1 on `life-abyss`. */}
+            <div
+              className="absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r from-life-cyan/70 via-life-cyan/30 to-transparent"
+              aria-hidden
+            />
+            {/* `dot-grid-dark`, not `dot-grid ... invert`. The site has a
+                purpose-made grid for dark grounds (rgba white dots) and every
+                other dark closing slab uses it — homepage Closure, AkashicStack,
+                DeliveryModels. Inverting the LIGHT grid instead produced a
+                heavier texture that measured ~5 L* of lift on the slab. */}
+            <div className="dot-grid-dark pointer-events-none absolute inset-0 opacity-20" aria-hidden />
             <div className="relative">
-              <p className="font-mono text-[11px] uppercase tracking-eyebrow text-white/50">
-                <span className="text-white/30">[07]</span>&nbsp;&nbsp;Ready when you are
-              </p>
-              <h2 className="mx-auto mt-6 max-w-[16em] text-heading-sm font-semibold text-white md:text-heading-md">
-                Ready to deploy life-saving AI?
+              <h2 className="mx-auto mt-2 max-w-[18em] text-balance text-heading-sm font-semibold text-white md:text-heading-md">
+                Care that cannot wait should not have to.
               </h2>
-              <p className="mx-auto mt-6 max-w-[34em] text-lg leading-relaxed text-white/65">
-                Join the network of health systems, NGOs, and government bodies
-                already using Akashic Life to close the gap between risk and
-                rescue: at the edge, where it matters most.
+              <p className="mx-auto mt-8 max-w-[36em] text-base leading-relaxed text-white/60 md:text-lg">
+                Bring specialist-grade risk detection to the visits your health
+                workers are already making, on the handsets they already carry,
+                and read the result at district and national level the moment
+                there is signal.
               </p>
-              <div className="mx-auto mt-8 flex w-fit items-center gap-3 font-mono text-[9px] uppercase tracking-[0.1em] text-white/50">
-                <span>4 days</span>
-                <svg width="26" height="8" viewBox="0 0 26 8" fill="none" aria-hidden>
-                  <path d="M1 4h22M20 1.5L23.5 4 20 6.5" stroke="#C8D2F5" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-                <span className="flex items-center gap-1.5 text-white/80">
-                  <span className="h-[5px] w-[5px] rounded-full bg-positive animate-[ps-pulse_2s_infinite]" aria-hidden />
-                  2 minutes
-                </span>
-              </div>
               <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
                 <Link href="/#get-started" className="btn-primary-invert">
-                  Partner with us
+                  Talk to our team
                 </Link>
-                <Link
-                  href="#proof"
-                  className="btn-secondary-invert"
-                >
-                  See the impact
+                <Link href="#record-of-work" className="btn-secondary-invert">
+                  See the record
                 </Link>
               </div>
             </div>
           </div>
         </ScrollReveal>
-      </ScrollRevealRail>
+      </div>
     </section>
   );
 }

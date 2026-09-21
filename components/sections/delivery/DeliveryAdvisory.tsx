@@ -52,9 +52,9 @@ export default function DeliveryAdvisory() {
           </p>
         </ScrollReveal>
 
-        <div className="mt-12 border-t border-lineSoft lg:mt-16">
+        <div className="mt-10 border-t border-lineSoft lg:mt-12">
           <ScrollReveal delay={100}>
-            <div className="grid grid-cols-1 gap-10 border-b border-lineSoft py-10 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:gap-20 lg:py-14">
+            <div className="grid grid-cols-1 gap-10 border-b border-lineSoft py-8 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:gap-20 lg:py-10">
               <div>
                 <p className="font-mono text-[10px] font-semibold uppercase tracking-eyebrow text-blue">
                   Engagement 01 &middot; Strategic Advisory
@@ -81,7 +81,7 @@ export default function DeliveryAdvisory() {
                   {deliverables.map((item) => (
                     <li
                       key={item.num}
-                      className="flex items-baseline gap-5 border-b border-dashed border-lineSoft py-5"
+                      className="flex items-baseline gap-5 border-b border-dashed border-lineSoft py-4"
                     >
                       <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.08em] text-blue">
                         {item.num}
@@ -97,7 +97,7 @@ export default function DeliveryAdvisory() {
           </ScrollReveal>
 
           <ScrollReveal delay={180}>
-            <div className="grid grid-cols-1 gap-10 border-b border-lineSoft py-10 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:gap-20 lg:py-14">
+            <div className="grid grid-cols-1 gap-10 border-b border-lineSoft py-8 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:gap-20 lg:py-10">
               <div>
                 <p className="font-mono text-[10px] font-semibold uppercase tracking-eyebrow text-blue">
                   Engagement 02 &middot; Co-Engineering Squad
@@ -124,7 +124,7 @@ export default function DeliveryAdvisory() {
                   {squad.map((member) => (
                     <li
                       key={member.role}
-                      className="flex items-baseline gap-5 border-b border-dashed border-lineSoft py-4"
+                      className="flex items-baseline gap-5 border-b border-dashed border-lineSoft py-3.5"
                     >
                       <span
                         className={`font-mono text-[11px] font-semibold ${
@@ -155,7 +155,7 @@ export default function DeliveryAdvisory() {
         </div>
 
         <ScrollReveal delay={200}>
-          <p className="mt-10 text-center font-mono text-[10px] uppercase tracking-eyebrow text-overcast lg:mt-12">
+          <p className="mt-8 text-center font-mono text-[10px] uppercase tracking-eyebrow text-overcast lg:mt-10">
             When the engagement ends &middot; the knowledge and lineage stay with you
           </p>
         </ScrollReveal>
