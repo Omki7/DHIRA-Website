@@ -20,15 +20,15 @@
 import { useEffect, useRef } from "react";
 import Link from "next/link";
 import AkashicLogo from "@/components/icons/AkashicLogo";
+import PreviewTag from "@/components/ui/PreviewTag";
 import { usePrefersReducedMotion } from "@/hooks/useCountUp";
 
 /* intro + 7 modules + modular pick + close, in vh of scroll each */
 export const TEARDOWN_SEGS_VH = [60, 90, 90, 90, 90, 90, 90, 90, 120, 200];
 export const TEARDOWN_TRACK_VH = TEARDOWN_SEGS_VH.reduce((a, b) => a + b, 0);
 
-const ACC = "#3E63DD";
-const ACC_RGB = "62,99,221";
-const INK_RGB = "26,28,29";
+const ACC = "rgb(var(--blue))";
+
 
 const W = 560;
 const H = 400;
@@ -44,9 +44,9 @@ const MODULES = [
     name: "Akashic Pipelines",
     lede: "Every source, ingested and validated.",
     points: [
-      { icon: "database", text: "CRMs, ERPs, PDFs, and live feeds: one entry point" },
+      { icon: "database", text: "CRMs, ERPs, PDFs, live feeds: streaming, batch, CDC" },
       { icon: "funnel", text: "Validated on arrival, so nothing downstream inherits a problem" },
-      { icon: "stream", text: "Streaming, batch, or change data capture" },
+      { icon: "cpu", text: "AI agents help build and monitor pipelines", preview: true },
     ],
   },
   {
@@ -54,9 +54,9 @@ const MODULES = [
     name: "Akashic Master Data",
     lede: "One golden record. No duplicates.",
     points: [
-      { icon: "merge", text: "Every duplicate collapses into one golden record" },
-      { icon: "sliders", text: "Survivorship rules settle which value wins" },
+      { icon: "merge", text: "One golden record, settled by survivorship rules" },
       { icon: "graph", text: "Records link into the knowledge layer as they merge" },
+      { icon: "cpu", text: "AI agents suggest matches; stewards approve", preview: true },
     ],
   },
   {
@@ -80,11 +80,11 @@ const MODULES = [
     ],
   },
   {
-    kicker: "Natural language",
+    kicker: "Conversational AI",
     name: "Ask Akashic",
     lede: "Plain-language answers, grounded.",
     points: [
-      { icon: "graph", text: "Grounded in the metric layer and knowledge layer" },
+      { icon: "database", text: "Questions become SQL on the governed metric layer" },
       { icon: "quote", text: "A citation on every line, never a guess" },
       { icon: "lock", text: "Row-level security enforced at answer time" },
     ],
@@ -127,7 +127,7 @@ const PIPE_SOURCES = [
   { label: "CRM", dot: "#00A1E0", style: { left: 14, top: 92 } },
   { label: "ERP", dot: "#1F2A44", style: { left: 14, top: 272 } },
   { label: "PDF", dot: "#E8491D", style: { right: 14, top: 122 } },
-  { label: "STREAM", dot: "#3E63DD", style: { right: 14, top: 282 } },
+  { label: "STREAM", dot: "rgb(var(--blue))", style: { right: 14, top: 282 } },
   { label: "CSV", dot: "#30A46C", style: { left: 122, top: 8 } },
   { label: "DOCS", dot: "#C0883A", style: { left: 356, top: 370 } },
 ];
@@ -168,8 +168,8 @@ const lerp = (a: number, b: number, u: number) => a + (b - a) * u;
 const clamp = (x: number, a: number, b: number) => Math.min(b, Math.max(a, x));
 
 const mono: React.CSSProperties = { fontFamily: "var(--font-mono)" };
-const inkA = (a: number) => `rgba(${INK_RGB},${a})`;
-const accA = (a: number) => `rgba(${ACC_RGB},${a})`;
+const inkA = (a: number) => `rgb(var(--ink) / ${a})`;
+const accA = (a: number) => `rgb(var(--blue) / ${a})`;
 
 /* ---------------------------------------------------------------- */
 /*  Plate shell                                                      */
@@ -190,22 +190,22 @@ function PlateShell({ i, extra, children }: { i: number; extra?: React.ReactNode
         data-ak={`shadow-${i}`}
         style={{ position: "absolute", inset: -6, borderRadius: 20, background: `radial-gradient(closest-side, ${inkA(0.28)}, ${inkA(0)} 76%)`, transform: "translateZ(-9px)", opacity: 0 }}
       />
-      {side("n", { left: 0, top: 0, width: W, height: TH, transform: `translateZ(${TH}px) rotateX(-90deg)`, background: "#D7DAE0" })}
+      {side("n", { left: 0, top: 0, width: W, height: TH, transform: `translateZ(${TH}px) rotateX(-90deg)`, background: "rgb(var(--plate-north))" })}
       {side(
         "s",
-        { left: 0, top: H, width: W, height: TH, transform: `translateZ(${TH}px) rotateX(-90deg)`, background: "linear-gradient(180deg,#D2D5DC,#C1C5CD)" },
+        { left: 0, top: H, width: W, height: TH, transform: `translateZ(${TH}px) rotateX(-90deg)`, background: "linear-gradient(180deg,rgb(var(--plate-south)),rgb(var(--plate-edge)))" },
         <span
           data-ak-led={i}
-          style={{ position: "absolute", left: W / 2 - 9, top: 6.5, width: 18, height: 3, borderRadius: 2, background: ACC, boxShadow: `0 0 7px ${accA(0.85)}`, opacity: 0.3 }}
+          style={{ position: "absolute", left: W / 2 - 9, top: 6.5, width: 18, height: 3, borderRadius: 2, background: ACC, opacity: 0.3 }}
         />,
       )}
-      {side("w", { left: 0, top: 0, width: TH, height: H, transform: `translateZ(${TH}px) rotateY(90deg)`, background: "#CDD1D8" })}
-      {side("e", { left: W, top: 0, width: TH, height: H, transform: `translateZ(${TH}px) rotateY(90deg)`, background: "#C7CBD3" })}
+      {side("w", { left: 0, top: 0, width: TH, height: H, transform: `translateZ(${TH}px) rotateY(90deg)`, background: "rgb(var(--plate-west))" })}
+      {side("e", { left: W, top: 0, width: TH, height: H, transform: `translateZ(${TH}px) rotateY(90deg)`, background: "rgb(var(--plate-east))" })}
       <div
         data-ak={`top-${i}`}
-        style={{ position: "absolute", inset: 0, borderRadius: 14, transform: `translateZ(${TH}px)`, border: `1px solid ${inkA(0.36)}`, boxShadow: "inset 0 1px 0 rgba(255,255,255,0.9)", overflow: "hidden" }}
+        style={{ position: "absolute", inset: 0, borderRadius: 14, transform: `translateZ(${TH}px)`, border: `1px solid ${inkA(0.36)}`, boxShadow: "inset 0 1px 0 var(--plate-highlight)", overflow: "hidden" }}
       >
-        <div data-ak={`surf-${i}`} style={{ position: "absolute", inset: 0, borderRadius: 13, background: "linear-gradient(165deg,#FDFDFE,#EEF0F3)" }} />
+        <div data-ak={`surf-${i}`} style={{ position: "absolute", inset: 0, borderRadius: 13, background: "linear-gradient(165deg,rgb(var(--plate-top)),rgb(var(--plate-bottom)))" }} />
         <div
           data-ak={`ghost-${i}`}
           style={{
@@ -217,7 +217,7 @@ function PlateShell({ i, extra, children }: { i: number; extra?: React.ReactNode
         {[[9, 9], [536, 9], [9, 376], [536, 376]].map((p) => (
           <div
             key={`${p[0]}-${p[1]}`}
-            style={{ position: "absolute", left: p[0], top: p[1], width: 6, height: 6, borderRadius: "50%", border: `1px solid ${inkA(0.28)}`, background: "radial-gradient(circle at 35% 35%, #FFFFFF, #DFE2E7)" }}
+            style={{ position: "absolute", left: p[0], top: p[1], width: 6, height: 6, borderRadius: "50%", border: `1px solid ${inkA(0.28)}`, background: "radial-gradient(circle at 35% 35%, rgb(var(--background)), rgb(var(--line)))" }}
           />
         ))}
         {extra}
@@ -227,7 +227,7 @@ function PlateShell({ i, extra, children }: { i: number; extra?: React.ReactNode
       </div>
       <div
         data-ak={`tag-${i}`}
-        style={{ position: "absolute", left: 2, top: H + 10, transform: `translateZ(${TH}px)`, ...mono, fontSize: 10, letterSpacing: "0.14em", textTransform: "uppercase", color: inkA(0.68), opacity: 0 }}
+        style={{ position: "absolute", left: 2, top: H + 10, transform: `translateZ(${TH}px)`, ...mono, fontSize: 11.5, fontWeight: 500, letterSpacing: "0.14em", textTransform: "uppercase", color: inkA(0.8), opacity: 0 }}
       >
         {PLATE_TAGS[i]}
       </div>
@@ -239,10 +239,10 @@ function PlateShell({ i, extra, children }: { i: number; extra?: React.ReactNode
 function FaceChip({ label, dot, style }: { label: string; dot?: string; style: React.CSSProperties }) {
   return (
     <div
-      style={{ position: "absolute", display: "flex", alignItems: "center", gap: 5, height: 20, padding: "0 8px", borderRadius: 999, border: "1px solid #EEEFF1", background: "rgba(255,255,255,0.92)", ...style }}
+      style={{ position: "absolute", display: "flex", alignItems: "center", gap: 6, height: 23, padding: "0 9px", borderRadius: 999, border: "1px solid rgb(var(--subtle-stroke))", background: "rgb(var(--background) / 0.92)", ...style }}
     >
-      {dot && <span style={{ display: "block", width: 5, height: 5, borderRadius: "50%", background: dot }} />}
-      <span style={{ ...mono, fontSize: 8.5, letterSpacing: "0.1em", color: inkA(0.75) }}>{label}</span>
+      {dot && <span style={{ display: "block", width: 6, height: 6, borderRadius: "50%", background: dot }} />}
+      <span style={{ ...mono, fontSize: 10.5, fontWeight: 500, letterSpacing: "0.1em", color: inkA(0.85) }}>{label}</span>
     </div>
   );
 }
@@ -606,25 +606,44 @@ export default function AkashicTeardownMockup({ trackRef, curtainHeight }: Props
         aliveArr.push(alive);
         FArr.push(F);
         const drawn = Math.abs(pull[i]) / 140;
+        /* PRESENCE (22 Sep 2026): a plate the walkthrough has not reached
+           yet is a bare wireframe, not a frosted sheet. Those plates sit
+           ABOVE the one being read, and at the old 22% white surface + ghost
+           grid + cast shadow + edge tag, three of them stacked roughly halved
+           the focused plate's contrast: its labels were unreadable and the
+           whole unit read as haze (user feedback). P is 1 while sealed and
+           once a plate is reached, 0 for an unreached plate once open. */
+        const P = Math.max(1 - X, alive);
         get(`plate-${i}`).style.transform = `translateZ(${(i * step + 26 * F + 10 * drawn).toFixed(1)}px) translateX(${pull[i].toFixed(1)}px)`;
-        get(`surf-${i}`).style.opacity = `${(0.1 + 0.9 * S) * (1 - 0.42 * dim[i])}`;
-        get(`ghost-${i}`).style.opacity = ((1 - S) * X * 0.9).toFixed(3);
+        get(`surf-${i}`).style.opacity = `${P * (1 - 0.42 * dim[i])}`;
+        get(`ghost-${i}`).style.opacity = ((1 - P) * X * 0.4).toFixed(3);
         const top = get(`top-${i}`);
         top.style.borderColor = inkA(0.14 + 0.22 * S);
+        /* focus is a hard 1.5px accent edge only; the 58px blue bloom that
+           used to ride with it is gone (it tinted the plates around it) */
         const effF = Math.max(F, ring[i] * 0.85);
         top.style.boxShadow =
           effF > 0.01
-            ? `0 0 0 1.5px ${accA(0.7 * effF)}, 0 0 ${(58 * effF).toFixed(0)}px ${accA(0.2 * effF)}, inset 0 1px 0 rgba(255,255,255,0.9)`
-            : "inset 0 1px 0 rgba(255,255,255,0.9)";
-        const sOp = `${(0.15 + 0.85 * S) * (1 - 0.35 * dim[i])}`;
+            ? `0 0 0 1.5px ${accA(0.9 * effF)}, inset 0 1px 0 var(--plate-highlight)`
+            : "inset 0 1px 0 var(--plate-highlight)";
+        const sOp = `${(0.1 + 0.9 * P) * (1 - 0.35 * dim[i])}`;
         for (const sd of sides[i]) sd.style.opacity = sOp;
         leds[i].style.opacity = (
           Math.min(1, sealedW * (0.28 + 0.22 * (1 + Math.sin(tAnim * 2 + i * 0.8)) * 0.5) + ring[i]) * (1 - 0.65 * dim[i])
         ).toFixed(3);
-        get(`shadow-${i}`).style.opacity = (X * 0.45 * (0.4 + 0.6 * S)).toFixed(3);
+        get(`shadow-${i}`).style.opacity = (X * 0.45 * P).toFixed(3);
+        /* Edge tag: only the focused plate (or a pulled drawer) carries one.
+           Unreached plates' tags landed across the focused plate's face,
+           and a south-edge tag printed over the content of the plate below
+           ("A-03 · WAREHOUSE" through "ONE GOLDEN RECORD"). While the stack
+           is open the tag rides the NORTH edge, where only the wireframes
+           above sit behind it; it returns to the south edge for the drawer
+           close (from cpos 8, when it is invisible anyway, so no jump),
+           where that edge is the one clear of the sealed stack. */
         const tag = get(`tag-${i}`);
-        tag.style.opacity = Math.max(X * (0.2 + 0.45 * S + 0.35 * F), drawn * 0.95).toFixed(3);
-        tag.style.color = F > 0.5 || drawn > 0.5 ? ACC : inkA(0.68);
+        tag.style.top = `${cpos < 8 ? -30 : H + 10}px`;
+        tag.style.opacity = Math.max(X * alive * F, drawn).toFixed(3);
+        tag.style.color = ACC;
         let schOp = alive * (0.5 + 0.5 * F);
         if (i === 5) schOp *= X;
         else schOp = Math.min(1, schOp + 0.55 * ring[i]);
@@ -698,7 +717,7 @@ export default function AkashicTeardownMockup({ trackRef, curtainHeight }: Props
         const on = mi - 1 === c;
         tickLines[c].style.background = on ? ACC : inkA(0.4);
         tickLines[c].style.height = on ? "22px" : "16px";
-        tickNums[c].style.color = on ? ACC : inkA(0.68);
+        tickNums[c].style.color = on ? ACC : inkA(0.72);
       }
 
       const hud = get("hud");
@@ -910,7 +929,10 @@ export default function AkashicTeardownMockup({ trackRef, curtainHeight }: Props
 
   return (
     <div ref={rootRef} className="relative h-full w-full select-none overflow-hidden bg-primary-bg text-ink">
-      {/* backdrop: dot grid + blue ambience (homepage vocabulary) */}
+      {/* backdrop: dot grid only (homepage vocabulary). A 760px blue radial
+          wash sat behind the stack until 22 Sep 2026 and was cut by user
+          direction: it tinted every plate lavender and made the unit read
+          soft. The accent now appears only as hard lines, never as haze. */}
       <div
         className="dot-grid pointer-events-none absolute inset-0 opacity-60"
         style={{
@@ -919,12 +941,6 @@ export default function AkashicTeardownMockup({ trackRef, curtainHeight }: Props
         }}
         aria-hidden
       />
-      <div
-        className="pointer-events-none absolute inset-0"
-        style={{ background: `radial-gradient(760px at 62% 48%, ${accA(0.08)}, transparent 70%)` }}
-        aria-hidden
-      />
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r from-blue/60 via-blue/25 to-transparent" aria-hidden />
 
       {/* ============ 3D scene ============ */}
       <div data-ak="scene" className="pointer-events-none absolute inset-0" style={{ perspective: 1900, perspectiveOrigin: "62% 44%" }}>
@@ -958,9 +974,9 @@ export default function AkashicTeardownMockup({ trackRef, curtainHeight }: Props
           {/* audit scan plane */}
           <div
             data-ak="scan"
-            style={{ position: "absolute", left: -296, top: -216, width: 592, height: 432, border: `1px solid ${ACC}`, borderRadius: 18, background: accA(0.05), transform: "translateZ(0px)", opacity: 0 }}
+            style={{ position: "absolute", left: -296, top: -216, width: 592, height: 432, border: `1px solid ${ACC}`, borderRadius: 18, background: "transparent", transform: "translateZ(0px)", opacity: 0 }}
           >
-            <div style={{ position: "absolute", left: 8, top: -18, ...mono, fontSize: 9, letterSpacing: "0.16em", color: ACC }}>AUDIT SWEEP</div>
+            <div style={{ position: "absolute", left: 8, top: -18, ...mono, fontSize: 10.5, fontWeight: 500, letterSpacing: "0.16em", color: ACC }}>AUDIT SWEEP</div>
           </div>
 
           {/* grounding beam */}
@@ -974,7 +990,7 @@ export default function AkashicTeardownMockup({ trackRef, curtainHeight }: Props
             <div
               key={label}
               data-ak={`gov-${i}`}
-              style={{ position: "absolute", left: 306, top: 216, width: 150, ...mono, fontSize: 10, letterSpacing: "0.16em", color: inkA(0.75), opacity: 0, display: "flex", alignItems: "center", gap: 8 }}
+              style={{ position: "absolute", left: 306, top: 216, width: 170, ...mono, fontSize: 11.5, fontWeight: 500, letterSpacing: "0.16em", color: inkA(0.85), opacity: 0, display: "flex", alignItems: "center", gap: 8 }}
             >
               <span style={{ display: "block", width: 22, height: 1, background: ACC }} />
               <span>{label}</span>
@@ -984,8 +1000,8 @@ export default function AkashicTeardownMockup({ trackRef, curtainHeight }: Props
           {/* -------- plate 0 · pipelines -------- */}
           <PlateShell i={0}>
             <div style={{ position: "absolute", left: 172, top: 159, width: 216, height: 82, border: `1px dashed ${accA(0.5)}`, borderRadius: 10 }} />
-            <div style={{ position: "absolute", left: 185, top: 172, width: 190, height: 56, border: `1px solid #C8D2F5`, borderRadius: 6, background: "#EEF1FC", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: `0 6px 16px ${accA(0.12)}` }}>
-              <span style={{ ...mono, fontSize: 9, letterSpacing: "0.2em", color: ACC }}>INGEST · VALIDATE</span>
+            <div style={{ position: "absolute", left: 185, top: 172, width: 190, height: 56, border: `1px solid rgb(var(--blue-border))`, borderRadius: 6, background: "rgb(var(--blue-subtle))", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: `0 4px 12px ${inkA(0.08)}` }}>
+              <span style={{ ...mono, fontSize: 11, fontWeight: 500, letterSpacing: "0.2em", color: ACC }}>INGEST · VALIDATE</span>
             </div>
             {PIPE_SOURCES.map((s) => (
               <FaceChip key={s.label} label={s.label} dot={s.dot} style={s.style} />
@@ -1018,7 +1034,7 @@ export default function AkashicTeardownMockup({ trackRef, curtainHeight }: Props
                     data-ak-frag
                     data-x0={p[0]} data-y0={p[1]} data-x1={end[0]} data-y1={end[1]} data-r0={FRAG_ROTS[i]}
                     data-merge={merge ? "1" : "0"}
-                    style={{ position: "absolute", left: 0, top: 0, width: 52, height: 34, border: `1px solid ${inkA(0.5)}`, borderRadius: 4, background: "rgba(255,255,255,0.94)", boxSizing: "border-box", padding: "5px 6px", boxShadow: `0 3px 8px ${inkA(0.08)}` }}
+                    style={{ position: "absolute", left: 0, top: 0, width: 52, height: 34, border: `1px solid ${inkA(0.5)}`, borderRadius: 4, background: "rgb(var(--background) / 0.94)", boxSizing: "border-box", padding: "5px 6px", boxShadow: `0 3px 8px ${inkA(0.08)}` }}
                   >
                     <div style={{ height: 4, width: `${56 + ((i * 13) % 4) * 8}%`, background: inkA(0.28), borderRadius: 2 }} />
                     <div style={{ height: 4, width: `${30 + ((i * 7) % 4) * 8}%`, background: inkA(0.18), borderRadius: 2, marginTop: 5 }} />
@@ -1027,14 +1043,14 @@ export default function AkashicTeardownMockup({ trackRef, curtainHeight }: Props
               })}
               <div
                 data-ak="gold"
-                style={{ position: "absolute", left: 213, top: 184, width: 52, height: 34, border: `1.5px solid ${ACC}`, borderRadius: 5, background: "rgba(255,255,255,0.96)", boxSizing: "border-box", padding: "5px 6px", boxShadow: `0 0 0 4px ${accA(0.12)}, 0 0 22px ${accA(0.28)}`, opacity: 0 }}
+                style={{ position: "absolute", left: 213, top: 184, width: 52, height: 34, border: `1.5px solid ${ACC}`, borderRadius: 5, background: "rgb(var(--background) / 0.96)", boxSizing: "border-box", padding: "5px 6px", boxShadow: `0 0 0 3px ${accA(0.16)}`, opacity: 0 }}
               >
                 <div style={{ height: 4, width: "72%", background: accA(0.55), borderRadius: 2 }} />
                 <div style={{ height: 4, width: "46%", background: accA(0.3), borderRadius: 2, marginTop: 5 }} />
               </div>
               <div
                 data-ak="goldlab"
-                style={{ position: "absolute", left: 0, top: 290, width: "100%", textAlign: "center", ...mono, fontSize: 9, letterSpacing: "0.18em", color: ACC, opacity: 0 }}
+                style={{ position: "absolute", left: 0, top: 290, width: "100%", textAlign: "center", ...mono, fontSize: 11, fontWeight: 500, letterSpacing: "0.18em", color: ACC, opacity: 0 }}
               >
                 ONE GOLDEN RECORD · LINEAGE KEPT
               </div>
@@ -1068,22 +1084,22 @@ export default function AkashicTeardownMockup({ trackRef, curtainHeight }: Props
               <div
                 key={t.id}
                 data-ak={t.id}
-                style={{ position: "absolute", left: t.left, top: t.top, width: t.w, height: t.h, border: `1px solid ${t.fact ? "#A9B9EE" : inkA(0.5)}`, borderRadius: 6, background: "rgba(255,255,255,0.96)", overflow: "hidden", opacity: 0, boxShadow: `0 4px 12px ${inkA(0.08)}` }}
+                style={{ position: "absolute", left: t.left, top: t.top, width: t.w, height: t.h, border: `1px solid ${t.fact ? "rgb(var(--blue-border))" : inkA(0.5)}`, borderRadius: 6, background: "rgb(var(--background) / 0.96)", overflow: "hidden", opacity: 0, boxShadow: `0 4px 12px ${inkA(0.08)}` }}
               >
-                <div style={{ height: 22, borderBottom: `1px solid ${t.fact ? "#C8D2F5" : inkA(0.18)}`, background: t.fact ? "#EEF1FC" : inkA(0.045), display: "flex", alignItems: "center", padding: "0 8px", ...mono, fontSize: 8.5, letterSpacing: "0.1em", color: t.fact ? ACC : inkA(0.7) }}>
+                <div style={{ height: 24, borderBottom: `1px solid ${t.fact ? "rgb(var(--blue-border))" : inkA(0.18)}`, background: t.fact ? "rgb(var(--blue-subtle))" : inkA(0.045), display: "flex", alignItems: "center", padding: "0 9px", ...mono, fontSize: 10.5, fontWeight: 600, letterSpacing: "0.08em", color: t.fact ? ACC : inkA(0.88) }}>
                   {t.name}
                 </div>
-                <div style={{ padding: "7px 8px", display: "flex", flexDirection: "column", gap: 5.5 }}>
+                <div style={{ padding: "7px 9px", display: "flex", flexDirection: "column", gap: 4 }}>
                   {t.cols.map((col, ci) => (
                     <div key={col} style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                      <span style={{ display: "block", width: 3, height: 3, borderRadius: "50%", background: t.fact && ci === 0 ? accA(0.6) : inkA(0.25), flex: "none" }} />
-                      <span style={{ ...mono, fontSize: 8, letterSpacing: "0.04em", color: inkA(0.68) }}>{col}</span>
+                      <span style={{ display: "block", width: 4, height: 4, borderRadius: "50%", background: t.fact && ci === 0 ? accA(0.6) : inkA(0.25), flex: "none" }} />
+                      <span style={{ ...mono, fontSize: 10, lineHeight: "13px", letterSpacing: "0.02em", color: inkA(0.8) }}>{col}</span>
                     </div>
                   ))}
                 </div>
               </div>
             ))}
-            <div style={{ position: "absolute", right: 20, bottom: 16, ...mono, fontSize: 9.5, letterSpacing: "0.14em", color: inkA(0.62) }}>RELATIONSHIPS BUILT IN</div>
+            <div style={{ position: "absolute", right: 20, bottom: 16, ...mono, fontSize: 11, fontWeight: 500, letterSpacing: "0.14em", color: inkA(0.78) }}>RELATIONSHIPS BUILT IN</div>
           </PlateShell>
 
           {/* -------- plate 3 · ml -------- */}
@@ -1101,25 +1117,25 @@ export default function AkashicTeardownMockup({ trackRef, curtainHeight }: Props
               <path data-ak="ml-fit" d="M56,308 C150,296 192,198 292,168 C360,148 418,140 452,132" stroke={inkA(0.82)} strokeWidth="2" />
               <path data-ak="ml-fc" d="M452,132 C486,124 512,112 534,100" stroke={ACC} strokeWidth="2" strokeDasharray="5 5" style={{ opacity: 0 }} />
             </svg>
-            <div style={{ position: "absolute", left: 26, top: 22, ...mono, fontSize: 9.5, letterSpacing: "0.16em", color: inkA(0.65) }}>FORECAST MODEL</div>
+            <div style={{ position: "absolute", left: 26, top: 22, ...mono, fontSize: 11, fontWeight: 500, letterSpacing: "0.16em", color: inkA(0.8) }}>FORECAST MODEL</div>
             <FaceChip label="DEPLOYED" dot={ACC} style={{ right: 20, top: 16 }} />
-            <div style={{ position: "absolute", left: 26, bottom: 20, ...mono, fontSize: 9.5, letterSpacing: "0.16em", color: inkA(0.62) }}>TRAINED ON GOVERNED DATA · NO EXPORTS</div>
-            <div data-ak="ml-fclab" style={{ position: "absolute", right: 22, top: 58, ...mono, fontSize: 9, letterSpacing: "0.16em", color: ACC, opacity: 0 }}>FORECAST</div>
+            <div style={{ position: "absolute", left: 26, bottom: 20, ...mono, fontSize: 11, fontWeight: 500, letterSpacing: "0.16em", color: inkA(0.78) }}>TRAINED ON GOVERNED DATA · NO EXPORTS</div>
+            <div data-ak="ml-fclab" style={{ position: "absolute", right: 22, top: 58, ...mono, fontSize: 10.5, fontWeight: 500, letterSpacing: "0.16em", color: ACC, opacity: 0 }}>FORECAST</div>
           </PlateShell>
 
           {/* -------- plate 4 · ask -------- */}
           <PlateShell i={4}>
-            <div style={{ position: "absolute", left: 100, top: 132, width: 360, height: 56, border: `1px solid #C8D2F5`, borderRadius: 10, background: "#FFFFFF", boxShadow: `0 8px 24px ${accA(0.14)}`, display: "flex", alignItems: "center", gap: 11, padding: "0 18px", boxSizing: "border-box" }}>
+            <div style={{ position: "absolute", left: 100, top: 132, width: 360, height: 56, border: `1px solid rgb(var(--blue-border))`, borderRadius: 10, background: "rgb(var(--background))", boxShadow: `0 6px 18px ${inkA(0.08)}`, display: "flex", alignItems: "center", gap: 11, padding: "0 18px", boxSizing: "border-box" }}>
               <span style={{ display: "block", width: 8, height: 8, borderRadius: "50%", background: ACC, flex: "none" }} />
-              <span data-ak="ask-q" style={{ fontSize: 14.5, letterSpacing: "-0.01em", color: "#1A1C1D", whiteSpace: "nowrap", overflow: "hidden" }} />
-              <span className="animate-[ps-caret-blink_1.1s_step-end_infinite]" style={{ display: "block", width: 1.5, height: 20, background: "#1A1C1D" }} />
+              <span data-ak="ask-q" style={{ fontSize: 14.5, letterSpacing: "-0.01em", color: "rgb(var(--ink))", whiteSpace: "nowrap", overflow: "hidden" }} />
+              <span className="animate-[ps-caret-blink_1.1s_step-end_infinite]" style={{ display: "block", width: 1.5, height: 20, background: "rgb(var(--ink))" }} />
             </div>
             <div data-ak="ask-a" style={{ position: "absolute", left: 100, top: 206, width: 360, opacity: 0, borderLeft: `2px solid ${accA(0.5)}`, paddingLeft: 14 }}>
               <div style={{ display: "flex", flexDirection: "column", gap: 8, paddingTop: 3 }}>
                 <div style={{ height: 5, width: "88%", background: inkA(0.32), borderRadius: 2.5 }} />
                 <div style={{ height: 5, width: "62%", background: inkA(0.22), borderRadius: 2.5 }} />
               </div>
-              <div style={{ marginTop: 12, display: "flex", alignItems: "center", gap: 8, ...mono, fontSize: 9.5, letterSpacing: "0.14em", color: ACC }}>
+              <div style={{ marginTop: 12, display: "flex", alignItems: "center", gap: 8, ...mono, fontSize: 11, fontWeight: 500, letterSpacing: "0.12em", color: ACC }}>
                 <span style={{ display: "block", width: 6, height: 6, borderRadius: "50%", background: ACC }} />
                 <span>GROUNDED · LINEAGE VERIFIED · 3 SOURCES</span>
               </div>
@@ -1135,28 +1151,28 @@ export default function AkashicTeardownMockup({ trackRef, curtainHeight }: Props
                 <div style={{ position: "absolute", left: 12, top: 12, bottom: 12, width: 3, borderRadius: 2, background: `linear-gradient(180deg, ${ACC}, ${accA(0)})` }} />
                 <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 13 }}>
                   <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
-                    <AkashicLogo className="h-9 w-9" primaryColor="#1A1C1D" />
+                    <AkashicLogo className="h-9 w-9" primaryColor="rgb(var(--ink))" />
                     <span style={{ fontSize: 30, fontWeight: 600, letterSpacing: "0.32em", color: inkA(0.82), textIndent: 0, fontFamily: "var(--font-heading)" }}>AKASHIC</span>
                   </div>
-                  <div style={{ ...mono, fontSize: 9, letterSpacing: "0.22em", color: inkA(0.42) }}>UNIFIED DATA &amp; AI PLATFORM</div>
+                  <div style={{ ...mono, fontSize: 10.5, letterSpacing: "0.22em", color: inkA(0.6) }}>UNIFIED DATA &amp; AI PLATFORM</div>
                 </div>
-                <div style={{ position: "absolute", left: 26, top: 22, ...mono, fontSize: 8.5, letterSpacing: "0.16em", color: inkA(0.4) }}>DHIRA · DATA SYSTEMS</div>
-                <div style={{ position: "absolute", right: 26, top: 22, ...mono, fontSize: 8.5, letterSpacing: "0.16em", color: inkA(0.4) }}>UNIT 07</div>
-                <div style={{ position: "absolute", left: 26, bottom: 20, ...mono, fontSize: 8.5, letterSpacing: "0.16em", color: inkA(0.4) }}>07 MODULES · ONE FOUNDATION</div>
+                <div style={{ position: "absolute", left: 26, top: 22, ...mono, fontSize: 10, letterSpacing: "0.16em", color: inkA(0.6) }}>DHIRA · DATA SYSTEMS</div>
+                <div style={{ position: "absolute", right: 26, top: 22, ...mono, fontSize: 10, letterSpacing: "0.16em", color: inkA(0.6) }}>UNIT 07</div>
+                <div style={{ position: "absolute", left: 26, bottom: 20, ...mono, fontSize: 10, letterSpacing: "0.16em", color: inkA(0.6) }}>07 MODULES · ONE FOUNDATION</div>
                 <div style={{ position: "absolute", right: 26, bottom: 20, display: "flex", alignItems: "center", gap: 7 }}>
-                  <span data-ak="faceled" style={{ display: "block", width: 6, height: 6, borderRadius: "50%", background: ACC, boxShadow: `0 0 8px ${accA(0.9)}` }} />
-                  <span style={{ ...mono, fontSize: 8.5, letterSpacing: "0.16em", color: ACC }}>GOVERNED</span>
+                  <span data-ak="faceled" style={{ display: "block", width: 6, height: 6, borderRadius: "50%", background: ACC }} />
+                  <span style={{ ...mono, fontSize: 10, fontWeight: 500, letterSpacing: "0.16em", color: ACC }}>GOVERNED</span>
                 </div>
               </div>
             }
           >
-            <div style={{ position: "absolute", left: 36, top: 44, width: 150, height: 112, border: `1px solid ${inkA(0.28)}`, borderRadius: 8, background: "rgba(255,255,255,0.92)", padding: "12px 14px", boxSizing: "border-box" }}>
-              <div style={{ ...mono, fontSize: 8.5, letterSpacing: "0.12em", color: inkA(0.5) }}>ON-TIME DELIVERY</div>
-              <div data-ak="kpi" style={{ marginTop: 12, fontSize: 32, fontWeight: 600, letterSpacing: "-0.02em", color: "#1A1C1D" }}>0.0%</div>
-              <div style={{ marginTop: 8, display: "inline-block", padding: "2px 6px", borderRadius: 4, background: "#EEF1FC", ...mono, fontSize: 9, letterSpacing: "0.1em", color: ACC }}>+2.4 PTS · QTD</div>
+            <div style={{ position: "absolute", left: 36, top: 44, width: 150, height: 112, border: `1px solid ${inkA(0.28)}`, borderRadius: 8, background: "rgb(var(--background) / 0.92)", padding: "12px 14px", boxSizing: "border-box" }}>
+              <div style={{ ...mono, fontSize: 10, fontWeight: 500, letterSpacing: "0.1em", color: inkA(0.72) }}>ON-TIME DELIVERY</div>
+              <div data-ak="kpi" style={{ marginTop: 12, fontSize: 32, fontWeight: 600, letterSpacing: "-0.02em", color: "rgb(var(--ink))" }}>0.0%</div>
+              <div style={{ marginTop: 8, display: "inline-block", padding: "2px 6px", borderRadius: 4, background: "rgb(var(--blue-subtle))", ...mono, fontSize: 10, fontWeight: 500, letterSpacing: "0.08em", color: ACC }}>+2.4 PTS · QTD</div>
             </div>
-            <div style={{ position: "absolute", left: 210, top: 44, width: 160, height: 112, border: `1px solid ${inkA(0.28)}`, borderRadius: 8, background: "rgba(255,255,255,0.92)", padding: "12px 14px", boxSizing: "border-box" }}>
-              <div style={{ ...mono, fontSize: 8.5, letterSpacing: "0.12em", color: inkA(0.5) }}>ORDERS / WEEK</div>
+            <div style={{ position: "absolute", left: 210, top: 44, width: 160, height: 112, border: `1px solid ${inkA(0.28)}`, borderRadius: 8, background: "rgb(var(--background) / 0.92)", padding: "12px 14px", boxSizing: "border-box" }}>
+              <div style={{ ...mono, fontSize: 10, fontWeight: 500, letterSpacing: "0.1em", color: inkA(0.72) }}>ORDERS / WEEK</div>
               <div style={{ position: "absolute", left: 14, right: 14, bottom: 12, height: 60, display: "flex", alignItems: "flex-end", gap: 8 }}>
                 {[
                   { h: 26, c: accA(0.25) }, { h: 38, c: accA(0.35) }, { h: 31, c: accA(0.45) },
@@ -1170,17 +1186,17 @@ export default function AkashicTeardownMockup({ trackRef, curtainHeight }: Props
                 ))}
               </div>
             </div>
-            <div style={{ position: "absolute", left: 394, top: 44, width: 130, height: 112, border: `1px solid ${inkA(0.28)}`, borderRadius: 8, background: "rgba(255,255,255,0.92)", padding: "12px 14px", boxSizing: "border-box" }}>
-              <div style={{ ...mono, fontSize: 8.5, letterSpacing: "0.12em", color: inkA(0.5) }}>MARGIN TREND</div>
+            <div style={{ position: "absolute", left: 394, top: 44, width: 130, height: 112, border: `1px solid ${inkA(0.28)}`, borderRadius: 8, background: "rgb(var(--background) / 0.92)", padding: "12px 14px", boxSizing: "border-box" }}>
+              <div style={{ ...mono, fontSize: 10, fontWeight: 500, letterSpacing: "0.1em", color: inkA(0.72) }}>MARGIN TREND</div>
               <svg width="102" height="60" viewBox="0 0 102 60" style={{ position: "absolute", left: 14, bottom: 12 }} fill="none">
                 <path data-ak="spark" d="M4,48 L22,32 L40,38 L58,18 L76,26 L98,10" stroke={ACC} strokeWidth="2" />
               </svg>
             </div>
-            <div style={{ position: "absolute", left: 36, top: 190, width: 488, height: 58, border: `1px solid #C8D2F5`, borderRadius: 8, background: accA(0.04), display: "flex", alignItems: "center", justifyContent: "center", gap: 10, ...mono, fontSize: 9, letterSpacing: "0.16em", color: inkA(0.55) }}>
-              <span style={{ padding: "2px 6px", borderRadius: 4, background: "#EEF1FC", color: ACC }}>METRIC</span>
+            <div style={{ position: "absolute", left: 36, top: 190, width: 488, height: 58, border: `1px solid rgb(var(--blue-border))`, borderRadius: 8, background: accA(0.04), display: "flex", alignItems: "center", justifyContent: "center", gap: 10, ...mono, fontSize: 10, fontWeight: 500, letterSpacing: "0.14em", color: inkA(0.75) }}>
+              <span style={{ padding: "2px 6px", borderRadius: 4, background: "rgb(var(--blue-subtle))", color: ACC }}>METRIC</span>
               <span>ON_TIME_RATE · DEFINED ONCE · USED EVERYWHERE</span>
             </div>
-            <div style={{ position: "absolute", right: 20, bottom: 16, ...mono, fontSize: 9.5, letterSpacing: "0.14em", color: inkA(0.62) }}>SAME NUMBER · EVERY SURFACE</div>
+            <div style={{ position: "absolute", right: 20, bottom: 16, ...mono, fontSize: 11, fontWeight: 500, letterSpacing: "0.14em", color: inkA(0.78) }}>SAME NUMBER · EVERY SURFACE</div>
           </PlateShell>
         </div>
       </div>
@@ -1193,8 +1209,12 @@ export default function AkashicTeardownMockup({ trackRef, curtainHeight }: Props
             <span className="block h-px w-8 bg-line" aria-hidden />
             <span className="text-inkSoft">How it works · the walkthrough</span>
           </p>
+          {/* Gain-led headline (14 Oct 2026): adopt one module, grow into
+              the platform, which is where the walkthrough ends ("run
+              Pipelines on its own / or the whole platform"). The lede
+              keeps how the seven modules come together. */}
           <h2 className="mt-5 text-[30px] font-semibold leading-[1.06] tracking-tighter text-ink md:text-[44px]">
-            From raw data to a decision you can defend, in seven modules.
+            <span className="text-inkSoft">Start with one module.</span> <span className="md:block">Grow into the platform.</span>
           </h2>
           <p className="mt-5 max-w-[430px] text-[15px] leading-relaxed text-inkSoft md:text-[16.5px]">
             Each module does one job and hands its output to the next, on one governed
@@ -1219,7 +1239,7 @@ export default function AkashicTeardownMockup({ trackRef, curtainHeight }: Props
           <div data-ak={`txt-${i + 1}`} className="relative" style={{ opacity: 0 }}>
             <span
               aria-hidden
-              className="pointer-events-none absolute -left-2 -top-12 select-none font-mono text-[110px] font-semibold leading-none text-blue/[0.07] md:-top-16 md:text-[150px]"
+              className="pointer-events-none absolute -left-2 -top-12 select-none font-mono text-[110px] font-semibold leading-none text-ink/[0.045] md:-top-16 md:text-[150px]"
             >
               0{i + 1}
             </span>
@@ -1241,7 +1261,10 @@ export default function AkashicTeardownMockup({ trackRef, curtainHeight }: Props
                   <span className="mt-px flex h-5 w-5 shrink-0 items-center justify-center rounded-tile bg-blue-subtle text-blue">
                     <PointIcon glyph={pt.icon} />
                   </span>
-                  <span className="min-w-0 pt-0.5">{pt.text}</span>
+                  <span className="min-w-0 pt-0.5">
+                    {pt.text}
+                    {pt.preview && <PreviewTag className="ml-2 align-[1px]" />}
+                  </span>
                 </li>
               ))}
             </ul>
@@ -1310,7 +1333,7 @@ export default function AkashicTeardownMockup({ trackRef, curtainHeight }: Props
               className="group flex flex-col items-center gap-[7px] px-1 py-1.5 cursor-pointer transition-transform duration-150 hover:scale-110 focus-visible:outline-none"
             >
               <span data-ak-tickline className="block w-px transition-none" style={{ height: 16, background: inkA(0.4) }} />
-              <span data-ak-ticknum className="font-mono text-[9px] tracking-[0.1em]" style={{ color: inkA(0.68) }}>
+              <span data-ak-ticknum className="font-mono text-[10px] tracking-[0.1em]" style={{ color: inkA(0.72) }}>
                 0{c + 1}
               </span>
             </button>

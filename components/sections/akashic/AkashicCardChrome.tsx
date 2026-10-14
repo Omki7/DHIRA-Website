@@ -8,7 +8,7 @@ import DynamicSketchIcon from "@/components/icons/DynamicSketchIcon";
 import AkashicLogo from "@/components/icons/AkashicLogo";
 
 export const CARD =
-  "relative flex min-w-0 flex-col overflow-hidden rounded-outer border border-card-line bg-white shadow-card transition-all duration-250 ease-settle hover:-translate-y-1 hover:shadow-frame";
+  "relative flex min-w-0 flex-col overflow-hidden rounded-outer border border-card-line bg-background shadow-card transition-all duration-250 ease-settle hover:-translate-y-1 hover:shadow-frame";
 
 /* The page's signature edge: a 3px blue capillary that tops every Akashic
    card. `bright` is the variant used on the dark anchor ground. */
@@ -18,7 +18,7 @@ export function Capillary({ bright = false }: { bright?: boolean }) {
 
 export function CardBadge({ icon }: { icon: string }) {
   return (
-    <div className="flex h-[30px] w-[30px] shrink-0 items-center justify-center rounded-tile border border-blue/20 bg-gradient-to-br from-[#E4EAFF] to-[#D4DEFF] shadow-[inset_0_1px_0_rgba(255,255,255,0.9)]">
+    <div className="flex h-[30px] w-[30px] shrink-0 items-center justify-center rounded-tile border border-blue/20 bg-gradient-to-br from-blue-subtle to-blue-border shadow-[inset_0_1px_0_rgba(255,255,255,0.9)]">
       <DynamicSketchIcon text={icon} className="h-[15px] w-[15px] text-blue" />
     </div>
   );
@@ -73,7 +73,7 @@ export function BlueChip({ label }: { label: string }) {
 export function AkashicMark({ className = "" }: { className?: string }) {
   return (
     <div
-      className={`inline-flex items-center justify-center rounded-inner border border-card-line bg-white px-4 py-2.5 shadow-card ${className}`}
+      className={`inline-flex items-center justify-center rounded-inner border border-card-line bg-background px-4 py-2.5 shadow-card ${className}`}
     >
       <AkashicLogo className="h-5 w-5" />
       <span className="-ml-1 text-[13.5px] font-bold tracking-tight text-ink">kashic</span>
@@ -104,7 +104,7 @@ export function MiniStack({
         <AkashicLogo className="h-4 w-4" />
         <span className="-ml-1 text-[10px] font-bold text-ink">kashic</span>
       </div>
-      <div className="flex flex-col gap-[3px] rounded-tile border border-subtle-stroke bg-white p-[5px] shadow-card">
+      <div className="flex flex-col gap-[3px] rounded-tile border border-subtle-stroke bg-background p-[5px] shadow-card">
         <div className={layer("data", "h-[8px] rounded-[2px] border border-blue-border bg-blue-subtle")} />
         <div className={layer("knowledge", "h-[8px] rounded-[2px] border border-blue-border bg-blue-subtle/50")} />
         <div className={layer("ai", "h-[8px] rounded-[2px] border border-blue-border bg-blue-subtle")} />

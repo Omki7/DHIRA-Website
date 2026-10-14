@@ -30,9 +30,9 @@ const easeOutCubic = (p: number) => 1 - Math.pow(1 - p, 3);
    animates once when its ref enters the viewport. */
 export default function useCountUp(
   figure: string,
-  options: { duration?: number; delay?: number } = {}
+  options: { duration?: number; delay?: number; startAtZero?: boolean } = {}
 ) {
-  const { duration = 1200, delay = 0 } = options;
+  const { duration = 1200, delay = 0, startAtZero = false } = options;
   const ref = useRef<HTMLDivElement>(null);
   const [display, setDisplay] = useState(figure);
   const hasAnimated = useRef(false);
@@ -57,6 +57,11 @@ export default function useCountUp(
       return;
     }
 
+    if (startAtZero && !hasAnimated.current) {
+      setDisplay(`${prefix}${(0).toFixed(decimals)}${suffix}`);
+    }
+    let frame = 0;
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting && !hasAnimated.current) {
@@ -69,7 +74,7 @@ export default function useCountUp(
           const step = (now: number) => {
             const elapsed = now - startTime - startDelay;
             if (elapsed < 0) {
-              requestAnimationFrame(step);
+              frame = requestAnimationFrame(step);
               return;
             }
 
@@ -81,19 +86,22 @@ export default function useCountUp(
             );
 
             if (progress < 1) {
-              requestAnimationFrame(step);
+              frame = requestAnimationFrame(step);
             }
           };
 
-          requestAnimationFrame(step);
+          frame = requestAnimationFrame(step);
         }
       },
       { threshold: 0.5 }
     );
 
     observer.observe(node);
-    return () => observer.disconnect();
-  }, [figure, duration, delay]);
+    return () => {
+      observer.disconnect();
+      cancelAnimationFrame(frame);
+    };
+  }, [figure, duration, delay, startAtZero]);
 
   return { ref, display };
 }

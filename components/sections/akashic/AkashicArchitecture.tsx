@@ -65,7 +65,7 @@ function Fan({ targets }: { targets: number[] }) {
 
 function RackUnit() {
   return (
-    <div className="flex h-[18px] items-center justify-between rounded-micro border border-line bg-gradient-to-b from-white to-[#F1F2F4] px-2 shadow-[inset_0_1px_0_rgba(255,255,255,0.9)]">
+    <div className="flex h-[18px] items-center justify-between rounded-micro border border-line bg-gradient-to-b from-background to-tertiary-bg px-2 shadow-[inset_0_1px_0_var(--plate-highlight)]">
       <span className="flex gap-1" aria-hidden>
         <span className="h-[2.5px] w-3 rounded-full bg-ink/35" />
         <span className="h-[2.5px] w-3 rounded-full bg-ink/35" />
@@ -87,7 +87,7 @@ function CloudPlate() {
     { name: "Google Cloud", logo: <GoogleGLogo className="h-6 w-6" /> },
   ];
   return (
-    <div className={`${PLATE} border-blue-border/70 bg-gradient-to-b from-[#EDF3FF] via-white to-white`}>
+    <div className={`${PLATE} border-blue-border/70 bg-gradient-to-b from-blue-subtle via-background to-background`}>
       <Capillary />
       <PlateHeader name="Cloud" desc="Run in the region your regulator names. All three providers, if you need them." chip={<BlueChip label="LIVE" />} />
       <div className="flex flex-1 flex-col p-5 pt-3">
@@ -95,7 +95,7 @@ function CloudPlate() {
         <Fan targets={[52, 150, 248]} />
         <div className="grid grid-cols-3 gap-2">
           {providers.map((p) => (
-            <div key={p.name} className="flex flex-col items-center gap-2 rounded-inner border border-card-line bg-white px-1 py-4 shadow-card">
+            <div key={p.name} className="flex flex-col items-center gap-2 rounded-inner border border-card-line bg-background px-1 py-4 shadow-card">
               <span className="flex h-7 items-center justify-center">{p.logo}</span>
               <span className="whitespace-nowrap text-[10px] font-semibold text-ink">{p.name}</span>
             </div>
@@ -112,7 +112,7 @@ function CloudPlate() {
 
 function OnPremPlate() {
   return (
-    <div className={`${PLATE} border-line bg-[#F6F6F7]`}>
+    <div className={`${PLATE} border-line bg-primary-bg`}>
       <Capillary />
       <PlateHeader
         name="On-Premises"
@@ -120,10 +120,10 @@ function OnPremPlate() {
         chip={<BlueChip label="SOVEREIGN" />}
       />
       <div className="flex flex-1 flex-col p-5 pt-3">
-        <div className="mx-auto w-full max-w-[220px] rounded-inner border border-line bg-gradient-to-b from-[#F3F4F6] to-[#E8EAED] p-2 shadow-frame">
+        <div className="mx-auto w-full max-w-[220px] rounded-inner border border-line bg-gradient-to-b from-tertiary-bg to-lineSoft p-2 shadow-frame">
           <div className="flex items-center justify-between px-1 pb-1.5">
             <span className="font-mono text-[7.5px] font-bold tracking-[0.08em] text-secondary-text">RACK 01 · YOUR PERIMETER</span>
-            <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="#64748B" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+            <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="rgb(var(--overcast))" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
               <rect x="4" y="10" width="16" height="11" rx="2" />
               <path d="M8 10V7a4 4 0 0 1 8 0v3" />
             </svg>
@@ -139,7 +139,7 @@ function OnPremPlate() {
         </div>
         <div className="mt-3 flex flex-wrap justify-center gap-1.5">
           {["Your hardware", "Your network", "Your keys"].map((item) => (
-            <span key={item} className="rounded-chip border border-card-line bg-white px-2 py-1 text-[10px] font-medium text-inkSoft">
+            <span key={item} className="rounded-chip border border-card-line bg-background px-2 py-1 text-[10px] font-medium text-inkSoft">
               {item}
             </span>
           ))}
@@ -155,7 +155,7 @@ function OnPremPlate() {
 
 function HybridPlate() {
   return (
-    <div className={`${PLATE} border-subtle-stroke bg-white`}>
+    <div className={`${PLATE} border-subtle-stroke bg-background`}>
       <Capillary />
       <PlateHeader
         name="Hybrid"
@@ -166,7 +166,7 @@ function HybridPlate() {
         <AkashicMark className="mx-auto" />
         <Fan targets={[75, 225]} />
         <div className="grid grid-cols-2 gap-2">
-          <div className="rounded-inner border border-line bg-gradient-to-b from-[#F3F4F6] to-[#E8EAED] p-1.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.9)]">
+          <div className="rounded-inner border border-line bg-gradient-to-b from-tertiary-bg to-lineSoft p-1.5 shadow-[inset_0_1px_0_var(--plate-highlight)]">
             <div className="flex flex-col gap-1">
               <RackUnit />
               <RackUnit />
@@ -175,7 +175,7 @@ function HybridPlate() {
               YOUR RACKS
             </div>
           </div>
-          <div className="rounded-inner border border-blue-border bg-gradient-to-b from-[#EDF3FF] to-white p-1.5">
+          <div className="rounded-inner border border-blue-border bg-gradient-to-b from-blue-subtle to-background p-1.5">
             <div className="flex h-[41px] items-center justify-center gap-2.5">
               <AwsLogo className="h-4 w-auto" />
               <AzureLogo className="h-4 w-4" />
@@ -188,8 +188,8 @@ function HybridPlate() {
         </div>
         <div className="mt-auto flex items-center gap-2.5 pt-4">
           <span className="flex -space-x-1.5 shrink-0">
-            <span className="flex h-5 w-5 items-center justify-center rounded-full border border-white bg-blue text-[7.5px] font-bold text-white">DH</span>
-            <span className="flex h-5 w-5 items-center justify-center rounded-full border border-white bg-blue-border text-[7.5px] font-bold text-blue">You</span>
+            <span className="flex h-5 w-5 items-center justify-center rounded-full border border-white bg-blue-solid text-[7.5px] font-bold text-white">DH</span>
+            <span className="flex h-5 w-5 items-center justify-center rounded-full border border-white bg-blue-subtle text-[7.5px] font-bold text-blue">You</span>
           </span>
           <span className="text-[11.5px] font-semibold text-blue">One governed foundation, racks and cloud</span>
         </div>

@@ -1,111 +1,95 @@
-"use client";
+/* The layer drawing and its complete, accessible chronological record. */
 
-/*
- * [06] Company Journey — The Journey So Far
- * Editorial timeline:
- * - Minimal, high-clarity historical progression
- * - Verified milestones with one-sentence explanations
- * - No fake financial growth curves or complex decoration
- */
+import JourneyLayers, { JourneyEmblem } from "@/components/demos/about/JourneyLayers";
+import AboutSection, { AboutHeading } from "@/components/sections/about/AboutSection";
+import SectionCoda from "@/components/ui/SectionCoda";
+import { ABOUT_STORY } from "@/lib/aboutContent";
+import {
+  JOURNEY_AHEAD,
+  JOURNEY_BUILT,
+  JOURNEY_DIRECTION,
+  JOURNEY_LAUNCH,
+  JOURNEY_PROVEN,
+  JOURNEY_RECOGNITION,
+  type JourneyLayerKind,
+} from "@/lib/aboutJourney";
 
-import ScrollReveal from "@/components/ui/ScrollReveal";
-import ScrollRevealRail from "@/components/ui/ScrollRevealRail";
-
-interface Milestone {
-  year: string;
+interface Entry {
+  id: string;
+  kind: JourneyLayerKind;
   title: string;
+  detail: string;
   description: string;
-  isLatest?: boolean;
 }
 
-const MILESTONES: Milestone[] = [
-  {
-    year: "2018",
-    title: "Dhira Founded",
-    description: "Engineering origins in NY and Hyderabad, solving complex systems problems.",
-  },
-  {
-    year: "2020",
-    title: "Akashic R&D",
-    description: "Solving complex data unification and building foundational knowledge layers.",
-  },
-  {
-    year: "2021",
-    title: "18M+ Citizens",
-    description: "National DPI rollout at country scale, proven in high-stakes production.",
-  },
-  {
-    year: "2023",
-    title: "Platform Launch",
-    description: "Scaling full-stack data and AI engineering across enterprise systems.",
-  },
-  {
-    year: "2025",
-    title: "National AI Winner",
-    description: "Statewide intelligence deployments delivering verifiable operational value.",
-  },
-  {
-    year: "TODAY",
-    title: "Building for what comes next",
-    description: "Dhira brings engineering, data, AI, and product capabilities together to build technology for the real world.",
-    isLatest: true,
-  },
+const LAYERS = [...JOURNEY_BUILT, ...JOURNEY_PROVEN, JOURNEY_AHEAD];
+const pick = (id: string): Entry => {
+  const layer = LAYERS.find((item) => item.id === id);
+  if (!layer) throw new Error(`Unknown journey layer: ${id}`);
+  return layer;
+};
+
+/* The supplied editorial order within each year. */
+const LEDGER: readonly { year: string; entries: readonly Entry[] }[] = [
+  { year: "2018", entries: [pick("founding")] },
+  { year: "2019", entries: [pick("akashic")] },
+  { year: "2020", entries: [pick("national-scale")] },
+  { year: "2022", entries: [{ id: "launch", kind: "platform", ...JOURNEY_LAUNCH }] },
+  { year: "2023", entries: [pick("national-learning"), pick("machine-learning")] },
+  { year: "2024", entries: [pick("national-employment"), pick("artificial-intelligence")] },
+  { year: "2025", entries: [pick("master-data"), pick("governance")] },
+  { year: "2026", entries: [pick("documents"), pick("hybrid-answers")] },
+  { year: "Ahead", entries: [pick("agents")] },
 ];
 
-export default function AboutJourney() {
+const GLYPH: Record<JourneyLayerKind, string> = {
+  foundation: "bg-blue-hover",
+  platform: "border border-blue/60 bg-blue-subtle",
+  programme: "border border-overcast/60 bg-panel",
+  ahead: "border border-dashed border-blue",
+};
+
+function Ledger() {
   return (
-    <section
-      id="journey"
-      className="scroll-mt-24 border-t border-lineSoft bg-background pt-20 pb-24 lg:pt-28 lg:pb-32"
-    >
-      <ScrollRevealRail>
-        {/* --- SECTION HEADER --- */}
-        <ScrollReveal>
-          <div className="flex items-baseline justify-between font-mono text-[11px] uppercase tracking-eyebrow">
-            <p>
-              <span className="text-overcast">[06]</span>
-              <span className="text-inkSoft">&nbsp;&nbsp;The Journey</span>
-            </p>
-            <span className="hidden text-overcast sm:inline">/ Milestones</span>
-          </div>
-
-          <div className="mt-8 max-w-3xl">
-            <h2 className="text-3xl font-semibold tracking-tight text-ink sm:text-4xl md:text-5xl leading-[1.12]">
-              The journey so far.
-            </h2>
-            <p className="mt-5 text-lg text-secondary-text leading-relaxed sm:text-xl">
-              Dhira has evolved with the problems we chose to solve. What started with engineering grew into a broader journey across data, AI, products, and platforms.
-            </p>
-          </div>
-        </ScrollReveal>
-
-        {/* --- EDITORIAL HORIZONTAL TIMELINE STAGE --- */}
-        <div className="mt-16 pt-12 border-t border-lineSoft">
-          <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-6 lg:gap-6 items-start">
-            {MILESTONES.map((m, idx) => (
-              <ScrollReveal key={m.year} delay={60 + idx * 40}>
-                <div className="flex flex-col justify-between h-full">
-                  <div>
-                    <span
-                      className={`font-mono text-xs font-bold tracking-tight inline-block ${
-                        m.isLatest ? "text-blue" : "text-ink"
-                      }`}
-                    >
-                      {m.year}
-                    </span>
-                    <h3 className="mt-3 text-lg font-bold tracking-tight text-ink leading-snug">
-                      {m.title}
-                    </h3>
-                    <p className="mt-2 text-sm text-secondary-text leading-relaxed">
-                      {m.description}
-                    </p>
-                  </div>
-                </div>
-              </ScrollReveal>
+    <ol className="jl-ledger mt-8 border-t border-lineSoft lg:sr-only">
+      {LEDGER.map(({ year, entries }) => (
+        <li key={year} className="grid grid-cols-[52px_1fr] gap-3 border-b border-lineSoft py-5">
+          <p className={`font-mono text-[14px] leading-6 tabular-nums ${year === "Ahead" ? "text-blue-hover" : "text-secondary-text"}`}>{year}</p>
+          <ul className="space-y-4">
+            {entries.map((entry) => (
+              <li key={entry.id}>
+                <h3 className="jl-title flex items-start gap-2.5">
+                  <span aria-hidden className={`mt-[7px] h-2.5 w-2.5 shrink-0 rounded-[2px] ${GLYPH[entry.kind]}`} />
+                  {entry.title}
+                </h3>
+                <p className={entry.kind === "ahead" ? "mt-2 pl-5 text-[15px] leading-relaxed text-secondary-text" : "sr-only"}>{entry.description}</p>
+                {entry.kind === "ahead" && <ul className="mt-5 space-y-4 border-l border-dashed border-blue/50 pl-5">
+                  {JOURNEY_DIRECTION.map((direction) => <li key={direction.title}>
+                    <p className="font-heading text-[16px] font-medium leading-[22px] tracking-[-0.01em] text-ink">{direction.title}</p>
+                    <p className="mt-1 text-[14px] leading-relaxed text-secondary-text">{direction.description}</p>
+                  </li>)}
+                </ul>}
+              </li>
             ))}
-          </div>
-        </div>
-      </ScrollRevealRail>
-    </section>
+          </ul>
+        </li>
+      ))}
+    </ol>
+  );
+}
+
+export default function AboutJourney() {
+  const content = ABOUT_STORY.journey;
+  return (
+    <AboutSection id="journey">
+      <JourneyLayers
+        heading={<AboutHeading number="02" label={content.label} setup={content.setup} title={content.title} intro={content.intro} />}
+      />
+      <div className="mt-10 lg:hidden">
+        <JourneyEmblem />
+      </div>
+      <Ledger />
+      <SectionCoda lead={JOURNEY_RECOGNITION.lead} payoff={JOURNEY_RECOGNITION.payoff} className="jl-coda mt-6 md:mt-3" />
+    </AboutSection>
   );
 }

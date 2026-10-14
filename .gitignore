@@ -35,3 +35,7 @@ next-env.d.ts
 
 # temporary folders
 Editing Akashic section (1)/
+
+# local debug output and review screenshots
+debug.log
+/shots/

@@ -1,7 +1,7 @@
 "use client";
 
 /*
- * [06] FAQ — The questions we get before we start.
+ * [07] FAQ — The questions we get before we start.
  * Master-detail Q&A (desktop): question ledger on the left, active answer staged on the right.
  * Accordion below lg breakpoint. Exact 7 questions per specification.
  */
@@ -59,7 +59,7 @@ export default function DeliveryFAQ() {
         <ScrollReveal>
           <div className="flex items-baseline justify-between font-mono text-[11px] uppercase tracking-eyebrow">
             <p>
-              <span className="text-overcast">[06]</span>
+              <span className="text-overcast">[07]</span>
               <span className="text-inkSoft">&nbsp;&nbsp;FAQ</span>
             </p>
             <span className="hidden text-overcast sm:inline">/ Straight answers</span>

@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef } from "react";
+import Link from "next/link";
 import { motion, useInView } from "framer-motion";
 import { usePrefersReducedMotion } from "@/hooks/useCountUp";
 
@@ -30,10 +31,19 @@ export default function UCHero() {
        from the bottom. The `pb` values on the headline block were retuned to
        hold a constant ~44–54px of clearance above the planet's apex at every
        breakpoint. Change one of these two ladders and you must recheck the
-       other, or the headline sits on the arc. */
+       other, or the headline sits on the arc.
+
+       22 Sep 2026: the kicker now clears the eyebrow rule by ~56 to 72px at
+       every step (the 23 Jul cut overshot and left it 21 to 28px under the
+       rule, reading as part of it). The md+ steps assume the defining
+       sentence sets on ONE line; if it grows to two, add ~30px to them.
+
+       23 Sep 2026: every step gained 64px for the CTA under the defining
+       sentence (28px gap + 36px button), so the kicker keeps its clearance
+       under the eyebrow rule. Remove the CTA and take the 64px back out. */
     <div
       ref={ref}
-      className="relative h-[380px] overflow-hidden sm:h-[430px] md:h-[500px] lg:h-[600px]"
+      className="relative h-[476px] overflow-hidden sm:h-[526px] md:h-[580px] lg:h-[640px] xl:h-[680px]"
     >
       {/* vertical pinstripe texture */}
       <div
@@ -91,7 +101,7 @@ export default function UCHero() {
             <defs>
               <linearGradient id="uc-edge" x1="0" x2="0" y1="0" y2="1">
                 <stop offset="0" stopColor="#ffffff" stopOpacity="0.5" />
-                <stop offset="0.33" stopColor="#2A3157" stopOpacity="0" />
+                <stop offset="0.33" stopColor="#2A2A31" stopOpacity="0" />
               </linearGradient>
               <linearGradient id="uc-arc-glow" x1="0" x2="1" y1="0" y2="0">
                 <stop offset="0%" stopColor="#3E63DD" stopOpacity="0.2" />
@@ -178,26 +188,42 @@ export default function UCHero() {
         transition={{ duration: 0.9, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
         className="absolute inset-x-0 bottom-0 z-20 flex flex-col items-center px-6 pb-[210px] sm:pb-[250px] md:pb-[310px] lg:pb-[350px] xl:pb-[400px]"
       >
-        <div className="flex max-w-full flex-col items-center gap-1 text-center">
-          <p className="font-mono text-sm uppercase tracking-wide text-uc-mute sm:text-base">
-            Stop guessing. Get grounded.
+        <div className="flex max-w-full flex-col items-center text-center">
+          {/* The hand-off from [01], whose last line is "The data underneath
+              was never made ready for AI to answer from." This names what
+              was missing; the sentence below says what Akashic does about
+              it. Mono, uppercase, `tracking-eyebrow`: the site's label voice,
+              one step up in size because it sits over display type.
+              "The missing layer" became "The intelligence layer" (14 Oct
+              2026) so home names Akashic the way /akashic's hero does ("The
+              intelligence layer behind every decision"); it still answers
+              [01]'s missing-data line. */}
+          <p className="font-mono text-[12px] uppercase tracking-eyebrow text-uc-mute sm:text-[13px]">
+            The intelligence layer
           </p>
-          <h2 className="max-w-full text-balance text-[40px] font-semibold leading-none tracking-[-0.024em] text-uc-text sm:text-[48px] md:text-[56px] lg:text-[72px] xl:text-[96px]">
+          {/* Section headline scale (48 to 64px, 600, `tracking-tighter`).
+              It was 96px at xl, which outranked the page's own H1 (72px). */}
+          <h2
+            id="platform-h"
+            className="mt-4 max-w-full text-balance text-[40px] font-semibold leading-[1.05] tracking-tighter text-uc-text sm:text-[48px] md:text-[56px] lg:text-[64px]"
+          >
             Meet Akashic
           </h2>
-          {/* THE DEFINING SENTENCE. This slot used to read "Ask once. Get one
-              answer." — a nice line, and the third place on the page saying it
-              (the feature grid's "Ask in plain language", UCSignals' "One
-              question, answered end to end"). Meanwhile nothing on the
-              homepage ever said what Akashic IS, so a reader left knowing it
-              connects, resolves, forecasts, answers and governs — i.e. that it
-              does everything, which reads as a suite or as vapour.
-
-              Deliberately not a verbatim repeat of the hero's category line:
-              the hero names the thing, this names the mechanism. */}
-          <p className="mt-5 max-w-[34em] text-balance text-sm text-uc-dim sm:mt-6 sm:text-base">
-            Every source, resolved into one governed layer — and every answer traced back to it.
+          {/* THE DEFINING SENTENCE, and the map of the section: its two
+              halves are the two blocks below it. "Ready for AI" is the five
+              tiles (what your AI stands on); "puts AI to work" is the step
+              rail (reason, answer, forecast, act). Keep the three in step. */}
+          <p className="mt-5 max-w-[30em] text-balance text-[16px] leading-relaxed text-uc-mute sm:mt-6 md:text-[18px]">
+            Akashic makes your data ready for AI, then puts AI to work on it.
           </p>
+          {/* The section's one exit to the platform page, placed where the
+              reader has just met the name (23 Sep 2026, user direction). */}
+          <Link href="/akashic" className="btn-primary-invert group mt-7">
+            Explore Akashic
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden className="transition-transform ease-settle group-hover:translate-x-0.5 motion-reduce:transition-none">
+              <path d="M2.5 6H9.5M9.5 6L6 2.5M9.5 6L6 9.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </Link>
         </div>
       </motion.div>
     </div>

@@ -6,5 +6,5 @@ export const CAREERS_SECTIONS: PageSection[] = [
   { id: "how-we-work", label: "How we work" },
   { id: "open-roles", label: "Open roles" },
   { id: "how-we-hire", label: "How we hire" },
-  { id: "talk-to-our-team", label: "Apply" },
+  { id: "talk-to-our-team", label: "Talk to us" },
 ];

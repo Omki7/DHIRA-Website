@@ -30,7 +30,7 @@ const CONTACT_HASHES = ["#talk-to-our-team", "#get-started", "#briefing-form"];
 function AssuranceIcon({ type }: { type: string }) {
   if (type === "disc") {
     return (
-      <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-btn border border-blue-border/70 bg-blue-subtle text-blue transition-colors group-hover:bg-blue group-hover:text-white">
+      <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-btn border border-blue-border/70 bg-blue-subtle text-blue transition-colors group-hover:bg-blue-solid group-hover:text-white">
         <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden>
           <rect x="2" y="3" width="10" height="9" rx="1.5" stroke="currentColor" strokeWidth="1.3" />
           <path d="M4.5 1.5v3M9.5 1.5v3M2 6h10" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" />
@@ -40,7 +40,7 @@ function AssuranceIcon({ type }: { type: string }) {
   }
   if (type === "resp") {
     return (
-      <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-btn border border-blue-border/70 bg-blue-subtle text-blue transition-colors group-hover:bg-blue group-hover:text-white">
+      <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-btn border border-blue-border/70 bg-blue-subtle text-blue transition-colors group-hover:bg-blue-solid group-hover:text-white">
         <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden>
           <circle cx="7" cy="7" r="5" stroke="currentColor" strokeWidth="1.3" />
           <path d="M7 4.5V7l1.8 1.8" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
@@ -49,7 +49,7 @@ function AssuranceIcon({ type }: { type: string }) {
     );
   }
   return (
-    <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-btn border border-blue-border/70 bg-blue-subtle text-blue transition-colors group-hover:bg-blue group-hover:text-white">
+    <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-btn border border-blue-border/70 bg-blue-subtle text-blue transition-colors group-hover:bg-blue-solid group-hover:text-white">
       <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden>
         <path d="M7 2L2.5 4v4c0 3 4.5 4.5 4.5 4.5s4.5-1.5 4.5-4.5V4L7 2z" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
       </svg>
@@ -138,7 +138,7 @@ export default function ContactModal() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.25 }}
-            className="fixed inset-0 cursor-default bg-ink/50 backdrop-blur-md"
+            className="fixed inset-0 cursor-default bg-depth/60 backdrop-blur-md"
           />
 
           {/* Dialog Container with spring animation */}
@@ -149,7 +149,7 @@ export default function ContactModal() {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.96, y: 12 }}
             transition={{ type: "spring", stiffness: 380, damping: 28 }}
-            className="relative z-10 w-full max-w-[880px] overflow-hidden rounded-frame border border-subtle-stroke bg-white shadow-frame outline-none"
+            className="relative z-10 w-full max-w-[880px] overflow-hidden rounded-frame border border-subtle-stroke bg-background shadow-frame outline-none"
           >
             {/* Top Interactive Progress Bar */}
             <div className="h-1 w-full bg-tertiary-bg">
@@ -166,7 +166,7 @@ export default function ContactModal() {
               type="button"
               onClick={close}
               aria-label="Close"
-              className="absolute right-3.5 top-4 z-20 flex h-8 w-8 items-center justify-center rounded-full border border-subtle-stroke bg-white/90 text-secondary-text shadow-xs backdrop-blur transition-all duration-200 hover:bg-tertiary-bg hover:text-primary-text hover:scale-105"
+              className="absolute right-3.5 top-4 z-20 flex h-8 w-8 items-center justify-center rounded-full border border-subtle-stroke bg-background/90 text-secondary-text shadow-xs backdrop-blur transition-all duration-200 hover:bg-tertiary-bg hover:text-primary-text hover:scale-105"
             >
               <svg width="15" height="15" viewBox="0 0 15 15" fill="none" aria-hidden>
                 <path stroke="currentColor" strokeLinecap="round" strokeWidth="1.6" d="M3.5 3.5l8 8M11.5 3.5l-8 8" />
@@ -204,7 +204,7 @@ export default function ContactModal() {
                         initial={{ opacity: 0, x: -8 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ delay: 0.15 + idx * 0.08, duration: 0.3 }}
-                        className="group flex items-start gap-3 rounded-card border border-subtle-stroke/80 bg-white/80 p-2.5 shadow-xs transition-all duration-200 hover:border-blue-border hover:bg-white hover:shadow-sm"
+                        className="group flex items-start gap-3 rounded-card border border-subtle-stroke/80 bg-background/80 p-2.5 shadow-xs transition-all duration-200 hover:border-blue-border hover:bg-background hover:shadow-sm"
                       >
                         <AssuranceIcon type={item.id} />
                         <div>
@@ -223,7 +223,7 @@ export default function ContactModal() {
               </div>
 
               {/* Right Column — The Form */}
-              <div className="px-6 py-8 md:px-8 bg-white relative z-10">
+              <div className="px-6 py-8 md:px-8 bg-background relative z-10">
                 <AnimatePresence mode="wait">
                   {sent ? (
                     <motion.div
@@ -268,7 +268,7 @@ export default function ContactModal() {
                             autoComplete="name"
                             value={form.name}
                             onChange={(e) => update("name", e.target.value)}
-                            className="h-11 w-full rounded-[10px] border border-subtle-stroke bg-white px-3.5 text-[14px] text-primary-text shadow-input transition-all duration-200 placeholder:text-tertiary-text focus:border-blue focus:outline-none focus:ring-2 focus:ring-blue/15"
+                            className="h-11 w-full rounded-[10px] border border-subtle-stroke bg-background px-3.5 text-[14px] text-primary-text shadow-input transition-all duration-200 placeholder:text-tertiary-text focus:border-blue focus:outline-none focus:ring-2 focus:ring-blue/15"
                             placeholder="Veman Chippa"
                           />
                         </div>
@@ -283,7 +283,7 @@ export default function ContactModal() {
                             autoComplete="email"
                             value={form.email}
                             onChange={(e) => update("email", e.target.value)}
-                            className="h-11 w-full rounded-[10px] border border-subtle-stroke bg-white px-3.5 text-[14px] text-primary-text shadow-input transition-all duration-200 placeholder:text-tertiary-text focus:border-blue focus:outline-none focus:ring-2 focus:ring-blue/15"
+                            className="h-11 w-full rounded-[10px] border border-subtle-stroke bg-background px-3.5 text-[14px] text-primary-text shadow-input transition-all duration-200 placeholder:text-tertiary-text focus:border-blue focus:outline-none focus:ring-2 focus:ring-blue/15"
                             placeholder="veman.chippa@dhira.ai"
                           />
                         </div>
@@ -298,7 +298,7 @@ export default function ContactModal() {
                             autoComplete="organization"
                             value={form.company}
                             onChange={(e) => update("company", e.target.value)}
-                            className="h-11 w-full rounded-[10px] border border-subtle-stroke bg-white px-3.5 text-[14px] text-primary-text shadow-input transition-all duration-200 placeholder:text-tertiary-text focus:border-blue focus:outline-none focus:ring-2 focus:ring-blue/15"
+                            className="h-11 w-full rounded-[10px] border border-subtle-stroke bg-background px-3.5 text-[14px] text-primary-text shadow-input transition-all duration-200 placeholder:text-tertiary-text focus:border-blue focus:outline-none focus:ring-2 focus:ring-blue/15"
                             placeholder="Dhira ai"
                           />
                         </div>
@@ -310,7 +310,7 @@ export default function ContactModal() {
                             id="cm-interest"
                             value={form.interest}
                             onChange={(e) => update("interest", e.target.value as Interest)}
-                            className={`h-11 w-full rounded-[10px] border border-subtle-stroke bg-white px-3.5 text-[14px] shadow-input transition-all duration-200 appearance-none bg-[url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2212%22 height=%2212%22 viewBox=%220 0 12 12%22 fill=%22none%22><path d=%22M2.5 4.5L6 8l3.5-3.5%22 stroke=%22%236f7988%22 stroke-width=%221.4%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22/></svg>')] bg-[length:12px] bg-[right_14px_center] bg-no-repeat pr-9 focus:border-blue focus:outline-none focus:ring-2 focus:ring-blue/15 ${
+                            className={`h-11 w-full rounded-[10px] border border-subtle-stroke bg-background px-3.5 text-[14px] shadow-input transition-all duration-200 appearance-none bg-[url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2212%22 height=%2212%22 viewBox=%220 0 12 12%22 fill=%22none%22><path d=%22M2.5 4.5L6 8l3.5-3.5%22 stroke=%22%236f7988%22 stroke-width=%221.4%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22/></svg>')] bg-[length:12px] bg-[right_14px_center] bg-no-repeat pr-9 focus:border-blue focus:outline-none focus:ring-2 focus:ring-blue/15 ${
                               form.interest ? "text-primary-text" : "text-tertiary-text"
                             }`}
                           >
@@ -336,7 +336,7 @@ export default function ContactModal() {
                           rows={4}
                           value={form.message}
                           onChange={(e) => update("message", e.target.value)}
-                          className="w-full rounded-[10px] border border-subtle-stroke bg-white px-3.5 py-3 text-[14px] leading-relaxed text-primary-text shadow-input transition-all duration-200 resize-none placeholder:text-tertiary-text focus:border-blue focus:outline-none focus:ring-2 focus:ring-blue/15"
+                          className="w-full rounded-[10px] border border-subtle-stroke bg-background px-3.5 py-3 text-[14px] leading-relaxed text-primary-text shadow-input transition-all duration-200 resize-none placeholder:text-tertiary-text focus:border-blue focus:outline-none focus:ring-2 focus:ring-blue/15"
                           placeholder="Tell us about your data challenge, project goals, or questions..."
                         />
                       </div>

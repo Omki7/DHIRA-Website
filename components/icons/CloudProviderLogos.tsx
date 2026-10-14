@@ -16,7 +16,7 @@ export function AwsLogo({ className = "h-5 w-auto" }: { className?: string }) {
         fontSize="17"
         fontWeight="700"
         letterSpacing="-0.8"
-        fill="#232F3E"
+        fill="var(--aws-wordmark, #232F3E)"
       >
         aws
       </text>

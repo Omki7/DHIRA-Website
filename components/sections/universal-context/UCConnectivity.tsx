@@ -21,13 +21,15 @@ const LOGOS: { src: string; label: string; inset: string }[] = [
   { src: "/universal-context/pdf.svg", label: "PDF", inset: "inset-[30%]" },
 ];
 
-function LogoTile({ logo }: { logo: (typeof LOGOS)[number] }) {
+function LogoTile({ logo, echo }: { logo: (typeof LOGOS)[number]; echo: boolean }) {
   return (
-    <div className="flex w-[84px] shrink-0 flex-col items-center gap-2.5 px-4 md:w-[116px] md:px-5 lg:w-[128px]">
+    // The marquee renders the list twice for a seamless loop; the second copy
+    // is hidden from assistive tech so each system is announced once.
+    <div aria-hidden={echo || undefined} className="flex w-[84px] shrink-0 flex-col items-center gap-2.5 px-4 md:w-[116px] md:px-5 lg:w-[128px]">
       <div className="group relative size-16 md:size-[88px] lg:size-24">
         <div
           aria-hidden="true"
-          className="absolute inset-0 rounded-[15px] bg-[linear-gradient(-30.12deg,#141A38_25.6%,#2A3157_163%)] shadow-[inset_0.2px_0.2px_2px_rgba(255,255,255,0.1),0_1.5px_1.5px_rgba(0,0,0,0.25)] md:rounded-[21px] lg:rounded-[23px]" />
+          className="absolute inset-0 rounded-[15px] bg-[linear-gradient(-30.12deg,#151519_25.6%,#2A2A31_163%)] shadow-[inset_0.2px_0.2px_2px_rgba(255,255,255,0.1),0_1.5px_1.5px_rgba(0,0,0,0.25)] md:rounded-[21px] lg:rounded-[23px]" />
         <div className={`absolute ${logo.inset}`}>
           <img
             alt=""
@@ -39,7 +41,9 @@ function LogoTile({ logo }: { logo: (typeof LOGOS)[number] }) {
           />
         </div>
       </div>
-      <p className="text-[11px] font-medium leading-none tracking-[-0.11px] text-uc-dim">
+      {/* 12px `uc-mute`: at 11px in `uc-dim` the captions sat at 4.4:1, under
+          AA for text this small. */}
+      <p className="text-[12px] leading-none text-uc-mute">
         {logo.label}
       </p>
     </div>
@@ -48,7 +52,7 @@ function LogoTile({ logo }: { logo: (typeof LOGOS)[number] }) {
 
 export default function UCConnectivity() {
   return (
-    <div className="relative overflow-hidden pb-[72px] pt-[152px] text-center max-xl:pt-[112px] max-lg:pt-[88px] md:pb-[112px]">
+    <div className="relative overflow-hidden pb-16 pt-20 text-center md:pb-24 md:pt-24 lg:pt-28">
       {/* radially-masked pinstripe texture */}
       <div
         aria-hidden="true"
@@ -59,18 +63,18 @@ export default function UCConnectivity() {
         }}
       />
 
+      {/* THE BUSINESS QUESTION this band answers is "do we have to replace
+          anything?", not "what can it connect to?". The tiles and the step
+          rail already say every source is connected; saying it a third time
+          ("Your whole estate, connected." over a list of source types) was
+          the redundancy. The logos carry the list, so the sub paragraph went
+          too, and the band opens 150px tighter. No pill label, no CTA: [02]
+          has one exit, in UCSdk. */}
       <ScrollReveal className="flex flex-col items-center px-6 md:px-10 xl:px-14">
-        <p className="inline-flex h-6 items-center rounded-lg bg-uc-pill px-1.5 text-[14px] font-medium leading-5 tracking-[-0.14px] text-uc-pilltext">
-          Connectivity
-        </p>
-        <h3 className="mt-6 max-w-[696px] text-balance text-[32px] font-medium leading-[36px] tracking-[-0.01em] text-uc-text lg:text-[40px] lg:leading-[44px]">
-          Your whole estate, connected.
+        <h3 className="max-w-[24em] text-balance text-[28px] font-semibold leading-[1.15] tracking-tight lg:text-[32px]">
+          <span className="block text-uc-mute">Nothing to rip out.</span>
+          <span className="block text-uc-text">Akashic works with the systems you already run.</span>
         </h3>
-        <p className="mt-4 max-w-[464px] text-balance text-[16px] font-medium leading-5 tracking-[-0.16px] text-uc-mute">
-          Business systems, databases, live streams, spreadsheets, documents: everything
-          your organisation already runs on.
-        </p>
-        {/* CTA removed — see UCSignals. [02] funnels to one exit, at its end. */}
       </ScrollReveal>
 
       {/* Single-row marquee: the whole estate scrolls past on one strip. Two
@@ -78,11 +82,11 @@ export default function UCConnectivity() {
           right-to-left); edges fade so tiles enter and leave the frame instead
           of clipping. Pauses on hover; holds still under reduced-motion. */}
       <div
-        className="group relative mt-16 overflow-hidden md:mt-20 lg:mt-24 [mask-image:linear-gradient(to_right,transparent,black_7%,black_93%,transparent)]"
+        className="group relative mt-12 overflow-hidden md:mt-16 [mask-image:linear-gradient(to_right,transparent,black_7%,black_93%,transparent)]"
       >
         <div className="flex w-max animate-[uc-marquee_50s_linear_infinite_reverse] group-hover:[animation-play-state:paused] motion-reduce:animate-none">
           {[...LOGOS, ...LOGOS].map((logo, i) => (
-            <LogoTile key={`${logo.src}-${i}`} logo={logo} />
+            <LogoTile key={`${logo.src}-${i}`} logo={logo} echo={i >= LOGOS.length} />
           ))}
         </div>
       </div>

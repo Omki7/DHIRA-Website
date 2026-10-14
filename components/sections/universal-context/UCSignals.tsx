@@ -13,27 +13,39 @@ const GlyphMorphCanvas = dynamic(() => import("@/components/demos/GlyphMorphCanv
 
 const ROTATE_MS = 7000;
 
-// Pipeline order, top to bottom: the question drops in at the header and flows
-// down through ingest → store → explore → govern. Each step carries a dot and a
-// horizontal dwell bar that fills before the section advances (user direction
-// 20 Jul 2026). Index-matched to GLYPHS in GlyphMorphCanvas — reorder both
-// together or the canvas desyncs.
+// WHAT YOUR AI DOES (22 Sep 2026, third pass). The second half of the
+// defining sentence ("then puts AI to work on it"), walked through one
+// executive question: why did this number move? The tiles above are what the
+// AI knows; this is what it does with it.
+//
+// DO NOT OVERSELL (user direction): nothing here may promise that AI decides,
+// recommends a course of action or acts on its own, and nothing may claim
+// write-back (there is no reverse ETL). Those read as vaporware or make
+// people nervous. The rail ends on the reassurance instead: access rules and
+// an audit log on every question. Every step is shipped, see /akashic (BI
+// drill-down, Ask Akashic's cross-source answers with citations, row-level
+// security at answer time, prompt audit log).
+//
+// Descriptions are balanced to 11 or 12 words, ~64 to 69 characters.
+// Each step carries a dot and a horizontal dwell bar that fills before the
+// section advances (user direction 20 Jul 2026). Index-matched to GLYPHS in
+// GlyphMorphCanvas; reorder both together or the canvas desyncs.
 const TABS = [
   {
-    title: "Ingest & unify",
-    desc: "Every source connected, every entity resolved to one trusted record.",
+    title: "Find the change",
+    desc: "Pinpoints when the number moved, and which region or team moved it.",
   },
   {
-    title: "Store & predict",
-    desc: "A governed warehouse feeding forecasts for demand, revenue, and risk.",
+    title: "Reason across sources",
+    desc: "Checks sales in the warehouse against the targets in your board deck.",
   },
   {
-    title: "Explore & ask",
-    desc: "Live dashboards and plain-language answers, returned with their sources.",
+    title: "Answer with citations",
+    desc: "One plain answer, with every line linked to the record behind it.",
   },
   {
-    title: "Govern & prove",
-    desc: "Lineage, masking, access and audit behind every answer. Always on.",
+    title: "Govern and audit",
+    desc: "Your access rules apply, and every question is logged for audit.",
   },
 ];
 
@@ -91,10 +103,11 @@ function StepRail({
               <button
                 type="button"
                 onClick={() => setActive(i)}
+                aria-current={on ? "step" : undefined}
                 className="group w-fit cursor-pointer text-left"
               >
                 <span
-                  className={`text-[17px] font-medium leading-[1.4] tracking-[-0.01em] transition-colors duration-500 ease-settle ${
+                  className={`text-[17px] font-medium leading-snug transition-colors duration-500 ease-settle ${
                     on ? "text-uc-text" : "text-uc-mute"
                   }`}
                 >
@@ -113,7 +126,7 @@ function StepRail({
                 }`}
               >
                 <div className="overflow-hidden">
-                  <p className="mt-2.5 max-w-[380px] text-balance text-[15px] font-medium leading-[1.45] tracking-[-0.01em] text-uc-mute">
+                  <p className="mt-2.5 max-w-[380px] text-balance text-[15px] leading-relaxed text-uc-mute">
                     {tab.desc}
                   </p>
                 </div>
@@ -128,16 +141,19 @@ function StepRail({
 
 function Heading({ center = false }: { center?: boolean }) {
   return (
-    <div className={`flex flex-col gap-6 ${center ? "items-center text-center" : "items-start"}`}>
-      <p className="inline-flex h-6 items-center rounded-lg bg-uc-pill px-1.5 text-[14px] font-medium leading-5 tracking-[-0.14px] text-uc-pilltext">
-        The platform
-      </p>
-      <h2 className="max-w-[478px] text-balance text-[32px] font-medium leading-[36px] tracking-[-0.01em] text-uc-text lg:text-[40px] lg:leading-[44px]">
-        {/* Setup soft, payoff in full ink — the same two-tone grammar the
-            light sections use, so [02] does not run it upside down. */}
-        <span className="text-uc-mute">One question, answered end to end. </span>
-        <span className="text-uc-text">Grounded at every step.</span>
-      </h2>
+    <div className={`flex flex-col ${center ? "items-center text-center" : "items-start"}`}>
+      {/* No pill label. It read "The platform", which is now the section
+          eyebrow, and the headline says what this block is on its own.
+          The question is the one every executive asks; the payoff is
+          transparency, not autonomy. It said "and acts on it", then "and
+          what to do next": both oversold (see TABS). Subsection scale
+          (28 to 32px, 600) under the 64px section headline;
+          it was 40px at weight 500, level with nothing else on the site.
+          Setup soft, payoff in full ink: the sitewide two-tone grammar. */}
+      <h3 className="max-w-[20em] text-balance text-[28px] font-semibold leading-[1.15] tracking-tight lg:text-[32px]">
+        <span className="block text-uc-mute">Ask why a number moved.</span>
+        <span className="block text-uc-text">Akashic traces the cause, and shows its working.</span>
+      </h3>
     </div>
   );
 }

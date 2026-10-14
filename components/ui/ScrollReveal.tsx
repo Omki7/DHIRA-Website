@@ -12,19 +12,27 @@ export default function ScrollReveal({
   delay?: number;
 }) {
   const ref = useRef<HTMLDivElement>(null);
-  const [visible, setVisible] = useState(
-    () => typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches
-  );
+  const [visible, setVisible] = useState(false);
 
   useEffect(() => {
     const node = ref.current;
     if (!node) return;
-    if (visible) return;
+    const preference = window.matchMedia("(prefers-reduced-motion: reduce)");
+    if (preference.matches) {
+      setVisible(true);
+      return;
+    }
+
+    let revealTimer: ReturnType<typeof setTimeout> | undefined;
+    const handlePreference = () => {
+      if (preference.matches) setVisible(true);
+    };
+    preference.addEventListener("change", handlePreference);
 
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          setTimeout(() => setVisible(true), delay);
+          revealTimer = setTimeout(() => setVisible(true), delay);
           observer.disconnect();
         }
       },
@@ -32,13 +40,17 @@ export default function ScrollReveal({
     );
 
     observer.observe(node);
-    return () => observer.disconnect();
+    return () => {
+      observer.disconnect();
+      clearTimeout(revealTimer);
+      preference.removeEventListener("change", handlePreference);
+    };
   }, [delay]);
 
   return (
     <div
       ref={ref}
-      className={`transition-all duration-700 ease-settle ${className} ${
+      className={`transition-all duration-700 ease-settle motion-reduce:transform-none motion-reduce:opacity-100 motion-reduce:transition-none ${className} ${
         visible ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"
       }`}
     >

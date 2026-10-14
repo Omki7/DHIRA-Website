@@ -108,7 +108,7 @@ export default function AkashicModular({ curtainContent }: Props = {}) {
   }, [curtainHeight, reduced]);
 
   return (
-    <section className={`relative bg-primary-bg ${curtainContent ? "" : "border-t border-lineSoft"}`}>
+    <section className="relative bg-primary-bg">
       <div
         id="how-it-works"
         className="absolute w-full"

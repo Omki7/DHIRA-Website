@@ -1,159 +1,94 @@
 "use client";
 
 /*
- * [03] Open Roles — The Board.
- * The canonical roles board (same four roles and dept filters as the home
- * page's JoinTheTeam section, same blue-bar hover signature). Apply anchors
- * to the close section until an ATS or careers inbox is wired.
+ * [03] Open roles: the board.
+ *
+ * The same four seats the hero's seating plan leaves empty, now as rows:
+ * one source (lib/careersRoles.ts) so the plan, this board and the homepage
+ * JoinTheTeam board cannot drift apart. Each row carries the chair glyph
+ * from the hero, which is what ties the drawing to the list.
+ *
+ * The department filter chips are gone: with four roles they hid up to three
+ * of them behind a click and argued that the board was longer than it is.
+ *
+ * The whole row is the Apply target (a stretched link), not just the word.
+ * Apply anchors to #talk-to-our-team, which opens the site contact dialog,
+ * until an ATS or careers inbox is wired.
  */
 
 import Link from "next/link";
-import { useState } from "react";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import ScrollRevealRail from "@/components/ui/ScrollRevealRail";
+import SectionHeader from "@/components/ui/SectionHeader";
+import SectionCoda from "@/components/ui/SectionCoda";
+import { ROLES } from "@/lib/careersRoles";
 
-const DEPT_FILTERS = ["View all", "Engineering", "Machine Learning", "Product", "Delivery"] as const;
-type Dept = (typeof DEPT_FILTERS)[number];
-
-const ROLES: { dept: Dept; title: string; desc: string; location: string; type: string }[] = [
-  {
-    dept: "Engineering",
-    title: "Senior Data Engineer",
-    desc: "Build and scale government data pipelines.",
-    location: "Remote",
-    type: "Full-time",
-  },
-  {
-    dept: "Machine Learning",
-    title: "ML Researcher, Grounding Systems",
-    desc: "Advance grounding and retrieval systems for public-sector AI.",
-    location: "Hyderabad",
-    type: "Full-time",
-  },
-  {
-    dept: "Product",
-    title: "Product Manager, Akashic Platform",
-    desc: "Own the roadmap for our flagship intelligence platform.",
-    location: "New York",
-    type: "Full-time",
-  },
-  {
-    dept: "Delivery",
-    title: "Implementation Lead, Government",
-    desc: "Guide large-scale government deployments end to end.",
-    location: "Remote",
-    type: "Full-time",
-  },
-];
+function ChairGlyph() {
+  return (
+    <svg viewBox="0 0 34 20" className="h-5 w-[34px] shrink-0" aria-hidden>
+      <rect x="1" y="1" width="32" height="18" rx="5" fill="#FFFFFF" stroke="#3E63DD" strokeWidth="1.4" />
+    </svg>
+  );
+}
 
 export default function CareersRoles() {
-  const [activeFilter, setActiveFilter] = useState<Dept>("View all");
-  const visibleRoles =
-    activeFilter === "View all" ? ROLES : ROLES.filter((role) => role.dept === activeFilter);
-
   return (
-    <section id="open-roles" className="scroll-mt-24 border-t border-lineSoft bg-background pt-12 pb-24 lg:pt-16 lg:pb-32">
+    <section
+      id="open-roles"
+      className="scroll-mt-24 bg-background pt-12 pb-20 lg:pt-16 lg:pb-24"
+    >
       <ScrollRevealRail>
-        <ScrollReveal>
-          <div className="flex items-baseline justify-between font-mono text-[11px] uppercase tracking-eyebrow">
-            <p>
-              <span className="text-overcast">[03]</span>
-              <span className="text-inkSoft">&nbsp;&nbsp;Open roles</span>
-            </p>
-            <span className="flex items-center gap-2">
-              <span className="relative flex h-2 w-2">
-                <span
-                  className="absolute inline-flex h-full w-full animate-ping rounded-full bg-blue opacity-50"
-                  style={{ animationDuration: "2.4s" }}
-                />
-                <span className="relative inline-flex h-2 w-2 rounded-full bg-blue" />
-              </span>
-              <span className="text-[11px] font-medium tracking-eyebrow text-blue">NOW HIRING</span>
-            </span>
-          </div>
-          <h2 className="mt-5 text-heading-sm font-semibold text-ink md:text-heading-md lg:text-heading-lg">
-            The team is small. The openings are specific.
-          </h2>
-          <p className="mt-5 max-w-[36em] text-lg leading-relaxed text-secondary-text">
-            We hire when a mission needs a person, not to fill an org chart. Each
-            of these roles ships to production systems from the start.
-          </p>
-        </ScrollReveal>
+        <SectionHeader
+          num="03"
+          label="Open roles"
+          live={`${ROLES.length} seats open`}
+          setup="Small team."
+          payoff="Specific seats."
+          lede="Hiring follows the mission, never the org chart. Each seat owns real scope."
+        />
 
-        <ScrollReveal delay={100}>
-          <div className="mt-10 flex flex-wrap gap-2">
-            {DEPT_FILTERS.map((filter) => (
-              <button
-                key={filter}
-                onClick={() => setActiveFilter(filter)}
-                className={[
-                  "rounded-full px-4 py-1.5 text-sm font-medium transition-all duration-150",
-                  activeFilter === filter
-                    ? "bg-ink text-white shadow-sm"
-                    : "border border-line bg-white/70 text-inkSoft hover:border-ink/30 hover:text-ink",
-                ].join(" ")}
-              >
-                {filter}
-              </button>
-            ))}
-          </div>
-        </ScrollReveal>
-
-        <ScrollReveal delay={140}>
-          <div className="mt-5 border-t border-lineSoft">
-            {visibleRoles.map((role) => (
-              <div key={role.title} className="group relative border-b border-lineSoft">
-                <div
-                  aria-hidden
-                  className="absolute left-0 top-0 h-full w-0.5 origin-top scale-y-0 bg-blue transition-transform duration-200 ease-out group-hover:scale-y-100"
-                />
-                <div className="flex items-start justify-between gap-4 py-6 pl-5 pr-1 transition-[padding] duration-150 group-hover:pl-6">
-                  <div className="min-w-0">
-                    <span className="mb-1.5 inline-block font-mono text-[10px] uppercase tracking-eyebrow text-overcast">
+        <ol className="mt-10 border-t border-lineSoft lg:mt-12">
+          {ROLES.map((role, idx) => (
+            <li key={role.title} className="group relative border-b border-lineSoft transition-colors duration-150 hover:bg-blue-subtle/40">
+              <span
+                aria-hidden
+                className="absolute left-0 top-0 h-full w-0.5 origin-top scale-y-0 bg-blue transition-transform duration-200 ease-out group-hover:scale-y-100"
+              />
+              <ScrollReveal delay={60 + idx * 50}>
+                <div className="grid grid-cols-1 gap-3 py-6 transition-[padding] duration-150 md:grid-cols-12 md:items-baseline md:gap-8 md:pl-5 md:group-hover:pl-6">
+                  <div className="flex items-center gap-3 md:col-span-3">
+                    <ChairGlyph />
+                    <span className="font-mono text-[11px] uppercase tracking-[0.08em] text-overcast">
                       {role.dept}
                     </span>
-                    <p className="text-[16px] font-semibold leading-snug text-ink md:text-[17px]">
-                      {role.title}
-                    </p>
-                    <p className="mt-1 max-w-[44em] text-sm leading-relaxed text-inkSoft">{role.desc}</p>
-                    <div className="mt-3 flex flex-wrap gap-2">
-                      <span className="flex items-center gap-1.5 rounded-full border border-lineSoft bg-white px-3 py-1 text-xs text-inkSoft">
-                        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden>
-                          <path d="M6 1a3.5 3.5 0 0 1 3.5 3.5C9.5 7.5 6 11 6 11S2.5 7.5 2.5 4.5A3.5 3.5 0 0 1 6 1Z" stroke="currentColor" strokeWidth="1" strokeLinejoin="round" />
-                          <circle cx="6" cy="4.5" r="1" fill="currentColor" />
-                        </svg>
-                        {role.location}
-                      </span>
-                      <span className="flex items-center gap-1.5 rounded-full border border-lineSoft bg-white px-3 py-1 text-xs text-inkSoft">
-                        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden>
-                          <circle cx="6" cy="6" r="4.5" stroke="currentColor" strokeWidth="1" />
-                          <path d="M6 3.5V6l1.5 1.5" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" />
-                        </svg>
-                        {role.type}
-                      </span>
-                    </div>
                   </div>
+                  <div className="md:col-span-5">
+                    <h3 className="text-[20px] font-semibold leading-snug tracking-tight text-ink">
+                      {role.title}
+                    </h3>
+                    <p className="mt-1 text-pretty text-[15px] leading-relaxed text-inkSoft">{role.desc}</p>
+                  </div>
+                  <p className="font-mono text-[11px] uppercase tracking-[0.08em] text-inkSoft md:col-span-3">
+                    {role.location} &middot; {role.type}
+                  </p>
                   <Link
                     href="#talk-to-our-team"
-                    className="mt-1 flex-shrink-0 text-sm font-semibold text-overcast transition-colors duration-150 group-hover:text-ink"
+                    aria-label={`Apply for ${role.title}`}
+                    className="inline-flex items-center gap-1 text-sm font-semibold text-blue transition-colors duration-150 after:absolute after:inset-0 after:content-[''] group-hover:text-blue-hover focus-visible:outline-none focus-visible:after:rounded-tile focus-visible:after:ring-2 focus-visible:after:ring-blue md:col-span-1 md:justify-end"
                   >
-                    <span className="flex items-center gap-0.5">
-                      Apply
-                      <span className="inline-block transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5">
-                        &#8599;
-                      </span>
+                    Apply
+                    <span aria-hidden className="transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5">
+                      &#8599;
                     </span>
                   </Link>
                 </div>
-              </div>
-            ))}
-          </div>
-        </ScrollReveal>
+              </ScrollReveal>
+            </li>
+          ))}
+        </ol>
 
         <ScrollReveal delay={180}>
-          <p className="mt-8 font-mono text-[10px] uppercase tracking-eyebrow text-overcast">
-            No perfect fit? Write to us anyway &middot; proof of work beats a perfect CV
-          </p>
+          <SectionCoda lead="No perfect fit? Write anyway." payoff="Proof of work beats a perfect CV." />
         </ScrollReveal>
       </ScrollRevealRail>
     </section>

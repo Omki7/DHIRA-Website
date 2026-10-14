@@ -117,11 +117,12 @@ const GOVERN: Prim[] = [
   { kind: "line", pts: [[38, 48], [46, 57], [63, 36]], density: 1.8, emphasis: true },
 ];
 
-// Order = the pipeline the section narrates top-to-bottom: the question drops
-// in and flows through ingest → store → explore → govern, with the grounded
-// answer at the end (user direction 20 Jul 2026). Index-matched to UCSignals'
-// TABS — reorder both together or the canvas desyncs.
-const GLYPHS: Prim[][] = [UNIFY, PREDICT, ASK, GOVERN];
+// Order = the steps UCSignals narrates top to bottom (22 Sep 2026): find the
+// change (PREDICT, a trend line with a spark where it moved), reason across
+// sources (UNIFY, many streams into one conclusion), answer with citations
+// (ASK), govern and audit (GOVERN, the shield). Index-matched to UCSignals'
+// TABS: reorder both together or the canvas desyncs.
+const GLYPHS: Prim[][] = [PREDICT, UNIFY, ASK, GOVERN];
 
 /* ---------- flatten + sample ---------- */
 
@@ -214,7 +215,12 @@ const TAU = Math.PI * 2;
 // 22 Jul 2026, Google Antigravity as the reference). Per-atom alpha is
 // quantised into ALPHA_STEPS buckets so the whole field paints in a couple of
 // dozen batched fills instead of a thousand state changes.
-const TINTS = ["rgb(250,250,251)", "rgb(125,152,246)"];
+//
+// ONE INK (22 Sep 2026, user direction): 14% of atoms used to be periwinkle
+// rgb(125,152,246). On the #0a0a0c ground that read as a blue cast over the
+// whole field and softened the glyphs. Every atom is now the section's text
+// white; do not reintroduce a second tint.
+const ATOM_FILL = "rgb(250,250,251)";
 const ALPHA_STEPS = 16;
 
 // Fills eng.gx/gy/gEm with the glyph's atom targets in canvas px and returns
@@ -326,7 +332,6 @@ interface Engine {
   ph1: Float32Array; ph2: Float32Array; wf1: Float32Array; wf2: Float32Array;
   amp: Float32Array; tw: Float32Array; tph: Float32Array;
   ox: Float32Array; oy: Float32Array; ovx: Float32Array; ovy: Float32Array;
-  tint: Uint8Array;
   order: Uint32Array;
   gx: Float32Array; gy: Float32Array; gEm: Uint8Array;
 }
@@ -352,7 +357,6 @@ function alloc(n: number) {
     amp: new Float32Array(n), tw: new Float32Array(n), tph: new Float32Array(n),
     ox: new Float32Array(n), oy: new Float32Array(n),
     ovx: new Float32Array(n), ovy: new Float32Array(n),
-    tint: new Uint8Array(n),
     order: new Uint32Array(n),
     gx: new Float32Array(n), gy: new Float32Array(n), gEm: new Uint8Array(n),
   };
@@ -393,7 +397,7 @@ export default function GlyphMorphCanvas({
     if (!ctx) return;
 
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
-    const buckets: (Path2D | null)[] = new Array(TINTS.length * ALPHA_STEPS).fill(null);
+    const buckets: (Path2D | null)[] = new Array(ALPHA_STEPS).fill(null);
     const pointer = { x: 0, y: 0, on: false };
     let visible = true;
 
@@ -581,7 +585,6 @@ export default function GlyphMorphCanvas({
         eng.amp[i] = 0.7 + rng() * 1.1;
         eng.tw[i] = 0.4 + rng() * 1.1;
         eng.tph[i] = rng() * TAU;
-        eng.tint[i] = rng() < 0.14 ? 1 : 0;
         eng.mode[i] = 0;
       }
 
@@ -772,25 +775,22 @@ export default function GlyphMorphCanvas({
 
         if (tr > 0.05 && ta > 0.02) {
           const step = Math.min(ALPHA_STEPS - 1, (ta * ALPHA_STEPS) | 0);
-          const slot = eng.tint[i] * ALPHA_STEPS + step;
-          let path = buckets[slot];
+          let path = buckets[step];
           if (!path) {
             path = new Path2D();
-            buckets[slot] = path;
+            buckets[step] = path;
           }
           path.moveTo(fx + tr, fy);
           path.arc(fx, fy, tr, 0, TAU);
         }
       }
 
-      for (let t = 0; t < TINTS.length; t++) {
-        ctx.fillStyle = TINTS[t];
-        for (let s = 0; s < ALPHA_STEPS; s++) {
-          const path = buckets[t * ALPHA_STEPS + s];
-          if (!path) continue;
-          ctx.globalAlpha = (s + 0.5) / ALPHA_STEPS;
-          ctx.fill(path);
-        }
+      ctx.fillStyle = ATOM_FILL;
+      for (let s = 0; s < ALPHA_STEPS; s++) {
+        const path = buckets[s];
+        if (!path) continue;
+        ctx.globalAlpha = (s + 0.5) / ALPHA_STEPS;
+        ctx.fill(path);
       }
       ctx.globalAlpha = 1;
     };

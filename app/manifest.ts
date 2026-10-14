@@ -5,7 +5,7 @@ export default function manifest(): MetadataRoute.Manifest {
     name: "DHIRA — Answers you can act on.",
     short_name: "DHIRA",
     description:
-      "From spreadsheets to PDFs to live streams, DHIRA gives your AI the full picture. Powered by Akashic, the complete record of your data.",
+      "From spreadsheets to PDFs to live streams, DHIRA gives your AI the full picture. Powered by Akashic, the intelligence layer behind every decision.",
     start_url: "/",
     display: "standalone",
     background_color: "#0A0E24",

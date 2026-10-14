@@ -1,0 +1,358 @@
+/* Page-scoped Akashic architecture, evaluation and technical reference. */
+/* [10] Built on Akashic (rebuilt 14 Oct 2026): separate solution columns
+   standing on shared module lines. Below lg each solution stacks and lists
+   only the modules it switches on; from lg the columns sit side by side and
+   every row lines up across them through subgrid. Tokens only (no hex), so
+   the sheet follows the theme. */
+.ak-solutions { @apply border-t border-lineSoft; }
+.ak-config { @apply mt-10 overflow-hidden rounded-frame border border-line bg-background; }
+.ak-config-axis { @apply hidden; }
+.ak-config-col { @apply flex flex-col border-t border-line; }
+.ak-config-col:first-of-type { @apply border-t-0; }
+
+.ak-config-head { @apply px-5 pb-5 pt-6 sm:px-6; }
+.ak-config-category { @apply font-mono text-[11px] font-medium uppercase tracking-eyebrow text-overcast; }
+.ak-config-head h3 { @apply mt-2 text-[22px] font-semibold leading-tight tracking-[-0.02em] text-ink; }
+.ak-config-audience { @apply mt-1.5 text-[13px] font-medium text-blue; }
+.ak-config-head h4 { @apply mt-4 max-w-[16em] text-balance text-[22px] font-medium leading-[1.2] tracking-[-0.015em] text-ink; }
+
+.ak-config-flow { @apply m-0 px-5 pb-6 sm:px-6; }
+.ak-config-flow ol { @apply relative space-y-3; }
+.ak-config-flow li { @apply relative grid grid-cols-[44px_1fr] items-center gap-3.5; }
+.ak-config-flow li:not(:last-child)::after { content: ""; @apply absolute left-[21.5px] top-[46px] h-[calc(100%-34px)] border-l border-dashed border-blue-border; }
+.ak-config-glyph { @apply relative z-[1] flex h-11 w-11 items-center justify-center bg-background text-blue; }
+.ak-config-glyph svg { @apply h-9 w-9; }
+.ak-config-flow strong { @apply block text-[14px] font-semibold leading-snug text-ink; }
+.ak-config-flow li > span:last-child > span { @apply mt-0.5 block text-[13px] leading-snug text-secondary-text; }
+.ak-config-flow figcaption { @apply mt-4 border-t border-dashed border-lineSoft pt-3 text-[13px] leading-relaxed text-secondary-text; }
+
+.ak-config-under { @apply border-t border-lineSoft bg-panel px-5 pb-1 pt-4 font-mono text-[11px] font-medium uppercase tracking-eyebrow text-blue sm:px-6; }
+.ak-config-cell { @apply relative flex items-center gap-3 bg-panel px-5 py-1.5 text-[14px] text-ink sm:px-6; }
+.ak-config-cell[data-used="false"] { @apply hidden; }
+.ak-config-node { @apply relative z-[1] inline-block h-2.5 w-2.5 shrink-0 rounded-full; }
+.ak-config-node[data-used="true"] { @apply bg-blue ring-4 ring-blue/15; }
+.ak-config-node[data-used="false"] { @apply mx-px h-2 w-2 border border-overcast/70 bg-panel; }
+
+.ak-config-link { @apply mt-auto flex items-center justify-between gap-4 border-t border-lineSoft px-5 py-4 text-sm font-semibold text-blue underline-offset-4 hover:bg-panel hover:underline sm:px-6; }
+.ak-config-link:focus-visible { outline-offset: -4px; }
+
+.ak-config-legend { @apply flex flex-wrap items-center gap-x-6 gap-y-2 border-t border-line bg-panel px-5 py-3.5 text-[13px] text-secondary-text sm:px-6; }
+/* The node key only explains the desktop matrix: below lg unused modules
+   are not shown, so only the route to all solutions remains. */
+.ak-config-legend > p { @apply hidden items-center gap-2.5 lg:flex; }
+.ak-config-all { @apply ml-auto inline-flex items-center gap-2 font-semibold text-blue underline-offset-4 hover:underline; }
+.ak-config-all svg { @apply h-4 w-4; }
+
+@media (min-width: 1024px) {
+  .ak-config-grid { display: grid; grid-template-columns: minmax(184px, 208px) repeat(3, minmax(0, 1fr)); grid-template-rows: repeat(11, auto); }
+  .ak-config-axis,
+  .ak-config-col { grid-row: 1 / -1; display: grid; grid-template-rows: subgrid; }
+  .ak-config-col { @apply border-t-0; }
+
+  /* Rows 1, 2 and 11 are divided into columns; the module band (rows 3 to
+     10) is not, so its lines run unbroken under every solution. */
+  .ak-config-head,
+  .ak-config-flow,
+  .ak-config-link { @apply border-l border-lineSoft; }
+  .ak-config-head { @apply border-b border-lineSoft px-6; }
+  .ak-config-flow { @apply px-6 pt-5; }
+  .ak-config-link { @apply px-6; }
+
+  .ak-config-axis > p { @apply px-6; }
+  .ak-config-axis-head,
+  .ak-config-axis-flow { @apply pt-6 font-mono text-[11px] font-medium uppercase tracking-eyebrow text-overcast; }
+  .ak-config-axis-head { @apply border-b border-lineSoft; }
+  .ak-config-axis-under { @apply border-t border-lineSoft bg-panel pb-1.5 pt-4 font-mono text-[11px] font-medium uppercase tracking-eyebrow text-blue; }
+  .ak-config-axis-module { @apply flex items-center gap-3 bg-panel py-1.5 text-[14px] font-medium text-ink; }
+  .ak-config-axis-module::after { content: ""; @apply h-px flex-1 bg-line; }
+  .ak-config-axis-link { @apply border-t border-lineSoft; }
+
+  .ak-config-under { @apply pb-1.5 pt-4; }
+  .ak-config-under > span { @apply sr-only; }
+  .ak-config-cell,
+  .ak-config-cell[data-used="false"] { @apply flex px-6; }
+  .ak-config-cell::before { content: ""; @apply absolute inset-x-0 top-1/2 h-px bg-line; }
+  .ak-config-cell-name { @apply sr-only; }
+
+  /* The spine: a solution's modules joined top to bottom, centred on the
+     nodes (24px padding + the 5px node radius). */
+  .ak-config-cell[data-spine]::after { content: ""; @apply absolute left-[28.25px] w-[1.5px] bg-blue/45; }
+  .ak-config-cell[data-spine="start"]::after { top: 50%; bottom: 0; }
+  .ak-config-cell[data-spine="mid"]::after { top: 0; bottom: 0; }
+  .ak-config-cell[data-spine="end"]::after { top: 0; bottom: 50%; }
+
+}
+.ak-story { @apply relative scroll-mt-24; }
+.ak-story-wrap { @apply mx-auto max-w-[1440px] border-x border-lineSoft px-6 py-16 sm:px-10 lg:px-16 lg:py-20; }
+.ak-story-label { @apply flex gap-4 font-mono text-[11px] uppercase tracking-eyebrow text-secondary-text; }
+.ak-story-label > span { @apply text-overcast; }
+.ak-story-heading { @apply mt-7 flex flex-col items-start gap-5; }
+.ak-story-title { @apply text-balance text-[34px] font-semibold leading-[1.08] tracking-tighter text-ink sm:text-[44px] lg:text-[52px]; }
+.ak-story-title > span { @apply text-inkSoft; }
+.ak-story-intro { @apply max-w-[48em] text-base leading-relaxed text-secondary-text lg:text-[17px]; }
+.ak-small-label { @apply font-mono text-[11px] font-medium uppercase leading-relaxed tracking-[0.08em] text-secondary-text; }
+.ak-story-coda { @apply mt-6 text-base font-medium tracking-tight text-ink; }
+.ak-foundation { @apply relative mt-9 overflow-hidden rounded-frame border border-line bg-background; }
+.ak-source-line { @apply grid gap-3 border-b border-line bg-panel px-5 py-4 lg:grid-cols-[210px_1fr] lg:gap-6 lg:px-6; }
+.ak-source-line > div { @apply flex flex-wrap gap-x-6 gap-y-2 text-sm font-medium text-ink; }
+.ak-layer { @apply relative grid gap-5 border-b border-lineSoft px-5 py-6 lg:grid-cols-[210px_1fr] lg:gap-6 lg:px-6; }
+.ak-layer::before { content:""; @apply absolute inset-y-0 left-0 w-[3px] bg-blue; }
+.ak-layer-name .ak-small-label { @apply text-blue; }
+.ak-layer-name h3 { @apply mt-2 max-w-[12em] text-[22px] font-medium leading-tight tracking-tight text-ink; }
+.ak-layer-name p { @apply mt-2 max-w-[25em] text-sm leading-relaxed text-secondary-text; }
+.ak-module-row { @apply grid gap-5 sm:grid-cols-3 sm:gap-0; }
+.ak-module-entry { @apply relative flex scroll-mt-28 flex-col border-t border-line pt-4 sm:border-l sm:border-t-0 sm:px-5 sm:pt-0; }
+.ak-module-entry:last-child { @apply sm:pr-0; }
+.ak-module-entry > span { @apply absolute top-0; }
+.ak-module-name { @apply flex items-center gap-2 text-blue; }
+.ak-module-entry h4 { @apply text-[16px] font-semibold tracking-tight text-ink; }
+.ak-module-entry p { @apply mt-2 text-[14px] leading-snug text-secondary-text; }
+.ak-module-capabilities { @apply mt-4 space-y-1.5 text-[13px] leading-snug text-secondary-text; }
+.ak-module-capabilities li { @apply flex gap-2; }
+.ak-module-capabilities li::before { content:""; @apply mt-[6px] h-1 w-1 shrink-0 rounded-full bg-blue; }
+.ak-module-agent { @apply mt-3 flex items-center gap-2 text-[13px] font-medium text-blue; }
+.ak-module-link { @apply mt-auto inline-flex items-center gap-2 pt-4 text-[13px] font-medium text-blue underline-offset-4 hover:underline; }
+.ak-layer-knowledge { @apply bg-blue-subtle/50; }
+.ak-context-weave { @apply relative flex min-h-[104px] items-center overflow-hidden; }
+.ak-context-weave svg { @apply absolute inset-0 h-full w-full fill-none stroke-blue/30; stroke-width:1.25; }
+.ak-context-weave > div { @apply relative grid w-full grid-cols-2 gap-3 px-3 sm:grid-cols-4; }
+.ak-context-weave span { @apply rounded-micro border border-blue-border bg-background px-2 py-3 text-center text-[13px] font-medium text-blue; }
+.ak-governance-line { @apply relative flex flex-wrap items-center gap-x-5 gap-y-2 bg-panel px-6 py-4; }
+.ak-governance-line > span:first-child { @apply absolute top-0; }
+.ak-governance-line strong { @apply text-sm font-medium text-ink; }
+.ak-governance-line > span { @apply text-xs text-secondary-text; }
+.ak-governance-line .ak-module-link { @apply pt-0 lg:ml-auto; }
+
+/* Restored four-card privacy section and four-pillar open architecture. */
+.ak-security { @apply overflow-hidden border-t border-lineSoft; }
+.ak-security-grid { @apply pointer-events-none absolute inset-0 opacity-[0.12]; background-image:linear-gradient(rgb(var(--inkSoft)) 1px,transparent 1px),linear-gradient(90deg,rgb(var(--inkSoft)) 1px,transparent 1px); background-size:60px 60px; mask-image:linear-gradient(to bottom,black,transparent 75%); }
+.ak-security-badges { @apply mt-6 flex flex-wrap gap-3; }
+.ak-security-badges > span { @apply flex items-center gap-2 rounded-full border border-line bg-background py-1.5 pl-1.5 pr-4 text-xs font-medium text-ink; }
+.ak-security-badges > span > span { @apply flex h-6 w-6 items-center justify-center rounded-full bg-blue-subtle font-mono text-[9px] text-blue; }
+.ak-security-cards { @apply mt-9 grid gap-4 sm:grid-cols-2 lg:grid-cols-4; }
+.ak-security-cards article { @apply flex flex-col rounded-outer border border-subtle-stroke bg-primary-bg p-6; }
+.ak-security-cards h3 { @apply text-[18px] font-semibold tracking-tight text-ink; }
+.ak-security-cards article > p { @apply mt-3 text-[14px] leading-relaxed text-secondary-text; }
+.ak-security-illustration { @apply relative mt-auto flex h-36 shrink-0 items-center justify-center; }
+.ak-security-icon { @apply relative z-10 flex h-14 w-14 items-center justify-center rounded-full border border-blue-border bg-background text-blue shadow-card; }
+.ak-security-icon svg { @apply h-6 w-6; }
+.ak-security-orbit { @apply absolute h-[86px] w-[86px] rounded-full border border-blue/15; }
+.ak-security-orbit:nth-child(2) { @apply h-[114px] w-[114px] border-blue/10; }
+.ak-security-field { @apply absolute left-0 z-20 rounded-chip border border-line bg-background px-2 py-1 font-mono text-[9px] text-secondary-text; }
+.ak-security-field:last-child { @apply left-auto right-0; }
+.ak-security-caption { @apply border-t border-lineSoft pt-4 font-mono text-[9px] uppercase leading-relaxed tracking-wide text-secondary-text; }
+.ak-open-principles { background:rgb(var(--band)); }
+.ak-principles { @apply mt-10 grid gap-y-9 sm:grid-cols-2 lg:grid-cols-4; }
+.ak-principles article { @apply flex flex-col border-l border-blue-border px-6; }
+.ak-principle-mark { @apply my-5 h-12 w-[120px] text-blue; }
+.ak-principles h3 { @apply text-[21px] font-semibold tracking-tight text-ink; }
+.ak-principles article > p { @apply mt-3 text-[15px] leading-relaxed text-secondary-text; }
+.ak-principle-detail { @apply mt-auto pt-6 text-xs font-medium text-blue; }
+.ak-principles-close { @apply mt-10 flex flex-wrap items-center justify-center gap-3 border-t border-blue-border/60 pt-6 text-center; }
+.ak-principles-close p { @apply text-sm text-secondary-text; }
+
+
+/* [07] The groundwork drawing (demos/akashic/GroundworkDrawing). Colour is
+   the legend: ink outline = new work, grey hatch = groundwork rebuilt, solid
+   blue = groundwork laid once (Akashic, so the eye lands on the
+   difference), dashed blue = preview. Both rows share one block
+   height and gap so the band lines up with the rebuilt layers above it. */
+.ak-gw { --gw-h:30px; --gw-gap:4px; --gw-col:16px; @apply mt-9 overflow-hidden rounded-frame border border-line bg-background; }
+.ak-gw-grid { @apply grid px-5 pb-7 pt-5 lg:px-8; grid-template-columns:repeat(4,minmax(0,1fr)); column-gap:var(--gw-col); }
+.ak-gw-corner { @apply hidden; }
+.ak-gw-head { @apply flex min-w-0 flex-wrap items-center gap-x-2 gap-y-1 border-b border-lineSoft pb-3; }
+.ak-gw-index { @apply font-mono text-[10px] text-overcast; }
+.ak-gw-name { @apply text-[14px] font-medium tracking-tight text-ink; }
+.ak-gw-rowlabel { grid-column:1 / -1; @apply flex flex-col gap-1 pb-3 pt-6; }
+.ak-gw-rowlabel strong { @apply text-[15px] font-semibold tracking-tight text-ink; }
+.ak-gw-rowlabel span { @apply text-balance text-[13px] leading-snug text-secondary-text; }
+.ak-gw-rowlabel-akashic strong { @apply text-blue; }
+.ak-gw-stack { @apply flex flex-col; gap:var(--gw-gap); }
+.ak-gw-shared { grid-column:1 / -1; @apply flex flex-col; gap:var(--gw-gap); }
+.ak-gw-works { @apply grid grid-cols-4; column-gap:var(--gw-col); }
+.ak-gw-work { @apply relative block rounded-micro border border-ink/45 bg-tertiary-bg; height:var(--gw-h); }
+.ak-gw-stack[data-preview="true"] .ak-gw-work,
+.ak-gw-work[data-preview="true"] { @apply border border-dashed border-blue bg-blue-subtle; }
+.ak-gw-rebuilt,.ak-gw-band { @apply relative flex items-center rounded-micro px-2.5 font-mono text-[10px] uppercase tracking-[0.08em]; height:var(--gw-h); }
+.ak-gw-rebuilt { @apply border border-line text-secondary-text; background-image:repeating-linear-gradient(135deg,theme('colors.line') 0 1px,transparent 1px 7px); }
+.ak-gw-rebuilt > span:first-child { @apply bg-background px-1; }
+.ak-gw-stack[data-preview="true"] .ak-gw-rebuilt { @apply border-dashed; }
+.ak-gw-band { @apply border border-blue bg-blue-solid text-white; }
+.ak-gw-governance { @apply mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 border-t border-blue-border pt-3 text-xs text-secondary-text; }
+.ak-gw-governance strong { @apply font-medium text-blue; }
+.ak-gw-reuse { @apply font-mono text-[10px] uppercase tracking-[0.08em] text-blue sm:ml-auto; }
+.ak-gw-pin { @apply flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-ink font-mono text-[10px] font-medium text-on-action; }
+.ak-gw-grid .ak-gw-pin { @apply absolute ring-[3px] ring-background; top:calc(50% - 10px); }
+.ak-gw-pin-rebuilt,.ak-gw-pin-work { right:-10px; }
+.ak-gw-pin-define { left:64%; }
+.ak-gw-pin-band { left:39%; }
+.ak-gw-legend { @apply flex flex-wrap gap-x-6 gap-y-2 border-t border-lineSoft bg-panel px-5 py-3 text-xs text-secondary-text lg:px-8; }
+.ak-gw-legend li { @apply flex items-center gap-2; }
+.ak-gw-swatch { @apply h-3 w-5 rounded-[2px]; }
+.ak-gw-swatch-work { @apply border border-ink/45 bg-tertiary-bg; }
+.ak-gw-swatch-rebuilt { @apply border border-line; background-image:repeating-linear-gradient(135deg,theme('colors.line') 0 1px,transparent 1px 4px); }
+.ak-gw-swatch-shared { @apply bg-blue; }
+.ak-gw-swatch-preview { @apply border border-dashed border-blue bg-blue-subtle; }
+.ak-gw-seats { @apply mt-8 grid gap-x-10 gap-y-5 sm:grid-cols-2 lg:grid-cols-4; }
+.ak-gw-seats li { @apply flex items-start gap-3 border-t border-line pt-4; }
+.ak-gw-seats .ak-small-label { @apply text-blue; }
+.ak-gw-seat-line { @apply mt-1 text-balance text-[15px] font-medium leading-snug tracking-tight text-ink; }
+.ak-gw-close { @apply mt-9 flex flex-col items-start gap-5 border-t border-line pt-6 lg:flex-row lg:items-center lg:justify-between; }
+.ak-gw-close p { @apply max-w-[40em] text-[15px] leading-relaxed text-secondary-text; }
+.ak-gw-close a { @apply shrink-0; }
+@media (min-width:1024px) {
+  .ak-gw-grid { grid-template-columns:220px repeat(4,minmax(0,1fr)); }
+  .ak-gw-corner { @apply block self-end border-b border-lineSoft pb-3; }
+  .ak-gw-rowlabel { grid-column:auto; @apply justify-center pb-0 pr-6; }
+  .ak-gw-stack,.ak-gw-shared { @apply pt-6; }
+  .ak-gw-shared { grid-column:span 4 / span 4; }
+}
+/* [02] The agent run (demos/akashic/AgentRunDrawing). Colour is the
+   legend: dashed blue = an agent at work (preview), ink = a person, solid
+   blue = live controls. Below lg the run stands vertical with the rail on
+   the left; from lg it runs left to right in six columns, each step
+   dropping a leader from its node to the agents that work in it. */
+.ak-ag { @apply mt-9 overflow-hidden rounded-frame border border-line bg-background; }
+.ak-ag-lanes { @apply hidden; }
+.ak-ag-run { @apply grid grid-cols-1 px-5 pt-6 lg:px-8; }
+.ak-ag-step { @apply relative grid gap-x-4; grid-template-columns:30px minmax(0,1fr); }
+.ak-ag-rail { @apply row-span-2 flex flex-col items-center; }
+.ak-ag-node { @apply relative z-[1] flex h-[30px] w-[30px] shrink-0 items-center justify-center rounded-full border border-dashed border-blue bg-background font-mono text-[10px] font-medium text-blue; }
+.ak-ag-step[data-kind="person"] .ak-ag-node { @apply border-solid border-ink bg-ink text-on-action; }
+.ak-ag-step[data-kind="record"] .ak-ag-node { @apply border-solid border-blue bg-blue-solid text-white; }
+.ak-ag-ping { @apply pointer-events-none absolute inset-0 rounded-full border border-ink; }
+.ak-ag-line { @apply block w-0 flex-1 border-l border-dashed border-blue; }
+.ak-ag-line[data-out="person"] { @apply border-solid border-ink; }
+.ak-ag-body { @apply pt-1; }
+.ak-ag-name { @apply text-[15px] font-semibold tracking-tight text-ink; }
+.ak-ag-detail { @apply mt-0.5 font-mono text-[10.5px] uppercase leading-relaxed tracking-[0.06em] text-secondary-text; }
+.ak-ag-agents { @apply flex flex-col gap-3 pb-7 pt-3; }
+.ak-ag-agents li { @apply relative block; }
+.ak-ag-agent { @apply flex items-center gap-2; }
+.ak-ag-code { @apply inline-flex h-5 min-w-[34px] shrink-0 items-center justify-center rounded-chip border border-blue bg-blue-subtle px-1 font-mono text-[9.5px] font-medium tracking-[0.06em] text-blue; }
+.ak-ag-code[data-preview="true"] { @apply border-dashed; }
+.ak-ag-agents strong { @apply min-w-0 text-[13.5px] font-medium leading-snug text-ink; }
+.ak-ag-agent-line { @apply mt-1 block text-balance text-[12.5px] leading-snug text-secondary-text; }
+.ak-ag-note { @apply text-balance pb-7 pt-3 text-[13.5px] font-medium leading-snug text-ink; }
+.ak-ag-note[data-kind="person"]::before { content:""; @apply mr-2 inline-block h-2 w-2 rounded-full bg-ink align-[1px]; }
+.ak-ag-foundation { @apply mx-5 flex flex-col gap-3 border-t border-lineSoft py-5 lg:mx-8 lg:mt-6 lg:flex-row lg:items-start lg:gap-10; }
+.ak-ag-foundation .ak-small-label { @apply shrink-0 text-blue lg:w-[150px] lg:pt-0.5; }
+.ak-ag-foundation .ak-ag-agents { @apply gap-x-12 gap-y-3 p-0 sm:flex-row sm:flex-wrap; }
+.ak-ag-legend { @apply flex flex-wrap items-center gap-x-6 gap-y-2 border-t border-lineSoft bg-panel px-5 py-3 text-xs text-secondary-text lg:px-8; }
+.ak-ag-legend li { @apply flex items-center gap-2; }
+.ak-ag-swatch { @apply h-3 w-5 rounded-[2px]; }
+.ak-ag-swatch[data-kind="agent"] { @apply border border-dashed border-blue bg-blue-subtle; }
+.ak-ag-swatch[data-kind="person"] { @apply bg-ink; }
+.ak-ag-swatch[data-kind="record"] { @apply bg-blue; }
+@media (min-width:1024px) {
+  .ak-ag-lanes { @apply grid px-8 pt-6; grid-template-columns:repeat(6,minmax(0,1fr)); }
+  .ak-ag-lane { @apply relative mr-6 border-b pb-2 font-mono text-[10px] font-medium uppercase tracking-[0.08em]; }
+  .ak-ag-lane::before,.ak-ag-lane::after { content:""; @apply absolute top-full h-[5px] border-l; border-color:inherit; border-style:inherit; }
+  .ak-ag-lane::before { left:0; }
+  .ak-ag-lane::after { right:0; }
+  .ak-ag-lane[data-kind="agent"] { @apply border-dashed border-blue text-blue; }
+  .ak-ag-lane[data-kind="person"] { @apply border-ink text-ink; }
+  .ak-ag-lane[data-kind="record"] { @apply mr-0 border-blue text-blue; }
+  .ak-ag-run { @apply items-start pt-5; grid-template-columns:repeat(6,minmax(0,1fr)); }
+  .ak-ag-step { @apply flex flex-col; }
+  /* The leader: from the node down through the step's agents. */
+  .ak-ag-step::before { content:""; @apply absolute bottom-1 left-[15px] top-[34px] border-l border-dashed border-blue-border; }
+  .ak-ag-step[data-kind="person"]::before { @apply border-solid border-ink/40; }
+  .ak-ag-step[data-kind="record"]::before { @apply border-solid border-blue/50; }
+  .ak-ag-rail { @apply h-[30px] flex-row; }
+  .ak-ag-line { @apply h-0 w-auto border-l-0 border-t; }
+  .ak-ag-body { @apply pl-[30px] pr-5 pt-3; }
+  .ak-ag-agents { @apply pb-1 pl-[30px] pr-4 pt-4; }
+  .ak-ag-agents li::before { content:""; @apply absolute -left-[15px] top-[10px] w-[11px] border-t border-dashed border-blue-border; }
+  .ak-ag-note { @apply pb-1 pl-[30px] pr-4 pt-4; }
+  .ak-ag-foundation .ak-ag-agents { @apply pl-0 pt-0; }
+  .ak-ag-foundation .ak-ag-agents li::before { content:none; }
+}
+
+/* [12] Questions: an open two-column list on hairlines, every answer
+   visible (no accordion). The index hangs left so questions align. */
+.ak-faq { @apply mt-10 grid gap-x-14 lg:grid-cols-2; }
+.ak-faq-item { @apply border-t border-line pb-8 pt-5; }
+.ak-faq-item dt { @apply flex gap-4 text-balance text-[17px] font-semibold leading-snug tracking-tight text-ink lg:text-[18px]; }
+.ak-faq-index { @apply w-[18px] shrink-0 pt-[4px] font-mono text-[11px] font-medium text-overcast; }
+.ak-faq-item dd { @apply mt-2.5 max-w-[36em] pl-[34px] text-[15px] leading-relaxed text-secondary-text; }
+
+@media (max-width:639px) {
+  .ak-gw { --gw-h:26px; --gw-col:8px; }
+  .ak-gw-grid { @apply px-4; }
+  .ak-gw-head { @apply flex-col items-start; }
+  .ak-gw-name { @apply text-[12.5px]; }
+  .ak-gw-rebuilt,.ak-gw-band { @apply px-1 text-[8.5px] tracking-[0.04em]; }
+  .ak-gw-legend { @apply px-4; }
+}
+
+
+/* A dark index with compact, high-contrast specification sheets. */
+.ak-reference { @apply bg-depth text-white; }
+.ak-reference .ak-story-wrap { @apply border-white/10; }
+.ak-reference .ak-story-label { @apply text-white/70; }
+.ak-reference .ak-story-label > span { @apply text-white/50; }
+.ak-reference .ak-story-title { @apply text-white; }
+.ak-reference .ak-story-title > span { @apply text-uc-mute; }
+.ak-reference .ak-story-intro { @apply text-white/75; }
+.ak-reference-index { @apply mt-9 overflow-hidden rounded-frame border border-white/20; }
+.ak-reference-module { @apply scroll-mt-24 border-b border-white/20; }
+.ak-reference-module:last-child { @apply border-b-0; }
+.ak-reference-module summary { @apply grid cursor-pointer list-none grid-cols-[28px_1fr_20px] items-center gap-4 px-5 py-5 md:grid-cols-[32px_1fr_24px] md:px-7; }
+.ak-reference-module summary::-webkit-details-marker { display:none; }
+.ak-reference-module summary .ak-small-label { @apply text-blue-300; }
+.ak-reference-name { @apply flex flex-col gap-1 md:flex-row md:items-baseline md:gap-4; }
+.ak-reference-module summary h3 { @apply text-[20px] font-medium tracking-tight md:text-[23px]; }
+.ak-reference-module summary:hover, .ak-reference-module[open] summary { @apply bg-depth-raised; }
+.ak-reference-tagline { @apply text-xs text-white/65; }
+.ak-reference-plus { @apply relative h-5 w-5; }
+.ak-reference-plus::before,.ak-reference-plus::after { content:""; @apply absolute left-0 top-1/2 h-px w-5 bg-blue-300; }
+.ak-reference-plus::after { transform:rotate(90deg); }
+.ak-reference-module summary:focus-visible { outline:2px solid #AEC3FF; outline-offset:-4px; }
+.ak-reference-module[open] .ak-reference-plus::after { transform:rotate(0deg); }
+.ak-reference-content { @apply bg-background px-5 pb-3 pt-5 text-ink md:px-7; }
+.ak-reference-desc { @apply max-w-[62em] text-sm leading-relaxed text-secondary-text; }
+.ak-reference-groups { @apply mt-5; }
+.ak-reference-group { @apply grid gap-3 border-t border-lineSoft py-5 lg:grid-cols-[160px_1fr] lg:gap-6; }
+.ak-reference-group h4 { @apply text-sm font-semibold text-ink; }
+.ak-reference-group dl { @apply grid gap-x-5 gap-y-4 sm:grid-cols-2 xl:grid-cols-3; }
+.ak-reference-group dl.ak-reference-pairs { @apply sm:grid-cols-2; }
+.ak-reference-group dt { @apply text-[15px] font-medium leading-snug text-ink; }
+.ak-reference-group dd { @apply mt-1 text-xs leading-snug text-secondary-text; }
+.ak-connector-list { @apply grid grid-cols-2 gap-2 sm:grid-cols-3 xl:grid-cols-4; }
+.ak-connector-list li { @apply flex items-center gap-2 rounded-micro border border-lineSoft bg-panel px-2 py-2 text-[13px] font-medium leading-snug text-ink; }
+.ak-connector-mark { @apply flex h-6 w-6 shrink-0 items-center justify-center rounded-micro bg-background font-mono text-[9px] text-blue; }
+.ak-reference-charts { @apply text-sm leading-relaxed text-secondary-text; }
+.ak-reference-note { @apply mt-5 max-w-[60em] text-xs leading-relaxed text-white/65; }
+.ak-close-section .ak-story-wrap { @apply py-10 lg:py-16; }
+.ak-close { @apply overflow-hidden rounded-outer bg-depth px-6 py-10 text-white md:px-12 md:py-14; }
+.ak-close .ak-story-label { @apply text-white/60; }
+.ak-close .ak-story-label > span { @apply text-blue-300; }
+.ak-close-body { @apply mt-10 grid gap-12 lg:grid-cols-[1.6fr_1fr] lg:gap-20; }
+.ak-close h2 { @apply text-[38px] font-medium leading-[1.07] tracking-tighter text-uc-mute md:text-[54px] lg:text-[60px]; }
+.ak-close h2 > span { @apply text-white; }
+.ak-close-intro { @apply mt-6 max-w-[30em] text-base leading-relaxed text-white/65; }
+.ak-close-actions { @apply mt-9 flex flex-wrap gap-3; }
+.ak-close-agenda { @apply flex flex-col justify-center border-l border-white/20 pl-7; }
+.ak-close-agenda > div { @apply relative py-5; }
+.ak-close-agenda > div::before { content:""; @apply absolute -left-[32px] top-7 h-[7px] w-[7px] rounded-full bg-blue-300; }
+.ak-close-agenda .ak-small-label { @apply text-blue-300; }
+.ak-close-agenda p { @apply mt-2 max-w-[18em] text-lg leading-snug text-white/85; }
+.ak-close-footer { @apply mt-12 flex flex-wrap justify-between gap-4 border-t border-white/15 pt-6 text-xs text-white/55; }
+.ak-close-footer > :last-child { @apply font-mono text-[10px] text-blue-300; }
+
+
+@media (max-width: 639px) {
+  .ak-story-wrap { @apply py-14; }
+  .ak-module-row { @apply gap-0; }
+  .ak-module-entry { @apply py-4; }
+  .ak-module-capabilities { @apply mt-3 flex flex-wrap gap-x-4 gap-y-1 space-y-0; }
+  .ak-module-link { @apply pt-3; }
+  .ak-governance-line .ak-module-link { @apply w-full pt-2; }
+  .ak-reference-group dl { @apply grid-cols-1 gap-0; }
+  .ak-reference-group dl > div { @apply border-b border-lineSoft py-3; }
+  .ak-reference-group dl > div:last-child { @apply border-b-0; }
+  .ak-reference-group dl > div:first-child { @apply pt-0; }
+  .ak-close-actions { @apply flex-col items-stretch; }
+  .ak-close-actions a { @apply justify-center px-4; }
+}

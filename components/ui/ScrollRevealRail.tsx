@@ -88,7 +88,7 @@ export default function ScrollRevealRail({
     };
   }, [dark]);
 
-  const baseColor = dark ? "rgba(255,255,255,0.09)" : "rgba(26,28,29,0.07)";
+  const baseColor = dark ? "rgba(255,255,255,0.09)" : "rgb(var(--ink) / 0.07)";
 
   return (
     <div

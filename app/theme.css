@@ -1,0 +1,184 @@
+/* Light is the default. Dark values apply only while an opted-in page is present. */
+:root {
+    color-scheme: light;
+    --background: 255 255 255;
+    --primary-bg: 250 250 251;
+    --tertiary-bg: 243 243 244;
+    --ink: 26 28 29;
+    --secondary-text: 92 94 99;
+    --tertiary-text: 142 143 145;
+    --action-hover: 47 49 50;
+    --on-action: 255 255 255;
+    --blue: 62 99 221;
+    --blue-hover: 51 81 184;
+    --blue-subtle: 238 241 252;
+    --blue-border: 200 210 245;
+    --red: 229 72 77;
+    --red-deep: 155 28 33;
+    --positive: 48 164 108;
+    --positive-text: 27 122 71;
+    --positive-subtle: 237 247 241;
+    --positive-border: 203 232 215;
+    --subtle-stroke: 238 239 241;
+    --default-stroke: 217 218 219;
+    --inkSoft: 111 121 136;
+    --overcast: 100 116 139;
+    --lineSoft: 228 231 236;
+    --line: 211 216 223;
+    --card-line: 228 232 240;
+    --card-divide: 235 238 244;
+    --panel: 247 248 251;
+    --band: 241 245 254;
+    --anchor: 26 28 29;
+    --vault: 10 10 12;
+    --uc-bg: 10 10 12;
+    --uc-surface: 21 21 25;
+    --uc-stroke: 29 29 34;
+    --uc-line: 42 42 49;
+    --uc-vertex: 85 85 95;
+    --uc-dim: 111 121 136;
+    --grid-dot: 232 232 233;
+    --screen-surface: 255 255 255;
+    --screen-raised: 250 250 251;
+    --plate-top: 253 253 254;
+    --plate-bottom: 238 240 243;
+    --plate-north: 215 218 224;
+    --plate-south: 210 213 220;
+    --plate-edge: 193 197 205;
+    --plate-west: 205 209 216;
+    --plate-east: 199 203 211;
+    --diagram-gold: 169 123 18;
+    --diagram-purple: 110 86 207;
+    --diagram-purple-line: 201 191 243;
+    --diagram-pink: 193 48 89;
+    --diagram-gold-bg: 255 249 230;
+    --diagram-gold-line: 240 225 176;
+    --diagram-purple-bg: 244 241 254;
+    --diagram-pink-bg: 253 240 244;
+    --shadow-card: 0 1px 2px rgb(11 20 64 / .04), 0 4px 12px -2px rgb(11 20 64 / .06);
+    --shadow-frame: 0 4px 10px rgb(11 20 64 / .05), 0 18px 40px -8px rgb(11 20 64 / .14);
+    --shadow-deep: 0 2px 6px rgb(11 20 64 / .12), 0 28px 56px -22px rgb(11 20 64 / .55);
+    --plate-highlight: rgb(255 255 255 / .9);
+  }
+  :root[data-theme="dark"]:is([data-theme-boot], :has([data-theme-page])) {
+    color-scheme: dark;
+    --background: 11 16 25;
+    --primary-bg: 17 25 37;
+    --tertiary-bg: 26 36 51;
+    --ink: 238 242 248;
+    --secondary-text: 176 189 206;
+    --tertiary-text: 140 155 176;
+    --action-hover: 255 255 255;
+    --on-action: 16 23 34;
+    --blue: 154 184 255;
+    --blue-hover: 190 208 255;
+    --blue-subtle: 24 39 66;
+    --blue-border: 52 77 120;
+    --red: 240 128 133;
+    --red-deep: 245 162 167;
+    --positive: 98 201 154;
+    --positive-text: 133 215 174;
+    --positive-subtle: 19 44 39;
+    --positive-border: 41 80 68;
+    --subtle-stroke: 37 48 67;
+    --default-stroke: 69 85 112;
+    --inkSoft: 146 163 184;
+    --overcast: 147 164 188;
+    --lineSoft: 40 52 72;
+    --line: 59 74 97;
+    --card-line: 51 65 88;
+    --card-divide: 41 54 74;
+    --panel: 21 31 46;
+    --band: 16 28 48;
+    --anchor: 16 23 37;
+    --vault: 8 13 22;
+    --uc-bg: 8 13 22;
+    --uc-surface: 17 26 40;
+    --uc-stroke: 34 46 64;
+    --uc-line: 53 68 91;
+    --uc-vertex: 101 117 140;
+    --uc-dim: 145 160 181;
+    --grid-dot: 30 42 60;
+    --screen-surface: 20 30 44;
+    --screen-raised: 26 38 55;
+    --plate-top: 35 49 71;
+    --plate-bottom: 23 34 52;
+    --plate-north: 49 65 89;
+    --plate-south: 28 41 60;
+    --plate-edge: 16 27 43;
+    --plate-west: 41 56 78;
+    --plate-east: 26 38 58;
+    --diagram-gold: 228 191 110;
+    --diagram-purple: 179 161 242;
+    --diagram-purple-line: 81 70 111;
+    --diagram-pink: 244 154 180;
+    --diagram-gold-bg: 48 43 29;
+    --diagram-gold-line: 104 88 58;
+    --diagram-purple-bg: 40 34 61;
+    --diagram-pink-bg: 50 35 50;
+    --shadow-card: 0 1px 0 rgb(255 255 255 / .025), 0 4px 16px rgb(2 6 14 / .16);
+    --shadow-frame: 0 1px 0 rgb(255 255 255 / .035), 0 18px 40px -8px rgb(2 6 14 / .45);
+    --shadow-deep: 0 2px 6px rgb(2 6 14 / .3), 0 28px 56px -22px rgb(2 6 14 / .8);
+    --plate-highlight: rgb(180 204 240 / .12);
+  }
+
+.theme-control { display:flex; align-items:center; gap:16px; }
+.theme-control-label { font-size:13px; color:rgb(var(--secondary-text)); }
+.theme-switch { display:flex; align-items:center; justify-content:center; width:76px; min-height:44px; border-radius:999px; -webkit-tap-highlight-color:transparent; }
+.theme-switch-track { position:relative; display:grid; grid-template-columns:1fr 1fr; place-items:center; width:72px; height:34px; border:1px solid rgb(var(--default-stroke)); border-radius:999px; background:rgb(var(--primary-bg)); color:rgb(var(--overcast)); }
+.theme-switch-thumb { position:absolute; top:3px; left:3px; width:28px; height:26px; border-radius:999px; background:rgb(var(--background)); box-shadow:0 1px 3px rgb(11 20 64 / .16),0 0 0 1px rgb(var(--lineSoft) / .6); }
+.theme-switch svg { position:relative; }
+.theme-switch-sun { color:rgb(var(--ink)); }
+.theme-switch:hover .theme-switch-track { border-color:rgb(var(--overcast)); }
+:root[data-theme="dark"]:is([data-theme-boot], :has([data-theme-page])) .theme-switch-thumb { transform:translateX(35px); background:rgb(var(--tertiary-bg)); box-shadow:inset 0 1px 0 rgb(255 255 255 / .08),0 1px 3px rgb(2 6 14 / .35); }
+:root[data-theme="dark"]:is([data-theme-boot], :has([data-theme-page])) .theme-switch-sun { color:rgb(var(--overcast)); }
+:root[data-theme="dark"]:is([data-theme-boot], :has([data-theme-page])) .theme-switch-moon { color:rgb(var(--ink)); }
+@media (prefers-reduced-motion:no-preference) {
+  .theme-switch-thumb { transition:transform 220ms cubic-bezier(.2,.8,.2,1),background-color 220ms ease; }
+  .theme-switch svg,.theme-switch-track { transition:color 180ms ease,border-color 180ms ease; }
+}
+
+/* Photography keeps its natural colour, with an exposure grade for the dusk sky. */
+:root[data-theme="dark"] .about-page .about-landscape-plane img { filter:brightness(.5) saturate(.6); }
+:root[data-theme="dark"] .about-page .about-hero-landscape::after {
+  background:linear-gradient(180deg,rgb(var(--background) / .58),rgb(var(--background) / .5) 45%,rgb(var(--background) / .35) 72%,rgb(var(--background)) 100%);
+}
+:root[data-theme="dark"] .about-page .about-hero h1 > span:first-child { color:rgb(var(--inkSoft)); }
+:root[data-theme="dark"] .about-page .about-portrait-photo img { filter:grayscale(1) brightness(.87); }
+:root[data-theme="dark"] .about-page .about-leader:hover img { filter:grayscale(1) brightness(.98); }
+
+.delivery-band { background:linear-gradient(180deg,rgb(var(--background)) 0%,rgb(var(--band)) 16%,rgb(var(--band)) 84%,rgb(var(--background)) 100%); }
+
+:root[data-theme="dark"] [data-theme-page="home"] #voices img {
+  mix-blend-mode:normal;
+  filter:grayscale(1) brightness(.9);
+}
+
+/* Calendar terraces: ordered luminance, with a separate programme family. */
+:root {
+  --journey-foundation: #3351B8;
+  --journey-platform-0: #D7E0FB;
+  --journey-platform-1: #DEE5FC;
+  --journey-platform-2: #E3E9FC;
+  --journey-platform-3: #E8EDFD;
+  --journey-platform-4: #ECF0FD;
+  --journey-platform-5: #F0F3FE;
+  --journey-platform-6: #F4F6FE;
+  --journey-programme-0: #F4F6F9;
+  --journey-programme-1: #EEF1F5;
+  --journey-programme-2: #E8ECF2;
+}
+:root[data-theme="dark"]:is([data-theme-boot], :has([data-theme-page])) {
+  --journey-foundation: #344F84;
+  --aws-wordmark: #EEF2F8;
+  --journey-platform-0: #213858;
+  --journey-platform-1: #284263;
+  --journey-platform-2: #304B6E;
+  --journey-platform-3: #38557A;
+  --journey-platform-4: #405F85;
+  --journey-platform-5: #496A91;
+  --journey-platform-6: #52769E;
+  --journey-programme-0: #26313F;
+  --journey-programme-1: #303C4C;
+  --journey-programme-2: #3B485A;
+}

@@ -12,31 +12,17 @@ import EnterpriseSecurity from "@/components/sections/EnterpriseSecurity";
 import CareersStrip from "@/components/sections/CareersStrip";
 import Closure from "@/components/sections/Closure";
 import PageMinimap from "@/components/layout/PageMinimap";
-import { HOME_SECTIONS } from "@/lib/homeSections";
+import { HOME_DELIVERY, HOME_SECTIONS } from "@/lib/homeSections";
 
 export default function Home() {
   return (
     <>
       <Nav />
-      <main className="bg-background">
+      <main data-theme-page="home" className="bg-background">
         <Hero />
         <ProblemSection />
         <MeetAkashic />
-        <ProvenAtScale
-          /* "The other half is the team that builds IT with you" was the first
-             draft, and "it" pointed straight back at the platform — so the
-             second half read as platform implementation, still Akashic-
-             dependent, which is the exact misreading this bridge exists to
-             kill. It now says the opposite out loud, and sets up /delivery's
-             own "Akashic is optional". */
-          bridge={{
-            lead: "Akashic is one half of what we do.",
-            payoff: "The other half doesn't require it.",
-            targetId: "delivery",
-            number: "04",
-            label: "HOW WE DELIVER",
-          }}
-        />
+        <ProvenAtScale bridge={HOME_DELIVERY.bridge} />
         <HowWeDeliver />
         <EverySector />
         {/* TheProof stays, by direction (23 Jul 2026). It was cut for one

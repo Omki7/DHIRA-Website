@@ -1,87 +1,35 @@
-/*
- * Careers, demoted to a strip (23 Jul 2026, homepage pacing pass).
- *
- * This replaced JoinTheTeam on the homepage. That section ran 1.59 screens —
- * larger than Proven at Scale, larger than Governance, larger than Every
- * Sector — to show a four-role job board with department filter pills. On a
- * page whose job is to convert a buyer it was the second-biggest thing on the
- * site, and it swapped the audience from buyer to candidate in the two screens
- * before the close. The full board still exists, on /careers, which is where
- * a candidate is going anyway.
- *
- * Deliberately UNNUMBERED and with no eyebrow: every real section on this page
- * opens `[NN]  LABEL`, and giving a strip one would put it back in the table
- * of contents this change exists to take it out of. It is also out of
- * HOME_SECTIONS for the same reason — the minimap rail lists stops, and this
- * is not a stop.
- *
- * JoinTheTeam.tsx is left in the tree untouched: /about and /careers both
- * reference it in their own comments as the pattern they were derived from.
- */
-
-import Link from "next/link";
+﻿import Link from "next/link";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import ScrollRevealRail from "@/components/ui/ScrollRevealRail";
-import FlyingEagleSketch from "@/components/icons/FlyingEagleSketch";
+import { ROLES } from "@/lib/careersRoles";
 
 export default function CareersStrip() {
   return (
-    <section
-      id="careers"
-      aria-labelledby="careers-h"
-      className="relative overflow-hidden bg-[#FAFAF9] py-10 lg:py-12"
-    >
-      {/* Warm ambient — the section's one carry-over from the full board. */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute -top-24 -right-24 h-[420px] w-[420px] blur-[130px]"
-        style={{ background: "radial-gradient(circle, rgba(215,155,60,0.08), transparent 70%)" }}
-      />
-
-      <ScrollRevealRail className="relative z-10">
+    <section id="careers" aria-labelledby="careers-h" className="relative scroll-mt-24 bg-background">
+      <ScrollRevealRail>
         <ScrollReveal>
-          <div className="flex flex-col gap-7 border-y border-dashed border-lineSoft py-9 lg:flex-row lg:items-center lg:justify-between lg:gap-10">
-            <div className="flex items-center gap-5 sm:gap-7">
-              <FlyingEagleSketch
-                className="hidden h-16 w-24 shrink-0 text-ink/85 sm:block"
-                aria-hidden="true"
-              />
-              <div className="min-w-0">
-                {/* Live hiring indicator — the old section's signature, kept
-                    because it is the one thing here that has to feel current. */}
-                <span className="mb-2 flex items-center gap-2">
-                  <span className="relative flex h-2 w-2">
-                    <span
-                      className="absolute inline-flex h-full w-full animate-ping rounded-full bg-blue opacity-50"
-                      style={{ animationDuration: "2.4s" }}
-                    />
-                    <span className="relative inline-flex h-2 w-2 rounded-full bg-blue" />
-                  </span>
-                  <span className="font-mono text-[11px] font-medium uppercase tracking-eyebrow text-blue">
-                    Now hiring
-                  </span>
-                </span>
-
-                <h2
-                  id="careers-h"
-                  className="text-[22px] font-semibold leading-tight tracking-tight text-ink sm:text-[26px]"
-                >
-                  Join us in building India&apos;s intelligence&nbsp;layer.
-                </h2>
-
-                <p className="mt-1.5 text-[14.5px] leading-relaxed text-inkSoft sm:text-[15px]">
-                  Engineering, machine learning, product and delivery.
-                  <span className="hidden sm:inline">
-                    {" "}
-                    New York · Hyderabad · Bangalore · Remote.
-                  </span>
-                </p>
-              </div>
+          <div className="relative grid gap-10 border-y border-lineSoft py-10 sm:py-12 lg:grid-cols-[1.1fr_1fr] lg:items-center lg:gap-20 lg:py-14">
+            <div>
+              <p className="font-mono text-[11px] uppercase tracking-eyebrow text-blue">Now hiring <span aria-hidden="true" className="mx-2 text-line">/</span> Come build with us</p>
+              <h2 id="careers-h" className="mt-6 text-[34px] font-semibold leading-[1.08] tracking-tighter sm:text-[42px] lg:text-[48px]">
+                <span className="block text-inkSoft">Join us in building</span>
+                <span className="block text-ink">India&apos;s intelligence layer.</span>
+              </h2>
+              <Link href="/careers" className="btn-primary mt-7">Explore open roles <span aria-hidden="true">↗</span></Link>
             </div>
-
-            <Link href="/careers" className="btn-secondary shrink-0 self-start lg:self-auto">
-              Explore open roles
-            </Link>
+            <div className="relative pl-14 sm:pl-24">
+              <svg aria-hidden="true" viewBox="0 0 100 280" preserveAspectRatio="none" className="pointer-events-none absolute inset-y-0 left-0 h-full w-12 text-blue sm:w-20" fill="none">
+                {[35, 105, 175, 245].map((y, i) => <path key={y} d={`M0 140 C${20 + i * 5} 140, 30 ${y}, 96 ${y}`} stroke="currentColor" strokeOpacity={0.25 + i * 0.16} strokeWidth="1" vectorEffect="non-scaling-stroke" />)}
+                <circle cx="3" cy="140" r="3" fill="currentColor" />
+              </svg>
+              {ROLES.map((role, index) => (
+                <Link key={role.dept} href="/careers#open-roles" className="group flex min-h-[70px] items-center gap-4 border-b border-lineSoft last:border-b-0">
+                  <span className="font-mono text-[10px] text-overcast">0{index + 1}</span>
+                  <span className="text-[19px] font-medium tracking-tight text-ink transition-colors group-hover:text-blue motion-reduce:transition-none sm:text-[22px]">{role.seat}</span>
+                  <span aria-hidden="true" className="ml-auto flex h-8 w-8 items-center justify-center rounded-full text-inkSoft transition-colors group-hover:bg-blue-subtle group-hover:text-blue motion-reduce:transition-none">↗</span>
+                </Link>
+              ))}
+            </div>
           </div>
         </ScrollReveal>
       </ScrollRevealRail>

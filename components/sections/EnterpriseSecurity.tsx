@@ -141,7 +141,7 @@ function TrustLine({ visible }: { visible: boolean }) {
                 y1="0"
                 x2={x}
                 y2={CH}
-                stroke="#C8D2F5"
+                stroke="rgb(var(--blue-border))"
                 strokeWidth="1"
                 vectorEffect="non-scaling-stroke"
                 className="opacity-60"
@@ -155,7 +155,7 @@ function TrustLine({ visible }: { visible: boolean }) {
       <path
         d={CURVE_D}
         fill="none"
-        stroke="#3E63DD"
+        stroke="rgb(var(--blue))"
         strokeWidth="1.6"
         strokeLinecap="round"
         strokeLinejoin="round"

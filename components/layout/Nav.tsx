@@ -1,483 +1,86 @@
 "use client";
 
-import type { FocusEvent, ReactNode } from "react";
-import { useEffect, useState } from "react";
+import type { FocusEvent, KeyboardEvent as ReactKeyboardEvent, PointerEvent } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import Link from "next/link";
-import DynamicSketchIcon from "@/components/icons/DynamicSketchIcon";
+import { usePathname } from "next/navigation";
 import DhiraLogo from "@/components/icons/DhiraLogo";
-import AkashicLogo from "@/components/icons/AkashicLogo";
+import ThemeSwitch from "@/components/layout/ThemeSwitch";
+import AnnouncementBar from "@/components/layout/nav/AnnouncementBar";
+import MegaSheet, { type SheetMotion } from "@/components/layout/nav/MegaSheet";
+import MobileNav from "@/components/layout/nav/MobileNav";
+import { Chevron, MenuIcon } from "@/components/layout/nav/NavIcons";
+import useMenuIntent from "@/hooks/useMenuIntent";
+import { NAV_CTA, NAV_MENUS, isCurrentSection } from "@/lib/navigation";
 
 /* ------------------------------------------------------------------ */
-/*  Menu data                                                          */
+/*  Site header (rebuilt 14 Oct 2026)                                  */
 /* ------------------------------------------------------------------ */
+/* Akashic · Solutions · Services · Company; every label and link lives in
+   lib/navigation.ts. No "Home" item: the logo is home, as on every
+   reference site and the founder's wireframe (dropped 14 Oct 2026).
+   Desktop: one shared sheet attached to the header (nav/MegaSheet), hover
+   intent and close grace (hooks/useMenuIntent), a blue-black scrim over the
+   page, and an ink underline that slides to the open trigger.
+   Mobile: a drill-down drawer (nav/MobileNav).
+   Two things hold the rest of the site up, keep them: the root is a
+   `<header data-scrolled>` (about-page.css styles `.about-page > header`), and
+   the bar is 72px (sticky offsets across the site are measured against it).
+   The announcement bar sits above the header in normal flow for the same
+   reason. */
 
-type MenuLink = {
-  title: string;
-  desc?: string;
-  href: string;
-};
+const ORDER = NAV_MENUS.map((menu) => menu.id);
+const isMouse = (event: PointerEvent) => event.pointerType === "mouse";
 
-type MenuGroup = {
-  heading: string;
-  items: MenuLink[];
-};
-
-const akashicGroups: MenuGroup[] = [
-  {
-    heading: "Data Layer",
-    items: [
-      { title: "Akashic Data Pipelines", desc: "Automate and scale data ingestion from any source", href: "/akashic#data-pipelines" },
-      { title: "Akashic Master Data", desc: "Create a unified, accurate view of core business entities", href: "/akashic#master-data" },
-      { title: "Akashic Data Warehouse", desc: "Centralised, secure storage for all your business records", href: "/akashic#data-warehousing" },
-    ],
-  },
-  {
-    heading: "Intelligence and Governance",
-    items: [
-      { title: "Akashic Machine Learning", desc: "Train and deploy AI models on your proprietary data", href: "/akashic#machine-learning" },
-      { title: "Akashic BI", desc: "Real-time analytics and dashboards for faster decisions", href: "/akashic#business-intelligence" },
-      { title: "Ask Akashic", desc: "Plain-language questions answered from your governed data, with citations", href: "/akashic#ask-ai" },
-      { title: "Akashic Governance", desc: "Control access, track lineage, and ensure compliance", href: "/akashic#governance" },
-    ],
-  },
-];
-
-const solutionsGroups: MenuGroup[] = [
-  {
-    heading: "Akashic Plugin",
-    items: [
-      { title: "Akashic EIS", desc: "Executive intelligence for leadership teams", href: "/solutions/eis" },
-      { title: "Akashic Life", desc: "Life-saving AI diagnostics at the remote edge", href: "/solutions/life" },
-    ],
-  },
-  {
-    heading: "Sectors",
-    items: [
-      { title: "Manufacturing", desc: "Production, quality, and equipment signals", href: "/sectors/manufacturing" },
-      { title: "Healthcare", desc: "Patient records with privacy controls", href: "/sectors/healthcare" },
-      { title: "Finance", desc: "Risk detection and audit-ready compliance", href: "/sectors/finance" },
-      { title: "Retail", desc: "Demand, inventory, and supply-chain signals", href: "/sectors/retail" },
-      { title: "Education", desc: "Connected systems for institutions and learners", href: "/sectors/education" },
-      { title: "Energy", desc: "Grid maintenance and resilience signals", href: "/sectors/energy" },
-    ],
-  },
-];
-
-const deliveryItems: MenuLink[] = [
-  { title: "Akashic", desc: "SaaS & White Label platform adoption", href: "/delivery#engagement-models" },
-  { title: "Custom Technology Services", desc: "Build solutions around your requirements", href: "/delivery#engagement-models" },
-  { title: "Product Engineering", desc: "Build and evolve products with us", href: "/delivery#engagement-models" },
-  { title: "Staff Augmentation", desc: "Extend your engineering team", href: "/delivery#engagement-models" },
-];
-
-const companyItems: MenuLink[] = [
-  { title: "About Us", desc: "How DHIRA builds accountable data systems", href: "/about" },
-  { title: "Careers", desc: "Join engineers building production systems", href: "/careers" },
-];
-
-/* ------------------------------------------------------------------ */
-/*  Dropdown + row helpers                                             */
-/* ------------------------------------------------------------------ */
-
-type DropProps = {
-  id: string;
-  label: string;
-  href?: string;
-  openMenu: string | null;
-  setOpenMenu: (v: string | null) => void;
-  align?: "start" | "center" | "end";
-  widthClassName: string;
-  children?: ReactNode;
-};
-
-const panelAlign = {
-  start: "left-0",
-  center: "left-1/2 -translate-x-1/2",
-  end: "right-0",
-};
-
-const notchAlign = {
-  start: "left-7",
-  center: "left-1/2 -translate-x-1/2",
-  end: "right-7",
-};
-
-function Chevron({ open }: { open: boolean }) {
-  return (
-    <svg
-      width="16"
-      height="16"
-      viewBox="0 0 16 16"
-      fill="none"
-      className={`transition-transform duration-250 ease-settle ${open ? "rotate-180" : ""}`}
-      aria-hidden
-    >
-      <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.4" d="M4.5 6.25 8 9.75l3.5-3.5" />
-    </svg>
-  );
-}
-
-function DropdownTrigger({
-  id,
-  label,
-  href,
-  openMenu,
-  setOpenMenu,
-  align = "center",
-  widthClassName,
-  children,
-}: DropProps) {
-  const isOpen = openMenu === id;
-  const triggerClass = `group inline-flex h-10 items-center justify-center gap-2 rounded-btn px-3 text-[15px] font-medium text-primary-text transition-colors duration-250 ease-settle hover:bg-tertiary-bg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue/30 ${
-    isOpen ? "bg-tertiary-bg" : ""
+const triggerClass = (strong: boolean) =>
+  `inline-flex h-10 items-center gap-1.5 rounded-btn px-3 text-[15px] font-medium transition-colors duration-150 ${
+    strong ? "text-ink" : "text-secondary-text hover:text-ink"
   }`;
 
-  const closeOnBlur = (event: FocusEvent<HTMLLIElement>) => {
-    const nextTarget = event.relatedTarget;
-    if (!(nextTarget instanceof Node) || !event.currentTarget.contains(nextTarget)) {
-      setOpenMenu(null);
-    }
-  };
-
-  return (
-    <li
-      className="relative -my-3 py-3"
-      onMouseEnter={() => setOpenMenu(id)}
-      onMouseLeave={() => setOpenMenu(null)}
-      onFocus={() => setOpenMenu(id)}
-      onBlur={closeOnBlur}
-      onKeyDown={(event) => {
-        if (event.key === "Escape") setOpenMenu(null);
-      }}
-    >
-      {href ? (
-        <Link
-          href={href}
-          className={triggerClass}
-          onClick={() => setOpenMenu(null)}
-          aria-haspopup="true"
-          aria-expanded={isOpen}
-        >
-          {label}
-          <Chevron open={isOpen} />
-        </Link>
-      ) : (
-        <button
-          type="button"
-          className={triggerClass}
-          onClick={() => setOpenMenu(isOpen ? null : id)}
-          aria-haspopup="true"
-          aria-expanded={isOpen}
-        >
-          {label}
-          <Chevron open={isOpen} />
-        </button>
-      )}
-
-      {isOpen && (
-        <div className={`absolute top-full z-50 pt-2 ${panelAlign[align]}`}>
-          <span
-            className={`absolute top-[5px] h-3 w-3 rotate-45 border-l border-t border-subtle-stroke bg-white ${notchAlign[align]}`}
-            aria-hidden
-          />
-          <div
-            className={`relative overflow-hidden rounded-frame border border-subtle-stroke bg-white shadow-frame ring-1 ring-black/[0.02] ${widthClassName}`}
-            onClick={() => setOpenMenu(null)}
-          >
-            {children}
-          </div>
-        </div>
-      )}
-    </li>
-  );
-}
-
-function MenuHeading({ children }: { children: ReactNode }) {
-  return (
-    <p className="px-2 pb-2 font-mono text-[10px] font-semibold uppercase tracking-eyebrow text-tertiary-text">
-      {children}
-    </p>
-  );
-}
-
-function ArrowIcon({ className = "opacity-0 transition-opacity duration-250 ease-settle group-hover:opacity-100" }: { className?: string }) {
-  return (
-    <svg width="13" height="13" viewBox="0 0 13 13" fill="none" className={className} aria-hidden>
-      <path fillRule="evenodd" clipRule="evenodd" d="M10.85 6.85a.5.5 0 0 0 0-.7L8.35 3.65a.5.5 0 1 0-.7.7L9.29 6H2.5a.5.5 0 0 0 0 1h6.79L7.65 8.65a.5.5 0 1 0 .7.7l2.5-2.5Z" fill="currentColor" />
-    </svg>
-  );
-}
-
-function MenuRow({ item, dense = false }: { item: MenuLink; dense?: boolean }) {
-  return (
-    <Link
-      href={item.href}
-      scroll={item.href.includes('#') ? false : undefined}
-      className={`group grid min-w-0 grid-cols-[auto_1fr] items-center rounded-card border border-transparent transition-colors duration-250 ease-settle hover:border-subtle-stroke hover:bg-primary-bg focus-visible:border-blue/40 focus-visible:bg-blue-subtle/60 focus-visible:outline-none ${
-        dense ? "gap-2.5 px-2 py-2" : "gap-3 px-2 py-2.5"
-      }`}
-    >
-      <span
-        className={`flex shrink-0 items-center justify-center rounded-btn border border-subtle-stroke bg-secondary-bg text-primary-text transition-colors duration-250 ease-settle group-hover:border-blue-border group-hover:bg-blue-subtle group-hover:text-blue ${
-          dense ? "h-7 w-7" : "h-8 w-8"
-        }`}
-      >
-        <DynamicSketchIcon text={item.title} className={dense ? "h-4 w-4" : "h-[18px] w-[18px]"} />
-      </span>
-      <span className="min-w-0">
-        <span className="flex min-w-0 items-center gap-1.5 text-[13px] font-semibold leading-tight text-primary-text">
-          <span className="truncate">{item.title}</span>
-          <ArrowIcon />
-        </span>
-        {item.desc && (
-          <span className={`mt-1 block text-[12px] leading-[1.35] text-secondary-text ${dense ? "truncate" : ""}`}>
-            {item.desc}
-          </span>
-        )}
-      </span>
-    </Link>
-  );
-}
-
-function PanelFooter({ href, label, copy }: { href: string; label: string; copy: string }) {
-  return (
-    <div className="mt-3 flex items-center justify-between gap-4 border-t border-dashed border-lineSoft px-2 pt-3">
-      <p className="text-[12px] leading-relaxed text-secondary-text">{copy}</p>
-      <Link
-        href={href}
-        className="group inline-flex shrink-0 items-center gap-1.5 rounded-btn px-2 py-1.5 text-[12px] font-semibold text-blue transition-colors duration-250 ease-settle hover:bg-blue-subtle"
-      >
-        {label}
-        <ArrowIcon />
-      </Link>
-    </div>
-  );
-}
-
-function GroupColumn({ group, dense = false }: { group: MenuGroup; dense?: boolean }) {
-  return (
-    <div className="min-w-0">
-      <MenuHeading>{group.heading}</MenuHeading>
-      <div className={dense ? "grid grid-cols-2 gap-1" : "space-y-1"}>
-        {group.items.map((item) => (
-          <MenuRow key={item.title} item={item} dense={dense} />
-        ))}
-      </div>
-    </div>
-  );
-}
-
-function AkashicPanel() {
-  return (
-    <div className="p-2.5">
-      <Link
-        href="/akashic"
-        className="group mb-2 flex items-center justify-between gap-3 rounded-card border border-blue-border/50 bg-blue-subtle/40 px-3 py-2 transition-colors duration-250 ease-settle hover:border-blue-border hover:bg-blue-subtle focus-visible:border-blue/40 focus-visible:outline-none"
-      >
-        <div className="flex items-center gap-2.5 min-w-0">
-          <AkashicLogo className="h-6 w-6 shrink-0 text-ink" />
-          <div className="flex items-center gap-2 min-w-0">
-            <span className="text-[13px] font-semibold text-primary-text transition-colors group-hover:text-blue truncate">
-              Akashic Platform Overview
-            </span>
-          </div>
-        </div>
-        <span className="inline-flex shrink-0 items-center gap-1 rounded-btn bg-blue px-2.5 py-1 text-[12px] font-semibold text-white transition-colors group-hover:bg-blue-hover">
-          View platform
-          <ArrowIcon className="opacity-100 transition-transform duration-200 group-hover:translate-x-0.5" />
-        </span>
-      </Link>
-
-      <div className="grid grid-cols-2 gap-3 border-t border-subtle-stroke pt-2">
-        {akashicGroups.map((group) => (
-          <GroupColumn key={group.heading} group={group} />
-        ))}
-      </div>
-    </div>
-  );
-}
-
-function SolutionsPanel() {
-  const [plugins, sectors] = solutionsGroups;
-
-  return (
-    <div className="p-3">
-      <div className="grid grid-cols-[280px_1fr] gap-3">
-        <GroupColumn group={plugins} />
-        <GroupColumn group={sectors} dense />
-      </div>
-      <PanelFooter
-        href="/akashic#solutions"
-        label="Explore solutions"
-        copy="Plugins and sector pages use the same governed Akashic foundation."
-      />
-    </div>
-  );
-}
-
-function DeliveryPanel() {
-  return (
-    <div className="p-2.5">
-      <Link
-        href="/delivery"
-        className="group mb-2.5 flex items-center justify-between gap-3 rounded-card border border-blue-border/50 bg-blue-subtle/40 px-3 py-2 transition-colors duration-250 ease-settle hover:border-blue-border hover:bg-blue-subtle focus-visible:border-blue/40 focus-visible:outline-none"
-      >
-        <div className="flex items-center gap-2.5 min-w-0">
-          <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-btn bg-blue text-white shadow-xs">
-            <DynamicSketchIcon text="Delivery Overview" className="h-3.5 w-3.5" />
-          </span>
-          <div className="flex items-center gap-2 min-w-0">
-            <span className="text-[13px] font-semibold text-primary-text transition-colors group-hover:text-blue whitespace-nowrap">
-              Delivery Overview
-            </span>
-            <span className="hidden sm:inline-block text-[12px] text-secondary-text truncate">
-              — How we work with you
-            </span>
-          </div>
-        </div>
-        <span className="inline-flex shrink-0 items-center gap-1 rounded-btn bg-blue px-2.5 py-1 text-[12px] font-semibold text-white transition-colors group-hover:bg-blue-hover">
-          View delivery
-          <ArrowIcon className="opacity-100 transition-transform duration-200 group-hover:translate-x-0.5" />
-        </span>
-      </Link>
-
-      <div className="border-t border-subtle-stroke pt-2.5">
-        <MenuHeading>Ways to Work With Us</MenuHeading>
-        <div className="space-y-1">
-          {deliveryItems.map((item) => (
-            <MenuRow key={item.title} item={item} />
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function CompanyPanel() {
-  return (
-    <div className="p-3">
-      <MenuHeading>Company</MenuHeading>
-      <div className="space-y-1">
-        {companyItems.map((item) => (
-          <MenuRow key={item.title} item={item} />
-        ))}
-      </div>
-    </div>
-  );
-}
-
-/* ------------------------------------------------------------------ */
-/*  Mobile menu                                                        */
-/* ------------------------------------------------------------------ */
-
-type MobileSectionConfig = {
-  id: string;
-  label: string;
-  href?: string;
-  groups?: MenuGroup[];
-  items?: MenuLink[];
-};
-
-const mobileSections: MobileSectionConfig[] = [
-  { id: "akashic", label: "Akashic", href: "/akashic", groups: akashicGroups },
-  { id: "solutions", label: "Solutions", groups: solutionsGroups },
-  { id: "delivery", label: "Delivery", href: "/delivery", items: deliveryItems },
-  { id: "company", label: "Company", items: companyItems },
-];
-
-function MobileMenuRow({ item, onNavigate }: { item: MenuLink; onNavigate: () => void }) {
-  return (
-    <Link
-      href={item.href}
-      onClick={onNavigate}
-      className="grid grid-cols-[28px_1fr] items-center gap-2.5 rounded-card px-2 py-2 text-primary-text transition-colors duration-250 ease-settle hover:bg-tertiary-bg focus-visible:bg-blue-subtle focus-visible:outline-none"
-    >
-      <span className="flex h-7 w-7 items-center justify-center rounded-btn border border-subtle-stroke bg-white text-primary-text">
-        <DynamicSketchIcon text={item.title} className="h-4 w-4" />
-      </span>
-      <span className="min-w-0">
-        <span className="block truncate text-[14px] font-semibold leading-tight">{item.title}</span>
-        {item.desc && <span className="mt-0.5 block truncate text-[12px] text-secondary-text">{item.desc}</span>}
-      </span>
-    </Link>
-  );
-}
-
-function MobileSection({
-  section,
-  open,
-  onToggle,
-  onNavigate,
-}: {
-  section: MobileSectionConfig;
-  open: boolean;
-  onToggle: () => void;
-  onNavigate: () => void;
-}) {
-  return (
-    <div className="border-b border-subtle-stroke last:border-b-0">
-      <button
-        type="button"
-        className="flex w-full items-center justify-between py-3 text-left text-[15px] font-semibold text-primary-text"
-        onClick={onToggle}
-        aria-expanded={open}
-      >
-        {section.label}
-        <Chevron open={open} />
-      </button>
-
-      {open && (
-        <div className="space-y-3 pb-4">
-          {section.href && (
-            <Link
-              href={section.href}
-              onClick={onNavigate}
-              className="inline-flex rounded-btn bg-primary-bg px-2.5 py-1.5 text-[12px] font-semibold text-blue"
-            >
-              {section.label} overview
-            </Link>
-          )}
-
-          {section.groups?.map((group) => (
-            <div key={group.heading}>
-              <MenuHeading>{group.heading}</MenuHeading>
-              <div className="space-y-1">
-                {group.items.map((item) => (
-                  <MobileMenuRow key={item.title} item={item} onNavigate={onNavigate} />
-                ))}
-              </div>
-            </div>
-          ))}
-
-          {section.items && (
-            <div className="space-y-1">
-              {section.items.map((item) => (
-                <MobileMenuRow key={item.title} item={item} onNavigate={onNavigate} />
-              ))}
-            </div>
-          )}
-        </div>
-      )}
-    </div>
-  );
-}
-
-/* ------------------------------------------------------------------ */
-/*  Main nav                                                           */
-/* ------------------------------------------------------------------ */
-
 export default function Nav() {
-  const [openMenu, setOpenMenu] = useState<string | null>(null);
+  const pathname = usePathname() ?? "/";
+  const { openId, hoverTrigger, leaveTrigger, enterRegion, leaveRegion, toggle, close } = useMenuIntent();
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [mobileSection, setMobileSection] = useState<string | null>("akashic");
   const [visible, setVisible] = useState(true);
+  const [scrolled, setScrolled] = useState(false);
 
+  const barRef = useRef<HTMLDivElement>(null);
+  const ctaRef = useRef<HTMLAnchorElement>(null);
+  const triggers = useRef<Record<string, HTMLButtonElement | null>>({});
+  const labels = useRef<Record<string, HTMLSpanElement | null>>({});
+  const [underline, setUnderline] = useState({ left: 0, width: 0 });
+  const [threadX, setThreadX] = useState(0);
+
+  /* Direction of travel between menus: the incoming panel slides in from the
+     side it was reached from. A first open just fades. */
+  const [travel, setTravel] = useState<{ id: string | null; motion: SheetMotion }>({ id: null, motion: "fade" });
+  if (openId !== travel.id) {
+    const from = travel.id;
+    let motion: SheetMotion = travel.motion;
+    if (openId) {
+      motion = !from ? "fade" : ORDER.indexOf(openId) > ORDER.indexOf(from) ? "from-right" : "from-left";
+    }
+    setTravel({ id: openId, motion });
+  }
+
+  /* Featured figures draw the first time their menu opens, then stay drawn.
+     One frame late on purpose: a figure must paint undrawn before it can
+     draw in. */
+  const [drawn, setDrawn] = useState<ReadonlySet<string>>(() => new Set());
+  useEffect(() => {
+    if (!openId || drawn.has(openId)) return;
+    const frame = requestAnimationFrame(() => setDrawn((previous) => new Set(previous).add(openId)));
+    return () => cancelAnimationFrame(frame);
+  }, [openId, drawn]);
+
+  /* Hide on scroll down (30px), show on scroll up (15px) or near the top. */
   useEffect(() => {
     let lastY = window.scrollY;
     let accumulatedDelta = 0;
 
     const handleScroll = () => {
       const currentY = window.scrollY;
+      setScrolled(currentY > 64);
       const delta = currentY - lastY;
 
       if ((delta > 0 && accumulatedDelta < 0) || (delta < 0 && accumulatedDelta > 0)) {
@@ -500,110 +103,214 @@ export default function Nav() {
       lastY = currentY;
     };
 
+    handleScroll();
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const showHeader = visible || mobileOpen || openMenu !== null;
-  const closeMobile = () => {
+  /* A route change closes everything. */
+  useEffect(() => {
+    close();
     setMobileOpen(false);
-    setMobileSection("akashic");
+  }, [pathname, close]);
+
+  /* Escape closes the open menu and hands focus back to its trigger. */
+  useEffect(() => {
+    if (!openId) return;
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key !== "Escape") return;
+      close();
+      triggers.current[openId]?.focus();
+    };
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, [openId, close]);
+
+  /* Underline and blue-thread positions follow the open trigger's label. */
+  useLayoutEffect(() => {
+    if (!openId) return;
+    const measure = () => {
+      const label = labels.current[openId];
+      const bar = barRef.current;
+      if (!label || !bar) return;
+      const labelBox = label.getBoundingClientRect();
+      const barBox = bar.getBoundingClientRect();
+      setUnderline({ left: labelBox.left - barBox.left, width: labelBox.width });
+      setThreadX(labelBox.left + labelBox.width / 2);
+    };
+    measure();
+    window.addEventListener("resize", measure);
+    return () => window.removeEventListener("resize", measure);
+  }, [openId]);
+
+  const showHeader = visible || mobileOpen || openId !== null;
+
+  /* Pointer resting on a non-menu item (logo, Home, CTA) starts the close grace. */
+  const restOnPlainItem = (event: PointerEvent) => {
+    if (isMouse(event)) leaveRegion();
+  };
+
+  /* Focus leaving the header (keyboard) closes the menu. */
+  const onHeaderBlur = (event: FocusEvent<HTMLElement>) => {
+    const next = event.relatedTarget;
+    if (openId && next instanceof Node && !event.currentTarget.contains(next)) close();
+  };
+
+  /* The sheet is not next to its trigger in the DOM, so carry focus across:
+     Tab (or ArrowDown) from an open trigger enters its panel. */
+  const onTriggerKeyDown = (id: string) => (event: ReactKeyboardEvent<HTMLButtonElement>) => {
+    const intoPanel = event.key === "ArrowDown" || (event.key === "Tab" && !event.shiftKey && openId === id);
+    if (!intoPanel) return;
+    event.preventDefault();
+    if (openId !== id) toggle(id, false);
+    requestAnimationFrame(() => document.querySelector<HTMLElement>(`#nav-panel-${id} a[href]`)?.focus());
+  };
+
+  /* ...and Tab past a panel's last link moves on to the next trigger. */
+  const onTabOut = (id: string, backwards: boolean) => {
+    if (backwards) {
+      triggers.current[id]?.focus();
+      return;
+    }
+    const next = ORDER[ORDER.indexOf(id) + 1];
+    close();
+    const nextControl = next
+      ? triggers.current[next]
+      : barRef.current?.querySelector<HTMLButtonElement>(".theme-switch") ?? ctaRef.current;
+    nextControl?.focus();
   };
 
   return (
-    <header className={`sticky top-0 z-50 border-b border-subtle-stroke bg-white/95 backdrop-blur-md transition-transform duration-300 ease-settle ${showHeader ? "translate-y-0" : "-translate-y-full"}`}>
-      <nav className="mx-auto flex h-[72px] w-full max-w-[1440px] items-center justify-between px-4 sm:px-6 lg:px-8">
-        <div className="flex min-w-0 items-center gap-6">
-          <Link
-            href="/"
-            aria-label="DHIRA homepage"
-            className="flex shrink-0 items-center gap-1.5 text-primary-text"
-            onClick={() => setOpenMenu(null)}
+    <>
+      <AnnouncementBar />
+
+      <header
+        data-scrolled={scrolled}
+        data-menu-open={openId !== null}
+        onPointerEnter={(event) => isMouse(event) && enterRegion()}
+        onPointerLeave={(event) => isMouse(event) && leaveRegion()}
+        onBlur={onHeaderBlur}
+        className={`sticky top-0 z-50 border-b border-subtle-stroke transition-[transform,background-color] duration-300 ease-settle ${
+          openId ? "bg-background" : "bg-background/95 backdrop-blur-md"
+        } ${showHeader ? "translate-y-0" : "-translate-y-full"}`}
+      >
+        <nav aria-label="Primary" className="relative">
+          <div
+            ref={barRef}
+            className="relative mx-auto flex h-[72px] w-full max-w-[1440px] items-center justify-between px-4 sm:px-6 lg:px-8"
           >
-            <DhiraLogo className="h-9 w-9" />
-            <span className="text-[22px] font-semibold tracking-tight">DHIRA</span>
-          </Link>
-
-          <ul className="hidden items-center gap-1 lg:flex">
-            <DropdownTrigger id="akashic" label="Akashic" href="/akashic" align="start" widthClassName="w-[704px] max-w-[calc(100vw-32px)]" openMenu={openMenu} setOpenMenu={setOpenMenu}>
-              <AkashicPanel />
-            </DropdownTrigger>
-
-            <DropdownTrigger id="solutions" label="Solutions" align="start" widthClassName="w-[704px] max-w-[calc(100vw-32px)]" openMenu={openMenu} setOpenMenu={setOpenMenu}>
-              <SolutionsPanel />
-            </DropdownTrigger>
-
-            <DropdownTrigger id="delivery" label="Delivery" href="/delivery" widthClassName="w-[520px] max-w-[calc(100vw-32px)]" openMenu={openMenu} setOpenMenu={setOpenMenu}>
-              <DeliveryPanel />
-            </DropdownTrigger>
-
-            <li>
-              <span
-                className="inline-flex h-10 cursor-default items-center justify-center rounded-btn px-3 text-[15px] font-medium text-primary-text"
-                aria-disabled="true"
+            <div className="flex min-w-0 items-center gap-6">
+              <Link
+                href="/"
+                aria-label="DHIRA homepage"
+                className="flex shrink-0 items-center gap-3 text-primary-text"
+                onPointerEnter={restOnPlainItem}
               >
-                Insights
-              </span>
-            </li>
+                <div className="flex items-center gap-1.5">
+                  <DhiraLogo className="h-9 w-9" />
+                  <span className="text-[22px] font-semibold tracking-tight">DHIRA</span>
+                </div>
+                <span
+                  aria-hidden="true"
+                  className="hidden max-w-[150px] border-l border-default-stroke pl-3 text-[11px] leading-[1.25] tracking-[0.04em] text-secondary-text md:block"
+                >
+                  Digital Human Interfaces & Robotic Agents
+                </span>
+              </Link>
 
-            <DropdownTrigger id="company" label="Company" widthClassName="w-[360px] max-w-[calc(100vw-32px)]" openMenu={openMenu} setOpenMenu={setOpenMenu}>
-              <CompanyPanel />
-            </DropdownTrigger>
-          </ul>
-        </div>
+              <ul className="hidden items-center gap-0.5 lg:flex">
+                {NAV_MENUS.map((item) => {
+                  const open = openId === item.id;
+                  return (
+                    <li key={item.id}>
+                      <button
+                        ref={(node) => {
+                          triggers.current[item.id] = node;
+                        }}
+                        type="button"
+                        aria-expanded={open}
+                        aria-controls={`nav-panel-${item.id}`}
+                        className={triggerClass(open || isCurrentSection(item, pathname))}
+                        onPointerEnter={(event) => isMouse(event) && hoverTrigger(item.id)}
+                        onPointerLeave={(event) => isMouse(event) && leaveTrigger()}
+                        onClick={(event) => toggle(item.id, event.detail > 0)}
+                        onKeyDown={onTriggerKeyDown(item.id)}
+                      >
+                        <span
+                          ref={(node) => {
+                            labels.current[item.id] = node;
+                          }}
+                        >
+                          {item.label}
+                        </span>
+                        <Chevron open={open} className="text-overcast" />
+                      </button>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
 
-        <div className="flex shrink-0 items-center gap-2">
-          <Link href="#login" className="btn-secondary hidden text-sm lg:inline-flex" onClick={() => setOpenMenu(null)}>
-            Login
-          </Link>
-          <Link href="#talk-to-our-team" className="btn-primary text-sm" onClick={() => setOpenMenu(null)}>
-            Talk to our team
-          </Link>
+            <div className="flex shrink-0 items-center gap-2" onPointerEnter={restOnPlainItem}>
+              <ThemeSwitch />
+              <Link
+                ref={ctaRef}
+                href={NAV_CTA.href}
+                className="btn-primary hidden text-sm sm:inline-flex"
+                onPointerEnter={restOnPlainItem}
+                onClick={close}
+              >
+                {NAV_CTA.label}
+              </Link>
+              <button
+                type="button"
+                className="btn-ghost lg:hidden"
+                onClick={() => {
+                  close();
+                  setMobileOpen(true);
+                }}
+                aria-label="Open menu"
+                aria-expanded={mobileOpen}
+              >
+                <MenuIcon />
+              </button>
+            </div>
 
-          <button
-            type="button"
-            className="btn-ghost lg:hidden"
-            onClick={() => {
-              setMobileOpen((value) => !value);
-              setOpenMenu(null);
-            }}
-            aria-label={mobileOpen ? "Close menu" : "Open menu"}
-            aria-expanded={mobileOpen}
-          >
-            {mobileOpen ? (
-              <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden>
-                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M4.5 4.5l9 9M13.5 4.5l-9 9" />
-              </svg>
-            ) : (
-              <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden>
-                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M15 6H3M15 12H3" />
-              </svg>
-            )}
-          </button>
-        </div>
-      </nav>
-
-      {mobileOpen && (
-        <div className="max-h-[calc(100dvh-72px)] overflow-y-auto border-t border-subtle-stroke bg-white px-4 py-2 shadow-card lg:hidden">
-          {mobileSections.map((section) => (
-            <MobileSection
-              key={section.id}
-              section={section}
-              open={mobileSection === section.id}
-              onToggle={() => setMobileSection((current) => (current === section.id ? null : section.id))}
-              onNavigate={closeMobile}
+            {/* The ink underline under the open trigger. Slides between
+                triggers; on a first open it appears in place. */}
+            <span
+              aria-hidden
+              className={`pointer-events-none absolute bottom-0 hidden h-[2px] rounded-full bg-ink lg:block ${
+                travel.motion === "fade" ? "transition-opacity duration-150" : "transition-[left,width,opacity] duration-250 ease-settle"
+              } ${openId ? "opacity-100" : "opacity-0"}`}
+              style={{ left: underline.left, width: underline.width }}
             />
-          ))}
-          <div className="grid grid-cols-2 gap-2 py-4">
-            <Link href="#login" className="btn-secondary w-full" onClick={closeMobile}>
-              Login
-            </Link>
-            <Link href="#talk-to-our-team" className="btn-primary w-full" onClick={closeMobile}>
-              Talk to our team
-            </Link>
           </div>
-        </div>
-      )}
-    </header>
+
+          <MegaSheet
+            menus={NAV_MENUS}
+            openId={openId}
+            motion={travel.motion}
+            threadX={threadX}
+            drawn={drawn}
+            pathname={pathname}
+            onNavigate={close}
+            onTabOut={onTabOut}
+          />
+        </nav>
+      </header>
+
+      {/* Focus scrim: blue-black (Rule 5), never neutral black. Clicking it
+          closes the menu. Desktop only; the drawer covers the screen. */}
+      <div
+        aria-hidden
+        onClick={close}
+        className={`fixed inset-0 z-40 hidden bg-depth/20 backdrop-blur-[3px] transition-[opacity,visibility] duration-250 ease-settle lg:block ${
+          openId ? "visible opacity-100" : "invisible opacity-0"
+        }`}
+      />
+
+      <MobileNav open={mobileOpen} pathname={pathname} onClose={() => setMobileOpen(false)} />
+    </>
   );
 }

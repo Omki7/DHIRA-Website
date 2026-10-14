@@ -4,24 +4,29 @@ import Link from "next/link";
 import DhiraLogo from "@/components/icons/DhiraLogo";
 import ScrollRevealRail from "@/components/ui/ScrollRevealRail";
 
+type FooterLink = { label: string; href: string };
+
 type FooterColumn = {
   heading: string;
-  links: string[];
+  links: FooterLink[];
   subHeading?: string;
-  subLinks?: string[];
+  subLinks?: FooterLink[];
 };
 
+/* Every link carries its own href. There used to be a label → href lookup
+   with a `#slug` fallback, so any label missing from the lookup silently
+   became a dead in-page anchor. */
 const footerColumns: FooterColumn[] = [
   {
     heading: "Akashic",
     links: [
-      "Akashic Data Pipelines",
-      "Akashic Master Data",
-      "Akashic Data Warehouse",
-      "Ask Akashic",
-      "Akashic Machine Learning",
-      "Akashic BI",
-      "Akashic Governance",
+      { label: "Akashic Data Pipelines", href: "/akashic#modules-data-pipelines" },
+      { label: "Akashic Master Data", href: "/akashic#modules-master-data" },
+      { label: "Akashic Data Warehouse", href: "/akashic#modules-data-warehousing" },
+      { label: "Ask Akashic", href: "/akashic#modules-ask-ai" },
+      { label: "Akashic Machine Learning", href: "/akashic#modules-machine-learning" },
+      { label: "Akashic BI", href: "/akashic#modules-business-intelligence" },
+      { label: "Akashic Governance", href: "/akashic#modules-governance" },
     ],
   },
   /* Solutions and Sectors are two different things and used to share one
@@ -31,90 +36,75 @@ const footerColumns: FooterColumn[] = [
      "Manufacturing product", which it does not. */
   {
     heading: "Akashic Solutions",
-    links: ["EIS", "Life"],
+    links: [
+      { label: "EIS", href: "/solutions/eis" },
+      { label: "Life", href: "/solutions/life" },
+    ],
   },
   {
     heading: "Sectors",
     links: [
-      "Public Sector",
-      "Manufacturing",
-      "Healthcare",
-      "Finance",
-      "Retail",
-      "Education",
-      "Energy",
+      { label: "Public Sector", href: "/sectors/public-sector" },
+      { label: "Manufacturing", href: "/sectors/manufacturing" },
+      { label: "Healthcare", href: "/sectors/healthcare" },
+      { label: "Finance", href: "/sectors/finance" },
+      { label: "Retail", href: "/sectors/retail" },
+      { label: "Education", href: "/sectors/education" },
+      { label: "Energy", href: "/sectors/energy" },
     ],
   },
-  /* Was a list of six deliverable names (AI Readiness Audit, Sovereign
-     Blueprint, …) collapsed onto two generic anchors. /delivery is built
-     around three ENGAGEMENT MODELS, so the footer now mirrors the page. */
+  /* Mirrors the /delivery sections. Each engagement model used to have its
+     own link, but the models are tabs inside one section with no per-tab
+     anchor, so all four landed on the same first tab. */
   {
     heading: "Delivery",
     links: [
-      "Ways to Work",
-      "Akashic Platform",
-      "Custom Technology Services",
-      "Product Engineering",
-      "Staff Augmentation",
-      "How We Deliver",
-      "Who This Is For",
-      "FAQ",
+      { label: "Ways to Work", href: "/delivery#engagement-models" },
+      { label: "Capabilities", href: "/delivery#capabilities" },
+      { label: "How We Deliver", href: "/delivery#methodology" },
+      { label: "Who This Is For", href: "/delivery#partnership-fit" },
+      { label: "FAQ", href: "/delivery#faq" },
     ],
   },
+  /* Documentation and Guides were dropped: neither exists yet (they pointed
+     at /akashic#open and a duplicate of How We Deliver). Add them back when
+     there is a real destination. */
   {
     heading: "Insights",
-    links: ["Customer Stories", "Perspectives", "Documentation", "Guides"],
+    links: [
+      { label: "Customer Stories", href: "/#scale" },
+      { label: "Perspectives", href: "/#voices" },
+    ],
     subHeading: "Company",
-    subLinks: ["About Us", "Careers"],
+    subLinks: [
+      { label: "About Us", href: "/about" },
+      { label: "Careers", href: "/careers" },
+    ],
   },
 ];
 
-const slug = (s: string) =>
-  `#${s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "")}`;
+/* Contrast on `vault` (#0a0a0c): white/50 is 5.3:1 and white/55 is 6.3:1,
+   both over the 4.5:1 AA floor. The old /30, /35 and /40 greys measured
+   2.6 to 3.8:1 and failed at these 11 to 12px sizes. */
+const headingClass =
+  "font-mono text-[11px] font-medium uppercase tracking-eyebrow text-white/50 mb-5";
+const linkClass =
+  "text-white/55 text-sm hover:text-white transition-colors duration-250 ease-settle";
+const ribbonLinkClass = "hover:text-white/80 transition-colors duration-250 ease-settle";
 
-const hrefOverrides: Record<string, string> = {
-  // Akashic
-  "Akashic Data Pipelines": "/akashic#modules-data-pipelines",
-  "Akashic Master Data": "/akashic#modules-master-data",
-  "Akashic Data Warehouse": "/akashic#modules-data-warehousing",
-  "Ask Akashic": "/akashic#modules-ask-ai",
-  "Akashic Machine Learning": "/akashic#modules-machine-learning",
-  "Akashic BI": "/akashic#modules-business-intelligence",
-  "Akashic Governance": "/akashic#modules-governance",
-
-  // Akashic Solutions — vertical solutions on top of the platform
-  "EIS": "/solutions/eis",
-  "Life": "/solutions/life",
-
-  // Sectors — domains we deliver into
-  "Public Sector": "/sectors/public-sector",
-  "Manufacturing": "/sectors/manufacturing",
-  "Healthcare": "/sectors/healthcare",
-  "Finance": "/sectors/finance",
-  "Retail": "/sectors/retail",
-  "Education": "/sectors/education",
-  "Energy": "/sectors/energy",
-
-  // Delivery — ways to work with us, plus page sections
-  "Ways to Work": "/delivery#engagement-models",
-  "Akashic Platform": "/delivery#engagement-models",
-  "Custom Technology Services": "/delivery#engagement-models",
-  "Product Engineering": "/delivery#engagement-models",
-  "Staff Augmentation": "/delivery#engagement-models",
-  "How We Deliver": "/delivery#methodology",
-  "Who This Is For": "/delivery#partnership-fit",
-  "FAQ": "/delivery#faq",
-
-  // Insights & Company
-  /* Was "/#proven-at-scale", which is not an id on any page — the home
-     ProvenAtScale renders with its default id="scale". */
-  "Customer Stories": "/#scale",
-  "Perspectives": "/#voices",
-  "Documentation": "/akashic#open",
-  "Guides": "/delivery#methodology",
-  "About Us": "/about",
-  "Careers": "/careers",
-};
+function LinkList({ links }: { links: FooterLink[] }) {
+  return (
+    <ul className="space-y-3">
+      {links.map((link) => (
+        <li key={link.label}>
+          <Link href={link.href} className={linkClass}>
+            {link.label}
+          </Link>
+        </li>
+      ))}
+    </ul>
+  );
+}
 
 export default function Footer() {
   return (
@@ -137,84 +127,58 @@ export default function Footer() {
             <p className="text-white/55 text-sm leading-relaxed max-w-[240px]">
               Data and AI, grounded in one governed foundation.
             </p>
-            <p className="text-white/30 text-xs mt-8 tracking-wide">
+            <p className="text-white/50 text-xs mt-8 tracking-wide">
               New York · Hyderabad · Bangalore
             </p>
           </div>
 
-          {/* Link columns */}
+          {/* Link columns. h2, not h4: the footer starts a new top-level
+              region, so h4 skipped two levels in the heading outline. */}
           {footerColumns.map((col) => (
             <div key={col.heading} className="col-span-1">
-              <h4 className="font-mono text-[11px] font-medium uppercase tracking-eyebrow text-white/40 mb-5">
-                {col.heading}
-              </h4>
-              <ul className="space-y-3">
-                {col.links.map((link) => (
-                  <li key={link}>
-                    <Link
-                      href={hrefOverrides[link] ?? slug(link)}
-                      className="text-white/55 text-sm hover:text-white transition-colors duration-250 ease-settle"
-                    >
-                      {link}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
+              <h2 className={headingClass}>{col.heading}</h2>
+              <LinkList links={col.links} />
 
               {col.subHeading && col.subLinks && (
                 <div className="mt-8">
-                  <h4 className="font-mono text-[11px] font-medium uppercase tracking-eyebrow text-white/40 mb-5">
-                    {col.subHeading}
-                  </h4>
-                  <ul className="space-y-3">
-                    {col.subLinks.map((link) => (
-                      <li key={link}>
-                        <Link
-                          href={hrefOverrides[link] ?? slug(link)}
-                          className="text-white/55 text-sm hover:text-white transition-colors duration-250 ease-settle"
-                        >
-                          {link}
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
+                  <h2 className={headingClass}>{col.subHeading}</h2>
+                  <LinkList links={col.subLinks} />
                 </div>
               )}
             </div>
           ))}
         </div>
 
-        {/* ⚠ RIBBON — NOT SHIPPABLE AS IS. Every link below is a placeholder
-            in-page anchor that resolves to nothing:
+        {/* ⚠ RIBBON — NOT SHIPPABLE AS IS. Privacy Policy and Terms are
+            placeholder in-page anchors that resolve to nothing:
               #privacy   → needs a real /privacy page or hosted policy URL
               #terms     → needs a real /terms page
-              #twitter   → needs the real X/Twitter profile URL
-              #linkedin  → needs the real LinkedIn company URL
-            Privacy Policy and Terms are also a legal requirement for a site
-            collecting enquiries, so these block launch rather than being
-            cosmetic. Replace the hrefs, then delete this comment. */}
-        <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-4">
-          <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-xs text-white/35">
+            They are a legal requirement for a site collecting enquiries, so
+            they block launch rather than being cosmetic. The X icon was
+            removed for the same reason (#twitter went nowhere); restore it
+            with the real profile URL. Replace the hrefs, then delete this
+            comment.
+            Left-aligned on mobile to match the columns above; copyright on
+            its own line so the legal links never split across two rows. */}
+        <div className="pt-8 border-t border-white/10 flex flex-col items-start gap-5 md:flex-row md:items-center md:justify-between">
+          <div className="flex flex-col gap-2 text-xs text-white/50 md:flex-row md:items-center md:gap-5">
             <span>&copy; {new Date().getFullYear()} DHIRA Technologies. All rights reserved.</span>
-            <Link href="#privacy" className="hover:text-white/65 transition-colors duration-250 ease-settle">
-              Privacy Policy
-            </Link>
-            <Link href="#terms" className="hover:text-white/65 transition-colors duration-250 ease-settle">
-              Terms of Service
-            </Link>
+            <div className="flex items-center gap-5">
+              <Link href="#privacy" className={ribbonLinkClass}>
+                Privacy Policy
+              </Link>
+              <Link href="#terms" className={ribbonLinkClass}>
+                Terms of Service
+              </Link>
+            </div>
           </div>
-          <div className="flex items-center gap-3 text-white/35">
-            <Link href="#twitter" className="hover:text-white/65 transition-colors duration-250 ease-settle" aria-label="X (Twitter)">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 22.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-              </svg>
-            </Link>
+          <div className="flex items-center gap-3 text-white/50">
             <Link
               href="https://www.linkedin.com/company/dhira"
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-white/65 transition-colors duration-250 ease-settle"
-              aria-label="LinkedIn"
+              className={ribbonLinkClass}
+              aria-label="DHIRA on LinkedIn"
             >
               <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                 <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z" />

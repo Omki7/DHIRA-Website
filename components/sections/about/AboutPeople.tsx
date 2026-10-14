@@ -1,131 +1,31 @@
-"use client";
+﻿import Image from "next/image";
+import AboutSection, { AboutHeading } from "@/components/sections/about/AboutSection";
+import { ABOUT_LEADERS, ABOUT_STORY } from "@/lib/aboutContent";
 
-/*
- * [07] People — The People Behind Dhira
- * Restrained, human-centered presentation:
- * - Authentic, high-quality portrait frames without corporate clutter
- * - Name, role, and a concise human description
- * - Minimal borders and generous breathing room
- */
-
-import Image from "next/image";
-import ScrollReveal from "@/components/ui/ScrollReveal";
-import ScrollRevealRail from "@/components/ui/ScrollRevealRail";
-
-interface Leader {
-  id: string;
-  name: string;
-  role: string;
-  description: string;
-  avatarSrc: string;
-  imageClass: string;
-}
-
-const LEADERS: Leader[] = [
-  {
-    id: "dilip",
-    name: "Dilip Hanumara",
-    role: "Founder & CEO",
-    description: "Sets company direction and architecture strategy.",
-    avatarSrc: "/avatars/dilip-ceo.png",
-    imageClass: "object-cover object-[center_top]",
-  },
-  {
-    id: "sirish",
-    name: "Sirish Simha",
-    role: "Head of Technology",
-    description: "Leads core platform engineering and distributed systems.",
-    avatarSrc: "/avatars/sirish-simha.png",
-    imageClass: "object-cover object-[center_top]",
-  },
-  {
-    id: "rupa",
-    name: "Rupa Sridhar",
-    role: "Head of Solutions",
-    description: "Architects enterprise AI and large-scale data systems.",
-    avatarSrc: "/avatars/rupa-sridhar.png",
-    imageClass: "object-cover object-[center_15%]",
-  },
-  {
-    id: "rajiv",
-    name: "Rajiv Kumar",
-    role: "Head of Talent & HR",
-    description: "Builds engineering culture and high-ownership teams.",
-    avatarSrc: "/avatars/rajiv-kumar.png",
-    imageClass: "object-cover object-[center_top]",
-  },
-  {
-    id: "pratheep",
-    name: "Pratheep Menon",
-    role: "Head of Business Development",
-    description: "Drives strategic partnerships and enterprise relationships.",
-    avatarSrc: "/avatars/pratheep-menon.png",
-    imageClass: "object-cover object-[center_top]",
-  },
-];
+const PLACEMENT = ["lg:order-3", "lg:order-1 lg:pt-14", "lg:order-2 lg:pt-24", "lg:order-4 lg:pt-24", "lg:order-5 lg:pt-14"];
 
 export default function AboutPeople() {
+  const content = ABOUT_STORY.people;
   return (
-    <section
-      id="people"
-      className="scroll-mt-24 border-t border-lineSoft bg-background pt-20 pb-24 lg:pt-28 lg:pb-32"
-    >
-      <ScrollRevealRail>
-        {/* --- SECTION HEADER --- */}
-        <ScrollReveal>
-          <div className="flex items-baseline justify-between font-mono text-[11px] uppercase tracking-eyebrow">
-            <p>
-              <span className="text-overcast">[07]</span>
-              <span className="text-inkSoft">&nbsp;&nbsp;The People</span>
-            </p>
-            <span className="hidden text-overcast sm:inline">/ Leadership</span>
-          </div>
-
-          <div className="mt-8 max-w-3xl">
-            <h2 className="text-3xl font-semibold tracking-tight text-ink sm:text-4xl md:text-5xl leading-[1.12]">
-              The people behind Dhira.
-            </h2>
-            <p className="mt-5 text-lg text-secondary-text leading-relaxed sm:text-xl">
-              Dhira is built by engineers, technologists, and leaders who stay close to the work. Different backgrounds. Different disciplines. One shared expectation: build something worth depending on.
-            </p>
-          </div>
-        </ScrollReveal>
-
-        {/* --- 5 LEADERSHIP PROFILES (CLEAN, HUMAN, MINIMAL) --- */}
-        <div className="mt-16 pt-12 border-t border-lineSoft">
-          <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-5 lg:gap-6 items-start">
-            {LEADERS.map((leader, idx) => (
-              <ScrollReveal key={leader.id} delay={60 + idx * 40}>
-                <div className="group flex flex-col">
-                  {/* Clean Portrait Frame */}
-                  <div className="relative aspect-[4/5] w-full overflow-hidden rounded-xl bg-primary-bg">
-                    <Image
-                      src={leader.avatarSrc}
-                      alt={leader.name}
-                      fill
-                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 20vw"
-                      className={`transition-transform duration-500 ease-out group-hover:scale-103 ${leader.imageClass}`}
-                    />
-                  </div>
-
-                  {/* Leader Info */}
-                  <div className="mt-4">
-                    <h3 className="text-lg font-bold tracking-tight text-ink group-hover:text-blue transition-colors">
-                      {leader.name}
-                    </h3>
-                    <p className="font-mono text-xs font-semibold text-blue mt-0.5">
-                      {leader.role}
-                    </p>
-                    <p className="mt-2 text-xs leading-relaxed text-secondary-text">
-                      {leader.description}
-                    </p>
-                  </div>
-                </div>
-              </ScrollReveal>
-            ))}
-          </div>
+    <AboutSection id="people">
+      <AboutHeading number="04" label={content.label} setup={content.setup} title={content.title} intro={content.intro} />
+      <div className="about-content relative">
+        <svg viewBox="0 0 1200 240" preserveAspectRatio="none" className="pointer-events-none absolute left-0 top-20 hidden h-60 w-full lg:block" aria-hidden="true"><path d="M26 140C186 220 234 178 365 100S550 30 600 30S744 36 835 100S1014 220 1174 140" fill="none" stroke="#E4E7EC" strokeWidth="1" /></svg>
+        <div className="relative grid grid-cols-2 gap-x-5 gap-y-9 lg:grid-cols-5 lg:gap-x-7">
+          {ABOUT_LEADERS.map((leader, index) => (
+            <article key={leader.id} data-about-reveal={index * 65} className={`about-leader ${index === 0 ? "col-span-2 grid grid-cols-[112px_1fr] items-center gap-5 pb-4 sm:grid-cols-[160px_1fr] lg:col-span-1 lg:block lg:pb-0" : ""} ${PLACEMENT[index]}`}>
+              <div className={`about-portrait relative mx-auto bg-panel ${index === 0 ? "h-[140px] w-[112px] sm:h-[200px] sm:w-[160px] lg:h-[280px] lg:w-full lg:max-w-[224px]" : "aspect-[4/5] w-full max-w-[184px]"}`}>
+                <div className="about-portrait-photo"><Image src={leader.image} alt={leader.name} fill sizes={index === 0 ? "(min-width: 1024px) 224px, (min-width: 640px) 160px, 112px" : "(min-width: 640px) 184px, 45vw"} className={`object-cover grayscale ${leader.imageClass}`} /></div>
+              </div>
+              <div className={index === 0 ? "lg:mt-6 lg:text-center" : "mt-5 text-center"}>
+                <h3 className="text-[19px] font-medium leading-tight tracking-tight text-ink sm:text-[21px]">{leader.name}</h3>
+                <p className="mt-2 min-h-[38px] text-[12px] leading-relaxed text-secondary-text sm:text-[13px]">{leader.role}</p>
+                <p className="mx-auto mt-2 max-w-[210px] text-[13px] leading-relaxed text-secondary-text">{leader.focus}</p>
+              </div>
+            </article>
+          ))}
         </div>
-      </ScrollRevealRail>
-    </section>
+      </div>
+    </AboutSection>
   );
 }

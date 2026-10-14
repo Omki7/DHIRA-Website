@@ -2,6 +2,7 @@ import type { PageSection } from "./pageSection";
 
 export const DELIVERY_SECTIONS: PageSection[] = [
   { id: "hero", label: "Delivery" },
+  { id: "services", label: "What we do" },
   { id: "engagement-models", label: "Ways to work" },
   { id: "capabilities", label: "Beyond the platform" },
   { id: "methodology", label: "Process" },

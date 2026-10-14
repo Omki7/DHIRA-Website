@@ -1,60 +1,13 @@
-/*
- * [11] Close — Ready When You Are.
- * Dark closure card, per the home page's Closure precedent (Rule 5).
- * NOTE: the content script flags the six-week commitment as "confirm" —
- * verify before ship.
- */
-
 import Link from "next/link";
 import ScrollReveal from "@/components/ui/ScrollReveal";
-
+import { AKASHIC_STORY } from "@/lib/akashicSections";
+import { StoryLabel, StoryArrow } from "@/components/sections/akashic/AkashicStory";
+const c = AKASHIC_STORY.close;
 export default function AkashicClose() {
-  return (
-    <section id="talk-to-our-team" className="relative scroll-mt-24 border-t border-lineSoft bg-background">
-      <span id="login" className="absolute -top-24" aria-hidden />
-      <div className="rail-container pt-12 pb-24 lg:pt-16 lg:pb-32">
-        <ScrollReveal>
-          <div className="fl-sheen relative mx-auto max-w-[1100px] overflow-hidden rounded-outer bg-ink px-6 py-14 text-center text-white md:px-12 md:py-20">
-            <div className="absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r from-blue/70 via-blue/30 to-transparent" aria-hidden />
-            <div className="dot-grid absolute inset-0 opacity-10 invert" aria-hidden />
-            <div className="relative">
-              <h2 className="mx-auto mt-2 max-w-[18em] text-balance text-heading-sm font-semibold text-white md:text-heading-md">
-                Grounded data. Trusted AI. Decisions you can defend.
-              </h2>
-              <p className="mx-auto mt-8 max-w-[30em] text-xl font-semibold tracking-tight text-white md:text-2xl">
-                Six weeks. Pilot to production-ready system.
-              </p>
-              <div className="mx-auto mt-5 w-full max-w-[380px]">
-                <div className="flex items-baseline justify-between font-mono text-[9px] uppercase tracking-[0.1em] text-white/50">
-                  <span>Pilot</span>
-                  <span>Production-ready</span>
-                </div>
-                <div className="mt-2 flex gap-1" aria-hidden>
-                  {Array.from({ length: 6 }, (_, i) => (
-                    <span
-                      key={i}
-                      className={`h-[5px] flex-1 rounded-full ${
-                        i === 5 ? "bg-blue-border" : "bg-blue-border/60"
-                      }`}
-                    />
-                  ))}
-                </div>
-              </div>
-              <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
-                <Link href="/#get-started" className="btn-primary-invert">
-                  Talk to our team
-                </Link>
-                <Link
-                  href="/delivery#akashic-deployment"
-                  className="btn-secondary-invert"
-                >
-                  See the six-week rollout
-                </Link>
-              </div>
-            </div>
-          </div>
-        </ScrollReveal>
-      </div>
-    </section>
-  );
+  return <section id="talk-to-our-team" className="ak-story ak-close-section bg-background"><span id="login" className="scroll-mt-28" /><div className="ak-story-wrap"><ScrollReveal><div className="ak-close">
+    <StoryLabel number="13">{c.label}</StoryLabel><div className="ak-close-body">
+      <div><h2>{c.setup}<br /><span>{c.title}</span></h2><p className="ak-close-intro">{c.intro}</p><div className="ak-close-actions"><Link href="#get-started" className="btn-primary-invert btn-lg">{c.primary}<StoryArrow /></Link><Link href="/delivery" className="btn-secondary-invert btn-lg">{c.secondary}</Link></div></div>
+      <div className="ak-close-agenda">{c.agenda.map((item, i) => <div key={item.label}><span className="ak-small-label">0{i + 1} / {item.label}</span><p>{item.text}</p></div>)}</div>
+    </div><div className="ak-close-footer"><span>{c.footer}</span><span aria-hidden="true">Source → Context → Answer</span></div>
+  </div></ScrollReveal></div></section>;
 }

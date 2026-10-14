@@ -1,0 +1,166 @@
+.about-page {
+  @apply bg-background;
+}
+.about-page > header {
+  @apply border-transparent bg-background/20;
+}
+.about-page > header[data-scrolled='true'] {
+  @apply bg-background/95;
+}
+/* An open nav menu needs a solid header: the sheet hangs off its edge. */
+.about-page > header[data-menu-open='true'] {
+  @apply border-subtle-stroke bg-background;
+}
+/* The launch bar sits over the landscape too, so it goes transparent and
+   the landscape reaches 37px further up (h-9 bar + hairline). */
+.about-page > .nav-announce {
+  @apply border-transparent bg-transparent;
+}
+.about-page:has(> .nav-announce) .about-hero-landscape {
+  inset: -110px 0 -32px;
+}
+.about-page .about-hero {
+  isolation: isolate;
+  padding-bottom: 112px;
+}
+.about-page .about-hero-landscape {
+  position: absolute;
+  overflow: hidden;
+  z-index: -1;
+  inset: -73px 0 -32px;
+  pointer-events: none;
+  mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
+}
+.about-page .about-hero-landscape::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, theme('colors.background / 25%'), theme('colors.background / 55%') 52%, theme('colors.background / 55%') 76%, transparent 90%);
+}
+.about-page .about-landscape-plane { position:absolute; inset:-32px 0; }
+.about-page .about-hero h1 > span:first-child {
+  @apply text-secondary-text;
+}
+.about-page main :is(p, dd, dt, h2, h3):not(.whitespace-nowrap, .whitespace-nowrap *) {
+  text-wrap: balance;
+}
+.about-page .about-hero-description {
+  max-width: 960px;
+}
+.about-page #why-we-exist {
+  @apply pt-16 lg:pt-20;
+}
+.about-page #vision {
+  @apply py-16 lg:py-24;
+}
+.about-page #culture {
+  @apply lg:py-20;
+}
+/* [05] subheader on one line wherever the width allows */
+@media (min-width: 1024px) {
+  .about-page #culture .about-intro { max-width: none; }
+}
+@media (max-width: 639px) {
+  .about-page .about-hero { padding-bottom: 72px; }
+}
+@media (min-width: 768px) and (max-width: 1023px) {
+  .about-page #vision dl > div { flex-direction: column; }
+}
+@media (max-width: 359px) {
+  .about-page #vision h2 { font-size: 26px; }
+  .about-page #people h3 { font-size: 16px; }
+  .about-page #people article p:last-child { font-size: 12px; }
+}
+
+.about-page .about-shell {
+  @apply mx-auto w-full max-w-[1440px] px-5 sm:px-8 lg:px-12;
+}
+.about-page .about-section {
+  @apply py-16 lg:py-24;
+}
+.about-page .about-kicker {
+  @apply flex items-center gap-4 font-mono text-[11px] font-medium uppercase tracking-[0.12em];
+}
+.about-page .about-title {
+  @apply mt-7 max-w-[850px] font-heading text-[34px] font-semibold leading-[1.08] tracking-tighter sm:text-[44px] xl:text-[52px];
+  text-wrap: balance;
+}
+.about-page .about-intro {
+  @apply mt-5 max-w-[620px] text-[16px] leading-[1.75] sm:text-[17px];
+  text-wrap: pretty;
+}
+.about-page .about-content {
+  @apply mt-10 lg:mt-14;
+}
+.about-page .about-quiet-link {
+  @apply inline-flex min-h-11 items-center gap-3 text-sm font-medium underline decoration-line underline-offset-[6px] transition-colors hover:decoration-ink motion-reduce:transition-none;
+}
+
+.about-page .about-portrait { border:1px solid theme('colors.lineSoft'); border-radius:6px; background:theme('colors.background'); box-shadow:0 5px 16px -12px theme('colors.ink / 22%'); }
+.about-page .about-portrait-photo { position:absolute; inset:5px; overflow:hidden; border-radius:2px; background:theme('colors.panel'); }
+.about-page .about-portrait-photo img { filter:grayscale(1); }
+@media (prefers-reduced-motion:no-preference) {
+  html:has(.about-page) { scroll-behavior:smooth; }
+  .about-page main a > span[aria-hidden='true'] { display:inline-block; transition:transform 300ms cubic-bezier(.22,1,.36,1); }
+  .about-page main a:focus-visible > span[aria-hidden='true'] { transform:translateX(3px); }
+  .about-page .about-portrait { transition:border-color 600ms ease,box-shadow 600ms ease; }
+  .about-page .about-portrait-photo img { transition:transform 850ms cubic-bezier(.22,1,.36,1),filter 850ms ease; }
+}
+@media (hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference) {
+  .about-page main a:hover > span[aria-hidden='true'] { transform:translateX(3px); }
+  .about-page .about-leader:hover .about-portrait { border-color:theme('colors.line'); box-shadow:0 8px 24px -16px theme('colors.ink / 25%'); }
+  .about-page .about-leader:hover img { transform:scale(1.018); filter:grayscale(1) contrast(1.025); }
+}
+@media (prefers-reduced-motion:reduce) {
+  .about-page :is([data-about-enter],[data-about-reveal]) { opacity:1 !important; transform:none !important; }
+  .about-page .about-landscape-plane { transform:none !important; }
+  .about-page :is(.ad-draw,.ad-fade) { opacity:1; stroke-dashoffset:0; }
+}
+@media (scripting:none) {
+  .about-page .ad-draw { stroke-dashoffset:0; }
+  .about-page .ad-fade { opacity:1; transform:none; }
+}
+
+/* [02] Native scroll adds a complete year without moving the reading surface. */
+.about-page .jl-track[data-enhanced="true"] .jl-stage { position: sticky; top: 88px; }
+.about-page .jl-track[data-enhanced="true"] { overflow-anchor: none; }
+.about-page .jl-stage { background: theme('colors.background'); }
+.about-page #journey .about-title { letter-spacing: -.035em; line-height: 1.12; }
+.about-page #journey .about-title > span { color: theme('colors.overcast'); font-weight: 500; }
+.about-page #journey .about-intro { line-height: 1.65; }
+.about-page .jl-title { @apply font-heading text-[17px] font-medium leading-6 tracking-[-0.01em] text-ink; }
+.about-page .jl-date { @apply font-mono text-[13px] leading-6 tabular-nums tracking-normal text-secondary-text; }
+.about-page .jl-coda { color: theme('colors.secondary-text'); letter-spacing: .06em; }
+.about-page .jl-principles > li:not(:last-child)::before { content: ''; position: absolute; left: -15px; top: 11px; bottom: -27px; border-left: 1px dashed theme('colors.blue.DEFAULT / 25%'); }
+.about-page .jl-layer, .about-page .jl-label, .about-page .jl-ahead { transition: opacity 360ms ease, clip-path 550ms cubic-bezier(.22,1,.36,1); }
+.about-page .jl-layer { clip-path: inset(-2px -2px -2px -2px); }
+.about-page .jl-layer[data-revealed="false"] { clip-path: inset(-2px 100% -2px -2px); }
+.about-page .jl-figure [data-revealed="false"] { opacity: 0; pointer-events: none; }
+.about-page .jl-reading-step { visibility: hidden; opacity: 0; transition: opacity 220ms ease; }
+.about-page .jl-reading-step[data-current="true"] { visibility: visible; opacity: 1; }
+.about-page .jl-reading-step p, .about-page .jl-ahead p { text-wrap: pretty !important; }
+.about-page .jl-ledger h3 { text-wrap: pretty !important; }
+.about-page .jl-track[data-interactive="true"] .about-title { font-size: 44px; }
+.about-page .jl-layer { pointer-events: visiblePainted; }
+.about-page .jl-layer[data-revealed="true"][data-dim="true"] { opacity: .3; }
+@media (prefers-reduced-motion: reduce) {
+  .about-page .jl-ahead, .about-page .jl-layer, .about-page .jl-label, .about-page .jl-reading-step { transition: none; }
+  .about-page .jl-track { padding-bottom: 0 !important; }
+  .about-page .jl-travel { display: none; }
+  .about-page .jl-track .jl-stage { position: static !important; }
+}
+/* Without scripting the drawing cannot be measured: show the ledger instead. */
+@media (scripting: none) {
+  .about-page .jl-figure { display: none !important; }
+  .about-page .jl-ledger { position: static !important; width: auto !important; height: auto !important; margin: 2rem 0 0 !important; overflow: visible !important; clip: auto !important; white-space: normal !important; }
+}
+
+/* [05] kolam replays: the line keeps moving (rule 02), once round and home (rule 03). */
+@keyframes kolam-march { to { stroke-dashoffset: -56; } }
+@keyframes kolam-lap { from { stroke-dashoffset: 0.07; } to { stroke-dashoffset: -0.93; } }
+.about-page .kolam-march { animation: kolam-march 1.2s linear infinite; }
+.about-page .kolam-lap { stroke-dasharray: 0.07 0.93; animation: kolam-lap 2.6s cubic-bezier(0.45, 0, 0.25, 1) both; }
+@media (prefers-reduced-motion: reduce) {
+  .about-page .kolam-march, .about-page .kolam-lap { animation: none; }
+  .about-page .kolam-lap { stroke-dasharray: none; }
+}

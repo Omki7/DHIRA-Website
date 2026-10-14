@@ -1,0 +1,100 @@
+/* Retired [02] JourneyExplorer styles (replaced by JourneyLayers, 6 Oct 2026).
+   Kept beside the component for reference; nothing on the site renders it. */
+/* Reading and artwork occupy separate rows. Each arrival tells one event. */
+.about-page .jr-track { position:relative; background:theme('colors.background'); color:theme('colors.ink'); }
+.about-page .jr-stage { --jr-step:210px; display:none; }
+.about-page .jr-heading { padding:0; }
+.about-page .jr-eyebrow { display:flex; align-items:center; gap:16px; margin-bottom:22px; color:theme('colors.inkSoft'); font-family:var(--font-mono); font-size:10px; letter-spacing:.12em; }
+.about-page .jr-eyebrow > span { color:theme('colors.tertiary-text'); }
+.about-page .jr-heading h2 { margin:0; font-family:var(--font-heading); font-size:36px; font-weight:500; line-height:1.15; letter-spacing:-.04em; }
+.about-page .jr-intro { margin-top:10px; color:theme('colors.inkSoft'); font-size:14px; line-height:1.6; }
+.about-page .jr-heading-row { display:flex; justify-content:space-between; align-items:flex-start; gap:32px; }
+.about-page .jr-timespan { display:flex; align-items:center; gap:12px; flex-shrink:0; margin-top:10px; color:theme('colors.inkSoft'); font-size:11px; }
+.about-page .jr-timespan > span { color:theme('colors.line'); }
+.about-page .jr-year { margin:0; font-family:var(--font-heading); font-size:48px; line-height:1; font-weight:400; letter-spacing:-.065em; font-variant-numeric:tabular-nums; }
+.about-page .jr-category { display:flex; align-items:center; justify-content:center; gap:8px; margin:0; color:var(--jr-accent); font-size:10px; font-weight:500; line-height:1.4; letter-spacing:.06em; text-transform:uppercase; }
+.about-page .jr-category > span { flex-shrink:0; width:4px; height:4px; border-radius:50%; background:currentColor; }
+.about-page .jr-description { margin:0; color:theme('colors.secondary-text'); font-size:15px; line-height:1.65; text-wrap:balance; }
+
+.about-page .jr-flow { max-width:1200px; margin:0 auto; padding:64px 32px; }
+.about-page .jr-flow > header { margin-bottom:56px; }
+.about-page .jr-flow-year { display:grid; grid-template-columns:140px 1fr; gap:48px; padding:32px 0 40px; border-top:1px solid theme('colors.lineSoft'); }
+.about-page .jr-flow-year[data-future='true'] { border-top-style:dashed; }
+.about-page .jr-flow-events { display:grid; gap:32px; }
+.about-page .jr-flow-event .jr-category { justify-content:flex-start; }
+.about-page .jr-flow-event h4 { margin:12px 0 10px; font-size:24px; font-weight:500; letter-spacing:-.025em; line-height:1.3; text-wrap:balance; }
+.about-page .jr-flow-event .jr-description { max-width:42em; }
+
+@media (min-height:740px) and (prefers-reduced-motion:no-preference) {
+  .about-page .jr-track[data-enhanced='true'] { height:calc(100svh - 72px + var(--jr-travel,3098px)); }
+  .about-page .jr-track[data-enhanced='true'] .jr-stage { position:sticky; top:72px; display:grid; grid-template-rows:auto auto minmax(0,1fr) auto; gap:22px; height:calc(100svh - 72px); max-width:1440px; margin:0 auto; padding:32px 48px 26px; }
+  .about-page .jr-track[data-enhanced='true'] .jr-flow { position:absolute; width:1px; height:1px; overflow:hidden; clip-path:inset(50%); white-space:normal; padding:0; }
+  .about-page .jr-reading { width:100%; max-width:740px; margin:10px auto 0; text-align:center; }
+  .about-page .jr-date-stack,.about-page .jr-copy-stack { display:grid; }
+  .about-page .jr-stage .jr-year { font-size:96px; line-height:1; letter-spacing:-.07em; }
+  .about-page .jr-copy-stack { margin-top:18px; }
+  .about-page .jr-layer { grid-area:1/1; visibility:hidden; opacity:0; pointer-events:none; }
+  .about-page .jr-layer[data-current='true'] { visibility:visible; opacity:1; transition:opacity 220ms ease; }
+  .about-page .jr-event { display:grid; grid-template-rows:14px 36px 50px; gap:12px; align-content:start; }
+  .about-page .jr-event-meta { display:flex; align-items:center; justify-content:center; gap:16px; }
+  .about-page .jr-event-count { display:flex; align-items:center; gap:6px; color:theme('colors.inkSoft'); font-family:var(--font-mono); font-size:9px; }
+  .about-page .jr-event-count > span { color:theme('colors.line'); }
+  .about-page .jr-event h3 { margin:0; font-family:var(--font-heading); font-size:28px; font-weight:500; line-height:1.25; letter-spacing:-.03em; }
+  .about-page .jr-event .jr-description { max-width:600px; margin:0 auto; }
+  .about-page .jr-network { position:relative; isolation:isolate; overflow:hidden; margin:0 -48px; }
+  .about-page .jr-network-canvas { display:block; position:absolute; inset:0; width:100%; height:100%; mask-image:linear-gradient(90deg,transparent,black 6%,black 94%,transparent),linear-gradient(transparent,black 10%,black 88%,transparent); mask-composite:intersect; }
+  .about-page .jr-footline { display:flex; align-items:center; gap:28px; width:100%; max-width:1040px; margin:0 auto; }
+  .about-page .jr-year-axis { position:relative; display:grid; grid-template-columns:repeat(9,minmax(0,1fr)); gap:0; width:100%; }
+  .about-page .jr-year-axis::before { content:''; position:absolute; top:3px; left:5.555%; right:5.555%; height:1px; background:theme('colors.lineSoft'); }
+  .about-page .jr-year-stop { position:relative; display:flex; flex-direction:column; align-items:center; gap:12px; color:theme('colors.inkSoft'); font-family:var(--font-mono); font-size:10px; line-height:1; }
+  .about-page .jr-year-stop i { width:6px; height:6px; border-radius:50%; background:theme('colors.line'); box-shadow:0 0 0 4px theme('colors.background'); }
+  .about-page .jr-year-stop[data-past='true'] i { background:var(--jr-accent); }
+  .about-page .jr-year-stop[data-current='true'] { color:theme('colors.ink'); }
+  .about-page .jr-year-stop[data-current='true'] i { background:var(--jr-accent); box-shadow:0 0 0 4px theme('colors.background'),0 0 0 5px var(--jr-accent); }
+  .about-page .jr-scroll-hint { flex-shrink:0; width:10px; height:14px; stroke:theme('colors.inkSoft'); stroke-width:1; }
+}
+@media (max-width:1099px) {
+  .about-page .jr-stage { --jr-step:200px; }
+  .about-page .jr-heading h2 { font-size:32px; }
+  .about-page .jr-timespan { display:none; }
+}
+@media (max-width:699px) {
+  .about-page .jr-stage { --jr-step:180px; }
+  .about-page .jr-heading h2 { max-width:16em; font-size:27px; }
+  .about-page .jr-eyebrow { margin-bottom:16px; font-size:9px; }
+  .about-page .jr-intro { max-width:27em; margin-top:10px; font-size:13px; line-height:1.55; }
+  .about-page .jr-year { font-size:42px; }
+  .about-page .jr-description { font-size:14px; line-height:1.6; }
+  .about-page .jr-flow { padding:56px 24px; }
+  .about-page .jr-flow-year { grid-template-columns:1fr; gap:26px; padding:28px 0 36px; }
+  .about-page .jr-flow-events { gap:28px; }
+  .about-page .jr-flow-event h4 { font-size:22px; }
+}
+@media (max-width:699px) and (min-height:740px) and (prefers-reduced-motion:no-preference) {
+  .about-page .jr-track[data-enhanced='true'] .jr-stage { padding:24px 24px 22px; gap:18px; }
+  .about-page .jr-stage .jr-intro { display:none; }
+  .about-page .jr-reading { margin-top:4px; }
+  .about-page .jr-stage .jr-year { font-size:70px; }
+  .about-page .jr-copy-stack { margin-top:18px; }
+  .about-page .jr-event { grid-template-rows:14px 30px 68px; gap:10px; }
+  .about-page .jr-event h3 { font-size:23px; line-height:1.22; }
+  .about-page .jr-category { font-size:9px; }
+  .about-page .jr-network { margin:0 -24px; }
+  .about-page .jr-footline { gap:0; }
+  .about-page .jr-year-stop { gap:10px; font-size:8px; }
+  .about-page .jr-year-stop i { width:4px; height:4px; }
+  .about-page .jr-year-axis::before { top:2px; }
+  .about-page .jr-scroll-hint { display:none; }
+}
+@media (min-width:700px) and (min-height:740px) and (max-height:899px) and (prefers-reduced-motion:no-preference) {
+  .about-page .jr-track[data-enhanced='true'] .jr-stage { padding-top:20px; padding-bottom:20px; gap:16px; }
+  .about-page .jr-eyebrow { margin-bottom:16px; }
+  .about-page .jr-heading h2 { font-size:32px; }
+  .about-page .jr-intro { font-size:13px; margin-top:8px; }
+  .about-page .jr-reading { margin-top:0; }
+  .about-page .jr-stage .jr-year { font-size:80px; }
+  .about-page .jr-copy-stack { margin-top:14px; }
+  .about-page .jr-event { grid-template-rows:14px 32px 44px; gap:10px; }
+  .about-page .jr-event h3 { font-size:26px; }
+  .about-page .jr-event .jr-description { font-size:14px; }
+}

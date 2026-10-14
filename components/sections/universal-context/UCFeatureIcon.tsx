@@ -21,41 +21,44 @@ import React from "react";
 
 const ACCENT = "#3E63DD";
 
+// Index-matched to UCFeatureGrid's FEATURES. Redrawn 22 Sep 2026 when the
+// tiles moved from outcomes to the five things an AI needs to know; the
+// convergence, forecast and chat glyphs went with the old captions.
 const GLYPHS: React.ReactNode[][] = [
-  // 01 — Every source, connected: three feeds converging on one node.
-  [
-    <path key="a" d="M3 5h5.5l5.5 7" />,
-    <path key="b" d="M3 12h11" />,
-    <path key="c" d="M3 19h5.5l5.5-7" />,
-    <circle key="d" cx="18.5" cy="12" r="2.4" fill={ACCENT} stroke="none" />,
-  ],
-  // 02 — One record of truth: one record, carrying its seal. Deliberately
-  // NOT a second many-into-one mark — [01] already owns that shape, and two
-  // convergence glyphs side by side read as the same idea told twice.
+  // 0 Entity resolution: one record, carrying its seal.
   [
     <rect key="a" x="4" y="5.5" width="16" height="13" rx="2" />,
     <path key="b" d="M7.5 10h7M7.5 14h4.5" />,
     <circle key="c" cx="16.5" cy="14.5" r="2.2" fill={ACCENT} stroke="none" />,
   ],
-  // 03 — Forecasts you can trust: measured history, then a projection.
+  // 1 Semantic layer: a business term's label, its definition pinned. Was a
+  // sigma, the metric glyph, which went with the word "metrics".
   [
-    <path key="a" d="M3.5 19.5V4.5" />,
-    <path key="b" d="M3.5 16l4-4 3 3 3-6" />,
-    <path key="c" d="M13.5 9l2.5 2.5" strokeDasharray="2.5 2.5" />,
-    <path key="d" d="M16 11.5l3.5-4.5" strokeDasharray="2.5 2.5" />,
-    <circle key="e" cx="20" cy="6" r="2.2" fill={ACCENT} stroke="none" />,
+    <path key="a" d="M4 5.5A1.5 1.5 0 0 1 5.5 4H11l9 9-7 7-9-9V5.5z" />,
+    <path key="b" d="M11.5 12.5l3 3" />,
+    <circle key="c" cx="8" cy="8" r="2" fill={ACCENT} stroke="none" />,
   ],
-  // 04 — Ask in plain language: a question, and the source it came back with.
+  // 2 Document intelligence: a page, tied off to the record it explains.
   [
-    <path key="a" d="M4 5h16v9.5a2 2 0 0 1-2 2H9.5L4 21V5z" />,
-    <path key="b" d="M8 9.5h8M8 13h4" />,
-    <circle key="c" cx="16" cy="13" r="2.2" fill={ACCENT} stroke="none" />,
+    <path key="a" d="M4.5 3.5h7l4 4v13h-11z" />,
+    <path key="b" d="M11.5 3.5v4h4" />,
+    <path key="c" d="M7.5 12h5M7.5 15.5h5" />,
+    <path key="d" d="M15.5 14h2.5" />,
+    <circle key="e" cx="20" cy="14" r="2.2" fill={ACCENT} stroke="none" />,
   ],
-  // 05 — Governed by default: a record inside a standing guard.
+  // 3 Knowledge layer: one record and what it belongs to. Drawn as a
+  // hierarchy, not a network, because the site never claims a graph.
   [
-    <path key="a" d="M12 3l7.5 3v6.5c0 4.2-3.2 7.2-7.5 9.5-4.3-2.3-7.5-5.3-7.5-9.5V6l7.5-3z" />,
-    <path key="b" d="M8.5 11.5h7M8.5 15h7" />,
-    <circle key="c" cx="12" cy="7.5" r="1.8" fill={ACCENT} stroke="none" />,
+    <circle key="a" cx="12" cy="5.5" r="2.2" />,
+    <path key="b" d="M12 7.7V11M6 17.5V13.5h12v4" />,
+    <circle key="c" cx="6" cy="19.5" r="2" />,
+    <circle key="d" cx="18" cy="19.5" r="2.2" fill={ACCENT} stroke="none" />,
+  ],
+  // 4 Data lineage: a figure walked back, step by step, to source.
+  [
+    <circle key="a" cx="5" cy="18.5" r="2" />,
+    <path key="b" d="M7 18.5h4.5V12H16V6.5" />,
+    <circle key="c" cx="17.5" cy="5.5" r="2.2" fill={ACCENT} stroke="none" />,
   ],
 ];
 

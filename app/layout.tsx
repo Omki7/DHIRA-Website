@@ -1,9 +1,11 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
+import "./theme.css";
 import ContactModal from "@/components/layout/ContactModal";
+import { THEME_INIT_SCRIPT } from "@/lib/theme";
 
 export const viewport: Viewport = {
-  themeColor: "#0A0E24",
+  themeColor: "#FFFFFF",
   width: "device-width",
   initialScale: 1,
 };
@@ -17,7 +19,7 @@ export const metadata: Metadata = {
     template: "%s | DHIRA",
   },
   description:
-    "From spreadsheets to PDFs to live streams, DHIRA gives your AI the full picture. Powered by Akashic, the complete record of your data, ready to answer.",
+    "From spreadsheets to PDFs to live streams, DHIRA gives your AI the full picture. Powered by Akashic, the intelligence layer behind every decision.",
   keywords: [
     "DHIRA",
     "Akashic",
@@ -50,7 +52,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "DHIRA | Answers You Can Act On",
     description:
-      "From spreadsheets to PDFs to live streams, DHIRA gives your AI the full picture. Powered by Akashic, the complete record of your data, ready to answer.",
+      "From spreadsheets to PDFs to live streams, DHIRA gives your AI the full picture. Powered by Akashic, the intelligence layer behind every decision.",
     url: "https://dhira-website-ve4y.vercel.app",
     siteName: "DHIRA",
     images: [
@@ -69,7 +71,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "DHIRA | Answers You Can Act On",
     description:
-      "From spreadsheets to PDFs to live streams, DHIRA gives your AI the full picture. Powered by Akashic, the complete record of your data, ready to answer.",
+      "From spreadsheets to PDFs to live streams, DHIRA gives your AI the full picture. Powered by Akashic, the intelligence layer behind every decision.",
     images: ["/og-image.png"],
   },
   robots: {
@@ -84,8 +86,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" data-theme="light" suppressHydrationWarning>
       <head>
+        <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
           rel="preconnect"

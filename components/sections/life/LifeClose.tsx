@@ -28,9 +28,9 @@ export default function LifeClose() {
       <div className="rail-container pt-12 pb-24 lg:pt-16 lg:pb-32">
         <ScrollReveal>
           {/* Ground is `life-abyss`, not `ink`.
-              #0A0E24 is deliberately the same value as `depth` / `uc-bg` — the
-              ground MeetAkashic runs on — so this slab is simultaneously the
-              page's own darkest blue AND the homepage's dark blue. `ink`
+              #0A0E24 is deliberately the same value as `depth` (the
+              /akashic `.ak-depth` slabs), so this slab is simultaneously the
+              page's own darkest blue AND the platform page's dark blue. `ink`
               (#1A1C1D) is a neutral charcoal with no blue in it at all, which
               made the LAST thing the reader sees the one section that dropped
               out of the page's colour system, at the end of nine sections of

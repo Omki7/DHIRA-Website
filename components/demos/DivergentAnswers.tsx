@@ -1,257 +1,124 @@
-"use client";
+﻿"use client";
 
-import { Fragment, useEffect, useRef, useState } from "react";
-import useCountUp, { usePrefersReducedMotion } from "@/hooks/useCountUp";
+import { useEffect, useRef, useState } from "react";
+import { motion, useInView } from "framer-motion";
+import { usePrefersReducedMotion } from "@/hooks/useCountUp";
+import { HOME_PROBLEM, HOME_PROBLEM_SPREAD } from "@/lib/homeSections";
 
-/*
- * The problem section's evidence: one question, answered three irreconcilable
- * ways. Every row is internally correct. That is the point.
- *
- * PRESENTATION (Jul 2026 rebuild). This was a 262px-tall horizontal
- * "measurement" axis. Two problems: it cost more vertical space than the
- * headline it was evidence for, and it spaced the three points by index rather
- * than by value, so the axis measured nothing. The same evidence reads harder
- * as a reconciliation that does not reconcile: one question at the top, three
- * totals below it, the variance at the bottom. Right-aligned tabular figures
- * put the divergence in the digits themselves, and the object is narrow enough
- * to sit beside the section headline instead of under it.
- *
- * The variance strip keeps the honest version of the axis: a 3-dot track
- * scaled to the observed range, labelled as variance so relative-within-range
- * is the correct reading.
- *
- * Deliberately NOT a §4a stat band: no blue gradient top bar. That bar is the
- * site's signature for proof figures, and these figures are the opposite of
- * proof. The rest of the recipe (pulsing dot eyebrow, dashed dividers, dashed
- * footer) is kept so it still reads as ours.
- *
- * Colour encodes the source world, not decoration: blue warehouse, rose
- * documents, green stream. Figures are illustrative, framed as a scenario by
- * the quoted question.
- *
- * CURRENCY-FREE ON PURPOSE: the scenario counts people served, not money. A
- * revenue question in Rs/crore read as India-only to a global audience and
- * collided with the $ figures in the industry record. "People served" is the
- * one question a ministry and an enterprise both ask, so keep this example
- * unit-neutral: do not reintroduce a currency here.
- */
+const TYPE_DELAY_MS = 300;
+const CHARACTER_MS = 38;
+const CONNECTOR_SECONDS = 1.1;
+const CONNECTOR_PATHS = [
+  "M300 0v20c0 16-12 26-28 26H128c-18 0-28 12-28 30v126",
+  "M300 0v202",
+  "M300 0v20c0 16 12 26 28 26h144c18 0 28 12 28 30v126",
+] as const;
 
-const QUESTION = "How many people did we serve last quarter?";
-
-type Answer = {
-  world: string;
-  value: number;
-  figure: string;
-  caveat: string;
-  color: string;
-  sources: string[];
-};
-
-/* Authored low to high so the ledger reads as a ramp and the last row is the
-   one furthest from the first. */
-const ANSWERS: Answer[] = [
-  {
-    world: "The documents",
-    value: 1.19,
-    figure: "1.19M",
-    caveat: "1,240 intake forms never parsed.",
-    color: "#E5547B",
-    sources: ["Intake forms", "scanned_docs"],
-  },
-  {
-    world: "The warehouse",
-    value: 1.24,
-    figure: "1.24M",
-    caveat: "Last synced six days ago.",
-    color: "#3E63DD",
-    sources: ["Core systems", "service_records"],
-  },
-  {
-    world: "The live stream",
-    value: 1.31,
-    figure: "1.31M",
-    caveat: "Three feeds still lagging.",
-    color: "#1B8A5F",
-    sources: ["Field devices", "service_events"],
-  },
-];
-
-const LO = Math.min(...ANSWERS.map((a) => a.value));
-const HI = Math.max(...ANSWERS.map((a) => a.value));
-const posOf = (value: number) => ((value - LO) / (HI - LO)) * 100;
-const SPREAD = "120,000"; /* 1.31M less 1.19M */
-
-function LineageArrow() {
+// An editorial diagram of the existing illustrative scenario, not product UI.
+function SourceGlyph({ kind }: { kind: "documents" | "warehouse" | "stream" }) {
   return (
-    <svg width="13" height="8" viewBox="0 0 14 8" fill="none" aria-hidden className="shrink-0">
-      <path d="M0 4 H10" stroke="#D0D3DB" strokeWidth="1" />
-      <path
-        d="M8 1.5 L11 4 L8 6.5"
-        stroke="#D0D3DB"
-        strokeWidth="1"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.25" className="h-6 w-6" aria-hidden="true">
+      {kind === "documents" && <path d="M7 3h8l4 4v14H7V3Zm8 0v5h4M10 12h6m-6 4h4M4 7v13" />}
+      {kind === "warehouse" && <><ellipse cx="12" cy="5" rx="8" ry="3" /><path d="M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3" /></>}
+      {kind === "stream" && <path d="M2 12h4l3-7 5 14 3-7h5M4 5h1m14 14h1" />}
     </svg>
   );
 }
 
-function AnswerRow({ answer, index }: { answer: Answer; index: number }) {
-  const { ref, display } = useCountUp(answer.figure, { duration: 1400, delay: index * 160 });
-
-  return (
-    <div className="flex items-center justify-between gap-4 border-t border-dashed border-lineSoft py-[22px] first:border-t-0 sm:gap-8">
-      <div className="min-w-0">
-        <span className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-eyebrow text-overcast">
-          <span
-            className="h-[5px] w-[5px] shrink-0 rounded-full"
-            style={{ background: answer.color }}
-            aria-hidden
-          />
-          {answer.world}
-        </span>
-
-        <div className="mt-2.5 flex flex-wrap items-center gap-x-3 gap-y-2">
-          <div className="flex items-center">
-            {answer.sources.map((label, i) => (
-              <Fragment key={label}>
-                {i > 0 && <LineageArrow />}
-                <span className="inline-flex items-center gap-1.5 rounded-btn border border-subtle-stroke bg-primary-bg px-2 py-[3px]">
-                  <span
-                    className="h-[7px] w-[7px] rounded-[2px]"
-                    style={{ background: answer.color }}
-                    aria-hidden
-                  />
-                  <span className="whitespace-nowrap font-mono text-[9.5px] tracking-tight text-inkSoft">
-                    {label}
-                  </span>
-                </span>
-              </Fragment>
-            ))}
-          </div>
-
-          <p className="flex items-center gap-1.5 text-[12px] leading-snug text-overcast">
-            <span className="h-[4px] w-[4px] shrink-0 rounded-full bg-[#D79B3C]" aria-hidden />
-            {answer.caveat}
-          </p>
-        </div>
-      </div>
-
-      <div
-        ref={ref}
-        className="shrink-0 whitespace-nowrap font-sans text-[34px] font-semibold leading-none tracking-tightest text-ink tabular-nums sm:text-[42px]"
-      >
-        {display}
-      </div>
-    </div>
-  );
-}
-
-/* The question types itself once the ledger is on screen: the beat that makes
-   the three figures below land as answers rather than as statistics. */
-function TypedQuestion() {
-  const reduced = usePrefersReducedMotion();
-  const ref = useRef<HTMLParagraphElement>(null);
-  const [started, setStarted] = useState(false);
-  const [count, setCount] = useState(0);
-
-  useEffect(() => {
-    const node = ref.current;
-    if (!node) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setStarted(true);
-          observer.disconnect();
-        }
-      },
-      { threshold: 0.6 }
-    );
-    observer.observe(node);
-    return () => observer.disconnect();
-  }, []);
-
-  useEffect(() => {
-    if (reduced) {
-      setCount(QUESTION.length);
-      return;
-    }
-    if (!started) return;
-    let i = 0;
-    const timer = setInterval(() => {
-      i += 1;
-      setCount(i);
-      if (i >= QUESTION.length) clearInterval(timer);
-      /* 32ms/char lands the full question at ~1.3s, just ahead of the slowest
-         figure's count-up, so the beat reads question-then-answers. */
-    }, 32);
-    return () => clearInterval(timer);
-  }, [started, reduced]);
-
-  return (
-    <p
-      ref={ref}
-      className="text-[17px] font-medium leading-snug tracking-tight text-ink sm:text-[19px]"
-      aria-label={`“${QUESTION}”`}
-    >
-      <span aria-hidden>
-        &ldquo;{QUESTION.slice(0, count)}
-        {count >= QUESTION.length && "”"}
-      </span>
-      <span
-        aria-hidden
-        className="ml-[3px] inline-block h-[1.05em] w-[2px] translate-y-[0.16em] bg-blue animate-[ps-caret-blink_1s_step-end_infinite]"
-      />
-    </p>
-  );
-}
-
 export default function DivergentAnswers() {
+  const ref = useRef<HTMLElement>(null);
+  const entered = useInView(ref, { once: true, amount: 0.3 });
+  const reduced = usePrefersReducedMotion();
+  const [characters, setCharacters] = useState(0);
+  const complete = characters >= HOME_PROBLEM.question.length;
+  const draw = reduced || complete;
+
+  useEffect(() => {
+    if (!entered || reduced) return;
+    let interval: ReturnType<typeof setInterval> | undefined;
+    const delay = setTimeout(() => {
+      interval = setInterval(() => {
+        setCharacters((count) => {
+          const next = Math.min(count + 1, HOME_PROBLEM.question.length);
+          if (next === HOME_PROBLEM.question.length) clearInterval(interval);
+          return next;
+        });
+      }, CHARACTER_MS);
+    }, TYPE_DELAY_MS);
+    return () => {
+      clearTimeout(delay);
+      clearInterval(interval);
+    };
+  }, [entered, reduced]);
+
   return (
-    <div className="overflow-hidden rounded-frame border border-subtle-stroke bg-white shadow-frame">
-      <div className="flex items-center justify-between gap-4 border-b border-subtle-stroke bg-primary-bg px-5 py-[11px] sm:px-6">
-        <span className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-eyebrow text-inkSoft">
-          <span
-            className="h-[5px] w-[5px] rounded-full bg-blue animate-[ps-pulse_2s_infinite]"
-            aria-hidden
-          />
-          One question
-        </span>
-        <span className="font-mono text-[10px] uppercase tracking-eyebrow text-overcast">
-          Three answers
-        </span>
-      </div>
-
-      <div className="border-b border-subtle-stroke px-5 py-[18px] sm:px-6">
-        <TypedQuestion />
-      </div>
-
-      <div className="px-5 sm:px-6">
-        {ANSWERS.map((answer, i) => (
-          <AnswerRow key={answer.world} answer={answer} index={i} />
-        ))}
-      </div>
-
-      <div className="flex items-center justify-between gap-5 border-t border-dashed border-lineSoft bg-primary-bg px-5 py-[14px] sm:px-6">
-        <div className="flex items-center gap-4">
-          <span className="font-mono text-[10px] uppercase tracking-eyebrow text-inkSoft">
-            Variance
+    <figure ref={ref} className="relative isolate mx-auto w-full max-w-[600px] py-5 sm:py-7" aria-label="One question produces three different totals across documents, a warehouse and live streams.">
+      <div aria-hidden="true" className="pointer-events-none absolute inset-x-4 inset-y-12 -z-10 bg-[radial-gradient(ellipse_at_center,rgba(62,99,221,0.055),transparent_70%)]" />
+      <div className="text-center">
+        <p className="font-mono text-[10px] uppercase tracking-eyebrow text-inkSoft">{HOME_PROBLEM.period}</p>
+        <p data-problem-question aria-label={HOME_PROBLEM.question} className="relative mx-auto mt-3 max-w-[20em] text-[21px] font-medium leading-tight tracking-tight text-ink sm:text-[25px]">
+          {/* Reserve the full question's space so typing never shifts the diagram. */}
+          <span aria-hidden="true" className="invisible">{HOME_PROBLEM.question}<span className="ml-1 inline-block w-[2px]" /></span>
+          <span aria-hidden="true" className="absolute inset-0">
+            <span data-typed-question>{reduced ? HOME_PROBLEM.question : HOME_PROBLEM.question.slice(0, characters)}</span>
+            <span data-typing-cursor className="ml-1 inline-block h-[1em] w-[2px] translate-y-[0.13em] bg-blue motion-safe:animate-[ps-caret-blink_1s_step-end_infinite]" />
           </span>
-          <span className="relative hidden h-[3px] w-[104px] rounded-full bg-line sm:block" aria-hidden>
-            {ANSWERS.map((a) => (
-              <span
-                key={a.world}
-                className="absolute top-1/2 h-[9px] w-[9px] -translate-x-1/2 -translate-y-1/2 rounded-full ring-2 ring-primary-bg"
-                style={{ left: `${posOf(a.value)}%`, background: a.color }}
-              />
-            ))}
-          </span>
-        </div>
-        <p className="whitespace-nowrap font-mono text-[10.5px] uppercase tracking-eyebrow text-inkSoft">
-          <span className="text-[13px] font-semibold tracking-tight text-red-deep">{SPREAD}</span>
-          &nbsp;&nbsp;people apart
         </p>
       </div>
-    </div>
+
+      <div className="relative mt-4">
+        <svg viewBox="0 0 600 208" preserveAspectRatio="none" className="pointer-events-none absolute inset-x-0 top-0 h-[208px] w-full overflow-visible text-blue/65" fill="none" aria-hidden="true">
+          {CONNECTOR_PATHS.map((path, index) => (
+            <motion.path
+              key={path}
+              data-problem-connector
+              d={path}
+              stroke="currentColor"
+              strokeWidth="1.8"
+              vectorEffect="non-scaling-stroke"
+              initial={{ pathLength: 0, opacity: 0 }}
+              animate={{ pathLength: draw ? 1 : 0, opacity: draw ? 1 : 0 }}
+              transition={{ duration: reduced ? 0 : CONNECTOR_SECONDS, delay: reduced ? 0 : index * 0.08, ease: [0.4, 0, 0.2, 1] }}
+            />
+          ))}
+          <circle cx="300" cy="3" r="3" className="fill-blue" />
+          {[100, 300, 500].map((x, index) => (
+            <motion.circle key={x} cx={x} cy="202" r="3" className="fill-blue" initial={{ opacity: 0 }} animate={{ opacity: draw ? 1 : 0 }} transition={{ duration: reduced ? 0 : 0.3, delay: reduced ? 0 : CONNECTOR_SECONDS + index * 0.08 }} />
+          ))}
+        </svg>
+        <div className="grid grid-cols-3">
+          {HOME_PROBLEM.answers.map((answer, index) => (
+            <div key={answer.source} className="relative min-w-0 px-1 pt-20 text-center sm:px-3">
+              <motion.div initial={{ opacity: 0, y: 6 }} animate={{ opacity: draw ? 1 : 0, y: draw ? 0 : 6 }} transition={{ duration: reduced ? 0 : 0.45, delay: reduced ? 0 : 0.35 + index * 0.08 }}>
+                <div className="relative mx-auto flex h-11 w-11 items-center justify-center rounded-tile border border-blue-border bg-background text-blue shadow-card">
+                  <SourceGlyph kind={answer.kind} />
+                </div>
+                <p className="relative mt-3 h-4 font-mono text-[9px] uppercase leading-4 tracking-[0.06em] text-inkSoft sm:text-[10px] sm:tracking-eyebrow"><span className="bg-background px-1.5">{answer.source}</span></p>
+              </motion.div>
+              <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: draw ? 1 : 0, y: draw ? 0 : 10 }} transition={{ duration: reduced ? 0 : 0.55, delay: reduced ? 0 : CONNECTOR_SECONDS + index * 0.08 }}>
+                <p data-problem-answer className={`mt-16 whitespace-nowrap text-[34px] font-medium leading-none tracking-tightest tabular-nums sm:text-[46px] lg:text-[40px] xl:text-[52px] ${index === 1 ? "text-blue" : "text-ink"}`}>
+                  {answer.figure}<span className="ml-0.5 text-[0.52em] text-inkSoft">{answer.unit}</span>
+                </p>
+                <p className="mt-3 text-[11px] leading-snug text-inkSoft sm:text-[12px]">{answer.caveat}</p>
+                <div aria-hidden="true" className="mx-auto mt-5 h-8 w-px border-l border-dashed border-red/40" />
+              </motion.div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: draw ? 1 : 0, y: draw ? 0 : 8 }} transition={{ duration: reduced ? 0 : 0.6, delay: reduced ? 0 : CONNECTOR_SECONDS + 0.45 }}>
+        <div className="relative mx-auto w-5/6 border-t border-red/40 pt-7 text-center">
+          <span aria-hidden="true" className="absolute left-1/2 top-0 flex h-6 w-10 -translate-x-1/2 -translate-y-1/2 items-center justify-center bg-background text-red">
+            <svg viewBox="0 0 32 20" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-5 w-8"><path d="m11 3-4 14M24 3l-4 14" /></svg>
+          </span>
+          <p className="text-[14px] leading-snug text-inkSoft sm:text-[15px]">
+            <span className="font-semibold text-red-deep">{HOME_PROBLEM_SPREAD}</span> {HOME_PROBLEM.spreadLabel}
+          </p>
+          <p className="mt-2 text-[17px] font-medium tracking-tight text-ink sm:text-[19px]">{HOME_PROBLEM.conclusion}</p>
+        </div>
+        <figcaption className="mt-6 text-center font-mono text-[9px] uppercase tracking-eyebrow text-inkSoft">{HOME_PROBLEM.scenarioLabel}</figcaption>
+      </motion.div>
+    </figure>
   );
 }

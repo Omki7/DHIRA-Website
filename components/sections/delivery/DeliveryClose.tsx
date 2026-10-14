@@ -1,5 +1,5 @@
 /*
- * [07] Close — Your requirement. Our responsibility.
+ * [08] Close — Your requirement. Our responsibility.
  * Dark closure card per Rule 5 with locked supporting copy, dual CTAs,
  * and the closing accountability statement.
  */
@@ -40,7 +40,7 @@ export default function DeliveryClose() {
               <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.06] px-3.5 py-1 backdrop-blur-md">
                 <span className="h-1.5 w-1.5 rounded-full bg-blue animate-[ps-pulse_2s_infinite]" />
                 <span className="font-mono text-[10.5px] uppercase tracking-eyebrow text-white/70">
-                  [07]&nbsp;&nbsp;Talk to our team
+                  [08]&nbsp;&nbsp;Talk to our team
                 </span>
               </div>
 

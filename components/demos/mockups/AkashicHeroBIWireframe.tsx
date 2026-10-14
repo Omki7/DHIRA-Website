@@ -103,74 +103,74 @@ export default function AkashicHeroBIWireframe() {
   const remaining = SUGGESTIONS.filter((s) => !used.includes(s.id));
 
   return (
-    <div className="flex h-full w-full flex-col overflow-hidden bg-[#FAFAFB] text-left font-sans text-ink" style={{ fontFamily: "var(--font-sans)" }}>
+    <div className="flex h-full w-full flex-col overflow-hidden bg-primary-bg text-left font-sans text-ink" style={{ fontFamily: "var(--font-sans)" }}>
       <div style={{ display: "contents" }} dangerouslySetInnerHTML={{ __html: WINDOW_BAR + appTopBar("BI", "Sales Overview") }} />
       <div className="flex min-h-0 flex-1 overflow-hidden">
         <div style={{ display: "contents" }} dangerouslySetInnerHTML={{ __html: moduleRail("bi") }} />
 
         {/* Dashboard */}
         <div className="flex min-w-0 flex-1 flex-col overflow-hidden">
-          <div className="flex h-10 flex-shrink-0 items-center gap-2.5 border-b border-[#E9EAEE] bg-white px-3.5">
+          <div className="flex h-10 flex-shrink-0 items-center gap-2.5 border-b border-card-line bg-background px-3.5">
             <span className="text-xs font-bold">Sales Overview</span>
             <span className="inline-flex items-center gap-1">
-              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#1F9D6B" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><path d="M9 12l2 2 4-4" /><circle cx="12" cy="12" r="9" /></svg>
-              <span className="text-[10px] font-semibold text-[#1B8A5F]">Verified</span>
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="rgb(var(--positive))" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><path d="M9 12l2 2 4-4" /><circle cx="12" cy="12" r="9" /></svg>
+              <span className="text-[10px] font-semibold text-positive-text">Verified</span>
             </span>
-            <span className="h-[18px] w-px bg-[#E9EAEE]" />
+            <span className="h-[18px] w-px bg-card-line" />
             {["Q2 FY26", "All regions"].map((f) => (
-              <span key={f} className="flex h-[26px] cursor-pointer items-center gap-1.5 rounded-[7px] border border-[#E9EAEE] bg-white px-2">
+              <span key={f} className="flex h-[26px] cursor-pointer items-center gap-1.5 rounded-[7px] border border-card-line bg-background px-2">
                 <span className="text-[11px] font-medium">{f}</span>
-                <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="#8E8F91" strokeWidth="3" strokeLinecap="round"><path d="m6 9 6 6 6-6" /></svg>
+                <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="rgb(var(--tertiary-text))" strokeWidth="3" strokeLinecap="round"><path d="m6 9 6 6 6-6" /></svg>
               </span>
             ))}
             <span className="flex-1" />
             <span className="text-[10.5px] text-tertiary-text">Refreshed 2m ago</span>
-            <span className="h-[18px] w-px bg-[#E9EAEE]" />
-            <span title="Export" className="flex h-[26px] w-[26px] cursor-pointer items-center justify-center rounded-[7px] border border-[#E9EAEE] bg-white">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#5C5E63" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><path d="m7 10 5 5 5-5" /><path d="M12 15V3" /></svg>
+            <span className="h-[18px] w-px bg-card-line" />
+            <span title="Export" className="flex h-[26px] w-[26px] cursor-pointer items-center justify-center rounded-[7px] border border-card-line bg-background">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="rgb(var(--secondary-text))" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><path d="m7 10 5 5 5-5" /><path d="M12 15V3" /></svg>
             </span>
-            <span title="More" className="flex h-[26px] w-[26px] cursor-pointer items-center justify-center rounded-[7px] border border-[#E9EAEE] bg-white">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="#5C5E63"><circle cx="5" cy="12" r="1.6" /><circle cx="12" cy="12" r="1.6" /><circle cx="19" cy="12" r="1.6" /></svg>
+            <span title="More" className="flex h-[26px] w-[26px] cursor-pointer items-center justify-center rounded-[7px] border border-card-line bg-background">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="rgb(var(--secondary-text))"><circle cx="5" cy="12" r="1.6" /><circle cx="12" cy="12" r="1.6" /><circle cx="19" cy="12" r="1.6" /></svg>
             </span>
-            <span className="flex h-[26px] cursor-pointer items-center gap-1.5 rounded-[7px] bg-ink px-2.5">
+            <span className="flex h-[26px] cursor-pointer items-center gap-1.5 rounded-[7px] bg-anchor px-2.5">
               <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="18" cy="5" r="3" /><circle cx="6" cy="12" r="3" /><circle cx="18" cy="19" r="3" /><path d="m8.6 13.5 6.8 4M15.4 6.5l-6.8 4" /></svg>
               <span className="text-[10.5px] font-semibold text-white">Share</span>
             </span>
             <span style={{ display: "contents" }} dangerouslySetInnerHTML={{ __html: LIVE_CHIP }} />
           </div>
 
-          <div className="flex min-h-0 flex-1 flex-col gap-[9px] overflow-hidden bg-[#F6F7F8] p-[11px]">
+          <div className="flex min-h-0 flex-1 flex-col gap-[9px] overflow-hidden bg-panel p-[11px]">
             {/* KPI row */}
             <div className="flex flex-shrink-0 gap-[9px]">
-              <div className="flex min-w-0 flex-1 items-center gap-2 rounded-[10px] border border-[#E9EAEE] bg-white px-3 py-2">
+              <div className="flex min-w-0 flex-1 items-center gap-2 rounded-[10px] border border-card-line bg-background px-3 py-2">
                 <div className="min-w-0 flex-1">
                   <div className="whitespace-nowrap text-[8.5px] font-bold tracking-[0.06em] text-tertiary-text">NET REVENUE</div>
                   <div className="mt-px whitespace-nowrap text-[16px] font-bold tracking-tight">$25.4M</div>
-                  <div className="mt-px whitespace-nowrap text-[9px] font-semibold text-[#1B8A5F]">▲ 6.4% vs Q1</div>
+                  <div className="mt-px whitespace-nowrap text-[9px] font-semibold text-positive-text">▲ 6.4% vs Q1</div>
                 </div>
                 <svg width="52" height="22" viewBox="0 0 52 22" className="flex-shrink-0"><path d="M1 17 L9 14 L17 15 L25 11 L33 12 L41 7 L51 4" stroke="#3E9E78" strokeWidth="1.5" fill="none" strokeLinecap="round" /></svg>
               </div>
-              <div className="flex min-w-0 flex-1 items-center gap-2 rounded-[10px] border border-[#E9EAEE] bg-white px-3 py-2">
+              <div className="flex min-w-0 flex-1 items-center gap-2 rounded-[10px] border border-card-line bg-background px-3 py-2">
                 <div className="min-w-0 flex-1">
                   <div className="whitespace-nowrap text-[8.5px] font-bold tracking-[0.06em] text-tertiary-text">PLAN ATTAINMENT</div>
                   <div className="mt-px text-[16px] font-bold">98%</div>
-                  <div className="mt-px whitespace-nowrap text-[9px] font-semibold text-[#1B8A5F]">▲ 2 pts vs Q1</div>
+                  <div className="mt-px whitespace-nowrap text-[9px] font-semibold text-positive-text">▲ 2 pts vs Q1</div>
                 </div>
                 <svg width="52" height="22" viewBox="0 0 52 22" className="flex-shrink-0"><path d="M1 16 L9 14 L17 15 L25 11 L33 10 L41 7 L51 5" stroke="#3E9E78" strokeWidth="1.5" fill="none" strokeLinecap="round" /></svg>
               </div>
-              <div className="flex min-w-0 flex-1 items-center gap-2 rounded-[10px] border border-[#E9EAEE] bg-white px-3 py-2">
+              <div className="flex min-w-0 flex-1 items-center gap-2 rounded-[10px] border border-card-line bg-background px-3 py-2">
                 <div className="min-w-0 flex-1">
                   <div className="whitespace-nowrap text-[8.5px] font-bold tracking-[0.06em] text-tertiary-text">ACTIVE ACCOUNTS</div>
                   <div className="mt-px whitespace-nowrap text-[16px] font-bold tracking-tight">1,284</div>
-                  <div className="mt-px whitespace-nowrap text-[9px] font-semibold text-[#C13059]">▼ 18 vs Q1</div>
+                  <div className="mt-px whitespace-nowrap text-[9px] font-semibold text-[rgb(var(--diagram-pink))]">▼ 18 vs Q1</div>
                 </div>
-                <svg width="52" height="22" viewBox="0 0 52 22" className="flex-shrink-0"><path d="M1 8 L9 9 L17 11 L25 10 L33 13 L41 14 L51 16" stroke="#C13059" strokeWidth="1.5" fill="none" strokeLinecap="round" /></svg>
+                <svg width="52" height="22" viewBox="0 0 52 22" className="flex-shrink-0"><path d="M1 8 L9 9 L17 11 L25 10 L33 13 L41 14 L51 16" stroke="rgb(var(--diagram-pink))" strokeWidth="1.5" fill="none" strokeLinecap="round" /></svg>
               </div>
-              <div className="flex min-w-0 flex-1 items-center gap-2 rounded-[10px] border border-[#E9EAEE] bg-white px-3 py-2">
+              <div className="flex min-w-0 flex-1 items-center gap-2 rounded-[10px] border border-card-line bg-background px-3 py-2">
                 <div className="min-w-0 flex-1">
                   <div className="whitespace-nowrap text-[8.5px] font-bold tracking-[0.06em] text-tertiary-text">ORDERS · Q2</div>
                   <div className="mt-px text-[16px] font-bold">82,401</div>
-                  <div className="mt-px whitespace-nowrap text-[9px] font-semibold text-[#1B8A5F]">▲ 2,113 vs Q1</div>
+                  <div className="mt-px whitespace-nowrap text-[9px] font-semibold text-positive-text">▲ 2,113 vs Q1</div>
                 </div>
                 <svg width="52" height="22" viewBox="0 0 52 22" className="flex-shrink-0"><path d="M1 16 L9 15 L17 12 L25 13 L33 9 L41 8 L51 5" stroke="#3E9E78" strokeWidth="1.5" fill="none" strokeLinecap="round" /></svg>
               </div>
@@ -178,25 +178,25 @@ export default function AkashicHeroBIWireframe() {
 
             {/* Charts row */}
             <div className="flex min-h-0 flex-[1.15] gap-[9px]">
-              <div className="flex min-w-0 flex-[1.5] flex-col rounded-[10px] border border-[#E9EAEE] bg-white px-[13px] py-[10px]">
+              <div className="flex min-w-0 flex-[1.5] flex-col rounded-[10px] border border-card-line bg-background px-[13px] py-[10px]">
                 <div className="mb-1.5 flex items-center justify-between">
                   <span className="text-[11px] font-semibold">Revenue vs plan · weekly</span>
                   <span className="flex items-center gap-2.5">
                     <span className="inline-flex items-center gap-1"><span className="h-0.5 w-2.5 bg-blue" /><span className="text-[9px] text-secondary-text">actual</span></span>
-                    <span className="inline-flex items-center gap-1"><span className="h-0.5 w-2.5 bg-[#B7BAC4]" /><span className="text-[9px] text-secondary-text">plan</span></span>
+                    <span className="inline-flex items-center gap-1"><span className="h-0.5 w-2.5 bg-tertiary-text" /><span className="text-[9px] text-secondary-text">plan</span></span>
                   </span>
                 </div>
                 <div className="relative min-h-0 flex-1">
-                  <span className="absolute left-0 top-[25%] -translate-y-full pb-px text-[7.5px] leading-none text-[#B4BAC2]">$2.4M</span>
-                  <span className="absolute left-0 top-[50%] -translate-y-full pb-px text-[7.5px] leading-none text-[#B4BAC2]">$1.6M</span>
-                  <span className="absolute left-0 top-[75%] -translate-y-full pb-px text-[7.5px] leading-none text-[#B4BAC2]">$0.8M</span>
+                  <span className="absolute left-0 top-[25%] -translate-y-full pb-px text-[7.5px] leading-none text-tertiary-text">$2.4M</span>
+                  <span className="absolute left-0 top-[50%] -translate-y-full pb-px text-[7.5px] leading-none text-tertiary-text">$1.6M</span>
+                  <span className="absolute left-0 top-[75%] -translate-y-full pb-px text-[7.5px] leading-none text-tertiary-text">$0.8M</span>
                   <svg viewBox="0 0 200 80" preserveAspectRatio="none" className="absolute inset-0 h-full w-full">
-                    <line x1="0" y1="20" x2="200" y2="20" stroke="#F1F2F5" strokeWidth="1" />
-                    <line x1="0" y1="40" x2="200" y2="40" stroke="#F1F2F5" strokeWidth="1" />
-                    <line x1="0" y1="60" x2="200" y2="60" stroke="#F1F2F5" strokeWidth="1" />
-                    <path d="M0 44 L18 40 L36 38 L54 33 L72 30 L90 26 L108 24 L126 20 L144 17 L162 14 L180 11 L200 8" stroke="#B7BAC4" strokeWidth="1.4" fill="none" strokeDasharray="4 3" strokeLinecap="round" />
-                    <path d="M0 52 L18 46 L36 48 L54 40 L72 43 L90 34 L108 38 L126 30 L144 35 L162 26 L180 30 L200 22" stroke="#3E63DD" strokeWidth="1.8" fill="none" strokeLinecap="round" strokeLinejoin="round" />
-                    <path d="M0 52 L18 46 L36 48 L54 40 L72 43 L90 34 L108 38 L126 30 L144 35 L162 26 L180 30 L200 22 L200 80 L0 80 Z" fill="#3E63DD" fillOpacity="0.07" />
+                    <line x1="0" y1="20" x2="200" y2="20" stroke="rgb(var(--tertiary-bg))" strokeWidth="1" />
+                    <line x1="0" y1="40" x2="200" y2="40" stroke="rgb(var(--tertiary-bg))" strokeWidth="1" />
+                    <line x1="0" y1="60" x2="200" y2="60" stroke="rgb(var(--tertiary-bg))" strokeWidth="1" />
+                    <path d="M0 44 L18 40 L36 38 L54 33 L72 30 L90 26 L108 24 L126 20 L144 17 L162 14 L180 11 L200 8" stroke="rgb(var(--tertiary-text))" strokeWidth="1.4" fill="none" strokeDasharray="4 3" strokeLinecap="round" />
+                    <path d="M0 52 L18 46 L36 48 L54 40 L72 43 L90 34 L108 38 L126 30 L144 35 L162 26 L180 30 L200 22" stroke="rgb(var(--blue))" strokeWidth="1.8" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+                    <path d="M0 52 L18 46 L36 48 L54 40 L72 43 L90 34 L108 38 L126 30 L144 35 L162 26 L180 30 L200 22 L200 80 L0 80 Z" fill="rgb(var(--blue))" fillOpacity="0.07" />
                   </svg>
                 </div>
                 <div className="mt-1 flex items-center justify-between">
@@ -205,13 +205,13 @@ export default function AkashicHeroBIWireframe() {
                   ))}
                 </div>
               </div>
-              <div className="flex min-w-0 flex-1 flex-col rounded-[10px] border border-[#E9EAEE] bg-white px-[13px] py-[10px]">
+              <div className="flex min-w-0 flex-1 flex-col rounded-[10px] border border-card-line bg-background px-[13px] py-[10px]">
                 <span className="mb-1 text-[11px] font-semibold">Revenue by channel</span>
                 <div className="flex min-h-0 flex-1 items-center gap-3">
                   <div className="relative h-[74px] w-[74px] flex-shrink-0">
                     <svg width="74" height="74" viewBox="0 0 74 74">
-                      <circle cx="37" cy="37" r="26" fill="none" stroke="#3E63DD" strokeWidth="11" strokeDasharray="75.1 163.4" transform="rotate(-90 37 37)" />
-                      <circle cx="37" cy="37" r="26" fill="none" stroke="#7C5CFC" strokeWidth="11" strokeDasharray="52.3 163.4" transform="rotate(75.6 37 37)" />
+                      <circle cx="37" cy="37" r="26" fill="none" stroke="rgb(var(--blue))" strokeWidth="11" strokeDasharray="75.1 163.4" transform="rotate(-90 37 37)" />
+                      <circle cx="37" cy="37" r="26" fill="none" stroke="rgb(var(--diagram-purple))" strokeWidth="11" strokeDasharray="52.3 163.4" transform="rotate(75.6 37 37)" />
                       <circle cx="37" cy="37" r="26" fill="none" stroke="#2A9BE0" strokeWidth="11" strokeDasharray="35 163.4" transform="rotate(190.8 37 37)" />
                     </svg>
                     <div className="absolute inset-0 flex flex-col items-center justify-center">
@@ -221,7 +221,7 @@ export default function AkashicHeroBIWireframe() {
                   </div>
                   <div className="flex min-w-0 flex-col gap-[5px]">
                     {[
-                      { name: "Direct", pct: "46%", color: "#3E63DD", note: "" },
+                      { name: "Direct", pct: "46%", color: "rgb(var(--blue))", note: "" },
                       { name: "Partner", pct: "32%", color: "#7C5CFC", note: "" },
                       { name: "Online", pct: "22%", color: "#2A9BE0", note: "▲ 18% QoQ" },
                     ].map((c) => (
@@ -229,7 +229,7 @@ export default function AkashicHeroBIWireframe() {
                         <span className="h-2 w-2 flex-shrink-0 rounded-[2px]" style={{ background: c.color }} />
                         <span className="text-[9.5px] text-secondary-text">{c.name}</span>
                         <span className="text-[9.5px] font-semibold">{c.pct}</span>
-                        {c.note && <span className="text-[8.5px] font-semibold text-[#1B8A5F]">{c.note}</span>}
+                        {c.note && <span className="text-[8.5px] font-semibold text-positive-text">{c.note}</span>}
                       </div>
                     ))}
                   </div>
@@ -239,21 +239,21 @@ export default function AkashicHeroBIWireframe() {
 
             {/* Bottom row — the chat can add a tile here */}
             <div className="flex min-h-0 flex-1 gap-[9px]">
-              <div className="flex min-w-0 flex-1 flex-col rounded-[10px] border border-[#E9EAEE] bg-white px-[13px] py-[10px]">
+              <div className="flex min-w-0 flex-1 flex-col rounded-[10px] border border-card-line bg-background px-[13px] py-[10px]">
                 <div className="mb-1.5 flex items-center justify-between">
                   <span className="text-[11px] font-semibold">Top accounts</span>
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="#8E8F91" className="cursor-pointer"><circle cx="5" cy="12" r="1.6" /><circle cx="12" cy="12" r="1.6" /><circle cx="19" cy="12" r="1.6" /></svg>
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="rgb(var(--tertiary-text))" className="cursor-pointer"><circle cx="5" cy="12" r="1.6" /><circle cx="12" cy="12" r="1.6" /><circle cx="19" cy="12" r="1.6" /></svg>
                 </div>
-                <div className="flex items-center border-b border-[#F1F2F5] pb-1">
+                <div className="flex items-center border-b border-tertiary-bg pb-1">
                   <span className="flex-[1.4] text-[8.5px] font-semibold tracking-[0.04em] text-tertiary-text">ACCOUNT</span>
                   <span className="w-11 text-right text-[8.5px] font-semibold text-tertiary-text">REV</span>
                   <span className="w-9 text-right text-[8.5px] font-semibold text-tertiary-text">ATT.</span>
                 </div>
                 <div className="flex min-h-0 flex-1 flex-col justify-around">
                   {[
-                    { name: "Whitmore Retail", rev: "$4.2M", att: "112%", color: "#1B8A5F" },
-                    { name: "Kirkwood Traders", rev: "$3.1M", att: "98%", color: "#1A1C1D" },
-                    { name: "Ardmore Foods", rev: "$2.4M", att: "87%", color: "#C13059" },
+                    { name: "Whitmore Retail", rev: "$4.2M", att: "112%", color: "rgb(var(--positive-text))" },
+                    { name: "Kirkwood Traders", rev: "$3.1M", att: "98%", color: "rgb(var(--ink))" },
+                    { name: "Ardmore Foods", rev: "$2.4M", att: "87%", color: "rgb(var(--diagram-pink))" },
                   ].map((a) => (
                     <div key={a.name} className="flex items-center">
                       <span className="flex-[1.4] truncate text-[10px] font-medium">{a.name}</span>
@@ -262,11 +262,11 @@ export default function AkashicHeroBIWireframe() {
                     </div>
                   ))}
                 </div>
-                <span className="mt-1.5 inline-flex w-fit items-center gap-1 rounded border border-subtle-stroke bg-[#FAFAFB] px-1.5 py-0.5 font-mono text-[8px] text-tertiary-text"><span className="font-bold text-[#7C5CFC]">ƒx</span>net_revenue · top 3</span>
+                <span className="mt-1.5 inline-flex w-fit items-center gap-1 rounded border border-subtle-stroke bg-primary-bg px-1.5 py-0.5 font-mono text-[8px] text-tertiary-text"><span className="font-bold text-[rgb(var(--diagram-purple))]">ƒx</span>net_revenue · top 3</span>
               </div>
 
               {tileAdded ? (
-                <div className="flex min-w-0 flex-[1.25] flex-col rounded-[10px] border-[1.5px] border-blue bg-white px-[13px] py-[10px] shadow-[0_2px_8px_rgba(62,99,221,0.14)]">
+                <div className="flex min-w-0 flex-[1.25] flex-col rounded-[10px] border-[1.5px] border-blue bg-background px-[13px] py-[10px] shadow-[0_2px_8px_rgba(62,99,221,0.14)]">
                   <div className="mb-1.5 flex items-center justify-between">
                     <span className="text-[11px] font-semibold">Attainment by region</span>
                     <span className="rounded bg-blue-subtle px-1.5 py-0.5 text-[8px] font-semibold text-blue">Added by Ask Akashic</span>
@@ -274,32 +274,32 @@ export default function AkashicHeroBIWireframe() {
                   <div className="flex min-h-0 flex-1 flex-col justify-around">
                     {REGION_BARS.map((r) => (
                       <div key={r.name} className="flex items-center gap-2">
-                        <span className={`w-9 flex-shrink-0 text-[9.5px] ${r.behind ? "font-semibold text-[#A97B12]" : "text-secondary-text"}`}>{r.name}</span>
+                        <span className={`w-9 flex-shrink-0 text-[9.5px] ${r.behind ? "font-semibold text-[rgb(var(--diagram-gold))]" : "text-secondary-text"}`}>{r.name}</span>
                         <div className="h-[9px] flex-1 overflow-hidden rounded-[3px] bg-tertiary-bg">
                           <div className="h-full" style={{ width: `${r.width}%`, background: r.color }} />
                         </div>
-                        <span className={`w-7 flex-shrink-0 text-right text-[9.5px] font-semibold ${r.behind ? "font-bold text-[#A97B12]" : "text-ink"}`}>{r.pct}%</span>
+                        <span className={`w-7 flex-shrink-0 text-right text-[9.5px] font-semibold ${r.behind ? "font-bold text-[rgb(var(--diagram-gold))]" : "text-ink"}`}>{r.pct}%</span>
                       </div>
                     ))}
                   </div>
-                  <span className="mt-1.5 inline-flex w-fit items-center gap-1 rounded border border-subtle-stroke bg-[#FAFAFB] px-1.5 py-0.5 font-mono text-[8px] text-tertiary-text"><span className="font-bold text-[#7C5CFC]">ƒx</span>plan_attainment · target 100%</span>
+                  <span className="mt-1.5 inline-flex w-fit items-center gap-1 rounded border border-subtle-stroke bg-primary-bg px-1.5 py-0.5 font-mono text-[8px] text-tertiary-text"><span className="font-bold text-[rgb(var(--diagram-purple))]">ƒx</span>plan_attainment · target 100%</span>
                 </div>
               ) : (
-                <div className="flex min-w-0 flex-[1.25] flex-col rounded-[10px] border border-dashed border-blue-border bg-[#F9FAFE] px-[13px] py-[10px]">
+                <div className="flex min-w-0 flex-[1.25] flex-col rounded-[10px] border border-dashed border-blue-border bg-panel px-[13px] py-[10px]">
                   <div className="mb-1 flex items-center justify-between">
                     <span className="flex items-center gap-1.5">
-                      <svg className="h-2.5 w-2.5 flex-shrink-0 text-[#7C5CFC]" viewBox="0 0 24 24" fill="currentColor"><path d="M9.94 14.06A2 2 0 0 0 8.5 12.6L2.4 11a.5.5 0 0 1 0-.96L8.5 8.5a2 2 0 0 0 1.44-1.44L11.52 1a.5.5 0 0 1 .96 0l1.58 6.06A2 2 0 0 0 15.5 8.5l6.1 1.58a.5.5 0 0 1 0 .96l-6.1 1.46a2 2 0 0 0-1.44 1.46l-1.58 6.06a.5.5 0 0 1-.96 0z" /></svg>
+                      <svg className="h-2.5 w-2.5 flex-shrink-0 text-[rgb(var(--diagram-purple))]" viewBox="0 0 24 24" fill="currentColor"><path d="M9.94 14.06A2 2 0 0 0 8.5 12.6L2.4 11a.5.5 0 0 1 0-.96L8.5 8.5a2 2 0 0 0 1.44-1.44L11.52 1a.5.5 0 0 1 .96 0l1.58 6.06A2 2 0 0 0 15.5 8.5l6.1 1.58a.5.5 0 0 1 0 .96l-6.1 1.46a2 2 0 0 0-1.44 1.46l-1.58 6.06a.5.5 0 0 1-.96 0z" /></svg>
                       <span className="text-[8.5px] font-bold tracking-[0.06em] text-tertiary-text">SUGGESTED TILE</span>
                     </span>
-                    <span className="cursor-pointer rounded-full bg-blue px-2 py-0.5 text-[8.5px] font-semibold text-white">Add</span>
+                    <span className="cursor-pointer rounded-full bg-blue-solid px-2 py-0.5 text-[8.5px] font-semibold text-white">Add</span>
                   </div>
                   <span className="text-[11px] font-semibold text-secondary-text">Attainment by region</span>
                   <div className="mt-1.5 flex min-h-0 flex-1 flex-col justify-around opacity-50">
                     {REGION_BARS.map((r) => (
                       <div key={r.name} className="flex items-center gap-2">
                         <span className="w-9 flex-shrink-0 text-[9px] text-tertiary-text">{r.name}</span>
-                        <div className="h-[7px] flex-1 overflow-hidden rounded-[3px] bg-[#EDEFF3]">
-                          <div className="h-full bg-[#C4CBD8]" style={{ width: `${r.width}%` }} />
+                        <div className="h-[7px] flex-1 overflow-hidden rounded-[3px] bg-lineSoft">
+                          <div className="h-full bg-line" style={{ width: `${r.width}%` }} />
                         </div>
                       </div>
                     ))}
@@ -312,9 +312,9 @@ export default function AkashicHeroBIWireframe() {
         </div>
 
         {/* Ask Akashic chat */}
-        <div className="flex w-[286px] flex-shrink-0 flex-col border-l border-[#E9EAEE] bg-white">
+        <div className="flex w-[286px] flex-shrink-0 flex-col border-l border-card-line bg-background">
           <div className="flex h-10 flex-shrink-0 items-center gap-2 border-b border-subtle-stroke px-3">
-            <div className="flex h-[22px] w-[22px] items-center justify-center rounded-md bg-gradient-to-br from-blue to-[#6E56CF] text-white">
+            <div className="flex h-[22px] w-[22px] items-center justify-center rounded-md bg-gradient-to-br from-blue-solid to-[#6E56CF] text-white">
               <svg className="h-3 w-3" viewBox="0 0 24 24" fill="currentColor"><path d="M9.94 14.06A2 2 0 0 0 8.5 12.6L2.4 11a.5.5 0 0 1 0-.96L8.5 8.5a2 2 0 0 0 1.44-1.44L11.52 1a.5.5 0 0 1 .96 0l1.58 6.06A2 2 0 0 0 15.5 8.5l6.1 1.58a.5.5 0 0 1 0 .96l-6.1 1.46a2 2 0 0 0-1.44 1.46l-1.58 6.06a.5.5 0 0 1-.96 0z" /></svg>
             </div>
             <div className="min-w-0">
@@ -324,7 +324,7 @@ export default function AkashicHeroBIWireframe() {
             <div className="flex-1" />
             <button
               type="button"
-              className="rounded border border-transparent p-1 text-tertiary-text transition-colors hover:border-[#E9EAEE] hover:bg-[#FAFAFB] hover:text-secondary-text"
+              className="rounded border border-transparent p-1 text-tertiary-text transition-colors hover:border-card-line hover:bg-primary-bg hover:text-secondary-text"
               title="Collapse panel"
             >
               <svg className="h-3 w-3" fill="none" stroke="currentColor" strokeWidth="2.2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="m9 6 6 6-6 6" /><path strokeLinecap="round" d="M19 5v14" /></svg>
@@ -332,7 +332,7 @@ export default function AkashicHeroBIWireframe() {
             <button
               onClick={handleRestart}
               type="button"
-              className="rounded border border-transparent p-1 text-tertiary-text transition-colors hover:border-[#E9EAEE] hover:bg-[#FAFAFB] hover:text-secondary-text"
+              className="rounded border border-transparent p-1 text-tertiary-text transition-colors hover:border-card-line hover:bg-primary-bg hover:text-secondary-text"
               title="Restart chat"
             >
               <svg className="h-3 w-3" fill="none" stroke="currentColor" strokeWidth="2.2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" /></svg>
@@ -341,8 +341,8 @@ export default function AkashicHeroBIWireframe() {
 
           <div ref={threadRef} className="flex min-h-0 flex-1 flex-col gap-2.5 overflow-y-auto p-3">
             {messages.length === 0 && (
-              <div className="flex flex-col items-center gap-1.5 rounded-lg border border-[#E9EAEE] bg-[#FAFAFB] px-3 py-5 text-center">
-                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-blue to-[#6E56CF] text-white">
+              <div className="flex flex-col items-center gap-1.5 rounded-lg border border-card-line bg-primary-bg px-3 py-5 text-center">
+                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-blue-solid to-[#6E56CF] text-white">
                   <svg className="h-4 w-4" viewBox="0 0 24 24" fill="currentColor"><path d="M9.94 14.06A2 2 0 0 0 8.5 12.6L2.4 11a.5.5 0 0 1 0-.96L8.5 8.5a2 2 0 0 0 1.44-1.44L11.52 1a.5.5 0 0 1 .96 0l1.58 6.06A2 2 0 0 0 15.5 8.5l6.1 1.58a.5.5 0 0 1 0 .96l-6.1 1.46a2 2 0 0 0-1.44 1.46l-1.58 6.06a.5.5 0 0 1-.96 0z" /></svg>
                 </div>
                 <p className="mt-1 text-[11.5px] font-semibold text-ink">Ask about this dashboard</p>
@@ -355,21 +355,21 @@ export default function AkashicHeroBIWireframe() {
                   className={`max-w-[92%] rounded-lg p-2.5 text-[11px] leading-relaxed ${
                     msg.sender === "user"
                       ? "rounded-br-none bg-blue-subtle font-medium text-ink"
-                      : "rounded-bl-none border border-[#E9EAEE] bg-[#FAFAFB] text-ink"
+                      : "rounded-bl-none border border-card-line bg-primary-bg text-ink"
                   }`}
                 >
                   <p>{msg.text}</p>
                   {msg.sender === "bot" && msg.addedTile && (
-                    <div className="mt-2 inline-flex items-center gap-1.5 rounded-md border border-[#CBE8D9] bg-[#EAF7F0] px-2 py-1">
-                      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#1F9D6B" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6 9 17l-5-5" /></svg>
-                      <span className="text-[9px] font-semibold text-[#1B8A5F]">Tile added to Sales Overview</span>
+                    <div className="mt-2 inline-flex items-center gap-1.5 rounded-md border border-positive-border bg-positive-subtle px-2 py-1">
+                      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="rgb(var(--positive))" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6 9 17l-5-5" /></svg>
+                      <span className="text-[9px] font-semibold text-positive-text">Tile added to Sales Overview</span>
                     </div>
                   )}
                   {msg.sender === "bot" && msg.sources && msg.sources.length > 0 && (
-                    <div className="mt-2 flex flex-wrap items-center gap-1 border-t border-[#E9EAEE] pt-2">
+                    <div className="mt-2 flex flex-wrap items-center gap-1 border-t border-card-line pt-2">
                       <span className="mr-0.5 font-mono text-[8px] uppercase tracking-wider text-tertiary-text">Grounded in</span>
                       {msg.sources.map((src) => (
-                        <span key={src} className="inline-flex items-center rounded border border-[#E9EAEE] bg-white px-1.5 py-0.5 font-mono text-[8.5px] font-semibold text-blue">
+                        <span key={src} className="inline-flex items-center rounded border border-card-line bg-background px-1.5 py-0.5 font-mono text-[8.5px] font-semibold text-blue">
                           {src}
                         </span>
                       ))}
@@ -380,10 +380,10 @@ export default function AkashicHeroBIWireframe() {
             ))}
             {isTyping && (
               <div className="flex items-start gap-2">
-                <div className="flex h-5 w-5 items-center justify-center rounded-md bg-gradient-to-br from-blue to-[#6E56CF] text-white">
+                <div className="flex h-5 w-5 items-center justify-center rounded-md bg-gradient-to-br from-blue-solid to-[#6E56CF] text-white">
                   <svg className="h-2.5 w-2.5" viewBox="0 0 24 24" fill="currentColor"><path d="M9.94 14.06A2 2 0 0 0 8.5 12.6L2.4 11a.5.5 0 0 1 0-.96L8.5 8.5a2 2 0 0 0 1.44-1.44L11.52 1a.5.5 0 0 1 .96 0l1.58 6.06A2 2 0 0 0 15.5 8.5l6.1 1.58a.5.5 0 0 1 0 .96l-6.1 1.46a2 2 0 0 0-1.44 1.46l-1.58 6.06a.5.5 0 0 1-.96 0z" /></svg>
                 </div>
-                <div className="rounded-lg rounded-bl-none border border-[#E9EAEE] bg-[#FAFAFB] p-2.5">
+                <div className="rounded-lg rounded-bl-none border border-card-line bg-primary-bg p-2.5">
                   <div className="flex items-center gap-1.5">
                     <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-blue" style={{ animationDelay: "0ms" }} />
                     <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-blue" style={{ animationDelay: "150ms" }} />
@@ -403,20 +403,20 @@ export default function AkashicHeroBIWireframe() {
                     key={s.id}
                     onClick={() => handleSuggestionClick(s.id)}
                     type="button"
-                    className="flex items-center gap-2 rounded-md border border-[#E9EAEE] bg-[#FAFAFB] px-2.5 py-1.5 text-left text-[10.5px] text-secondary-text transition-colors hover:border-blue hover:text-blue"
+                    className="flex items-center gap-2 rounded-md border border-card-line bg-primary-bg px-2.5 py-1.5 text-left text-[10.5px] text-secondary-text transition-colors hover:border-blue hover:text-blue"
                   >
-                    <svg className="h-2.5 w-2.5 flex-shrink-0 text-[#7C5CFC]" viewBox="0 0 24 24" fill="currentColor"><path d="M9.94 14.06A2 2 0 0 0 8.5 12.6L2.4 11a.5.5 0 0 1 0-.96L8.5 8.5a2 2 0 0 0 1.44-1.44L11.52 1a.5.5 0 0 1 .96 0l1.58 6.06A2 2 0 0 0 15.5 8.5l6.1 1.58a.5.5 0 0 1 0 .96l-6.1 1.46a2 2 0 0 0-1.44 1.46l-1.58 6.06a.5.5 0 0 1-.96 0z" /></svg>
+                    <svg className="h-2.5 w-2.5 flex-shrink-0 text-[rgb(var(--diagram-purple))]" viewBox="0 0 24 24" fill="currentColor"><path d="M9.94 14.06A2 2 0 0 0 8.5 12.6L2.4 11a.5.5 0 0 1 0-.96L8.5 8.5a2 2 0 0 0 1.44-1.44L11.52 1a.5.5 0 0 1 .96 0l1.58 6.06A2 2 0 0 0 15.5 8.5l6.1 1.58a.5.5 0 0 1 0 .96l-6.1 1.46a2 2 0 0 0-1.44 1.46l-1.58 6.06a.5.5 0 0 1-.96 0z" /></svg>
                     {s.label}
                   </button>
                 ))}
               </div>
             )}
-            <div className="flex items-center gap-2 rounded-lg border border-[#E4E5E9] bg-white px-2.5 py-1.5">
+            <div className="flex items-center gap-2 rounded-lg border border-card-line bg-background px-2.5 py-1.5">
               <span className="min-w-0 flex-1 text-[11px] text-tertiary-text">Ask about this data…</span>
-              <div title="Dictate" className="flex h-[22px] w-[22px] flex-shrink-0 cursor-pointer items-center justify-center rounded-md border border-[#E9EAEE] bg-white text-secondary-text">
+              <div title="Dictate" className="flex h-[22px] w-[22px] flex-shrink-0 cursor-pointer items-center justify-center rounded-md border border-card-line bg-background text-secondary-text">
                 <svg className="h-2.5 w-2.5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z" /><path d="M19 10v2a7 7 0 0 1-14 0v-2" /><path d="M12 19v3" /></svg>
               </div>
-              <div className="flex h-[22px] w-[22px] flex-shrink-0 cursor-pointer items-center justify-center rounded-md bg-gradient-to-br from-blue to-[#6E56CF] text-white">
+              <div className="flex h-[22px] w-[22px] flex-shrink-0 cursor-pointer items-center justify-center rounded-md bg-gradient-to-br from-blue-solid to-[#6E56CF] text-white">
                 <svg className="h-3 w-3" fill="none" stroke="currentColor" strokeWidth="2.2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="m5 12 7-7 7 7M12 19V5" /></svg>
               </div>
             </div>

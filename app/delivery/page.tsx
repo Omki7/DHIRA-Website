@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Nav from "@/components/layout/Nav";
 import Footer from "@/components/layout/Footer";
 import DeliveryHero from "@/components/sections/delivery/DeliveryHero";
+import DeliveryServices from "@/components/sections/delivery/DeliveryServices";
 import DeliveryModels from "@/components/sections/delivery/DeliveryModels";
 import DeliveryCapabilities from "@/components/sections/delivery/DeliveryCapabilities";
 import DeliveryMethodology from "@/components/sections/delivery/DeliveryMethodology";
@@ -37,6 +38,7 @@ export default function DeliveryPage() {
       <Nav />
       <main className="bg-background">
         <DeliveryHero />
+        <DeliveryServices />
         <DeliveryModels />
         <DeliveryCapabilities />
         <DeliveryMethodology />

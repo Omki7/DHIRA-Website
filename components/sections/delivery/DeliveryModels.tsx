@@ -1,11 +1,11 @@
 "use client";
 
 /*
- * [01] Ways to Work with Dhira — One partner. Five ways to ship.
+ * [02] Ways to Work with Dhira — One partner. Five ways to ship.
  * Feature showcase layout with pill tab switcher matching modern web standard.
  */
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
@@ -92,6 +92,30 @@ export default function DeliveryModels() {
   const [activeIndex, setActiveIndex] = useState(0);
   const activeModel = DELIVERY_MODELS[activeIndex];
 
+  /* Every model is addressable (#model-saas … #model-augmentation), so the
+     nav's "Ways to engage" links open their own tab instead of all landing
+     on the first. The hash is read on arrival; a same-page click changes the
+     URL without a hashchange event (Next pushes state), hence the click
+     listener beside the hashchange one. */
+  useEffect(() => {
+    const select = (hash: string) => {
+      const index = DELIVERY_MODELS.findIndex((model) => `#model-${model.id}` === hash);
+      if (index >= 0) setActiveIndex(index);
+    };
+    select(window.location.hash);
+    const onHashChange = () => select(window.location.hash);
+    const onClick = (event: MouseEvent) => {
+      const href = (event.target as HTMLElement | null)?.closest("a")?.getAttribute("href") ?? "";
+      if (href.includes("#model-")) select(`#${href.split("#")[1]}`);
+    };
+    window.addEventListener("hashchange", onHashChange);
+    document.addEventListener("click", onClick);
+    return () => {
+      window.removeEventListener("hashchange", onHashChange);
+      document.removeEventListener("click", onClick);
+    };
+  }, []);
+
   return (
     <section
       id="engagement-models"
@@ -100,13 +124,16 @@ export default function DeliveryModels() {
       <span id="akashic-deployment" className="absolute -top-24" aria-hidden />
       <span id="product-engineering" className="absolute -top-24" aria-hidden />
       <span id="advisory-co-engineering" className="absolute -top-24" aria-hidden />
+      {DELIVERY_MODELS.map((model) => (
+        <span key={model.id} id={`model-${model.id}`} className="absolute -top-24" aria-hidden />
+      ))}
 
       <ScrollRevealRail>
         {/* Section Header */}
         <ScrollReveal>
           <div className="flex items-center justify-center font-mono text-[11px] uppercase tracking-eyebrow text-center">
             <p>
-              <span className="text-overcast">[01]</span>
+              <span className="text-overcast">[02]</span>
               <span className="text-inkSoft">&nbsp;&nbsp;Ways to work with Dhira</span>
             </p>
           </div>

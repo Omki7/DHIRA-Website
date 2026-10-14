@@ -1,7 +1,7 @@
 "use client";
 
 /*
- * [05] Audience — Designed for your engineering reality.
+ * [06] Audience — Designed for your engineering reality.
  * 3-Card Grid with requirement search router ("Type your problem we will suggest best fit")
  * and clean light UI dashboard preview mockups underneath.
  */
@@ -109,7 +109,7 @@ export default function DeliveryFit() {
         <ScrollReveal>
           <div className="flex items-center justify-center font-mono text-[11px] uppercase tracking-eyebrow text-center">
             <p>
-              <span className="text-overcast">[05]</span>
+              <span className="text-overcast">[06]</span>
               <span className="text-inkSoft">&nbsp;&nbsp;Audience &amp; Fit</span>
             </p>
           </div>

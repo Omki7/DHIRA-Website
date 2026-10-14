@@ -67,12 +67,14 @@ export default function SectionBridge({
           onClick={() => {
             document
               .getElementById(targetId)
-              ?.scrollIntoView({ behavior: "smooth" });
+              ?.scrollIntoView({
+                behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth",
+              });
           }}
-          className="group relative inline-flex items-center gap-2 rounded-full border border-default-stroke bg-background px-4 py-2 font-mono text-[11px] uppercase tracking-eyebrow text-inkSoft shadow-card transition-all duration-300 ease-settle hover:border-ink hover:bg-ink hover:text-white hover:shadow-frame active:scale-95"
+          className="group relative inline-flex items-center gap-2 rounded-full border border-default-stroke bg-background px-4 py-2 font-mono text-[11px] uppercase tracking-eyebrow text-inkSoft shadow-card transition-all duration-300 ease-settle hover:border-ink hover:bg-ink hover:text-on-action hover:shadow-frame active:scale-95"
         >
           <span>
-            <span className="text-overcast transition-colors duration-300 ease-settle group-hover:text-white/60">
+            <span className="text-overcast transition-colors duration-300 ease-settle group-hover:text-on-action/60">
               [{number}]
             </span>
             &nbsp;&nbsp;{label}

@@ -81,11 +81,14 @@ export default function Closure() {
                     where these breaks are hidden, the lines closed up into
                     "streaming data.Resolve core entities" and "knowledge
                     layer,and run enterprise intelligence". */}
-                Unify structured, unstructured, and streaming data.{" "}
+                {/* Last line rewritten 14 Oct 2026: "run enterprise
+                    intelligence" now reads as the Enterprise Intelligence
+                    solution. It ends on /akashic's hero promise instead. */}
+                Unify structured, unstructured and streaming data.{" "}
                 <br className="hidden sm:block" />
-                Resolve core entities through a governed knowledge layer,{" "}
+                Resolve core entities through a governed knowledge layer.{" "}
                 <br className="hidden sm:block" />
-                and run enterprise intelligence with complete traceability.
+                Trace every answer and forecast to its source.
               </p>
 
               {/* Centered CTA Buttons */}

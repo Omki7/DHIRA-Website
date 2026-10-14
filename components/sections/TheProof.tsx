@@ -1,361 +1,178 @@
-"use client";
+﻿"use client";
 
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import { useCallback, useEffect, useRef, useState, type KeyboardEvent, type PointerEvent } from "react";
 import Link from "next/link";
 import ScrollReveal from "@/components/ui/ScrollReveal";
-import ProofComparisonMockup from "@/components/demos/mockups/ProofComparisonMockup";
 import ScrollRevealRail from "@/components/ui/ScrollRevealRail";
+import ProofComparisonMockup from "@/components/demos/mockups/ProofComparisonMockup";
+import { usePrefersReducedMotion } from "@/hooks/useCountUp";
+import { HOME_PROOF } from "@/lib/homeSections";
 
-/* The two ends of the wipe. `pos` is how much of the BEFORE layer is showing,
-   so 96 = almost all "before", 4 = almost all "after" — not the other way
-   round. Both stop short of 0/100 so a sliver of the other side always stays
-   on screen and the control never looks broken. */
 const BEFORE_END = 96;
 const AFTER_END = 4;
+const DEMO_STEPS: readonly [number, number][] = [[600, BEFORE_END], [2000, AFTER_END], [3400, BEFORE_END], [4150, AFTER_END], [4900, 50]];
+const DEMO_NUDGE_MS = 5600;
 
 export default function TheProof() {
   const [pos, setPos] = useState(50);
-  const [containerWidth, setContainerWidth] = useState(1100);
-  // Drag has to track the pointer 1:1, but the toggle should glide. `glide`
-  // swaps the wipe from a near-instant follow to the 650ms ease-settle step.
+  const [width, setWidth] = useState(1100);
   const [glide, setGlide] = useState(false);
-  const isDragging = useRef(false);
-  const graphContainerRef = useRef<HTMLDivElement>(null);
-
-  // The knob's "See the change" pill is onboarding, not chrome: it teaches the
-  // drag gesture, and once you have used either control it has done its job.
-  // It also has to go — at the 4%/96% ends the pill is wider than the room
-  // left beside the knob, so the container clips it mid-word.
   const [used, setUsed] = useState(false);
-
-  /* Auto-demonstration on first entry (team feedback, 22 Jul 2026: "the scroll
-     is not intuitive to end users").
-
-     A seam parked at dead centre does not read as a control, however loud the
-     knob is — readers were scrolling past the section's entire argument. So
-     the slider plays the comparison itself before asking anyone to drag it:
-     one slow pass with a beat held on each side (long enough to actually read
-     the two states), one quick pass to make the mechanism obvious, then it
-     settles back to centre and the knob nudges left-right to hand the gesture
-     over.
-
-     Three rules this must keep:
-       - once per mount, on first intersection — never a loop, never on every
-         scroll back;
-       - ANY interaction (drag, toggle, arrow key) kills it mid-flight, so the
-         animation is never fighting the reader for the handle;
-       - Rule 6: under `prefers-reduced-motion` nothing moves. The reader gets
-         the resting 50/50 split and the static cue instead. */
-  const [demoPlayed, setDemoPlayed] = useState(false);
   const [nudge, setNudge] = useState(false);
-  const demoTimers = useRef<ReturnType<typeof setTimeout>[]>([]);
+  const [dragging, setDragging] = useState(false);
+  const graphRef = useRef<HTMLDivElement>(null);
+  const pointer = useRef<number | null>(null);
+  const demoStarted = useRef(false);
+  const interacted = useRef(false);
+  const timers = useRef<ReturnType<typeof setTimeout>[]>([]);
+  const reduced = usePrefersReducedMotion();
 
-  const stopDemo = useCallback(() => {
-    demoTimers.current.forEach(clearTimeout);
-    demoTimers.current = [];
-    setNudge(false);
+  const clearDemo = useCallback(() => {
+    timers.current.forEach(clearTimeout);
+    timers.current = [];
   }, []);
 
-  // Only claim a side once the wipe has actually landed there. At the 50/50
-  // default neither button is pressed, which is the truthful state.
-  const atBefore = pos >= BEFORE_END - 6;
-  const atAfter = pos <= AFTER_END + 6;
+  const stopDemo = useCallback(() => {
+    interacted.current = true;
+    clearDemo();
+    setNudge(false);
+    setUsed(true);
+  }, [clearDemo]);
+
+  useEffect(() => {
+    const node = graphRef.current;
+    if (!node) return;
+    const measure = () => {
+      if (node.clientWidth > 0) setWidth(node.clientWidth);
+    };
+    measure();
+    const resize = new ResizeObserver(measure);
+    resize.observe(node);
+    return () => resize.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const node = graphRef.current;
+    if (!node || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const observer = new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting || interacted.current || demoStarted.current) return;
+      const handleY = entry.boundingClientRect.top + entry.boundingClientRect.height * 0.46;
+      if (handleY < 80 || handleY > window.innerHeight - 60) return;
+      demoStarted.current = true;
+      observer.disconnect();
+      for (const [delay, target] of DEMO_STEPS) {
+        timers.current.push(setTimeout(() => { setGlide(true); setPos(target); }, delay));
+      }
+      timers.current.push(setTimeout(() => setNudge(true), DEMO_NUDGE_MS));
+    }, { threshold: Array.from({ length: 21 }, (_, index) => index / 20) });
+    observer.observe(node);
+    return () => { observer.disconnect(); clearDemo(); };
+  }, [clearDemo]);
+
+  useEffect(() => {
+    if (reduced) { clearDemo(); setNudge(false); setGlide(false); }
+  }, [reduced, clearDemo]);
+
+  const updatePos = (clientX: number) => {
+    const bounds = graphRef.current?.getBoundingClientRect();
+    if (!bounds) return;
+    setPos(Math.max(AFTER_END, Math.min(BEFORE_END, ((clientX - bounds.left) / bounds.width) * 100)));
+  };
+
+  const handlePointerDown = (event: PointerEvent<HTMLDivElement>) => {
+    if (!event.isPrimary || event.button !== 0) return;
+    stopDemo();
+    setGlide(false);
+    pointer.current = event.pointerId;
+    setDragging(true);
+    event.currentTarget.setPointerCapture(event.pointerId);
+    event.currentTarget.querySelector<HTMLElement>('[role="slider"]')?.focus({ preventScroll: true });
+    updatePos(event.clientX);
+  };
+
+  const endDrag = (event: PointerEvent<HTMLDivElement>) => {
+    if (pointer.current !== event.pointerId) return;
+    pointer.current = null;
+    setDragging(false);
+    if (event.currentTarget.hasPointerCapture(event.pointerId)) event.currentTarget.releasePointerCapture(event.pointerId);
+  };
 
   const showSide = (target: number) => {
     stopDemo();
-    setGlide(true);
-    setUsed(true);
+    setGlide(!reduced);
     setPos(target);
   };
 
-  useEffect(() => {
-    if (demoPlayed) return;
-    const node = graphContainerRef.current;
-    if (!node) return;
-
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      setDemoPlayed(true);
-      return;
-    }
-
-    /* Trigger on the KNOB being on screen, not on an area fraction.
-       A plain `threshold: 0.45` was wrong in both directions: a reader who
-       stops with the section header at the top of the viewport has only ~37%
-       of the mockup visible, so nothing ever fired — and had it fired earlier,
-       the knob (vertically centred in the mockup) would still have been below
-       the fold, so the sweep would have played off screen. The geometry check
-       below is viewport-height independent; the threshold list just re-runs
-       the callback often enough for it to catch the right moment. */
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const entry = entries[entries.length - 1];
-        if (!entry?.isIntersecting) return;
-        const { top, height } = entry.boundingClientRect;
-        const knobY = top + height / 2;
-        if (knobY < 0 || knobY > window.innerHeight - 60) return;
-
-        observer.disconnect();
-        setDemoPlayed(true);
-
-        /* [start, target]. Each hop is the 650ms `ease-settle` glide; the gaps
-           are the dwell. Pass one holds 750ms a side, pass two runs straight
-           through, then it lands back on the honest 50/50 default. */
-        const script: [number, number][] = [
-          [600, BEFORE_END],
-          [2000, AFTER_END],
-          [3400, BEFORE_END],
-          [4150, AFTER_END],
-          [4900, 50],
-        ];
-
-        for (const [at, target] of script) {
-          demoTimers.current.push(
-            setTimeout(() => {
-              setGlide(true);
-              setPos(target);
-            }, at),
-          );
-        }
-        demoTimers.current.push(setTimeout(() => setNudge(true), 5600));
-      },
-      { threshold: [0, 0.15, 0.3, 0.45, 0.6, 0.8, 1] },
-    );
-
-    observer.observe(node);
-    return () => observer.disconnect();
-  }, [demoPlayed]);
-
-  // Timers outlive the component if the reader scrolls away mid-demo.
-  useEffect(() => stopDemo, [stopDemo]);
-
-  useEffect(() => {
-    const handleResize = () => {
-      if (graphContainerRef.current) {
-        setContainerWidth(graphContainerRef.current.getBoundingClientRect().width);
-      }
-    };
-    handleResize();
-    window.addEventListener("resize", handleResize, { passive: true });
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
-
-  const handlePointerDown = (e: React.PointerEvent) => {
-    stopDemo();
-    isDragging.current = true;
-    setGlide(false);
-    setUsed(true);
-    document.body.style.userSelect = "none";
-    updatePos(e.clientX);
-  };
-
-  const handlePointerUp = useCallback(() => {
-    isDragging.current = false;
-    document.body.style.userSelect = "";
-  }, []);
-
-  const handlePointerMove = useCallback((e: PointerEvent) => {
-    if (!isDragging.current) return;
-    updatePos(e.clientX);
-  }, []);
-
-  const updatePos = (clientX: number) => {
-    if (!graphContainerRef.current) return;
-    const rect = graphContainerRef.current.getBoundingClientRect();
-    let p = ((clientX - rect.left) / rect.width) * 100;
-    p = Math.max(4, Math.min(96, p));
-    setPos(p);
-  };
-
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    let p = pos;
-    if (e.key === "ArrowLeft") p -= 4;
-    else if (e.key === "ArrowRight") p += 4;
-    else if (e.key === "Home") p = AFTER_END;
-    else if (e.key === "End") p = BEFORE_END;
+  const handleKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
+    const step = event.shiftKey ? 10 : 4;
+    let target = pos;
+    if (event.key === "ArrowLeft" || event.key === "ArrowDown") target -= step;
+    else if (event.key === "ArrowRight" || event.key === "ArrowUp") target += step;
+    else if (event.key === "Home") target = AFTER_END;
+    else if (event.key === "End") target = BEFORE_END;
     else return;
-    e.preventDefault();
+    event.preventDefault();
     stopDemo();
-    setUsed(true);
-    // Arrow keys nudge and should feel immediate; Home/End jump the whole
-    // width, so they get the same glide the toggle uses.
-    setGlide(e.key === "Home" || e.key === "End");
-    setPos(Math.max(AFTER_END, Math.min(BEFORE_END, p)));
+    setGlide(!reduced && (event.key === "Home" || event.key === "End"));
+    setPos(Math.max(AFTER_END, Math.min(BEFORE_END, target)));
   };
 
-  useEffect(() => {
-    document.addEventListener("pointermove", handlePointerMove, { passive: true });
-    document.addEventListener("pointerup", handlePointerUp);
-    return () => {
-      document.removeEventListener("pointermove", handlePointerMove);
-      document.removeEventListener("pointerup", handlePointerUp);
-    };
-  }, [handlePointerMove, handlePointerUp]);
+  const mode = pos >= 90 ? "before" : pos <= 10 ? "after" : "compare";
 
   return (
-    <section
-      id="proof"
-      /* HEIGHT TRIMMED (23 Jul 2026, homepage pacing pass). The section stays
-         — it is the one place the reader proves the thesis to themselves
-         instead of being told it — but it was 1.44 screens, and roughly half
-         of that was chrome around a 660px mockup. Everything below came out of
-         padding and one redundant label; the mockup keeps its 1100px width
-         because its callout pills are fixed-size text, so narrowing the frame
-         would scale them UP relative to the diagram and collide them. */
-      className="relative overflow-hidden border-y border-lineSoft shadow-[0_20px_40px_-15px_rgba(11,20,64,0.06)] pt-10 pb-12 lg:pt-14 lg:pb-16 font-sans"
-      style={{ "--pos": pos } as React.CSSProperties}
-    >
-
-      {/* AFTER background (base) — pristine brand white/blue */}
-      <div 
-        className="absolute inset-0 pointer-events-none z-0 bg-white"
-        style={{ background: "radial-gradient(125% 100% at 50% 42%, #FFFFFF 0%, #F0F4FF 55%, #E5EDFF 100%)" }}
-      >
-        <svg className="absolute inset-0 w-full h-full opacity-60">
-          <defs>
-            <pattern id="dotsSectionA" width="26" height="26" patternUnits="userSpaceOnUse">
-              <circle cx="1.3" cy="1.3" r="1.3" fill="#3E63DD" fillOpacity="0.08" />
-            </pattern>
-          </defs>
-          <rect width="100%" height="100%" fill="url(#dotsSectionA)" />
-        </svg>
-      </div>
-
-      {/* BEFORE background (clipped) — starts below the toggle button right at the mockup diagram */}
-      <div
-        className={`comparison-before-bg absolute top-[320px] bottom-0 left-0 pointer-events-none z-0 overflow-hidden bg-[#EAEFF6] transition-[width] ${
-          glide ? "duration-650 ease-settle" : "duration-0"
-        }`}
-      >
-        <div className="absolute inset-y-0 left-0 w-screen">
-          <svg className="absolute inset-0 w-full h-full opacity-60">
-            <defs>
-              <pattern id="dotsSectionB" width="26" height="26" patternUnits="userSpaceOnUse">
-                <circle cx="1.3" cy="1.3" r="1.3" fill="#64748B" fillOpacity="0.18" />
-              </pattern>
-            </defs>
-            <rect width="100%" height="100%" fill="url(#dotsSectionB)" />
-          </svg>
-        </div>
-      </div>
-
-      {/* Slider seam line (starts below the toggle button right at the mockup diagram) */}
-      <div
-        className={`comparison-slider-line absolute top-[320px] bottom-0 -translate-x-1/2 w-[2px] pointer-events-none z-20 transition-[left] ${
-          glide ? "duration-650 ease-settle" : "duration-0"
-        }`}
-        style={{
-          background:
-            "linear-gradient(180deg, rgba(62,99,221,0) 0%, rgba(62,99,221,0.9) 10%, rgba(62,99,221,0.9) 90%, rgba(62,99,221,0) 100%)",
-          boxShadow: "0 0 0 1px rgba(255,255,255,0.6), 0 0 20px rgba(62,99,221,0.28)",
-        }}
-      />
-
-      <ScrollRevealRail className="relative z-10">
+    <section id="proof" aria-labelledby="proof-heading" className="relative overflow-hidden bg-background pt-10 pb-12 lg:pt-14 lg:pb-16">
+      <ScrollRevealRail>
         <ScrollReveal>
-          <div className="mb-8 flex items-center border-t border-b border-dashed border-lineSoft py-[17px] px-[2px] font-mono text-[11px] uppercase tracking-eyebrow text-inkSoft">
-            <span>
-              {/* Was "THE PROOF", which made three sections mean evidence:
-                  [03] PROVEN AT SCALE, this one, and [07]'s "Proven in the
-                  field, not in a pitch deck." [03] keeps the word — national
-                  systems on the public record is the literal proof. This
-                  section is a before/after of the whole company (the mockup's
-                  own labels are "Before DHIRA" / "After DHIRA"), so it is
-                  named for the change it shows. */}
-              <span className="text-overcast">[06]</span>
-              &nbsp;&nbsp;THE DIFFERENCE
-            </span>
+          <div className="mb-8 flex items-center border-y border-dashed border-lineSoft px-[2px] py-[17px] font-mono text-[11px] uppercase tracking-eyebrow text-inkSoft">
+            <span><span className="text-overcast">[06]</span>&nbsp;&nbsp;THE DIFFERENCE</span>
           </div>
-
-          {/* Joined Title */}
-          <h2 className="max-w-[16em] text-[40px] font-semibold leading-[1.1] tracking-tighter text-ink sm:text-[48px] lg:text-[56px]">
-            Two realities. One organisation.
+          <h2 id="proof-heading" className="text-[38px] font-semibold leading-[1.1] tracking-tighter sm:text-[48px] lg:text-[56px]">
+            <span className="text-inkSoft">{HOME_PROOF.title[0]} </span><span className="text-ink">{HOME_PROOF.title[1]}</span>
           </h2>
-
-          {/* Joined Subheader */}
-          <p className="mt-4 text-[17px] leading-relaxed text-inkSoft md:text-[18px]">
-            The same team. The same data.
-          </p>
+          <p className="mt-4 text-[16px] leading-relaxed text-inkSoft sm:text-[18px]">{HOME_PROOF.description}</p>
         </ScrollReveal>
 
-        {/* Mode Pill Toggle — Directly shown below subheader */}
-        <ScrollReveal delay={60} className="flex flex-col items-start sm:items-center w-full mt-6">
-          {/* "● SELECT COMPARISON MODE" removed. Two labelled pills with a lit
-              dot on the active one already read as a mode switch, so the line
-              was captioning a control that captions itself — and it was the
-              third thing on screen teaching one gesture, after the auto-demo
-              sweep and the draggable seam. */}
-          <div
-            role="group"
-            aria-label="Choose which side to show"
-            className="inline-flex rounded-full border-2 border-lineSoft bg-white p-1.5 shadow-lg shadow-black/[0.04] ring-4 ring-black/[0.02]"
-          >
-            <button
-              type="button"
-              onClick={() => showSide(BEFORE_END)}
-              aria-pressed={atBefore}
-              className={`flex items-center gap-2 rounded-full px-5 py-2.5 text-xs sm:text-sm font-semibold transition-all duration-300 ease-settle ${
-                atBefore
-                  ? "bg-[#334155] text-amber-300 shadow-md ring-1 ring-amber-400/30"
-                  : "text-inkSoft hover:text-ink hover:bg-tertiary-bg"
-              }`}
+        <ScrollReveal delay={80}>
+          <div className="mx-auto mt-7 max-w-[1100px] sm:mt-8">
+            <div className="mb-4 flex flex-col items-start justify-between gap-3 sm:flex-row sm:items-center">
+              <p id="proof-instructions" className="text-[13px] text-inkSoft">
+                {HOME_PROOF.instruction}<span className="sr-only"> {HOME_PROOF.keyboardInstruction}</span>
+              </p>
+              <div role="group" aria-label="Comparison view" className="inline-flex rounded-btn border border-default-stroke bg-primary-bg p-1">
+                {([{ id: "before", label: "Before", target: BEFORE_END }, { id: "compare", label: "Compare", target: 50 }, { id: "after", label: "After", target: AFTER_END }] as const).map((item) => (
+                  <button key={item.id} type="button" aria-pressed={mode === item.id} onClick={() => showSide(item.target)} className={`min-h-10 rounded-chip px-4 text-[13px] font-medium transition-colors duration-250 motion-reduce:transition-none sm:px-5 ${mode === item.id ? "bg-ink text-on-action shadow-card" : "text-inkSoft hover:bg-tertiary-bg hover:text-ink"}`}>
+                    {item.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div
+              ref={graphRef}
+              data-proof-stage
+              data-dragging={dragging}
+              onPointerDown={handlePointerDown}
+              onPointerMove={(event) => { if (pointer.current === event.pointerId) updatePos(event.clientX); }}
+              onPointerUp={endDrag}
+              onPointerCancel={endDrag}
+              onLostPointerCapture={() => { pointer.current = null; setDragging(false); }}
+              className="relative h-[490px] w-full touch-pan-y cursor-ew-resize select-none rounded-outer border border-lineSoft bg-primary-bg shadow-frame sm:h-auto sm:min-h-[580px] sm:aspect-[1100/660] lg:min-h-0"
             >
-              <span className={`h-2.5 w-2.5 rounded-full transition-all ${atBefore ? "bg-amber-400 shadow-[0_0_8px_rgba(251,191,36,0.8)] animate-pulse" : "bg-inkSoft/30"}`} />
-              Before DHIRA
-            </button>
-            <button
-              type="button"
-              onClick={() => showSide(AFTER_END)}
-              aria-pressed={atAfter}
-              className={`flex items-center gap-2 rounded-full px-5 py-2.5 text-xs sm:text-sm font-semibold transition-all duration-300 ease-settle ${
-                atAfter
-                  ? "bg-blue text-white shadow-md shadow-blue/30 ring-1 ring-white/30"
-                  : "text-inkSoft hover:text-ink hover:bg-tertiary-bg"
-              }`}
-            >
-              <span className={`h-2.5 w-2.5 rounded-full transition-all ${atAfter ? "bg-white shadow-[0_0_8px_rgba(255,255,255,0.8)] animate-pulse" : "bg-inkSoft/30"}`} />
-              After DHIRA
-            </button>
+              <ProofComparisonMockup pos={pos} width={width} glide={glide && !reduced} showHint={!used} nudge={nudge && !reduced} onKeyDown={handleKeyDown} onFocus={stopDemo} />
+            </div>
+            <div className="sr-only">
+              <h3>Before DHIRA</h3><ul>{HOME_PROOF.nodes.map((node) => <li key={node.id}>{node.beforeLabel}: {node.beforeDetail}</li>)}</ul>
+              <h3>After DHIRA</h3><ul>{HOME_PROOF.nodes.map((node) => <li key={node.id}>{node.afterLabel}</li>)}</ul>
+            </div>
+            <div className="mt-5 flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
+              <div>
+                <p className="text-[14px] leading-relaxed text-inkSoft">{HOME_PROOF.summary}</p>
+                <p className="mt-2 font-mono text-[9px] uppercase tracking-eyebrow text-inkSoft">{HOME_PROOF.illustrationLabel}</p>
+              </div>
+              <Link href="/delivery" className="btn-primary shrink-0">{HOME_PROOF.cta}<span aria-hidden="true" className="ml-2">→</span></Link>
+            </div>
           </div>
         </ScrollReveal>
-
-        <ScrollReveal delay={90}>
-          <div
-            ref={graphContainerRef}
-            onPointerDown={handlePointerDown}
-            className="relative w-full overflow-hidden cursor-ew-resize select-none max-w-full lg:max-w-[1100px] mx-auto mt-8 lg:mt-10 mb-6 bg-transparent"
-            style={{ aspectRatio: "1100 / 660", touchAction: "none" }}
-          >
-            <ProofComparisonMockup
-              pos={pos}
-              width={containerWidth}
-              glide={glide}
-              showHint={!used}
-              nudge={nudge}
-              onKeyDown={handleKeyDown}
-            />
-          </div>
-        </ScrollReveal>
-
-        <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-6 mt-5 lg:mt-6 max-w-[1100px] mx-auto">
-          <ScrollReveal delay={220}>
-            <p className="text-sm leading-relaxed text-inkSoft max-w-[54ch]">
-              <span className="font-medium text-ink">Left,</span> four source systems, four different answers, and a reconciliation queue measured in days. <span className="font-medium text-ink">Right,</span> one certified master record every system trusts.
-            </p>
-          </ScrollReveal>
-
-          <ScrollReveal delay={280}>
-            {/* Was "See how the foundation works" → #platform: a backward
-                link at section 6 of 10, and it narrowed a company-scale
-                before/after into a product anchor. The "after" state is earned
-                by the platform AND the engineering, so it exits into the half
-                the reader has just met. */}
-            <Link href="/delivery" className="btn-primary whitespace-nowrap">
-              See how we deliver it
-            </Link>
-          </ScrollReveal>
-        </div>
       </ScrollRevealRail>
     </section>
   );

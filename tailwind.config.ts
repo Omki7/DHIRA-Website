@@ -1,5 +1,7 @@
 import type { Config } from "tailwindcss";
 
+const colour = (name: string) => `rgb(var(--${name}) / <alpha-value>)`;
+
 const config: Config = {
   content: [
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
@@ -8,23 +10,20 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        /* The ground is WHITE and stays white: it is what gives the page
-           its contrast and air, and it is the only neutral the cool blue
-           family (`blue-subtle` #EEF1FC, the Rule 5a band #F1F5FE) reads
-           cleanly against. A warm off-white ground was tried in Jul 2026
-           and reverted — warm ground + cool blue is two tints fighting.
-           Every <section> uses `bg-background` rather than a hardcoded
-           `bg-white`, so the ground stays a single-token change. */
-        background: "#FFFFFF",
-        "primary-bg": "#FAFAFB",
-        "secondary-bg": "#FFFFFF",
-        "tertiary-bg": "#F3F3F4",
-        ink: "#1A1C1D",
-        "primary-text": "#1A1C1D",
-        "secondary-text": "#5C5E63",
-        "tertiary-text": "#8E8F91",
-        action: "#1A1C1D",
-        "action-hover": "#2F3132",
+        // Semantic colours resolve in app/theme.css. Light remains the default.
+        background: colour("background"),
+        band: colour("band"),
+        anchor: colour("anchor"),
+        "on-action": colour("on-action"),
+        "blue-solid": "#3E63DD",
+        "primary-bg": colour("primary-bg"),
+        "tertiary-bg": colour("tertiary-bg"),
+        ink: colour("ink"),
+        "primary-text": colour("ink"),
+        "secondary-text": colour("secondary-text"),
+        "tertiary-text": colour("tertiary-text"),
+        action: colour("ink"),
+        "action-hover": colour("action-hover"),
         /* `blue` is an object rather than a string so the family has light
            steps for dark grounds. It was a bare "#3E63DD", which meant
            Tailwind generated NO numbered steps — so the ~60 `text-blue-400`
@@ -36,44 +35,44 @@ const config: Config = {
            `depth` navy at AA. The separate `blue-hover` / `blue-subtle` /
            `blue-border` keys are untouched and still resolve. */
         blue: {
-          DEFAULT: "#3E63DD",
+          DEFAULT: colour("blue"),
           300: "#AEC3FF",
           400: "#8AA8FB",
           500: "#5B7FEA",
         },
-        "blue-hover": "#3351B8",
-        "blue-subtle": "#EEF1FC",
-        "blue-border": "#C8D2F5",
-        red: "#E5484D",
+        "blue-hover": colour("blue-hover"),
+        "blue-subtle": colour("blue-subtle"),
+        "blue-border": colour("blue-border"),
+        red: colour("red"),
         /* Section [01]'s cost FIGURES only. `red` #E5484D is a UI alert red —
            at 34px it reads as an error state and, at 3.4:1 on white, as a
            warning light rather than a loss. This is the same hue dropped to
            8.1:1: heavier, closer to a ledger's red ink, which is the mood the
            section is arguing (user direction, 22 Jul 2026). Inline chips,
            bars and rules stay on `red` — only the big numbers come here. */
-        "red-deep": "#9B1C21",
+        "red-deep": colour("red-deep"),
         /* Positive / "live" family — mirrors the blue family's four steps.
            These four values were already in use as raw hex across LiveChip,
            [01], [04], [05] and [09]; tokenising them stops the next
            near-miss green from being eyedropped in. */
-        "positive": "#30A46C",
-        "positive-text": "#1B7A47",
-        "positive-subtle": "#EDF7F1",
-        "positive-border": "#CBE8D7",
-        "subtle-stroke": "#EEEFF1",
-        "default-stroke": "#D9DADB",
-        "vault": "#0a0a0c",
-        "inkSoft": "#6f7988",
-        "overcast": "#64748B",
-        "lineSoft": "#e4e7ec",
-        "line": "#d3d8df",
+        "positive": colour("positive"),
+        "positive-text": colour("positive-text"),
+        "positive-subtle": colour("positive-subtle"),
+        "positive-border": colour("positive-border"),
+        "subtle-stroke": colour("subtle-stroke"),
+        "default-stroke": colour("default-stroke"),
+        "vault": colour("vault"),
+        "inkSoft": colour("inkSoft"),
+        "overcast": colour("overcast"),
+        "lineSoft": colour("lineSoft"),
+        "line": colour("line"),
         /* Akashic design-system tokens — one card edge, one divider, one
            header tint, one deep "anchor" ground. Replaces the per-section
            eyedropped grays (#E3E7F0 / #E9ECF3 / #E9EAEE …) so every
            simulated-UI card shares the same family. */
-        "card-line": "#E4E8F0",
-        "card-divide": "#EBEEF4",
-        "panel": "#F7F8FB",
+        "card-line": colour("card-line"),
+        "card-divide": colour("card-divide"),
+        "panel": colour("panel"),
         "depth": "#0A0E24",
         "depth-raised": "#141A38",
         /* Universal Context section (Attio replica, user direction 18 Jul) —
@@ -86,17 +85,21 @@ const config: Config = {
            is blue-black, so near-black read as borrowed, not ours. The surface
            steps now sit on the `depth` family. Hue moved, LUMINANCE did not —
            #101010 and #0A0E24 have the same relative luminance (0.0052), so
-           every text contrast ratio in the section is unchanged. */
-        "uc-bg": "#0A0E24",
-        "uc-surface": "#141A38",
-        "uc-stroke": "#1E2547",
-        "uc-line": "#2A3157",
-        "uc-vertex": "#545E82",
-        "uc-dim": "#6f7988",
+           every text contrast ratio in the section is unchanged.
+           Re-grounded 22 Sep 2026 (user direction): the section now sits on
+           `vault`, the same black as [04]'s card, so the homepage runs ONE
+           dark ground instead of two near-identical ones. The surface steps
+           are `vault` with a white film (5 / 8 / 14 / 30%), which is how [04]
+           draws its own borders and tiles. Luminance barely moved (#0a0a0c vs
+           #0A0E24), so the text ratios still hold. */
+        "uc-bg": colour("uc-bg"),
+        "uc-surface": colour("uc-surface"),
+        "uc-stroke": colour("uc-stroke"),
+        "uc-line": colour("uc-line"),
+        "uc-vertex": colour("uc-vertex"),
+        "uc-dim": colour("uc-dim"),
         "uc-mute": "#8f99a8",
         "uc-text": "#fafafb",
-        "uc-pill": "#1B2550",
-        "uc-pilltext": "#c8dcff",
         /* Akashic EIS page (/solutions/eis) — an editorial, atmospheric
            surface treatment scoped to that one page, in the same spirit as
            the `uc-` block above: prefixed so it cannot leak into the brand's
@@ -141,12 +144,12 @@ const config: Config = {
            and no deep end to build a ground from. Running the page on
            `blue` produced either indigo-on-indigo mush or a third of the
            reference's contrast.
-           `life-abyss` is deliberately the SAME value as `depth` / `uc-bg`:
-           the page's darkest ground is the site's darkest ground, so the five
-           dark sections here read as the same black as MeetAkashic rather than
-           as a second, bluer one. It started at #020A33 and was retuned
-           23 Jul 2026 when the page was compared side by side with the
-           homepage. Only the mid-tones of the ramps are this page's own.
+           `life-abyss` is deliberately the SAME value as `depth`: the page's
+           darkest ground is the /akashic `.ak-depth` ground, not a second,
+           bluer one. It started at #020A33 and was retuned 23 Jul 2026 when
+           the page was compared side by side with the homepage (whose
+           MeetAkashic then ran on #0A0E24; it moved to `vault` 22 Sep 2026).
+           Only the mid-tones of the ramps are this page's own.
            AA on every pairing: `life-blue` on white 5.3:1, `life-cyan` on
            `life-abyss` 7.9:1, `life-navy` on white 15:1, `life-body` 12.6:1. */
         "life-abyss": "#0A0E24",
@@ -169,7 +172,6 @@ const config: Config = {
         heading: ["'Google Sans'", "system-ui", "-apple-system", "BlinkMacSystemFont", "sans-serif"],
         mono: ["'Google Sans Mono'", "SF Mono", "Fira Code", "JetBrains Mono", "monospace"],
         display: ["Newsreader", "Georgia", "serif"],
-        inter: ["Inter", "system-ui", "-apple-system", "BlinkMacSystemFont", "sans-serif"],
       },
       fontSize: {
         "heading-sm": ["35px", { lineHeight: "1.1", letterSpacing: "-0.035em" }],
@@ -215,9 +217,9 @@ const config: Config = {
          usages across nine other pages need no migration — and so we
          don't ship two names for one value. --- */
       boxShadow: {
-        "card": "0 1px 2px rgba(11,20,64,0.04), 0 4px 12px -2px rgba(11,20,64,0.06)",
-        "frame": "0 4px 10px rgba(11,20,64,0.05), 0 18px 40px -8px rgba(11,20,64,0.14)",
-        "deep": "0 2px 6px rgba(11,20,64,0.12), 0 28px 56px -22px rgba(11,20,64,0.55)",
+        "card": "var(--shadow-card)",
+        "frame": "var(--shadow-frame)",
+        "deep": "var(--shadow-deep)",
         /* For white cards on the dark ak-depth slab ([05], [09]): the navy
            `deep` shadow is the same hue as the #0A0E24 ground and vanishes
            into it, so cards read as glued-on. This uses true black (darker

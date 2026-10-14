@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { ROLES } from "@/lib/careersRoles";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import ScrollRevealRail from "@/components/ui/ScrollRevealRail";
 import FlyingEagleSketch from "@/components/icons/FlyingEagleSketch";
@@ -9,36 +10,6 @@ import FlyingEagleSketch from "@/components/icons/FlyingEagleSketch";
 const DEPT_FILTERS = ["View all", "Engineering", "Machine Learning", "Product", "Delivery"] as const;
 type Dept = (typeof DEPT_FILTERS)[number];
 
-const ROLES: { dept: Dept; title: string; desc: string; location: string; type: string }[] = [
-  {
-    dept: "Engineering",
-    title: "Senior Data Engineer",
-    desc: "Build and scale government data pipelines.",
-    location: "Remote",
-    type: "Full-time",
-  },
-  {
-    dept: "Machine Learning",
-    title: "ML Researcher, Grounding Systems",
-    desc: "Advance grounding and retrieval systems for public-sector AI.",
-    location: "Hyderabad",
-    type: "Full-time",
-  },
-  {
-    dept: "Product",
-    title: "Product Manager, Akashic Platform",
-    desc: "Own the roadmap for our flagship intelligence platform.",
-    location: "New York",
-    type: "Full-time",
-  },
-  {
-    dept: "Delivery",
-    title: "Implementation Lead, Government",
-    desc: "Guide large-scale government deployments end to end.",
-    location: "Remote",
-    type: "Full-time",
-  },
-];
 
 export default function JoinTheTeam() {
   const [activeFilter, setActiveFilter] = useState<Dept>("View all");

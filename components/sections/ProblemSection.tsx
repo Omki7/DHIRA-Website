@@ -3,30 +3,30 @@
 import DivergentAnswers from "@/components/demos/DivergentAnswers";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import ScrollRevealRail from "@/components/ui/ScrollRevealRail";
+import { HOME_PROBLEM } from "@/lib/homeSections";
+import { motion } from "framer-motion";
+import useCountUp, { usePrefersReducedMotion } from "@/hooks/useCountUp";
 
-/* The industry record. Demoted from the section's largest type to a cited
-   footnote under the argument (Jul 2026): the reader lives the three-answers
-   anecdote, so that is the verdict; these two figures are what tells them it
-   is not their fault. Each claim is written to sit on one line. */
-const RECORD = [
-  {
-    figure: "$581B",
-    claim: "went into AI last year, up 130%.",
-    source: "Stanford HAI, 2026",
-    sourceUrl: "https://hai.stanford.edu/ai-index/2026-ai-index-report/economy",
-  },
-  {
-    figure: "46%",
-    claim: "of AI pilots never reach production.",
-    source: "S&P Global, 2025",
-    sourceUrl: "https://www.ciodive.com/news/AI-project-fail-data-SPGlobal/742590/",
-  },
-] as const;
+function EvidenceFigure({ figure }: { figure: string }) {
+  const { ref, display } = useCountUp(figure, { duration: 1800, startAtZero: true });
+  return (
+    <div ref={ref} data-problem-counter className="font-sans text-[46px] font-semibold leading-none tracking-tightest text-red-deep tabular-nums sm:text-[56px] xl:text-[64px]">
+      <span className="sr-only">{figure}</span>
+      <span aria-hidden="true">{display}</span>
+    </div>
+  );
+}
 
 export default function ProblemSection() {
+  const reduced = usePrefersReducedMotion();
   return (
-    <section
+    <motion.section
       id="problem"
+      initial={{ opacity: 0, y: 24 }}
+      animate={reduced ? { opacity: 1, y: 0 } : undefined}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.08 }}
+      transition={{ duration: reduced ? 0 : 0.75, ease: [0.2, 0.8, 0.2, 1] }}
       className="relative w-full overflow-clip bg-background pt-10 pb-10 lg:pt-14 lg:pb-14"
     >
       <div className="dot-grid pointer-events-none absolute inset-0 opacity-[0.035]" />
@@ -41,64 +41,50 @@ export default function ProblemSection() {
           </div>
         </ScrollReveal>
 
-        {/* Argument left, evidence right. The section used to stack headline,
-            plot, industry record and thesis as four centred blocks separated by
-            dashed rules, which read as four sections and ran past two screens.
-            One composition, one argument, one payoff.
-
-            Explicit row/column placement rather than source order: stacked, the
-            ledger has to come before the citations, or the reader meets "it
-            isn't just you" before they have seen the thing it refers to. */}
+        {/* On mobile, show the conflicting answers before the industry evidence. */}
         <div className="mx-auto grid max-w-[1200px] grid-cols-1 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)] lg:items-center lg:gap-x-16 xl:gap-x-20">
-          <ScrollReveal className="lg:col-start-1 lg:row-start-1">
+          <ScrollReveal delay={80} className="lg:col-start-1 lg:row-start-1">
             <div>
               {/* Setup soft, payoff in full ink: the same grammar the closing
                   thesis uses, so the section reads as one voice. */}
-              <h2 className="text-[38px] font-semibold leading-[1.04] tracking-tighter sm:text-[44px] xl:text-[52px]">
-                <span className="block text-inkSoft">You asked for</span>
-                <span className="block text-inkSoft">one number.</span>
-                <span className="mt-1 block text-ink">You got three.</span>
+              <h2 className="text-[26px] font-semibold leading-[1.12] tracking-tighter min-[375px]:text-[30px] sm:text-[44px] lg:text-[34px] xl:text-[42px]">
+                <span className="block whitespace-nowrap text-inkSoft">{HOME_PROBLEM.title[0]}</span>
+                <span className="mt-1 block text-ink">{HOME_PROBLEM.title[1]}</span>
               </h2>
 
-              <p className="mt-6 max-w-[30em] text-[17px] leading-relaxed text-inkSoft md:text-[18px]">
-                Every answer is defensible. Every system is doing its job. That is
-                what makes this expensive: nobody can tell you which one to act on,
-                and the decision is due anyway.
+              <p data-problem-description className="mt-6 text-[16px] leading-[1.6] text-inkSoft sm:text-[18px]">
+                {HOME_PROBLEM.description.map((line) => <span key={line} className="block">{line}</span>)}
               </p>
             </div>
           </ScrollReveal>
 
           <ScrollReveal
-            delay={120}
+            delay={180}
             className="mt-11 lg:col-start-2 lg:row-start-1 lg:row-span-2 lg:mt-0"
           >
             <DivergentAnswers />
           </ScrollReveal>
 
-          <ScrollReveal className="lg:col-start-1 lg:row-start-2">
-            <div className="mt-11 border-t border-dashed border-lineSoft pt-7 lg:mt-10">
-              <p className="font-mono text-[10px] uppercase tracking-eyebrow text-overcast">
-                It isn&apos;t just you
-              </p>
+          <ScrollReveal delay={220} className="lg:col-start-1 lg:row-start-2">
+            <div className="mt-10 border-t border-lineSoft pt-6 lg:mt-9">
+              <h3 className="text-[23px] font-semibold tracking-tight text-ink sm:text-[26px]">
+                {HOME_PROBLEM.evidenceHeading}
+              </h3>
 
-              <div className="mt-5 space-y-5">
-                {RECORD.map((fact) => (
-                  <div key={fact.figure} className="flex items-baseline gap-4 sm:gap-5">
-                    {/* Red is scoped to this section (see §4) and marks the
-                        cost: these two figures and the ledger's variance.
-                        `red-deep`, not `red` — see the token's note. */}
-                    <div className="w-[86px] shrink-0 text-right font-sans text-[30px] font-semibold leading-none tracking-tightest text-red-deep sm:w-[96px] sm:text-[34px]">
-                      {fact.figure}
-                    </div>
-                    <div className="min-w-0">
-                      <p className="text-[14.5px] font-medium leading-snug text-ink sm:text-[15px]">
+              <div className="mt-6 grid grid-cols-2 gap-x-5 sm:gap-x-8">
+                {HOME_PROBLEM.facts.map((fact) => (
+                  <div key={fact.figure} className="min-w-0 border-l border-dashed border-lineSoft pl-5 first:border-0 first:pl-0 sm:pl-8">
+                    {/* Deep red marks the cost, with contrast for large figures. */}
+                    <EvidenceFigure figure={fact.figure} />
+                    <div className="mt-3 min-w-0">
+                      <p className="text-[14px] font-medium leading-snug text-ink sm:text-[15px]">
                         {fact.claim}
                       </p>
                       <a
                         href={fact.sourceUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="mt-1.5 inline-flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-eyebrow text-blue underline decoration-blue/40 underline-offset-4 transition-colors duration-settle ease-settle hover:text-blue-hover hover:decoration-blue-hover"
+                        className="mt-3 inline-flex items-center gap-1 font-mono text-[9px] uppercase tracking-[0.04em] sm:text-[10px] text-blue underline decoration-blue/40 underline-offset-4 transition-colors duration-250 ease-settle hover:text-blue-hover hover:decoration-blue-hover"
                       >
                         {fact.source}
                         <svg
@@ -126,7 +112,7 @@ export default function ProblemSection() {
         </div>
 
         {/* The verdict, and the bridge into Meet Akashic */}
-        <ScrollReveal>
+        <ScrollReveal delay={160}>
           <div className="relative mx-auto mt-14 max-w-[900px] border-t border-dashed border-lineSoft pt-10 text-center lg:mt-16">
             <div className="pointer-events-none absolute left-1/2 top-1/2 -z-10 h-48 w-48 -translate-x-1/2 -translate-y-1/2 rounded-full bg-blue-subtle/50 opacity-60 blur-3xl" />
             <p className="text-[20px] font-semibold leading-snug tracking-tight md:text-[26px]">
@@ -155,16 +141,16 @@ export default function ProblemSection() {
                 onClick={() => {
                   const el = document.getElementById("platform");
                   if (el) {
-                    el.scrollIntoView({ behavior: "smooth" });
+                    el.scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth" });
                   }
                 }}
-                className="group relative inline-flex items-center gap-2 rounded-full border border-default-stroke bg-background px-4 py-2 font-mono text-[11px] uppercase tracking-eyebrow text-inkSoft shadow-card transition-all duration-300 ease-settle hover:border-ink hover:bg-ink hover:text-white hover:shadow-frame active:scale-95"
+                className="group relative inline-flex items-center gap-2 rounded-full border border-default-stroke bg-background px-4 py-2 font-mono text-[11px] uppercase tracking-eyebrow text-inkSoft shadow-card transition-all duration-300 ease-settle hover:border-ink hover:bg-ink hover:text-on-action hover:shadow-frame active:scale-95"
               >
                 <span>
-                  <span className="text-overcast transition-colors duration-300 ease-settle group-hover:text-white/60">
+                  <span className="text-overcast transition-colors duration-300 ease-settle group-hover:text-on-action/60">
                     [02]
                   </span>
-                  &nbsp;&nbsp;MEET AKASHIC
+                  &nbsp;&nbsp;THE PLATFORM
                 </span>
                 <svg
                   width="12"
@@ -184,6 +170,6 @@ export default function ProblemSection() {
           </div>
         </ScrollReveal>
       </ScrollRevealRail>
-    </section>
+    </motion.section>
   );
 }

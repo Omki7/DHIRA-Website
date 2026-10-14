@@ -3,7 +3,9 @@
 import { motion } from "framer-motion";
 import { usePrefersReducedMotion } from "@/hooks/useCountUp";
 import ScrollReveal from "@/components/ui/ScrollReveal";
-import UCButton from "./UCButton";
+
+// The seven modules, in the order /akashic walks them.
+const MODULES = ["Pipelines", "Master Data", "Warehouse", "ML", "Ask Akashic", "BI", "Governance"];
 
 // Blueprint trace of the Akashic mark (icons/AkashicLogo.tsx) scaled onto the
 // 1600-unit drafting plane: apex (800,480), crossbar y=800, feet y=1120.
@@ -101,22 +103,56 @@ export default function UCSdk() {
 
         {/* text plate */}
         <ScrollReveal className="relative z-10 flex flex-col items-center justify-center px-6 py-16 text-center md:px-8 lg:py-24 xl:absolute xl:bottom-[12.5%] xl:left-[4.1667%] xl:top-[12.5%] xl:w-[45.8333%] xl:items-start xl:bg-uc-bg xl:px-8 xl:py-0 xl:text-left xl:outline xl:outline-1 xl:outline-uc-stroke">
-          <div className="flex flex-col items-center gap-6 xl:items-start">
-            <p className="inline-flex h-6 items-center rounded-lg bg-uc-pill px-1.5 text-[14px] font-medium leading-5 tracking-[-0.14px] text-uc-pilltext">
-              Modules
-            </p>
-            <h2 className="text-[32px] font-medium leading-[36px] tracking-[-0.01em] lg:text-[40px] lg:leading-[44px]">
-              {/* Setup soft, payoff in full ink. The module list is the setup;
-                  the governed foundation is the claim, so it takes the ink. */}
-              <span className="block text-uc-mute">BI. AI. ML. Agents.</span>
-              <span className="block text-uc-text">All on one governed foundation.</span>
-            </h2>
+          <div className="flex flex-col items-center gap-8 xl:items-start">
+            {/* THE CLOSE: what the platform is made of, which nothing above
+                it says. The tiles name what the AI knows and the rail what it
+                does; this names the seven modules that deliver both, and puts
+                the three things that RUN on the platform (dashboards, models,
+                agents) on one foundation, which is what the blueprint beside it
+                draws. Keep the list to one kind of noun: "every answer,
+                forecast and agent" mixed two outputs with an actor and read
+                wrong (user, 22 Sep 2026).
+                Was "BI. AI. ML. Agents. All on one governed foundation." (four
+                acronyms), then "Start with one team. Scale to the whole
+                organisation." (read as generic). */}
+            <h3 className="max-w-[18em] text-balance text-[28px] font-semibold leading-[1.15] tracking-tight lg:text-[32px]">
+              <span className="block text-uc-mute">Seven modules.</span>
+              <span className="block text-uc-text">One foundation under your dashboards, models and agents.</span>
+            </h3>
+            {/* Module names as the site's mono label voice: the reader who
+                wants the parts gets them, the reader who doesn't scans past.
+                Chips, not a slash-separated run: seven names always wrap in
+                this plate, and a run left a separator hanging at the start of
+                the second line. */}
+            <ul className="flex max-w-[380px] flex-wrap justify-center gap-2 xl:justify-start">
+              {MODULES.map((m) => (
+                <li
+                  key={m}
+                  className="rounded-chip border border-uc-line px-2 py-1 font-mono text-[11px] uppercase leading-none tracking-eyebrow text-uc-mute"
+                >
+                  {m}
+                </li>
+              ))}
+            </ul>
             {/* [02]'s ONE exit. UCSignals and UCConnectivity gave theirs up so
                 this could be the single click the section is asking for; it
                 goes to the platform overview, not a module anchor, because a
                 reader who has only met Akashic on this page is not yet asking
-                a module-shaped question. */}
-            <UCButton href="/akashic">Explore Akashic</UCButton>
+                a module-shaped question. The site's dark-ground primary
+                (`btn-primary-invert`), not the hand-rolled 32px/12px UCButton
+                it replaced. */}
+            <a href="/akashic" className="btn-primary-invert group">
+              Explore Akashic
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true" className="transition-transform duration-250 ease-settle group-hover:translate-x-0.5">
+                <path
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="1.4"
+                  d="M2.25 7h9.5m0 0L8.357 3.5M11.75 7l-3.393 3.5"
+                />
+              </svg>
+            </a>
           </div>
         </ScrollReveal>
 
@@ -132,14 +168,14 @@ export default function UCSdk() {
             className="absolute inset-0 size-full select-none"
             aria-hidden="true"
           >
-            <g strokeDasharray="4 6" strokeWidth="1" stroke="#1E2547">
+            <g strokeDasharray="4 6" strokeWidth="1" stroke="#1D1D22">
               {CONSTRUCTION_LINES.map(([x1, y1, x2, y2]) => (
                 <line key={`${x1}-${y1}`} vectorEffect="non-scaling-stroke" x1={x1} y1={y1} x2={x2} y2={y2} />
               ))}
             </g>
             <defs>
               <pattern id="uc-hatch" width="1" height="16" patternUnits="userSpaceOnUse">
-                <line x1="0" y1="0.5" x2="1" y2="0.5" stroke="#2A3157" strokeWidth="1" vectorEffect="non-scaling-stroke" />
+                <line x1="0" y1="0.5" x2="1" y2="0.5" stroke="#2A2A31" strokeWidth="1" vectorEffect="non-scaling-stroke" />
               </pattern>
             </defs>
             {SHAPES.map((poly, i) => (
@@ -150,12 +186,12 @@ export default function UCSdk() {
                 viewport={{ once: true, amount: 0.3 }}
                 transition={{ duration: 0.9, delay: i * 0.15, ease: [0.2, 0.8, 0.2, 1] }}
               >
-                <path fill="#0A0E24" d={poly.d} />
+                <path fill="#0a0a0c" d={poly.d} />
                 {poly.hatch && <path fill="url(#uc-hatch)" d={poly.d} />}
                 <motion.path
                   d={poly.d}
                   fill="none"
-                  stroke="#2A3157"
+                  stroke="#2A2A31"
                   strokeWidth="1"
                   vectorEffect="non-scaling-stroke"
                   initial={reduced ? false : { pathLength: 0 }}
@@ -164,7 +200,7 @@ export default function UCSdk() {
                   transition={{ duration: 1.2, delay: 0.2 + i * 0.15, ease: [0.4, 0, 0.2, 1] }}
                 />
                 <motion.g
-                  stroke="#545E82"
+                  stroke="#55555F"
                   initial={reduced ? false : { opacity: 0 }}
                   whileInView={{ opacity: 1 }}
                   viewport={{ once: true, amount: 0.3 }}
@@ -192,7 +228,7 @@ export default function UCSdk() {
                 clear above it. */}
             <motion.g
               fill="none"
-              stroke="#2A3157"
+              stroke="#2A2A31"
               strokeWidth="1"
               strokeDasharray="4 6"
               initial={reduced ? false : { opacity: 0 }}

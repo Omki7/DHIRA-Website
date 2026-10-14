@@ -21,7 +21,7 @@ export default function PageMinimap({
       className="group/nav fixed right-2 top-1/2 z-40 hidden -translate-y-1/2 lg:flex"
     >
       {/* Hover panel — list of all section labels */}
-      <div className="pointer-events-none absolute right-full top-1/2 mr-2.5 max-h-[70vh] w-64 -translate-y-1/2 translate-x-1 overflow-y-auto rounded-inner border border-subtle-stroke bg-white px-1 py-2 shadow-card opacity-0 transition-all duration-250 ease-settle group-hover/nav:pointer-events-auto group-hover/nav:translate-x-0 group-hover/nav:opacity-100">
+      <div className="pointer-events-none absolute right-full top-1/2 mr-2.5 max-h-[70vh] w-64 -translate-y-1/2 translate-x-1 overflow-y-auto rounded-inner border border-subtle-stroke bg-background px-1 py-2 shadow-card opacity-0 transition-all duration-250 ease-settle group-hover/nav:pointer-events-auto group-hover/nav:translate-x-0 group-hover/nav:opacity-100">
         <ul className="flex flex-col gap-0.5">
           {sections.map((section) => {
             const isActive = section.id === activeId;

@@ -1,290 +1,169 @@
-"use client";
+﻿"use client";
 
-import { useState, useEffect } from "react";
+import { useEffect, useRef, useState, type KeyboardEvent } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import ScrollRevealRail from "@/components/ui/ScrollRevealRail";
 import { usePrefersReducedMotion } from "@/hooks/useCountUp";
+import { HOME_INDUSTRIES } from "@/lib/homeSections";
 
-// ease-smooth from AGENTS.md
-const EASE = "cubic-bezier(0.4, 0, 0.2, 1)";
+const SECTORS = HOME_INDUSTRIES.sectors;
+const TRANSITION = { duration: 0.5, ease: [0.2, 0.8, 0.2, 1] as const };
 
-const SECTORS = [
-  { id: "manufacturing", index: "01", name: "Manufacturing", shortName: "Manufacturing",
-    image: "/sectors/manufacturing-hq.jpg",
-    alt: "A worker operating a textile production line on a factory floor",
-    description: "Connect shop-floor signals with supply chain and quality data. Catch defects before they ship, and hold every line to the same numbers." },
-  { id: "healthcare", index: "02", name: "Healthcare", shortName: "Health",
-    image: "/sectors/healthcare-hq.jpg",
-    alt: "Monitoring equipment and screens in a hospital treatment room",
-    description: "Move from fragmented legacy systems to a unified patient truth. Better care, delivered faster and with less overhead." },
-  { id: "finance", index: "03", name: "Finance", shortName: "Finance",
-    image: "/sectors/finance-hq.jpg",
-    alt: "A stack of coins resting on a spread of banknotes",
-    description: "Real-time pattern recognition across every transaction. Catch risk before it materialises and maintain audit-ready compliance by design." },
-  { id: "retail", index: "04", name: "Retail", shortName: "Retail",
-    image: "/sectors/retail-hq.jpg",
-    alt: "Aisles of fresh produce in a supermarket, seen from above",
-    description: "Forecast demand with greater certainty. Connect inventory, pricing, and store signals in real time, so every location works from one picture." },
-  { id: "education", index: "05", name: "Education", shortName: "Education",
-    image: "/sectors/education-hq.jpg",
-    alt: "Rows of bookshelves receding down a library aisle",
-    description: "Connect the entire student journey from enrolment to placement. Spot at-risk learners and measure what actually works." },
-  { id: "energy", index: "06", name: "Energy", shortName: "Energy",
-    image: "/sectors/energy-hq.jpg",
-    alt: "A wind turbine silhouetted against cloud at sunset",
-    description: "Predict grid failures and optimise distribution on live signals. Build a smarter, more resilient infrastructure." },
-];
-
-/* Matches [03]'s carousel cadence. Pauses on hover/focus so a reader who has
-   stopped on a sector keeps it, and rests entirely under reduced motion. */
-const CYCLE_MS = 6000;
+function Arrow({ className = "" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.4" className={`h-5 w-5 shrink-0 ${className}`} aria-hidden="true">
+      <path d="M3 10h13m-5-5 5 5-5 5" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
 
 export default function EverySector() {
-  const [activeId, setActiveId] = useState(SECTORS[0].id);
-  const [hoveredId, setHoveredId] = useState<string | null>(null);
-  const [paused, setPaused] = useState(false);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [vertical, setVertical] = useState(false);
+  const buttons = useRef<(HTMLButtonElement | null)[]>([]);
   const reduced = usePrefersReducedMotion();
-
-  // Auto-advance. `hoveredId` counts as paused: while a pointer is over the
-  // strip the reader is driving, and the panel is already previewing them.
-  useEffect(() => {
-    if (reduced || paused || hoveredId) return;
-    const timer = setTimeout(() => {
-      setActiveId((current) => {
-        const i = SECTORS.findIndex((s) => s.id === current);
-        return SECTORS[(i + 1) % SECTORS.length].id;
-      });
-    }, CYCLE_MS);
-    return () => clearTimeout(timer);
-  }, [activeId, hoveredId, paused, reduced]);
+  const sector = SECTORS[activeIndex];
 
   useEffect(() => {
-    const handleHashChange = () => {
-      const hash = window.location.hash;
-      if (!hash) return;
-      
-      if (hash === "#manufacturing") {
-        setActiveId("manufacturing");
-      } else if (hash === "#healthcare") {
-        setActiveId("healthcare");
-      } else if (hash === "#education") {
-        setActiveId("education");
-      } else if (hash === "#enterprise" || hash === "#finance") {
-        setActiveId("finance");
-      } else if (hash === "#retail") {
-        setActiveId("retail");
-      } else if (hash === "#energy") {
-        setActiveId("energy");
-      }
-    };
-
-    handleHashChange();
-    window.addEventListener("hashchange", handleHashChange, { passive: true });
-    return () => window.removeEventListener("hashchange", handleHashChange);
+    const media = window.matchMedia("(min-width: 1024px)");
+    const update = () => setVertical(media.matches);
+    update();
+    media.addEventListener("change", update);
+    return () => media.removeEventListener("change", update);
   }, []);
 
-  const displayId = hoveredId ?? activeId;
-  const displaySector = SECTORS.find(s => s.id === displayId)!;
+  useEffect(() => {
+    // Keep existing sector bookmarks working at every viewport size.
+    const selectHash = () => {
+      const hash = window.location.hash.slice(1).replace(/-desktop$/, "");
+      const index = SECTORS.findIndex((item) => item.id === (hash === "enterprise" ? "finance" : hash));
+      if (index >= 0) setActiveIndex(index);
+    };
+    selectHash();
+    window.addEventListener("hashchange", selectHash);
+    return () => window.removeEventListener("hashchange", selectHash);
+  }, []);
+
+  function handleKey(event: KeyboardEvent<HTMLButtonElement>, index: number) {
+    let next = index;
+    if (event.key === "Home") next = 0;
+    else if (event.key === "End") next = SECTORS.length - 1;
+    else if (event.key === (vertical ? "ArrowDown" : "ArrowRight")) next = (index + 1) % SECTORS.length;
+    else if (event.key === (vertical ? "ArrowUp" : "ArrowLeft")) next = (index + SECTORS.length - 1) % SECTORS.length;
+    else return;
+    event.preventDefault();
+    setActiveIndex(next);
+    buttons.current[next]?.focus();
+  }
 
   return (
-    <section
-      id="sectors"
-      className="overflow-hidden bg-background pt-10 pb-12 lg:pt-14 lg:pb-16"
-      onFocusCapture={() => setPaused(true)}
-      onBlurCapture={() => setPaused(false)}
-    >
+    <section id="sectors" aria-labelledby="sectors-heading" className="relative overflow-hidden bg-background pt-10 pb-12 lg:pt-14 lg:pb-16">
+      <div aria-hidden="true" className="pointer-events-none absolute left-0 top-0">
+        {[...SECTORS.map((item) => item.id), "enterprise", ...SECTORS.map((item) => `${item.id === "finance" ? "enterprise" : item.id}-desktop`)].map((id) => (
+          <span key={id} id={id} className="absolute top-0 scroll-mt-24" />
+        ))}
+      </div>
       <ScrollRevealRail>
-
         <ScrollReveal>
-          <div className="mb-8 flex items-center border-t border-b border-dashed border-lineSoft py-[17px] px-[2px] font-mono text-[11px] uppercase tracking-eyebrow text-inkSoft lg:mb-10">
-            <span>
-              <span className="text-overcast">[05]</span>
-              &nbsp;&nbsp;EVERY SECTOR
-            </span>
+          <div className="mb-8 flex items-center border-y border-dashed border-lineSoft px-[2px] py-[17px] font-mono text-[11px] uppercase tracking-eyebrow text-inkSoft lg:mb-10">
+            <span><span className="text-overcast">[05]</span>&nbsp;&nbsp;EVERY SECTOR</span>
           </div>
         </ScrollReveal>
 
         <ScrollReveal delay={80}>
-          {/* One line from sm up: no max-width and no <br>, with sizes tuned so
-              the sentence never needs to wrap. Mobile is allowed to wrap rather
-              than shrink the heading to an unreadable size. */}
-          <h2 className="mb-12 text-[40px] font-semibold leading-[1.1] tracking-tighter text-ink sm:text-[48px] lg:text-[56px]">
-            {/* Setup soft, payoff in full ink — the site's one two-tone
-                headline grammar. Was ink then `overcast`, which read the
-                sentence backwards and used a third grey. */}
-            <span className="text-inkSoft">A foundation for </span>
-            <span className="text-ink">every field.</span>
-          </h2>
-        </ScrollReveal>
-
-        {/* Mobile: accordion */}
-        <ScrollReveal delay={120} className="lg:hidden -mx-4 sm:-mx-6">
-          <div className="flex flex-col border-t border-lineSoft">
-            {SECTORS.map((sector) => {
-              const isActive = activeId === sector.id;
-              return (
-                <div
-                  key={sector.id}
-                  id={sector.id === "finance" ? "enterprise" : sector.id}
-                  onClick={() => setActiveId(sector.id)}
-                  className="relative overflow-hidden border-b border-lineSoft bg-white"
-                  style={{
-                    height: isActive ? 480 : 76,
-                    transition: `height 600ms ${EASE}`,
-                    cursor: isActive ? "default" : "pointer",
-                  }}
-                >
-                  <div className="absolute top-0 left-0 right-0 z-20 flex h-[76px] items-center justify-between px-6 bg-white">
-                    <h3 className="font-heading text-[18px] font-semibold text-ink">{sector.name}</h3>
-                    <span className="font-mono text-[11px] text-overcast">{sector.index}</span>
-                  </div>
-                  <div
-                    className="absolute top-[76px] left-0 right-0 bottom-0 flex flex-col"
-                    style={{
-                      opacity: isActive ? 1 : 0,
-                      pointerEvents: isActive ? "auto" : "none",
-                      transition: `opacity 400ms ${EASE} ${isActive ? "200ms" : "0ms"}`,
-                    }}
-                  >
-                    <div className="relative h-[200px] w-full overflow-hidden">
-                      <Image src={sector.image} alt={sector.alt} fill sizes="100vw" className="object-cover" />
-                    </div>
-                    <div className="flex flex-1 flex-col justify-center px-6 py-5 bg-white">
-                      <p className="mb-4 text-sm leading-relaxed text-inkSoft">{sector.description}</p>
-                      <Link href={`/sectors/${sector.id}`} className="inline-flex items-center gap-2 text-sm font-medium text-ink hover:text-blue transition-colors duration-250 ease-settle">
-                        Deploy for {sector.shortName}
-                        <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                          <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.2" d="M2 6h8m0 0L7.5 3M10 6L7.5 9" />
-                        </svg>
-                      </Link>
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
+          <div className="mb-9 flex flex-col justify-between gap-5 lg:mb-11 lg:flex-row lg:items-end lg:gap-10">
+            <h2 id="sectors-heading" className="text-[38px] font-semibold leading-[1.08] tracking-tighter sm:text-[48px] xl:text-[56px]">
+              <span className="text-inkSoft">{HOME_INDUSTRIES.title[0]} </span>
+              <span className="text-ink">{HOME_INDUSTRIES.title[1]}</span>
+            </h2>
+            <p className="shrink-0 text-[15px] leading-relaxed text-inkSoft sm:text-[16px]">
+              {HOME_INDUSTRIES.introduction.map((line) => <span key={line} className="block">{line}</span>)}
+            </p>
           </div>
         </ScrollReveal>
 
-        {/* Desktop: image strips (left) + fixed text panel (right) */}
-        <ScrollReveal
-          delay={120}
-          className="hidden lg:flex -mx-4 sm:-mx-6 lg:-mx-8 h-[500px] border-y border-lineSoft overflow-hidden"
-        >
-          {/* Left: accordion image strips */}
-          <div
-            className="flex flex-1 overflow-hidden"
-            onMouseLeave={() => setHoveredId(null)}
-          >
-            {SECTORS.map((sector, idx) => {
-              const isTarget = displayId === sector.id;
-              return (
-                <div
-                  key={sector.id}
-                  id={`${sector.id === "finance" ? "enterprise" : sector.id}-desktop`}
-                  onClick={() => setActiveId(sector.id)}
-                  onMouseEnter={() => setHoveredId(sector.id)}
-                  className={`relative overflow-hidden${idx < SECTORS.length - 1 ? " border-r border-white/10" : ""}`}
-                  style={{
-                    flexGrow: isTarget ? 10 : 1,
-                    flexBasis: 0,
-                    cursor: activeId === sector.id ? "default" : "pointer",
-                    transition: `flex-grow 800ms ${EASE}`,
-                  }}
-                >
-                  <Image
-                    src={sector.image}
-                    alt={sector.alt}
-                    fill
-                    sizes="(max-width: 1440px) 800px, 900px"
-                    style={{
-                      objectFit: "cover",
-                      objectPosition: "center",
-                      transform: isTarget ? "scale(1.0)" : "scale(1.06)",
-                      transition: `transform 1000ms ${EASE}`,
-                    }}
-                  />
-                  {/* Gradient on active, flat dark on inactive */}
-                  <div
-                    style={{
-                      position: "absolute",
-                      inset: 0,
-                      background: isTarget
-                        ? "linear-gradient(to top, rgba(10,10,12,0.22) 0%, rgba(10,10,12,0.04) 45%, transparent 100%)"
-                        : "rgba(10,10,12,0.46)",
-                      transition: `background 700ms ${EASE}`,
-                    }}
-                  />
-                  {/* Index label — only on collapsed strips */}
-                  <div
-                    className="absolute bottom-0 left-0 right-0 h-12 flex items-center justify-center pointer-events-none"
-                    style={{
-                      opacity: isTarget ? 0 : 1,
-                      transition: `opacity 500ms ${EASE}`,
-                    }}
+        <ScrollReveal delay={140}>
+          <div className="grid min-w-0 grid-cols-1 gap-y-6 lg:grid-cols-[240px_minmax(0,1fr)] lg:gap-x-10 xl:grid-cols-[260px_minmax(0,1fr)] xl:gap-x-12">
+            <div className="min-w-0 lg:col-start-1 lg:row-start-1">
+              <p className="mb-4 font-mono text-[10px] uppercase tracking-eyebrow text-inkSoft">{HOME_INDUSTRIES.selectorLabel}</p>
+              <div role="tablist" aria-label="Industries" aria-orientation={vertical ? "vertical" : "horizontal"} className="grid grid-cols-2 gap-x-3 sm:grid-cols-3 lg:grid-cols-1 lg:gap-0">
+                {SECTORS.map((item, index) => {
+                  const selected = activeIndex === index;
+                  return (
+                    <button
+                      key={item.id}
+                      ref={(node) => { buttons.current[index] = node; }}
+                      type="button"
+                      role="tab"
+                      id={`sector-tab-${item.id}`}
+                      aria-controls="sector-panel"
+                      aria-selected={selected}
+                      tabIndex={selected ? 0 : -1}
+                      onClick={() => setActiveIndex(index)}
+                      onKeyDown={(event) => handleKey(event, index)}
+                      className={`group relative flex min-h-[56px] items-center gap-2.5 border-b px-1.5 py-2.5 text-left transition-colors duration-250 motion-reduce:transition-none lg:min-h-[65px] lg:gap-3 lg:px-3 ${selected ? "border-blue bg-primary-bg text-ink" : "border-lineSoft text-inkSoft hover:bg-primary-bg hover:text-ink"}`}
+                    >
+                      <span className={`relative h-8 w-8 shrink-0 overflow-hidden rounded-micro transition-[filter] duration-400 motion-reduce:transition-none lg:h-9 lg:w-9 ${selected ? "grayscale-0" : "grayscale group-hover:grayscale-0 group-focus-visible:grayscale-0"}`}>
+                        <Image src={item.image} alt="" fill sizes="36px" className="object-cover" />
+                      </span>
+                      <span className="min-w-0 text-[13px] font-medium tracking-tight sm:text-[15px] lg:text-[17px]">{item.name}</span>
+                      <Arrow className={`ml-auto hidden transition-opacity duration-250 motion-reduce:transition-none lg:block ${selected ? "text-blue opacity-100" : "opacity-0 group-hover:opacity-60"}`} />
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            <div role="tabpanel" id="sector-panel" aria-labelledby={`sector-tab-${sector.id}`} tabIndex={0} className="min-w-0 rounded-outer lg:col-start-2 lg:row-start-1 lg:row-span-2">
+              <div className="relative isolate h-[310px] overflow-hidden rounded-outer bg-primary-bg sm:h-[370px] lg:h-[390px] xl:h-[420px]">
+                <AnimatePresence initial={false}>
+                  <motion.div
+                    key={sector.id}
+                    className="absolute inset-0"
+                    initial={{ opacity: reduced ? 1 : 0, scale: reduced ? 1 : 1.025 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={reduced ? { duration: 0 } : TRANSITION}
                   >
-                    <span className="font-mono text-[11px] font-medium tracking-eyebrow" style={{ color: "rgba(255,255,255,0.5)" }}>
-                      {sector.index}
-                    </span>
-                  </div>
+                    <Image src={sector.image} alt={sector.alt} fill sizes="(min-width: 1440px) 1068px, (min-width: 1024px) 72vw, 100vw" className="object-cover" />
+                  </motion.div>
+                </AnimatePresence>
+                <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-gradient-to-t from-depth/90 via-depth/15 to-depth/20" />
+                <div className="absolute inset-x-0 top-0 flex items-center justify-between p-5 font-mono text-[10px] uppercase tracking-eyebrow text-white sm:p-7">
+                  <span className="rounded-chip border border-white/25 bg-depth/60 px-3 py-1.5 backdrop-blur-sm">{sector.name}</span>
+                  <span className="rounded-chip bg-depth/60 px-2.5 py-1.5 tabular-nums backdrop-blur-sm">{String(activeIndex + 1).padStart(2, "0")} / {String(SECTORS.length).padStart(2, "0")}</span>
                 </div>
-              );
-            })}
-          </div>
-
-          {/* Right: fixed text panel — matches primary-bg card surface used across the page */}
-          <div className="w-[340px] flex-shrink-0 py-10 px-9 border-l border-lineSoft bg-primary-bg flex flex-col">
-            {/* key triggers re-mount → restarts .sector-text-in animation */}
-            <div key={displayId} className="flex flex-col h-full sector-text-in">
-
-              <div className="flex-1">
-                <p className="font-mono text-[11px] font-medium uppercase tracking-[0.12em] text-overcast mb-3.5">
-                  {displaySector.index}&thinsp;/&thinsp;06
-                </p>
-                <h3 className="font-heading text-[30px] font-semibold leading-[1.2] tracking-tight text-ink mb-[18px]">
-                  {displaySector.name}
-                </h3>
-                <p className="text-base leading-relaxed text-inkSoft">
-                  {displaySector.description}
-                </p>
+                <div className="absolute inset-x-0 bottom-0 p-6 sm:p-8 lg:p-10">
+                  <motion.h3 key={sector.id} initial={{ opacity: reduced ? 1 : 0, y: reduced ? 0 : 12 }} animate={{ opacity: 1, y: 0 }} transition={reduced ? { duration: 0 } : TRANSITION} className="max-w-[17ch] text-[32px] font-medium leading-[1.06] tracking-tighter text-white sm:text-[42px] xl:text-[50px]">
+                    {sector.headline}
+                  </motion.h3>
+                </div>
               </div>
-
-              {/* Pill-dot sector navigator */}
-              <div className="flex gap-1.5 items-center mb-7">
-                {SECTORS.map(s => (
-                  <button
-                    key={s.id}
-                    onClick={() => { setActiveId(s.id); setHoveredId(null); }}
-                    aria-label={s.name}
-                    style={{
-                      width: activeId === s.id ? "20px" : "6px",
-                      height: "6px",
-                      borderRadius: "3px",
-                      backgroundColor: activeId === s.id ? "#1A1C1D" : "#d3d8df",
-                      border: "none",
-                      cursor: "pointer",
-                      padding: 0,
-                      transition: `width 500ms ${EASE}, background-color 300ms ${EASE}`,
-                    }}
-                  />
-                ))}
+              <div className="pt-5 sm:pt-6">
+                <div className="flex flex-col items-start justify-between gap-4 xl:flex-row xl:gap-8">
+                  <p className="max-w-[39em] text-[15px] leading-relaxed text-inkSoft sm:text-[16px]">{sector.description}</p>
+                  <Link href={`/sectors/${sector.id}`} className="group inline-flex min-h-11 shrink-0 items-center gap-3 text-[14px] font-medium text-ink underline decoration-line underline-offset-[6px] transition-colors duration-250 hover:text-blue motion-reduce:transition-none">
+                    Explore {sector.name.toLowerCase()}
+                    <Arrow className="transition-transform duration-250 group-hover:translate-x-1 motion-reduce:transform-none motion-reduce:transition-none" />
+                  </Link>
+                </div>
+                <ul aria-label={`${sector.name} focus areas`} className="mt-5 flex flex-wrap gap-x-5 gap-y-2 border-t border-lineSoft pt-4">
+                  {sector.topics.map((topic) => <li key={topic} className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.08em] text-inkSoft"><span aria-hidden="true" className="h-1 w-1 rounded-full bg-blue" />{topic}</li>)}
+                </ul>
               </div>
+            </div>
 
-              <Link
-                href={`/sectors/${displaySector.id}`}
-                className="inline-flex items-center gap-2 text-sm font-medium text-ink hover:text-blue transition-colors duration-250 ease-settle"
-              >
-                Deploy for {displaySector.shortName}
-                <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                  <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round"
-                    strokeWidth="1.2" d="M2 6h8m0 0L7.5 3M10 6L7.5 9" />
-                </svg>
+            <div className="flex flex-col items-start justify-end border-t border-dashed border-lineSoft pt-5 lg:col-start-1 lg:row-start-2 lg:mt-2">
+              <p className="text-[14px] leading-relaxed text-inkSoft">{HOME_INDUSTRIES.publicSector.label}</p>
+              <Link href={HOME_INDUSTRIES.publicSector.href} className="group mt-1 inline-flex min-h-11 items-center gap-2 text-[14px] font-medium text-ink transition-colors duration-250 hover:text-blue motion-reduce:transition-none">
+                {HOME_INDUSTRIES.publicSector.link}<Arrow className="transition-transform duration-250 group-hover:translate-x-1 motion-reduce:transform-none motion-reduce:transition-none" />
               </Link>
             </div>
           </div>
         </ScrollReveal>
-
       </ScrollRevealRail>
     </section>
   );

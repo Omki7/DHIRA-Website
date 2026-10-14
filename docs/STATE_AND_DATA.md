@@ -54,6 +54,12 @@ Local, component-scoped `useState`/`useEffect`/`useRef`, always degrading under
 - **Scroll-driven:** IntersectionObserver reveals (`ScrollReveal`), scroll-spy
   (`usePageScrollSpy` → PageMinimap), sticky scrollytelling (`SectorMap`).
 - **Count-ups:** `useCountUp` / `useCountUpValue` (do not add a third copy).
+- **Appearance:** `lib/theme.ts` is a small browser preference store, read with
+  React's `useSyncExternalStore` by `layout/ThemeSwitch`. The HTML attribute
+  carries the current choice and `localStorage` (`dhira-appearance`) persists it.
+  A head bootstrap applies the choice before paint. First visit is light;
+  unsupported routes stay light while retaining the choice. Storage failures
+  leave the current-tab switch usable. No external state library or server state.
 
 Keep animation/timing constants named at module top (e.g. `ROTATE_MS = 7000`),
 not scattered as magic numbers.

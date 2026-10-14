@@ -1,86 +1,132 @@
 "use client";
 
 /*
- * [03] What We Build — Technology Should Become Part of the System
- * Pure editorial layout:
- * - Direct, authoritative narrative
- * - 3 simple pillars: Products · Platforms · Intelligence
- * - Zero service cards, zero tech-stack logos
+ * [03] How we work: "Not beside the system. Inside the system."
+ *
+ * One section of method (23 Sep 2026 warmth pass). What had been two, the
+ * point-of-view redlines and the build drawing, now share this section so
+ * the page spends one stop on how DHIRA works, not two.
+ *
+ * `SystemSection` is a section drawing cut through an organisation's
+ * systems: products are the skin people touch, platforms the mass beneath,
+ * and intelligence the blue threads rising from the data through both. The
+ * pilot beside the cut is the thing we do not build.
+ *
+ * Under it, three promises drawn as an editor's redline: the industry habit
+ * struck through in blue pen, DHIRA's word written after it. Markup is
+ * <del>/<ins>, so assistive tech reads the same correction the eye sees.
+ * The strike draws once on view (`.ad-strike`), then the correction fades
+ * in; under reduced motion both are simply there.
+ *
+ * DRAFT: promise bodies rewritten toward the people served; review.
+ *
+ * Ground: white, continuing the opening's atmospheric fade.
  */
 
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import ScrollRevealRail from "@/components/ui/ScrollRevealRail";
+import SystemSection from "@/components/demos/about/SystemSection";
+import SectionHeader from "@/components/ui/SectionHeader";
+import SectionCoda from "@/components/ui/SectionCoda";
+import useDrawn from "@/hooks/useDrawn";
 
-const PILLARS = [
+type Vow = {
+  num: string;
+  before: string;
+  struck: string;
+  correction: string;
+  after: string;
+  body: string;
+};
+
+const PROMISES: Vow[] = [
   {
-    title: "Products",
-    summary: "Technology people use.",
+    num: "01",
+    before: "Start from ",
+    struck: "the trend",
+    correction: "the need",
+    after: ".",
+    body: "The people using the system first. Architecture second.",
   },
   {
-    title: "Platforms",
-    summary: "Systems organisations build on.",
+    num: "02",
+    before: "",
+    struck: "Launch",
+    correction: "Daily use",
+    after: " is the real test.",
+    body: "Success is a system people rely on every morning, years on.",
   },
   {
-    title: "Intelligence",
-    summary: "Data and AI that make those systems smarter.",
+    num: "03",
+    before: "Build ",
+    struck: "dependency",
+    correction: "ownership",
+    after: ".",
+    body: "Your product, your data, your technology. Always yours.",
   },
 ];
+
+function Redline({ promise, index }: { promise: Vow; index: number }) {
+  const [ref, drawn] = useDrawn<HTMLLIElement>(0.6);
+  const strikeAt = 0.25 + index * 0.1;
+
+  return (
+    <li ref={ref} data-drawn={drawn} className="py-6 md:py-0">
+      <span className="font-mono text-[11px] tracking-[0.08em] text-overcast">{promise.num}</span>
+      <p className="mt-3 text-[24px] font-semibold leading-[1.2] tracking-tighter text-ink sm:text-[26px]">
+        {promise.before}
+        <del className="relative whitespace-nowrap text-inkSoft no-underline decoration-transparent">
+          {promise.struck}
+          <span
+            aria-hidden
+            className="ad-strike absolute inset-x-[-0.06em] top-[54%] h-[0.075em] rounded-full bg-blue"
+            style={{ ["--ad-delay" as string]: `${strikeAt}s` }}
+          />
+        </del>{" "}
+        <ins
+          className="ad-fade inline-block no-underline"
+          style={{ ["--ad-delay" as string]: `${strikeAt + 0.45}s` }}
+        >
+          {promise.correction}
+        </ins>
+        {promise.after}
+      </p>
+      <p className="mt-2 text-pretty text-[15px] leading-relaxed text-inkSoft sm:text-base">{promise.body}</p>
+    </li>
+  );
+}
 
 export default function AboutWhatWeBuild() {
   return (
     <section
-      id="what-we-build"
-      className="scroll-mt-24 border-t border-lineSoft bg-background pt-20 pb-24 lg:pt-28 lg:pb-32"
+      id="how-we-work"
+      className="scroll-mt-24 bg-background pt-12 pb-20 lg:pt-16 lg:pb-24"
     >
       <ScrollRevealRail>
-        {/* --- SECTION HEADER --- */}
-        <ScrollReveal>
-          <div className="flex items-baseline justify-between font-mono text-[11px] uppercase tracking-eyebrow">
-            <p>
-              <span className="text-overcast">[03]</span>
-              <span className="text-inkSoft">&nbsp;&nbsp;Our Work</span>
-            </p>
-            <span className="hidden text-overcast sm:inline">/ What We Build</span>
-          </div>
+        <SectionHeader
+          num="03"
+          label="How we work"
+          setup="Not beside the system."
+          payoff="Inside the system."
+          lede="Answers arrive inside the systems your people already use, where the decision gets made. Never a pilot on the side."
+        />
 
-          <div className="mt-8 max-w-4xl">
-            <h2 className="text-3xl font-semibold tracking-tight text-ink sm:text-4xl md:text-5xl lg:text-6xl leading-[1.1]">
-              Technology should become part of the system, not sit beside it.
-            </h2>
-            <p className="mt-6 max-w-3xl text-lg text-secondary-text leading-relaxed sm:text-xl">
-              We build the products, platforms, and technology systems that turn complex problems into something organisations can actually use. That means working across engineering, data, and AI — connecting the pieces so technology can move from an idea into something reliable, useful, and built to last.
-            </p>
+        {/* The drawing's viewBox carries its own headroom above the people
+            row, so the gap under the lede stays tight. */}
+        <ScrollReveal delay={180}>
+          <div className="mt-8 md:mt-2">
+            <SystemSection />
           </div>
         </ScrollReveal>
 
-        {/* --- 3 SIMPLE EDITORIAL PILLARS (NOT SERVICE CARDS) --- */}
-        <div className="mt-16 pt-12 border-t border-lineSoft">
-          <div className="grid grid-cols-1 gap-8 md:grid-cols-3 md:gap-12 items-start">
-            {PILLARS.map((pillar, idx) => (
-              <ScrollReveal key={pillar.title} delay={80 + idx * 50}>
-                <div>
-                  <span className="font-mono text-[10px] uppercase tracking-eyebrow text-overcast">
-                    0{idx + 1}
-                  </span>
-                  <h3 className="mt-2 text-2xl font-bold tracking-tight text-ink">
-                    {pillar.title}
-                  </h3>
-                  <p className="mt-2 text-base text-secondary-text leading-relaxed">
-                    {pillar.summary}
-                  </p>
-                </div>
-              </ScrollReveal>
-            ))}
-          </div>
-        </div>
+        <ol className="mt-10 grid grid-cols-1 divide-y divide-lineSoft border-t border-dashed border-lineSoft pt-4 md:grid-cols-3 md:gap-10 md:divide-y-0 md:pt-8">
+          {PROMISES.map((promise, index) => (
+            <Redline key={promise.num} promise={promise} index={index} />
+          ))}
+        </ol>
 
-        {/* --- CLOSING STATEMENT --- */}
-        <ScrollReveal delay={200}>
-          <div className="mt-14 pt-8 border-t border-lineSoft/60">
-            <p className="font-mono text-xs sm:text-sm font-semibold text-inkSoft">
-              From data foundations to intelligent products, we build for what happens after the first release.
-            </p>
-          </div>
+        <ScrollReveal delay={120}>
+          <SectionCoda lead="Not slogans for a wall." payoff="Promises to the people we build for." />
         </ScrollReveal>
       </ScrollRevealRail>
     </section>

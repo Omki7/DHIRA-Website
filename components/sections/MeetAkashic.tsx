@@ -5,11 +5,32 @@ import UCConnectivity from "./universal-context/UCConnectivity";
 import UCSdk from "./universal-context/UCSdk";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 
-// Meet Akashic — the homepage platform section, in the dark Attio-derived
-// aesthetic (user direction 18–19 Jul). Parts keep their legacy UC* names;
-// see AGENTS.md §6. The ground is `uc-bg` #0A0E24 — the same deep indigo the
-// Akashic page's `.ak-depth` slabs use (re-tinted from neutral #101010 on
-// 21 Jul, user direction). See AGENTS.md §7 Rule 5.
+// Meet Akashic — the homepage platform section. Parts keep their legacy UC*
+// names; see docs/ARCHITECTURE.md.
+//
+// GROUND (22 Sep 2026, user direction): `uc-bg` is now `vault` #0a0a0c, the
+// same black as [04]'s card, so the page runs one dark ground, not an indigo
+// one here and a black one two sections later.
+//
+// TYPE (22 Sep 2026): the section used to set its body in Inter (`font-inter`)
+// with Attio's 500-weight, negatively tracked text, so it read as a different
+// site from its neighbours. It now inherits the site stack: Google Sans
+// headings at 600 with `tracking-tighter`, Google Sans Text body at 400,
+// Google Sans Mono for labels. Do not reintroduce a section-local face.
+//
+// READER: the senior decision maker who funds AI and has just read [01]'s
+// "46% of AI pilots never reach production ... the data underneath was never
+// made ready for AI". [02] answers that in the platform's own vocabulary,
+// neither simplified nor spec sheet. Each part has one job:
+//   UCHero          "The intelligence layer" / Meet Akashic / makes your data
+//                   ready for AI, then puts AI to work on it
+//   UCFeatureGrid   what your AI knows (five tiles)
+//   UCSignals       what your AI does: find, reason, answer, audit
+//   UCConnectivity  what it plugs into (nothing to rip out)
+//   UCSdk           what it is made of (seven modules) + the one exit
+// No claim is made twice, and three topics stay out because other sections
+// own them: security and residency ([08]), "one platform, not a stack of
+// vendors" and reconciliation ([06]), delivery ([04]).
 //
 // FULL BLEED BY DIRECTION (22 Jul): this is the one homepage section outside
 // `ScrollRevealRail`. Its orb already ran to both edges while every rule and
@@ -21,18 +42,18 @@ export default function MeetAkashic() {
   return (
     <section
       id="platform"
-      className="relative overflow-hidden bg-uc-bg font-inter text-uc-text"
+      aria-labelledby="platform-h"
+      className="relative overflow-hidden bg-uc-bg text-uc-text"
     >
       <ScrollReveal>
         <div className="flex items-center border-b border-dashed border-uc-line px-6 py-[17px] font-mono text-[11px] uppercase tracking-eyebrow text-uc-dim md:px-10 xl:px-14">
-          {/* No accent dot. Every other section eyebrow on the page is a bare
-              `[NN]  LABEL`; the pulsing blue dot here made [02] the one
-              section that announced itself, which is what the team flagged as
-              "odd in blue". The section already earns its emphasis from being
-              the only dark ground on the page. */}
+          {/* No accent dot: every section eyebrow on the page is a bare
+              `[NN]  LABEL`. The label is THE PLATFORM, not MEET AKASHIC,
+              because the headline directly below already says "Meet
+              Akashic"; it also pairs with [01]'s THE PROBLEM. */}
           <span>
             <span className="text-uc-mute">[02]</span>
-            &nbsp;&nbsp;MEET AKASHIC
+            &nbsp;&nbsp;THE PLATFORM
           </span>
         </div>
       </ScrollReveal>

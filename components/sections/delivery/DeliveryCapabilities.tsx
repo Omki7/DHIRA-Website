@@ -1,7 +1,7 @@
 "use client";
 
 /*
- * [02] Beyond the Platform — Capabilities Explorer Slider
+ * [03] Beyond the Platform — Capabilities Explorer Slider
  * Horizontal interactive carousel slider matching modern research/products showcase standard.
  */
 
@@ -126,7 +126,7 @@ export default function DeliveryCapabilities() {
         <ScrollReveal>
           <div className="flex items-baseline justify-between font-mono text-[11px] uppercase tracking-eyebrow">
             <p>
-              <span className="text-overcast">[02]</span>
+              <span className="text-overcast">[03]</span>
               <span className="text-inkSoft">&nbsp;&nbsp;Beyond the platform</span>
             </p>
             <span className="hidden text-overcast sm:inline">/ Clarifying Akashic&rsquo;s role</span>

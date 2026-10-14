@@ -14,8 +14,8 @@ export function FlowPath({ d }: { d: string }) {
   return (
     <g>
       {/* soft rail + crisp edge, both static — a lineage line, not a stream */}
-      <path d={d} stroke="#C8D2F5" strokeWidth="3" fill="none" strokeLinecap="round" opacity="0.5" />
-      <path d={d} stroke="#3E63DD" strokeWidth="1.4" fill="none" strokeLinecap="round" opacity="0.65" />
+      <path d={d} stroke="rgb(var(--blue-border))" strokeWidth="3" fill="none" strokeLinecap="round" opacity="0.5" />
+      <path d={d} stroke="rgb(var(--blue))" strokeWidth="1.4" fill="none" strokeLinecap="round" opacity="0.65" />
     </g>
   );
 }
@@ -23,8 +23,8 @@ export function FlowPath({ d }: { d: string }) {
 export function Node({ x, y }: { x: number; y: number }) {
   return (
     <g>
-      <circle cx={x} cy={y} r="4.5" fill="#FFFFFF" stroke="#3E63DD" strokeWidth="1.4" opacity="0.9" />
-      <circle cx={x} cy={y} r="2" fill="#3E63DD" />
+      <circle cx={x} cy={y} r="4.5" fill="rgb(var(--background))" stroke="rgb(var(--blue))" strokeWidth="1.4" opacity="0.9" />
+      <circle cx={x} cy={y} r="2" fill="rgb(var(--blue))" />
     </g>
   );
 }
@@ -99,9 +99,9 @@ export function SplitDown() {
 export function MobileConn() {
   return (
     <div className="flex flex-col items-center py-3 md:hidden" aria-hidden>
-      <span className="h-2 w-2 rounded-full border-2 border-blue-border bg-white" />
+      <span className="h-2 w-2 rounded-full border-2 border-blue-border bg-background" />
       <div className="h-8 w-px bg-blue-border" />
-      <span className="h-2 w-2 rounded-full border-2 border-blue-border bg-white" />
+      <span className="h-2 w-2 rounded-full border-2 border-blue-border bg-background" />
     </div>
   );
 }

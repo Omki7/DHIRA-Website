@@ -5,6 +5,7 @@
  * ornament, over a split card (story left, photography right), with
  * edge arrows and a progress-dot rail.
  */
+import type { ReactNode } from "react";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import ScrollRevealRail from "@/components/ui/ScrollRevealRail";
 import SectionBridge from "@/components/ui/SectionBridge";
@@ -15,7 +16,8 @@ interface ProvenAtScaleProps {
   id?: string;
   sectionNumber?: string;
   eyebrowText?: string;
-  title?: string;
+  /* A node so a page can pass a two-tone title (/akashic does). */
+  title?: ReactNode;
   description?: string;
   dark?: boolean;
   /* Opt-in hand-off into the next section. Off by default because this
@@ -33,12 +35,21 @@ interface ProvenAtScaleProps {
 export default function ProvenAtScale({
   id = "scale",
   sectionNumber = "03",
-  eyebrowText = "Proven at scale",
-  title = "Real platform. Real citizens.",
+  eyebrowText = "In production",
+  title,
   description = "Not pilots. National systems in production, on the public record.",
   dark = false,
   bridge,
 }: ProvenAtScaleProps) {
+  /* Shared by home and /akashic (14 Oct 2026): the gain-led headline written
+     for /akashic replaced "Real platform. Real citizens." on both, so the
+     two pages make the claim in the same words. /delivery passes its own. */
+  const heading = title ?? (
+    <>
+      <span className={dark ? "text-white/60" : "text-inkSoft"}>Proven at national scale.</span>{" "}
+      <span className="sm:block">Ready for your organisation.</span>
+    </>
+  );
   return (
     <section
       id={id}
@@ -70,7 +81,7 @@ export default function ProvenAtScale({
                   dark ? "text-white" : "text-ink"
                 }`}
               >
-                {title}
+                {heading}
               </h2>
 
               <p className={`mx-auto mt-5 max-w-[30em] text-[17px] leading-relaxed md:text-[18px] lg:mx-0 ${

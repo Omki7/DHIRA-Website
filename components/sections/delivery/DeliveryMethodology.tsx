@@ -1,7 +1,7 @@
 "use client";
 
 /*
- * [03] Delivery Process — Start with the outcome, not the technology.
+ * [04] Delivery Process — Start with the outcome, not the technology.
  * OpenAI-inspired 4-Card visual grid with connected sequential process flow indicators.
  */
 
@@ -74,7 +74,7 @@ export default function DeliveryMethodology() {
         <ScrollReveal>
           <div className="flex items-baseline justify-between font-mono text-[11px] uppercase tracking-eyebrow">
             <p>
-              <span className="text-overcast">[03]</span>
+              <span className="text-overcast">[04]</span>
               <span className="text-inkSoft">&nbsp;&nbsp;Delivery process</span>
             </p>
             <span className="hidden text-overcast sm:inline">/ Outcome-first engineering</span>

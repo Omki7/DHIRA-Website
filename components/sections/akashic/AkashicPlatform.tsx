@@ -1,246 +1,123 @@
-"use client";
-
-/*
- * [10] Built on Akashic — start from a solution, not a blank platform.
- * Split-pane vertical-tab interface (user direction).
- * Left side: the two ready solutions as vertical tabs.
- * Right side: the active solution's headline, description, and its REAL product
- * mockup (Jul 2026: the empty "screenshot placeholder" is retired now that EIS
- * and Life ship). EIS → the live morning-brief screen (EisBriefScreenMockup) in
- * browser chrome; Life → the frontline handset (LifeHandsetMockup) on its cyan
- * ground. Reusing the solutions' own mockups keeps this section a real product
- * surface, not an image, and it stays true as those pages evolve.
- * On the white ground (user direction Jul 2026): the dark ak-depth slab this
- * section used to carry moved up to [09] AkashicStack; the interactive card was
- * already white, so this is chrome-only — house radii/border/shadow tokens,
- * ink-on-white header.
- */
-
-import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import ScrollReveal from "@/components/ui/ScrollReveal";
-import AkashicLogo from "@/components/icons/AkashicLogo";
-import EisBriefScreenMockup from "@/components/demos/mockups/eis/EisBriefScreenMockup";
-import { DEFAULT_DOMAIN } from "@/lib/eisDomains";
-import LifeHandsetMockup from "@/components/demos/mockups/life/LifeHandsetMockup";
+import SolutionWorkflow from "@/components/demos/akashic/SolutionWorkflow";
+import {
+  AKASHIC_SOLUTIONS as content,
+  AKASHIC_SOLUTION_MODULES as MODULES,
+  type AkashicSolution,
+} from "@/lib/akashicSections";
+import { StoryLabel, StoryTitle, StoryArrow } from "@/components/sections/akashic/AkashicStory";
 
-interface Solution {
-  id: string;
-  name: string;
-  term: string;
-  headline: string;
-  para: string;
-  href: string;
-  icon: React.FC<{ className?: string }>;
+/*
+ * [10] Built on Akashic (rebuilt 14 Oct 2026).
+ * One claim, distinct from [07]: the solutions are not separate products but
+ * Akashic, configured. One sheet in [07]'s grid language: an axis column,
+ * then a column per solution. Above, each solution stands in its own column
+ * (who it serves, its claim, a three-step workflow). Below, on the tinted
+ * platform band, the seven modules run as continuous lines across every
+ * column: a blue node where a solution switches a module on, a hollow ring
+ * where it is available but off, and a blue spine joining that solution's
+ * modules. Separate columns above, shared lines below: the claim, drawn.
+ * Desktop rows align across columns with `grid-template-rows: subgrid`
+ * (akashic-story.css); below lg each solution stacks with only its own
+ * modules. Copy and module sources: AKASHIC_SOLUTIONS in lib/akashicSections.
+ * Replaces a tab carousel with auto-advance and simulated product screens:
+ * no autoplay, no screens (the page already carries them), all three
+ * solutions visible at once.
+ */
+
+type Spine = "start" | "mid" | "end" | undefined;
+
+/* Where a module cell sits on its solution's spine, which runs from the
+   first module the solution uses to the last. */
+function spineAt(solution: AkashicSolution, index: number): Spine {
+  const used = MODULES.flatMap((module, i) => (solution.modules.includes(module) ? [i] : []));
+  const first = used[0];
+  const last = used[used.length - 1];
+  if (used.length < 2 || index < first || index > last) return undefined;
+  if (index === first) return "start";
+  if (index === last) return "end";
+  return "mid";
 }
-
-/* ─── Generic Icons for the Tabs ─── */
-function PulseIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
-    </svg>
-  );
-}
-
-function BeakerIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M4.5 3h15M6 3v16a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V3M6 14h12" />
-    </svg>
-  );
-}
-
-const solutions: Solution[] = [
-  {
-    id: "akashic-eis",
-    name: "Akashic EIS",
-    term: "Executive intelligence",
-    headline: "The organisation’s performance, on one live screen.",
-    para: "Performance, risk, and open decisions in one place, for the people who answer for them. Every figure is traceable back to its source system in real-time.",
-    href: "/solutions/eis",
-    icon: PulseIcon,
-  },
-  {
-    id: "akashic-life",
-    name: "Akashic Life",
-    term: "Life sciences",
-    headline: "One governed record for every study, site, and product.",
-    para: "Clinical, regulatory, and commercial data brought together for the people who file, approve, and launch. Audit-ready lineage under every figure.",
-    href: "/solutions/life",
-    icon: BeakerIcon,
-  },
-];
-
-const SLIDE_MS = 8000;
 
 export default function AkashicPlatform() {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [isPaused, setIsPaused] = useState(false);
-
-  const nextSlide = useCallback(() => {
-    setCurrentIndex((prev) => (prev + 1) % solutions.length);
-  }, []);
-
-  useEffect(() => {
-    if (isPaused) return;
-    const timer = setInterval(nextSlide, SLIDE_MS);
-    return () => clearInterval(timer);
-  }, [nextSlide, isPaused]);
-
   return (
-    <section id="solutions" className="relative scroll-mt-24 overflow-hidden border-t border-lineSoft bg-background">
-      <div className="rail-container pt-20 pb-24 lg:pt-28 lg:pb-32">
+    <section id="solutions" className="ak-story ak-solutions bg-background">
+      <div className="ak-story-wrap">
         <ScrollReveal>
-          <p className="mb-6 font-mono text-[11px] uppercase tracking-eyebrow">
-            <span className="text-overcast">[10]</span>
-            <span className="text-inkSoft">&nbsp;&nbsp;Built on Akashic</span>
-          </p>
-          <h2 className="text-[32px] font-semibold leading-[1.1] tracking-tighter text-ink md:text-[44px] lg:whitespace-nowrap">
-            Works for everyone, from founders to teams.
-          </h2>
-          <p className="mt-5 max-w-[46em] text-[17px] leading-relaxed text-secondary-text md:text-[18px]">
-            Whether you lead the company or run operations on the ground, Akashic keeps everyone
-            aligned. Two pre-configured assemblies, each built for a job that already exists.
-          </p>
+          <StoryLabel number="11">Built on Akashic</StoryLabel>
+          <div className="ak-story-heading">
+            <StoryTitle setup={content.setup}>{content.title}</StoryTitle>
+            <p className="ak-story-intro">{content.intro}</p>
+          </div>
         </ScrollReveal>
 
-        <div className="mx-auto mt-14 max-w-[1200px]">
-          <ScrollReveal delay={90}>
-            {/* ── Split-Pane Container ── */}
-            <div
-              className="flex flex-col lg:flex-row overflow-hidden rounded-outer border border-card-line bg-white shadow-frame"
-              onMouseEnter={() => setIsPaused(true)}
-              onMouseLeave={() => setIsPaused(false)}
-              onFocusCapture={() => setIsPaused(true)}
-              onBlurCapture={() => setIsPaused(false)}
-            >
-              
-              {/* ── Left Strip: Vertical Tabs ── */}
-              <div className="flex w-full lg:w-[380px] shrink-0 flex-col border-r border-card-divide bg-primary-bg">
-                {solutions.map((s, index) => {
-                  const isActive = index === currentIndex;
-                  const Icon = s.icon;
-                  
-                  return (
-                    <button
-                      key={s.id}
-                      onClick={() => setCurrentIndex(index)}
-                      className={`group relative flex flex-col items-start border-b border-card-divide p-6 lg:p-8 last:border-b-0 text-left transition-colors duration-250 focus:outline-none focus-visible:bg-blue-subtle ${
-                        isActive ? "bg-white" : "hover:bg-white/60"
-                      }`}
-                      aria-selected={isActive}
-                      role="tab"
-                    >
-                      {/* Active Highlight Border */}
-                      <div className={`absolute left-0 top-0 bottom-0 w-[4px] bg-blue transition-opacity duration-300 ${isActive ? "opacity-100" : "opacity-0"}`} aria-hidden />
-                      
-                      <div className="flex items-center justify-between w-full">
-                        <div className="flex items-center gap-3">
-                          <div className={`flex h-8 w-8 items-center justify-center rounded-tile border transition-colors ${
-                            isActive ? "border-blue-border bg-blue-subtle text-blue" : "border-card-line bg-white text-inkSoft group-hover:border-blue-border/50 group-hover:text-ink"
-                          }`}>
-                            <Icon className="h-[18px] w-[18px]" />
-                          </div>
-                          <span className={`text-[17px] font-semibold tracking-tight transition-colors ${
-                            isActive ? "text-ink" : "text-inkSoft group-hover:text-ink"
-                          }`}>
-                            {s.name}
-                          </span>
-                        </div>
-                        <svg className={`h-[18px] w-[18px] transition-transform duration-250 ${
-                          isActive ? "text-blue translate-x-1" : "text-card-divide group-hover:text-inkSoft"
-                        }`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-                        </svg>
-                      </div>
-                      
-                      <p className="mt-3.5 text-[14px] leading-relaxed text-inkSoft pl-[44px]">
-                        <span className="font-medium text-ink/80">{s.term}</span>: {s.headline.length > 55 ? s.headline.substring(0, 52) + "..." : s.headline}
+        <ScrollReveal delay={80}>
+          <div className="ak-config">
+            <div className="ak-config-grid">
+              {/* Row labels for the desktop sheet; every cell also names its
+                  own module for assistive technology, so this column is hidden. */}
+              <div className="ak-config-axis" aria-hidden="true">
+                <p className="ak-config-axis-head">Solution</p>
+                <p className="ak-config-axis-flow">Workflow</p>
+                <p className="ak-config-axis-under">Akashic underneath</p>
+                {MODULES.map((module) => (
+                  <p key={module} className="ak-config-axis-module">
+                    {module}
+                  </p>
+                ))}
+                <p className="ak-config-axis-link" />
+              </div>
+
+              {content.items.map((solution) => (
+                <article key={solution.id} className="ak-config-col" aria-labelledby={`solution-${solution.id}`}>
+                  <header className="ak-config-head">
+                    <p className="ak-config-category">{solution.category}</p>
+                    <h3 id={`solution-${solution.id}`}>{solution.name}</h3>
+                    <p className="ak-config-audience">{solution.audience}</p>
+                    <h4>{solution.headline}</h4>
+                  </header>
+
+                  <SolutionWorkflow solution={solution} />
+
+                  <p className="ak-config-under">
+                    <span>Akashic underneath</span>
+                  </p>
+                  {MODULES.map((module, index) => {
+                    const used = solution.modules.includes(module);
+                    return (
+                      <p key={module} className="ak-config-cell" data-used={used} data-spine={spineAt(solution, index)}>
+                        <span className="ak-config-node" data-used={used} aria-hidden="true" />
+                        <span className="ak-config-cell-name">
+                          {module}
+                          <span className="sr-only">{used ? ", in use" : ", not used"}</span>
+                        </span>
                       </p>
-                    </button>
-                  );
-                })}
-              </div>
+                    );
+                  })}
 
-              {/* ── Right Strip: Main Content & Platform Image Placeholder ── */}
-              <div className="relative flex min-w-0 flex-1 flex-col bg-white p-8 md:p-12 lg:p-14 min-h-[720px]">
-                {solutions.map((s, index) => {
-                  const isActive = index === currentIndex;
-                  return (
-                    <div
-                      key={s.id}
-                      className={`absolute inset-8 md:inset-12 lg:inset-14 flex flex-col transition-all duration-[600ms] ease-[cubic-bezier(0.4,0,0.2,1)] ${
-                        isActive 
-                          ? "z-10 opacity-100 translate-y-0 pointer-events-auto" 
-                          : "z-0 opacity-0 translate-y-4 pointer-events-none"
-                      }`}
-                      aria-hidden={!isActive}
-                    >
-                      <div className="flex-none">
-                        <h3 className="text-balance text-[28px] md:text-[34px] lg:text-[40px] leading-[1.1] font-bold tracking-tighter text-ink">
-                          {s.headline}
-                        </h3>
-                        <p className="mt-5 max-w-[38em] text-[16px] md:text-[17px] leading-relaxed text-inkSoft">
-                          {s.para}
-                        </p>
-                      </div>
-
-                      {/* ── Live product preview — the real solution mockup ── */}
-                      <div className="mt-8 min-h-0 flex-1 w-full overflow-hidden rounded-inner border border-card-line bg-white shadow-[inset_0_2px_15px_rgba(11,20,64,0.03)]">
-                        {s.id === "akashic-eis" ? (
-                          <div className="flex h-full flex-col">
-                            {/* Browser chrome, matching the hero product screen */}
-                            <div className="flex flex-shrink-0 items-center gap-1.5 border-b border-card-divide bg-panel px-3.5 py-2.5">
-                              <span className="h-2.5 w-2.5 rounded-full bg-card-line" aria-hidden />
-                              <span className="h-2.5 w-2.5 rounded-full bg-card-line" aria-hidden />
-                              <span className="h-2.5 w-2.5 rounded-full bg-card-line" aria-hidden />
-                              <span className="ml-2 truncate font-mono text-[10px] tracking-tight text-tertiary-text">
-                                app.akashic.dhira.io
-                              </span>
-                            </div>
-                            <div className="min-h-0 flex-1 overflow-hidden">
-                              <EisBriefScreenMockup domain={DEFAULT_DOMAIN} />
-                            </div>
-                          </div>
-                        ) : (
-                          <div className="relative flex h-full items-center justify-center bg-gradient-to-b from-[#F4FBFD] to-[#E7F5FA] py-8">
-                            <div className="dot-grid pointer-events-none absolute inset-0 opacity-40" aria-hidden />
-                            <LifeHandsetMockup className="relative z-10" />
-                          </div>
-                        )}
-                      </div>
-
-                      {/* ── CTA Link ── */}
-                      <div className="mt-8 flex items-center">
-                        <Link 
-                          href={s.href} 
-                          className="group inline-flex items-center gap-2 text-[15px] font-bold tracking-tight text-blue hover:text-blue-hover transition-colors"
-                          tabIndex={isActive ? 0 : -1}
-                        >
-                           Explore {s.name}
-                           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="transition-transform duration-250 ease-settle group-hover:translate-x-1" aria-hidden>
-                             <path d="M5 12h14M12 5l7 7-7 7" />
-                           </svg>
-                        </Link>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
+                  <Link href={solution.href} className="ak-config-link">
+                    {solution.cta}
+                    <StoryArrow />
+                  </Link>
+                </article>
+              ))}
             </div>
-          </ScrollReveal>
-        </div>
-        
-        <ScrollReveal delay={120}>
-          <div className="mt-12 flex flex-wrap items-center justify-center gap-x-2 gap-y-1 text-center lg:mt-16">
-            <span className="inline-flex items-center font-semibold text-ink">
-              <AkashicLogo className="h-5 w-5" />
-              <span className="-ml-1 text-[14px]">kashic</span>
-            </span>
-            <span className="text-[14px] font-medium text-secondary-text">
-              &middot; Different problems. Same governed foundation underneath.
-            </span>
+
+            <div className="ak-config-legend">
+              <p>
+                <span className="ak-config-node" data-used="true" aria-hidden="true" />
+                Switched on
+              </p>
+              <p>
+                <span className="ak-config-node" data-used="false" aria-hidden="true" />
+                Available, not used
+              </p>
+              <Link href={content.all.href} className="ak-config-all">
+                {content.all.label}
+                <StoryArrow />
+              </Link>
+            </div>
           </div>
         </ScrollReveal>
       </div>
