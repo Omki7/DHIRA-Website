@@ -5,10 +5,10 @@ import type { KeyboardEvent } from "react";
 import RegionLink from "@/components/ui/RegionLink";
 import DhiraLogo from "@/components/icons/DhiraLogo";
 import ThemeSwitch from "@/components/layout/ThemeSwitch";
-import { NAV_CTA, NAV_MENUS, NAV_SIGN_IN, isCurrentSection } from "@/lib/navigation";
+import { NAV_CTA, NAV_MENUS, isCurrentSection } from "@/lib/navigation";
 import { MenuRow } from "./MenuPanel";
 import NavFeatured from "./NavFeatured";
-import { ArrowUpRight, BackArrow, ChevronRight, CloseIcon } from "./NavIcons";
+import { BackArrow, ChevronRight, CloseIcon } from "./NavIcons";
 
 /* Below lg: a full-screen drawer that drills down (Figma / Apple pattern)
    instead of an accordion. Level one is a large row per menu (the logo above them
@@ -131,16 +131,6 @@ export default function MobileNav({
                 </button>
               </li>
             ))}
-            <li className="border-b border-subtle-stroke">
-              <RegionLink
-                href={NAV_SIGN_IN.href}
-                onClick={onClose}
-                className="flex min-h-[60px] w-full items-center justify-between text-left text-[20px] font-semibold tracking-[-0.01em] text-ink"
-              >
-                {NAV_SIGN_IN.label}
-                <ArrowUpRight className="h-[14px] w-[14px] text-overcast" />
-              </RegionLink>
-            </li>
           </ul>
           <div className="mt-6 flex justify-between border-b border-subtle-stroke pb-5">
             <ThemeSwitch labelled />

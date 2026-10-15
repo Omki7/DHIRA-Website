@@ -11,7 +11,7 @@ import MegaSheet, { type SheetMotion } from "@/components/layout/nav/MegaSheet";
 import MobileNav from "@/components/layout/nav/MobileNav";
 import { Chevron, MenuIcon } from "@/components/layout/nav/NavIcons";
 import useMenuIntent from "@/hooks/useMenuIntent";
-import { NAV_CTA, NAV_MENUS, NAV_SIGN_IN, isCurrentSection } from "@/lib/navigation";
+import { NAV_CTA, NAV_MENUS, isCurrentSection } from "@/lib/navigation";
 import { basePath } from "@/lib/region";
 
 /* ------------------------------------------------------------------ */
@@ -37,18 +37,13 @@ const ORDER = NAV_MENUS.map((menu) => menu.id);
 const isMouse = (event: PointerEvent) => event.pointerType === "mouse";
 
 /* The current section rests in ink with a 2px blue bar on the header's
-   bottom edge, under its label: inset by the side padding on the left and
-   by padding + chevron + gap (20px) on the right. The open menu's ink
-   underline slides over it. Padding is 8px below xl so five menus, the
-   theme switch, Sign in and the CTA fit at 1024. */
+   bottom edge, under its label: inset by the 12px side padding on the left
+   and by padding + chevron + gap (32px) on the right. The open menu's ink
+   underline slides over it. */
 const triggerClass = (open: boolean, current: boolean) =>
-  `relative inline-flex h-10 items-center gap-1.5 rounded-btn px-2 text-[15px] font-medium transition-colors duration-150 xl:px-3 ${
+  `relative inline-flex h-10 items-center gap-1.5 rounded-btn px-3 text-[15px] font-medium transition-colors duration-150 ${
     open || current ? "text-ink" : "text-secondary-text hover:text-ink"
-  } ${
-    current
-      ? "after:absolute after:-bottom-4 after:left-2 after:right-7 after:h-[2px] after:rounded-full after:bg-blue xl:after:left-3 xl:after:right-8"
-      : ""
-  }`;
+  } ${current ? "after:absolute after:-bottom-4 after:left-3 after:right-8 after:h-[2px] after:rounded-full after:bg-blue" : ""}`;
 
 export default function Nav() {
   /* Without the region prefix, so /in/pricing marks the same menu items as /pricing. */
@@ -227,8 +222,8 @@ export default function Nav() {
             className="relative mx-auto flex h-[72px] w-full max-w-[1440px] items-center justify-between px-4 sm:px-6 lg:px-8"
           >
             <div className="flex min-w-0 items-center gap-6">
-              {/* The full form hides at lg (1024 to 1279px), where five menus,
-                  Sign in and the CTA leave it no room. */}
+              {/* The full form hides at lg (1024 to 1279px), where five menus
+                  and the CTA leave it no room. */}
               <RegionLink
                 href="/"
                 aria-label="DHIRA homepage"
@@ -289,15 +284,6 @@ export default function Nav() {
 
             <div className="flex shrink-0 items-center gap-2" onPointerEnter={restOnPlainItem}>
               <ThemeSwitch />
-              {/* Below lg it lives in the drawer. */}
-              <RegionLink
-                href={NAV_SIGN_IN.href}
-                className="hidden h-10 items-center rounded-btn px-3 text-[15px] font-medium text-secondary-text transition-colors duration-150 hover:text-ink lg:inline-flex"
-                onPointerEnter={restOnPlainItem}
-                onClick={close}
-              >
-                {NAV_SIGN_IN.label}
-              </RegionLink>
               <RegionLink
                 ref={ctaRef}
                 href={NAV_CTA.href}

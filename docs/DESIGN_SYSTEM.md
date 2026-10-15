@@ -357,8 +357,9 @@ Researched against Stripe, Vercel, Databricks, Snowflake, Linear and C3 AI
 and timing guidance. Data lives in `lib/navigation.ts`, parts in
 `components/layout/nav/`.
 
-- **IA.** Platform · Solutions · Services · Resources · About, then Sign in
-  and "Talk to our team" (opens the ContactModal). The first menu is labelled
+- **IA.** Platform · Solutions · Services · Resources · About, then "Talk to
+  our team" (opens the ContactModal). No Sign in link in this version
+  (removed 15 Oct 2026, user). The first menu is labelled
   Platform and leads with Akashic (15 Oct 2026, user). Resources and Pricing
   were added 15 Oct 2026 on the user's direction to carry what serious
   enterprise sites carry; Pricing first sat in the bar as a plain link and
@@ -374,13 +375,10 @@ and timing guidance. Data lives in `lib/navigation.ts`, parts in
   `secondary-text` after a `default-stroke` hairline pipe, each word's initial
   in semibold `blue` so the initials spell DHIRA, as it was before
   the stacked two-line lockup. The full form hides at lg (1024 to 1279px), where
-  five menus, Sign in and the CTA leave it no room, and shows from md and xl.
-- **Sign in** (15 Oct 2026, user: Akashic is SaaS). A quiet text link before
-  the CTA, as on every SaaS reference site (Linear, Vercel, Fivetran,
-  Snowflake, Databricks, measured 15 Oct 2026). In the bar from lg, also a
-  drawer row and the footer. It and Documentation leave the site, so they
-  carry the north-east arrow (`ArrowUpRight`). Hosts are `AKASHIC_APP_URL` / `AKASHIC_DOCS_URL` in
-  lib/site.ts, placeholders until the product team confirms them.
+  five menus and the CTA leave it no room, and shows from md and xl.
+- **Documentation** leaves the site, so it carries the north-east arrow
+  (`ArrowUpRight`). Its host, `AKASHIC_DOCS_URL` in lib/site.ts, is a
+  placeholder until the product team confirms it.
 - **The Platform menu** (redrawn 15 Oct 2026, user). The same grammar as
   every menu: lead, vertical lists, the featured card on the right (the 1.0
   release). No foot row, no horizontal strip. Four lists, no captions:
@@ -431,8 +429,7 @@ and timing guidance. Data lives in `lib/navigation.ts`, parts in
   alone did not show which tab you were on); the others rest in
   `secondary-text`, and the trigger carries `aria-current="true"`. A 2px ink
   underline slides to the open trigger; a 1px `blue/40` thread grows from it
-  along the sheet's top edge. Triggers have 8px side padding below xl and 12px
-  from xl, so the bar fits at 1024.
+  along the sheet's top edge.
 - **Announcement bar.** One line above the header in normal flow, so the
   header keeps its 72px. `z-[45]`: above the scrim and the /about landscape.
   `NAV_ANNOUNCEMENT = null` removes it.

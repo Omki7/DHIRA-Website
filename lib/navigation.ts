@@ -17,7 +17,7 @@
    Captions are terse noun phrases, one line each, no em dashes. Solutions
    labels are written in full, never as abbreviations (15 Oct 2026, user). */
 
-import { AKASHIC_APP_URL, AKASHIC_DOCS_URL } from "./site";
+import { AKASHIC_DOCS_URL } from "./site";
 
 export type NavLink = {
   label: string;
@@ -344,11 +344,9 @@ export const NAV_ANNOUNCEMENT: { label: string; text: string; href: string; cta:
 /* Opens the global ContactModal, which intercepts every #talk-to-our-team anchor. */
 export const NAV_CTA = { label: "Talk to our team", href: "#talk-to-our-team" };
 
-/* Sign in to the Akashic app (15 Oct 2026, user): a text link beside the
-   CTA, where every SaaS reference site puts it. In the bar from lg (the
-   top-level Pricing link it replaced has moved into the Platform menu), in
-   the drawer and in the footer. */
-export const NAV_SIGN_IN = { label: "Sign in", href: AKASHIC_APP_URL };
+/* No Sign in link in this version (removed 15 Oct 2026, user): not in the
+   bar, the drawer or the footer. AKASHIC_APP_URL stays in lib/site.ts for
+   when it returns. */
 
 /* ------------------------------------------------------------------ */
 /*  Footer: the same IA, one source with the header (15 Oct 2026)      */
@@ -373,7 +371,6 @@ export const FOOTER_COLUMNS: FooterColumn[] = [
       { label: "Integrations", href: "/integrations" },
       { label: "Pricing", href: "/pricing" },
       { label: "Docs", href: AKASHIC_DOCS_URL, external: true },
-      { label: "Sign in", href: AKASHIC_APP_URL, external: true },
     ],
   },
   {

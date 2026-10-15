@@ -47,8 +47,10 @@ export const SITE = {
 } as const;
 
 /* The Akashic app and its documentation live off this site (user, 15 Oct
-   2026: Sign in and Docs link out, no pages here). DRAFT: both hosts are
-   placeholders until the product team confirms them. */
+   2026: no pages here). Documentation links out from the Platform menu and
+   the footer; the app has no Sign in link in this version (removed the same
+   day, user). DRAFT: both hosts are placeholders until the product team
+   confirms them. */
 export const AKASHIC_APP_URL = "https://app.dhira.ai";
 export const AKASHIC_DOCS_URL = "https://docs.dhira.ai";
 

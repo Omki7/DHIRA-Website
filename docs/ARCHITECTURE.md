@@ -57,7 +57,7 @@ components/
   layout/
     Nav.tsx            Site header shell (rebuilt 14 Oct 2026): logo (= home) · Platform · Solutions ·
                        Services · Resources · About (Platform leads with Akashic and holds Pricing, 15 Oct
-                       2026), then Sign in + "Talk to our team". The logo's full form, after a hairline
+                       2026), then "Talk to our team" (no Sign in in this version). The logo's full form, after a hairline
                        pipe, hides at lg only. The current section carries a blue bar on the bar's bottom edge.
                        Hide-on-scroll, 72px bar (sticky offsets across the
                        site depend on it), root stays `<header data-scrolled>` (about-page.css targets it).
@@ -201,7 +201,7 @@ lib/                   Static content config, one file per page (see STATE_AND_D
                        regionAlternates (hreflang). See "Regions"
   pageSection.ts       Shared section typing
   navigation.ts        The site navigation, one source of truth: NAV_MENUS (lead, groups, featured),
-                       NAV_SIGN_IN, NAV_ANNOUNCEMENT, NAV_CTA, and the footer's FOOTER_COLUMNS +
+                       NAV_ANNOUNCEMENT, NAV_CTA, and the footer's FOOTER_COLUMNS +
                        LEGAL_LINKS. Every href must resolve to a route + an id
   site.ts              Company facts: name, legal entity, offices, email, `SITE_URL` (https://www.dhira.ai,
                        the metadataBase), `mailto(subject)`, `absoluteUrl(path)`. Rule 26 fields render once filled
