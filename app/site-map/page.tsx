@@ -31,7 +31,7 @@ export default function SiteMapPage() {
           meta={`${ALL_ROUTES.length + REGIONAL_PAGES.length} pages`}
         />
         <section className="bg-background pb-24 pt-12 lg:pb-32 lg:pt-16">
-          <ScrollRevealRail isLast>
+          <ScrollRevealRail>
             <div className="grid gap-x-12 gap-y-14 sm:grid-cols-2 lg:grid-cols-3">
               {ROUTE_GROUPS.map((group) => (
                 <div key={group.heading}>

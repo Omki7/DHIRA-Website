@@ -11,18 +11,21 @@ import MegaSheet, { type SheetMotion } from "@/components/layout/nav/MegaSheet";
 import MobileNav from "@/components/layout/nav/MobileNav";
 import { Chevron, MenuIcon } from "@/components/layout/nav/NavIcons";
 import useMenuIntent from "@/hooks/useMenuIntent";
-import { NAV_CTA, NAV_LINKS, NAV_MENUS, NAV_SIGN_IN, isCurrentSection } from "@/lib/navigation";
+import { NAV_CTA, NAV_MENUS, NAV_SIGN_IN, isCurrentSection } from "@/lib/navigation";
 import { basePath } from "@/lib/region";
 
 /* ------------------------------------------------------------------ */
 /*  Site header (rebuilt 14 Oct 2026)                                  */
 /* ------------------------------------------------------------------ */
-/* Akashic · Solutions · Services · Company; every label and link lives in
-   lib/navigation.ts. No "Home" item: the logo is home, as on every
-   reference site and the founder's wireframe (dropped 14 Oct 2026).
+/* Platform · Solutions · Services · Resources · About; every label and link
+   lives in lib/navigation.ts. No "Home" item: the logo is home, as on every
+   reference site and the founder's wireframe (dropped 14 Oct 2026). The
+   logo is the mark, the wordmark, then the full form after a hairline pipe
+   (restored 15 Oct 2026, user).
    Desktop: one shared sheet attached to the header (nav/MegaSheet), hover
    intent and close grace (hooks/useMenuIntent), a blue-black scrim over the
-   page, and an ink underline that slides to the open trigger.
+   page, an ink underline that slides to the open trigger, and a blue bar
+   that stays under the section being viewed.
    Mobile: a drill-down drawer (nav/MobileNav).
    Two things hold the rest of the site up, keep them: the root is a
    `<header data-scrolled>` (about-page.css styles `.about-page > header`), and
@@ -33,9 +36,18 @@ import { basePath } from "@/lib/region";
 const ORDER = NAV_MENUS.map((menu) => menu.id);
 const isMouse = (event: PointerEvent) => event.pointerType === "mouse";
 
-const triggerClass = (strong: boolean) =>
-  `inline-flex h-10 items-center gap-1.5 rounded-btn px-3 text-[15px] font-medium transition-colors duration-150 ${
-    strong ? "text-ink" : "text-secondary-text hover:text-ink"
+/* The current section rests in ink with a 2px blue bar on the header's
+   bottom edge, under its label: inset by the side padding on the left and
+   by padding + chevron + gap (20px) on the right. The open menu's ink
+   underline slides over it. Padding is 8px below xl so five menus, the
+   theme switch, Sign in and the CTA fit at 1024. */
+const triggerClass = (open: boolean, current: boolean) =>
+  `relative inline-flex h-10 items-center gap-1.5 rounded-btn px-2 text-[15px] font-medium transition-colors duration-150 xl:px-3 ${
+    open || current ? "text-ink" : "text-secondary-text hover:text-ink"
+  } ${
+    current
+      ? "after:absolute after:-bottom-4 after:left-2 after:right-7 after:h-[2px] after:rounded-full after:bg-blue xl:after:left-3 xl:after:right-8"
+      : ""
   }`;
 
 export default function Nav() {
@@ -48,8 +60,6 @@ export default function Nav() {
 
   const barRef = useRef<HTMLDivElement>(null);
   const ctaRef = useRef<HTMLAnchorElement>(null);
-  /* The first plain link (Pricing): where Tab lands after the last menu. */
-  const plainRef = useRef<HTMLAnchorElement>(null);
   const triggers = useRef<Record<string, HTMLButtonElement | null>>({});
   const labels = useRef<Record<string, HTMLSpanElement | null>>({});
   const [underline, setUnderline] = useState({ left: 0, width: 0 });
@@ -193,7 +203,7 @@ export default function Nav() {
     close();
     const nextControl = next
       ? triggers.current[next]
-      : plainRef.current ?? barRef.current?.querySelector<HTMLButtonElement>(".theme-switch") ?? ctaRef.current;
+      : barRef.current?.querySelector<HTMLButtonElement>(".theme-switch") ?? ctaRef.current;
     nextControl?.focus();
   };
 
@@ -217,31 +227,35 @@ export default function Nav() {
             className="relative mx-auto flex h-[72px] w-full max-w-[1440px] items-center justify-between px-4 sm:px-6 lg:px-8"
           >
             <div className="flex min-w-0 items-center gap-6">
+              {/* The full form hides at lg (1024 to 1279px), where five menus,
+                  Sign in and the CTA leave it no room. */}
               <RegionLink
                 href="/"
-                aria-label="DHIRA - Digital Human Interfaces & Robotic Agents"
-                className="group/brand flex shrink-0 items-center gap-2.5 text-primary-text"
+                aria-label="DHIRA homepage"
+                className="flex shrink-0 items-center gap-3 text-primary-text"
                 onPointerEnter={restOnPlainItem}
               >
-                <DhiraLogo className="h-9 w-9 shrink-0" />
-                <div className="flex flex-col justify-center">
-                  <span className="text-[20px] font-semibold tracking-tight leading-none">DHIRA</span>
-                  <span
-                    aria-hidden="true"
-                    className="hidden text-[10px] leading-none tracking-[0.03em] text-secondary-text mt-1.5 md:block lg:hidden xl:block"
-                  >
-                    <strong className="font-bold text-blue">D</strong>igital{" "}
-                    <strong className="font-bold text-blue">H</strong>uman{" "}
-                    <strong className="font-bold text-blue">I</strong>nterfaces &amp;{" "}
-                    <strong className="font-bold text-blue">R</strong>obotic{" "}
-                    <strong className="font-bold text-blue">A</strong>gents
-                  </span>
+                <div className="flex items-center gap-1.5">
+                  <DhiraLogo className="h-9 w-9" />
+                  <span className="text-[22px] font-semibold tracking-tight">DHIRA</span>
                 </div>
+                <span
+                  aria-hidden="true"
+                  className="hidden max-w-[150px] border-l border-default-stroke pl-3 text-[11px] leading-[1.25] tracking-[0.04em] text-secondary-text md:block lg:hidden xl:block"
+                >
+                  {/* Each initial in blue spells DHIRA down the full form. */}
+                  <span className="font-semibold text-blue">D</span>igital{" "}
+                  <span className="font-semibold text-blue">H</span>uman{" "}
+                  <span className="font-semibold text-blue">I</span>nterfaces &amp;{" "}
+                  <span className="font-semibold text-blue">R</span>obotic{" "}
+                  <span className="font-semibold text-blue">A</span>gents
+                </span>
               </RegionLink>
 
               <ul className="hidden items-center gap-0.5 lg:flex">
                 {NAV_MENUS.map((item) => {
                   const open = openId === item.id;
+                  const current = isCurrentSection(item, pathname);
                   return (
                     <li key={item.id}>
                       <button
@@ -251,7 +265,8 @@ export default function Nav() {
                         type="button"
                         aria-expanded={open}
                         aria-controls={`nav-panel-${item.id}`}
-                        className={triggerClass(open || isCurrentSection(item, pathname))}
+                        aria-current={current ? "true" : undefined}
+                        className={triggerClass(open, current)}
                         onPointerEnter={(event) => isMouse(event) && hoverTrigger(item.id)}
                         onPointerLeave={(event) => isMouse(event) && leaveTrigger()}
                         onClick={(event) => toggle(item.id, event.detail > 0)}
@@ -269,30 +284,15 @@ export default function Nav() {
                     </li>
                   );
                 })}
-                {NAV_LINKS.map((link, index) => (
-                  <li key={link.href}>
-                    <RegionLink
-                      ref={index === 0 ? plainRef : undefined}
-                      href={link.href}
-                      aria-current={link.match.some((prefix) => pathname === prefix) ? "page" : undefined}
-                      className={triggerClass(link.match.some((prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`)))}
-                      onPointerEnter={restOnPlainItem}
-                      onClick={close}
-                    >
-                      {link.label}
-                    </RegionLink>
-                  </li>
-                ))}
               </ul>
             </div>
 
             <div className="flex shrink-0 items-center gap-2" onPointerEnter={restOnPlainItem}>
               <ThemeSwitch />
-              {/* From xl only: at 1024 the six items leave no room for it.
-                  Below xl it lives in the drawer and the Akashic sheet's foot. */}
+              {/* Below lg it lives in the drawer. */}
               <RegionLink
                 href={NAV_SIGN_IN.href}
-                className="hidden h-10 items-center rounded-btn px-3 text-[15px] font-medium text-secondary-text transition-colors duration-150 hover:text-ink xl:inline-flex"
+                className="hidden h-10 items-center rounded-btn px-3 text-[15px] font-medium text-secondary-text transition-colors duration-150 hover:text-ink lg:inline-flex"
                 onPointerEnter={restOnPlainItem}
                 onClick={close}
               >

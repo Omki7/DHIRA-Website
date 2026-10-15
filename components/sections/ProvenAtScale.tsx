@@ -60,7 +60,7 @@ export default function ProvenAtScale({
     >
       <div className={`dot-grid pointer-events-none absolute inset-0 ${dark ? "opacity-[0.08] invert" : "opacity-[0.035]"}`} />
 
-      <ScrollRevealRail dark={dark} className="relative z-10">
+      <ScrollRevealRail className="relative z-10">
         <ScrollReveal>
           <div className="mb-8 flex flex-col items-center gap-10 lg:mb-10 lg:flex-row lg:items-center lg:justify-between lg:gap-16">
             <div className="text-center lg:text-left">

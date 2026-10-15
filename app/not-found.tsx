@@ -24,7 +24,7 @@ export default function NotFound() {
       <Nav />
       <main id="main" className="bg-background">
         <section className="pb-24 pt-16 lg:pb-32 lg:pt-24">
-          <ScrollRevealRail isLast>
+          <ScrollRevealRail>
             <FigureEyebrow bare label="404" />
             <div className="mt-8 max-w-[52rem]">
               <TwoToneTitle as="h1" setup="Page not found." payoff="The link may be old, or the page has moved." />

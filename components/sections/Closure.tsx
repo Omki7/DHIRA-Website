@@ -29,7 +29,7 @@ export default function Closure() {
       {/* Alias anchor: the nav CTA targets #talk-to-our-team / #login on every page */}
       <span id="talk-to-our-team" className="absolute -top-24" aria-hidden />
       <span id="login" className="absolute -top-24" aria-hidden />
-      <ScrollRevealRail isLast={true} className="z-10">
+      <ScrollRevealRail className="z-10">
         {/* Immersive typography-first card */}
         <ScrollReveal delay={120}>
           <div className="group/card relative overflow-hidden rounded-outer border border-white/10 bg-vault px-6 py-24 text-white shadow-2xl transition-all duration-500 ease-settle hover:border-white/20 md:py-32 lg:py-40">

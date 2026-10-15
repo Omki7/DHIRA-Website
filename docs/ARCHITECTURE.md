@@ -55,9 +55,10 @@ app/
 
 components/
   layout/
-    Nav.tsx            Site header shell (rebuilt 14 Oct 2026): logo (= home) · Akashic · Solutions ·
-                       Services · Resources · About, then the plain Pricing link (NAV_LINKS, 15 Oct 2026) +
-                       "Talk to our team". The logo's tagline hides at lg only, so six items fit at 1024.
+    Nav.tsx            Site header shell (rebuilt 14 Oct 2026): logo (= home) · Platform · Solutions ·
+                       Services · Resources · About (Platform leads with Akashic and holds Pricing, 15 Oct
+                       2026), then Sign in + "Talk to our team". The logo's full form, after a hairline
+                       pipe, hides at lg only. The current section carries a blue bar on the bar's bottom edge.
                        Hide-on-scroll, 72px bar (sticky offsets across the
                        site depend on it), root stays `<header data-scrolled>` (about-page.css targets it).
                        All labels and links live in lib/navigation.ts. See DESIGN_SYSTEM "Navigation"
@@ -153,9 +154,9 @@ components/
 
   ui/                  Generic utility components
     ScrollReveal.tsx      IntersectionObserver fade-in wrapper (`delay` prop in ms, keep <=400)
-    ScrollRevealRail.tsx  Centred 1440px rail with animated scroll-tracking edge lines (`dark` prop). The gold
-                          trail is a CSS view timeline (`.rail-*`, compositor); one shared JS fallback
-                          drives only on-screen rails where scroll timelines are missing
+    ScrollRevealRail.tsx  Centred 1440px column with the side gutters, nothing drawn. Its edge lines and
+                          gold scroll trail were removed on every page 15 Oct 2026 (user); the name stays
+                          so its 110 call sites did not churn
     FigureEyebrow.tsx     `[NN]  LABEL` eyebrow on the homepage dashed rail (/about, /careers); `live` adds
                           the pulsing NOW HIRING marker right; `bare` drops the rail (heroes, closing card)
     SectionHeader.tsx     /about + /careers section header: eyebrow rail, then TwoToneTitle, then the lede
@@ -200,7 +201,7 @@ lib/                   Static content config, one file per page (see STATE_AND_D
                        regionAlternates (hreflang). See "Regions"
   pageSection.ts       Shared section typing
   navigation.ts        The site navigation, one source of truth: NAV_MENUS (lead, groups, featured),
-                       NAV_LINKS (Pricing), NAV_ANNOUNCEMENT, NAV_CTA, and the footer's FOOTER_COLUMNS +
+                       NAV_SIGN_IN, NAV_ANNOUNCEMENT, NAV_CTA, and the footer's FOOTER_COLUMNS +
                        LEGAL_LINKS. Every href must resolve to a route + an id
   site.ts              Company facts: name, legal entity, offices, email, `SITE_URL` (https://www.dhira.ai,
                        the metadataBase), `mailto(subject)`, `absoluteUrl(path)`. Rule 26 fields render once filled
@@ -277,11 +278,11 @@ Backgrounds, ids, and per-section intent. Eyebrow numbering `[NN]` is deliberate
 
 ### Akashic (`app/akashic/page.tsx`)
 
-The nav's Akashic menu (lib/navigation.ts, redrawn 15 Oct 2026) links here: its
+The nav's Platform menu (lib/navigation.ts, redrawn 15 Oct 2026) links here: its
 Foundation, Intelligence and Trust categories to the span ids `AkashicModules`
 renders (`#data-pipelines`, `#master-data`, `#data-warehousing`,
 `#business-intelligence`, `#ask-ai`, `#machine-learning`, `#governance`) and to
-`#trust` and `#open`; its "Across every module" strip ("AI agents · Preview")
+`#trust` and `#open`; its Intelligence list's "AI agents · Preview" row
 to `#agents`. Rename any of these ids
 and the nav breaks silently: update lib/navigation.ts in the same change.
 
@@ -632,7 +633,9 @@ off the initial critical path. `HeroProductsMockup` stays static (LCP). Do not
 `ssr:false` a content section — it would drop from SSR HTML and hurt SEO/CLS.
 
 ### `ui/ScrollRevealRail.tsx`
-The rail's vertical edge lines mean a section inside it **must not** carry a
-full-width horizontal rule (`w-screen` crosses them and overflows the body). If a
-section needs edge-to-edge rules, take it out of the rail entirely — that is the
-call `MeetAkashic` made (it is full-bleed, outside the rail).
+The rail draws nothing since 15 Oct 2026 (its edge lines and gold trail were
+removed on every page, user; `.rail-container` and `.ak-story-wrap` lost their
+`border-x` the same day). It is still a 1440px column, so a section inside it
+**must not** carry a `w-screen` rule (it overflows the body). If a section needs
+edge-to-edge rules, take it out of the rail entirely, as `MeetAkashic` does
+(full-bleed, outside the rail). Do not bring edge lines back without direction.

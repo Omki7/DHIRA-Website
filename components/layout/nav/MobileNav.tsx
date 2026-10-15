@@ -5,13 +5,13 @@ import type { KeyboardEvent } from "react";
 import RegionLink from "@/components/ui/RegionLink";
 import DhiraLogo from "@/components/icons/DhiraLogo";
 import ThemeSwitch from "@/components/layout/ThemeSwitch";
-import { NAV_CTA, NAV_LINKS, NAV_MENUS, NAV_SIGN_IN, isCurrentSection } from "@/lib/navigation";
-import { MenuFoot, MenuRow, MenuStrip } from "./MenuPanel";
+import { NAV_CTA, NAV_MENUS, NAV_SIGN_IN, isCurrentSection } from "@/lib/navigation";
+import { MenuRow } from "./MenuPanel";
 import NavFeatured from "./NavFeatured";
 import { ArrowUpRight, BackArrow, ChevronRight, CloseIcon } from "./NavIcons";
 
 /* Below lg: a full-screen drawer that drills down (Figma / Apple pattern)
-   instead of an accordion. Level one is four large rows (the logo above them
+   instead of an accordion. Level one is a large row per menu (the logo above them
    is home); a menu slides in
    from the right with a Back control and the same lead, groups and featured
    card as the desktop sheet. Rendered outside the sticky header, because a
@@ -131,24 +131,6 @@ export default function MobileNav({
                 </button>
               </li>
             ))}
-            {NAV_LINKS.map((link) => {
-              const current = link.match.some((prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`));
-              return (
-                <li key={link.href} className="border-b border-subtle-stroke">
-                  <RegionLink
-                    href={link.href}
-                    onClick={onClose}
-                    aria-current={current ? "page" : undefined}
-                    className="flex min-h-[60px] w-full items-center justify-between text-left text-[20px] font-semibold tracking-[-0.01em] text-ink"
-                  >
-                    <span className="flex items-center gap-2.5">
-                      {link.label}
-                      {current && <span aria-hidden className="h-1.5 w-1.5 rounded-full bg-blue" />}
-                    </span>
-                  </RegionLink>
-                </li>
-              );
-            })}
             <li className="border-b border-subtle-stroke">
               <RegionLink
                 href={NAV_SIGN_IN.href}
@@ -213,18 +195,6 @@ export default function MobileNav({
                   </ul>
                 </div>
               ))}
-
-              {menu.strip && (
-                <div className="border-b border-subtle-stroke py-5" onClick={onClose}>
-                  <MenuStrip strip={menu.strip} />
-                </div>
-              )}
-
-              {menu.footer && (
-                <div className="border-b border-subtle-stroke py-3" onClick={onClose}>
-                  <MenuFoot links={menu.footer} />
-                </div>
-              )}
 
               <div className="pt-6" onClick={onClose}>
                 <NavFeatured feature={menu.feature} drawn={active} />

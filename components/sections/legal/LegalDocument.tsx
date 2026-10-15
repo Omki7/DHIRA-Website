@@ -31,7 +31,7 @@ export default function LegalDocument({ doc }: { doc: LegalDoc }) {
         </ScrollRevealRail>
       </header>
 
-      <ScrollRevealRail isLast>
+      <ScrollRevealRail>
         <div className="grid gap-12 pb-20 pt-12 lg:grid-cols-12 lg:gap-10 lg:pb-28 lg:pt-16">
           <aside className="lg:col-span-3">
             <nav aria-label="Contents" className="lg:sticky lg:top-28">

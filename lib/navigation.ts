@@ -3,18 +3,19 @@
 /* ------------------------------------------------------------------ */
 /* Read by the desktop sheet and the mobile drawer (components/layout/nav).
    The IA follows the founder's wireframe (DHIRA_ai_Website_v2, 12 Oct 2026):
-   Akashic · Solutions · Services · Resources · About, then the plain Pricing
-   link (NAV_LINKS). Agents sit inside Akashic with the Preview mark and
-   never at the top level (DESIGN_SYSTEM claims rule: agents ship in
-   preview). Since 15 Oct 2026 they are drawn as a capability across every
-   module, never as an eighth module (user). Insights left on 14 Oct 2026 for lack of content and returned
-   under Resources on 15 Oct 2026 with articles behind it. There is no
-   "Home" item: the logo is home (14 Oct 2026).
+   Platform · Solutions · Services · Resources · About. The first menu is
+   labelled Platform and leads with Akashic (15 Oct 2026, user); Pricing
+   lives inside it, not at the top level. Agents sit inside it with the
+   Preview mark and never at the top level (DESIGN_SYSTEM claims rule:
+   agents ship in preview). Insights left on 14 Oct 2026 for lack of content
+   and returned under Resources on 15 Oct 2026 with articles behind it. There
+   is no "Home" item: the logo is home (14 Oct 2026).
 
    Every href must resolve: a route that exists, or an id that exists on the
    target page. The /akashic module anchors are the span ids AkashicModules
    renders from `dataLayerModules` / `intelligenceLayerModules`.
-   Captions are terse noun phrases, one line each, no em dashes. */
+   Captions are terse noun phrases, one line each, no em dashes. Solutions
+   labels are written in full, never as abbreviations (15 Oct 2026, user). */
 
 import { AKASHIC_APP_URL, AKASHIC_DOCS_URL } from "./site";
 
@@ -29,8 +30,10 @@ export type NavLink = {
   external?: boolean;
 };
 
-/** Columns out of 12 that a block spans in the desktop sheet. */
-export type NavSpan = 2 | 3 | 4 | 5;
+/** A block's relative width in the desktop sheet (one `fr` track each).
+    Every menu's spans sum to 12, so the same span reads as the same width
+    from menu to menu. */
+export type NavSpan = number;
 
 export type NavGroup = {
   heading: string;
@@ -70,38 +73,33 @@ export type NavMenu = {
   lead: NavLead;
   groups: NavGroup[];
   feature: NavFeature;
-  /** A capability that runs across the groups, drawn as a dashed strip under them. */
-  strip?: { label: string; link: NavLink };
-  /** Quiet links along the foot of the sheet. */
-  footer?: NavLink[];
-  /** Draw the feature as a one-line card in the foot row, not a tall card. */
-  compactFeature?: boolean;
 };
 
-/* The Akashic menu (redrawn 15 Oct 2026, user): the seven modules in three
-   categories that match the layers on /akashic (data, intelligence,
-   governance), with no captions so the sheet reads at a glance. AI agents
-   run across every module, so they get the dashed strip under the
-   categories rather than a module row. Docs, Pricing and Integrations sit
-   along the foot with the 1.0 release as a one-line card, which leaves the
-   three categories a quarter of the sheet each, so no label wraps at 1024.
-   Sign in sits in the bar from xl and at the foot's right end. */
+/* The Platform menu (redrawn again 15 Oct 2026, user): the same grammar as
+   every other menu, lead, vertical lists, the featured card on the right.
+   Four lists: the seven modules in the three categories that match the
+   /akashic layers (data, intelligence, governance), then Start (Pricing
+   and Documentation). Headings are one word each, so none wraps (user).
+   No captions, so the sheet reads at a glance. AI agents close the
+   Intelligence list with the Preview mark (the dashed strip that drew
+   them across the modules was horizontal, and the user asked for vertical
+   lists only). */
 export const NAV_MENUS: NavMenu[] = [
   {
-    id: "akashic",
-    label: "Akashic",
-    match: ["/akashic"],
+    id: "platform",
+    label: "Platform",
+    match: ["/akashic", "/pricing"],
     lead: {
       title: "Akashic",
       text: "The governed data and AI platform.",
       href: "/akashic",
       cta: "Platform overview",
-      span: 3,
+      span: 2,
     },
     groups: [
       {
         heading: "Foundation",
-        span: 3,
+        span: 1.75,
         links: [
           { label: "Pipelines", href: "/akashic#data-pipelines" },
           { label: "Master Data", href: "/akashic#master-data" },
@@ -110,33 +108,32 @@ export const NAV_MENUS: NavMenu[] = [
       },
       {
         heading: "Intelligence",
-        span: 3,
+        span: 1.75,
         links: [
           { label: "Business Intelligence", href: "/akashic#business-intelligence" },
           { label: "Ask Akashic", href: "/akashic#ask-ai" },
           { label: "Machine Learning", href: "/akashic#machine-learning" },
+          { label: "AI agents", href: "/akashic#agents", preview: true },
         ],
       },
       {
         heading: "Trust",
-        span: 3,
+        span: 1.75,
         links: [
           { label: "Governance", href: "/akashic#governance" },
           { label: "Security and privacy", href: "/akashic#trust" },
           { label: "Open foundations", href: "/akashic#open" },
         ],
       },
+      {
+        heading: "Start",
+        span: 1.75,
+        links: [
+          { label: "Pricing", href: "/pricing" },
+          { label: "Documentation", href: AKASHIC_DOCS_URL, external: true },
+        ],
+      },
     ],
-    strip: {
-      label: "Across every module",
-      link: { label: "AI agents", href: "/akashic#agents", caption: "Agents do the legwork. People make the call.", preview: true },
-    },
-    footer: [
-      { label: "Docs", href: AKASHIC_DOCS_URL, external: true },
-      { label: "Pricing", href: "/pricing" },
-      { label: "Integrations", href: "/integrations" },
-    ],
-    compactFeature: true,
     feature: {
       eyebrow: "Akashic 1.0",
       title: "Generally available 1 November 2026.",
@@ -161,20 +158,20 @@ export const NAV_MENUS: NavMenu[] = [
     groups: [
       {
         heading: "Built on Akashic",
-        span: 3,
+        span: 2.75,
         links: [
-          { label: "Enterprise Intelligence", href: "/solutions/eis", caption: "Agentic FP&A and MIS" },
-          { label: "IPMS", href: "/solutions#ipms", caption: "Procurement, indent to secured contract" },
+          { label: "Enterprise Intelligence", href: "/solutions/eis", caption: "Agentic financial planning and reporting" },
+          { label: "Intelligent Procurement Management System", href: "/solutions#ipms", caption: "Indent to secured contract" },
           { label: "Akashic Life", href: "/solutions/life", caption: "Frontline maternal care" },
         ],
       },
       {
         heading: "By industry",
-        span: 2,
+        span: 2.25,
         links: [
-          { label: "BFSI", href: "/sectors/finance" },
+          { label: "Banking, financial services and insurance", href: "/sectors/finance" },
           { label: "Healthcare", href: "/sectors/healthcare" },
-          { label: "Retail and CPG", href: "/sectors/retail" },
+          { label: "Retail and consumer goods", href: "/sectors/retail" },
           { label: "Manufacturing", href: "/sectors/manufacturing" },
           { label: "Public sector", href: "/sectors/public-sector" },
           { label: "Education", href: "/sectors/education" },
@@ -185,12 +182,12 @@ export const NAV_MENUS: NavMenu[] = [
         heading: "By function",
         span: 2,
         links: [
-          { label: "Finance and FP&A", href: "/solutions#function-finance" },
+          { label: "Finance, planning and analysis", href: "/solutions#function-finance" },
           { label: "Procurement", href: "/solutions#function-procurement" },
           { label: "Supply chain", href: "/solutions#function-supply-chain" },
           { label: "Operations", href: "/solutions#function-operations" },
           { label: "Sales and marketing", href: "/solutions#function-sales-marketing" },
-          { label: "HR and corporate", href: "/solutions#function-hr" },
+          { label: "Human resources and corporate", href: "/solutions#function-hr" },
           { label: "Customer service", href: "/solutions#function-customer-service" },
         ],
       },
@@ -347,17 +344,10 @@ export const NAV_ANNOUNCEMENT: { label: string; text: string; href: string; cta:
 /* Opens the global ContactModal, which intercepts every #talk-to-our-team anchor. */
 export const NAV_CTA = { label: "Talk to our team", href: "#talk-to-our-team" };
 
-/* Plain top-level links after the menus (15 Oct 2026): Pricing, where
-   Snowflake, Stripe, Vercel, Linear, Ramp, Retool and Cohere put it.
-   Rendered with RegionLink, so India visitors land on /in/pricing. */
-export type NavPlainLink = { label: string; href: string; match: string[] };
-
-export const NAV_LINKS: NavPlainLink[] = [{ label: "Pricing", href: "/pricing", match: ["/pricing"] }];
-
 /* Sign in to the Akashic app (15 Oct 2026, user): a text link beside the
-   CTA, where every SaaS reference site puts it. Shown in the bar from xl
-   (1024 has no room beside six items), in the drawer, the Akashic sheet's
-   foot and the footer at every width. */
+   CTA, where every SaaS reference site puts it. In the bar from lg (the
+   top-level Pricing link it replaced has moved into the Platform menu), in
+   the drawer and in the footer. */
 export const NAV_SIGN_IN = { label: "Sign in", href: AKASHIC_APP_URL };
 
 /* ------------------------------------------------------------------ */
@@ -390,16 +380,16 @@ export const FOOTER_COLUMNS: FooterColumn[] = [
     heading: "Solutions",
     links: [
       { label: "Enterprise Intelligence", href: "/solutions/eis" },
-      { label: "IPMS", href: "/solutions#ipms" },
+      { label: "Intelligent Procurement Management System", href: "/solutions#ipms" },
       { label: "Akashic Life", href: "/solutions/life" },
       { label: "All solutions", href: "/solutions" },
     ],
     subHeading: "Industries",
     subLinks: [
       { label: "Public sector", href: "/sectors/public-sector" },
-      { label: "BFSI", href: "/sectors/finance" },
+      { label: "Banking, financial services and insurance", href: "/sectors/finance" },
       { label: "Healthcare", href: "/sectors/healthcare" },
-      { label: "Retail and CPG", href: "/sectors/retail" },
+      { label: "Retail and consumer goods", href: "/sectors/retail" },
       { label: "Manufacturing", href: "/sectors/manufacturing" },
       { label: "Education", href: "/sectors/education" },
       { label: "Energy and utilities", href: "/sectors/energy" },

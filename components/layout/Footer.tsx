@@ -46,7 +46,7 @@ export default function Footer() {
   const disclosure = [SITE.registeredOffice && `Registered office: ${SITE.registeredOffice}`, SITE.cin && `CIN ${SITE.cin}`].filter(Boolean);
   return (
     <footer className="bg-vault text-white pt-20 pb-10">
-      <ScrollRevealRail dark>
+      <ScrollRevealRail>
         {/* 7 columns on lg: brand spans 2, then Akashic / Solutions /
             Services / Resources / Company. */}
         <div className="mb-20 grid grid-cols-2 gap-x-8 gap-y-12 sm:grid-cols-3 lg:grid-cols-7 lg:gap-10">

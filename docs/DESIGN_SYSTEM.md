@@ -312,7 +312,7 @@ divider beside an SVG chart); `PublicSectorProven`'s dark row-based record board
 | `.btn-lg` | Size modifier: 44px / 28px padding. Compose, e.g. `btn-primary-invert btn-lg` |
 | `.btn-ghost` | Transparent, tints to `tertiary-bg` on hover |
 | `.dot-grid` | 1px dot radial-gradient at 10px pitch |
-| `.rail-container` | Centred 1440px wrapper, `border-x border-lineSoft` |
+| `.rail-container` | Centred 1440px wrapper with the side gutters. No edge lines (removed 15 Oct 2026, user) |
 | `.hs-card` | Absolute 840×592 card for HeroProducts carousel (`data-pos`) |
 | `.ad-draw` / `.ad-fade` / `.ad-strike` / `.ad-ping` | `/about` drawing kit. Paths carry `pathLength="1"` and draw once when the figure's wrapper flips `data-drawn="true"` (`hooks/useDrawn.ts`); stagger with `--ad-delay`, pace with `--ad-dur`. `.ad-fade` owns `transform`, so position a label on an outer span and fade an inner one. Reduced motion lands on the final state with no delay |
 | `.alife-*` | `/solutions/life` only — `eyebrow`, `wavefield`, `aurora`, `orbit`/`orbit-rev`, `sonar`, `leader`. Page-scoped like the `life-*` tokens. `.alife-eyebrow` sets in `font-mono` on purpose: the reference uses its body sans, but the mono face is what every other section label on the site is set in, and it is the cheapest thing that stops nine labels reading as another company's |
@@ -357,35 +357,43 @@ Researched against Stripe, Vercel, Databricks, Snowflake, Linear and C3 AI
 and timing guidance. Data lives in `lib/navigation.ts`, parts in
 `components/layout/nav/`.
 
-- **IA.** Akashic · Solutions · Services · Resources · About, then a plain
-  Pricing link (`NAV_LINKS`) and "Talk to our team" (opens the ContactModal).
-  Resources and Pricing were added 15 Oct 2026 on the user's direction to carry
-  what serious enterprise sites carry (13 of 26 reference sites link pricing;
-  Snowflake, Stripe, Vercel, Linear, Ramp, Retool and Cohere put it in the
-  header). Insights, gone on 14 Oct for lack of content, returned under
-  Resources with articles behind it. The logo is home: a "Home" item was built and
+- **IA.** Platform · Solutions · Services · Resources · About, then Sign in
+  and "Talk to our team" (opens the ContactModal). The first menu is labelled
+  Platform and leads with Akashic (15 Oct 2026, user). Resources and Pricing
+  were added 15 Oct 2026 on the user's direction to carry what serious
+  enterprise sites carry; Pricing first sat in the bar as a plain link and
+  moved inside the Platform menu the same day (user). Insights, gone on 14 Oct
+  for lack of content, returned under Resources with articles behind it. The logo is home: a "Home" item was built and
   dropped the same day (no reference site has one, nor the founder's
   wireframe; it put home twice side by side and took the first slot from the
-  product). Agents live inside the Akashic menu with
-  `PreviewTag`, never top-level, while agents ship in preview. Six top items:
-  do not add more without direction. The logo's tagline hides at lg (1024 to
-  1279px) so all six fit beside the CTA.
+  product). Agents live inside the Platform menu with
+  `PreviewTag`, never top-level, while agents ship in preview. Five menus:
+  do not add more without direction.
+- **Logo** (restored 15 Oct 2026, user). The D mark and the DHIRA wordmark,
+  then the full form "Digital Human Interfaces & Robotic Agents" in 11px
+  `secondary-text` after a `default-stroke` hairline pipe, each word's initial
+  in semibold `blue` so the initials spell DHIRA, as it was before
+  the stacked two-line lockup. The full form hides at lg (1024 to 1279px), where
+  five menus, Sign in and the CTA leave it no room, and shows from md and xl.
 - **Sign in** (15 Oct 2026, user: Akashic is SaaS). A quiet text link before
   the CTA, as on every SaaS reference site (Linear, Vercel, Fivetran,
-  Snowflake, Databricks, measured 15 Oct 2026). Bar from xl only (no room at
-  1024); also a drawer row, the Akashic sheet's foot ("Sign in to Akashic")
-  and the footer. It and Docs leave the site, so they carry the north-east
-  arrow (`ArrowUpRight`). Hosts are `AKASHIC_APP_URL` / `AKASHIC_DOCS_URL` in
+  Snowflake, Databricks, measured 15 Oct 2026). In the bar from lg, also a
+  drawer row and the footer. It and Documentation leave the site, so they
+  carry the north-east arrow (`ArrowUpRight`). Hosts are `AKASHIC_APP_URL` / `AKASHIC_DOCS_URL` in
   lib/site.ts, placeholders until the product team confirms them.
-- **The Akashic menu** (redrawn 15 Oct 2026, user). Three categories that
-  match the /akashic layers, a quarter of the sheet each and no captions:
-  Foundation (Pipelines, Master Data, Warehouse), Intelligence (BI, Ask
-  Akashic, Machine Learning), Trust (Governance, Security and privacy, Open
-  foundations). AI agents are a capability across every module, never an
-  eighth module: a dashed strip under the categories (`strip`). A hairline foot
-  row carries Docs, Pricing (also top-level: buyers look there first),
-  Integrations, the 1.0 release as a one-line card (`compactFeature`) and Sign
-  in. The other menus keep the tall featured card.
+- **The Platform menu** (redrawn 15 Oct 2026, user). The same grammar as
+  every menu: lead, vertical lists, the featured card on the right (the 1.0
+  release). No foot row, no horizontal strip. Four lists, no captions:
+  Foundation (Pipelines, Master Data, Warehouse), Intelligence (Business
+  Intelligence, Ask Akashic, Machine Learning, AI agents with `PreviewTag`),
+  Trust (Governance, Security and privacy, Open foundations), and Start
+  (Pricing, Documentation). The first three match the /akashic layers. Group
+  headings are one word, so none wraps (user, 15 Oct 2026).
+- **Solutions labels in full** (15 Oct 2026, user). No abbreviations in the
+  Solutions menu or the footer's Solutions column: Intelligent Procurement
+  Management System, Banking, financial services and insurance, Retail and
+  consumer goods, Finance, planning and analysis, Human resources and
+  corporate. Long names wrap to two balanced lines; that is expected.
 - **One shared sheet, attached.** Every desktop menu opens into the same
   full-bleed white surface hanging off the header's bottom edge: no caret, no
   gap, so a diagonal pointer path never leaves the hover region. Height morphs
@@ -406,16 +414,25 @@ and timing guidance. Data lives in `lib/navigation.ts`, parts in
   group labels 11px mono `overcast` (4.8:1). No icon tile per row. Captions
   are terse noun phrases on one line; leads and featured titles wrap balanced,
   with no orphans.
-- **Grid.** 12 columns, 32px gutter: lead (hairline to its right), link groups,
-  featured card. Spans are data (`span` in the config). If a label wraps,
-  shorten the label, not the column.
+- **Grid.** One `fr` track per block: lead (hairline to its right), link
+  groups, featured card. Spans are data (`span` in the config) and every menu's
+  spans sum to 12, so a span reads as the same width from menu to menu. 24px
+  gutters below xl, 32px from xl. Group headings share the first row (CSS
+  subgrid, bottom-aligned), so a heading that wraps never pushes its list
+  below the others. The hover arrow and
+  the external arrow hang past the label, so they never force it to wrap; a
+  `PreviewTag` that does not fit drops under its label.
 - **Featured card.** One per menu, `primary-bg` on `subtle-stroke`, hugging its
   content. Its figure is a hairline drawing in the /about line language (blue
   for what is live), drawn with `.ad-draw` the first time its menu opens. No
   product screenshots, no AI gradients or sparkles.
-- **Indicators.** A 2px ink underline slides to the open trigger; a 1px
-  `blue/40` thread grows from it along the sheet's top edge; the current
-  section's trigger rests in ink, the others in `secondary-text`.
+- **Indicators.** The current section's trigger rests in ink with a 2px `blue`
+  bar on the header's bottom edge under its label (15 Oct 2026, user: ink
+  alone did not show which tab you were on); the others rest in
+  `secondary-text`, and the trigger carries `aria-current="true"`. A 2px ink
+  underline slides to the open trigger; a 1px `blue/40` thread grows from it
+  along the sheet's top edge. Triggers have 8px side padding below xl and 12px
+  from xl, so the bar fits at 1024.
 - **Announcement bar.** One line above the header in normal flow, so the
   header keeps its 72px. `z-[45]`: above the scrim and the /about landscape.
   `NAV_ANNOUNCEMENT = null` removes it.
@@ -453,7 +470,8 @@ Escape dismisses the labels.
 
 **The line.** A 1px `blue` line runs from the first dot to the current one and
 nothing beyond it: no track for sections still ahead, so the top of a page
-shows dots alone. Passed dots sink into the line and return on hover. The line
+shows dots alone. Passed dots stay on the line as solid `blue` beads, so the
+line never swallows them (15 Oct 2026, user: they read as vanishing). The line
 grows by `scaleY` and the bead moves on the `translate` property (so its hover
 `scale` grows it in place), together over 350ms `ease-settle`; selection
 responds immediately while native scrolling settles.
@@ -543,11 +561,11 @@ The pattern is implemented with existing React and CSS; no additional package.
      the unrendered `AkashicModuleScreensMockup`, which opts out of the gate
      with `data-own-motion`). Its replacement, `AkashicModuleMomentsMockup`,
      runs plain CSS loops (`mm-run` packets as `translateX`) and leaves them
-     to the gate. Scroll-driven motion (the teardown, the rails) is
+     to the gate. Scroll-driven motion (the teardown) is
      never held. No `backdrop-filter` on sticky or fixed chrome, and
      none behind a fill that is 90% opaque or more (it costs a GPU pass for
      no visible change). Scroll-linked effects use a CSS scroll timeline
-     first (see `.rail-*`); otherwise one rAF per frame for on-screen
+     first; otherwise one rAF per frame for on-screen
      elements only, writing a style or `textContent` only when it changed.
 7. **Images require real files.** Never point `<Image>`/`<img>` at a path not in
    `public/`. Photography is stock under free commercial licence (Unsplash); keep

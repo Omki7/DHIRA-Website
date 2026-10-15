@@ -54,7 +54,7 @@ export default function DrawingSetClose({
       {anchors.map((id) => (
         <span key={id} id={id} className="absolute -top-24" aria-hidden />
       ))}
-      <ScrollRevealRail dark isLast>
+      <ScrollRevealRail>
         <ScrollReveal>
           <div className="relative overflow-hidden rounded-frame bg-anchor text-white">
             <div className="absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r from-blue/70 via-blue/30 to-transparent" aria-hidden />

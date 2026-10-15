@@ -261,8 +261,9 @@ h1, h2, h3, h4, h5, h6 {
     background-image: linear-gradient(90deg, rgba(130,162,255,0.9) 0%, rgba(96,132,255,0.4) 50%, transparent 100%);
   }
 
+  /* No edge lines (removed on every page 15 Oct 2026, user). */
   .rail-container {
-    @apply mx-auto w-full max-w-[1440px] border-x border-lineSoft px-4 sm:px-6 lg:px-8;
+    @apply mx-auto w-full max-w-[1440px] px-4 sm:px-6 lg:px-8;
   }
 
 }
@@ -342,15 +343,15 @@ h1, h2, h3, h4, h5, h6 {
 .page-minimap-link:is(:hover, :focus-visible, [aria-current="location"]) .page-minimap-number { color: inherit; }
 /* Beads on a thread: a keyline in the page colour cuts the line around each
    dot, and over photographs or dark bands the same keyline keeps the blue
-   legible. Passed dots sink into the progress line; hover brings them back. */
+   legible. Passed dots stay on the progress line as solid beads, so the
+   line never swallows them (15 Oct 2026, user). */
 .page-minimap-dot {
   background: rgb(var(--blue) / 0.7);
   box-shadow: 0 0 0 2px rgb(var(--background));
   transition: transform 220ms cubic-bezier(0.2, 0.8, 0.2, 1), opacity 200ms ease, background-color 150ms ease;
 }
+.page-minimap-link[data-passed="true"] .page-minimap-dot { background: rgb(var(--blue)); }
 .page-minimap-link:is(:hover, :focus-visible) .page-minimap-dot { transform: scale(1.75); background: rgb(var(--blue)); }
-.page-minimap-link[data-passed="true"] .page-minimap-dot { transform: scale(0.35); opacity: 0; }
-.page-minimap-link[data-passed="true"]:is(:hover, :focus-visible) .page-minimap-dot { transform: scale(1.75); opacity: 1; }
 .page-minimap-link[aria-current="location"] .page-minimap-dot { opacity: 0; }
 /* The line exists only behind the reader: first dot to the current one. */
 .page-minimap-trail {
@@ -390,28 +391,6 @@ h1, h2, h3, h4, h5, h6 {
 [data-offscreen-paused],
 [data-offscreen-paused]::before,
 [data-offscreen-paused]::after { animation-play-state: paused !important; }
-
-/* ScrollRevealRail's gold scroll trail (see the component). Transform and
-   opacity only, so both paths stay off the paint pipeline. The body trails
-   a 10%-tall glowing tip; the last rail of a page flashes full gold. */
-.rail-track { position: absolute; top: 0; bottom: 0; z-index: 0; width: 1px; overflow: hidden; pointer-events: none; }
-.rail-body { position: absolute; inset: 0; background: rgba(217,160,52,0.24); transform-origin: top; transform: scaleY(0); }
-.rail-tip { position: absolute; left: 0; right: 0; top: 0; height: 10%; background: linear-gradient(to bottom, rgba(217,160,52,0.24), rgba(217,160,52,0.68)); transform: translateY(-100%); }
-.rail-flash { position: absolute; inset: 0; background: rgba(217,160,52,0.8); opacity: 0; transition: opacity 0.6s cubic-bezier(0.2,0.8,0.2,1); }
-@supports (animation-timeline: view()) {
-  .rail-scope[data-rail="css"] { view-timeline-name: --rail; }
-  .rail-scope[data-rail="css"] > .rail-track > .rail-body { animation: rail-body linear both; animation-timeline: --rail; animation-range: cover; }
-  .rail-scope[data-rail="css"] > .rail-track > .rail-tip { animation: rail-tip linear both; animation-timeline: --rail; animation-range: cover; }
-  .rail-scope[data-rail="css"] > .rail-track > .rail-flash { transition: none; animation: rail-flash linear both; animation-timeline: --rail; animation-range: cover; }
-}
-@keyframes rail-body { 0%, 10% { transform: scaleY(0); } 100% { transform: scaleY(0.9); } }
-@keyframes rail-tip { from { transform: translateY(-100%); } to { transform: translateY(900%); } }
-@keyframes rail-flash { 0%, 85% { opacity: 0; } 88%, 100% { opacity: 1; } }
-@media (prefers-reduced-motion: reduce) {
-  .rail-body, .rail-tip, .rail-flash { animation: none !important; }
-  .rail-body { transform: none; }
-  .rail-tip, .rail-flash { display: none; }
-}
 
 @keyframes softpulse { 0%,100%{opacity:1} 50%{opacity:0.35} }
 @keyframes dashmove { to { stroke-dashoffset: -16; } }

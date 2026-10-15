@@ -30,7 +30,7 @@ export default function PageClose({
 }) {
   return (
     <section id="talk-to-our-team" className="relative scroll-mt-24 border-t border-lineSoft bg-background pb-20 pt-10 lg:pb-24 lg:pt-14">
-      <ScrollRevealRail dark isLast>
+      <ScrollRevealRail>
         <ScrollReveal>
           <div className="relative mx-auto max-w-[1100px] overflow-hidden rounded-frame bg-ink px-6 py-14 text-center text-white md:px-12 md:py-20">
             <div className="absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r from-blue/70 via-blue/30 to-transparent" aria-hidden />

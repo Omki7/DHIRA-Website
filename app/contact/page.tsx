@@ -95,7 +95,7 @@ export default function ContactPage() {
         </section>
 
         <section id="offices" className="scroll-mt-24 border-t border-lineSoft bg-background pb-24 pt-16 lg:pb-32 lg:pt-20">
-          <ScrollRevealRail isLast>
+          <ScrollRevealRail>
             <SectionHeader num="03" label="Offices" setup="Three offices." payoff="One team across time zones." />
             <ScrollReveal delay={80}>
               <ul className="mt-12 grid border-t border-ink/80 sm:grid-cols-3 lg:mt-16">

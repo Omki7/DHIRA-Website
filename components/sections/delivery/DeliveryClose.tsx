@@ -21,7 +21,7 @@ export default function DeliveryClose() {
       className="relative scroll-mt-24 border-t border-lineSoft bg-background pt-16 pb-24 lg:pt-20 lg:pb-32"
     >
       <span id="login" className="absolute -top-24" aria-hidden />
-      <ScrollRevealRail dark isLast>
+      <ScrollRevealRail>
         <ScrollReveal>
           <div className="fl-sheen relative mx-auto max-w-[1060px] overflow-hidden rounded-[24px] bg-ink px-6 py-14 text-center text-white shadow-[0_20px_50px_rgba(10,14,36,0.3)] md:px-12 md:py-20">
             {/* Top blue accent hairline */}

@@ -83,7 +83,7 @@
 
 }
 .ak-story { @apply relative scroll-mt-24; }
-.ak-story-wrap { @apply mx-auto max-w-[1440px] border-x border-lineSoft px-6 py-16 sm:px-10 lg:px-16 lg:py-20; }
+.ak-story-wrap { @apply mx-auto max-w-[1440px] px-6 py-16 sm:px-10 lg:px-16 lg:py-20; }
 .ak-story-label { @apply flex gap-4 font-mono text-[11px] uppercase tracking-eyebrow text-secondary-text; }
 .ak-story-label > span { @apply text-overcast; }
 .ak-story-heading { @apply mt-7 flex flex-col items-start gap-5; }
@@ -289,7 +289,6 @@
 
 /* A dark index with compact, high-contrast specification sheets. */
 .ak-reference { @apply bg-depth text-white; }
-.ak-reference .ak-story-wrap { @apply border-white/10; }
 .ak-reference .ak-story-label { @apply text-white/70; }
 .ak-reference .ak-story-label > span { @apply text-white/50; }
 .ak-reference .ak-story-title { @apply text-white; }
