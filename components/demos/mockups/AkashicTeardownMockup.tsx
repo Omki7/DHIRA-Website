@@ -166,6 +166,11 @@ const ss = (x: number, a: number, b: number) => {
 };
 const lerp = (a: number, b: number, u: number) => a + (b - a) * u;
 const clamp = (x: number, a: number, b: number) => Math.min(b, Math.max(a, x));
+// Assigning textContent replaces the node even when the string is the same,
+// which costs a relayout on every frame of the scroll loop.
+const setText = (el: HTMLElement, text: string) => {
+  if (el.textContent !== text) el.textContent = text;
+};
 
 const mono: React.CSSProperties = { fontFamily: "var(--font-mono)" };
 const inkA = (a: number) => `rgb(var(--ink) / ${a})`;
@@ -384,32 +389,16 @@ function PointIcon({ glyph }: { glyph: string }) {
 /*  Component                                                        */
 /* ---------------------------------------------------------------- */
 
+/* Only hashes no element on the page owns. The full module ids
+   (#data-pipelines, #modules-governance...) are anchors in AkashicModules,
+   where the nav, glossary and sector pages send people; claiming them here
+   yanked every such link 9,000px back up to this scene (15 Oct 2026). */
 const HASH_MODULE_MAP: Record<string, number> = {
-  "#data-pipelines": 0,
-  "#modules-data-pipelines": 0,
   "#pipelines": 0,
-
-  "#master-data": 1,
-  "#modules-master-data": 1,
-
-  "#data-warehousing": 2,
-  "#modules-data-warehousing": 2,
   "#warehouse": 2,
-
-  "#machine-learning": 3,
-  "#modules-machine-learning": 3,
   "#ml": 3,
-
-  "#ask-ai": 4,
-  "#modules-ask-ai": 4,
   "#ask": 4,
-
-  "#business-intelligence": 5,
-  "#modules-business-intelligence": 5,
   "#bi": 5,
-
-  "#governance": 6,
-  "#modules-governance": 6,
 };
 
 const MODULE_HASHES = [
@@ -709,10 +698,10 @@ export default function AkashicTeardownMockup({ trackRef, curtainHeight }: Props
       combo.style.opacity = capAlpha.toFixed(3);
 
       const depth = Math.min(100, Math.round((cpos / 10) * 100));
-      get("pct").textContent = `${String(depth).padStart(3, "0")}%`;
+      setText(get("pct"), `${String(depth).padStart(3, "0")}%`);
       get("prog").style.width = `${depth}%`;
       const mi = Math.floor(cpos);
-      get("hudmod").textContent = mi === 0 ? "SEALED" : mi >= 8 ? "MODULAR" : HUD_NAMES[mi - 1];
+      setText(get("hudmod"), mi === 0 ? "SEALED" : mi >= 8 ? "MODULAR" : HUD_NAMES[mi - 1]);
       for (let c = 0; c < 7; c++) {
         const on = mi - 1 === c;
         tickLines[c].style.background = on ? ACC : inkA(0.4);
@@ -776,7 +765,7 @@ export default function AkashicTeardownMockup({ trackRef, curtainHeight }: Props
         get(`bar-${j}`).style.transform = `scaleY(${ss(gArr[5], 0.1 + j * 0.07, 0.42 + j * 0.07).toFixed(3)})`;
       }
       spark.style.strokeDashoffset = ((1 - ss(gArr[5], 0.35, 0.75)) * sparkLen).toFixed(1);
-      get("kpi").textContent = `${(94.2 * ss(gArr[5], 0.25, 0.7)).toFixed(1)}%`;
+      setText(get("kpi"), `${(94.2 * ss(gArr[5], 0.25, 0.7)).toFixed(1)}%`);
     };
 
     /* Gentle module nudge: a slow downward scroll that parks in the
@@ -876,6 +865,22 @@ export default function AkashicTeardownMockup({ trackRef, curtainHeight }: Props
     window.addEventListener("hashchange", onHashChange);
     window.addEventListener("popstate", onHashChange);
 
+    // The loop only runs while the stage is in range. Out of range it stops
+    // outright (a scroll back restarts it), and a slow poll stands in for
+    // the per-frame hash check: Next's hash links use pushState, which
+    // fires no event.
+    const inRangeAt = (y: number) => {
+      const { trackTop, vh, trackH } = geomRef.current;
+      return y > trackTop - vh * 1.5 && y < trackTop + trackH + vh * 0.5;
+    };
+    const wake = () => {
+      if (!raf && inRangeAt(window.scrollY)) raf = requestAnimationFrame(frame);
+    };
+    window.addEventListener("scroll", wake, { passive: true });
+    const hashPoll = window.setInterval(() => {
+      if (!raf) checkHash();
+    }, 250);
+
     const frame = (tms: number) => {
       raf = requestAnimationFrame(frame);
       checkHash();
@@ -884,7 +889,11 @@ export default function AkashicTeardownMockup({ trackRef, curtainHeight }: Props
       const trackH = geomRef.current.trackH;
       const y = window.scrollY;
       const inRange = y > trackTop - vh * 1.5 && y < trackTop + trackH + vh * 0.5;
-      if (!inRange && painted) return;
+      if (!inRange && painted) {
+        cancelAnimationFrame(raf);
+        raf = 0;
+        return;
+      }
 
       const passed = clamp(y - trackTop, 0, Math.max(1, trackH - vh));
       const target = Math.max(0, passed - curtainRef.current);
@@ -906,6 +915,8 @@ export default function AkashicTeardownMockup({ trackRef, curtainHeight }: Props
     return () => {
       cancelAnimationFrame(raf);
       cancelAnimationFrame(glideRaf);
+      window.clearInterval(hashPoll);
+      window.removeEventListener("scroll", wake);
       window.removeEventListener("resize", onResize);
       window.removeEventListener("wheel", nudgeAbort);
       window.removeEventListener("touchstart", nudgeAbort);

@@ -36,7 +36,7 @@ export default function EisPage() {
   return (
     <>
       <Nav />
-      <main className="bg-white">
+      <main id="main" className="bg-white">
         <EisHero />
         <EisGap />
         <EisCapabilities />

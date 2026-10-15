@@ -37,7 +37,7 @@ export default function ScreenProgressRail({
           {i === active && (
             <span
               key={resetKey}
-              className="absolute inset-y-0 left-0 block rounded-full bg-blue"
+              className="absolute inset-y-0 left-0 block origin-left rounded-full bg-blue"
               style={{
                 width: "100%",
                 animation: `progressFill ${durationMs}ms linear forwards`,

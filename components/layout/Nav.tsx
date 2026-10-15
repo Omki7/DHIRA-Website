@@ -2,7 +2,7 @@
 
 import type { FocusEvent, KeyboardEvent as ReactKeyboardEvent, PointerEvent } from "react";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
-import Link from "next/link";
+import RegionLink from "@/components/ui/RegionLink";
 import { usePathname } from "next/navigation";
 import DhiraLogo from "@/components/icons/DhiraLogo";
 import ThemeSwitch from "@/components/layout/ThemeSwitch";
@@ -11,7 +11,8 @@ import MegaSheet, { type SheetMotion } from "@/components/layout/nav/MegaSheet";
 import MobileNav from "@/components/layout/nav/MobileNav";
 import { Chevron, MenuIcon } from "@/components/layout/nav/NavIcons";
 import useMenuIntent from "@/hooks/useMenuIntent";
-import { NAV_CTA, NAV_MENUS, isCurrentSection } from "@/lib/navigation";
+import { NAV_CTA, NAV_LINKS, NAV_MENUS, NAV_SIGN_IN, isCurrentSection } from "@/lib/navigation";
+import { basePath } from "@/lib/region";
 
 /* ------------------------------------------------------------------ */
 /*  Site header (rebuilt 14 Oct 2026)                                  */
@@ -38,7 +39,8 @@ const triggerClass = (strong: boolean) =>
   }`;
 
 export default function Nav() {
-  const pathname = usePathname() ?? "/";
+  /* Without the region prefix, so /in/pricing marks the same menu items as /pricing. */
+  const pathname = basePath(usePathname() ?? "/");
   const { openId, hoverTrigger, leaveTrigger, enterRegion, leaveRegion, toggle, close } = useMenuIntent();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [visible, setVisible] = useState(true);
@@ -46,6 +48,8 @@ export default function Nav() {
 
   const barRef = useRef<HTMLDivElement>(null);
   const ctaRef = useRef<HTMLAnchorElement>(null);
+  /* The first plain link (Pricing): where Tab lands after the last menu. */
+  const plainRef = useRef<HTMLAnchorElement>(null);
   const triggers = useRef<Record<string, HTMLButtonElement | null>>({});
   const labels = useRef<Record<string, HTMLSpanElement | null>>({});
   const [underline, setUnderline] = useState({ left: 0, width: 0 });
@@ -73,14 +77,27 @@ export default function Nav() {
     return () => cancelAnimationFrame(frame);
   }, [openId, drawn]);
 
-  /* Hide on scroll down (30px), show on scroll up (15px) or near the top. */
+  /* Hide on scroll down (30px), show on scroll up (15px) or near the top.
+     State is only set when it flips, so a scroll frame costs no render. */
   useEffect(() => {
     let lastY = window.scrollY;
     let accumulatedDelta = 0;
+    let isScrolled: boolean | null = null;
+    let isVisible = true;
+
+    const show = (next: boolean) => {
+      if (next === isVisible) return;
+      isVisible = next;
+      setVisible(next);
+    };
 
     const handleScroll = () => {
       const currentY = window.scrollY;
-      setScrolled(currentY > 64);
+      const nextScrolled = currentY > 64;
+      if (nextScrolled !== isScrolled) {
+        isScrolled = nextScrolled;
+        setScrolled(nextScrolled);
+      }
       const delta = currentY - lastY;
 
       if ((delta > 0 && accumulatedDelta < 0) || (delta < 0 && accumulatedDelta > 0)) {
@@ -90,13 +107,13 @@ export default function Nav() {
       accumulatedDelta += delta;
 
       if (currentY < 10) {
-        setVisible(true);
+        show(true);
         accumulatedDelta = 0;
       } else if (accumulatedDelta > 30) {
-        setVisible(false);
+        show(false);
         accumulatedDelta = 0;
       } else if (accumulatedDelta < -15) {
-        setVisible(true);
+        show(true);
         accumulatedDelta = 0;
       }
 
@@ -176,7 +193,7 @@ export default function Nav() {
     close();
     const nextControl = next
       ? triggers.current[next]
-      : barRef.current?.querySelector<HTMLButtonElement>(".theme-switch") ?? ctaRef.current;
+      : plainRef.current ?? barRef.current?.querySelector<HTMLButtonElement>(".theme-switch") ?? ctaRef.current;
     nextControl?.focus();
   };
 
@@ -190,9 +207,9 @@ export default function Nav() {
         onPointerEnter={(event) => isMouse(event) && enterRegion()}
         onPointerLeave={(event) => isMouse(event) && leaveRegion()}
         onBlur={onHeaderBlur}
-        className={`sticky top-0 z-50 border-b border-subtle-stroke transition-[transform,background-color] duration-300 ease-settle ${
-          openId ? "bg-background" : "bg-background/95 backdrop-blur-md"
-        } ${showHeader ? "translate-y-0" : "-translate-y-full"}`}
+        className={`sticky top-0 z-50 border-b border-subtle-stroke bg-background transition-[transform,background-color] duration-300 ease-settle ${
+          showHeader ? "translate-y-0" : "-translate-y-full"
+        }`}
       >
         <nav aria-label="Primary" className="relative">
           <div
@@ -200,23 +217,27 @@ export default function Nav() {
             className="relative mx-auto flex h-[72px] w-full max-w-[1440px] items-center justify-between px-4 sm:px-6 lg:px-8"
           >
             <div className="flex min-w-0 items-center gap-6">
-              <Link
+              <RegionLink
                 href="/"
-                aria-label="DHIRA homepage"
-                className="flex shrink-0 items-center gap-3 text-primary-text"
+                aria-label="DHIRA - Digital Human Interfaces & Robotic Agents"
+                className="group/brand flex shrink-0 items-center gap-2.5 text-primary-text"
                 onPointerEnter={restOnPlainItem}
               >
-                <div className="flex items-center gap-1.5">
-                  <DhiraLogo className="h-9 w-9" />
-                  <span className="text-[22px] font-semibold tracking-tight">DHIRA</span>
+                <DhiraLogo className="h-9 w-9 shrink-0" />
+                <div className="flex flex-col justify-center">
+                  <span className="text-[20px] font-semibold tracking-tight leading-none">DHIRA</span>
+                  <span
+                    aria-hidden="true"
+                    className="hidden text-[10px] leading-none tracking-[0.03em] text-secondary-text mt-1.5 md:block lg:hidden xl:block"
+                  >
+                    <strong className="font-bold text-blue">D</strong>igital{" "}
+                    <strong className="font-bold text-blue">H</strong>uman{" "}
+                    <strong className="font-bold text-blue">I</strong>nterfaces &amp;{" "}
+                    <strong className="font-bold text-blue">R</strong>obotic{" "}
+                    <strong className="font-bold text-blue">A</strong>gents
+                  </span>
                 </div>
-                <span
-                  aria-hidden="true"
-                  className="hidden max-w-[150px] border-l border-default-stroke pl-3 text-[11px] leading-[1.25] tracking-[0.04em] text-secondary-text md:block"
-                >
-                  Digital Human Interfaces & Robotic Agents
-                </span>
-              </Link>
+              </RegionLink>
 
               <ul className="hidden items-center gap-0.5 lg:flex">
                 {NAV_MENUS.map((item) => {
@@ -248,12 +269,36 @@ export default function Nav() {
                     </li>
                   );
                 })}
+                {NAV_LINKS.map((link, index) => (
+                  <li key={link.href}>
+                    <RegionLink
+                      ref={index === 0 ? plainRef : undefined}
+                      href={link.href}
+                      aria-current={link.match.some((prefix) => pathname === prefix) ? "page" : undefined}
+                      className={triggerClass(link.match.some((prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`)))}
+                      onPointerEnter={restOnPlainItem}
+                      onClick={close}
+                    >
+                      {link.label}
+                    </RegionLink>
+                  </li>
+                ))}
               </ul>
             </div>
 
             <div className="flex shrink-0 items-center gap-2" onPointerEnter={restOnPlainItem}>
               <ThemeSwitch />
-              <Link
+              {/* From xl only: at 1024 the six items leave no room for it.
+                  Below xl it lives in the drawer and the Akashic sheet's foot. */}
+              <RegionLink
+                href={NAV_SIGN_IN.href}
+                className="hidden h-10 items-center rounded-btn px-3 text-[15px] font-medium text-secondary-text transition-colors duration-150 hover:text-ink xl:inline-flex"
+                onPointerEnter={restOnPlainItem}
+                onClick={close}
+              >
+                {NAV_SIGN_IN.label}
+              </RegionLink>
+              <RegionLink
                 ref={ctaRef}
                 href={NAV_CTA.href}
                 className="btn-primary hidden text-sm sm:inline-flex"
@@ -261,7 +306,7 @@ export default function Nav() {
                 onClick={close}
               >
                 {NAV_CTA.label}
-              </Link>
+              </RegionLink>
               <button
                 type="button"
                 className="btn-ghost lg:hidden"
@@ -301,12 +346,14 @@ export default function Nav() {
       </header>
 
       {/* Focus scrim: blue-black (Rule 5), never neutral black. Clicking it
-          closes the menu. Desktop only; the drawer covers the screen. */}
+          closes the menu. Desktop only; the drawer covers the screen. The
+          blur exists only while open: a full-screen backdrop-filter left on
+          the page is re-blurred on every scroll frame. */}
       <div
         aria-hidden
         onClick={close}
-        className={`fixed inset-0 z-40 hidden bg-depth/20 backdrop-blur-[3px] transition-[opacity,visibility] duration-250 ease-settle lg:block ${
-          openId ? "visible opacity-100" : "invisible opacity-0"
+        className={`fixed inset-0 z-40 hidden bg-depth/20 transition-[opacity,visibility] duration-250 ease-settle lg:block ${
+          openId ? "visible opacity-100 backdrop-blur-[3px]" : "invisible opacity-0"
         }`}
       />
 

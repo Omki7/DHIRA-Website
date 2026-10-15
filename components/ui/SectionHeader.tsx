@@ -9,6 +9,7 @@
  * the second half of the argument.
  *
  * `children` sits under the lede (a link, a control), still in the column.
+ * `titleAs="h1"` when the section opens the page (/pricing has no hero).
  */
 
 import type { ReactNode } from "react";
@@ -26,6 +27,7 @@ export default function SectionHeader({
   payoff,
   lede,
   tone = "light",
+  titleAs,
   children,
 }: {
   num: string;
@@ -35,6 +37,7 @@ export default function SectionHeader({
   payoff: ReactNode;
   lede?: ReactNode;
   tone?: Tone;
+  titleAs?: "h1" | "h2";
   children?: ReactNode;
 }) {
   const dark = tone === "depth";
@@ -45,7 +48,7 @@ export default function SectionHeader({
       </ScrollReveal>
       <div className="mt-10 max-w-[46rem] lg:mt-12">
         <ScrollReveal delay={80}>
-          <TwoToneTitle setup={setup} payoff={payoff} tone={tone} />
+          <TwoToneTitle as={titleAs} setup={setup} payoff={payoff} tone={tone} />
         </ScrollReveal>
         {lede && (
           <ScrollReveal delay={140}>

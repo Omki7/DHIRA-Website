@@ -195,7 +195,7 @@ function RetailSystemsRail() {
 
 export default function RetailHero() {
   return (
-    <section className="relative overflow-hidden bg-ink text-white">
+    <section id="hero" className="relative overflow-hidden bg-ink text-white">
       <Image
         src="/sectors/retail-hq.jpg"
         alt="Bright retail store aisle with stocked shelves receding into the distance"

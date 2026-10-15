@@ -1,4 +1,4 @@
-import Link from "next/link";
+import RegionLink from "@/components/ui/RegionLink";
 import { NAV_ANNOUNCEMENT } from "@/lib/navigation";
 import { Arrow } from "./NavIcons";
 
@@ -15,7 +15,7 @@ export default function AnnouncementBar() {
 
   return (
     <div className="nav-announce relative z-[45] border-b border-subtle-stroke bg-background">
-      <Link
+      <RegionLink
         href={href}
         className="group mx-auto flex h-9 max-w-[1440px] items-center justify-center gap-2.5 px-4 text-[12px] sm:px-6 sm:text-[13px] lg:px-8"
       >
@@ -27,7 +27,7 @@ export default function AnnouncementBar() {
           <Arrow className="transition-transform duration-250 ease-settle group-hover:translate-x-0.5" />
         </span>
         <Arrow className="text-ink sm:hidden" />
-      </Link>
+      </RegionLink>
     </div>
   );
 }

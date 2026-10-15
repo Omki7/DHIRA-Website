@@ -276,6 +276,104 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
+/* One link per section: the labels unfold without moving the dots. */
+.page-minimap,
+.page-minimap-sheet {
+  --minimap-step: clamp(24px, calc((100dvh - 240px) / var(--minimap-count)), 32px);
+  --minimap-edge: 12px;
+  --minimap-open-w: 272px;
+}
+@media (min-width: 1280px) {
+  .page-minimap,
+  .page-minimap-sheet { --minimap-edge: 20px; }
+}
+.page-minimap {
+  right: var(--minimap-edge);
+  width: 44px;
+  transition: width 250ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.page-minimap[data-expanded="true"] { width: var(--minimap-open-w); }
+/* The drawer: docked to the screen edge (square there, rounded only where it
+   meets the page), as tall as the rail and as wide as the longest title. Its
+   leading edge starts at the dots and travels with the labels' unfold, 12px
+   ahead of it, so the titles are uncovered onto paper rather than appearing
+   over the image. */
+.page-minimap-sheet {
+  width: calc(var(--minimap-open-w) + var(--minimap-edge) + 12px);
+  height: calc(min(var(--minimap-count) * var(--minimap-step), 100dvh - 240px) + 28px);
+  border: 1px solid rgb(var(--lineSoft));
+  border-right-width: 0;
+  border-radius: 14px 0 0 14px;
+  background: rgb(var(--background));
+  box-shadow: var(--shadow-card);
+  opacity: 0;
+  transform: translate3d(calc(var(--minimap-open-w) - 44px), -50%, 0);
+  transition: transform 250ms cubic-bezier(0.2, 0.8, 0.2, 1), opacity 160ms ease 60ms;
+}
+.page-minimap-sheet[data-expanded="true"] {
+  opacity: 1;
+  transform: translate3d(0, -50%, 0);
+  transition: transform 250ms cubic-bezier(0.2, 0.8, 0.2, 1), opacity 100ms ease;
+}
+.page-minimap-scroll {
+  max-height: calc(100dvh - 240px);
+  overflow-x: hidden;
+  overflow-y: auto;
+  scrollbar-width: none;
+  overscroll-behavior: contain;
+}
+.page-minimap-scroll::-webkit-scrollbar { display: none; }
+.page-minimap-link {
+  height: var(--minimap-step);
+  color: rgb(var(--secondary-text));
+  transition: color 150ms ease;
+}
+.page-minimap-label {
+  opacity: 0;
+  transform: translateX(6px);
+  transition: opacity 140ms ease, transform 250ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.page-minimap[data-expanded="true"] .page-minimap-label { opacity: 1; transform: translateX(0); }
+/* Hover and the current section share the brand blue: title, number and dot
+   light together, so the eye ties each row to its dot. */
+.page-minimap-link:is(:hover, :focus-visible, [aria-current="location"]) { color: rgb(var(--blue)); }
+.page-minimap-link[aria-current="location"] { font-weight: 500; }
+.page-minimap-number { color: rgb(var(--overcast)); transition: color 150ms ease; }
+.page-minimap-link:is(:hover, :focus-visible, [aria-current="location"]) .page-minimap-number { color: inherit; }
+/* Beads on a thread: a keyline in the page colour cuts the line around each
+   dot, and over photographs or dark bands the same keyline keeps the blue
+   legible. Passed dots sink into the progress line; hover brings them back. */
+.page-minimap-dot {
+  background: rgb(var(--blue) / 0.7);
+  box-shadow: 0 0 0 2px rgb(var(--background));
+  transition: transform 220ms cubic-bezier(0.2, 0.8, 0.2, 1), opacity 200ms ease, background-color 150ms ease;
+}
+.page-minimap-link:is(:hover, :focus-visible) .page-minimap-dot { transform: scale(1.75); background: rgb(var(--blue)); }
+.page-minimap-link[data-passed="true"] .page-minimap-dot { transform: scale(0.35); opacity: 0; }
+.page-minimap-link[data-passed="true"]:is(:hover, :focus-visible) .page-minimap-dot { transform: scale(1.75); opacity: 1; }
+.page-minimap-link[aria-current="location"] .page-minimap-dot { opacity: 0; }
+/* The line exists only behind the reader: first dot to the current one. */
+.page-minimap-trail {
+  top: calc(var(--minimap-step) / 2);
+  height: calc((var(--minimap-count) - 1) * var(--minimap-step));
+  background: rgb(var(--blue));
+  transform: scaleY(var(--minimap-progress));
+  transition: transform 350ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+/* You are here: a solid bead in an open ring. It moves on `translate` so the
+   hover `scale` grows it in place instead of scaling its offset too. */
+.page-minimap-marker {
+  background: rgb(var(--blue));
+  box-shadow: 0 0 0 2px rgb(var(--background)), 0 0 0 3px rgb(var(--blue) / 0.35);
+  translate: 0 calc((var(--minimap-active) + 0.5) * var(--minimap-step) - 4px);
+  transition: translate 350ms cubic-bezier(0.2, 0.8, 0.2, 1), scale 220ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.page-minimap:has(.page-minimap-link[aria-current="location"]:is(:hover, :focus-visible)) .page-minimap-marker { scale: 1.25; }
+@media (pointer: coarse) {
+  .page-minimap,
+  .page-minimap-sheet { --minimap-step: 44px; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -287,10 +385,40 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
+/* OffscreenAnimationGate: an infinite animation whose section is off
+   screen holds still until it scrolls back in. */
+[data-offscreen-paused],
+[data-offscreen-paused]::before,
+[data-offscreen-paused]::after { animation-play-state: paused !important; }
+
+/* ScrollRevealRail's gold scroll trail (see the component). Transform and
+   opacity only, so both paths stay off the paint pipeline. The body trails
+   a 10%-tall glowing tip; the last rail of a page flashes full gold. */
+.rail-track { position: absolute; top: 0; bottom: 0; z-index: 0; width: 1px; overflow: hidden; pointer-events: none; }
+.rail-body { position: absolute; inset: 0; background: rgba(217,160,52,0.24); transform-origin: top; transform: scaleY(0); }
+.rail-tip { position: absolute; left: 0; right: 0; top: 0; height: 10%; background: linear-gradient(to bottom, rgba(217,160,52,0.24), rgba(217,160,52,0.68)); transform: translateY(-100%); }
+.rail-flash { position: absolute; inset: 0; background: rgba(217,160,52,0.8); opacity: 0; transition: opacity 0.6s cubic-bezier(0.2,0.8,0.2,1); }
+@supports (animation-timeline: view()) {
+  .rail-scope[data-rail="css"] { view-timeline-name: --rail; }
+  .rail-scope[data-rail="css"] > .rail-track > .rail-body { animation: rail-body linear both; animation-timeline: --rail; animation-range: cover; }
+  .rail-scope[data-rail="css"] > .rail-track > .rail-tip { animation: rail-tip linear both; animation-timeline: --rail; animation-range: cover; }
+  .rail-scope[data-rail="css"] > .rail-track > .rail-flash { transition: none; animation: rail-flash linear both; animation-timeline: --rail; animation-range: cover; }
+}
+@keyframes rail-body { 0%, 10% { transform: scaleY(0); } 100% { transform: scaleY(0.9); } }
+@keyframes rail-tip { from { transform: translateY(-100%); } to { transform: translateY(900%); } }
+@keyframes rail-flash { 0%, 85% { opacity: 0; } 88%, 100% { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) {
+  .rail-body, .rail-tip, .rail-flash { animation: none !important; }
+  .rail-body { transform: none; }
+  .rail-tip, .rail-flash { display: none; }
+}
+
 @keyframes softpulse { 0%,100%{opacity:1} 50%{opacity:0.35} }
 @keyframes dashmove { to { stroke-dashoffset: -16; } }
 @keyframes route-flow { from { stroke-dashoffset: 140; } to { stroke-dashoffset: 0; } }
-@keyframes progressFill { 0% { width: 0%; } 100% { width: 100%; } }
+/* Progress bars fill with scaleX (origin-left on the bar), never width:
+   width relayouts the page every frame for as long as a carousel cycles. */
+@keyframes progressFill { from { transform: scaleX(0); } to { transform: scaleX(1); } }
 @keyframes sa-info { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
 .sa-info-in { animation: sa-info 0.4s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
 @keyframes ak-drop { 0% { transform: translateY(-4px); opacity: 0; } 25% { opacity: 1; } 100% { transform: translateY(24px); opacity: 0; } }
@@ -483,15 +611,21 @@ h1, h2, h3, h4, h5, h6 {
   opacity: 0;
   pointer-events: none;
 }
+/* Only the centre card is live. Every other card's loops hold still (its
+   SMIL is paused in AkashicModuleScreensMockup): five screens animating at
+   once kept /akashic's main thread busy on every frame (Rule 6a). */
+.hs-card:not([data-pos="center"]) *,
+.hs-card:not([data-pos="center"]) *::before,
+.hs-card:not([data-pos="center"]) *::after { animation-play-state: paused !important; }
 
 /* Platform Section Animations */
 @keyframes ps-pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
 @keyframes ps-caret-blink { 0%,100%{opacity:1} 50%{opacity:0} }
 @keyframes vconn-flow { 0%{stroke-dashoffset:540} 100%{stroke-dashoffset:0} }
 @keyframes ps-crawl { 0%{left:1%;opacity:0} 9%{opacity:1} 90%{opacity:1} 100%{left:63%;opacity:0} }
-@keyframes ps-zip { 0%{left:0%;opacity:0} 15%{opacity:1} 85%{opacity:1} 100%{left:100%;opacity:0} }
+@keyframes ps-zip { 0%{transform:translateX(0);opacity:0} 15%{opacity:1} 85%{opacity:1} 100%{transform:translateX(100%);opacity:0} }
 @keyframes ps-ring { 0%{transform:scale(0.85);opacity:0.6} 70%{transform:scale(1.8);opacity:0} 100%{transform:scale(1.8);opacity:0} }
-@keyframes ps-dash { to{background-position:32px 0} }
+@keyframes ps-dash { to{transform:translateX(32px)} }
 @keyframes ps-flow { to{stroke-dashoffset:-22} }
 @keyframes ps-float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-4px)} }
 @keyframes ps-breathe { 0%,100%{transform:scale(1)} 50%{transform:scale(1.045)} }
@@ -511,8 +645,20 @@ h1, h2, h3, h4, h5, h6 {
 @keyframes akx-fillx { from{transform:scaleX(0)} to{transform:scaleX(1)} }
 @keyframes akx-mark { from{background-size:0% 100%} to{background-size:100% 100%} }
 
+/* /akashic hero module moments (AkashicModuleMomentsMockup). Transform and
+   opacity only (Rule 6a). `mm-run` reads its travel from `--run` on the
+   element, so one keyframe serves every lane length. */
+@keyframes mm-run { 0%{transform:translateX(0);opacity:0} 12%{opacity:1} 88%{opacity:1} 100%{transform:translateX(var(--run,320px));opacity:0} }
+@keyframes mm-fade { from{opacity:0} to{opacity:1} }
+@keyframes mm-slide { from{opacity:0; transform:translateX(-14px)} to{opacity:1; transform:translateX(0)} }
+@keyframes mm-dim { from{opacity:1} to{opacity:0.55} }
+@keyframes mm-out { from{opacity:1} to{opacity:0} }
+@keyframes mm-growy { from{transform:scaleY(0)} to{transform:scaleY(1)} }
+@keyframes mm-land { from{opacity:0; transform:translate(var(--dx,-120px),var(--dy,0px)) scale(var(--s,1.8))} to{opacity:1; transform:translate(0,0) scale(1)} }
+
 /* Meet Akashic connectivity strip — seamless single-row marquee. Track holds
    two identical copies; animating -50% → 0 slides the row left-to-right. */
+@keyframes uc-load { from { transform: scaleX(0); } to { transform: scaleX(1); } }
 @keyframes uc-marquee { from{transform:translateX(-50%)} to{transform:translateX(0)} }
 
 /* Mission Console — live telemetry + dossier stage */

@@ -36,7 +36,7 @@ export default function FinancePage() {
   return (
     <>
       <Nav />
-      <main className="bg-background">
+      <main id="main" className="bg-background">
         <FinanceHero />
         <FinanceChain />
         <SectorMap slug="finance" />

@@ -194,7 +194,7 @@ function GridSystemsRail() {
 
 export default function EnergyHero() {
   return (
-    <section className="relative overflow-hidden bg-ink text-white">
+    <section id="hero" className="relative overflow-hidden bg-ink text-white">
       <Image
         src="/sectors/energy-hq.jpg"
         alt="High-voltage transmission towers and lines against a dusk sky"

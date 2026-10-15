@@ -9,15 +9,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-
-type Interest = "Platform deployment" | "Product build" | "Advisory" | "Just exploring";
-
-const interests: Interest[] = [
-  "Platform deployment",
-  "Product build",
-  "Advisory",
-  "Just exploring",
-];
+import ContactForm from "@/components/layout/ContactForm";
 
 const assurances = [
   { id: "disc", title: "30-minute technical discovery", desc: "No pitch deck, just direct engineering dialogue." },
@@ -59,25 +51,10 @@ function AssuranceIcon({ type }: { type: string }) {
 
 export default function ContactModal() {
   const [open, setOpen] = useState(false);
-  const [sent, setSent] = useState(false);
-  const [submitting, setSubmitting] = useState(false);
+  /* Each open mounts a fresh form, so a sent message never shows on reopen. */
+  const [session, setSession] = useState(0);
+  const [progressPercent, setProgressPercent] = useState(0);
   const dialogRef = useRef<HTMLDivElement>(null);
-
-  const [form, setForm] = useState({
-    name: "",
-    email: "",
-    company: "",
-    interest: "" as "" | Interest,
-    message: "",
-  });
-
-  // Calculate form completion percentage for the micro progress bar
-  const filledCount = [form.name, form.email, form.company, form.interest, form.message].filter(Boolean).length;
-  const progressPercent = Math.round((filledCount / 5) * 100);
-
-  function update(key: keyof typeof form, value: string) {
-    setForm((prev) => ({ ...prev, [key]: value }));
-  }
 
   const close = useCallback(() => setOpen(false), []);
 
@@ -86,11 +63,14 @@ export default function ContactModal() {
       if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey) return;
       const anchor = (e.target as HTMLElement)?.closest("a");
       if (!anchor) return;
+      // The section rail visits the closing section; only its CTA opens this dialog.
+      if (anchor.hasAttribute("data-section-link")) return;
       const href = anchor.getAttribute("href") || "";
       const hash = href.includes("#") ? `#${href.split("#")[1]}` : "";
       if (!CONTACT_HASHES.includes(hash)) return;
       e.preventDefault();
-      setSent(false);
+      setSession((n) => n + 1);
+      setProgressPercent(0);
       setOpen(true);
     }
     document.addEventListener("click", onClick, true);
@@ -111,14 +91,6 @@ export default function ContactModal() {
       document.body.style.overflow = prevOverflow;
     };
   }, [open, close]);
-
-  async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    setSubmitting(true);
-    await new Promise((resolve) => setTimeout(resolve, 750));
-    setSubmitting(false);
-    setSent(true);
-  }
 
   return (
     <AnimatePresence>
@@ -224,152 +196,7 @@ export default function ContactModal() {
 
               {/* Right Column — The Form */}
               <div className="px-6 py-8 md:px-8 bg-background relative z-10">
-                <AnimatePresence mode="wait">
-                  {sent ? (
-                    <motion.div
-                      key="success"
-                      initial={{ opacity: 0, scale: 0.94 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      exit={{ opacity: 0 }}
-                      transition={{ duration: 0.3 }}
-                      className="flex h-full min-h-[320px] flex-col items-center justify-center text-center"
-                    >
-                      <motion.span
-                        initial={{ scale: 0 }}
-                        animate={{ scale: 1 }}
-                        transition={{ type: "spring", stiffness: 400, damping: 20, delay: 0.1 }}
-                        className="flex h-14 w-14 items-center justify-center rounded-full border border-blue-border bg-blue-subtle text-blue shadow-xs"
-                      >
-                        <svg viewBox="0 0 24 24" className="h-7 w-7" fill="none" aria-hidden>
-                          <path d="M5 12.5l4.2 4.2L19 7" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
-                        </svg>
-                      </motion.span>
-                      <h3 className="mt-5 text-[22px] font-semibold tracking-tight text-primary-text">
-                        Your message is sent{form.name ? `, ${form.name.split(" ")[0]}` : ""}.
-                      </h3>
-                      <p className="mt-2.5 max-w-[26em] text-[14px] leading-relaxed text-secondary-text">
-                        It&rsquo;s with our team now. Expect a reply within one business day from a real engineer who read it.
-                      </p>
-                      <button type="button" onClick={close} className="btn-secondary mt-7 px-6">
-                        Close
-                      </button>
-                    </motion.div>
-                  ) : (
-                    <form onSubmit={handleSubmit} noValidate className="space-y-4">
-                      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                        <div>
-                          <label htmlFor="cm-name" className="mb-1.5 block font-mono text-[10px] font-semibold uppercase tracking-eyebrow text-tertiary-text">
-                            Full name
-                          </label>
-                          <input
-                            id="cm-name"
-                            type="text"
-                            required
-                            autoComplete="name"
-                            value={form.name}
-                            onChange={(e) => update("name", e.target.value)}
-                            className="h-11 w-full rounded-[10px] border border-subtle-stroke bg-background px-3.5 text-[14px] text-primary-text shadow-input transition-all duration-200 placeholder:text-tertiary-text focus:border-blue focus:outline-none focus:ring-2 focus:ring-blue/15"
-                            placeholder="Veman Chippa"
-                          />
-                        </div>
-                        <div>
-                          <label htmlFor="cm-email" className="mb-1.5 block font-mono text-[10px] font-semibold uppercase tracking-eyebrow text-tertiary-text">
-                            Work email
-                          </label>
-                          <input
-                            id="cm-email"
-                            type="email"
-                            required
-                            autoComplete="email"
-                            value={form.email}
-                            onChange={(e) => update("email", e.target.value)}
-                            className="h-11 w-full rounded-[10px] border border-subtle-stroke bg-background px-3.5 text-[14px] text-primary-text shadow-input transition-all duration-200 placeholder:text-tertiary-text focus:border-blue focus:outline-none focus:ring-2 focus:ring-blue/15"
-                            placeholder="veman.chippa@dhira.ai"
-                          />
-                        </div>
-                        <div>
-                          <label htmlFor="cm-company" className="mb-1.5 block font-mono text-[10px] font-semibold uppercase tracking-eyebrow text-tertiary-text">
-                            Company
-                          </label>
-                          <input
-                            id="cm-company"
-                            type="text"
-                            required
-                            autoComplete="organization"
-                            value={form.company}
-                            onChange={(e) => update("company", e.target.value)}
-                            className="h-11 w-full rounded-[10px] border border-subtle-stroke bg-background px-3.5 text-[14px] text-primary-text shadow-input transition-all duration-200 placeholder:text-tertiary-text focus:border-blue focus:outline-none focus:ring-2 focus:ring-blue/15"
-                            placeholder="Dhira ai"
-                          />
-                        </div>
-                        <div>
-                          <label htmlFor="cm-interest" className="mb-1.5 block font-mono text-[10px] font-semibold uppercase tracking-eyebrow text-tertiary-text">
-                            I&rsquo;m interested in
-                          </label>
-                          <select
-                            id="cm-interest"
-                            value={form.interest}
-                            onChange={(e) => update("interest", e.target.value as Interest)}
-                            className={`h-11 w-full rounded-[10px] border border-subtle-stroke bg-background px-3.5 text-[14px] shadow-input transition-all duration-200 appearance-none bg-[url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2212%22 height=%2212%22 viewBox=%220 0 12 12%22 fill=%22none%22><path d=%22M2.5 4.5L6 8l3.5-3.5%22 stroke=%22%236f7988%22 stroke-width=%221.4%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22/></svg>')] bg-[length:12px] bg-[right_14px_center] bg-no-repeat pr-9 focus:border-blue focus:outline-none focus:ring-2 focus:ring-blue/15 ${
-                              form.interest ? "text-primary-text" : "text-tertiary-text"
-                            }`}
-                          >
-                            <option value="" disabled>
-                              Select one
-                            </option>
-                            {interests.map((opt) => (
-                              <option key={opt} value={opt} className="text-primary-text">
-                                {opt}
-                              </option>
-                            ))}
-                          </select>
-                        </div>
-                      </div>
-
-                      <div>
-                        <label htmlFor="cm-message" className="mb-1.5 block font-mono text-[10px] font-semibold uppercase tracking-eyebrow text-tertiary-text">
-                          What are you trying to solve?
-                        </label>
-                        <textarea
-                          id="cm-message"
-                          required
-                          rows={4}
-                          value={form.message}
-                          onChange={(e) => update("message", e.target.value)}
-                          className="w-full rounded-[10px] border border-subtle-stroke bg-background px-3.5 py-3 text-[14px] leading-relaxed text-primary-text shadow-input transition-all duration-200 resize-none placeholder:text-tertiary-text focus:border-blue focus:outline-none focus:ring-2 focus:ring-blue/15"
-                          placeholder="Tell us about your data challenge, project goals, or questions..."
-                        />
-                      </div>
-
-                      <button
-                        type="submit"
-                        disabled={submitting}
-                        className="btn-primary mt-5 h-11 w-full text-[15px] font-semibold transition-all duration-200 hover:shadow-md disabled:opacity-70 flex items-center justify-center gap-2 group"
-                      >
-                        {submitting ? (
-                          <span className="flex items-center gap-2">
-                            <svg className="h-4 w-4 animate-spin text-white" viewBox="0 0 24 24" fill="none">
-                              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
-                            </svg>
-                            Sending message…
-                          </span>
-                        ) : (
-                          <>
-                            <span>Send message</span>
-                            <svg width="13" height="13" viewBox="0 0 13 13" fill="none" className="transition-transform duration-200 group-hover:translate-x-1" aria-hidden>
-                              <path fillRule="evenodd" clipRule="evenodd" d="M10.85 6.85a.5.5 0 0 0 0-.7L8.35 3.65a.5.5 0 1 0-.7.7L9.29 6H2.5a.5.5 0 0 0 0 1h6.79L7.65 8.65a.5.5 0 1 0 .7.7l2.5-2.5Z" fill="currentColor" />
-                            </svg>
-                          </>
-                        )}
-                      </button>
-
-                      <p className="mt-3 text-center text-[12px] leading-relaxed text-tertiary-text">
-                        By sending this you agree we may contact you about your enquiry.
-                      </p>
-                    </form>
-                  )}
-                </AnimatePresence>
+                <ContactForm key={session} idPrefix="cm" onProgress={setProgressPercent} onDone={close} />
               </div>
             </div>
           </motion.div>

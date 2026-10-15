@@ -19,9 +19,10 @@
  * real captures when they exist.
  */
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import Link from "next/link";
 import ScrollReveal from "@/components/ui/ScrollReveal";
+import useOnScreen from "@/hooks/useOnScreen";
 import AkashicLogo from "@/components/icons/AkashicLogo";
 import { BlueChip, Capillary, CardBadge } from "@/components/sections/akashic/AkashicCardChrome";
 
@@ -124,7 +125,11 @@ const SLIDE_MS = 6000;
 
 export default function AkashicSolutions() {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [isPaused, setIsPaused] = useState(false);
+  const [isHeld, setIsPaused] = useState(false);
+  const sectionRef = useRef<HTMLElement>(null);
+  const onScreen = useOnScreen(sectionRef);
+  // Off screen counts as paused: the slides only advance where they are seen.
+  const isPaused = isHeld || !onScreen;
 
   const nextSlide = useCallback(() => {
     setCurrentIndex((prev) => (prev + 1) % solutions.length);
@@ -141,7 +146,7 @@ export default function AkashicSolutions() {
   }, [nextSlide, isPaused]);
 
   return (
-    <section id="solutions" className="ak-depth relative scroll-mt-24 overflow-hidden">
+    <section ref={sectionRef} id="solutions" className="ak-depth relative scroll-mt-24 overflow-hidden">
       {/* Same precisely-cut dark slab as [05]: crisp seams, blue horizon
           glows, machined dot texture. The page's second dark chapter. */}
       <div className="dot-grid-dark pointer-events-none absolute inset-0 opacity-[0.14]" aria-hidden />
@@ -176,7 +181,7 @@ export default function AkashicSolutions() {
               {/* Navigation arrows */}
               <button
                 onClick={prevSlide}
-                className="absolute left-2 top-1/2 z-30 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-card-line bg-white/95 text-ink shadow-frame backdrop-blur transition-colors duration-250 ease-settle hover:border-blue-border hover:text-blue focus:outline-none sm:-left-5"
+                className="absolute left-2 top-1/2 z-30 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-card-line bg-white/95 text-ink shadow-frame transition-colors duration-250 ease-settle hover:border-blue-border hover:text-blue focus:outline-none sm:-left-5"
                 aria-label="Previous solution"
               >
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
@@ -185,7 +190,7 @@ export default function AkashicSolutions() {
               </button>
               <button
                 onClick={nextSlide}
-                className="absolute right-2 top-1/2 z-30 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-card-line bg-white/95 text-ink shadow-frame backdrop-blur transition-colors duration-250 ease-settle hover:border-blue-border hover:text-blue focus:outline-none sm:-right-5"
+                className="absolute right-2 top-1/2 z-30 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-card-line bg-white/95 text-ink shadow-frame transition-colors duration-250 ease-settle hover:border-blue-border hover:text-blue focus:outline-none sm:-right-5"
                 aria-label="Next solution"
               >
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>

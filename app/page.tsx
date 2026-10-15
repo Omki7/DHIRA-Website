@@ -18,7 +18,7 @@ export default function Home() {
   return (
     <>
       <Nav />
-      <main data-theme-page="home" className="bg-background">
+      <main id="main" data-theme-page="home" className="bg-background">
         <Hero />
         <ProblemSection />
         <MeetAkashic />

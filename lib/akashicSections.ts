@@ -342,7 +342,6 @@ export const AKASHIC_STORY = {
 
 export const AKASHIC_SECTIONS: PageSection[] = [
   { id: "hero", label: "Introduction" },
-  { id: "platform-screens", label: "Platform screens" },
   { id: "akashic-in-action", label: "Ask Akashic", eyebrow: "[01]" },
   { id: "how-it-works", label: "How it works", eyebrow: "[02]" },
   { id: "architecture", label: "Where it runs", eyebrow: "[03]" },

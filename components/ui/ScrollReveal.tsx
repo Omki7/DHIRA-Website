@@ -36,7 +36,7 @@ export default function ScrollReveal({
           observer.disconnect();
         }
       },
-      { threshold: 0.1, rootMargin: "0px 0px -80px 0px" }
+      { threshold: 0, rootMargin: "0px 0px -80px 0px" }
     );
 
     observer.observe(node);
@@ -50,7 +50,7 @@ export default function ScrollReveal({
   return (
     <div
       ref={ref}
-      className={`transition-all duration-700 ease-settle motion-reduce:transform-none motion-reduce:opacity-100 motion-reduce:transition-none ${className} ${
+      className={`transition-[opacity,transform] duration-500 ease-settle motion-reduce:transform-none motion-reduce:opacity-100 motion-reduce:transition-none ${className} ${
         visible ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"
       }`}
     >

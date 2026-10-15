@@ -92,7 +92,7 @@ const patientSignals = [
 
 export default function HealthcareHero({ content }: { content: SectorContent }) {
   return (
-    <>
+    <div id="hero">
       <div className="lg:hidden">
         <SectorHero content={content} />
       </div>
@@ -204,6 +204,6 @@ export default function HealthcareHero({ content }: { content: SectorContent }) 
           </ScrollReveal>
         </ScrollRevealRail>
       </section>
-    </>
+    </div>
   );
 }

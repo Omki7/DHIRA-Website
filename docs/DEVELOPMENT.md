@@ -54,4 +54,9 @@ variables that don't exist.
 - Do not add a component-local `<style dangerouslySetInnerHTML>` keyframe block —
   put keyframes in `globals.css` (see DESIGN_SYSTEM §5).
 - Do not point images at paths absent from `public/` (Rule 7).
+- Do not add a public route without registering it in `lib/siteRoutes.ts`
+  (sitemap.xml, the /site-map page and llms.txt all read it), and do not give a
+  page's `<main>` anything but `id="main"` (the skip link's target).
+- Do not edit `sitemap.xml`, `robots.txt`, `llms.txt` or the RSS feed by hand:
+  they are generated from `lib/`.
 - Do not reference the retired `design.md`.

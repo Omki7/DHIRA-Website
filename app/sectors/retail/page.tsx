@@ -36,7 +36,7 @@ export default function RetailPage() {
   return (
     <>
       <Nav />
-      <main className="bg-background">
+      <main id="main" className="bg-background">
         <RetailHero />
         <RetailShelf />
         <SectorMap slug="retail" />

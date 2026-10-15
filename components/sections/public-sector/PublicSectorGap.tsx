@@ -92,10 +92,11 @@ function IndiaVisual() {
   return (
     <div className="flex flex-col items-center gap-5 sm:flex-row sm:gap-3">
       <FragmentedIndia />
-      <span
-        className="hidden h-px min-w-[36px] flex-1 bg-[length:16px_1px] bg-repeat-x bg-[repeating-linear-gradient(90deg,#C8D2F5_0_8px,transparent_8px_16px)] animate-[ps-dash_1.8s_linear_infinite] sm:block"
-        aria-hidden
-      />
+      {/* The dashes travel by transform on an inner strip (Rule 6a), not by
+          background-position, which repainted the line every frame. */}
+      <span className="relative hidden h-px min-w-[36px] flex-1 overflow-hidden sm:block" aria-hidden>
+        <span className="absolute inset-y-0 -left-8 right-0 bg-[length:16px_1px] bg-repeat-x bg-[repeating-linear-gradient(90deg,#C8D2F5_0_8px,transparent_8px_16px)] animate-[ps-dash_1.8s_linear_infinite]" />
+      </span>
       <div className="w-full max-w-[210px] shrink-0 rounded-[10px] border border-subtle-stroke bg-white px-3.5 py-3 shadow-card">
         <div className="flex items-center justify-between gap-2">
           <span className="font-mono text-[8.5px] font-bold uppercase tracking-[0.08em] text-ink">
@@ -157,10 +158,11 @@ function LagVisual() {
     <div className="w-full max-w-[420px]">
       <div className="relative">
         <div className="absolute inset-x-1 top-[5px] h-px bg-[length:12px_1px] bg-repeat-x bg-[repeating-linear-gradient(90deg,#D3D8DF_0_6px,transparent_6px_12px)]" aria-hidden />
-        <span
-          className="absolute top-[1px] h-[9px] w-[9px] rounded-full bg-blue shadow-[0_0_0_3px_rgba(62,99,221,0.15)] animate-[ps-zip_8s_linear_infinite]"
-          aria-hidden
-        />
+        {/* A full-width carrier slides the dot by transform (Rule 6a);
+            animating left relaid the page out every frame. */}
+        <span className="pointer-events-none absolute inset-x-0 top-[1px] animate-[ps-zip_8s_linear_infinite]" aria-hidden>
+          <span className="block h-[9px] w-[9px] rounded-full bg-blue shadow-[0_0_0_3px_rgba(62,99,221,0.15)]" />
+        </span>
         <div className="relative flex justify-between">
           {stops.map((stop, idx) => (
             <div key={stop} className="flex flex-col items-center gap-1.5">

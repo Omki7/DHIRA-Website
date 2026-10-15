@@ -36,7 +36,7 @@ export default function EducationPage() {
   return (
     <>
       <Nav />
-      <main className="bg-background">
+      <main id="main" className="bg-background">
         <EducationHero />
         <EducationJourney />
         <SectorMap slug="education" />

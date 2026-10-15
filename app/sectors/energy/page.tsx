@@ -36,7 +36,7 @@ export default function EnergyPage() {
   return (
     <>
       <Nav />
-      <main className="bg-background">
+      <main id="main" className="bg-background">
         <EnergyHero />
         <EnergySignal />
         <SectorMap slug="energy" />

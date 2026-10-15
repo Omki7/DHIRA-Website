@@ -36,7 +36,7 @@ export default function DeliveryPage() {
   return (
     <>
       <Nav />
-      <main className="bg-background">
+      <main id="main" className="bg-background">
         <DeliveryHero />
         <DeliveryServices />
         <DeliveryModels />

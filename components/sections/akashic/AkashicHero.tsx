@@ -32,8 +32,10 @@ export default function AkashicHero() {
         <div className="flex flex-col items-center justify-center min-h-[50vh] pt-24 pb-12 text-center lg:pt-28 lg:pb-14">
           <ScrollReveal>
             <figure className="group relative mb-8 inline-flex items-center justify-center overflow-hidden rounded-full bg-subtle-stroke p-[1px] shadow-sm transition-shadow hover:shadow">
-              <span className="absolute inset-[-1000%] animate-[spin_3s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,transparent_0%,transparent_85%,#266DF2_100%)] opacity-75 transition-opacity group-hover:opacity-100" />
-              <span className="relative flex items-center gap-2 rounded-full bg-background/95 px-3.5 py-1.5 text-xs backdrop-blur-md transition-colors group-hover:bg-background sm:text-sm">
+              <span aria-hidden className="absolute inset-0 flex items-center justify-center opacity-75 transition-opacity group-hover:opacity-100">
+                <span className="aspect-square w-[120%] shrink-0 animate-[spin_3s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,transparent_0%,transparent_85%,#266DF2_100%)]" />
+              </span>
+              <span className="relative flex items-center gap-2 rounded-full bg-background px-3.5 py-1.5 text-xs sm:text-sm">
                 <span className="inline-flex items-center font-semibold text-primary-text">
                   <AkashicLogo className="h-5 w-5" />
                   <span className="-ml-1">kashic</span>

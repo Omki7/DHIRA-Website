@@ -207,7 +207,7 @@ function BankSystemsRail() {
 
 export default function FinanceHero() {
   return (
-    <section className="relative overflow-hidden bg-ink text-white">
+    <section id="hero" className="relative overflow-hidden bg-ink text-white">
       <Image
         src="/sectors/finance-hq.jpg"
         alt="Financial-district towers at dusk, glass facades and trading-floor skyline"

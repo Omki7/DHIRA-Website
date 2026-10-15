@@ -22,7 +22,7 @@ export default function SectorHero({ content }: { content: SectorContent }) {
         <div className="grid grid-cols-1 items-center gap-12 pt-20 pb-10 lg:grid-cols-[1.1fr_1fr] lg:gap-16 lg:pt-24 lg:pb-12">
           <div>
             <ScrollReveal>
-              <figure className="mb-7 inline-flex items-center gap-2 rounded-full border border-subtle-stroke bg-white/95 px-3.5 py-1.5 text-xs shadow-sm backdrop-blur-md sm:text-sm">
+              <figure className="mb-7 inline-flex items-center gap-2 rounded-full border border-subtle-stroke bg-white/95 px-3.5 py-1.5 text-xs shadow-sm sm:text-sm">
                 <span className="font-semibold text-primary-text">{content.name}</span>
                 <span className="h-3.5 w-px bg-default-stroke" aria-hidden />
                 <span className="font-medium text-primary-text">Akashic by sector</span>

@@ -399,7 +399,11 @@ export default function GlyphMorphCanvas({
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
     const buckets: (Path2D | null)[] = new Array(ALPHA_STEPS).fill(null);
     const pointer = { x: 0, y: 0, on: false };
-    let visible = true;
+    let visible = false;
+    let raf = 0;
+    // Scroll hold: the field rests while the page scrolls and picks up a beat
+    // after it stops, so the simulation never competes with scroll frames.
+    let hold = 0;
 
     const rectOf = () => canvas.getBoundingClientRect();
 
@@ -612,7 +616,18 @@ export default function GlyphMorphCanvas({
     const ro = new ResizeObserver(resize);
     ro.observe(canvas);
 
-    const io = new IntersectionObserver(([entry]) => { visible = entry.isIntersecting; }, { threshold: 0.02 });
+    const io = new IntersectionObserver(([entry]) => {
+      visible = entry.isIntersecting;
+      if (visible && !raf && !hold) raf = requestAnimationFrame(frame);
+    }, { threshold: 0.02 });
+    const onScroll = () => {
+      window.clearTimeout(hold);
+      hold = window.setTimeout(() => {
+        hold = 0;
+        if (visible && !raf) raf = requestAnimationFrame(frame);
+      }, 200);
+    };
+    if (!reduced) window.addEventListener("scroll", onScroll, { passive: true });
     io.observe(canvas);
 
     const onMove = (e: PointerEvent) => {
@@ -637,8 +652,15 @@ export default function GlyphMorphCanvas({
     };
 
     /* ----- frame loop ----- */
-    let raf = 0;
+    // Runs only while on screen; the observer above restarts it. Off-screen
+    // (and the display:none mobile twin) schedules no frames at all: the
+    // field freezes and resumes where it left off, or lands settled if a
+    // tab rotated past while it was away.
     const frame = (now: number) => {
+      if (!visible || hold) {
+        raf = 0;
+        return;
+      }
       raf = requestAnimationFrame(frame);
       let eng = engRef.current;
       if (!eng || eng.needsRebuild) {
@@ -646,10 +668,7 @@ export default function GlyphMorphCanvas({
         eng = build(eng, rect.width, rect.height, now);
         engRef.current = eng;
       }
-      // Off-screen (and the display:none mobile twin) costs nothing: the field
-      // freezes and resumes where it left off, or lands settled if a tab
-      // rotated past while it was away.
-      if (!eng || eng.w < 2 || eng.h < 2 || !visible) return;
+      if (!eng || eng.w < 2 || eng.h < 2) return;
 
       const w = eng.w;
       const h = eng.h;
@@ -794,10 +813,11 @@ export default function GlyphMorphCanvas({
       }
       ctx.globalAlpha = 1;
     };
-    raf = requestAnimationFrame(frame);
 
     return () => {
       cancelAnimationFrame(raf);
+      window.clearTimeout(hold);
+      window.removeEventListener("scroll", onScroll);
       ro.disconnect();
       io.disconnect();
       canvas.removeEventListener("pointermove", onMove);

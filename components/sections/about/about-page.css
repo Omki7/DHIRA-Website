@@ -1,11 +1,15 @@
 .about-page {
   @apply bg-background;
 }
+/* Frosted only while it sits over the landscape. A sticky backdrop-filter
+   is re-blurred on every scroll frame, so once scrolled the header goes
+   solid instead. */
 .about-page > header {
-  @apply border-transparent bg-background/20;
+  @apply border-transparent bg-background/20 backdrop-blur-md;
 }
 .about-page > header[data-scrolled='true'] {
-  @apply bg-background/95;
+  @apply bg-background;
+  backdrop-filter: none;
 }
 /* An open nav menu needs a solid header: the sheet hangs off its edge. */
 .about-page > header[data-menu-open='true'] {

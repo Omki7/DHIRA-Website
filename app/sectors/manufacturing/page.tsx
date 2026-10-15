@@ -36,7 +36,7 @@ export default function ManufacturingPage() {
   return (
     <>
       <Nav />
-      <main className="bg-background">
+      <main id="main" className="bg-background">
         <ManufacturingHero />
         <ManufacturingClocks />
         <SectorMap slug="manufacturing" />

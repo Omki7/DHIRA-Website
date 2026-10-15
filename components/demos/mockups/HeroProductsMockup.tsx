@@ -104,7 +104,7 @@ export default function HeroProductsMockup() {
               {tab.label}
               <span
                 key={isActive ? `active-${resetTrigger}` : "inactive"}
-                className="absolute bottom-0 left-0 h-px bg-tertiary-text/40 transition-all duration-300"
+                className="absolute bottom-0 left-0 h-px origin-left bg-tertiary-text/40 transition-all duration-300"
                 style={{
                   width: isActive ? "100%" : "0%",
                   animation: isActive ? `progressFill ${SCREEN_DURATIONS[tab.id]}ms linear forwards` : undefined,

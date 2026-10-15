@@ -35,7 +35,7 @@ export default function PublicSectorPage() {
   return (
     <>
       <Nav />
-      <main className="bg-background">
+      <main id="main" className="bg-background">
         <PublicSectorHero />
         <PublicSectorGap />
         <PublicSectorProven />

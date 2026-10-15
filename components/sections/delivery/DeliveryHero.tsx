@@ -33,7 +33,7 @@ export default function DeliveryHero() {
           
           {/* Top Pill Badge */}
           <ScrollReveal>
-            <figure className="mb-4 inline-flex items-center gap-2 rounded-full border border-subtle-stroke bg-white/95 px-3.5 py-1.5 text-xs shadow-sm backdrop-blur-md">
+            <figure className="mb-4 inline-flex items-center gap-2 rounded-full border border-subtle-stroke bg-white/95 px-3.5 py-1.5 text-xs shadow-sm">
               <span className="flex h-2 w-2 rounded-full bg-blue animate-[ps-pulse_2s_infinite]" aria-hidden />
               <span className="font-semibold text-ink font-mono text-[11px] uppercase tracking-eyebrow">
                 Delivery &amp; Services
@@ -78,7 +78,7 @@ export default function DeliveryHero() {
 
           {/* Enterprise Metrics Bar */}
           <ScrollReveal delay={300}>
-            <div className="mt-10 inline-grid grid-cols-3 divide-x divide-subtle-stroke rounded-2xl border border-subtle-stroke bg-primary-bg/90 p-2.5 shadow-sm backdrop-blur-sm">
+            <div className="mt-10 inline-grid grid-cols-3 divide-x divide-subtle-stroke rounded-2xl border border-subtle-stroke bg-primary-bg/90 p-2.5 shadow-sm">
               {metrics.map((m) => (
                 <div key={m.label} className="px-5 py-1.5 text-center sm:px-8">
                   <p className="font-mono text-[14px] font-bold text-ink sm:text-[16px]">{m.val}</p>

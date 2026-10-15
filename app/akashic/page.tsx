@@ -43,7 +43,7 @@ export default function AkashicPage() {
   return (
     <>
       <Nav />
-      <main data-theme-page="akashic" className="bg-background">
+      <main id="main" data-theme-page="akashic" className="bg-background">
         <AkashicHeroQuote />
         <AkashicFourMoves />
         <AkashicModular />

@@ -44,7 +44,7 @@ export default function LifePage() {
   return (
     <>
       <Nav />
-      <main className="bg-background">
+      <main id="main" className="bg-background">
         <LifeHero />
         <LifeGap />
         <LifeSolution />

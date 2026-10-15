@@ -189,7 +189,7 @@ function EduSystemsRail() {
 
 export default function EducationHero() {
   return (
-    <section className="relative overflow-hidden bg-ink text-white">
+    <section id="hero" className="relative overflow-hidden bg-ink text-white">
       <Image
         src="/sectors/education-hq.jpg"
         alt="University campus with students and academic buildings"

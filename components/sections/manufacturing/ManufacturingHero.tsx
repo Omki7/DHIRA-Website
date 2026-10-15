@@ -188,7 +188,7 @@ function PlantSystemsRail() {
 
 export default function ManufacturingHero() {
   return (
-    <section className="relative overflow-hidden bg-ink text-white">
+    <section id="hero" className="relative overflow-hidden bg-ink text-white">
       <Image
         src="/sectors/manufacturing-hq.jpg"
         alt="Wide manufacturing bay with overhead cranes, steel columns, and marked production lanes"

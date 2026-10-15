@@ -1,0 +1,5 @@
+Contact: mailto:info@dhira.ai
+Expires: 2027-10-15T00:00:00.000Z
+Preferred-Languages: en
+Canonical: https://www.dhira.ai/.well-known/security.txt
+Policy: https://www.dhira.ai/trust#disclosure

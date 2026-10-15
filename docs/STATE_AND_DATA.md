@@ -32,7 +32,25 @@ lib/{about,akashic,careers,delivery}Sections.ts
 lib/{eis,life,knowledge,publicSector}Sections.ts
 lib/sectorContent.ts                   Drives the shared six-sector template
 lib/{education,energy,finance,healthcare,manufacturing,retail}Sections.ts
+lib/site.ts                            Company facts and SITE_URL: one source for metadata, JSON-LD, footer, contact
+lib/siteRoutes.ts                      Every public route: feeds sitemap.xml, /site-map and llms.txt
+lib/{pricing,trust,contact,partners,release}Sections.ts
+lib/{insights,customerStories,newsroom,integrations,glossary,events,legal}.ts
+                                       The 15 Oct 2026 hub and resource pages (ARCHITECTURE "Resource pages")
+lib/richText.ts                        The Block type for long-form copy
 ```
+
+Long-form copy (articles, press releases, story pages, policy pages) is still
+config: a typed `Block[]` (`lib/richText.ts`) rendered by `ui/RichText`, with
+`[label](href)` for inline links. Add an article by adding an entry to
+`lib/insights.ts`; its page, the hub row, the RSS item, the sitemap entry and the
+llms.txt line all follow. Generated files (`sitemap.xml`, `robots.txt`,
+`llms.txt`, `insights/rss.xml`) are never edited by hand.
+
+The forms (`layout/ContactForm`, `ui/SubscribeForm`) are SIMULATED: they show
+their success state without sending anything. The site is the final hi-fi
+mockup and developers wire both at hand-off; when they do, the "If a real data
+layer is ever added" section below applies.
 
 Rules:
 - **Content is config, not JSX.** Copy, ordered lists, figures, and chip labels
@@ -60,6 +78,12 @@ Local, component-scoped `useState`/`useEffect`/`useRef`, always degrading under
   A head bootstrap applies the choice before paint. First visit is light;
   unsupported routes stay light while retaining the choice. Storage failures
   leave the current-tab switch usable. No external state library or server state.
+- **Region:** `hooks/useRegion` is the same pattern for International / India
+  (ARCHITECTURE "Regions"). It reads the visitor's choice from `localStorage`
+  (`dhira-region`) and guesses from the device time zone (`Asia/Kolkata`), so no
+  geolocation service and no request leaves the browser. During SSR only the page's
+  own region is known; links settle after mount. Region-keyed copy lives in the
+  page's `lib/` module as `Record<Region, ...>` (e.g. `HOW_TO_BUY.routes`).
 
 Keep animation/timing constants named at module top (e.g. `ROTATE_MS = 7000`),
 not scattered as magic numbers.

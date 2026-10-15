@@ -2,6 +2,10 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import "./theme.css";
 import ContactModal from "@/components/layout/ContactModal";
+import OffscreenAnimationGate from "@/components/layout/OffscreenAnimationGate";
+import RegionSuggest from "@/components/layout/region/RegionSuggest";
+import JsonLd from "@/components/ui/JsonLd";
+import { SITE, SITE_URL, absoluteUrl } from "@/lib/site";
 import { THEME_INIT_SCRIPT } from "@/lib/theme";
 
 export const viewport: Viewport = {
@@ -11,9 +15,9 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  metadataBase: new URL(
-    process.env.NEXT_PUBLIC_SITE_URL || "https://dhira-website-ve4y.vercel.app"
-  ),
+  /* The founder's canonical domain (lib/site.ts). Pages set their own
+     canonical; none is set here, or every page would inherit "/". */
+  metadataBase: new URL(SITE_URL),
   title: {
     default: "DHIRA | Answers You Can Act On",
     template: "%s | DHIRA",
@@ -53,7 +57,7 @@ export const metadata: Metadata = {
     title: "DHIRA | Answers You Can Act On",
     description:
       "From spreadsheets to PDFs to live streams, DHIRA gives your AI the full picture. Powered by Akashic, the intelligence layer behind every decision.",
-    url: "https://dhira-website-ve4y.vercel.app",
+    url: "/",
     siteName: "DHIRA",
     images: [
       {
@@ -89,6 +93,7 @@ export default function RootLayout({
     <html lang="en" data-theme="light" suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
+        <link rel="alternate" type="text/plain" title="LLM summary" href="/llms.txt" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
           rel="preconnect"
@@ -107,8 +112,44 @@ export default function RootLayout({
         suppressHydrationWarning
         className="font-sans bg-background text-primary-text antialiased overflow-x-clip"
       >
+        {/* Skip link (WCAG 2.4.1, GIGW): the first focusable element on every
+            page. Every page composer gives its <main> id="main". */}
+        <a
+          href="#main"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[200] focus:rounded-btn focus:bg-ink focus:px-4 focus:py-2.5 focus:text-[14px] focus:font-medium focus:text-white"
+        >
+          Skip to main content
+        </a>
+        <JsonLd
+          data={{
+            "@type": "Organization",
+            "@id": absoluteUrl("/#org"),
+            name: SITE.name,
+            alternateName: ["DHIRA.ai", SITE.expansion],
+            legalName: SITE.legalName,
+            url: absoluteUrl("/"),
+            logo: absoluteUrl("/brand/dhira-mark.svg"),
+            email: SITE.email,
+            foundingDate: SITE.founded,
+            founder: { "@type": "Person", name: SITE.founder.name, jobTitle: SITE.founder.role },
+            address: SITE.offices.map((office) => ({ "@type": "PostalAddress", addressLocality: office.city, addressCountry: office.country })),
+            sameAs: SITE.social.map((profile) => profile.href),
+          }}
+        />
+        <JsonLd
+          data={{
+            "@type": "WebSite",
+            "@id": absoluteUrl("/#website"),
+            url: absoluteUrl("/"),
+            name: SITE.name,
+            inLanguage: "en",
+            publisher: { "@id": absoluteUrl("/#org") },
+          }}
+        />
         {children}
         <ContactModal />
+        <RegionSuggest />
+        <OffscreenAnimationGate />
       </body>
     </html>
   );

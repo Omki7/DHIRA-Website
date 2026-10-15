@@ -40,69 +40,16 @@
  *     upward, revise the session figure from the same release or drop it.
  */
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import useOnScreen from "@/hooks/useOnScreen";
 import Image from "next/image";
 import { usePrefersReducedMotion } from "@/hooks/useCountUp";
+import { STORIES, type Metric, type Story } from "@/lib/customerStories";
 
 const CYCLE_MS = 7000;
 
-export type Metric = { value: string; label: string };
-
-export type Story = {
-  id: string;
-  platform: string;
-  authority: string;
-  title: string;
-  description: string;
-  image: string;
-  alt: string;
-  metrics: Metric[];
-};
-
-const STORIES: Story[] = [
-  {
-    id: "learning",
-    platform: "National Learning Platform",
-    authority: "Education · Country-scale deployment",
-    title: "Every State's Learning Data, Read as One Picture",
-    description:
-      "Akashic is the intelligence layer inside a national education platform. Transaction logs from every state resolve into one governed model, so programme owners can read curriculum efficacy, learner retention, and where resources are going.",
-    image: "/proof/learning.jpg",
-    alt: "Students at their desks in a school classroom",
-    metrics: [
-      { value: "5.75B+", label: "Learning interactions unified" },
-      { value: "187M+", label: "Enrolments resolved" },
-    ],
-  },
-  {
-    id: "mobility",
-    platform: "Overseas Employment Registry",
-    authority: "Labour mobility · Country-scale deployment",
-    title: "Every Clearance and Recruiter in One Auditable View",
-    description:
-      "Visa clearances, immigration logs, and overseas employer records resolve into one governed view. Analysts can see how a corridor is moving, which recruiters are active in it, and what the figures were on any given day.",
-    image: "/proof/mobility.jpg",
-    alt: "Travellers queuing with luggage at airport check-in counters",
-    metrics: [
-      { value: "4M+", label: "Worker clearances reconciled" },
-      { value: "282K+", label: "Employer profiles resolved" },
-    ],
-  },
-  {
-    id: "immunisation",
-    platform: "National Immunisation Registry",
-    authority: "Public health · Country-scale deployment",
-    title: "Every Dose Reconciled Into One Public Figure",
-    description:
-      "The intelligence layer behind a country's immunisation record. Doses, sessions, and coverage reconcile into the figures health authorities publish, each one traceable back to the system it came from.",
-    image: "/proof/vaccination.jpg",
-    alt: "A mass vaccination hall with registration desks and rows of seating",
-    metrics: [
-      { value: "2 Billion+", label: "Dose records reconciled" },
-      { value: "26M+", label: "Vaccination sessions reconciled" },
-    ],
-  },
-];
+/* Story data, its naming rules and sources live in lib/customerStories.ts,
+   shared with the /customers library (moved 15 Oct 2026). */
 
 /* Figures are static by design. Count-up was tried and removed: these targets
    are small ("2 Billion+", "4M+"), so an animation from zero spends most of
@@ -166,7 +113,11 @@ export default function ProvenStories({
 }: ProvenStoriesProps = {}) {
   const reduced = usePrefersReducedMotion();
   const [index, setIndex] = useState(0);
-  const [paused, setPaused] = useState(false);
+  const [hovered, setPaused] = useState(false);
+  const rootRef = useRef<HTMLDivElement>(null);
+  const onScreen = useOnScreen(rootRef);
+  // Off screen counts as paused: the cycle only runs where it can be seen.
+  const paused = hovered || !onScreen;
 
   const go = useCallback(
     (next: number) => setIndex((next + stories.length) % stories.length),
@@ -181,6 +132,7 @@ export default function ProvenStories({
 
   return (
     <div
+      ref={rootRef}
       className="relative"
       role="group"
       aria-roledescription="carousel"
@@ -260,7 +212,7 @@ export default function ProvenStories({
         type="button"
         onClick={() => go(index - 1)}
         aria-label={`Previous ${itemNoun}`}
-        className="absolute -left-5 lg:-left-6 top-1/2 z-20 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-lineSoft bg-background text-ink shadow-[0_10px_30px_-10px_rgba(16,24,40,0.35)] backdrop-blur transition-colors duration-settle ease-settle hover:border-blue/50 hover:text-blue lg:flex"
+        className="absolute -left-5 lg:-left-6 top-1/2 z-20 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-lineSoft bg-background text-ink shadow-[0_10px_30px_-10px_rgba(16,24,40,0.35)] transition-colors duration-settle ease-settle hover:border-blue/50 hover:text-blue lg:flex"
       >
         <Chevron dir="left" />
       </button>
@@ -268,7 +220,7 @@ export default function ProvenStories({
         type="button"
         onClick={() => go(index + 1)}
         aria-label={`Next ${itemNoun}`}
-        className="absolute -right-5 lg:-right-6 top-1/2 z-20 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-lineSoft bg-background text-ink shadow-[0_10px_30px_-10px_rgba(16,24,40,0.35)] backdrop-blur transition-colors duration-settle ease-settle hover:border-blue/50 hover:text-blue lg:flex"
+        className="absolute -right-5 lg:-right-6 top-1/2 z-20 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-lineSoft bg-background text-ink shadow-[0_10px_30px_-10px_rgba(16,24,40,0.35)] transition-colors duration-settle ease-settle hover:border-blue/50 hover:text-blue lg:flex"
       >
         <Chevron dir="right" />
       </button>
@@ -287,7 +239,7 @@ export default function ProvenStories({
               <span className="relative block h-1.5 w-11 overflow-hidden rounded-full bg-lineSoft">
                 <span
                   key={index}
-                  className="absolute inset-y-0 left-0 block rounded-full bg-blue"
+                  className="absolute inset-y-0 left-0 block w-full origin-left rounded-full bg-blue"
                   style={
                     reduced
                       ? { width: "100%" }

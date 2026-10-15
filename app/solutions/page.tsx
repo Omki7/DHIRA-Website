@@ -31,7 +31,7 @@ export default function SolutionsPage() {
   return (
     <>
       <Nav />
-      <main className="bg-background">
+      <main id="main" className="bg-background">
         <SolutionsHero />
         <SolutionsFeatured />
         <SolutionsMore />

@@ -36,7 +36,7 @@ export default function AboutPage() {
   return (
     <AboutMotion>
       <Nav />
-      <main data-theme-page="company">
+      <main id="main" data-theme-page="company">
         <AboutHero />
         <AboutConviction />
         <AboutJourney />

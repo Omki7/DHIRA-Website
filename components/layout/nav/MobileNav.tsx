@@ -2,13 +2,13 @@
 
 import { useEffect, useRef, useState } from "react";
 import type { KeyboardEvent } from "react";
-import Link from "next/link";
+import RegionLink from "@/components/ui/RegionLink";
 import DhiraLogo from "@/components/icons/DhiraLogo";
 import ThemeSwitch from "@/components/layout/ThemeSwitch";
-import { NAV_CTA, NAV_MENUS, isCurrentSection } from "@/lib/navigation";
-import { MenuRow } from "./MenuPanel";
+import { NAV_CTA, NAV_LINKS, NAV_MENUS, NAV_SIGN_IN, isCurrentSection } from "@/lib/navigation";
+import { MenuFoot, MenuRow, MenuStrip } from "./MenuPanel";
 import NavFeatured from "./NavFeatured";
-import { BackArrow, ChevronRight, CloseIcon } from "./NavIcons";
+import { ArrowUpRight, BackArrow, ChevronRight, CloseIcon } from "./NavIcons";
 
 /* Below lg: a full-screen drawer that drills down (Figma / Apple pattern)
    instead of an accordion. Level one is four large rows (the logo above them
@@ -96,10 +96,10 @@ export default function MobileNav({
       className="fixed inset-0 z-[60] flex flex-col bg-background lg:hidden"
     >
       <div className="flex h-[72px] shrink-0 items-center justify-between border-b border-subtle-stroke px-4 sm:px-6">
-        <Link href="/" aria-label="DHIRA homepage" onClick={onClose} className="flex items-center gap-1.5 text-primary-text">
+        <RegionLink href="/" aria-label="DHIRA homepage" onClick={onClose} className="flex items-center gap-1.5 text-primary-text">
           <DhiraLogo className="h-9 w-9" />
           <span className="text-[22px] font-semibold tracking-tight">DHIRA</span>
-        </Link>
+        </RegionLink>
         <button type="button" className="btn-ghost" onClick={onClose} aria-label="Close menu">
           <CloseIcon />
         </button>
@@ -131,6 +131,34 @@ export default function MobileNav({
                 </button>
               </li>
             ))}
+            {NAV_LINKS.map((link) => {
+              const current = link.match.some((prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`));
+              return (
+                <li key={link.href} className="border-b border-subtle-stroke">
+                  <RegionLink
+                    href={link.href}
+                    onClick={onClose}
+                    aria-current={current ? "page" : undefined}
+                    className="flex min-h-[60px] w-full items-center justify-between text-left text-[20px] font-semibold tracking-[-0.01em] text-ink"
+                  >
+                    <span className="flex items-center gap-2.5">
+                      {link.label}
+                      {current && <span aria-hidden className="h-1.5 w-1.5 rounded-full bg-blue" />}
+                    </span>
+                  </RegionLink>
+                </li>
+              );
+            })}
+            <li className="border-b border-subtle-stroke">
+              <RegionLink
+                href={NAV_SIGN_IN.href}
+                onClick={onClose}
+                className="flex min-h-[60px] w-full items-center justify-between text-left text-[20px] font-semibold tracking-[-0.01em] text-ink"
+              >
+                {NAV_SIGN_IN.label}
+                <ArrowUpRight className="h-[14px] w-[14px] text-overcast" />
+              </RegionLink>
+            </li>
           </ul>
           <div className="mt-6 flex justify-between border-b border-subtle-stroke pb-5">
             <ThemeSwitch labelled />
@@ -163,14 +191,14 @@ export default function MobileNav({
               <div className="mt-2 border-b border-subtle-stroke pb-5">
                 <p className="font-heading text-[26px] font-semibold leading-tight tracking-[-0.02em] text-ink">{menu.lead.title}</p>
                 <p className="mt-2 text-balance text-[15px] leading-[1.55] text-secondary-text">{menu.lead.text}</p>
-                <Link
+                <RegionLink
                   href={menu.lead.href}
                   onClick={onClose}
                   className="mt-3 inline-flex min-h-[44px] items-center gap-1.5 text-[15px] font-medium text-blue"
                 >
                   {menu.lead.cta}
                   <span aria-hidden>&rarr;</span>
-                </Link>
+                </RegionLink>
               </div>
 
               {menu.groups.map((group) => (
@@ -186,6 +214,18 @@ export default function MobileNav({
                 </div>
               ))}
 
+              {menu.strip && (
+                <div className="border-b border-subtle-stroke py-5" onClick={onClose}>
+                  <MenuStrip strip={menu.strip} />
+                </div>
+              )}
+
+              {menu.footer && (
+                <div className="border-b border-subtle-stroke py-3" onClick={onClose}>
+                  <MenuFoot links={menu.footer} />
+                </div>
+              )}
+
               <div className="pt-6" onClick={onClose}>
                 <NavFeatured feature={menu.feature} drawn={active} />
               </div>
@@ -195,9 +235,9 @@ export default function MobileNav({
       </nav>
 
       <div className="shrink-0 border-t border-subtle-stroke bg-background px-4 py-4 sm:px-6">
-        <Link href={NAV_CTA.href} onClick={onClose} className="btn-primary btn-lg w-full">
+        <RegionLink href={NAV_CTA.href} onClick={onClose} className="btn-primary btn-lg w-full">
           {NAV_CTA.label}
-        </Link>
+        </RegionLink>
       </div>
     </div>
   );

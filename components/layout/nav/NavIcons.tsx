@@ -36,6 +36,15 @@ export function Arrow({ className = "" }: { className?: string }) {
   );
 }
 
+/** Marks a link that leaves the site (the Akashic app, the docs). */
+export function ArrowUpRight({ className = "" }: { className?: string }) {
+  return (
+    <svg width="11" height="11" viewBox="0 0 11 11" fill="none" aria-hidden className={`shrink-0 ${className}`}>
+      <path d="M3 8 8 3M4 3h4v4" stroke="currentColor" strokeWidth="1.1" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
 export function BackArrow({ className = "" }: { className?: string }) {
   return (
     <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden className={`shrink-0 ${className}`}>

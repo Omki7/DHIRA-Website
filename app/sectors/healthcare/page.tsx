@@ -36,7 +36,7 @@ export default function HealthcarePage() {
   return (
     <>
       <Nav />
-      <main className="bg-background">
+      <main id="main" className="bg-background">
         <HealthcareHero content={content} />
         <HealthcareProblem content={content} />
         <SectorMap slug="healthcare" />

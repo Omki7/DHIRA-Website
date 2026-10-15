@@ -132,7 +132,7 @@ export default function DeliveryMethodology() {
                   >
                     {/* Visual Graphic Type 1: IDE Code Window */}
                     {stage.type === "code" && (
-                      <div className="w-full rounded-xl border border-white/15 bg-vault/90 p-3.5 shadow-md backdrop-blur-md">
+                      <div className="w-full rounded-xl border border-white/15 bg-vault/90 p-3.5 shadow-md">
                         <div className="flex items-center gap-1.5 border-b border-white/10 pb-2">
                           <span className="h-2 w-2 rounded-full bg-red-400" />
                           <span className="h-2 w-2 rounded-full bg-yellow-400" />
@@ -194,7 +194,7 @@ export default function DeliveryMethodology() {
 
                     {/* Visual Graphic Type 4: Live Telemetry Pulse */}
                     {stage.type === "telemetry" && (
-                      <div className="w-full rounded-xl border border-white/20 bg-vault/90 p-4 shadow-md backdrop-blur-md">
+                      <div className="w-full rounded-xl border border-white/20 bg-vault/90 p-4 shadow-md">
                         <div className="flex items-center justify-between border-b border-white/10 pb-2.5">
                           <div className="flex items-center gap-2">
                             <span className="h-2 w-2 rounded-full bg-emerald-400 animate-ping" />

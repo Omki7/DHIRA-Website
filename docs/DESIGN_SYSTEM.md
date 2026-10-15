@@ -344,7 +344,7 @@ controls provide direct views and a reset. The slider uses pointer capture and
 `touch-action: pan-y` so vertical page scrolling stays available. Mobile uses
 its own node positions and a taller stage to keep labels readable.
 
-All `@keyframes` live in `globals.css` (`ps-*` family, `fl-*`, `alife-*`, `ad-ping`,
+All `@keyframes` live in `globals.css` (`ps-*` family, `mm-*` (the /akashic module moments), `fl-*`, `alife-*`, `ad-ping`,
 `softpulse`, `dashmove`, `progressFill`, `vconn-flow`, `proof*`,
 `closeRule`/`closeFloat`). **Do not add a component-local
 `<style dangerouslySetInnerHTML>` keyframe block** — it risks silently
@@ -357,13 +357,35 @@ Researched against Stripe, Vercel, Databricks, Snowflake, Linear and C3 AI
 and timing guidance. Data lives in `lib/navigation.ts`, parts in
 `components/layout/nav/`.
 
-- **IA.** Akashic · Solutions · Services · Company, then "Talk to our team"
-  (opens the ContactModal). The logo is home: a "Home" item was built and
+- **IA.** Akashic · Solutions · Services · Resources · About, then a plain
+  Pricing link (`NAV_LINKS`) and "Talk to our team" (opens the ContactModal).
+  Resources and Pricing were added 15 Oct 2026 on the user's direction to carry
+  what serious enterprise sites carry (13 of 26 reference sites link pricing;
+  Snowflake, Stripe, Vercel, Linear, Ramp, Retool and Cohere put it in the
+  header). Insights, gone on 14 Oct for lack of content, returned under
+  Resources with articles behind it. The logo is home: a "Home" item was built and
   dropped the same day (no reference site has one, nor the founder's
   wireframe; it put home twice side by side and took the first slot from the
-  product). Insights is gone. Agents live inside the Akashic menu with
-  `PreviewTag`, never top-level, while agents ship in preview. No Login until a
-  real app URL exists. Four top items: do not add more without direction.
+  product). Agents live inside the Akashic menu with
+  `PreviewTag`, never top-level, while agents ship in preview. Six top items:
+  do not add more without direction. The logo's tagline hides at lg (1024 to
+  1279px) so all six fit beside the CTA.
+- **Sign in** (15 Oct 2026, user: Akashic is SaaS). A quiet text link before
+  the CTA, as on every SaaS reference site (Linear, Vercel, Fivetran,
+  Snowflake, Databricks, measured 15 Oct 2026). Bar from xl only (no room at
+  1024); also a drawer row, the Akashic sheet's foot ("Sign in to Akashic")
+  and the footer. It and Docs leave the site, so they carry the north-east
+  arrow (`ArrowUpRight`). Hosts are `AKASHIC_APP_URL` / `AKASHIC_DOCS_URL` in
+  lib/site.ts, placeholders until the product team confirms them.
+- **The Akashic menu** (redrawn 15 Oct 2026, user). Three categories that
+  match the /akashic layers, a quarter of the sheet each and no captions:
+  Foundation (Pipelines, Master Data, Warehouse), Intelligence (BI, Ask
+  Akashic, Machine Learning), Trust (Governance, Security and privacy, Open
+  foundations). AI agents are a capability across every module, never an
+  eighth module: a dashed strip under the categories (`strip`). A hairline foot
+  row carries Docs, Pricing (also top-level: buyers look there first),
+  Integrations, the 1.0 release as a one-line card (`compactFeature`) and Sign
+  in. The other menus keep the tall featured card.
 - **One shared sheet, attached.** Every desktop menu opens into the same
   full-bleed white surface hanging off the header's bottom edge: no caret, no
   gap, so a diagonal pointer path never leaves the hover region. Height morphs
@@ -375,7 +397,8 @@ and timing guidance. Data lives in `lib/navigation.ts`, parts in
   instant switching once a menu is open, 300ms close grace, a click pins a
   hover-opened menu, Escape closes and returns focus. Touch and keyboard
   toggle.
-- **Focus scrim.** `bg-depth/20` with a 3px backdrop blur over the page:
+- **Focus scrim.** `bg-depth/20` with a 3px backdrop blur over the page,
+  applied only while a menu is open (Rule 6a):
   blue-black per Rule 5. The header and the announcement bar stay crisp above
   it.
 - **Type leads, no icons.** Lead title 24px/600 `font-heading`; items 15px/500
@@ -406,6 +429,59 @@ and timing guidance. Data lives in `lib/navigation.ts`, parts in
   trigger. Every panel is SSR-rendered and `hidden`, so all links are in the
   HTML. `aria-current` marks the current page. Reduced motion lands every
   state instantly.
+
+### Right-edge section navigation (15 Oct 2026)
+
+`PageMinimap` is one set of anchor links. Only the 44px dot/line strip accepts
+pointer input; labels are informational. Leaving the strip closes the index,
+including when the pointer moves over a title. Keyboard focus also reveals labels.
+At rest the rail is unframed: brand `blue` dots and, behind the reader only, a
+progress line. No panel. Hover or keyboard focus reveals 13px labels and a
+right-aligned column of 10px mono numbers (`overcast`), using each section's
+eyebrow or its zero-based index. The rail is drawn in tokens, not blended:
+`mix-blend-difference` was retired here because blue under a difference blend
+renders as mustard on white.
+
+**Dots.** 4px at `blue/70`, each with a 2px keyline in `background`. The keyline
+cuts the line around a dot on the drawer and keeps the blue legible over
+photographs and dark bands. The current section is an 8px solid `blue` bead in
+an open `blue/35` ring. Hover or focus grows a dot to 7px solid `blue` (the
+current bead to 10px) and turns its title and number `blue`. The current
+section's title is `blue` at weight 500; the rest are `secondary-text`. The
+dots stay fixed, with 44px-wide targets. A 160ms leave grace prevents flicker;
+Escape dismisses the labels.
+
+**The line.** A 1px `blue` line runs from the first dot to the current one and
+nothing beyond it: no track for sections still ahead, so the top of a page
+shows dots alone. Passed dots sink into the line and return on hover. The line
+grows by `scaleY` and the bead moves on the `translate` property (so its hover
+`scale` grows it in place), together over 350ms `ease-settle`; selection
+responds immediately while native scrolling settles.
+
+**The drawer (15 Oct 2026).** Labels unfold onto a `background` sheet so they
+read over photography. It is docked to the screen edge: square where it meets
+the edge, `outer` (14px) radius only on its page side, a `lineSoft` hairline
+and `shadow-card`. It is as tall as the rail and as wide as the longest title
+(measured, not a fixed slab). It is a sibling layer under the nav, so the
+scroller's horizontal clip never cuts it. Its leading edge starts at the dots
+and travels with the labels' unfold, 12px ahead, by `transform` and `opacity`
+only. No row highlights, no blur (Rule 6a). In the dark theme the sheet is the
+blue-black `background` and `blue` lifts with the theme.
+
+Akashic omits Platform screens from this index, with
+Introduction numbered 00 and the remaining sections numbered 01 to 13.
+
+Rows are up to 32px high and compact to 24px on short desktop viewports; coarse
+pointers get 44px rows. Overflow stays inside the rail. Below `lg` the rail stays
+hidden. Focus rings are a 1px `blue` outline on the 44px target.
+Arrow keys and Home/End move between links; Enter jumps and transfers focus to
+the section. Normal Tab navigation and modified link clicks remain available.
+Reduced motion removes transitions and scroll travel. Section links update the
+URL fragment, and the landing offset respects the header and section margin.
+
+References: [Sticky Dot Navbar](https://www.framer.com/marketplace/components/sticky-dot-navbar/)
+and [Scrollspy Nav](https://www.framer.com/marketplace/components/scrollspy-nav/).
+The pattern is implemented with existing React and CSS; no additional package.
 
 ## §7 — Design rules
 
@@ -455,6 +531,24 @@ and timing guidance. Data lives in `lib/navigation.ts`, parts in
      its technical reference section.
 6. **Reduced motion.** Global CSS zeroes `*` animation-duration under
    `prefers-reduced-motion`. Any new animation must degrade safely.
+   - **6a — Motion stays off the main thread (15 Oct 2026).** Scrolling was
+     heavy sitewide because loops kept running where nobody could see them.
+     Animate only `transform` and `opacity`; a progress bar is `scaleX` with
+     `origin-left`, never `width` or `left`. Anything that loops or
+     auto-cycles stops off screen: infinite CSS and SMIL loops are paused by
+     `layout/OffscreenAnimationGate`, and JS timers and rAF loops gate on
+     `hooks/useOnScreen`. The gate also holds on-screen loops while the page
+     is scrolling and releases them 200ms after it rests; a canvas or SMIL
+     loop a component runs itself does the same (`GlyphMorphCanvas`, and
+     the unrendered `AkashicModuleScreensMockup`, which opts out of the gate
+     with `data-own-motion`). Its replacement, `AkashicModuleMomentsMockup`,
+     runs plain CSS loops (`mm-run` packets as `translateX`) and leaves them
+     to the gate. Scroll-driven motion (the teardown, the rails) is
+     never held. No `backdrop-filter` on sticky or fixed chrome, and
+     none behind a fill that is 90% opaque or more (it costs a GPU pass for
+     no visible change). Scroll-linked effects use a CSS scroll timeline
+     first (see `.rail-*`); otherwise one rAF per frame for on-screen
+     elements only, writing a style or `textContent` only when it changed.
 7. **Images require real files.** Never point `<Image>`/`<img>` at a path not in
    `public/`. Photography is stock under free commercial licence (Unsplash); keep
    proof filenames non-identifying. A proof photo must also carry the *right*
@@ -474,7 +568,9 @@ and timing guidance. Data lives in `lib/navigation.ts`, parts in
 ## Accessibility standards (WCAG 2.1 AA)
 
 - **Landmarks:** every page composes `<Nav>` + `<main>` + `<Footer>`. Keep the
-  section list inside `<main>`.
+  section list inside `<main>`, and give it `id="main"`: the root layout's skip
+  link ("Skip to main content", the first focusable element, WCAG 2.4.1 and
+  GIGW) targets it on every page.
 - **Focus visible:** `globals.css` defines a global `:focus-visible` ring (2px
   `blue`, 2px offset; white on `.ak-depth`/`#akashic-in-action`). Do **not** use
   `outline-none` on a focusable element without pairing a `focus-visible:` ring —

@@ -18,6 +18,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { usePrefersReducedMotion } from "@/hooks/useCountUp";
+import useOnScreen from "@/hooks/useOnScreen";
 import AkashicHeroBIWireframe from "@/components/demos/mockups/AkashicHeroBIWireframe";
 import ScreenProgressRail from "@/components/ui/ScreenProgressRail";
 import {
@@ -785,6 +786,9 @@ const SCREEN_DURATION_MS = 8500;
 export default function AkashicModuleScreensMockup() {
   const rootRef = useRef<HTMLDivElement>(null);
   const reduced = usePrefersReducedMotion();
+  // Off screen, nothing cycles: no timer, and the SMIL loops (always
+  // main-thread work) are paused.
+  const onScreen = useOnScreen(rootRef);
   const [activeCard, setActiveCard] = useState(0);
   const [resetTrigger, setResetTrigger] = useState(0);
 
@@ -794,19 +798,42 @@ export default function AkashicModuleScreensMockup() {
   };
 
   useEffect(() => {
-    if (reduced) return;
+    if (reduced || !onScreen) return;
     const timer = setInterval(() => {
       setActiveCard((prev) => (prev + 1) % N);
     }, SCREEN_DURATION_MS);
     return () => clearInterval(timer);
-  }, [activeCard, resetTrigger, reduced]);
+  }, [activeCard, resetTrigger, reduced, onScreen]);
 
   useEffect(() => {
-    rootRef.current?.querySelectorAll("svg").forEach((svg) => {
-      if (reduced) svg.pauseAnimations();
-      else svg.unpauseAnimations();
-    });
-  }, [reduced, activeCard]);
+    // Only the centre card is live; the cards behind it hold still, and so
+    // does everything while the page is scrolling (Rule 6a scroll hold).
+    let scrolling = false;
+    let rest = 0;
+    const sync = () =>
+      rootRef.current?.querySelectorAll("svg").forEach((svg) => {
+        const live = !reduced && onScreen && !scrolling && svg.closest('.hs-card[data-pos="center"]') !== null;
+        if (live) svg.unpauseAnimations();
+        else svg.pauseAnimations();
+      });
+    const onScroll = () => {
+      if (!scrolling) {
+        scrolling = true;
+        sync();
+      }
+      window.clearTimeout(rest);
+      rest = window.setTimeout(() => {
+        scrolling = false;
+        sync();
+      }, 200);
+    };
+    sync();
+    if (!reduced && onScreen) window.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      window.clearTimeout(rest);
+      window.removeEventListener("scroll", onScroll);
+    };
+  }, [reduced, activeCard, onScreen]);
 
   const getPos = (rp: number) => {
     if (rp === 0) return "center";
@@ -818,7 +845,7 @@ export default function AkashicModuleScreensMockup() {
   };
 
   return (
-    <div ref={rootRef} style={{ padding: "6px 0 12px", fontFamily: "var(--font-sans)" }} className="relative z-10 mx-auto w-full max-w-[1152px]">
+    <div ref={rootRef} data-own-motion style={{ padding: "6px 0 12px", fontFamily: "var(--font-sans)" }} className="relative z-10 mx-auto w-full max-w-[1152px]">
       <div className="mx-auto mb-2 flex w-fit max-w-full items-center gap-5 overflow-x-auto px-4 lg:gap-8">
         {TABS.map((tab, id) => {
           const isActive = activeCard === id;
@@ -842,7 +869,7 @@ export default function AkashicModuleScreensMockup() {
               {tab.label}
               <span
                 key={isActive ? `active-${resetTrigger}` : "inactive"}
-                className="absolute bottom-0 left-0 h-px bg-tertiary-text/40 transition-all duration-300"
+                className="absolute bottom-0 left-0 h-px origin-left bg-tertiary-text/40 transition-all duration-300"
                 style={{
                   width: isActive ? "100%" : "0%",
                   animation: isActive ? "progressFill 6s linear forwards" : undefined,

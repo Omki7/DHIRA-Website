@@ -209,7 +209,7 @@ export default function DeliveryCapabilities() {
                   />
                   {/* Subtle top pill */}
                   <div className="absolute top-4 left-4">
-                    <span className="rounded-full bg-white/90 px-2.5 py-1 font-mono text-[10px] font-bold text-ink shadow-sm backdrop-blur-md">
+                    <span className="rounded-full bg-white/90 px-2.5 py-1 font-mono text-[10px] font-bold text-ink shadow-sm">
                       {c.telemetry}
                     </span>
                   </div>

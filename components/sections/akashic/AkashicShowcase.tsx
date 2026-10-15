@@ -1,25 +1,27 @@
 /*
- * Product showcase — the /akashic counterpart of the homepage hero's live
- * wireframes. Unnumbered on purpose: it extends the hero moment (like
- * HeroProductsMockup inside the home Hero) rather than starting the
- * numbered [01]–[10] narrative. One screen per module, same fidelity and
- * demo-data world as the homepage cards (AGENTS.md §8a).
+ * Product showcase. Unnumbered on purpose: it extends the hero moment rather
+ * than starting the numbered [01]–[12] narrative. One MOMENT per module, not
+ * one screen (founder direction, 15 Oct 2026: tease, do not reveal). The
+ * grammar is in the header of AkashicModuleMomentsMockup. The full-screen
+ * carousel it replaced, AkashicModuleScreensMockup, is kept unused for
+ * comparison until the founder signs this off.
+ *
+ * This is the bottom of AkashicHeroQuote's curtain: the module index is the
+ * last thing on it, and the curtain lifts straight onto the sticky quote.
+ * The seven-label web that hung below the stage (HexConnectionsMockup,
+ * "Organisational context") was removed by direction, 15 Oct 2026.
  */
 
 import ScrollReveal from "@/components/ui/ScrollReveal";
-import AkashicModuleScreensMockup from "@/components/demos/mockups/AkashicModuleScreensMockup";
-import HexConnectionsMockup from "@/components/demos/HexConnectionsMockup";
+import AkashicModuleMomentsMockup from "@/components/demos/mockups/AkashicModuleMomentsMockup";
 
 export default function AkashicShowcase() {
   return (
     <section id="platform-screens" className="relative overflow-x-clip scroll-mt-24 bg-background -mt-4 lg:-mt-6 xl:-mt-10">
-      <div className="rail-container border-x-0 pt-4 pb-0 lg:pb-0">
+      <div className="rail-container border-x-0 pt-4 pb-16 lg:pb-20">
         <ScrollReveal delay={120}>
-          <AkashicModuleScreensMockup />
+          <AkashicModuleMomentsMockup />
         </ScrollReveal>
-        <div className="relative z-10 w-full mt-0">
-          <HexConnectionsMockup />
-        </div>
       </div>
     </section>
   );

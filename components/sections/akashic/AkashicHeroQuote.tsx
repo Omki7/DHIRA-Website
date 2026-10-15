@@ -141,10 +141,13 @@ export default function AkashicHeroQuote() {
         </div>
       </section>
 
-      {/* Hero + wireframes showcase content layer — absolute positioned to act as a rising curtain */}
+      {/* Hero + wireframes showcase content layer — absolute positioned to act as a rising curtain.
+          It ends on the module index (15 Oct 2026, the seven-label web below
+          it was removed) and its lower edge carries a soft shadow, so it reads
+          as a layer lifting off the quote rather than a colour change. */}
       <div
         ref={curtainRef}
-        className="absolute inset-x-0 top-0 z-10 flex w-full flex-col bg-background"
+        className="absolute inset-x-0 top-0 z-10 flex w-full flex-col bg-background shadow-[0_22px_44px_-26px_rgba(18,20,26,0.22)]"
       >
         <AkashicHero />
         <AkashicShowcase />

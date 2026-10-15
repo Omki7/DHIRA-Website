@@ -3,15 +3,20 @@
 /* ------------------------------------------------------------------ */
 /* Read by the desktop sheet and the mobile drawer (components/layout/nav).
    The IA follows the founder's wireframe (DHIRA_ai_Website_v2, 12 Oct 2026):
-   Akashic · Solutions · Services · Company. Agents sit inside Akashic with
-   the Preview mark and never at the top level (DESIGN_SYSTEM claims rule:
-   agents ship in preview). Insights was removed, and so was a "Home" item:
-   the logo is home (14 Oct 2026).
+   Akashic · Solutions · Services · Resources · About, then the plain Pricing
+   link (NAV_LINKS). Agents sit inside Akashic with the Preview mark and
+   never at the top level (DESIGN_SYSTEM claims rule: agents ship in
+   preview). Since 15 Oct 2026 they are drawn as a capability across every
+   module, never as an eighth module (user). Insights left on 14 Oct 2026 for lack of content and returned
+   under Resources on 15 Oct 2026 with articles behind it. There is no
+   "Home" item: the logo is home (14 Oct 2026).
 
    Every href must resolve: a route that exists, or an id that exists on the
    target page. The /akashic module anchors are the span ids AkashicModules
    renders from `dataLayerModules` / `intelligenceLayerModules`.
    Captions are terse noun phrases, one line each, no em dashes. */
+
+import { AKASHIC_APP_URL, AKASHIC_DOCS_URL } from "./site";
 
 export type NavLink = {
   label: string;
@@ -20,6 +25,8 @@ export type NavLink = {
   caption?: string;
   /** Ships in preview: carries the dashed PreviewTag. */
   preview?: boolean;
+  /** Leaves the site (the app, the docs): drawn with a north-east arrow. */
+  external?: boolean;
 };
 
 /** Columns out of 12 that a block spans in the desktop sheet. */
@@ -34,7 +41,7 @@ export type NavGroup = {
 };
 
 /** Which hairline drawing the featured card carries (nav/NavFeatured.tsx). */
-export type NavDrawing = "release" | "foundation" | "method" | "seat";
+export type NavDrawing = "release" | "foundation" | "method" | "library" | "seat";
 
 export type NavFeature = {
   eyebrow: string;
@@ -63,8 +70,22 @@ export type NavMenu = {
   lead: NavLead;
   groups: NavGroup[];
   feature: NavFeature;
+  /** A capability that runs across the groups, drawn as a dashed strip under them. */
+  strip?: { label: string; link: NavLink };
+  /** Quiet links along the foot of the sheet. */
+  footer?: NavLink[];
+  /** Draw the feature as a one-line card in the foot row, not a tall card. */
+  compactFeature?: boolean;
 };
 
+/* The Akashic menu (redrawn 15 Oct 2026, user): the seven modules in three
+   categories that match the layers on /akashic (data, intelligence,
+   governance), with no captions so the sheet reads at a glance. AI agents
+   run across every module, so they get the dashed strip under the
+   categories rather than a module row. Docs, Pricing and Integrations sit
+   along the foot with the 1.0 release as a one-line card, which leaves the
+   three categories a quarter of the sheet each, so no label wraps at 1024.
+   Sign in sits in the bar from xl and at the foot's right end. */
 export const NAV_MENUS: NavMenu[] = [
   {
     id: "akashic",
@@ -75,42 +96,53 @@ export const NAV_MENUS: NavMenu[] = [
       text: "The governed data and AI platform.",
       href: "/akashic",
       cta: "Platform overview",
-      span: 2,
+      span: 3,
     },
     groups: [
       {
-        heading: "Platform",
-        span: 2,
+        heading: "Foundation",
+        span: 3,
         links: [
-          { label: "How it works", href: "/akashic#how-it-works" },
-          { label: "Where it runs", href: "/akashic#architecture" },
-          { label: "Security and privacy", href: "/akashic#trust" },
-          { label: "Open foundations", href: "/akashic#open" },
-          { label: "Capability reference", href: "/akashic#stack" },
+          { label: "Pipelines", href: "/akashic#data-pipelines" },
+          { label: "Master Data", href: "/akashic#master-data" },
+          { label: "Warehouse", href: "/akashic#data-warehousing" },
         ],
       },
       {
-        heading: "Modules",
-        span: 5,
-        twoColumn: true,
+        heading: "Intelligence",
+        span: 3,
         links: [
-          { label: "Pipelines", href: "/akashic#data-pipelines", caption: "Ingest and validate every source" },
-          { label: "Master Data", href: "/akashic#master-data", caption: "Entity resolution, one record" },
-          { label: "Warehouse", href: "/akashic#data-warehousing", caption: "Model data, define metrics once" },
-          { label: "Machine Learning", href: "/akashic#machine-learning", caption: "Train, deploy and monitor models" },
-          { label: "Ask Akashic", href: "/akashic#ask-ai", caption: "Cited answers in plain language" },
-          { label: "Business Intelligence", href: "/akashic#business-intelligence", caption: "Serve metrics to every surface" },
-          { label: "Governance", href: "/akashic#governance", caption: "Permissions, lineage and audit" },
-          { label: "AI agents", href: "/akashic#agents", caption: "Agents do the legwork, people decide", preview: true },
+          { label: "Business Intelligence", href: "/akashic#business-intelligence" },
+          { label: "Ask Akashic", href: "/akashic#ask-ai" },
+          { label: "Machine Learning", href: "/akashic#machine-learning" },
+        ],
+      },
+      {
+        heading: "Trust",
+        span: 3,
+        links: [
+          { label: "Governance", href: "/akashic#governance" },
+          { label: "Security and privacy", href: "/akashic#trust" },
+          { label: "Open foundations", href: "/akashic#open" },
         ],
       },
     ],
+    strip: {
+      label: "Across every module",
+      link: { label: "AI agents", href: "/akashic#agents", caption: "Agents do the legwork. People make the call.", preview: true },
+    },
+    footer: [
+      { label: "Docs", href: AKASHIC_DOCS_URL, external: true },
+      { label: "Pricing", href: "/pricing" },
+      { label: "Integrations", href: "/integrations" },
+    ],
+    compactFeature: true,
     feature: {
       eyebrow: "Akashic 1.0",
       title: "Generally available 1 November 2026.",
       caption: "Every module on one governed foundation.",
-      href: "/akashic#modules",
-      cta: "See the modules",
+      href: "/akashic/1-0",
+      cta: "See what's in 1.0",
       drawing: "release",
       span: 3,
     },
@@ -216,12 +248,55 @@ export const NAV_MENUS: NavMenu[] = [
       span: 3,
     },
   },
+  /* Resources (added 15 Oct 2026): the founder's Insights returns with
+     content behind it, beside the pages an evaluation needs. */
   {
-    id: "company",
-    label: "Company",
-    match: ["/about", "/careers"],
+    id: "resources",
+    label: "Resources",
+    match: ["/insights", "/customers", "/events", "/glossary", "/integrations", "/trust"],
     lead: {
-      title: "Company",
+      title: "Resources",
+      text: "Ideas, proof and the facts a review needs.",
+      href: "/insights",
+      cta: "Read Insights",
+      span: 3,
+    },
+    groups: [
+      {
+        heading: "Learn",
+        span: 3,
+        links: [
+          { label: "Insights", href: "/insights", caption: "Perspectives on data and AI" },
+          { label: "Events", href: "/events", caption: "Launches and walkthroughs" },
+          { label: "Glossary", href: "/glossary", caption: "The terms we use, defined" },
+        ],
+      },
+      {
+        heading: "Evaluate",
+        span: 3,
+        links: [
+          { label: "Customer stories", href: "/customers", caption: "Country-scale programmes" },
+          { label: "Integrations", href: "/integrations", caption: "Every system Akashic reads" },
+          { label: "Trust Center", href: "/trust", caption: "Security, privacy and AI" },
+        ],
+      },
+    ],
+    feature: {
+      eyebrow: "Insights",
+      title: "Agents do the legwork.\nPeople make the call.",
+      caption: "How Akashic's agents are designed.",
+      href: "/insights/agents-do-the-legwork",
+      cta: "Read the article",
+      drawing: "library",
+      span: 3,
+    },
+  },
+  {
+    id: "about",
+    label: "About",
+    match: ["/about", "/careers", "/newsroom", "/partners", "/contact"],
+    lead: {
+      title: "About",
       text: "Built on data. Proven in production.",
       href: "/about",
       cta: "About DHIRA",
@@ -234,6 +309,7 @@ export const NAV_MENUS: NavMenu[] = [
         links: [
           { label: "Leadership", href: "/about#people", caption: "Founder and leadership team" },
           { label: "Impact", href: "/#scale", caption: "Proven at national scale" },
+          { label: "Newsroom", href: "/newsroom", caption: "News, recognition, media kit" },
         ],
       },
       {
@@ -241,7 +317,8 @@ export const NAV_MENUS: NavMenu[] = [
         span: 3,
         links: [
           { label: "Careers", href: "/careers", caption: "Open roles and how we hire" },
-          { label: "Contact", href: "#talk-to-our-team", caption: "New York, Hyderabad, Bangalore" },
+          { label: "Partners", href: "/partners", caption: "Build, deliver and sell on Akashic" },
+          { label: "Contact", href: "/contact", caption: "New York, Hyderabad, Bangalore" },
         ],
       },
     ],
@@ -263,12 +340,112 @@ export const NAV_MENUS: NavMenu[] = [
 export const NAV_ANNOUNCEMENT: { label: string; text: string; href: string; cta: string } | null = {
   label: "Akashic 1.0",
   text: "Generally available 1 November 2026.",
-  href: "/akashic#modules",
+  href: "/akashic/1-0",
   cta: "See what's in it",
 };
 
 /* Opens the global ContactModal, which intercepts every #talk-to-our-team anchor. */
 export const NAV_CTA = { label: "Talk to our team", href: "#talk-to-our-team" };
+
+/* Plain top-level links after the menus (15 Oct 2026): Pricing, where
+   Snowflake, Stripe, Vercel, Linear, Ramp, Retool and Cohere put it.
+   Rendered with RegionLink, so India visitors land on /in/pricing. */
+export type NavPlainLink = { label: string; href: string; match: string[] };
+
+export const NAV_LINKS: NavPlainLink[] = [{ label: "Pricing", href: "/pricing", match: ["/pricing"] }];
+
+/* Sign in to the Akashic app (15 Oct 2026, user): a text link beside the
+   CTA, where every SaaS reference site puts it. Shown in the bar from xl
+   (1024 has no room beside six items), in the drawer, the Akashic sheet's
+   foot and the footer at every width. */
+export const NAV_SIGN_IN = { label: "Sign in", href: AKASHIC_APP_URL };
+
+/* ------------------------------------------------------------------ */
+/*  Footer: the same IA, one source with the header (15 Oct 2026)      */
+/* ------------------------------------------------------------------ */
+/* Mirrors NAV_MENUS (Akashic · Solutions · Services · Resources ·
+   Company), replacing the old Insights / Delivery / "EIS" columns. Every
+   href resolves to a route and an id that exists. LEGAL_LINKS is the
+   founder's policy row (his footer: privacy, terms, accessibility,
+   copyright and hyperlinking policies, sitemap). */
+export type FooterLink = { label: string; href: string; external?: boolean };
+
+export type FooterColumn = { heading: string; links: FooterLink[]; subHeading?: string; subLinks?: FooterLink[] };
+
+export const FOOTER_COLUMNS: FooterColumn[] = [
+  {
+    heading: "Akashic",
+    links: [
+      { label: "Platform overview", href: "/akashic" },
+      { label: "Modules", href: "/akashic#modules" },
+      { label: "AI agents", href: "/akashic#agents" },
+      { label: "Akashic 1.0", href: "/akashic/1-0" },
+      { label: "Integrations", href: "/integrations" },
+      { label: "Pricing", href: "/pricing" },
+      { label: "Docs", href: AKASHIC_DOCS_URL, external: true },
+      { label: "Sign in", href: AKASHIC_APP_URL, external: true },
+    ],
+  },
+  {
+    heading: "Solutions",
+    links: [
+      { label: "Enterprise Intelligence", href: "/solutions/eis" },
+      { label: "IPMS", href: "/solutions#ipms" },
+      { label: "Akashic Life", href: "/solutions/life" },
+      { label: "All solutions", href: "/solutions" },
+    ],
+    subHeading: "Industries",
+    subLinks: [
+      { label: "Public sector", href: "/sectors/public-sector" },
+      { label: "BFSI", href: "/sectors/finance" },
+      { label: "Healthcare", href: "/sectors/healthcare" },
+      { label: "Retail and CPG", href: "/sectors/retail" },
+      { label: "Manufacturing", href: "/sectors/manufacturing" },
+      { label: "Education", href: "/sectors/education" },
+      { label: "Energy and utilities", href: "/sectors/energy" },
+    ],
+  },
+  {
+    heading: "Services",
+    links: [
+      { label: "Strategic Advisory", href: "/delivery#advisory" },
+      { label: "Engineering @Scale", href: "/delivery#engineering" },
+      { label: "AI Solutions & Accelerators", href: "/delivery#ai-solutions" },
+      { label: "Ways to engage", href: "/delivery#engagement-models" },
+      { label: "How we deliver", href: "/delivery#methodology" },
+    ],
+  },
+  {
+    heading: "Resources",
+    links: [
+      { label: "Insights", href: "/insights" },
+      { label: "Customer stories", href: "/customers" },
+      { label: "Events", href: "/events" },
+      { label: "Glossary", href: "/glossary" },
+      { label: "Trust Center", href: "/trust" },
+    ],
+  },
+  {
+    heading: "Company",
+    links: [
+      { label: "About DHIRA", href: "/about" },
+      { label: "Leadership", href: "/about#people" },
+      { label: "Newsroom", href: "/newsroom" },
+      { label: "Careers", href: "/careers" },
+      { label: "Partners", href: "/partners" },
+      { label: "Contact", href: "/contact" },
+    ],
+  },
+];
+
+export const LEGAL_LINKS: FooterLink[] = [
+  { label: "Privacy policy", href: "/privacy" },
+  { label: "Terms of use", href: "/terms" },
+  { label: "Cookie policy", href: "/cookies" },
+  { label: "Accessibility", href: "/accessibility" },
+  { label: "Website policies", href: "/legal" },
+  { label: "Site map", href: "/site-map" },
+];
 
 /** True when `pathname` sits inside a menu's section. */
 export function isCurrentSection(menu: NavMenu, pathname: string): boolean {

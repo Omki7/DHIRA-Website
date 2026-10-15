@@ -1,5 +1,5 @@
 import type { ComponentType, CSSProperties } from "react";
-import Link from "next/link";
+import RegionLink from "@/components/ui/RegionLink";
 import type { NavDrawing, NavFeature } from "@/lib/navigation";
 import { Arrow } from "./NavIcons";
 
@@ -87,10 +87,40 @@ function SeatFigure() {
   );
 }
 
+/* Resources: three sheets on a shelf line, the front one live (blue rules
+   for its text), the two behind in hairline: the reading list, newest
+   first. */
+function LibraryFigure() {
+  const sheets = [52, 96, 140];
+  return (
+    <>
+      <path d="M12 64H228" className={`ad-draw ${LINE}`} strokeWidth={1.2} pathLength={1} style={pace(0, 0.7)} />
+      {sheets.map((x, i) => {
+        const live = i === sheets.length - 1;
+        return (
+          <g key={x}>
+            <rect x={x} y={12} width={48} height={52} rx={4} className={`ad-draw ${live ? LIVE : LINE}`} strokeWidth={1.2} pathLength={1} style={pace(0.2 + i * 0.12, 0.7)} />
+            {[24, 32, 40, 48].map((y, k) => (
+              <path
+                key={y}
+                d={`M${x + 8} ${y}H${x + (k === 3 ? 26 : 40)}`}
+                className={`ad-fade ${live ? LIVE : LINE}`}
+                strokeWidth={1.2}
+                style={pace(0.7 + i * 0.1 + k * 0.05)}
+              />
+            ))}
+          </g>
+        );
+      })}
+    </>
+  );
+}
+
 const FIGURES: Record<NavDrawing, ComponentType> = {
   release: ReleaseFigure,
   foundation: FoundationFigure,
   method: MethodFigure,
+  library: LibraryFigure,
   seat: SeatFigure,
 };
 
@@ -105,7 +135,7 @@ export default function NavFeatured({
 }) {
   const Figure = FIGURES[feature.drawing];
   return (
-    <Link
+    <RegionLink
       href={feature.href}
       className={`group flex flex-col rounded-outer border border-subtle-stroke bg-primary-bg p-5 transition-colors duration-250 ease-settle hover:border-blue-border ${className}`}
     >
@@ -125,6 +155,6 @@ export default function NavFeatured({
         {feature.cta}
         <Arrow className="transition-transform duration-250 ease-settle group-hover:translate-x-0.5" />
       </span>
-    </Link>
+    </RegionLink>
   );
 }

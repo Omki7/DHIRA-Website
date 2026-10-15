@@ -76,7 +76,7 @@ export default function EisClose() {
                 Bring the question you currently cannot get answered by Friday.
               </p>
               <div className="mt-6 flex flex-wrap gap-3 md:justify-end">
-                <EisPill href="/#contact">Talk to our team</EisPill>
+                <EisPill href="#talk-to-our-team">Talk to our team</EisPill>
                 <EisPill href="/akashic" tone="ghost">
                   See the Akashic platform
                 </EisPill>

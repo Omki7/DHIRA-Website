@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import AkashicLogo from "@/components/icons/AkashicLogo";
 import ScrollRevealRail from "@/components/ui/ScrollRevealRail";
+import useOnScreen from "@/hooks/useOnScreen";
 
 /* Rotating phrase — same context, different emotional lever.
    "act on" is deliberately absent: the subhead owns it. */
@@ -17,19 +18,22 @@ const PHRASE_INTERVAL = 2600;
 
 export default function Hero() {
   const [phraseIndex, setPhraseIndex] = useState(0);
+  const sectionRef = useRef<HTMLElement>(null);
+  const onScreen = useOnScreen(sectionRef);
 
-  /* Rotating phrase — rests entirely under reduced motion */
+  /* Rotating phrase — rests entirely under reduced motion, and while the
+     hero is scrolled away */
   useEffect(() => {
     const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (prefersReduced) return;
+    if (prefersReduced || !onScreen) return;
     const id = setInterval(() => {
       setPhraseIndex((i) => (i + 1) % heroPhrases.length);
     }, PHRASE_INTERVAL);
     return () => clearInterval(id);
-  }, []);
+  }, [onScreen]);
 
   return (
-    <section id="hero" className="relative overflow-hidden bg-background">
+    <section ref={sectionRef} id="hero" className="relative overflow-hidden bg-background">
       <ScrollRevealRail>
         {/* Centered text block. The product screen carousel that peeked in
             below it (HeroProductsMockup + HeroConnections) was removed on
@@ -60,11 +64,10 @@ export default function Hero() {
             href="/akashic"
             className="group relative mb-10 inline-flex items-center justify-center overflow-hidden rounded-full bg-subtle-stroke p-[1px] shadow-sm transition-shadow ease-settle hover:shadow"
           >
-            <span
-              aria-hidden
-              className="absolute inset-[-1000%] animate-[spin_3s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,transparent_0%,transparent_85%,#266DF2_100%)] opacity-75 transition-opacity group-hover:opacity-100"
-            />
-            <span className="relative flex items-center gap-2 rounded-full bg-background/95 px-3.5 py-1.5 text-xs backdrop-blur-md transition-colors group-hover:bg-background sm:text-sm">
+            <span aria-hidden className="absolute inset-0 flex items-center justify-center opacity-75 transition-opacity group-hover:opacity-100">
+              <span className="aspect-square w-[120%] shrink-0 animate-[spin_3s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,transparent_0%,transparent_85%,#266DF2_100%)]" />
+            </span>
+            <span className="relative flex items-center gap-2 rounded-full bg-background px-3.5 py-1.5 text-xs sm:text-sm">
               <span className="hidden font-normal text-secondary-text min-[380px]:inline">Powered by</span>
               <span className="inline-flex items-center font-semibold text-primary-text">
                 <AkashicLogo className="h-5 w-5" />

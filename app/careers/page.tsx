@@ -33,7 +33,7 @@ export default function CareersPage() {
   return (
     <>
       <Nav />
-      <main className="bg-background">
+      <main id="main" className="bg-background">
         <CareersHero />
         <CareersImpact />
         <CareersCulture />

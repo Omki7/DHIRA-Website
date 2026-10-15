@@ -1,9 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import dynamic from "next/dynamic";
-import { motion } from "framer-motion";
 import { usePrefersReducedMotion } from "@/hooks/useCountUp";
+import useOnScreen from "@/hooks/useOnScreen";
 
 // Heavy rAF atom-field canvas (below the fold, absolutely positioned): client-only
 // + deferred to keep its animation JS off the initial bundle.
@@ -50,13 +50,16 @@ const TABS = [
 ];
 
 // Horizontal dwell bar: fills left-to-right while a step is active, sits full
-// once it has passed, empty while it waits its turn.
+// once it has passed, empty while it waits its turn. A CSS keyframe, so the
+// fill runs on the compositor; `run` restarts it when the section returns.
 function LoadBar({
   state,
   reduced,
+  run,
 }: {
   state: "done" | "active" | "idle";
   reduced: boolean;
+  run: number;
 }) {
   return (
     <span className="mt-3 block h-[2px] w-full max-w-[300px] overflow-hidden rounded-full bg-uc-line">
@@ -65,12 +68,10 @@ function LoadBar({
         (reduced ? (
           <span className="block size-full bg-uc-mute" />
         ) : (
-          <motion.span
-            key="load"
+          <span
+            key={run}
             className="block size-full origin-left bg-uc-mute"
-            initial={{ scaleX: 0 }}
-            animate={{ scaleX: 1 }}
-            transition={{ duration: ROTATE_MS / 1000, ease: "linear" }}
+            style={{ animation: `uc-load ${ROTATE_MS}ms linear both` }}
           />
         ))}
     </span>
@@ -81,10 +82,12 @@ function StepRail({
   active,
   setActive,
   reduced,
+  run,
 }: {
   active: number;
   setActive: (i: number) => void;
   reduced: boolean;
+  run: number;
 }) {
   return (
     <div className="flex w-full flex-col">
@@ -117,6 +120,7 @@ function StepRail({
               <LoadBar
                 state={i < active ? "done" : on ? "active" : "idle"}
                 reduced={reduced}
+                run={run}
               />
               <div
                 className={`grid transition-all duration-500 ease-settle ${
@@ -159,17 +163,28 @@ function Heading({ center = false }: { center?: boolean }) {
 }
 
 export default function UCSignals() {
+  const rootRef = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(0);
+  const inView = useOnScreen(rootRef);
+  // Bumped each time the section comes back on screen, so the dwell bar
+  // restarts from empty in step with the rotation timer.
+  const [run, setRun] = useState(0);
   const reduced = usePrefersReducedMotion();
 
+  // Rotation only advances while the section is on screen: off screen it
+  // would re-render, reflow the rail and re-morph the canvas for no one.
   useEffect(() => {
-    if (reduced) return;
+    if (inView) setRun((r) => r + 1);
+  }, [inView]);
+
+  useEffect(() => {
+    if (reduced || !inView) return;
     const timer = setTimeout(() => setActive((a) => (a + 1) % TABS.length), ROTATE_MS);
     return () => clearTimeout(timer);
-  }, [active, reduced]);
+  }, [active, reduced, inView, run]);
 
   return (
-    <div className="relative w-full border-y border-uc-line">
+    <div ref={rootRef} className="relative w-full border-y border-uc-line">
       {/* desktop split */}
       <div className="relative z-10 hidden lg:flex lg:flex-row">
         <div className="flex flex-1 flex-col justify-center px-6 py-[clamp(64px,10svh,120px)] md:px-10 xl:px-14">
@@ -180,7 +195,7 @@ export default function UCSignals() {
               know its own job. Its job is one click. The single exit now sits
               at the end of the section, in UCSdk. */}
           <div className="mt-10 w-full max-w-[520px]">
-            <StepRail active={active} setActive={setActive} reduced={reduced} />
+            <StepRail active={active} setActive={setActive} reduced={reduced} run={run} />
           </div>
         </div>
         <div className="relative overflow-hidden border-l border-uc-stroke lg:w-1/2">
@@ -197,7 +212,7 @@ export default function UCSignals() {
           <GlyphMorphCanvas active={active} />
         </div>
         <div className="mx-auto mt-6 w-full max-w-[440px]">
-          <StepRail active={active} setActive={setActive} reduced={reduced} />
+          <StepRail active={active} setActive={setActive} reduced={reduced} run={run} />
         </div>
       </div>
     </div>
