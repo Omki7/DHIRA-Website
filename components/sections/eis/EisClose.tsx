@@ -1,87 +1,74 @@
-import AkashicLogo from "@/components/icons/AkashicLogo";
+"use client";
+
+import Link from "next/link";
 import EisAtmosphere from "@/components/ui/eis/EisAtmosphere";
-import EisPill from "@/components/ui/eis/EisPill";
+import ScrollReveal from "@/components/ui/ScrollReveal";
+import ScrollRevealRail from "@/components/ui/ScrollRevealRail";
 import type { EisPage } from "@/content/pages/solutions-eis";
 
-/* [talk-to-our-team] — the close.
- *
- * Kept rather than rebuilt: the composition (mark left, claim right, on the
- * sky the page opened on) already works, and "bring the question you
- * currently cannot get answered by Friday" is the sharpest CTA line here.
- *
- * Two things were fixed. The section ran two paragraphs of equal weight
- * saying different things, one under the mark and one under the headline,
- * so neither led. And the left column was a logo with a small floating
- * caption under it, which left the strongest column on the page carrying
- * almost nothing. It now states what the session actually covers, in the
- * same plain terms as the "what do you need from us" answer in [questions]
- * rather than promising a demo.
+/* [talk-to-our-team] — The Executive Close.
+ * Big Akashic logo removed per direction; replaced with a clean,
+ * centered, typography-first executive closing card.
  */
-
 
 export default function EisClose({ content }: { content: EisPage["close"] }) {
   const SESSION = content.session;
+
   return (
-    <section id="talk-to-our-team" className="relative scroll-mt-24 overflow-hidden">
-      {/* The page opened on a sky and closes on one. Ridges stay off: this
-          slab is a horizon, not a landscape, and the mark below needs a
-          clean ground to sit on. */}
+    <section id="talk-to-our-team" className="relative scroll-mt-24 overflow-hidden py-16 lg:py-24">
       <EisAtmosphere variant="dusk" />
 
-      <div className="relative z-10 mx-auto max-w-[1440px] px-6 lg:px-12">
-        <div className="grid grid-cols-12 gap-6 pb-12 pt-16 lg:pb-16 lg:pt-24">
-          <div className="col-span-12 flex items-start md:col-span-5">
-            <AkashicLogo
-              className="h-auto w-full max-w-[240px] text-ink md:max-w-[420px] lg:max-w-[520px]"
-              primaryColor="rgb(var(--ink))"
-              accentColor="rgb(var(--ink)/0.55)"
-            />
-          </div>
+      <ScrollRevealRail className="relative z-10">
+        <ScrollReveal>
+          <div className="mx-auto max-w-4xl text-center">
+            {/* Status Badge */}
+            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-lineSoft bg-background/80 px-4 py-1.5 backdrop-blur-md">
+              <span className="h-2 w-2 rounded-full bg-positive" />
+              <span className="font-mono text-[11px] font-semibold uppercase tracking-wider text-ink">
+                {content.sessionLabel}
+              </span>
+            </div>
 
-          <div className="col-span-12 flex items-start md:col-span-7 md:justify-end">
-            <h2 className="font-heading text-4xl font-medium leading-[1.05] tracking-tighter text-ink sm:text-5xl md:text-right md:text-6xl lg:text-7xl">
-              {content.title[0]}
-              <br />
-              {content.title[1]}
+            {/* Master Headline */}
+            <h2 className="font-heading text-4xl font-semibold leading-[1.05] tracking-tightest text-ink sm:text-5xl md:text-6xl lg:text-7xl">
+              {content.title[0]}{" "}
+              <span className="text-inkSoft">{content.title[1]}</span>
             </h2>
-          </div>
-        </div>
 
-        <div className="grid grid-cols-12 gap-x-6 gap-y-10 pb-16 lg:pb-24">
-          <div className="col-span-12 md:col-span-5">
-            <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-secondary-text">
-              {content.sessionLabel}
+            {/* Executive Prompt */}
+            <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-secondary-text sm:text-xl">
+              {content.prompt}
             </p>
-            <ul className="mt-4 space-y-3">
-              {SESSION.map((s) => (
-                <li key={s} className="flex gap-3">
-                  <span
-                    className="mt-[7px] h-[5px] w-[5px] flex-shrink-0 rounded-full bg-tertiary-bg"
-                    aria-hidden
-                  />
-                  <span className="max-w-[38ch] text-[15px] leading-snug text-ink">
-                    {s}
-                  </span>
-                </li>
-              ))}
-            </ul>
-          </div>
 
-          <div className="col-span-12 md:col-span-7 md:flex md:justify-end">
-            <div className="md:text-right">
-              <p className="max-w-md text-lg leading-snug text-ink md:ml-auto">
-                {content.prompt}
-              </p>
-              <div className="mt-6 flex flex-wrap gap-3 md:justify-end">
-                <EisPill href={content.primary.href}>{content.primary.label}</EisPill>
-                <EisPill href={content.secondary.href} tone="ghost">
-                  {content.secondary.label}
-                </EisPill>
-              </div>
+            {/* CTA Buttons */}
+            <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
+              <Link href={content.primary.href} className="btn-primary">
+                {content.primary.label}
+              </Link>
+              <Link href={content.secondary.href} className="btn-secondary">
+                {content.secondary.label}
+              </Link>
+            </div>
+
+            {/* Three Executive Walkthrough Pillars */}
+            <div className="mt-14 grid grid-cols-1 gap-4 text-left sm:grid-cols-3 sm:gap-6 border-t border-lineSoft pt-10">
+              {SESSION.map((item, idx) => (
+                <div
+                  key={item}
+                  className="rounded-card border border-lineSoft bg-background/60 p-4 backdrop-blur-sm"
+                >
+                  <span className="font-mono text-[10px] font-bold uppercase tracking-wider text-blue">
+                    0{idx + 1} · Walkthrough
+                  </span>
+                  <p className="mt-2 text-[13.5px] leading-relaxed text-ink">
+                    {item}
+                  </p>
+                </div>
+              ))}
             </div>
           </div>
-        </div>
-      </div>
+        </ScrollReveal>
+      </ScrollRevealRail>
     </section>
   );
 }
