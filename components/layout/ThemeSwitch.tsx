@@ -1,32 +1,27 @@
 "use client";
 
 import { useEffect, useSyncExternalStore } from "react";
-import { usePathname } from "next/navigation";
-import { getServerTheme, getTheme, setTheme, subscribeTheme, supportsTheme } from "@/lib/theme";
+import { useUi } from "@/components/providers/UiProvider";
+import { getServerTheme, getTheme, setTheme, subscribeTheme } from "@/lib/theme";
 
 export default function ThemeSwitch({ labelled = false }: { labelled?: boolean }) {
-  const pathname = usePathname() ?? "/";
+  const { theme: copy } = useUi();
   const theme = useSyncExternalStore(subscribeTheme, getTheme, getServerTheme);
-  const supported = supportsTheme(pathname);
 
   useEffect(() => {
-    // Once hydrated, the page marker scopes colours across client navigation.
-    document.documentElement.removeAttribute("data-theme-boot");
     const meta = document.querySelector<HTMLMetaElement>('meta[name="theme-color"]');
-    if (meta) meta.content = supported && theme === "dark" ? "#0B1019" : "#FFFFFF";
-  }, [pathname, supported, theme]);
-
-  if (!supported) return null;
+    if (meta) meta.content = theme === "dark" ? "#0B1220" : "#FCFDFE";
+  }, [theme]);
 
   return (
     <div className="theme-control">
-      {labelled && <span className="theme-control-label">Appearance</span>}
+      {labelled && <span className="theme-control-label">{copy.label}</span>}
       <button
         type="button"
         role="switch"
-        aria-label="Dark mode"
+        aria-label={copy.toggle}
         aria-checked={theme === "dark"}
-        title={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
+        title={theme === "dark" ? copy.toLight : copy.toDark}
         className="theme-switch"
         onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
       >

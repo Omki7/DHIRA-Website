@@ -13,38 +13,8 @@
 
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import { LifeEyebrow, LifeCornerArc } from "@/components/ui/life/LifeChrome";
+import type { LifePage } from "@/content/pages/solutions-life";
 
-type Block = {
-  ghost: string;
-  /** Narrow figures ("0") need to be pushed off the text or they read as a stray mark. */
-  ghostClass?: string;
-  head: string;
-  body: string;
-};
-
-const blocks: Block[] = [
-  {
-    ghost: "4 DAYS",
-    head: "Time, not pathology, is what takes her",
-    body: "A mother in a remote village can wait four days between the first sign of danger and a diagnosis. Travel to a clinic. Manual checks. A sample sent away. A lab queue. The journey back.",
-  },
-  {
-    ghost: "0 BARS",
-    head: "The need is worst exactly where the network is not",
-    body: "Cloud diagnostics assume a connection. The places that most need specialist judgement are the ones with no broadband, no specialist, and often no signal at all.",
-  },
-  {
-    ghost: "7 STEPS",
-    head: "Every handoff is somewhere to lose her",
-    body: "Symptom, clinic, checks, sample, lab, return, diagnosis. Seven places for a record to be re-keyed, misfiled or quietly dropped, and nobody holding the whole thread.",
-  },
-];
-
-const closer = {
-  ghost: "ZERO",
-  lead: "Not one of those four days is clinical.",
-  tail: "They are travel, transcription and waiting. Every one of them is a systems problem, and systems problems can be rebuilt.",
-};
 
 function Ghost({ children, className = "" }: { children: React.ReactNode; className?: string }) {
   return (
@@ -67,7 +37,8 @@ function Tick() {
   );
 }
 
-export default function LifeGap() {
+export default function LifeGap({ content }: { content: LifePage["gap"] }) {
+  const { blocks, closer } = content;
   return (
     // No `overflow-hidden` on this section: it would turn the pinned column
     // back into a static one. See the note on LifeCornerArc.
@@ -79,9 +50,9 @@ export default function LifeGap() {
           {/* Pinned side */}
           <div className="pt-24 lg:sticky lg:top-[120px] lg:self-start lg:pb-24 lg:pt-40">
             <ScrollReveal>
-              <LifeEyebrow num="01" tone="light">The problem</LifeEyebrow>
+              <LifeEyebrow num={content.eyebrow.num} tone="light">{content.eyebrow.label}</LifeEyebrow>
               <h2 className="mt-7 max-w-[10em] text-[34px] font-medium leading-[1.24] tracking-[-0.005em] text-life-navy sm:text-[40px] lg:text-[46px]">
-                The signal arrives. The response does not.
+                {content.title}
               </h2>
             </ScrollReveal>
           </div>
@@ -95,7 +66,7 @@ export default function LifeGap() {
               >
                 <ScrollReveal>
                   <div className="relative">
-                    <Ghost className={block.ghostClass}>{block.ghost}</Ghost>
+                    <Ghost>{block.ghost}</Ghost>
                     <Tick />
                     <h3 className="relative max-w-[22em] text-[15px] font-bold uppercase leading-[1.5] tracking-[0.04em] text-life-blue sm:text-[16px]">
                       {block.head}
@@ -116,7 +87,7 @@ export default function LifeGap() {
                   <Tick />
                   <p className="relative max-w-[15em] text-[26px] font-medium leading-[1.3] tracking-[-0.005em] sm:text-[31px] lg:text-[34px]">
                     <span className="text-life-navy">{closer.lead} </span>
-                    <span className="text-[#7FB4D8]">{closer.tail}</span>
+                    <span className="text-life-blue">{closer.tail}</span>
                   </p>
                 </div>
               </ScrollReveal>

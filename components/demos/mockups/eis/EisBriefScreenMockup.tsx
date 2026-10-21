@@ -44,14 +44,13 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import type { Domain } from "@/lib/eisDomains";
-import { SEVERITY } from "@/lib/eisDomains";
+import type { Domain, Pillar } from "@/content/pages/solutions-eis";
+import { SEVERITY } from "./severity";
 import { AppTopBar, LiveChip, ModuleRail } from "./EisAppChrome";
 
 /* The runway's horizon, and the point past which a window counts as
    closing. Both in days. */
 const HORIZON = 30;
-const DANGER = 14;
 
 /* Feed colours for the convergence diagram: three feeds must be visibly
    three. Rose and amber are the severity ramp; violet is the third voice,
@@ -91,7 +90,7 @@ function Converge() {
           opacity="0.9"
         />
       ))}
-      <circle cx="37" cy={MID} r="3.5" fill="#3E63DD" />
+      <circle cx="37" cy={MID} r="3.5" fill="rgb(var(--blue))" />
     </svg>
   );
 }
@@ -121,21 +120,9 @@ function Runway({ domain }: { domain: Domain }) {
         {/* The fortnight. Faded on both axes so it reads as heat around the
             axis: a hard-edged block here would reinstate the very card the
             redesign removed. */}
-        <div
-          className="absolute left-0"
-          style={{
-            top: 20,
-            height: 48,
-            width: `${(DANGER / HORIZON) * 100}%`,
-            background:
-              "linear-gradient(90deg, rgba(193,48,89,0.10) 0%, rgba(193,48,89,0) 100%)",
-            maskImage: "linear-gradient(180deg, transparent, #000 40%, #000 70%, transparent)",
-            WebkitMaskImage:
-              "linear-gradient(180deg, transparent, #000 40%, #000 70%, transparent)",
-          }}
-        />
+        
 
-        <div className="absolute left-0 right-0 top-[44px] h-px bg-[#E4E8F0]" />
+        <div className="absolute left-0 right-0 top-[44px] h-px bg-card-line" />
 
         <span className="absolute left-0 top-[52px] text-[8px] font-bold uppercase tracking-[0.1em] text-secondary-text">
           Today
@@ -183,7 +170,7 @@ function Runway({ domain }: { domain: Domain }) {
                   on a white ground effectively disappears, and the stem is
                   what ties the label to its point on the axis. */}
               <span
-                className={`mt-1.5 h-3 w-px ${critical ? "" : "bg-[#C3C9D4]"}`}
+                className={`mt-1.5 h-3 w-px ${critical ? "" : "bg-line"}`}
                 style={critical ? { background: sev.dot } : undefined}
               />
               <span
@@ -192,7 +179,7 @@ function Runway({ domain }: { domain: Domain }) {
                   width: critical ? 9 : 7,
                   height: critical ? 9 : 7,
                   background: sev.dot,
-                  boxShadow: critical ? `0 0 0 4px ${sev.bg}` : undefined,
+                  boxShadow: "none",
                 }}
               />
               <span
@@ -213,13 +200,43 @@ function Runway({ domain }: { domain: Domain }) {
 
 function StepDot({ state }: { state: "done" | "active" | "todo" }) {
   if (state === "todo")
-    return <span className="h-[6px] w-[6px] flex-shrink-0 rounded-full border border-[#D6D9DE]" />;
+    return <span className="h-[6px] w-[6px] flex-shrink-0 rounded-full border border-lineSoft" />;
   return (
     <span
       className={`h-[6px] w-[6px] flex-shrink-0 rounded-full ${state === "active" ? "animate-pulse" : ""}`}
       style={{ background: state === "active" ? SEVERITY.watch.dot : SEVERITY.clear.dot }}
     />
   );
+}
+
+/* One labelled group of headline figures in the taxonomy line. */
+function Group({
+  label,
+  items,
+  accent,
+}: {
+  label: string;
+  items: Pillar[];
+  accent: boolean;
+}) {
+  return (
+  <span className="flex min-w-0 items-baseline gap-2.5">
+    <span
+      className={`flex-shrink-0 text-[8px] font-bold uppercase tracking-[0.12em] ${
+        accent ? "text-blue" : "text-tertiary-text"
+      }`}
+    >
+      {label}
+    </span>
+    {items.map((p) => (
+      <span key={p.key} className="flex min-w-0 items-baseline gap-1.5">
+        <span className="text-[12px] font-bold tracking-tight text-ink">{p.value}</span>
+        {/* Label as authored, not lowercased: "SKUs" became "skus". */}
+        <span className="truncate text-[10px] text-tertiary-text">{p.label}</span>
+      </span>
+    ))}
+  </span>
+);
 }
 
 export default function EisBriefScreenMockup({ domain }: { domain: Domain }) {
@@ -241,11 +258,6 @@ export default function EisBriefScreenMockup({ domain }: { domain: Domain }) {
   const industry = domain.pillars.filter((p) => !p.shared);
   const shared = domain.pillars.filter((p) => p.shared);
 
-  /* Matched on the first word because "SAP PM" is a module of the "SAP
-     S/4HANA" row. When the loop closes, that row's counter is what moves.
-     Matching only — never displayed, because "Blue Yonder" truncates to
-     "Blue", which is not the name of anything. */
-  const targetWord = domain.actionTarget.split(" ")[0];
   const writesTotal =
     domain.sources.reduce((n, s) => n + s.writes, 0) + (stage === "closed" ? 1 : 0);
 
@@ -263,37 +275,10 @@ export default function EisBriefScreenMockup({ domain }: { domain: Domain }) {
     },
   ];
 
-  const Group = ({
-    label,
-    items,
-    accent,
-  }: {
-    label: string;
-    items: typeof industry;
-    accent: boolean;
-  }) => (
-    <span className="flex min-w-0 items-baseline gap-2.5">
-      <span
-        className={`flex-shrink-0 text-[8px] font-bold uppercase tracking-[0.12em] ${
-          accent ? "text-blue" : "text-tertiary-text"
-        }`}
-      >
-        {label}
-      </span>
-      {items.map((p) => (
-        <span key={p.key} className="flex min-w-0 items-baseline gap-1.5">
-          <span className="text-[12px] font-bold tracking-tight text-ink">{p.value}</span>
-          {/* Label as authored, not lowercased: "SKUs" became "skus". */}
-          <span className="truncate text-[10px] text-tertiary-text">{p.label}</span>
-        </span>
-      ))}
-    </span>
-  );
-
   return (
     /* No window bar: the section wraps this in EisBrowserChromeMockup, which
        already draws the traffic lights and the URL. */
-    <div className="flex w-full flex-col overflow-hidden bg-white text-left">
+    <div className="flex w-full flex-col overflow-hidden bg-background text-left">
       <AppTopBar org={domain.org} view="Morning brief" right={<LiveChip />} />
 
       <div className="flex min-h-0 flex-1">
@@ -302,9 +287,9 @@ export default function EisBriefScreenMockup({ domain }: { domain: Domain }) {
         <div className="flex min-w-0 flex-1 flex-col">
           {/* THE SHAPE OF THE BUSINESS. One line, two labelled groups. The
               taxonomy is the point, so the taxonomy is the structure. */}
-          <div className="flex flex-wrap items-baseline gap-x-4 gap-y-1 border-b border-[#EEEFF1] bg-[#FCFCFD] px-4 py-2">
+          <div className="flex flex-wrap items-baseline gap-x-4 gap-y-1 border-b border-subtle-stroke bg-primary-bg px-4 py-2">
             <Group label="Industry" items={industry} accent />
-            <span className="hidden h-[11px] w-px bg-[#E4E8F0] sm:block" />
+            <span className="hidden h-[11px] w-px bg-card-line sm:block" />
             <Group label="Shared" items={shared} accent={false} />
           </div>
 
@@ -352,7 +337,7 @@ export default function EisBriefScreenMockup({ domain }: { domain: Domain }) {
                   {domain.signals.map((s, i) => (
                     <div
                       key={s.system}
-                      className="flex min-w-0 items-center gap-3 rounded-[7px] border border-[#EDEEF1] bg-[#FAFBFC] px-3"
+                      className="flex min-w-0 items-center gap-3 rounded-[7px] border border-card-line bg-primary-bg px-3"
                       style={{ height: ROW_H }}
                     >
                       <span
@@ -379,7 +364,7 @@ export default function EisBriefScreenMockup({ domain }: { domain: Domain }) {
                 <Converge />
 
                 {/* The node the three lines land on. */}
-                <div className="hidden w-[190px] min-w-0 flex-shrink-0 flex-col justify-center rounded-[8px] border border-[#DFE3EA] bg-white px-3 shadow-card sm:flex">
+                <div className="hidden w-[190px] min-w-0 flex-shrink-0 flex-col justify-center rounded-[8px] border border-card-line bg-background px-3  sm:flex">
                   <span className="truncate text-[13px] font-bold tracking-tight text-ink">
                     {domain.subject}
                   </span>
@@ -407,8 +392,8 @@ export default function EisBriefScreenMockup({ domain }: { domain: Domain }) {
               aria-live="polite"
               className="mt-auto flex flex-wrap items-center gap-x-5 gap-y-3 rounded-[9px] border px-3.5 py-3"
               style={{
-                background: stage === "closed" ? SEVERITY.clear.bg : "#FAFBFC",
-                borderColor: stage === "closed" ? SEVERITY.clear.border : "#E4E8F0",
+                background: stage === "closed" ? SEVERITY.clear.bg : "rgb(var(--primary-bg))",
+                borderColor: stage === "closed" ? SEVERITY.clear.border : "rgb(var(--card-line))",
               }}
             >
               <span className="min-w-0 flex-1">
@@ -450,7 +435,7 @@ export default function EisBriefScreenMockup({ domain }: { domain: Domain }) {
                 <button
                   type="button"
                   onClick={approve}
-                  className="flex-shrink-0 rounded-[7px] bg-ink px-4 py-2 text-[10.5px] font-bold uppercase tracking-[0.06em] text-white transition-colors hover:bg-action-hover"
+                  className="flex-shrink-0 rounded-[7px] bg-ink px-4 py-2 text-[10.5px] font-bold uppercase tracking-[0.06em] text-on-action transition-colors hover:bg-action-hover"
                 >
                   Approve
                 </button>
@@ -458,7 +443,7 @@ export default function EisBriefScreenMockup({ domain }: { domain: Domain }) {
                 <span className="flex min-h-[34px] flex-shrink-0 flex-wrap items-center gap-x-2.5 gap-y-1">
                   {steps.map((st, i) => (
                     <span key={st.label + i} className="flex items-center gap-x-2.5">
-                      {i > 0 && <span className="h-px w-4 bg-[#E4E8F0]" />}
+                      {i > 0 && <span className="h-px w-4 bg-card-line" />}
                       <span className="flex items-center gap-1.5">
                         <StepDot state={st.state} />
                         <span
@@ -480,7 +465,7 @@ export default function EisBriefScreenMockup({ domain }: { domain: Domain }) {
           {/* PROVENANCE. Every figure above came from one of these reads, and
               the write counter is the loop's ledger. A rail, not a card: it
               is a footnote to the screen, not a fifth panel on it. */}
-          <div className="flex flex-wrap items-center gap-x-3.5 gap-y-1.5 border-t border-[#EEEFF1] bg-[#FCFCFD] px-4 py-2">
+          <div className="flex flex-wrap items-center gap-x-3.5 gap-y-1.5 border-t border-subtle-stroke bg-primary-bg px-4 py-2">
             <span className="text-[8px] font-bold uppercase tracking-[0.12em] text-tertiary-text">
               Reading
             </span>
@@ -496,7 +481,7 @@ export default function EisBriefScreenMockup({ domain }: { domain: Domain }) {
             ))}
             <span
               className={`ml-auto flex items-center gap-1.5 rounded-full border px-2 py-[2px] transition-colors duration-250 ${
-                stage === "closed" ? "border-blue-border bg-blue-subtle" : "border-[#E4E8F0]"
+                stage === "closed" ? "border-blue-border bg-blue-subtle" : "border-card-line"
               }`}
             >
               <span className="text-[9px] font-bold text-blue">{writesTotal} writes today</span>

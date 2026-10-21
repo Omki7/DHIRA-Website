@@ -1,25 +1,23 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import usePrefersReducedMotion from "./usePrefersReducedMotion";
 
-/* True once the element has entered view; immediately true under reduced
+/* True once the element has entered view; always true under reduced
    motion. Pair with `data-drawn={drawn}` and the `.ad-*` classes in
    globals.css, which draw a figure in once and land on its final state. */
 export default function useDrawn<T extends Element>(threshold = 0.25) {
   const ref = useRef<T>(null);
-  const [drawn, setDrawn] = useState(false);
+  const reduced = usePrefersReducedMotion();
+  const [seen, setSeen] = useState(false);
 
   useEffect(() => {
     const node = ref.current;
-    if (!node) return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      setDrawn(true);
-      return;
-    }
+    if (!node || reduced) return;
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          setDrawn(true);
+          setSeen(true);
           observer.disconnect();
         }
       },
@@ -27,7 +25,7 @@ export default function useDrawn<T extends Element>(threshold = 0.25) {
     );
     observer.observe(node);
     return () => observer.disconnect();
-  }, [threshold]);
+  }, [threshold, reduced]);
 
-  return [ref, drawn] as const;
+  return [ref, reduced || seen] as const;
 }

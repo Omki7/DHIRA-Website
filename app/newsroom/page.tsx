@@ -1,41 +1,33 @@
-import Nav from "@/components/layout/Nav";
+import type { Metadata } from "next";
 import Footer from "@/components/layout/Footer";
+import Nav from "@/components/layout/Nav";
 import PageMinimap from "@/components/layout/PageMinimap";
+import { NewsroomAnnouncements, NewsroomMediaKit, NewsroomRecognition } from "@/components/sections/newsroom/NewsroomSections";
 import PageClose from "@/components/ui/PageClose";
 import PageHero from "@/components/ui/PageHero";
-import { NewsroomAnnouncements, NewsroomMediaKit, NewsroomRecognition } from "@/components/sections/newsroom/NewsroomSections";
+import { getLeaders, getPage, getPressReleases } from "@/lib/content";
 import { pageMetadata } from "@/lib/metadata";
-import { NEWSROOM_HERO, NEWSROOM_SECTIONS } from "@/lib/newsroom";
-import { mailto } from "@/lib/site";
 
-export const metadata = pageMetadata({
-  title: "Newsroom",
-  description: `${NEWSROOM_HERO.payoff} ${NEWSROOM_HERO.lede}`,
-  path: "/newsroom",
-});
+export async function generateMetadata(): Promise<Metadata> {
+  const { seo } = await getPage("newsroom");
+  return pageMetadata(seo);
+}
 
-const INDEX = NEWSROOM_SECTIONS.filter((section) => section.id !== "hero");
-
-export default function NewsroomPage() {
+export default async function NewsroomPage() {
+  const [page, releases, leaders] = await Promise.all([getPage("newsroom"), getPressReleases(), getLeaders()]);
+  const { hero } = page;
   return (
     <>
       <Nav />
       <main id="main" className="bg-background">
-        <PageHero label={NEWSROOM_HERO.label} setup={NEWSROOM_HERO.setup} payoff={NEWSROOM_HERO.payoff} lede={NEWSROOM_HERO.lede} index={INDEX} />
-        <NewsroomAnnouncements />
-        <NewsroomRecognition />
-        <NewsroomMediaKit />
-        <PageClose
-          label="Media contact"
-          setup="Writing about DHIRA or Akashic?"
-          payoff="Reach the team directly."
-          body="Interview requests, product briefings and fact checks go to one inbox, read by the people who can answer."
-          primary={{ label: "Email the press team", href: mailto("Press enquiry") }}
-          secondary={{ label: "Get the media kit", href: "#media-kit" }}
-        />
+        <PageHero label={hero.label} setup={hero.setup} payoff={hero.payoff} lede={hero.lede} index={page.sections.slice(1)} />
+        <NewsroomAnnouncements content={page.announcements} releases={releases} />
+        <NewsroomRecognition content={page.recognition} />
+        <NewsroomMediaKit content={page.mediaKit} boilerplate={page.boilerplate} leaders={leaders} />
+        <PageClose {...page.close} />
       </main>
       <Footer />
-      <PageMinimap sections={NEWSROOM_SECTIONS} aria-label="Newsroom sections" />
+      <PageMinimap sections={page.sections} aria-label={page.sectionsLabel} />
     </>
   );
 }

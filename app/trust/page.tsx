@@ -1,9 +1,7 @@
-import Nav from "@/components/layout/Nav";
+import type { Metadata } from "next";
 import Footer from "@/components/layout/Footer";
+import Nav from "@/components/layout/Nav";
 import PageMinimap from "@/components/layout/PageMinimap";
-import FaqSection from "@/components/ui/FaqSection";
-import PageClose from "@/components/ui/PageClose";
-import PageHero from "@/components/ui/PageHero";
 import {
   TrustCompliance,
   TrustDisclosure,
@@ -13,43 +11,39 @@ import {
   TrustSecurity,
   TrustSubprocessors,
 } from "@/components/sections/trust/TrustSections";
+import FaqSection from "@/components/ui/FaqSection";
+import PageClose from "@/components/ui/PageClose";
+import PageHero from "@/components/ui/PageHero";
+import { getPage } from "@/lib/content";
 import { pageMetadata } from "@/lib/metadata";
-import { mailto } from "@/lib/site";
-import { TRUST_FAQ, TRUST_HERO, TRUST_SECTIONS } from "@/lib/trustSections";
 
-export const metadata = pageMetadata({
-  title: "Trust Center",
-  description: `${TRUST_HERO.payoff} ${TRUST_HERO.lede}`,
-  path: "/trust",
-});
+export async function generateMetadata(): Promise<Metadata> {
+  const { seo } = await getPage("trust");
+  return pageMetadata(seo);
+}
 
-const INDEX = TRUST_SECTIONS.filter((section) => !["hero", "talk-to-our-team"].includes(section.id));
-
-export default function TrustPage() {
+export default async function TrustPage() {
+  const page = await getPage("trust");
+  const { hero, faq } = page;
+  /* The hero's on-page index lists the numbered sections only. */
+  const index = page.sections.filter((section) => !["hero", "talk-to-our-team"].includes(section.id));
   return (
     <>
       <Nav />
       <main id="main" className="bg-background">
-        <PageHero label={TRUST_HERO.label} setup={TRUST_HERO.setup} payoff={TRUST_HERO.payoff} lede={TRUST_HERO.lede} index={INDEX} />
-        <TrustSecurity />
-        <TrustPrivacy />
-        <TrustResponsibleAi />
-        <TrustCompliance />
-        <TrustDocuments />
-        <TrustSubprocessors />
-        <TrustDisclosure />
-        <FaqSection num="08" label={TRUST_FAQ.label} setup={TRUST_FAQ.setup} payoff={TRUST_FAQ.payoff} items={TRUST_FAQ.items} />
-        <PageClose
-          label="Security review"
-          setup="Running a security review?"
-          payoff="Send us the questionnaire."
-          body="Ask for any document on this page, or send your own questionnaire. Our security team answers directly."
-          primary={{ label: "Start a security review", href: mailto("Security review") }}
-          secondary={{ label: "Read the privacy policy", href: "/privacy" }}
-        />
+        <PageHero label={hero.label} setup={hero.setup} payoff={hero.payoff} lede={hero.lede} index={index} />
+        <TrustSecurity content={page.security} />
+        <TrustPrivacy content={page.privacy} />
+        <TrustResponsibleAi content={page.responsibleAi} />
+        <TrustCompliance content={page.compliance} />
+        <TrustDocuments content={page.documents} />
+        <TrustSubprocessors content={page.subprocessors} />
+        <TrustDisclosure content={page.disclosure} />
+        <FaqSection num={faq.num} label={faq.label} setup={faq.setup} payoff={faq.payoff} items={faq.items} />
+        <PageClose {...page.close} />
       </main>
       <Footer />
-      <PageMinimap sections={TRUST_SECTIONS} aria-label="Trust Center sections" />
+      <PageMinimap sections={page.sections} aria-label={page.sectionsLabel} />
     </>
   );
 }

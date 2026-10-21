@@ -14,12 +14,12 @@ type Tone = "solid" | "outline" | "ghost";
 
 const TONES: Record<Tone, string> = {
   /* On a photographic ground: white fill, black label. */
-  solid: "bg-white text-eis-ink hover:bg-white/90",
+  solid: "bg-action text-on-action hover:bg-action-hover",
   /* On white: a hairline, no fill. */
   outline: "border border-eis-line text-eis-ink hover:bg-eis-chip",
   /* On a photographic ground, secondary to `solid`. */
   ghost:
-    "border border-white/40 text-white backdrop-blur-md hover:bg-white/15",
+    "border border-line text-ink  hover:bg-tertiary-bg",
 };
 
 const BASE =

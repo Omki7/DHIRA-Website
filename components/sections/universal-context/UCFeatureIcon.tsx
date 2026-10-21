@@ -19,7 +19,7 @@ import React from "react";
  * and hover tint; only the accent dot is coloured here.
  */
 
-const ACCENT = "#3E63DD";
+const ACCENT = "rgb(var(--blue))";
 
 // Index-matched to UCFeatureGrid's FEATURES. Redrawn 22 Sep 2026 when the
 // tiles moved from outcomes to the five things an AI needs to know; the

@@ -14,8 +14,8 @@ export default function AshokaChakra({ className = "" }: { className?: string })
       aria-hidden
       className={`animate-[spin_80s_linear_infinite] ${className}`}
     >
-      <circle cx="100" cy="100" r="95" stroke="#C8D2F5" strokeWidth="3.5" />
-      <circle cx="100" cy="100" r="88" stroke="#3E63DD" strokeWidth="1" opacity="0.3" />
+      <circle cx="100" cy="100" r="95" stroke="rgb(var(--blue-border))" strokeWidth="3.5" />
+      <circle cx="100" cy="100" r="88" stroke="rgb(var(--blue))" strokeWidth="1" opacity="0.3" />
       {SPOKES.map((angle) => (
         <line
           key={angle}
@@ -23,7 +23,7 @@ export default function AshokaChakra({ className = "" }: { className?: string })
           y1="17"
           x2="100"
           y2="86"
-          stroke="#3E63DD"
+          stroke="rgb(var(--blue))"
           strokeWidth="2"
           strokeLinecap="round"
           opacity="0.7"
@@ -38,13 +38,13 @@ export default function AshokaChakra({ className = "" }: { className?: string })
             cx={100 + 91 * Math.cos(rad)}
             cy={100 + 91 * Math.sin(rad)}
             r="1.8"
-            fill="#3E63DD"
+            fill="rgb(var(--blue))"
             opacity="0.55"
           />
         );
       })}
-      <circle cx="100" cy="100" r="13" fill="#3E63DD" />
-      <circle cx="100" cy="100" r="5" fill="#FFFFFF" opacity="0.9" />
+      <circle cx="100" cy="100" r="13" fill="rgb(var(--blue))" />
+      <circle cx="100" cy="100" r="5" fill="rgb(var(--background))" opacity="0.9" />
     </svg>
   );
 }

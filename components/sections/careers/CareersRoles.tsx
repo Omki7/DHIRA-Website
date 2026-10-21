@@ -21,17 +21,18 @@ import ScrollReveal from "@/components/ui/ScrollReveal";
 import ScrollRevealRail from "@/components/ui/ScrollRevealRail";
 import SectionHeader from "@/components/ui/SectionHeader";
 import SectionCoda from "@/components/ui/SectionCoda";
-import { ROLES } from "@/lib/careersRoles";
+import type { Role } from "@/content/collections/roles";
+import type { CareersPage } from "@/content/pages/careers";
 
 function ChairGlyph() {
   return (
     <svg viewBox="0 0 34 20" className="h-5 w-[34px] shrink-0" aria-hidden>
-      <rect x="1" y="1" width="32" height="18" rx="5" fill="#FFFFFF" stroke="#3E63DD" strokeWidth="1.4" />
+      <rect x="1" y="1" width="32" height="18" rx="5" fill="rgb(var(--background))" stroke="rgb(var(--blue))" strokeWidth="1.4" />
     </svg>
   );
 }
 
-export default function CareersRoles() {
+export default function CareersRoles({ content, roles: ROLES }: { content: CareersPage["roles"]; roles: Role[] }) {
   return (
     <section
       id="open-roles"
@@ -39,17 +40,17 @@ export default function CareersRoles() {
     >
       <ScrollRevealRail>
         <SectionHeader
-          num="03"
-          label="Open roles"
-          live={`${ROLES.length} seats open`}
-          setup="Small team."
-          payoff="Specific seats."
-          lede="Hiring follows the mission, never the org chart. Each seat owns real scope."
+          num={content.num}
+          label={content.label}
+          live={`${ROLES.length} ${content.liveSuffix}`}
+          setup={content.setup}
+          payoff={content.payoff}
+          lede={content.lede}
         />
 
         <ol className="mt-10 border-t border-lineSoft lg:mt-12">
           {ROLES.map((role, idx) => (
-            <li key={role.title} className="group relative border-b border-lineSoft transition-colors duration-150 hover:bg-blue-subtle/40">
+            <li key={role.title} className="group relative border-b border-lineSoft transition-colors duration-150 hover:bg-blue-subtle">
               <span
                 aria-hidden
                 className="absolute left-0 top-0 h-full w-0.5 origin-top scale-y-0 bg-blue transition-transform duration-200 ease-out group-hover:scale-y-100"
@@ -72,11 +73,11 @@ export default function CareersRoles() {
                     {role.location} &middot; {role.type}
                   </p>
                   <Link
-                    href="#talk-to-our-team"
-                    aria-label={`Apply for ${role.title}`}
+                    href={content.applyHref}
+                    aria-label={`${content.applyFor} ${role.title}`}
                     className="inline-flex items-center gap-1 text-sm font-semibold text-blue transition-colors duration-150 after:absolute after:inset-0 after:content-[''] group-hover:text-blue-hover focus-visible:outline-none focus-visible:after:rounded-tile focus-visible:after:ring-2 focus-visible:after:ring-blue md:col-span-1 md:justify-end"
                   >
-                    Apply
+                    {content.apply}
                     <span aria-hidden className="transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5">
                       &#8599;
                     </span>
@@ -88,7 +89,7 @@ export default function CareersRoles() {
         </ol>
 
         <ScrollReveal delay={180}>
-          <SectionCoda lead="No perfect fit? Write anyway." payoff="Proof of work beats a perfect CV." />
+          <SectionCoda lead={content.coda.lead} payoff={content.coda.payoff} />
         </ScrollReveal>
       </ScrollRevealRail>
     </section>

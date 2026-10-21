@@ -8,16 +8,16 @@
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import ScrollRevealRail from "@/components/ui/ScrollRevealRail";
 import SectionHeader from "@/components/ui/SectionHeader";
-import { DEPLOYMENT } from "@/lib/pricingSections";
+import type { PricingPage } from "@/content/pages/pricing";
 import type { Region } from "@/lib/region";
 
 const pad = (n: number) => String(n).padStart(2, "0");
 
-export default function PricingDeployment({ region }: { region: Region }) {
+export default function PricingDeployment({ region, content: DEPLOYMENT }: { region: Region; content: PricingPage["deployment"] }) {
   return (
     <section
       id="deployment"
-      className="scroll-mt-24 bg-[linear-gradient(180deg,#FFFFFF_0%,#F1F5FE_16%,#F1F5FE_84%,#FFFFFF_100%)] pb-20 pt-16 lg:pb-28 lg:pt-20"
+      className="scroll-mt-24 bg-band pb-20 pt-16 lg:pb-28 lg:pt-20"
     >
       <ScrollRevealRail>
         <SectionHeader num="04" label={DEPLOYMENT.label} setup={DEPLOYMENT.setup} payoff={DEPLOYMENT.payoff} lede={DEPLOYMENT.lede} />
@@ -34,7 +34,7 @@ export default function PricingDeployment({ region }: { region: Region }) {
               <p className="mt-3 text-pretty text-[15px] leading-relaxed text-secondary-text">{typeof option.line === "string" ? option.line : option.line[region]}</p>
               <div className="mt-auto pt-8">
                 <div className="border-t border-dashed border-lineSoft pt-4">
-                  <p className="font-mono text-[11px] uppercase tracking-eyebrow text-overcast">Billed as</p>
+                  <p className="font-mono text-[11px] uppercase tracking-eyebrow text-overcast">{DEPLOYMENT.billedAs}</p>
                   <p className="mt-1.5 text-[15px] font-medium text-ink">{option.billing}</p>
                 </div>
               </div>

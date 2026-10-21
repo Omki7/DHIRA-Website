@@ -16,29 +16,18 @@
  * laid out at once, so no content is only reachable by scroll animation.
  */
 
+import usePrefersReducedMotion from "@/hooks/usePrefersReducedMotion";
 import { useEffect, useRef, useState } from "react";
 import { LifeEyebrow, LifeGlyph, LifeCornerArc } from "@/components/ui/life/LifeChrome";
+import type { LifePage } from "@/content/pages/solutions-life";
 
-const moves = [
-  {
-    label: ["Read the risk", "at the edge"],
-    body: "Akashic Life runs the model on the phone itself. A full antenatal screen, read on the spot by a frontline worker with no network, no lab and no specialist within reach.",
-  },
-  {
-    label: ["Carry the signal", "upward"],
-    body: "The moment a bar appears the reading is compressed and burst-sent over SMS or GPRS. It lands as one governed record, and that same record is what the district and the ministry read.",
-  },
-  {
-    label: ["Close the loop", "back to her"],
-    body: "The response returns down the same path. The emergency response network is triggered, the district hospital is alerted, and the village knows help is already moving.",
-  },
-];
+type Move = LifePage["solution"]["moves"][number];
 
-function Circle({ move, active }: { move: (typeof moves)[number]; active: boolean }) {
+function Circle({ move, active }: { move: Move; active: boolean }) {
   return (
     <div
       className={`relative flex aspect-square w-[230px] shrink-0 flex-col items-center justify-center rounded-full border text-center transition-all duration-650 ease-settle sm:w-[252px] lg:w-[286px] ${
-        active ? "border-white/85" : "border-white/[0.13]"
+        active ? "border-line" : "border-line"
       }`}
     >
       {/* Two markers riding the rim: the only motion in the section, and the
@@ -46,7 +35,7 @@ function Circle({ move, active }: { move: (typeof moves)[number]; active: boolea
       {active && (
         <>
           <span className="alife-orbit pointer-events-none absolute inset-0" aria-hidden>
-            <span className="absolute left-1/2 top-0 h-[7px] w-[7px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-white" />
+            <span className="absolute left-1/2 top-0 h-[7px] w-[7px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-background" />
           </span>
           <span className="alife-orbit-rev pointer-events-none absolute inset-0" aria-hidden>
             <span className="absolute left-1/2 top-0 h-[5px] w-[5px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-life-mist" />
@@ -57,12 +46,12 @@ function Circle({ move, active }: { move: (typeof moves)[number]; active: boolea
       <LifeGlyph
         size={16}
         className={`transition-colors duration-650 ease-settle ${
-          active ? "border-life-cyan" : "border-white/20"
+          active ? "border-life-cyan" : "border-line"
         }`}
       />
       <p
         className={`mt-6 px-8 text-[17px] font-medium leading-[1.35] transition-colors duration-650 ease-settle sm:text-[19px] lg:text-[20px] ${
-          active ? "text-white" : "text-white/25"
+          active ? "text-ink" : "text-inkSoft"
         }`}
       >
         {move.label[0]}
@@ -73,25 +62,23 @@ function Circle({ move, active }: { move: (typeof moves)[number]; active: boolea
   );
 }
 
-function Body({ move }: { move: (typeof moves)[number] }) {
+function Body({ move }: { move: Move }) {
   return (
     <>
       <LifeGlyph size={16} />
-      <p className="mt-6 text-[17px] leading-[1.62] text-white/85 lg:text-[18px]">{move.body}</p>
+      <p className="mt-6 text-[17px] leading-[1.62] text-ink lg:text-[18px]">{move.body}</p>
     </>
   );
 }
 
-export default function LifeSolution() {
+export default function LifeSolution({ content }: { content: LifePage["solution"] }) {
+  const { moves } = content;
   const trackRef = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(0);
-  const [reduced, setReduced] = useState(false);
+  const reduced = usePrefersReducedMotion();
 
   useEffect(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      setReduced(true);
-      return;
-    }
+    if (reduced) return;
 
     let raf = 0;
     const read = () => {
@@ -117,27 +104,22 @@ export default function LifeSolution() {
       window.removeEventListener("resize", schedule);
       cancelAnimationFrame(raf);
     };
-  }, []);
+  }, [moves.length, reduced]);
 
   return (
     <section id="the-solution" className="relative scroll-mt-20 bg-life-abyss">
       <div
         aria-hidden
-        className="absolute inset-0 bg-[linear-gradient(112deg,#0A0E24_0%,#0A0E24_42%,#0B1E4E_74%,#12356F_100%)]"
+        className="absolute inset-0 life-ground"
       />
       <LifeCornerArc />
 
       <div className="relative mx-auto w-full max-w-[1440px] px-6 sm:px-10 lg:px-14">
         {/* Opening statement */}
         <div className="max-w-[46rem] pb-24 pt-28 lg:pb-32 lg:pt-40">
-          <LifeEyebrow num="02">The solution</LifeEyebrow>
-          <p className="mt-9 text-[24px] font-normal leading-[1.34] text-white sm:text-[28px] lg:text-[32px]">
-            Akashic Life is an edge intelligence layer for frontline healthcare.
-            A health worker enters what they can see and measure at the visit.
-            The model on the phone reads it and answers one question: how likely
-            is this pregnancy to turn dangerous, and how soon. That reading
-            travels up to the district and the ministry, and the response comes
-            back down the same path.
+          <LifeEyebrow num={content.eyebrow.num}>{content.eyebrow.label}</LifeEyebrow>
+          <p className="mt-9 text-[24px] font-normal leading-[1.34] text-ink sm:text-[28px] lg:text-[32px]">
+            {content.lede}
           </p>
         </div>
 

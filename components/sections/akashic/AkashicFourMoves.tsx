@@ -16,135 +16,15 @@
  */
 
 import { useEffect, useRef, useState } from "react";
-import Link from "next/link";
 import ScrollReveal from "@/components/ui/ScrollReveal";
-import AkashicLogo from "@/components/icons/AkashicLogo";
-import { usePrefersReducedMotion } from "@/hooks/useCountUp";
+import FigureEyebrow from "@/components/ui/FigureEyebrow";
+import usePrefersReducedMotion from "@/hooks/usePrefersReducedMotion";
+import type { AkashicPage, AskWorld } from "@/content/pages/akashic";
+import AkashicWordmark from "@/components/icons/AkashicWordmark";
 
-type IconKey = "source" | "graph" | "bolt" | "doc" | "mail" | "report";
-type Chip = { icon: IconKey; label: string };
-
-type World = {
-  label: string;
-  question: string;
-  asker: string;
-  context: string;
-  steps: { name: string; line: string }[];
-  answer: string;
-  answerDetail: string;
-  chart: {
-    title: string;
-    rows: { label: string; pct: number; lag?: boolean }[];
-    lagTag: string;
-    footnote: string;
-  };
-  docs: {
-    counted: string;
-    excerpt: { icon: IconKey; source: string; date: string; pre: string; mark: string; post: string };
-    record: { icon: IconKey; name: string; sub: string; status: string };
-  };
-  chips: Chip[];
-};
-
-const worlds: World[] = [
-  {
-    label: "Enterprise",
-    question: "Why is the South region behind on target, and what’s driving it?",
-    asker: "Regional head",
-    context: "vs revenue target",
-    steps: [
-      { name: "Connected", line: "Pulls in your sales numbers, and the contracts and emails behind them." },
-      { name: "Understood", line: "Knows how “revenue” is defined, so it means the same thing in every region." },
-      { name: "Reasoned", line: "Follows the shortfall to its cause: two renewal deals, still unsigned." },
-      { name: "Answered", line: "One plain answer, with the numbers and the paperwork attached." },
-    ],
-    answer: "South is 8% behind target because two distributor renewals stalled in July.",
-    answerDetail: "Brennan & Sons is waiting on a board review of the revised pricing. Halvorsen Group’s counter-signature is still outstanding.",
-    chart: {
-      title: "Revenue vs target · South region",
-      rows: [
-        { label: "APR", pct: 102 },
-        { label: "MAY", pct: 99 },
-        { label: "JUN", pct: 97 },
-        { label: "JUL", pct: 92, lag: true },
-      ],
-      lagTag: "−8% vs target",
-      footnote: "The gap is $80,500. The two stalled renewals account for all of it.",
-    },
-    docs: {
-      counted: "3 read · 2 cited",
-      excerpt: {
-        icon: "mail",
-        source: "Brennan & Sons · renewal email",
-        date: "2 JUL",
-        pre: "“We ",
-        mark: "can’t commit at the revised pricing",
-        post: " until our board reviews it in August.”",
-      },
-      record: {
-        icon: "doc",
-        name: "Halvorsen Group · renewal contract",
-        sub: "$38,000 · counter-signature pending since 14 June",
-        status: "Unsigned",
-      },
-    },
-    chips: [
-      { icon: "source", label: "2 systems · 3 documents read" },
-      { icon: "graph", label: "Every line traced to its source" },
-      { icon: "bolt", label: "Ready in seconds" },
-    ],
-  },
-  {
-    label: "Public programmes",
-    question: "Why are enrolments lagging in District 7, and what changed on the ground?",
-    asker: "District lead",
-    context: "vs enrolment target",
-    steps: [
-      { name: "Connected", line: "Pulls in enrolment counts, and the camp schedules and field reports behind them." },
-      { name: "Understood", line: "Knows how “enrolment” is counted, so it means the same thing in every district." },
-      { name: "Reasoned", line: "Follows the gap to its cause: two outreach camps, both rescheduled." },
-      { name: "Answered", line: "One plain answer, with the counts and the field notes attached." },
-    ],
-    answer: "District 7 is 9% behind target because two outreach camps were rescheduled after the July floods.",
-    answerDetail: "Both camps are now set for early August. The gap closes once they run.",
-    chart: {
-      title: "Enrolments vs target · District 7",
-      rows: [
-        { label: "APR", pct: 102 },
-        { label: "MAY", pct: 100 },
-        { label: "JUN", pct: 98 },
-        { label: "JUL", pct: 91, lag: true },
-      ],
-      lagTag: "−9% vs target",
-      footnote: "The gap is 550 enrolments. The two rescheduled camps account for all of it.",
-    },
-    docs: {
-      counted: "4 read · 2 cited",
-      excerpt: {
-        icon: "report",
-        source: "Camp 04 · field report",
-        date: "6 JUL",
-        pre: "“Venue roads are still waterlogged. ",
-        mark: "Camp moved to 3 August",
-        post: ".”",
-      },
-      record: {
-        icon: "doc",
-        name: "Camp 07 · reschedule notice",
-        sub: "300 expected enrolments · new date 8 August",
-        status: "Rescheduled",
-      },
-    },
-    chips: [
-      { icon: "source", label: "2 systems · 4 field notes read" },
-      { icon: "graph", label: "Every line traced to its source" },
-      { icon: "bolt", label: "Ready in seconds" },
-    ],
-  },
-];
-
-/* What the status line says while the run is underway, per phase 0–4. */
-const STATUS_LABELS = ["Thinking", "Connecting", "Understanding", "Reasoning", "Answering"];
+type IconKey = AskWorld["chips"][number]["icon"];
+type World = AskWorld;
+type Chrome = AkashicPage["inAction"]["chrome"];
 
 /* Bars plot percent-of-target on a 0–110% scale; the target line sits at 100. */
 const CHART_MAX = 110;
@@ -239,14 +119,14 @@ function PanelHeader({
   );
 }
 
-function SystemsPanel({ world }: { world: World }) {
+function SystemsPanel({ world, chrome }: { world: World; chrome: Chrome }) {
   const { chart } = world;
   const targetLeft = `${(100 / CHART_MAX) * 100}%`;
   return (
     <div className="flex flex-col overflow-hidden rounded-inner border border-card-line bg-background">
       <PanelHeader
         icon="source"
-        label="From your systems"
+        label={chrome.systems}
         right={
           <span
             className="rounded-full border border-red/20 bg-red/[0.06] px-2 py-0.5 font-mono text-[9px] font-semibold text-red"
@@ -289,7 +169,7 @@ function SystemsPanel({ world }: { world: World }) {
         </div>
         <p className="flex items-center justify-end gap-1.5 font-mono text-[9px] text-secondary-text" aria-hidden>
           <span className="inline-block h-3 w-px border-l border-dashed border-overcast" />
-          100% of target
+          {chrome.targetLine}
         </p>
       </div>
       <p
@@ -302,18 +182,18 @@ function SystemsPanel({ world }: { world: World }) {
   );
 }
 
-function DocumentsPanel({ world }: { world: World }) {
+function DocumentsPanel({ world, chrome }: { world: World; chrome: Chrome }) {
   const { excerpt, record, counted } = world.docs;
   return (
     <div className="flex flex-col overflow-hidden rounded-inner border border-card-line bg-background">
       <PanelHeader
         icon="doc"
-        label="From your documents"
+        label={chrome.documents}
         right={<span className="font-mono text-[9px] uppercase tracking-[0.06em] text-secondary-text">{counted}</span>}
       />
       <div className="flex flex-1 flex-col gap-2 bg-panel px-3 py-3">
         <div
-          className="flex flex-1 flex-col rounded-inner border border-card-line bg-background p-2.5 shadow-card"
+          className="flex flex-1 flex-col rounded-inner border border-card-line bg-background p-2.5 "
           style={{ animation: "akx-rise 0.5s 0.45s cubic-bezier(0.2,0.8,0.2,1) both" }}
         >
           <div className="flex items-center gap-2">
@@ -327,7 +207,7 @@ function DocumentsPanel({ world }: { world: World }) {
             {excerpt.pre}
             <span
               style={{
-                backgroundImage: "linear-gradient(0deg,rgb(var(--diagram-gold-bg)),rgb(var(--diagram-gold-bg)))",
+                backgroundColor: "rgb(var(--diagram-gold-bg))",
                 backgroundRepeat: "no-repeat",
                 backgroundSize: "0% 100%",
                 animation: "akx-mark 0.7s 1.35s cubic-bezier(0.2,0.8,0.2,1) both",
@@ -339,7 +219,7 @@ function DocumentsPanel({ world }: { world: World }) {
           </p>
         </div>
         <div
-          className="flex items-center gap-2 rounded-inner border border-card-line bg-background p-2.5 shadow-card"
+          className="flex items-center gap-2 rounded-inner border border-card-line bg-background p-2.5 "
           style={{ animation: "akx-rise 0.5s 0.65s cubic-bezier(0.2,0.8,0.2,1) both" }}
         >
           <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-chip bg-blue-subtle text-blue">
@@ -362,15 +242,19 @@ function DocumentsPanel({ world }: { world: World }) {
 /*  Section                                                            */
 /* ------------------------------------------------------------------ */
 
-export default function AkashicFourMoves() {
+export default function AkashicFourMoves({ content }: { content: AkashicPage["inAction"] }) {
+  const { worlds, statusLabels: STATUS_LABELS, chrome } = content;
   const [active, setActive] = useState(0);
-  const [typedLen, setTypedLen] = useState(0);
-  const [phase, setPhase] = useState(0);
+  const [typedRun, setTypedLen] = useState(0);
+  const [phaseRun, setPhase] = useState(0);
   const [started, setStarted] = useState(false);
   const sectionRef = useRef<HTMLDivElement>(null);
   const reduced = usePrefersReducedMotion();
 
   const world = worlds[active];
+  /* Reduced motion shows the finished run at once. */
+  const typedLen = started && reduced ? world.question.length : typedRun;
+  const phase = started && reduced ? 5 : phaseRun;
   const typingDone = typedLen >= world.question.length;
   const revealed = phase === 5;
   const running = started && !revealed;
@@ -496,15 +380,8 @@ export default function AkashicFourMoves() {
   // The run: type the question, hold a beat on "Thinking", cascade the four
   // moves in order, then reveal the answer. Replays only on a world switch.
   useEffect(() => {
-    if (!started) return;
+    if (!started || reduced) return;
     const q = worlds[active].question;
-    if (reduced) {
-      setTypedLen(q.length);
-      setPhase(5);
-      return;
-    }
-    setTypedLen(0);
-    setPhase(0);
     const timers: number[] = [];
     let i = 0;
     const typer = window.setInterval(() => {
@@ -521,50 +398,48 @@ export default function AkashicFourMoves() {
       window.clearInterval(typer);
       timers.forEach((t) => window.clearTimeout(t));
     };
-  }, [started, active, reduced]);
+  }, [started, active, reduced, worlds]);
 
-  const solidShadow = "shadow-frame";
-  const ctaClasses = `inline-flex items-center gap-2 rounded-full border border-blue-border bg-background px-4 py-2 text-sm font-medium text-blue transition-colors duration-250 ease-settle hover:border-blue hover:bg-blue-subtle`;
-  const ctaReveal = revealed ? "opacity-100 translate-y-0" : "pointer-events-none opacity-0 translate-y-2";
+  const solidShadow = "";
 
   return (
     <section id="akashic-in-action" className="relative scroll-mt-24 bg-background" ref={sectionRef}>
-      <div className="rail-container flex flex-col justify-center border-x-0 py-16 lg:min-h-screen lg:py-10">
-        <div className="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:items-center lg:gap-14">
+      <div className="rail-container flex flex-col justify-center border-x-0 pt-12 pb-16 lg:min-h-screen lg:py-10">
+        {/* The site's one eyebrow rail, full width above both columns. The
+            "See what's underneath" button that ended this section went on 20
+            Oct 2026: no section ends on a next-section button (founder). */}
+        <ScrollReveal>
+          <FigureEyebrow num={content.eyebrow.number} label={content.eyebrow.label} />
+        </ScrollReveal>
+        <div className="mt-10 grid grid-cols-1 gap-10 lg:mt-12 lg:grid-cols-12 lg:items-center lg:gap-14">
 
           {/* Left: narrative + world toggle */}
           <div className="lg:col-span-5">
             <ScrollReveal>
-              <div className="text-center lg:text-left">
+              <div>
                 {/* Header rewritten 14 Oct 2026 (user: "watch Akashic answer it.
                     no one cares"). The headline states the executive gain the demo
                     proves (the cause, fast, defensible); the mechanism moves to
                     the lede and the four moves on the right. */}
-                <p className="font-mono text-[11px] uppercase tracking-eyebrow">
-                  <span className="text-overcast">[01]</span>
-                  <span className="text-inkSoft">&nbsp;&nbsp;Ask Akashic</span>
-                </p>
                 {/* From lg the setup line must hold on one line in the 5-col
                     column, so the size tracks the column width (measured 14 Oct
                     2026: the setup is ~10.7x its font size wide). */}
-                <h2 className="mt-5 text-balance text-heading-sm font-semibold text-ink md:text-heading-md lg:text-[length:clamp(32px,calc(3.8vw_-_7px),48px)]">
-                  <span className="text-inkSoft lg:whitespace-nowrap">Why the number moved,</span>
-                  <br className="hidden lg:block" /> answered in seconds.
+                <h2 className="text-balance text-heading-sm font-semibold text-ink md:text-heading-md lg:text-[length:clamp(32px,calc(3.8vw_-_7px),48px)]">
+                  <span className="text-inkSoft lg:whitespace-nowrap">{content.title.setup}</span>
+                  <br className="hidden lg:block" /> {content.title.payoff}
                 </h2>
-                <p className="mx-auto mt-5 max-w-[34em] text-lg leading-relaxed text-inkSoft lg:mx-0">
-                  The figure sits in a system. The reason sits in a contract, an email or
-                  a field report. Akashic reads both and returns one answer, every line
-                  cited. No week of reconciling. No decision made on a hunch.
+                <p className="mt-6 max-w-[34em] text-lg leading-relaxed text-inkSoft">
+                  {content.lede}
                 </p>
               </div>
             </ScrollReveal>
 
             <ScrollReveal delay={80}>
-              <div className="mt-8 flex justify-center lg:justify-start">
+              <div className="mt-8 flex">
                 <div
                   className="inline-flex rounded-full border border-blue-border bg-background p-1"
                   role="tablist"
-                  aria-label="Choose an example"
+                  aria-label={content.examplesLabel}
                 >
                   {worlds.map((w, i) => (
                     <button
@@ -573,11 +448,15 @@ export default function AkashicFourMoves() {
                       role="tab"
                       aria-selected={i === active}
                       onClick={() => {
-                        if (i !== active) setActive(i);
+                        if (i !== active) {
+                          setActive(i);
+                          setTypedLen(0);
+                          setPhase(0);
+                        }
                       }}
                       className={`rounded-full px-4 py-1.5 text-sm font-medium transition-colors duration-250 ease-settle ${
                         i === active
-                          ? "bg-blue-solid text-white"
+                          ? "bg-blue-solid text-on-accent"
                           : "text-inkSoft hover:text-ink"
                       }`}
                     >
@@ -588,14 +467,6 @@ export default function AkashicFourMoves() {
               </div>
             </ScrollReveal>
 
-            <div className={`mt-10 hidden transition-all duration-700 ease-settle lg:block ${ctaReveal}`}>
-              <Link href="#how-it-works" className={ctaClasses}>
-                See what&rsquo;s underneath
-                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden>
-                  <path d="M6 2.5V9.5M6 9.5L2.5 6M6 9.5L9.5 6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </Link>
-            </div>
           </div>
 
           {/* Right: the ask simulation */}
@@ -604,7 +475,7 @@ export default function AkashicFourMoves() {
             {/* Question card — a focused input while the run is underway */}
             <div
               className={`flex items-start gap-3.5 rounded-outer bg-background p-4 transition-all duration-400 ease-settle sm:p-5 ${solidShadow} ${
-                running ? "ring-[3px] ring-blue/25" : "ring-1 ring-[#0B1440]/10"
+                running ? "ring-[3px] ring-blue/25" : "ring-1 ring-lineSoft"
               }`}
             >
               <svg
@@ -656,8 +527,8 @@ export default function AkashicFourMoves() {
                     <path d="M19 10v1a7 7 0 0 1-14 0v-1M12 18v4" />
                   </svg>
                 </span>
-                <span className="flex items-center gap-1 rounded-full bg-blue-solid px-3 py-1.5 text-[10px] font-bold tracking-[0.06em] text-white shadow-card">
-                  ASK
+                <span className="flex items-center gap-1 rounded-full bg-blue-solid px-3 py-1.5 text-[10px] font-bold tracking-[0.06em] text-on-accent ">
+                  <span className="uppercase">{chrome.ask}</span>
                   <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
                     <line x1="5" y1="12" x2="19" y2="12" />
                     <polyline points="12 5 19 12 12 19" />
@@ -678,7 +549,7 @@ export default function AkashicFourMoves() {
                       lit ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0"
                     }`}
                   >
-                    <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-blue-solid font-mono text-[11px] font-bold text-white shadow-card">
+                    <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-blue-solid font-mono text-[11px] font-bold text-on-accent ">
                       0{i + 1}
                     </span>
                     <p className="min-w-0 text-[13.5px] leading-snug">
@@ -697,16 +568,15 @@ export default function AkashicFourMoves() {
               className={revealed ? "animate-[akx-pop_0.65s_cubic-bezier(0.34,1.56,0.64,1)_both]" : "invisible"}
               aria-hidden={!revealed}
             >
-              <div className={`overflow-hidden rounded-outer bg-background ring-1 ring-[#0B1440]/10 ${solidShadow}`}>
+              <div className={`overflow-hidden rounded-outer bg-background ring-1 ring-lineSoft ${solidShadow}`}>
 
                 {/* Chrome strip: who answered, for whom */}
                 <div className="flex items-center border-b border-card-divide bg-panel px-4 py-2.5">
-                  <AkashicLogo className="h-4 w-4" />
-                  <span className="-ml-1 text-[11.5px] font-bold tracking-tight text-ink">kashic</span>
-                  <span className="ml-2 font-mono text-[9px] uppercase tracking-[0.1em] text-secondary-text">&middot; Answer</span>
+                  <AkashicWordmark className="text-[11.5px] font-bold tracking-tight text-ink" />
+                  <span className="ml-2 font-mono text-[9px] uppercase tracking-[0.1em] text-secondary-text">&middot; {chrome.answer}</span>
                   <span className="ml-auto flex items-center gap-1.5 font-mono text-[9.5px] text-secondary-text">
                     <span className="h-1.5 w-1.5 rounded-full bg-positive" aria-hidden />
-                    for {world.asker} &middot; 09:41
+                    {chrome.for} {world.asker} &middot; {chrome.time}
                   </span>
                   {/* Read the answer aloud. Akashic ships text-to-speech. */}
                   <span className="ml-2 flex h-6 w-6 items-center justify-center rounded-full text-overcast transition-colors hover:bg-background hover:text-blue" aria-hidden>
@@ -727,8 +597,8 @@ export default function AkashicFourMoves() {
 
                   {/* The proof, side by side: numbers and paperwork */}
                   <div className="mt-4 grid grid-cols-1 items-stretch gap-3 sm:grid-cols-2">
-                    <SystemsPanel world={world} />
-                    <DocumentsPanel world={world} />
+                    <SystemsPanel world={world} chrome={chrome} />
+                    <DocumentsPanel world={world} chrome={chrome} />
                   </div>
 
                   {/* Evidence footer */}
@@ -748,14 +618,6 @@ export default function AkashicFourMoves() {
               </div>
             </div>
 
-            <div className={`text-center transition-all duration-700 ease-settle lg:hidden ${ctaReveal}`}>
-              <Link href="#how-it-works" className={ctaClasses}>
-                See what&rsquo;s underneath
-                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden>
-                  <path d="M6 2.5V9.5M6 9.5L2.5 6M6 9.5L9.5 6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </Link>
-            </div>
 
           </div>
         </div>

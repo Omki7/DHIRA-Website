@@ -1,5 +1,5 @@
 /**
- * Section [08]: Governance — company trust, not product features.
+ * Section [09]: Governance — company trust, not product features.
  *
  * Layout modelled directly on Attio's "Run at any scale" section (studied via
  * screenshot, 21 Jul): a blue kicker pill, a two-tone headline (dark statement
@@ -23,25 +23,15 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import usePrefersReducedMotion from "@/hooks/usePrefersReducedMotion";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import ScrollRevealRail from "@/components/ui/ScrollRevealRail";
+import FigureEyebrow from "@/components/ui/FigureEyebrow";
+import TwoToneTitle from "@/components/ui/TwoToneTitle";
+import type { HomeGovernance } from "@/content/pages/home";
 
-/* ─── Company governance posture (KPIs) ───────────────────────────────────── */
-const KPIS = [
-  { figure: "Zero", label: "keys or data we hold" },
-  { figure: "100%", label: "in your own infrastructure" },
-  { figure: "In-region", label: "data residency" },
-  { figure: "Never", label: "used to train models" },
-];
-
-/* ─── Compliance frameworks ───────────────────────────────────────────────── */
-const FRAMEWORKS = [
-  { id: "dpdp",   label: "DPDP Act",      sub: "India data protection" },
-  { id: "iso",    label: "ISO 27001",     sub: "Information security" },
-  { id: "soc2",   label: "SOC 2 Type II", sub: "Trust & availability" },
-  { id: "gdpr",   label: "GDPR",          sub: "EU data privacy" },
-  { id: "certin", label: "CERT-In",       sub: "Cyber compliance" },
-];
+/* The KPIs and frameworks are content (content/pages/home.ts governance).
+   Each framework's `id` picks its mark below. */
 
 /* ─── Compliance icon ─────────────────────────────────────────────────────── */
 function FrameworkIcon({ id, className = "h-8 w-8" }: { id: string; className?: string }) {
@@ -172,21 +162,20 @@ function TrustLine({ visible }: { visible: boolean }) {
 }
 
 /* ─── Component ───────────────────────────────────────────────────────────── */
-export default function EnterpriseSecurity() {
+export default function EnterpriseSecurity({ content }: { content: HomeGovernance }) {
+  const { kpis: KPIS, frameworks: FRAMEWORKS } = content;
   const sectionRef = useRef<HTMLElement>(null);
-  const [curveVisible, setCurveVisible] = useState(false);
+  const reduced = usePrefersReducedMotion();
+  const [curveSeen, setCurveSeen] = useState(false);
+  const curveVisible = reduced || curveSeen;
 
   useEffect(() => {
     const node = sectionRef.current;
-    if (!node) return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      setCurveVisible(true);
-      return;
-    }
+    if (!node || reduced) return;
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          setTimeout(() => setCurveVisible(true), 250);
+          setTimeout(() => setCurveSeen(true), 250);
           observer.disconnect();
         }
       },
@@ -194,31 +183,27 @@ export default function EnterpriseSecurity() {
     );
     observer.observe(node);
     return () => observer.disconnect();
-  }, []);
+  }, [reduced]);
 
   return (
     <section
       id="governance"
       ref={sectionRef}
-      aria-labelledby="gov-h"
-      className="relative overflow-hidden bg-background pt-10 pb-12 lg:pt-14 lg:pb-16"
+      className="relative overflow-hidden bg-background pt-12 pb-16 lg:pt-16 lg:pb-24"
     >
       <ScrollRevealRail>
 
-        {/* Eyebrow */}
+        {/* The site's one eyebrow (ui/FigureEyebrow). The title sits in the
+            chart's calm left, so this section composes the header parts
+            itself instead of using ui/SectionHeader. */}
         <ScrollReveal>
-          <div className="mb-8 flex items-center border-b border-t border-dashed border-lineSoft py-[17px] px-[2px] font-mono text-[11px] uppercase tracking-eyebrow text-inkSoft lg:mb-10">
-            <span>
-              <span className="text-overcast">[08]</span>
-              &nbsp;&nbsp;GOVERNANCE
-            </span>
-          </div>
+          <FigureEyebrow num={content.eyebrow.number} label={content.eyebrow.label} />
         </ScrollReveal>
 
         {/* Full-bleed rising chart, with the header + KPIs floating over its
             calm left — the Attio arrangement. The chart bleeds off the right
             edge; the text never competes with the steep right-hand rise. */}
-        <div className="relative pb-[168px] sm:min-h-[460px] sm:pb-[248px] lg:min-h-[560px] lg:pb-20">
+        <div className="relative mt-10 pb-[168px] sm:min-h-[460px] sm:pb-[248px] lg:mt-12 lg:min-h-[560px] lg:pb-20">
           {/* The chart bleeds to the right viewport edge. On desktop it is a
               full-bleed layer behind the (left-only) content; on narrow screens
               the content spans full width, so the chart drops to a rising band
@@ -232,20 +217,9 @@ export default function EnterpriseSecurity() {
 
           <ScrollReveal delay={60} className="relative z-10">
             <div className="max-w-[540px]">
-              <span className="inline-flex items-center rounded-full bg-blue-subtle px-3 py-1 text-[13px] font-medium text-blue">
-                Built for trust
-              </span>
-
-              <h2
-                id="gov-h"
-                className="mt-6 text-[38px] font-semibold leading-[1.08] tracking-tighter sm:text-[44px] lg:text-[52px]"
-              >
-                {/* Setup soft, payoff in full ink. The lines were the other
-                    way up, so the section opened on its conclusion and faded
-                    out on its subject. */}
-                <span className="block text-inkSoft">Enterprise governance, inside your walls.</span>
-                <span className="block text-ink">Trusted at any scale.</span>
-              </h2>
+              {/* The "Built for trust" pill that sat above the headline was a
+                  second eyebrow; removed 20 Oct 2026. */}
+              <TwoToneTitle setup={content.title.setup} payoff={content.title.payoff} className="lg:w-[44rem]" />
 
               <div className="mt-11 grid grid-cols-2 gap-x-10 gap-y-9">
                 {KPIS.map((k) => (
@@ -269,7 +243,7 @@ export default function EnterpriseSecurity() {
           <div className="border-t border-dashed border-lineSoft pt-9">
             <div className="flex flex-col gap-7 lg:flex-row lg:items-center lg:gap-10">
               <p className="shrink-0 text-[14px] font-medium text-inkSoft">
-                Independently certified
+                {content.frameworksLabel}
               </p>
 
               <div className="grid flex-1 grid-cols-2 gap-x-6 gap-y-7 sm:grid-cols-3 lg:grid-cols-5 lg:gap-x-0">

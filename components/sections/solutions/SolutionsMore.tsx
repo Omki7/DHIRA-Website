@@ -8,18 +8,19 @@ import PreviewTag from "@/components/ui/PreviewTag";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import ScrollRevealRail from "@/components/ui/ScrollRevealRail";
 import SectionHeader from "@/components/ui/SectionHeader";
-import { MORE_SOLUTIONS } from "@/lib/solutionsSections";
+import type { SolutionsPage } from "@/content/pages/solutions";
 
-export default function SolutionsMore() {
+export default function SolutionsMore({ content }: { content: SolutionsPage["more"] }) {
+  const MORE_SOLUTIONS = content.items;
   return (
     <section id="more-solutions" className="scroll-mt-24 border-t border-lineSoft bg-background pb-20 pt-16 lg:pb-28 lg:pt-20">
       <ScrollRevealRail>
         <SectionHeader
-          num="02"
-          label="More solutions"
-          setup="More on the same foundation."
-          payoff="Start with one. Add the next."
-          lede="Each solution reuses the same data, governance and models, so the next one never starts from scratch."
+          num={content.num}
+          label={content.label}
+          setup={content.setup}
+          payoff={content.payoff}
+          lede={content.lede}
         />
 
         <ul className="mt-12 border-t border-lineSoft lg:mt-16">

@@ -20,7 +20,9 @@
  */
 
 import useDrawn from "@/hooks/useDrawn";
-import { ROLES } from "@/lib/careersRoles";
+import type { Role } from "@/content/collections/roles";
+
+type SeatingLabels = { open: string; tail: string; taken: string; openLabel: string };
 
 const W = 1000;
 const H = 230;
@@ -62,7 +64,7 @@ const M_SEATS = [58, 110, 162, 214, 266, 318, 370, 422].map((y, k) => ({
   role: [0, -1, -1, 1, 2, -1, -1, 3][k],
 }));
 
-function VerticalPlan() {
+function VerticalPlan({ roles: ROLES }: { roles: Role[] }) {
   const [ref, drawn] = useDrawn<HTMLDivElement>(0.2);
   const pct = (v: number, of: number) => `${(v / of) * 100}%`;
   const mBreak = (y: number) => {
@@ -78,22 +80,22 @@ function VerticalPlan() {
       style={{ aspectRatio: `${MW} / ${MH}` }}
     >
       <svg viewBox={`0 0 ${MW} ${MH}`} className="absolute inset-0 h-full w-full" aria-hidden>
-        <rect x={M_TABLE.left} y="16" width={M_TABLE.right - M_TABLE.left} height="446" fill="#FAFAFB" className="ad-fade" />
+        <rect x={M_TABLE.left} y="16" width={M_TABLE.right - M_TABLE.left} height="446" fill="rgb(var(--primary-bg))" className="ad-fade" />
         {[M_TABLE.left, M_TABLE.right].map((x, k) => (
           <path
             key={x}
             d={`M${x} 16L${x} 462`}
             pathLength={1}
             fill="none"
-            stroke="#1A1C1D"
+            stroke="rgb(var(--ink))"
             strokeOpacity="0.55"
             strokeWidth="1.3"
             className="ad-draw"
             style={{ ["--ad-delay" as string]: `${k * 0.1}s`, ["--ad-dur" as string]: "1.5s" }}
           />
         ))}
-        <path d={mBreak(16)} fill="none" stroke="#1A1C1D" strokeOpacity="0.45" strokeWidth="1.1" className="ad-draw" />
-        <path d={mBreak(462)} fill="none" stroke="#1A1C1D" strokeOpacity="0.45" strokeWidth="1.1" className="ad-draw" />
+        <path d={mBreak(16)} fill="none" stroke="rgb(var(--ink))" strokeOpacity="0.45" strokeWidth="1.1" className="ad-draw" />
+        <path d={mBreak(462)} fill="none" stroke="rgb(var(--ink))" strokeOpacity="0.45" strokeWidth="1.1" className="ad-draw" />
 
         {M_SEATS.map((seat, k) => {
           const open = seat.role >= 0;
@@ -106,9 +108,9 @@ function VerticalPlan() {
                 width={M_CHAIR.w}
                 height={M_CHAIR.h}
                 rx="7"
-                fill={open ? "#FFFFFF" : "#1A1C1D"}
+                fill={open ? "rgb(var(--background))" : "rgb(var(--ink))"}
                 fillOpacity={open ? 1 : 0.06}
-                stroke={open ? "#3E63DD" : "#1A1C1D"}
+                stroke={open ? "rgb(var(--blue))" : "rgb(var(--ink))"}
                 strokeOpacity={open ? 1 : 0.16}
                 strokeWidth={open ? 1.6 : 1.1}
                 className="ad-fade"
@@ -120,7 +122,7 @@ function VerticalPlan() {
                   x2={seat.right ? M_TABLE.right + 12 : M_TABLE.left - 12}
                   y1={seat.y}
                   y2={seat.y}
-                  stroke="#3E63DD"
+                  stroke="rgb(var(--blue))"
                   strokeWidth="1.4"
                   className="ad-fade"
                   style={{ ["--ad-delay" as string]: "1s" }}
@@ -152,7 +154,7 @@ function VerticalPlan() {
   );
 }
 
-export default function SeatingPlan() {
+export default function SeatingPlan({ roles: ROLES, labels }: { roles: Role[]; labels: SeatingLabels }) {
   const [ref, drawn] = useDrawn<HTMLDivElement>(0.2);
   const pct = (v: number, of: number) => `${(v / of) * 100}%`;
 
@@ -166,14 +168,14 @@ export default function SeatingPlan() {
             y={TABLE_TOP}
             width="972"
             height={TABLE_BOTTOM - TABLE_TOP}
-            fill="#FAFAFB"
+            fill="rgb(var(--primary-bg))"
             className="ad-fade"
           />
           <path
             d={`M14 ${TABLE_TOP}L986 ${TABLE_TOP}`}
             pathLength={1}
             fill="none"
-            stroke="#1A1C1D"
+            stroke="rgb(var(--ink))"
             strokeOpacity="0.55"
             strokeWidth="1.3"
             className="ad-draw"
@@ -183,14 +185,14 @@ export default function SeatingPlan() {
             d={`M14 ${TABLE_BOTTOM}L986 ${TABLE_BOTTOM}`}
             pathLength={1}
             fill="none"
-            stroke="#1A1C1D"
+            stroke="rgb(var(--ink))"
             strokeOpacity="0.55"
             strokeWidth="1.3"
             className="ad-draw"
             style={{ ["--ad-dur" as string]: "1.5s", ["--ad-delay" as string]: "0.1s" }}
           />
-          <path d={breakLine(14)} fill="none" stroke="#1A1C1D" strokeOpacity="0.45" strokeWidth="1.1" className="ad-draw" />
-          <path d={breakLine(986)} fill="none" stroke="#1A1C1D" strokeOpacity="0.45" strokeWidth="1.1" className="ad-draw" />
+          <path d={breakLine(14)} fill="none" stroke="rgb(var(--ink))" strokeOpacity="0.45" strokeWidth="1.1" className="ad-draw" />
+          <path d={breakLine(986)} fill="none" stroke="rgb(var(--ink))" strokeOpacity="0.45" strokeWidth="1.1" className="ad-draw" />
 
           {/* Chairs */}
           {[...TOP_SEATS.map((x) => ({ x, below: false })), ...BOTTOM_SEATS.map((x) => ({ x, below: true }))].map(
@@ -202,9 +204,9 @@ export default function SeatingPlan() {
                   key={`${x}-${below}`}
                   {...box}
                   rx="7"
-                  fill={open ? "#FFFFFF" : "#1A1C1D"}
+                  fill={open ? "rgb(var(--background))" : "rgb(var(--ink))"}
                   fillOpacity={open ? 1 : 0.06}
-                  stroke={open ? "#3E63DD" : "#1A1C1D"}
+                  stroke={open ? "rgb(var(--blue))" : "rgb(var(--ink))"}
                   strokeOpacity={open ? 1 : 0.16}
                   strokeWidth={open ? 1.6 : 1.1}
                   className="ad-fade"
@@ -222,7 +224,7 @@ export default function SeatingPlan() {
               x2={o.x}
               y1={o.below ? TABLE_BOTTOM : TABLE_TOP}
               y2={o.below ? TABLE_BOTTOM + GAP : TABLE_TOP - GAP}
-              stroke="#3E63DD"
+              stroke="rgb(var(--blue))"
               strokeWidth="1.4"
               className="ad-fade"
               style={{ ["--ad-delay" as string]: "1s" }}
@@ -250,22 +252,22 @@ export default function SeatingPlan() {
         })}
       </div>
 
-      <VerticalPlan />
+      <VerticalPlan roles={ROLES} />
 
       {/* Taken chairs are shaded, open ones are drawn in blue: the legend
           says so, because two outlines side by side both read as empty. */}
       <figcaption className="mt-5 flex flex-wrap items-center justify-between gap-x-8 gap-y-3 font-mono text-[11px] uppercase leading-[1.6] tracking-[0.08em] text-inkSoft">
         <span>
-          {ROLES.length} seats open. <span className="text-ink">The table keeps going.</span>
+          {ROLES.length} {labels.open} <span className="text-ink">{labels.tail}</span>
         </span>
         <span className="flex items-center gap-5" aria-hidden>
           <span className="flex items-center gap-2">
-            <span className="h-3 w-6 rounded-[4px] border border-ink/15 bg-ink/[0.06]" />
-            Taken
+            <span className="h-3 w-6 rounded-[4px] border border-ink/15 bg-tertiary-bg" />
+            {labels.taken}
           </span>
           <span className="flex items-center gap-2 text-blue">
-            <span className="h-3 w-6 rounded-[4px] border-[1.5px] border-blue bg-white" />
-            Open
+            <span className="h-3 w-6 rounded-[4px] border-[1.5px] border-blue bg-background" />
+            {labels.openLabel}
           </span>
         </span>
       </figcaption>

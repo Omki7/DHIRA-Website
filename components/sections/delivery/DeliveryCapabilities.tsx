@@ -9,97 +9,13 @@ import { useState, useRef } from "react";
 import Image from "next/image";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import ScrollRevealRail from "@/components/ui/ScrollRevealRail";
+import type { DeliveryPage } from "@/content/pages/delivery";
 
-interface CapabilityItem {
-  id: string;
-  num: string;
-  category: "ai" | "data" | "cloud" | "software";
-  title: string;
-  scope: string;
-  stack: string[];
-  deliverables: string;
-  telemetry: string;
-  image: string;
-}
+type CapabilityItem = DeliveryPage["capabilities"]["items"][number];
 
-const CAPABILITIES: CapabilityItem[] = [
-  {
-    id: "ai-ml",
-    num: "01",
-    category: "ai",
-    title: "AI & Machine Learning",
-    scope: "Domain-specific AI applications, automated document processing, classification models, and predictive workflows.",
-    stack: ["PyTorch", "LLM Fine-Tuning", "Inference Pipelines", "Eval Harnesses"],
-    deliverables: "Model integration, automated evaluation harnesses, custom embeddings, and sovereign inference runtimes.",
-    telemetry: "< 35ms Inference Latency",
-    image: "/delivery/capabilities/ai.jpg",
-  },
-  {
-    id: "data-pipelines",
-    num: "02",
-    category: "data",
-    title: "Data Platforms & Pipelines",
-    scope: "High-throughput streaming, batch ETL/ELT pipelines, master data management, and lakehouse storage.",
-    stack: ["Apache Kafka", "ClickHouse", "Apache Iceberg", "dbt"],
-    deliverables: "Data ingestion frameworks, schema registries, validation layers, and governance pipelines.",
-    telemetry: "100k+ Events / Sec",
-    image: "/delivery/capabilities/data.jpg",
-  },
-  {
-    id: "bi-analytics",
-    num: "03",
-    category: "data",
-    title: "Business Intelligence & Analytics",
-    scope: "Enterprise dashboards, automated operational reports, self-service analytics, and embedded intelligence.",
-    stack: ["Semantic Layers", "SQL Optimisation", "Cube.js", "Grafana"],
-    deliverables: "Semantic data models, query optimisation, report automation, and executive dashboards.",
-    telemetry: "Real-Time Telemetry",
-    image: "/delivery/capabilities/bi.jpg",
-  },
-  {
-    id: "cloud-sovereign",
-    num: "04",
-    category: "cloud",
-    title: "Cloud & Sovereign Infrastructure",
-    scope: "Multi-cloud architecture, sovereign on-premise deployments, Kubernetes container orchestration, and IaC.",
-    stack: ["Kubernetes", "Terraform", "Zero-Trust", "Air-Gapped VPC"],
-    deliverables: "Terraform automation, CI/CD pipelines, zero-trust network policies, and observability stacks.",
-    telemetry: "100% In-Region Sovereign",
-    image: "/delivery/capabilities/cloud.jpg",
-  },
-  {
-    id: "custom-software",
-    num: "05",
-    category: "software",
-    title: "Custom Software Systems",
-    scope: "Bespoke backend APIs, mission-critical workflow systems, and secure integrations with legacy software.",
-    stack: ["Go", "Rust", "Node.js", "PostgreSQL", "gRPC"],
-    deliverables: "Microservice architectures, database optimization, transactional consistency, and public/private APIs.",
-    telemetry: "Sub-10ms DB p95",
-    image: "/delivery/capabilities/software.jpg",
-  },
-  {
-    id: "product-engineering",
-    num: "06",
-    category: "software",
-    title: "Product Engineering & Modernisation",
-    scope: "Full-lifecycle software product development, technical refactoring, performance scaling, and cloud migration.",
-    stack: ["React / Next.js", "TypeScript", "E2E Testing", "Distributed Arch"],
-    deliverables: "Product architecture, sprint execution, automated testing, and continuous deployment.",
-    telemetry: "2-Week Sprint Cadence",
-    image: "/delivery/capabilities/product.jpg",
-  },
-];
-
-const CATEGORIES = [
-  { id: "all", label: "All Capabilities" },
-  { id: "ai", label: "AI & ML" },
-  { id: "data", label: "Data & BI" },
-  { id: "cloud", label: "Cloud & Infra" },
-  { id: "software", label: "Software Systems" },
-];
-
-export default function DeliveryCapabilities() {
+export default function DeliveryCapabilities({ content }: { content: DeliveryPage["capabilities"] }) {
+  const CAPABILITIES = content.items;
+  const CATEGORIES = content.categories;
   const [activeCategory, setActiveCategory] = useState("all");
   const [selectedItem, setSelectedItem] = useState<CapabilityItem | null>(null);
   const sliderRef = useRef<HTMLDivElement>(null);
@@ -126,16 +42,16 @@ export default function DeliveryCapabilities() {
         <ScrollReveal>
           <div className="flex items-baseline justify-between font-mono text-[11px] uppercase tracking-eyebrow">
             <p>
-              <span className="text-overcast">[03]</span>
-              <span className="text-inkSoft">&nbsp;&nbsp;Beyond the platform</span>
+              <span className="text-overcast">[{content.eyebrow.number}]</span>
+              <span className="text-inkSoft">&nbsp;&nbsp;{content.eyebrow.label}</span>
             </p>
-            <span className="hidden text-overcast sm:inline">/ Clarifying Akashic&rsquo;s role</span>
+            <span className="hidden text-overcast sm:inline">{content.eyebrow.aside}</span>
           </div>
           <h2 className="mt-5 text-heading-sm font-semibold text-ink md:text-heading-md lg:text-heading-lg">
-            Engineering capabilities beyond the platform.
+            {content.title}
           </h2>
           <p className="mt-4 max-w-[42em] text-base leading-relaxed text-secondary-text md:text-lg">
-            When your technical needs fall outside Akashic SaaS, our engineering teams design, build, and maintain bespoke solutions around your existing stack.
+            {content.lede}
           </p>
         </ScrollReveal>
 
@@ -168,16 +84,16 @@ export default function DeliveryCapabilities() {
               <button
                 type="button"
                 onClick={() => scroll("left")}
-                aria-label="Scroll left"
-                className="flex h-9 w-9 items-center justify-center rounded-full border border-subtle-stroke bg-white text-ink shadow-sm transition-all hover:bg-primary-bg hover:border-line"
+                aria-label={content.scrollLeft}
+                className="flex h-9 w-9 items-center justify-center rounded-full border border-subtle-stroke bg-background text-ink  transition-all hover:bg-primary-bg hover:border-line"
               >
                 &larr;
               </button>
               <button
                 type="button"
                 onClick={() => scroll("right")}
-                aria-label="Scroll right"
-                className="flex h-9 w-9 items-center justify-center rounded-full border border-subtle-stroke bg-white text-ink shadow-sm transition-all hover:bg-primary-bg hover:border-line"
+                aria-label={content.scrollRight}
+                className="flex h-9 w-9 items-center justify-center rounded-full border border-subtle-stroke bg-background text-ink  transition-all hover:bg-primary-bg hover:border-line"
               >
                 &rarr;
               </button>
@@ -199,7 +115,7 @@ export default function DeliveryCapabilities() {
                 className="group relative flex w-[290px] shrink-0 snap-start flex-col cursor-pointer sm:w-[320px] lg:w-[340px]"
               >
                 {/* Visual Image Artwork Box */}
-                <div className="relative aspect-square w-full overflow-hidden rounded-2xl border border-subtle-stroke bg-primary-bg shadow-sm transition-all duration-300 group-hover:shadow-frame group-hover:-translate-y-1">
+                <div className="relative aspect-square w-full overflow-hidden rounded-2xl border border-subtle-stroke bg-primary-bg  transition-all duration-300  group-hover:-translate-y-1">
                   <Image
                     src={c.image}
                     alt={c.title}
@@ -209,7 +125,7 @@ export default function DeliveryCapabilities() {
                   />
                   {/* Subtle top pill */}
                   <div className="absolute top-4 left-4">
-                    <span className="rounded-full bg-white/90 px-2.5 py-1 font-mono text-[10px] font-bold text-ink shadow-sm">
+                    <span className="rounded-full bg-background px-2.5 py-1 font-mono text-[10px] font-bold text-ink ">
                       {c.telemetry}
                     </span>
                   </div>
@@ -229,10 +145,10 @@ export default function DeliveryCapabilities() {
                   {/* Category Tag */}
                   <div className="mt-3 flex items-center justify-between pt-2 border-t border-dashed border-lineSoft">
                     <span className="font-mono text-[10.5px] uppercase tracking-eyebrow text-inkSoft">
-                      Domain {c.num}
+                      {content.domain} {c.num}
                     </span>
                     <span className="font-mono text-[11px] font-semibold text-blue group-hover:translate-x-0.5 transition-transform">
-                      View details &rarr;
+                      {content.viewDetails}
                     </span>
                   </div>
                 </div>
@@ -244,24 +160,27 @@ export default function DeliveryCapabilities() {
         {/* Modal Detail Dialog for Selected Capability */}
         {selectedItem && (
           <div
-            className="fixed inset-0 z-50 flex items-center justify-center bg-vault/70 p-4 backdrop-blur-sm"
+            className="fixed inset-0 z-50 flex items-center justify-center bg-scrim/70 p-4 "
             onClick={() => setSelectedItem(null)}
           >
             <div
-              className="relative w-full max-w-lg overflow-hidden rounded-2xl border border-subtle-stroke bg-white p-6 shadow-2xl sm:p-8"
+              className="relative w-full max-w-lg overflow-hidden rounded-2xl border border-subtle-stroke bg-background p-6  sm:p-8"
               onClick={(e) => e.stopPropagation()}
             >
               {/* Close Button */}
               <button
                 type="button"
                 onClick={() => setSelectedItem(null)}
+                aria-label={content.closeLabel}
                 className="absolute top-5 right-5 flex h-8 w-8 items-center justify-center rounded-full bg-primary-bg text-inkSoft hover:bg-tertiary-bg"
               >
                 &times;
               </button>
 
               <div className="flex items-center gap-2 font-mono text-[11px] font-bold uppercase tracking-eyebrow text-blue">
-                <span>Domain {selectedItem.num}</span>
+                <span>
+                  {content.domain} {selectedItem.num}
+                </span>
                 <span>&middot;</span>
                 <span>{selectedItem.telemetry}</span>
               </div>
@@ -276,7 +195,7 @@ export default function DeliveryCapabilities() {
               {/* Tech Stack Pills */}
               <div className="mt-5 border-t border-dashed border-lineSoft pt-4">
                 <p className="font-mono text-[10px] font-bold uppercase tracking-eyebrow text-overcast">
-                  Core Technologies &amp; Stack
+                  {content.stackLabel}
                 </p>
                 <div className="mt-2 flex flex-wrap gap-1.5">
                   {selectedItem.stack.map((t) => (
@@ -293,7 +212,7 @@ export default function DeliveryCapabilities() {
               {/* Deliverables */}
               <div className="mt-4 border-t border-dashed border-lineSoft pt-4">
                 <p className="font-mono text-[10px] font-bold uppercase tracking-eyebrow text-overcast">
-                  Standard Engineering Deliverables
+                  {content.deliverablesLabel}
                 </p>
                 <p className="mt-1.5 text-xs leading-relaxed font-medium text-ink">
                   {selectedItem.deliverables}
@@ -306,7 +225,7 @@ export default function DeliveryCapabilities() {
                   onClick={() => setSelectedItem(null)}
                   className="btn-primary text-xs"
                 >
-                  Close Capability Summary
+                  {content.close}
                 </button>
               </div>
             </div>

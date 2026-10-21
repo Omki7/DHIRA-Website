@@ -18,64 +18,53 @@
  * neutral). It is the page's turn from what DHIRA is to what it wants to be.
  */
 
-import SiloLayer, { DEPLOYMENTS } from "@/components/demos/about/SiloLayer";
+import SiloLayer from "@/components/demos/about/SiloLayer";
 import { AboutHeading } from "@/components/sections/about/AboutSection";
 import SectionCoda from "@/components/ui/SectionCoda";
-import { ABOUT_STORY } from "@/lib/aboutContent";
+import type { AboutPage } from "@/content/pages/about";
 
-const LEGEND = [
-  {
-    title: "Sovereign by design",
-    caption: "Runs in-country, in your cloud or your data centre.",
-    glyph: (
+/* Each legend entry's mark, index-matched to content vision.legend: the
+   ground, the drop, the layer. */
+const GLYPHS = [
+  (
       <>
-        <line x1="2" x2="38" y1="14" y2="14" stroke="#FFFFFF" strokeOpacity="0.6" strokeWidth="1.2" />
+        <line x1="2" x2="38" y1="14" y2="14" stroke="rgb(var(--ink))" strokeOpacity="0.6" strokeWidth="1.2" />
         {[6, 14, 22, 30, 38].map((x) => (
-          <line key={x} x1={x} x2={x - 5} y1="15" y2="20" stroke="#FFFFFF" strokeOpacity="0.3" />
+          <line key={x} x1={x} x2={x - 5} y1="15" y2="20" stroke="rgb(var(--ink))" strokeOpacity="0.3" />
         ))}
       </>
-    ),
-  },
-  {
-    title: "Proven, then extended",
-    caption: "Every connection starts inside a live programme.",
-    glyph: (
+  ),
+  (
       <>
-        <line x1="20" x2="20" y1="2" y2="14" stroke="#8AA8FB" strokeWidth="1.5" />
-        <path d="M11 22L11 14L29 14L29 22" fill="none" stroke="#8AA8FB" strokeWidth="1.4" />
-        <circle cx="20" cy="3" r="2.5" fill="#8AA8FB" />
+        <line x1="20" x2="20" y1="2" y2="14" stroke="rgb(var(--blue-400))" strokeWidth="1.5" />
+        <path d="M11 22L11 14L29 14L29 22" fill="none" stroke="rgb(var(--blue-400))" strokeWidth="1.4" />
+        <circle cx="20" cy="3" r="2.5" fill="rgb(var(--blue-400))" />
       </>
-    ),
-  },
-  {
-    title: "Better with every join",
-    caption: "Each system joined serves citizens better.",
-    glyph: (
+  ),
+  (
       <>
-        <line x1="2" x2="16" y1="11" y2="11" stroke="#8AA8FB" strokeWidth="3" strokeLinecap="round" />
-        <line x1="20" x2="38" y1="11" y2="11" stroke="#8AA8FB" strokeOpacity="0.6" strokeWidth="1.2" strokeDasharray="3 4" />
+        <line x1="2" x2="16" y1="11" y2="11" stroke="rgb(var(--blue-400))" strokeWidth="3" strokeLinecap="round" />
+        <line x1="20" x2="38" y1="11" y2="11" stroke="rgb(var(--blue-400))" strokeOpacity="0.6" strokeWidth="1.2" strokeDasharray="3 4" />
       </>
-    ),
-  },
+  ),
 ];
 
-export default function AboutVision() {
-  const content = ABOUT_STORY.vision;
+export default function AboutVision({ content }: { content: AboutPage["vision"] }) {
   return (
     <section id="vision" className="scroll-mt-24 bg-depth pt-12 pb-20 text-uc-text lg:pt-16 lg:pb-24">
       <div className="about-shell">
-        <AboutHeading number="03" label={content.label} setup={content.setup} title={content.title} intro={content.intro} dark />
+        <AboutHeading number={content.number} label={content.label} setup={content.setup} title={content.title} intro={content.intro} dark />
 
         <div data-about-reveal="100">
           <div className="mt-12 lg:mt-14">
-            <SiloLayer />
+            <SiloLayer systems={content.systems} deployments={content.deployments} keyLabels={content.key} />
           </div>
 
           {/* Below lg: the three built drops, listed (the labels under the
               ground collide at tablet widths) */}
           <ul className="mt-6 space-y-3 lg:hidden">
-            {DEPLOYMENTS.map((d) => (
-              <li key={d.at} className="flex gap-3">
+            {content.deployments.map((d) => (
+              <li key={d.name} className="flex gap-3">
                 <span className="mt-[5px] h-2 w-2 shrink-0 rounded-full bg-blue-400" aria-hidden />
                 <span className="font-mono text-[11px] uppercase leading-[1.6] tracking-[0.08em] text-uc-text">
                   {d.name}
@@ -87,11 +76,11 @@ export default function AboutVision() {
         </div>
 
         <div>
-          <dl className="mt-10 grid grid-cols-1 gap-8 border-t border-white/10 pt-7 md:grid-cols-3 md:gap-10">
-            {LEGEND.map((item, index) => (
+          <dl className="mt-10 grid grid-cols-1 gap-8 border-t border-line pt-7 md:grid-cols-3 md:gap-10">
+            {content.legend.map((item, index) => (
               <div key={item.title} data-about-reveal={index * 70} className="flex gap-4">
                 <svg viewBox="0 0 40 24" className="mt-1 h-6 w-10 shrink-0" aria-hidden>
-                  {item.glyph}
+                  {GLYPHS[index]}
                 </svg>
                 <div>
                   <dt className="text-[17px] font-semibold tracking-tight text-uc-text">{item.title}</dt>
@@ -103,8 +92,8 @@ export default function AboutVision() {
           <SectionCoda
             dark
             className="mt-8 sm:hidden"
-            lead="Solid: live today, India."
-            payoff={<span className="text-blue-300">Dashed: any jurisdiction.</span>}
+            lead={content.key.solid}
+            payoff={<span className="text-blue-300">{content.key.dashedShort}</span>}
           />
         </div>
       </div>

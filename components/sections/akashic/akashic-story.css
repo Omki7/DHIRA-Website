@@ -30,7 +30,7 @@
 .ak-config-cell { @apply relative flex items-center gap-3 bg-panel px-5 py-1.5 text-[14px] text-ink sm:px-6; }
 .ak-config-cell[data-used="false"] { @apply hidden; }
 .ak-config-node { @apply relative z-[1] inline-block h-2.5 w-2.5 shrink-0 rounded-full; }
-.ak-config-node[data-used="true"] { @apply bg-blue ring-4 ring-blue/15; }
+.ak-config-node[data-used="true"] { @apply bg-blue outline outline-2 outline-offset-2 outline-blue-border; }
 .ak-config-node[data-used="false"] { @apply mx-px h-2 w-2 border border-overcast/70 bg-panel; }
 
 .ak-config-link { @apply mt-auto flex items-center justify-between gap-4 border-t border-lineSoft px-5 py-4 text-sm font-semibold text-blue underline-offset-4 hover:bg-panel hover:underline sm:px-6; }
@@ -76,7 +76,7 @@
 
   /* The spine: a solution's modules joined top to bottom, centred on the
      nodes (24px padding + the 5px node radius). */
-  .ak-config-cell[data-spine]::after { content: ""; @apply absolute left-[28.25px] w-[1.5px] bg-blue/45; }
+  .ak-config-cell[data-spine]::after { content: ""; @apply absolute left-[28.25px] w-[1.5px] bg-blue; }
   .ak-config-cell[data-spine="start"]::after { top: 50%; bottom: 0; }
   .ak-config-cell[data-spine="mid"]::after { top: 0; bottom: 0; }
   .ak-config-cell[data-spine="end"]::after { top: 0; bottom: 50%; }
@@ -84,9 +84,7 @@
 }
 .ak-story { @apply relative scroll-mt-24; }
 .ak-story-wrap { @apply mx-auto max-w-[1440px] px-6 py-16 sm:px-10 lg:px-16 lg:py-20; }
-.ak-story-label { @apply flex gap-4 font-mono text-[11px] uppercase tracking-eyebrow text-secondary-text; }
-.ak-story-label > span { @apply text-overcast; }
-.ak-story-heading { @apply mt-7 flex flex-col items-start gap-5; }
+.ak-story-heading { @apply mt-10 flex flex-col items-start gap-6 lg:mt-12; }
 .ak-story-title { @apply text-balance text-[34px] font-semibold leading-[1.08] tracking-tighter text-ink sm:text-[44px] lg:text-[52px]; }
 .ak-story-title > span { @apply text-inkSoft; }
 .ak-story-intro { @apply max-w-[48em] text-base leading-relaxed text-secondary-text lg:text-[17px]; }
@@ -112,7 +110,7 @@
 .ak-module-capabilities li::before { content:""; @apply mt-[6px] h-1 w-1 shrink-0 rounded-full bg-blue; }
 .ak-module-agent { @apply mt-3 flex items-center gap-2 text-[13px] font-medium text-blue; }
 .ak-module-link { @apply mt-auto inline-flex items-center gap-2 pt-4 text-[13px] font-medium text-blue underline-offset-4 hover:underline; }
-.ak-layer-knowledge { @apply bg-blue-subtle/50; }
+.ak-layer-knowledge { @apply bg-blue-subtle; }
 .ak-context-weave { @apply relative flex min-h-[104px] items-center overflow-hidden; }
 .ak-context-weave svg { @apply absolute inset-0 h-full w-full fill-none stroke-blue/30; stroke-width:1.25; }
 .ak-context-weave > div { @apply relative grid w-full grid-cols-2 gap-3 px-3 sm:grid-cols-4; }
@@ -125,7 +123,6 @@
 
 /* Restored four-card privacy section and four-pillar open architecture. */
 .ak-security { @apply overflow-hidden border-t border-lineSoft; }
-.ak-security-grid { @apply pointer-events-none absolute inset-0 opacity-[0.12]; background-image:linear-gradient(rgb(var(--inkSoft)) 1px,transparent 1px),linear-gradient(90deg,rgb(var(--inkSoft)) 1px,transparent 1px); background-size:60px 60px; mask-image:linear-gradient(to bottom,black,transparent 75%); }
 .ak-security-badges { @apply mt-6 flex flex-wrap gap-3; }
 .ak-security-badges > span { @apply flex items-center gap-2 rounded-full border border-line bg-background py-1.5 pl-1.5 pr-4 text-xs font-medium text-ink; }
 .ak-security-badges > span > span { @apply flex h-6 w-6 items-center justify-center rounded-full bg-blue-subtle font-mono text-[9px] text-blue; }
@@ -134,7 +131,7 @@
 .ak-security-cards h3 { @apply text-[18px] font-semibold tracking-tight text-ink; }
 .ak-security-cards article > p { @apply mt-3 text-[14px] leading-relaxed text-secondary-text; }
 .ak-security-illustration { @apply relative mt-auto flex h-36 shrink-0 items-center justify-center; }
-.ak-security-icon { @apply relative z-10 flex h-14 w-14 items-center justify-center rounded-full border border-blue-border bg-background text-blue shadow-card; }
+.ak-security-icon { @apply relative z-10 flex h-14 w-14 items-center justify-center rounded-full border border-blue-border bg-background text-blue ; }
 .ak-security-icon svg { @apply h-6 w-6; }
 .ak-security-orbit { @apply absolute h-[86px] w-[86px] rounded-full border border-blue/15; }
 .ak-security-orbit:nth-child(2) { @apply h-[114px] w-[114px] border-blue/10; }
@@ -177,12 +174,12 @@
 .ak-gw-rebuilt { @apply border border-line text-secondary-text; background-image:repeating-linear-gradient(135deg,theme('colors.line') 0 1px,transparent 1px 7px); }
 .ak-gw-rebuilt > span:first-child { @apply bg-background px-1; }
 .ak-gw-stack[data-preview="true"] .ak-gw-rebuilt { @apply border-dashed; }
-.ak-gw-band { @apply border border-blue bg-blue-solid text-white; }
+.ak-gw-band { @apply border border-blue bg-blue-solid text-on-accent; }
 .ak-gw-governance { @apply mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 border-t border-blue-border pt-3 text-xs text-secondary-text; }
 .ak-gw-governance strong { @apply font-medium text-blue; }
 .ak-gw-reuse { @apply font-mono text-[10px] uppercase tracking-[0.08em] text-blue sm:ml-auto; }
 .ak-gw-pin { @apply flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-ink font-mono text-[10px] font-medium text-on-action; }
-.ak-gw-grid .ak-gw-pin { @apply absolute ring-[3px] ring-background; top:calc(50% - 10px); }
+.ak-gw-grid .ak-gw-pin { @apply absolute outline outline-[3px] outline-background; top:calc(50% - 10px); }
 .ak-gw-pin-rebuilt,.ak-gw-pin-work { right:-10px; }
 .ak-gw-pin-define { left:64%; }
 .ak-gw-pin-band { left:39%; }
@@ -191,7 +188,7 @@
 .ak-gw-swatch { @apply h-3 w-5 rounded-[2px]; }
 .ak-gw-swatch-work { @apply border border-ink/45 bg-tertiary-bg; }
 .ak-gw-swatch-rebuilt { @apply border border-line; background-image:repeating-linear-gradient(135deg,theme('colors.line') 0 1px,transparent 1px 4px); }
-.ak-gw-swatch-shared { @apply bg-blue; }
+.ak-gw-swatch-shared { @apply bg-blue-solid; }
 .ak-gw-swatch-preview { @apply border border-dashed border-blue bg-blue-subtle; }
 .ak-gw-seats { @apply mt-8 grid gap-x-10 gap-y-5 sm:grid-cols-2 lg:grid-cols-4; }
 .ak-gw-seats li { @apply flex items-start gap-3 border-t border-line pt-4; }
@@ -219,7 +216,7 @@
 .ak-ag-rail { @apply row-span-2 flex flex-col items-center; }
 .ak-ag-node { @apply relative z-[1] flex h-[30px] w-[30px] shrink-0 items-center justify-center rounded-full border border-dashed border-blue bg-background font-mono text-[10px] font-medium text-blue; }
 .ak-ag-step[data-kind="person"] .ak-ag-node { @apply border-solid border-ink bg-ink text-on-action; }
-.ak-ag-step[data-kind="record"] .ak-ag-node { @apply border-solid border-blue bg-blue-solid text-white; }
+.ak-ag-step[data-kind="record"] .ak-ag-node { @apply border-solid border-blue bg-blue-solid text-on-accent; }
 .ak-ag-ping { @apply pointer-events-none absolute inset-0 rounded-full border border-ink; }
 .ak-ag-line { @apply block w-0 flex-1 border-l border-dashed border-blue; }
 .ak-ag-line[data-out="person"] { @apply border-solid border-ink; }
@@ -243,7 +240,7 @@
 .ak-ag-swatch { @apply h-3 w-5 rounded-[2px]; }
 .ak-ag-swatch[data-kind="agent"] { @apply border border-dashed border-blue bg-blue-subtle; }
 .ak-ag-swatch[data-kind="person"] { @apply bg-ink; }
-.ak-ag-swatch[data-kind="record"] { @apply bg-blue; }
+.ak-ag-swatch[data-kind="record"] { @apply bg-blue-solid; }
 @media (min-width:1024px) {
   .ak-ag-lanes { @apply grid px-8 pt-6; grid-template-columns:repeat(6,minmax(0,1fr)); }
   .ak-ag-lane { @apply relative mr-6 border-b pb-2 font-mono text-[10px] font-medium uppercase tracking-[0.08em]; }
@@ -288,14 +285,12 @@
 
 
 /* A dark index with compact, high-contrast specification sheets. */
-.ak-reference { @apply bg-depth text-white; }
-.ak-reference .ak-story-label { @apply text-white/70; }
-.ak-reference .ak-story-label > span { @apply text-white/50; }
-.ak-reference .ak-story-title { @apply text-white; }
+.ak-reference { @apply bg-depth text-ink; }
+.ak-reference .ak-story-title { @apply text-ink; }
 .ak-reference .ak-story-title > span { @apply text-uc-mute; }
-.ak-reference .ak-story-intro { @apply text-white/75; }
-.ak-reference-index { @apply mt-9 overflow-hidden rounded-frame border border-white/20; }
-.ak-reference-module { @apply scroll-mt-24 border-b border-white/20; }
+.ak-reference .ak-story-intro { @apply text-secondary-text; }
+.ak-reference-index { @apply mt-9 overflow-hidden rounded-frame border border-line; }
+.ak-reference-module { @apply scroll-mt-24 border-b border-line; }
 .ak-reference-module:last-child { @apply border-b-0; }
 .ak-reference-module summary { @apply grid cursor-pointer list-none grid-cols-[28px_1fr_20px] items-center gap-4 px-5 py-5 md:grid-cols-[32px_1fr_24px] md:px-7; }
 .ak-reference-module summary::-webkit-details-marker { display:none; }
@@ -303,11 +298,11 @@
 .ak-reference-name { @apply flex flex-col gap-1 md:flex-row md:items-baseline md:gap-4; }
 .ak-reference-module summary h3 { @apply text-[20px] font-medium tracking-tight md:text-[23px]; }
 .ak-reference-module summary:hover, .ak-reference-module[open] summary { @apply bg-depth-raised; }
-.ak-reference-tagline { @apply text-xs text-white/65; }
+.ak-reference-tagline { @apply text-xs text-secondary-text; }
 .ak-reference-plus { @apply relative h-5 w-5; }
 .ak-reference-plus::before,.ak-reference-plus::after { content:""; @apply absolute left-0 top-1/2 h-px w-5 bg-blue-300; }
 .ak-reference-plus::after { transform:rotate(90deg); }
-.ak-reference-module summary:focus-visible { outline:2px solid #AEC3FF; outline-offset:-4px; }
+.ak-reference-module summary:focus-visible { outline:2px solid rgb(var(--blue)); outline-offset:-4px; }
 .ak-reference-module[open] .ak-reference-plus::after { transform:rotate(0deg); }
 .ak-reference-content { @apply bg-background px-5 pb-3 pt-5 text-ink md:px-7; }
 .ak-reference-desc { @apply max-w-[62em] text-sm leading-relaxed text-secondary-text; }
@@ -322,22 +317,20 @@
 .ak-connector-list li { @apply flex items-center gap-2 rounded-micro border border-lineSoft bg-panel px-2 py-2 text-[13px] font-medium leading-snug text-ink; }
 .ak-connector-mark { @apply flex h-6 w-6 shrink-0 items-center justify-center rounded-micro bg-background font-mono text-[9px] text-blue; }
 .ak-reference-charts { @apply text-sm leading-relaxed text-secondary-text; }
-.ak-reference-note { @apply mt-5 max-w-[60em] text-xs leading-relaxed text-white/65; }
+.ak-reference-note { @apply mt-5 max-w-[60em] text-xs leading-relaxed text-secondary-text; }
 .ak-close-section .ak-story-wrap { @apply py-10 lg:py-16; }
-.ak-close { @apply overflow-hidden rounded-outer bg-depth px-6 py-10 text-white md:px-12 md:py-14; }
-.ak-close .ak-story-label { @apply text-white/60; }
-.ak-close .ak-story-label > span { @apply text-blue-300; }
+.ak-close { @apply overflow-hidden rounded-outer border border-card-line bg-depth px-6 py-10 text-ink md:px-12 md:py-14; }
 .ak-close-body { @apply mt-10 grid gap-12 lg:grid-cols-[1.6fr_1fr] lg:gap-20; }
 .ak-close h2 { @apply text-[38px] font-medium leading-[1.07] tracking-tighter text-uc-mute md:text-[54px] lg:text-[60px]; }
-.ak-close h2 > span { @apply text-white; }
-.ak-close-intro { @apply mt-6 max-w-[30em] text-base leading-relaxed text-white/65; }
+.ak-close h2 > span { @apply text-ink; }
+.ak-close-intro { @apply mt-6 max-w-[30em] text-base leading-relaxed text-secondary-text; }
 .ak-close-actions { @apply mt-9 flex flex-wrap gap-3; }
-.ak-close-agenda { @apply flex flex-col justify-center border-l border-white/20 pl-7; }
+.ak-close-agenda { @apply flex flex-col justify-center border-l border-line pl-7; }
 .ak-close-agenda > div { @apply relative py-5; }
 .ak-close-agenda > div::before { content:""; @apply absolute -left-[32px] top-7 h-[7px] w-[7px] rounded-full bg-blue-300; }
 .ak-close-agenda .ak-small-label { @apply text-blue-300; }
-.ak-close-agenda p { @apply mt-2 max-w-[18em] text-lg leading-snug text-white/85; }
-.ak-close-footer { @apply mt-12 flex flex-wrap justify-between gap-4 border-t border-white/15 pt-6 text-xs text-white/55; }
+.ak-close-agenda p { @apply mt-2 max-w-[18em] text-lg leading-snug text-ink; }
+.ak-close-footer { @apply mt-12 flex flex-wrap justify-between gap-4 border-t border-line pt-6 text-xs text-inkSoft; }
 .ak-close-footer > :last-child { @apply font-mono text-[10px] text-blue-300; }
 
 

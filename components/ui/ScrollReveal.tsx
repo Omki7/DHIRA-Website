@@ -1,7 +1,10 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import usePrefersReducedMotion from "@/hooks/usePrefersReducedMotion";
 
+/* Fades and lifts its children in once they enter the viewport, after
+   `delay` ms. Under reduced motion the content simply rests visible. */
 export default function ScrollReveal({
   children,
   className = "",
@@ -12,27 +15,19 @@ export default function ScrollReveal({
   delay?: number;
 }) {
   const ref = useRef<HTMLDivElement>(null);
-  const [visible, setVisible] = useState(false);
+  const reduced = usePrefersReducedMotion();
+  const [revealed, setRevealed] = useState(false);
+  const visible = reduced || revealed;
 
   useEffect(() => {
     const node = ref.current;
-    if (!node) return;
-    const preference = window.matchMedia("(prefers-reduced-motion: reduce)");
-    if (preference.matches) {
-      setVisible(true);
-      return;
-    }
+    if (!node || reduced) return;
 
     let revealTimer: ReturnType<typeof setTimeout> | undefined;
-    const handlePreference = () => {
-      if (preference.matches) setVisible(true);
-    };
-    preference.addEventListener("change", handlePreference);
-
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          revealTimer = setTimeout(() => setVisible(true), delay);
+          revealTimer = setTimeout(() => setRevealed(true), delay);
           observer.disconnect();
         }
       },
@@ -43,9 +38,8 @@ export default function ScrollReveal({
     return () => {
       observer.disconnect();
       clearTimeout(revealTimer);
-      preference.removeEventListener("change", handlePreference);
     };
-  }, [delay]);
+  }, [delay, reduced]);
 
   return (
     <div

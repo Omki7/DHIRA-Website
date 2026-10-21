@@ -1,19 +1,18 @@
 "use client";
 import { useEffect } from "react";
 import ScrollReveal from "@/components/ui/ScrollReveal";
-import { AKASHIC_STORY, AKASHIC_MODULES, type Group } from "@/lib/akashicSections";
+import type { AkashicPage, Group } from "@/content/pages/akashic";
 import { StoryLabel, StoryTitle, PreviewTag } from "@/components/sections/akashic/AkashicStory";
-const c = AKASHIC_STORY.reference;
 
-function ReferenceGroup({ group }: { group: Group }) {
+function ReferenceGroup({ group, chartTypes }: { group: Group; chartTypes: string }) {
   if (group.kind === "badges") return null;
   return <div className="ak-reference-group"><h4>{group.label}{group.kind === "cap" && group.preview && <PreviewTag className="ml-2 align-[1px]" />}</h4>
     {group.kind === "conn" ? <ul className="ak-connector-list">{group.items.map(item => <li key={item.name}><span aria-hidden="true" className="ak-connector-mark">{item.mono}</span>{item.name}</li>)}</ul>
     : group.kind === "cap" ? <dl className={group.items.length === 4 ? "ak-reference-pairs" : ""}>{group.items.map(item => <div key={item.term}><dt>{item.term}</dt>{item.sub && <dd>{item.sub}</dd>}</div>)}</dl>
-    : <p className="ak-reference-charts">Bars · Lines · Areas · Metrics · Tables · Heatmaps · Scatter · Pie</p>}
+    : <p className="ak-reference-charts">{chartTypes}</p>}
   </div>;
 }
-export default function AkashicStack() {
+export default function AkashicStack({ content: c }: { content: AkashicPage["reference"] }) {
   useEffect(() => {
     const openAnchor = () => {
       const id = window.location.hash.slice(1);
@@ -40,10 +39,10 @@ export default function AkashicStack() {
     };
   }, []);
   return <section id="stack" className="ak-story ak-reference"><div className="ak-story-wrap">
-    <ScrollReveal><StoryLabel number="10">Capabilities &amp; connections</StoryLabel><div className="ak-story-heading"><StoryTitle setup={c.setup}>{c.title}</StoryTitle><p className="ak-story-intro">{c.intro}</p></div></ScrollReveal>
-    <div className="ak-reference-index">{AKASHIC_MODULES.map((m, i) => <details id={"reference-" + m.id} key={m.id} open={i === 0} className="ak-reference-module">
+    <ScrollReveal><StoryLabel number={c.number}>{c.label}</StoryLabel><div className="ak-story-heading"><StoryTitle setup={c.setup}>{c.title}</StoryTitle><p className="ak-story-intro">{c.intro}</p></div></ScrollReveal>
+    <div className="ak-reference-index">{c.modules.map((m, i) => <details id={"reference-" + m.id} key={m.id} open={i === 0} className="ak-reference-module">
       <summary><span className="ak-small-label">0{i + 1}</span><div className="ak-reference-name"><h3>{m.name}</h3><span className="ak-reference-tagline">{m.tagline}</span></div><span className="ak-reference-plus" aria-hidden="true" /></summary>
-      <div className="ak-reference-content"><p className="ak-reference-desc">{m.desc}</p><div className="ak-reference-groups">{m.groups.map(g => <ReferenceGroup key={g.label} group={g} />)}</div></div>
+      <div className="ak-reference-content"><p className="ak-reference-desc">{m.desc}</p><div className="ak-reference-groups">{m.groups.map(g => <ReferenceGroup key={g.label} group={g} chartTypes={c.chartTypes} />)}</div></div>
     </details>)}</div><p className="ak-reference-note">{c.note}</p>
   </div></section>;
 }

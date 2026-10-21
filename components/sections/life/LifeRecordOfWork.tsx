@@ -20,41 +20,24 @@
 
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import { LifeEyebrow, LifeGlyph, LifeCornerArc } from "@/components/ui/life/LifeChrome";
+import type { LifePage } from "@/content/pages/solutions-life";
 
-const chain = [
-  {
-    figure: "2 Billion+",
-    name: "National immunisation registry",
-    body: "The same data backbone reconciled more than 2 billion dose records through a country-scale programme, under load, in public.",
-  },
-  {
-    figure: "187M+",
-    name: "National learning platform",
-    body: "Enrolments resolved into one governed model for a national education deployment, on the identical MDM and BI architecture this page has been describing.",
-  },
-  {
-    figure: "Built on it",
-    name: "Akashic Life",
-    body: "The same foundation, taken to the point of care. The reading happens on a handset, and the record it produces travels the governed path everything above it travels.",
-    live: true,
-  },
-];
 
-export default function LifeRecordOfWork() {
+export default function LifeRecordOfWork({ content }: { content: LifePage["recordOfWork"] }) {
+  const { chain } = content;
   return (
     <section id="record-of-work" className="relative scroll-mt-20 overflow-hidden bg-life-abyss">
       <div
         aria-hidden
-        className="absolute inset-0 bg-[linear-gradient(160deg,#0A0E24_0%,#0A0E24_38%,#0B1E4E_72%,#12356F_100%)]"
+        className="absolute inset-0 life-ground"
       />
       <LifeCornerArc />
 
       <div className="relative mx-auto w-full max-w-[1440px] px-6 pt-28 sm:px-10 lg:px-14 lg:pt-40">
         <ScrollReveal className="flex flex-col items-center text-center">
-          <LifeEyebrow num="06">Already done. Already running.</LifeEyebrow>
-          <p className="mt-9 max-w-[19em] text-[24px] font-normal leading-[1.34] text-white sm:text-[28px] lg:text-[32px]">
-            Reading risk at the edge is the new part. Carrying a country&rsquo;s health data
-            without dropping a record is not, and it is the part that is hard.
+          <LifeEyebrow num={content.eyebrow.num}>{content.eyebrow.label}</LifeEyebrow>
+          <p className="mt-9 max-w-[19em] text-[24px] font-normal leading-[1.34] text-ink sm:text-[28px] lg:text-[32px]">
+            {content.lede}
           </p>
         </ScrollReveal>
 
@@ -80,7 +63,7 @@ export default function LifeRecordOfWork() {
               >
                 <ScrollReveal className="max-w-[24em] lg:max-w-[21em]">
                   <LifeGlyph size={14} />
-                  <p className="mt-5 text-[15px] leading-[1.6] text-white/80 sm:text-[16px]">
+                  <p className="mt-5 text-[15px] leading-[1.6] text-secondary-text sm:text-[16px]">
                     {item.body}
                   </p>
                 </ScrollReveal>
@@ -88,7 +71,7 @@ export default function LifeRecordOfWork() {
 
               {/* The circle. */}
               <div className="order-1 flex justify-center lg:order-none lg:col-start-2 lg:row-start-1">
-                <div className="relative flex aspect-square w-[268px] shrink-0 flex-col items-center justify-center rounded-full border border-white/45 text-center sm:w-[300px] lg:w-[352px]">
+                <div className="relative flex aspect-square w-[268px] shrink-0 flex-col items-center justify-center rounded-full border border-line text-center sm:w-[300px] lg:w-[352px]">
                   {item.live && (
                     <span
                       className="alife-sonar pointer-events-none absolute inset-0 rounded-full border border-life-cyan/45"
@@ -98,7 +81,7 @@ export default function LifeRecordOfWork() {
                   <p className="text-[13px] font-bold uppercase tracking-[0.1em] text-life-sky">
                     {item.figure}
                   </p>
-                  <p className="mt-2.5 text-[14px] font-bold uppercase tracking-[0.08em] text-white">
+                  <p className="mt-2.5 text-[14px] font-bold uppercase tracking-[0.08em] text-ink">
                     {item.name}
                   </p>
                 </div>

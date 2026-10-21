@@ -19,8 +19,9 @@ import ScrollRevealRail from "@/components/ui/ScrollRevealRail";
 import SectionHeader from "@/components/ui/SectionHeader";
 import SectionCoda from "@/components/ui/SectionCoda";
 import HiringLoop from "@/components/demos/careers/HiringLoop";
+import type { CareersPage } from "@/content/pages/careers";
 
-export default function CareersHiring() {
+export default function CareersHiring({ content }: { content: CareersPage["hiring"] }) {
   return (
     <section
       id="how-we-hire"
@@ -28,23 +29,23 @@ export default function CareersHiring() {
     >
       <ScrollRevealRail>
         <SectionHeader
-          num="04"
-          label="How we hire"
-          setup="No puzzles. No theatre."
-          payoff="No ghosting."
-          lede="Four steps. Real problems, real colleagues, a straight answer. Both sides interview."
+          num={content.num}
+          label={content.label}
+          setup={content.setup}
+          payoff={content.payoff}
+          lede={content.lede}
         />
 
         <ScrollReveal delay={180}>
           <div className="mt-8 lg:mt-10">
-            <HiringLoop />
+            <HiringLoop content={content} />
           </div>
           <SectionCoda
             rule
-            lead="Every candidate gets an answer."
+            lead={content.coda.lead}
             payoff={
-              <Link href="#talk-to-our-team" className="underline-offset-4 hover:underline">
-                Start with the intro call.
+              <Link href={content.coda.link.href} className="underline-offset-4 hover:underline">
+                {content.coda.link.label}
               </Link>
             }
           />

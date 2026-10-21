@@ -14,10 +14,8 @@ export default function AboutMotion({ children }: { children: ReactNode }) {
     const targets = Array.from(root.querySelectorAll<HTMLElement>("[data-about-enter], [data-about-reveal]"));
     const animations = new Set<Animation>();
     const seen = new Set<HTMLElement>();
-    const hero = root.querySelector<HTMLElement>(".about-hero");
     const landscape = root.querySelector<HTMLElement>(".about-landscape-plane");
     let observer: IntersectionObserver | undefined;
-    let frame = 0;
 
     const release = (target: HTMLElement) => {
       target.style.removeProperty("opacity");
@@ -35,22 +33,12 @@ export default function AboutMotion({ children }: { children: ReactNode }) {
       animations.add(animation);
       animation.finished.then(() => { animation.cancel(); animations.delete(animation); }).catch(() => {});
     };
-    const paint = () => {
-      frame = 0;
-      if (!hero || !landscape || preference.matches) return;
-      const rect = hero.getBoundingClientRect();
-      const progress = Math.max(0, Math.min(1, -rect.top / rect.height));
-      landscape.style.transform = `translate3d(0,${(progress * 28).toFixed(2)}px,0)`;
-    };
-    const schedule = () => { if (!frame && !preference.matches) frame = requestAnimationFrame(paint); };
     const stop = () => {
       observer?.disconnect();
       animations.forEach((animation) => animation.cancel());
       animations.clear();
       targets.forEach(release);
-      cancelAnimationFrame(frame);
-      frame = 0;
-      landscape?.style.removeProperty("transform");
+landscape?.style.removeProperty("transform");
     };
     const start = () => {
       stop();
@@ -80,13 +68,10 @@ export default function AboutMotion({ children }: { children: ReactNode }) {
         animations.add(animation);
         animation.finished.then(() => animations.delete(animation)).catch(() => {});
       }
-      paint();
     };
     start();
     preference.addEventListener("change", start);
-    window.addEventListener("scroll", schedule, { passive: true });
-    window.addEventListener("resize", schedule);
-    return () => { stop(); preference.removeEventListener("change", start); window.removeEventListener("scroll", schedule); window.removeEventListener("resize", schedule); };
+return () => { stop(); preference.removeEventListener("change", start); };
   }, []);
 
   return <div ref={ref} className="about-page">{children}</div>;

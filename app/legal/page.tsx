@@ -1,17 +1,26 @@
-import Nav from "@/components/layout/Nav";
+import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import Footer from "@/components/layout/Footer";
+import Nav from "@/components/layout/Nav";
 import LegalDocument from "@/components/sections/legal/LegalDocument";
-import { WEBSITE_POLICIES } from "@/lib/legal";
+import { getLegalDoc, getLegalDocs } from "@/lib/content";
 import { pageMetadata } from "@/lib/metadata";
 
-export const metadata = pageMetadata({ title: WEBSITE_POLICIES.title, description: WEBSITE_POLICIES.summary, path: "/legal" });
+const SLUG = "legal";
 
-export default function Page() {
+export async function generateMetadata(): Promise<Metadata> {
+  const doc = await getLegalDoc(SLUG);
+  return doc ? pageMetadata({ title: doc.title, description: doc.summary, path: `/${SLUG}` }) : {};
+}
+
+export default async function LegalPage() {
+  const [doc, docs] = await Promise.all([getLegalDoc(SLUG), getLegalDocs()]);
+  if (!doc) notFound();
   return (
     <>
       <Nav />
       <main id="main" className="bg-background">
-        <LegalDocument doc={WEBSITE_POLICIES} />
+        <LegalDocument doc={doc} others={docs.filter((item) => item.slug !== SLUG)} />
       </main>
       <Footer />
     </>

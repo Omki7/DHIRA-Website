@@ -8,62 +8,13 @@
 import Link from "next/link";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import ScrollRevealRail from "@/components/ui/ScrollRevealRail";
+import type { DeliveryPage } from "@/content/pages/delivery";
 
-interface StageCard {
-  id: string;
-  num: string;
-  name: string;
-  tagline: string;
-  description: string;
-  deliverable: string;
-  gradient: string;
-  type: "code" | "icons" | "apps" | "telemetry";
-}
+/* Each stage card's ground, by stage id (art direction, not content). */
 
-const STAGES: StageCard[] = [
-  {
-    id: "understand",
-    num: "01",
-    name: "Understand",
-    tagline: "Discovery & Boundaries",
-    description: "Evaluate constraints, security boundaries, and legacy systems to define exact technical outcomes.",
-    deliverable: "Baseline SOW & Compliance Map",
-    gradient: "from-blue-500/20 via-indigo-500/10 to-vault",
-    type: "code",
-  },
-  {
-    id: "align",
-    num: "02",
-    name: "Align",
-    tagline: "Architecture & Sprint Roadmap",
-    description: "Select technology topology, agree on milestone roadmaps, and deploy senior engineering capacity.",
-    deliverable: "Architecture Blueprint",
-    gradient: "from-cyan-500/25 via-blue-600/15 to-vault",
-    type: "icons",
-  },
-  {
-    id: "deliver",
-    num: "03",
-    name: "Build & Deliver",
-    tagline: "Iterative Sprint Execution",
-    description: "Ship production code in 2-week sprints with automated QA, performance stress testing, and live demos.",
-    deliverable: "Production Codebase (>90% QA)",
-    gradient: "from-sky-400/25 via-indigo-600/15 to-vault",
-    type: "apps",
-  },
-  {
-    id: "evolve",
-    num: "04",
-    name: "Evolve",
-    tagline: "Sovereign IP & Telemetry",
-    description: "Transfer 100% sovereign code ownership, set up enterprise SLA monitoring, and provide continuous support.",
-    deliverable: "Sovereign IP Handover",
-    gradient: "from-emerald-500/20 via-teal-600/15 to-vault",
-    type: "telemetry",
-  },
-];
 
-export default function DeliveryMethodology() {
+export default function DeliveryMethodology({ content }: { content: DeliveryPage["methodology"] }) {
+  const STAGES = content.stages;
   return (
     <section
       id="methodology"
@@ -74,25 +25,25 @@ export default function DeliveryMethodology() {
         <ScrollReveal>
           <div className="flex items-baseline justify-between font-mono text-[11px] uppercase tracking-eyebrow">
             <p>
-              <span className="text-overcast">[04]</span>
-              <span className="text-inkSoft">&nbsp;&nbsp;Delivery process</span>
+              <span className="text-overcast">[{content.eyebrow.number}]</span>
+              <span className="text-inkSoft">&nbsp;&nbsp;{content.eyebrow.label}</span>
             </p>
-            <span className="hidden text-overcast sm:inline">/ Outcome-first engineering</span>
+            <span className="hidden text-overcast sm:inline">{content.eyebrow.aside}</span>
           </div>
 
           <div className="mt-5 flex flex-col justify-between gap-4 md:flex-row md:items-end">
             <div>
               <h2 className="text-3xl font-bold tracking-tight text-ink md:text-4xl lg:text-4xl">
-                Start with the outcome, not the technology.
+                {content.title}
               </h2>
               <p className="mt-3 max-w-[36em] text-base leading-relaxed text-secondary-text">
-                Four clear stages designed to eliminate risk, maintain accountability, and ship production-ready systems on schedule.
+                {content.lede}
               </p>
             </div>
 
             <div className="flex items-center gap-3">
-              <Link href="#talk-to-our-team" className="btn-secondary text-xs">
-                Talk to our team &rarr;
+              <Link href={content.cta.href} className="btn-secondary text-xs">
+                {content.cta.label}
               </Link>
             </div>
           </div>
@@ -101,13 +52,13 @@ export default function DeliveryMethodology() {
         {/* Horizontal Process Flow Stepper Rail (Desktop) */}
         <ScrollReveal delay={80}>
           <div className="mt-10 hidden lg:block">
-            <div className="relative flex items-center justify-between rounded-2xl border border-subtle-stroke bg-primary-bg/80 p-3.5 shadow-sm">
+            <div className="relative flex items-center justify-between rounded-2xl border border-subtle-stroke bg-primary-bg p-3.5 ">
               {/* Connected Dashed Line */}
               <div className="absolute left-[12%] right-[12%] top-1/2 -translate-y-1/2 h-0.5 border-t-2 border-dashed border-blue-border/70" aria-hidden />
 
               {STAGES.map((s, idx) => (
-                <div key={s.id} className="relative z-10 flex items-center gap-2.5 bg-white px-4 py-1.5 rounded-full border border-subtle-stroke shadow-sm">
-                  <span className="flex h-5 w-5 items-center justify-center rounded-full bg-blue text-white font-mono text-[10px] font-bold">
+                <div key={s.id} className="relative z-10 flex items-center gap-2.5 bg-background px-4 py-1.5 rounded-full border border-subtle-stroke ">
+                  <span className="flex h-5 w-5 items-center justify-center rounded-full bg-blue text-on-action font-mono text-[10px] font-bold">
                     {s.num}
                   </span>
                   <span className="font-semibold text-xs text-ink">{s.name}</span>
@@ -128,21 +79,21 @@ export default function DeliveryMethodology() {
                 <div>
                   {/* Top Visual Graphic Container */}
                   <div
-                    className={`relative aspect-[1.1] w-full overflow-hidden rounded-2xl border border-subtle-stroke bg-gradient-to-br ${stage.gradient} p-4 shadow-sm transition-all duration-300 group-hover:-translate-y-1 group-hover:border-blue-border group-hover:shadow-frame flex items-center justify-center`}
+                    className={`relative aspect-[1.1] w-full overflow-hidden rounded-2xl border border-subtle-stroke bg-primary-bg p-4  transition-all duration-300 group-hover:border-blue-border  flex items-center justify-center`}
                   >
                     {/* Visual Graphic Type 1: IDE Code Window */}
                     {stage.type === "code" && (
-                      <div className="w-full rounded-xl border border-white/15 bg-vault/90 p-3.5 shadow-md">
-                        <div className="flex items-center gap-1.5 border-b border-white/10 pb-2">
+                      <div className="w-full rounded-xl border border-line bg-vault p-3.5 ">
+                        <div className="flex items-center gap-1.5 border-b border-line pb-2">
                           <span className="h-2 w-2 rounded-full bg-red-400" />
                           <span className="h-2 w-2 rounded-full bg-yellow-400" />
-                          <span className="h-2 w-2 rounded-full bg-emerald-400" />
-                          <span className="ml-2 font-mono text-[9px] text-white/60">discovery.py</span>
+                          <span className="h-2 w-2 rounded-full bg-positive" />
+                          <span className="ml-2 font-mono text-[9px] text-secondary-text">discovery.py</span>
                         </div>
-                        <div className="mt-2.5 font-mono text-[10px] leading-relaxed text-white/90">
-                          <p className="text-blue-subtle"><span className="text-pink-400">from</span> dhira <span className="text-pink-400">import</span> Pipeline</p>
-                          <p className="mt-1"><span className="text-yellow-300">manifest</span> = Understand(</p>
-                          <p className="pl-3 text-emerald-300">&quot;sovereign_vpc&quot;,&nbsp;<span className="text-blue-subtle">99.99% SLA</span></p>
+                        <div className="mt-2.5 font-mono text-[10px] leading-relaxed text-ink">
+                          <p className="text-secondary-text"><span className="text-[rgb(var(--diagram-pink))]">from</span> dhira <span className="text-[rgb(var(--diagram-pink))]">import</span> Pipeline</p>
+                          <p className="mt-1"><span className="text-[rgb(var(--diagram-gold))]">manifest</span> = Understand(</p>
+                          <p className="pl-3 text-positive-text">&quot;sovereign_vpc&quot;,&nbsp;<span className="text-secondary-text">99.99% SLA</span></p>
                           <p>)</p>
                         </div>
                       </div>
@@ -154,7 +105,7 @@ export default function DeliveryMethodology() {
                         {["{}", "🌐", "⚡", "🛡️", "</>", "📊"].map((icon, i) => (
                           <div
                             key={i}
-                            className="flex h-11 w-11 items-center justify-center rounded-xl border border-white/20 bg-white/15 text-lg shadow-sm backdrop-blur-md transition-transform group-hover:scale-105"
+                            className="flex h-11 w-11 items-center justify-center rounded-xl border border-line bg-background text-lg   transition-transform group-hover:scale-105"
                           >
                             <span>{icon}</span>
                           </div>
@@ -165,49 +116,49 @@ export default function DeliveryMethodology() {
                     {/* Visual Graphic Type 3: App Integration Badges */}
                     {stage.type === "apps" && (
                       <div className="grid grid-cols-2 gap-3">
-                        <div className="flex items-center gap-2 rounded-xl border border-white/20 bg-white/15 p-2.5 backdrop-blur-md">
-                          <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-ink text-white font-mono text-xs font-bold">
+                        <div className="flex items-center gap-2 rounded-xl border border-line bg-background p-2.5 ">
+                          <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-ink text-on-action font-mono text-xs font-bold">
                             GH
                           </div>
-                          <span className="font-mono text-[10px] font-bold text-white">GitHub</span>
+                          <span className="font-mono text-[10px] font-bold text-ink">GitHub</span>
                         </div>
-                        <div className="flex items-center gap-2 rounded-xl border border-white/20 bg-white/15 p-2.5 backdrop-blur-md">
-                          <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-blue text-white font-mono text-xs font-bold">
+                        <div className="flex items-center gap-2 rounded-xl border border-line bg-background p-2.5 ">
+                          <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-blue text-on-action font-mono text-xs font-bold">
                             JR
                           </div>
-                          <span className="font-mono text-[10px] font-bold text-white">Jira</span>
+                          <span className="font-mono text-[10px] font-bold text-ink">Jira</span>
                         </div>
-                        <div className="flex items-center gap-2 rounded-xl border border-white/20 bg-white/15 p-2.5 backdrop-blur-md">
-                          <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-indigo-600 text-white font-mono text-xs font-bold">
+                        <div className="flex items-center gap-2 rounded-xl border border-line bg-background p-2.5 ">
+                          <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-blue-subtle text-blue font-mono text-xs font-bold">
                             K8s
                           </div>
-                          <span className="font-mono text-[10px] font-bold text-white">K8s</span>
+                          <span className="font-mono text-[10px] font-bold text-ink">K8s</span>
                         </div>
-                        <div className="flex items-center gap-2 rounded-xl border border-white/20 bg-white/15 p-2.5 backdrop-blur-md">
-                          <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-cyan-600 text-white font-mono text-xs font-bold">
+                        <div className="flex items-center gap-2 rounded-xl border border-line bg-background p-2.5 ">
+                          <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-positive-subtle text-positive-text font-mono text-xs font-bold">
                             CI
                           </div>
-                          <span className="font-mono text-[10px] font-bold text-white">CI/CD</span>
+                          <span className="font-mono text-[10px] font-bold text-ink">CI/CD</span>
                         </div>
                       </div>
                     )}
 
                     {/* Visual Graphic Type 4: Live Telemetry Pulse */}
                     {stage.type === "telemetry" && (
-                      <div className="w-full rounded-xl border border-white/20 bg-vault/90 p-4 shadow-md">
-                        <div className="flex items-center justify-between border-b border-white/10 pb-2.5">
+                      <div className="w-full rounded-xl border border-line bg-vault p-4 ">
+                        <div className="flex items-center justify-between border-b border-line pb-2.5">
                           <div className="flex items-center gap-2">
-                            <span className="h-2 w-2 rounded-full bg-emerald-400 animate-ping" />
-                            <span className="font-mono text-[10px] font-bold text-white">Live Telemetry</span>
+                            <span className="h-2 w-2 rounded-full bg-positive animate-ping" />
+                            <span className="font-mono text-[10px] font-bold text-ink">Live Telemetry</span>
                           </div>
-                          <span className="font-mono text-[9.5px] font-bold text-emerald-400">99.99%</span>
+                          <span className="font-mono text-[9.5px] font-bold text-positive-text">99.99%</span>
                         </div>
                         <div className="mt-3 flex items-center justify-between">
                           <div>
-                            <p className="font-mono text-[9px] text-white/60 uppercase">Code Sovereignty</p>
-                            <p className="font-mono text-[11px] font-bold text-white">100% Client IP</p>
+                            <p className="font-mono text-[9px] text-secondary-text uppercase">Code Sovereignty</p>
+                            <p className="font-mono text-[11px] font-bold text-ink">100% Client IP</p>
                           </div>
-                          <span className="rounded-full bg-emerald-500/20 px-2 py-0.5 font-mono text-[9px] text-emerald-300 border border-emerald-400/30">
+                          <span className="rounded-full bg-positive-subtle px-2 py-0.5 font-mono text-[9px] text-positive-text border border-positive-border">
                             Verified SLA
                           </span>
                         </div>
@@ -216,7 +167,7 @@ export default function DeliveryMethodology() {
 
                     {/* Stage Number Badge Overlay */}
                     <div className="absolute top-3 left-3">
-                      <span className="flex h-6 w-6 items-center justify-center rounded-lg bg-vault/80 font-mono text-[10px] font-bold text-white backdrop-blur-md border border-white/15">
+                      <span className="flex h-6 w-6 items-center justify-center rounded-lg bg-vault font-mono text-[10px] font-bold text-ink  border border-line">
                         {stage.num}
                       </span>
                     </div>

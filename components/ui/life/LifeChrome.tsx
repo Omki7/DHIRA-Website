@@ -45,12 +45,12 @@ export function LifeEyebrow({
   return (
     <p
       className={`alife-eyebrow ${
-        tone === "dark" ? "text-white" : "text-life-deep"
+        tone === "dark" ? "text-ink" : "text-life-deep"
       } ${className}`}
     >
       {/* The number sits back from the label, as everywhere else on the site
           (`text-overcast` against `text-inkSoft`). */}
-      <span className={tone === "dark" ? "text-white/45" : "text-overcast"}>
+      <span className={tone === "dark" ? "text-inkSoft" : "text-overcast"}>
         [{num}]
       </span>
       {children}
@@ -113,10 +113,10 @@ export function LifePill({
 }) {
   const skin =
     variant === "cyan"
-      ? "bg-gradient-to-r from-life-cyan to-[#0096C7] text-white shadow-card hover:from-life-sky hover:to-life-cyan"
+      ? "bg-life-cyan text-on-action  hover:bg-life-blue"
       : variant === "ghost"
-        ? "border border-white/30 text-white hover:border-white/60 hover:bg-white/[0.06]"
-        : "bg-life-navy text-white shadow-card hover:bg-life-ocean";
+        ? "border border-line text-ink hover:border-line hover:bg-tertiary-bg"
+        : "bg-life-cyan text-on-action  hover:bg-life-blue";
 
   return (
     <Link
@@ -151,7 +151,7 @@ export function LifeCornerArc({ tone = "dark" }: { tone?: "dark" | "light" }) {
     >
       <path
         d="M72 0.5H26C11.9 0.5 0.5 11.9 0.5 26v46"
-        stroke={tone === "dark" ? "rgba(144,224,239,0.26)" : "rgba(3,4,94,0.18)"}
+        stroke={tone === "dark" ? "rgb(var(--life-cyan) / .26)" : "rgb(var(--life-navy) / .18)"}
         strokeWidth="1"
       />
     </svg>

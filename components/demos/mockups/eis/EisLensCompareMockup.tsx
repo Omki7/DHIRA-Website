@@ -32,7 +32,7 @@ type Lens = {
   answersFor: string;
 };
 
-export const LENSES: Lens[] = [
+const LENSES: Lens[] = [
   {
     key: "chief-executive",
     role: "Chief executive",
@@ -89,7 +89,7 @@ function LensPanel({ lens }: { lens: Lens }) {
        evidence panels in [capabilities] and [the-loop] use. */
     <div className="flex h-full flex-col rounded-outer border border-eis-line bg-primary-bg p-4 sm:p-5">
       <div className="flex items-center gap-2.5">
-        <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-tile bg-eis-ink text-[10px] font-medium text-white">
+        <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-tile bg-action text-[10px] font-medium text-on-action">
           {lens.initials}
         </span>
         <span className="min-w-0">
@@ -131,7 +131,7 @@ function LensPanel({ lens }: { lens: Lens }) {
         {lens.decisions.map((d) => (
           <span
             key={d}
-            className="rounded-chip border border-eis-line bg-white px-2 py-1 text-[10px] font-medium text-eis-ink"
+            className="rounded-chip border border-eis-line bg-background px-2 py-1 text-[10px] font-medium text-eis-ink"
           >
             {d}
           </span>

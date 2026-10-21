@@ -19,8 +19,8 @@ function BoardShell({
   children: React.ReactNode;
 }) {
   return (
-    <div className="w-full max-w-[480px] overflow-hidden rounded-frame border border-subtle-stroke bg-white text-left shadow-frame">
-      <div className="h-[3px] bg-gradient-to-r from-blue/50 via-blue/25 to-transparent" aria-hidden />
+    <div className="w-full max-w-[480px] overflow-hidden rounded-frame border border-subtle-stroke bg-background text-left ">
+      <div className="h-[3px] bg-blue" aria-hidden />
       <div className="flex items-center justify-between border-b border-dashed border-lineSoft px-4 py-3">
         <span className="flex items-center gap-1.5 font-mono text-[10px] font-semibold uppercase tracking-eyebrow text-inkSoft">
           <span className="h-[5px] w-[5px] rounded-full bg-blue animate-[ps-pulse_2s_infinite]" aria-hidden />
@@ -90,7 +90,7 @@ function HighlightCard({
           {title}
         </p>
         {action ? (
-          <span className="shrink-0 rounded-full bg-blue px-2.5 py-1 font-mono text-[8.5px] font-semibold uppercase tracking-[0.08em] text-white">
+          <span className="shrink-0 rounded-full bg-blue px-2.5 py-1 font-mono text-[8.5px] font-semibold uppercase tracking-[0.08em] text-on-action">
             {action}
           </span>
         ) : null}
@@ -103,7 +103,7 @@ function HighlightCard({
           {tags.map((tag) => (
             <span
               key={tag}
-              className="rounded-full border border-blue-border bg-white px-2 py-0.5 font-mono text-[8.5px] uppercase tracking-[0.06em] text-blue"
+              className="rounded-full border border-blue-border bg-background px-2 py-0.5 font-mono text-[8.5px] uppercase tracking-[0.06em] text-blue"
             >
               {tag}
             </span>
@@ -114,7 +114,7 @@ function HighlightCard({
   );
 }
 
-export function HealthcareBoard() {
+function HealthcareBoard() {
   return (
     <BoardShell
       title="Patient record · resolving"
@@ -136,7 +136,7 @@ export function HealthcareBoard() {
   );
 }
 
-export function FinanceBoard() {
+function FinanceBoard() {
   return (
     <BoardShell
       title="Pattern watch · all products"
@@ -159,7 +159,7 @@ export function FinanceBoard() {
   );
 }
 
-export function RetailBoard() {
+function RetailBoard() {
   return (
     <BoardShell
       title="Demand vs stock · live"
@@ -202,7 +202,7 @@ export function RetailBoard() {
   );
 }
 
-export function EducationBoard() {
+function EducationBoard() {
   return (
     <BoardShell
       title="Learner journey · term 3"
@@ -225,7 +225,7 @@ export function EducationBoard() {
   );
 }
 
-export function EnergyBoard() {
+function EnergyBoard() {
   return (
     <BoardShell
       title="Feeder health · zone 7"

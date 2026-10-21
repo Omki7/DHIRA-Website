@@ -2,7 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-
 :root {
   --font-sans: 'Google Sans Text', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-heading: 'Google Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -53,13 +52,6 @@ h1, h2, h3, h4, h5, h6 {
   outline-offset: 2px;
 }
 
-/* On the dark anchor ground [05] and the blue [01] moment, an indigo ring
-   disappears into the background. Light ring there instead. Targeted by id
-   because [01]'s ground is an arbitrary `bg-[rgb(var(--blue))]` with no stable
-   class to hook. Kept inside :where() so specificity stays 0. */
-:where(.ak-depth, #akashic-in-action) :where(a, button, [tabindex], [role="tab"]):focus-visible {
-  outline-color: rgb(var(--background));
-}
 
 ::-webkit-scrollbar {
   width: 6px;
@@ -76,7 +68,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #B0B1B3;
+  background: rgb(var(--overcast));
 }
 
 @layer components {
@@ -87,7 +79,7 @@ h1, h2, h3, h4, h5, h6 {
     gap: 8px;
     height: 36px;
     padding: 0 16px;
-    background-color: rgb(var(--ink));
+    background-color: rgb(var(--action));
     color: rgb(var(--on-action));
     font-size: 14px;
     font-weight: 500;
@@ -98,7 +90,7 @@ h1, h2, h3, h4, h5, h6 {
     background-color: rgb(var(--action-hover));
   }
   .btn-primary:active {
-    background-color: rgb(var(--ink));
+    background-color: rgb(var(--action));
     transform: scale(0.98);
   }
 
@@ -122,7 +114,7 @@ h1, h2, h3, h4, h5, h6 {
     font-weight: 500;
     border-radius: 10px;
     border: 1px solid rgb(var(--default-stroke));
-    box-shadow: 0 1px 2px rgba(11, 20, 64, 0.04);
+    box-shadow:none;
     transition: background-color 200ms ease, border-color 200ms ease, transform 200ms ease;
   }
   .btn-secondary:hover {
@@ -135,60 +127,7 @@ h1, h2, h3, h4, h5, h6 {
     transform: scale(0.98);
   }
 
-  /* Dark-ground pair. Every closure card and dark hero used to hand-roll these
-     two: `btn-secondary` (a WHITE-filled button, i.e. the primary) beside an
-     inline `border-white/25` link, so the pair had two different heights of
-     intent and a border weight picked per file. One recipe, both grounds. */
-  .btn-primary-invert {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    height: 36px;
-    padding: 0 16px;
-    background-color: #FFFFFF;
-    color: #1A1C1D;
-    font-size: 14px;
-    font-weight: 500;
-    border-radius: 10px;
-    border: 1px solid transparent;
-    transition: background-color 200ms ease, transform 200ms ease;
-  }
-  .btn-primary-invert:hover {
-    background-color: #E8EAEE;
-  }
-  .btn-primary-invert:active {
-    background-color: #D9DCE2;
-    transform: scale(0.98);
-  }
-
-  .btn-secondary-invert {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    height: 36px;
-    padding: 0 16px;
-    background-color: transparent;
-    color: #FFFFFF;
-    font-size: 14px;
-    font-weight: 500;
-    border-radius: 10px;
-    border: 1px solid rgba(255, 255, 255, 0.34);
-    transition: background-color 200ms ease, border-color 200ms ease, transform 200ms ease;
-  }
-  .btn-secondary-invert:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-    border-color: rgba(255, 255, 255, 0.6);
-  }
-  .btn-secondary-invert:active {
-    background-color: rgba(255, 255, 255, 0.16);
-    transform: scale(0.98);
-  }
-
-  /* Size modifier for the page-closing CTA pair, which sits under 96px type
-     and needs more than the 36px control height. Compose: `btn-primary-invert
-     btn-lg`. */
+  /* Larger actions for closing panels. */
   .btn-lg {
     height: 44px;
     padding: 0 28px;
@@ -218,47 +157,22 @@ h1, h2, h3, h4, h5, h6 {
     text-wrap: balance;
   }
 
-  .dot-grid {
-    background-image: radial-gradient(circle, rgb(var(--grid-dot)) 1px, transparent 1px);
-    background-size: 10px 10px;
-  }
-  
-  .dot-grid-dark {
-    background-image: radial-gradient(circle, rgba(255,255,255,0.15) 1px, transparent 1px);
-    background-size: 10px 10px;
-  }
-
-  /* The /solutions/eis capability carousel. The rail is driven by its own
-     arrow buttons and by swipe, so the scrollbar is a second control for the
-     same thing and it cuts into the card captions. Keyboard and swipe access
-     are unaffected: only the bar is hidden, not the overflow. */
-  .eis-rail {
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-  }
-  .eis-rail::-webkit-scrollbar {
-    display: none;
-  }
-
   /* Akashic act-anchor ground: a deep indigo "vault" that rhymes with the
      blue [01] moment. Soft blue aurora at the top so white product cards
      lift off it. Used by the mid-page Trust chapter. */
   .ak-depth {
-    background-color: #0A0E24;
-    background-image:
-      radial-gradient(120% 80% at 50% -10%, rgba(62,99,221,0.28) 0%, rgba(62,99,221,0.06) 38%, transparent 68%),
-      radial-gradient(90% 60% at 85% 8%, rgba(96,132,255,0.12) 0%, transparent 55%);
+    background-color: rgb(var(--depth));
   }
 
   /* The shared blue "capillary" — a 3px hairline that tops every Akashic
      card. The page's signature edge. */
   .ak-capillary {
     height: 3px;
-    background-image: linear-gradient(90deg, rgba(62,99,221,0.5) 0%, rgba(62,99,221,0.25) 45%, transparent 100%);
+    background-color: rgb(var(--blue));
   }
   .ak-capillary-bright {
     height: 3px;
-    background-image: linear-gradient(90deg, rgba(130,162,255,0.9) 0%, rgba(96,132,255,0.4) 50%, transparent 100%);
+    background-color: rgb(var(--blue));
   }
 
   /* No edge lines (removed on every page 15 Oct 2026, user). */
@@ -269,9 +183,6 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 @layer utilities {
-  .perspective-1000 {
-    perspective: 1000px;
-  }
   .preserve-3d {
     transform-style: preserve-3d;
   }
@@ -306,7 +217,7 @@ h1, h2, h3, h4, h5, h6 {
   border-right-width: 0;
   border-radius: 14px 0 0 14px;
   background: rgb(var(--background));
-  box-shadow: var(--shadow-card);
+  box-shadow:none;
   opacity: 0;
   transform: translate3d(calc(var(--minimap-open-w) - 44px), -50%, 0);
   transition: transform 250ms cubic-bezier(0.2, 0.8, 0.2, 1), opacity 160ms ease 60ms;
@@ -347,8 +258,9 @@ h1, h2, h3, h4, h5, h6 {
    line never swallows them (15 Oct 2026, user). */
 .page-minimap-dot {
   background: rgb(var(--blue) / 0.7);
-  box-shadow: 0 0 0 2px rgb(var(--background));
+  box-shadow:none;
   transition: transform 220ms cubic-bezier(0.2, 0.8, 0.2, 1), opacity 200ms ease, background-color 150ms ease;
+  outline: 2px solid rgb(var(--background));
 }
 .page-minimap-link[data-passed="true"] .page-minimap-dot { background: rgb(var(--blue)); }
 .page-minimap-link:is(:hover, :focus-visible) .page-minimap-dot { transform: scale(1.75); background: rgb(var(--blue)); }
@@ -365,9 +277,10 @@ h1, h2, h3, h4, h5, h6 {
    hover `scale` grows it in place instead of scaling its offset too. */
 .page-minimap-marker {
   background: rgb(var(--blue));
-  box-shadow: 0 0 0 2px rgb(var(--background)), 0 0 0 3px rgb(var(--blue) / 0.35);
+  box-shadow:none;
   translate: 0 calc((var(--minimap-active) + 0.5) * var(--minimap-step) - 4px);
   transition: translate 350ms cubic-bezier(0.2, 0.8, 0.2, 1), scale 220ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  outline: 2px solid rgb(var(--background));
 }
 .page-minimap:has(.page-minimap-link[aria-current="location"]:is(:hover, :focus-visible)) .page-minimap-marker { scale: 1.25; }
 @media (pointer: coarse) {
@@ -380,6 +293,7 @@ h1, h2, h3, h4, h5, h6 {
   *::before,
   *::after {
     animation-duration: 0.01ms !important;
+    animation-delay: -1ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
@@ -394,7 +308,6 @@ h1, h2, h3, h4, h5, h6 {
 
 @keyframes softpulse { 0%,100%{opacity:1} 50%{opacity:0.35} }
 @keyframes dashmove { to { stroke-dashoffset: -16; } }
-@keyframes route-flow { from { stroke-dashoffset: 140; } to { stroke-dashoffset: 0; } }
 /* Progress bars fill with scaleX (origin-left on the bar), never width:
    width relayouts the page every frame for as long as a carousel cycles. */
 @keyframes progressFill { from { transform: scaleX(0); } to { transform: scaleX(1); } }
@@ -402,221 +315,12 @@ h1, h2, h3, h4, h5, h6 {
 .sa-info-in { animation: sa-info 0.4s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
 @keyframes ak-drop { 0% { transform: translateY(-4px); opacity: 0; } 25% { opacity: 1; } 100% { transform: translateY(24px); opacity: 0; } }
 
-/* Delivery rollout sequence */
-.rollout-bar,
-.rollout-phase,
-.rollout-modular {
-  transform-origin: left center;
-  will-change: opacity, transform;
-}
-.rollout-phase-rule,
-.rollout-spine {
-  transform-origin: left center;
-  will-change: transform;
-}
-.rollout-sequence[data-visible="false"] .rollout-bar,
-.rollout-sequence[data-visible="false"] .rollout-phase,
-.rollout-sequence[data-visible="false"] .rollout-modular {
-  opacity: 0;
-}
-.rollout-sequence[data-visible="false"] .rollout-bar {
-  transform: translateY(6px) scaleX(0.08);
-}
-.rollout-sequence[data-visible="false"] .rollout-phase,
-.rollout-sequence[data-visible="false"] .rollout-modular {
-  transform: translateY(12px);
-}
-.rollout-sequence[data-visible="false"] .rollout-phase-rule {
-  transform: scaleX(0);
-}
-.rollout-sequence[data-visible="false"] .rollout-spine {
-  transform: scaleY(0);
-  transform-origin: top center;
-}
-.rollout-sequence[data-visible="true"] .rollout-bar {
-  animation: rolloutBarIn 780ms cubic-bezier(0.2,0.8,0.2,1) both;
-}
-.rollout-sequence[data-visible="true"] .rollout-bar-audit {
-  animation-delay: 80ms;
-}
-.rollout-sequence[data-visible="true"] .rollout-bar-build {
-  animation-delay: 260ms;
-}
-.rollout-sequence[data-visible="true"] .rollout-bar-handover {
-  animation-delay: 460ms;
-}
-.rollout-sequence[data-visible="true"] .rollout-phase {
-  animation: rolloutPhaseIn 620ms cubic-bezier(0.2,0.8,0.2,1) both;
-}
-.rollout-sequence[data-visible="true"] .rollout-phase-01 {
-  animation-delay: 300ms;
-}
-.rollout-sequence[data-visible="true"] .rollout-phase-02 {
-  animation-delay: 480ms;
-}
-.rollout-sequence[data-visible="true"] .rollout-phase-03 {
-  animation-delay: 660ms;
-}
-.rollout-sequence[data-visible="true"] .rollout-phase-rule {
-  animation: rolloutRuleIn 740ms cubic-bezier(0.2,0.8,0.2,1) both;
-}
-.rollout-sequence[data-visible="true"] .rollout-phase-01 .rollout-phase-rule {
-  animation-delay: 230ms;
-}
-.rollout-sequence[data-visible="true"] .rollout-phase-02 .rollout-phase-rule {
-  animation-delay: 410ms;
-}
-.rollout-sequence[data-visible="true"] .rollout-phase-03 .rollout-phase-rule {
-  animation-delay: 590ms;
-}
-.rollout-sequence[data-visible="true"] .rollout-spine {
-  animation: rolloutSpineIn 920ms cubic-bezier(0.2,0.8,0.2,1) 220ms both;
-  transform-origin: top center;
-}
-.rollout-sequence[data-visible="true"] .rollout-modular {
-  animation: rolloutPhaseIn 620ms cubic-bezier(0.2,0.8,0.2,1) 820ms both;
-}
-@keyframes rolloutBarIn {
-  from {
-    opacity: 0;
-    transform: translateY(6px) scaleX(0.08);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scaleX(1);
-  }
-}
-@keyframes rolloutPhaseIn {
-  from {
-    opacity: 0;
-    transform: translateY(12px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-@keyframes rolloutRuleIn {
-  from { transform: scaleX(0); }
-  to { transform: scaleX(1); }
-}
-@keyframes rolloutSpineIn {
-  from { transform: scaleY(0); }
-  to { transform: scaleY(1); }
-}
-
-/* ── Engagement clock (delivery hero) ─────────────────────────────────────
-   The hero's "three models on one 20-week axis" instrument. Bars/windows/
-   continuations scale in from the left with a per-lane stagger, reusing the
-   rolloutBarIn keyframe above. Reduced motion: everything rests visible. */
-.engagement-clock[data-visible="false"] .ec-bar {
-  opacity: 0;
-}
-.engagement-clock[data-visible="true"] .ec-bar {
-  animation: rolloutBarIn 700ms cubic-bezier(0.2,0.8,0.2,1) both;
-  transform-origin: left center;
-}
-.engagement-clock[data-visible="true"] .ec-lane-1 { animation-delay: 60ms; }
-.engagement-clock[data-visible="true"] .ec-lane-2 { animation-delay: 200ms; }
-.engagement-clock[data-visible="true"] .ec-lane-2w { animation-delay: 340ms; }
-.engagement-clock[data-visible="true"] .ec-lane-3 { animation-delay: 460ms; }
-.engagement-clock[data-visible="true"] .ec-lane-3w { animation-delay: 580ms; }
-.engagement-clock[data-visible="true"] .ec-lane-3c { animation-delay: 700ms; }
-@media (prefers-reduced-motion: reduce) {
-  .engagement-clock .ec-bar {
-    animation: none;
-    opacity: 1;
-    transform: none;
-  }
-}
-
-.hs-card {
-  position: absolute;
-  width: 920px;
-  height: 600px;
-  border-radius: 12px;
-  overflow: hidden;
-  border: 1px solid rgba(18,20,26,0.08);
-  background: rgb(var(--screen-raised));
-  top: 0;
-  left: 50%;
-  transform-origin: center top;
-  user-select: none;
-  transition: box-shadow 0.4s cubic-bezier(0.2,0.8,0.2,1), transform 0.4s cubic-bezier(0.2,0.8,0.2,1), opacity 0.4s cubic-bezier(0.2,0.8,0.2,1);
-}
-.hs-card[data-pos="center"] {
-  z-index: 30;
-  transform: translate(-50%, 0px) rotate(0deg) scale(1.15);
-  box-shadow: 0 1px 2px rgba(18,20,26,0.05), 0 18px 44px -16px rgba(18,20,26,0.16);
-  cursor: default;
-  opacity: 1;
-}
-.hs-card[data-pos="center"]:hover {
-  transform: translate(-50%, -6px) rotate(0deg) scale(1.155);
-  box-shadow: 0 1px 2px rgba(18,20,26,0.05), 0 24px 52px -18px rgba(18,20,26,0.18);
-}
-.hs-card[data-pos="right"] {
-  z-index: 20;
-  transform: translate(calc(-50% + 300px), 56px) rotate(2deg) scale(0.98);
-  box-shadow: 0 12px 28px -14px rgba(18,20,26,0.12);
-  cursor: pointer;
-  opacity: 0.88;
-}
-.hs-card[data-pos="left"] {
-  z-index: 20;
-  transform: translate(calc(-50% - 300px), 56px) rotate(-2deg) scale(0.98);
-  box-shadow: 0 12px 28px -14px rgba(18,20,26,0.12);
-  cursor: pointer;
-  opacity: 0.88;
-}
-.hs-card[data-pos="far-right"] {
-  z-index: 10;
-  transform: translate(calc(-50% + 500px), 104px) rotate(4deg) scale(0.92);
-  box-shadow: 0 8px 18px -12px rgba(18,20,26,0.08);
-  cursor: pointer;
-  opacity: 0.6;
-}
-.hs-card[data-pos="far-left"] {
-  z-index: 10;
-  transform: translate(calc(-50% - 500px), 104px) rotate(-4deg) scale(0.92);
-  box-shadow: 0 8px 18px -12px rgba(18,20,26,0.08);
-  cursor: pointer;
-  opacity: 0.6;
-}
-.hs-card[data-pos="far"] {
-  z-index: 10;
-  transform: translate(-50%, 90px) scale(0.9);
-  box-shadow: none;
-  opacity: 0;
-  pointer-events: none;
-}
-/* Only the centre card is live. Every other card's loops hold still (its
-   SMIL is paused in AkashicModuleScreensMockup): five screens animating at
-   once kept /akashic's main thread busy on every frame (Rule 6a). */
-.hs-card:not([data-pos="center"]) *,
-.hs-card:not([data-pos="center"]) *::before,
-.hs-card:not([data-pos="center"]) *::after { animation-play-state: paused !important; }
-
 /* Platform Section Animations */
 @keyframes ps-pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
 @keyframes ps-caret-blink { 0%,100%{opacity:1} 50%{opacity:0} }
-@keyframes vconn-flow { 0%{stroke-dashoffset:540} 100%{stroke-dashoffset:0} }
-@keyframes ps-crawl { 0%{left:1%;opacity:0} 9%{opacity:1} 90%{opacity:1} 100%{left:63%;opacity:0} }
 @keyframes ps-zip { 0%{transform:translateX(0);opacity:0} 15%{opacity:1} 85%{opacity:1} 100%{transform:translateX(100%);opacity:0} }
-@keyframes ps-ring { 0%{transform:scale(0.85);opacity:0.6} 70%{transform:scale(1.8);opacity:0} 100%{transform:scale(1.8);opacity:0} }
 @keyframes ps-dash { to{transform:translateX(32px)} }
-@keyframes ps-flow { to{stroke-dashoffset:-22} }
-@keyframes ps-float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-4px)} }
-@keyframes ps-breathe { 0%,100%{transform:scale(1)} 50%{transform:scale(1.045)} }
-@keyframes ps-grow { from{transform:scaleY(0.35)} to{transform:scaleY(1)} }
-@keyframes ps-draw { from{stroke-dashoffset:340} to{stroke-dashoffset:0} }
-@keyframes ps-linep { 0%,100%{opacity:0.45} 50%{opacity:0.85} }
-@keyframes ps-bar { 0%,100%{opacity:0.85} 50%{opacity:1} }
-@keyframes ps-sheen { 0%{transform:translateX(-120%)} 55%,100%{transform:translateX(240%)} }
-@keyframes ps-fillA { from{width:0} to{width:17%} }
-@keyframes ps-fillO { from{width:0} to{width:84%} }
 @keyframes ps-rise { from{opacity:0; transform:translateY(8px)} to{opacity:1; transform:translateY(0)} }
-@keyframes ps-risec { from{opacity:0; transform:translateX(-50%) translateY(8px)} to{opacity:1; transform:translateX(-50%) translateY(0)} }
 
 /* Akashic in action [01] — answer-card reveal + evidence visuals (AkashicFourMoves) */
 @keyframes akx-pop { 0%{opacity:0; transform:translateY(18px) scale(0.965)} 60%{opacity:1; transform:translateY(-3px) scale(1.004)} 100%{opacity:1; transform:translateY(0) scale(1)} }
@@ -640,29 +344,7 @@ h1, h2, h3, h4, h5, h6 {
 @keyframes uc-load { from { transform: scaleX(0); } to { transform: scaleX(1); } }
 @keyframes uc-marquee { from{transform:translateX(-50%)} to{transform:translateX(0)} }
 
-/* Mission Console — live telemetry + dossier stage */
-@keyframes mc-ekg { from{transform:translateX(0)} to{transform:translateX(-50%)} }
-.mc-stage-in { animation: mc-stage 650ms cubic-bezier(0.2,0.8,0.2,1) both; }
-@keyframes mc-stage {
-  from { opacity: 0; transform: translateY(10px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
 /* Proof Comparison Animations */
-@keyframes proofCorePulse {
-  0%   { transform: translate(-50%, -50%) scale(0.62); opacity: 0.55; }
-  70%  { opacity: 0; }
-  100% { transform: translate(-50%, -50%) scale(2); opacity: 0; }
-}
-@keyframes proofKnobGlow {
-  0%   { transform: translate(-50%, -50%) scale(0.7); opacity: 0.5; }
-  70%  { opacity: 0; }
-  100% { transform: translate(-50%, -50%) scale(1.85); opacity: 0; }
-}
-@keyframes proofHint {
-  0%, 100% { transform: translateX(0); }
-  50%      { transform: translateX(5px); }
-}
 /* Hand-over cue after [06]'s auto-demonstration lands: the knob is thrown
    both ways and damps out, so it reads as "this is yours to drag" rather than
    as one more thing playing by itself. Runs a fixed 3 iterations, never a
@@ -684,10 +366,6 @@ h1, h2, h3, h4, h5, h6 {
   from { transform: scaleX(0); opacity: 0; }
   to   { transform: scaleX(1); opacity: 1; }
 }
-@keyframes closeFloat {
-  0%   { transform: translate3d(0, 0, 0) scale(1); }
-  100% { transform: translate3d(3%, -4%, 0) scale(1.08); }
-}
 
 /* EverySector — right panel text entrance */
 @keyframes sectorTextIn {
@@ -696,48 +374,15 @@ h1, h2, h3, h4, h5, h6 {
 }
 .sector-text-in { animation: sectorTextIn 420ms cubic-bezier(0.4, 0, 0.2, 1) both; }
 
-/* Field Ledger — the "standing ledger" centerpiece */
+/* The public sector proof sparkline, drawn once on reveal. */
 @keyframes fl-spark { from { stroke-dashoffset: 240; } to { stroke-dashoffset: 0; } }
 .fl-sparkline { stroke-dasharray: 240; animation: fl-spark 1.4s cubic-bezier(0.2,0.8,0.2,1) both; }
-.fl-row-enter { animation: fl-row 520ms cubic-bezier(0.2,0.8,0.2,1) both; }
-@keyframes fl-row {
-  from { opacity: 0; transform: translateY(8px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-.fl-sheen::after {
-  content: "";
-  position: absolute; inset: 0;
-  background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.05) 50%, transparent 100%);
-  transform: translateX(-100%);
-  animation: fl-sweep 3.6s cubic-bezier(0.4,0,0.2,1) infinite;
-  pointer-events: none;
-}
-@keyframes fl-sweep {
-  0% { transform: translateX(-100%); }
-  60%,100% { transform: translateX(100%); }
-}
+
+/* The slow highlight sweep across the dark closing cards (Delivery, Life,
+   Public sector). */
 @media (prefers-reduced-motion: reduce) {
   .fl-sparkline { animation: none; stroke-dasharray: none; }
-  .fl-row-enter { animation: none; }
-  .fl-sheen::after { animation: none; display: none; }
-  .rollout-sequence .rollout-bar,
-  .rollout-sequence .rollout-phase,
-  .rollout-sequence .rollout-modular,
-  .rollout-sequence .rollout-phase-rule,
-  .rollout-sequence .rollout-spine {
-    animation: none;
-    opacity: 1;
-    transform: none;
-  }
 }
-
-@keyframes draw-sparkline {
-  from { stroke-dashoffset: 300; }
-  to { stroke-dashoffset: 0; }
-}
-
-
-
 
 /* ==================================================================
    Akashic Life (/solutions/life) — page-scoped chrome.
@@ -774,34 +419,9 @@ h1, h2, h3, h4, h5, h6 {
    centres with it. Both are placed in percentages of the same box, so they
    stay locked together at every viewport with no measurement at runtime.
    Pure CSS: cheaper than an SVG of eighty circles. */
-.alife-wavefield {
-  background-image:
-    repeating-radial-gradient(circle at 70% 84%,
-      rgba(144,224,239,0.34) 0px, rgba(144,224,239,0.34) 1px,
-      transparent 1px, transparent 21px),
-    repeating-radial-gradient(circle at 70% 84%,
-      rgba(0,180,216,0.2) 0px, rgba(0,180,216,0.2) 1px,
-      transparent 1px, transparent 63px);
-  /* Falls away toward the left so the headline never sits in the weave. */
-  -webkit-mask-image: radial-gradient(96% 128% at 70% 84%, #000 0%, rgba(0,0,0,0.82) 24%, rgba(0,0,0,0.22) 60%, transparent 86%);
-  mask-image: radial-gradient(96% 128% at 70% 84%, #000 0%, rgba(0,0,0,0.82) 24%, rgba(0,0,0,0.22) 60%, transparent 86%);
-  animation: alife-breathe 26s cubic-bezier(0.4,0,0.2,1) infinite alternate;
-}
-@keyframes alife-breathe {
-  from { transform: scale(1) translate3d(0,0,0); }
-  to   { transform: scale(1.08) translate3d(-1.5%, 1%, 0); }
-}
 
 /* Aurora — the soft colour blooms behind the closing CTA and the light
    statement grounds. Multi-stop radial layers are the Rule 8 exception. */
-.alife-aurora {
-  filter: blur(90px);
-  animation: alife-drift 22s cubic-bezier(0.4,0,0.2,1) infinite alternate;
-}
-@keyframes alife-drift {
-  from { transform: translate3d(0,0,0) scale(1); }
-  to   { transform: translate3d(4%,-5%,0) scale(1.14); }
-}
 
 /* Orbit markers — the two dots that ride the perimeter of an ACTIVE
    outline circle. The dot is placed at the top of a square the size of
@@ -826,8 +446,6 @@ h1, h2, h3, h4, h5, h6 {
 @keyframes alife-crawl { to { stroke-dashoffset: -8; } }
 
 @media (prefers-reduced-motion: reduce) {
-  .alife-wavefield,
-  .alife-aurora,
   .alife-orbit,
   .alife-orbit-rev,
   .alife-sonar { animation: none; transform: none; }

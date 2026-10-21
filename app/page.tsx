@@ -1,47 +1,50 @@
-import Nav from "@/components/layout/Nav";
+import type { Metadata } from "next";
 import Footer from "@/components/layout/Footer";
-import Hero from "@/components/sections/Hero";
-import ProblemSection from "@/components/sections/ProblemSection";
-import MeetAkashic from "@/components/sections/MeetAkashic";
-import ProvenAtScale from "@/components/sections/ProvenAtScale";
-import HowWeDeliver from "@/components/sections/HowWeDeliver";
-import EverySector from "@/components/sections/EverySector";
-import TheProof from "@/components/sections/TheProof";
-import Voices from "@/components/sections/Voices";
-import EnterpriseSecurity from "@/components/sections/EnterpriseSecurity";
+import Nav from "@/components/layout/Nav";
+import PageMinimap from "@/components/layout/PageMinimap";
+import BuiltOnAkashic from "@/components/sections/BuiltOnAkashic";
 import CareersStrip from "@/components/sections/CareersStrip";
 import Closure from "@/components/sections/Closure";
-import PageMinimap from "@/components/layout/PageMinimap";
-import { HOME_DELIVERY, HOME_SECTIONS } from "@/lib/homeSections";
+import EnterpriseSecurity from "@/components/sections/EnterpriseSecurity";
+import EverySector from "@/components/sections/EverySector";
+import Hero from "@/components/sections/Hero";
+import HowWeDeliver from "@/components/sections/HowWeDeliver";
+import MeetAkashic from "@/components/sections/MeetAkashic";
+import ProblemSection from "@/components/sections/ProblemSection";
+import ProvenAtScale from "@/components/sections/ProvenAtScale";
+import TheProof from "@/components/sections/TheProof";
+import Voices from "@/components/sections/Voices";
+import { getCustomerStories, getPage, getRoles } from "@/lib/content";
 
-export default function Home() {
+/* The home page takes the site-wide title and description (app/layout.tsx);
+   it sets only its canonical. */
+export const metadata: Metadata = { alternates: { canonical: "/" } };
+
+export default async function Home() {
+  const [page, stories, roles] = await Promise.all([getPage("home"), getCustomerStories(), getRoles()]);
   return (
     <>
       <Nav />
       <main id="main" data-theme-page="home" className="bg-background">
-        <Hero />
-        <ProblemSection />
-        <MeetAkashic />
-        <ProvenAtScale bridge={HOME_DELIVERY.bridge} />
-        <HowWeDeliver />
-        <EverySector />
-        {/* TheProof stays, by direction (23 Jul 2026). It was cut for one
-            afternoon as the page's third telling of a single argument — [01]
-            says your systems disagree, [02] says we unify them, this says
-            before/after — and put back because that repetition is the point:
-            it is VISUAL reaffirmation, not a new claim. [01] argues it in a
-            ledger, [02] in product UI, and this lets the reader move the seam
-            themselves, which is the only place on the page where they prove it
-            to themselves rather than being told. Its height is trimmed instead
-            (see TheProof.tsx). Do not cut it again without asking. */}
-        <TheProof />
-        <Voices />
-        <EnterpriseSecurity />
-        <CareersStrip />
-        <Closure />
+        <Hero content={page.hero} />
+        <ProblemSection content={page.problem} />
+        <MeetAkashic content={page.platform} />
+        {/* Keep the offer together before industry fit and deployment proof. */}
+        <BuiltOnAkashic content={page.solutions} />
+        <HowWeDeliver content={page.delivery} />
+        <EverySector content={page.sectors} />
+        {/* TheProof stays, by direction (23 Jul 2026): the one place on the
+            page where the reader moves the seam and proves the thesis to
+            themselves. Do not cut it again without asking. */}
+        <TheProof content={page.proof} />
+        <ProvenAtScale content={page.scale} stories={stories} />
+        <Voices content={page.voices} />
+        <EnterpriseSecurity content={page.governance} />
+        <Closure content={page.close} />
+        <CareersStrip content={page.careers} roles={roles} />
       </main>
       <Footer />
-      <PageMinimap sections={HOME_SECTIONS} aria-label="Homepage sections" />
+      <PageMinimap sections={page.sections} aria-label={page.sectionsLabel} />
     </>
   );
 }

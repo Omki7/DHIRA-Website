@@ -2,38 +2,41 @@
 
 /*
  * Days, hours and minutes to the Akashic 1.0 launch (the founder's wireframe
- * carries the same countdown). Server and first paint show the date only,
- * so hydration never mismatches; the count fills in after mount and ticks
- * once a minute, with no animation. After launch it reads "Generally
- * available now".
+ * carries the same countdown). The clock is read as an external store that
+ * ticks once a minute: the server and hydration render show the date line,
+ * so markup always matches, and the count fills in straight after. No
+ * animation. After launch it reads the `live` line. Copy:
+ * content/pages/akashic-release.ts `countdown`.
  */
 
-import { useEffect, useState } from "react";
+import { useSyncExternalStore } from "react";
+import type { AkashicReleasePage } from "@/content/pages/akashic-release";
 
-function remaining(target: number) {
-  const ms = Math.max(0, target - Date.now());
-  const minutes = Math.floor(ms / 60000);
-  return { days: Math.floor(minutes / 1440), hours: Math.floor((minutes % 1440) / 60), minutes: minutes % 60, done: ms === 0 };
+const MINUTE = 60000;
+
+function subscribe(onTick: () => void) {
+  const timer = window.setInterval(onTick, MINUTE);
+  return () => window.clearInterval(timer);
 }
+/* The current minute, so the snapshot is stable between ticks. */
+const getSnapshot = () => Math.floor(Date.now() / MINUTE);
+const getServerSnapshot = () => null;
 
-export default function LaunchCountdown({ launchAt }: { launchAt: string }) {
-  const target = new Date(launchAt).getTime();
-  const [left, setLeft] = useState<ReturnType<typeof remaining> | null>(null);
+export default function LaunchCountdown({ launchAt, content: c }: { launchAt: string; content: AkashicReleasePage["countdown"] }) {
+  const minute = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
 
-  useEffect(() => {
-    setLeft(remaining(target));
-    const timer = window.setInterval(() => setLeft(remaining(target)), 60000);
-    return () => window.clearInterval(timer);
-  }, [target]);
-
-  if (!left) return <span>Launch on 1 November 2026</span>;
-  if (left.done) return <span className="text-blue">Generally available now</span>;
+  if (minute === null) return <span>{c.before}</span>;
+  const minutesLeft = Math.max(0, Math.ceil((new Date(launchAt).getTime() - minute * MINUTE) / MINUTE) - 1);
+  if (minute * MINUTE >= new Date(launchAt).getTime()) return <span className="text-blue">{c.live}</span>;
+  const days = Math.floor(minutesLeft / 1440);
+  const hours = Math.floor((minutesLeft % 1440) / 60);
+  const minutes = minutesLeft % 60;
   const pad = (n: number) => String(n).padStart(2, "0");
   return (
-    <span aria-label={`${left.days} days, ${left.hours} hours and ${left.minutes} minutes until launch`}>
-      <span className="text-ink">{left.days}</span>&nbsp;days&nbsp;&nbsp;&nbsp;
-      <span className="text-ink">{pad(left.hours)}</span>&nbsp;hours&nbsp;&nbsp;&nbsp;
-      <span className="text-ink">{pad(left.minutes)}</span>&nbsp;minutes&nbsp;&nbsp;&nbsp;to launch
+    <span aria-label={`${days} ${c.days}, ${hours} ${c.hours} ${c.and} ${minutes} ${c.minutes} ${c.untilLaunch}`}>
+      <span className="text-ink">{days}</span>&nbsp;{c.days}&nbsp;&nbsp;&nbsp;
+      <span className="text-ink">{pad(hours)}</span>&nbsp;{c.hours}&nbsp;&nbsp;&nbsp;
+      <span className="text-ink">{pad(minutes)}</span>&nbsp;{c.minutes}&nbsp;&nbsp;&nbsp;{c.toLaunch}
     </span>
   );
 }

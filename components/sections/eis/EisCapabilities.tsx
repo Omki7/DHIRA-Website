@@ -1,4 +1,6 @@
+import type { ReactNode } from "react";
 import ScrollReveal from "@/components/ui/ScrollReveal";
+import type { EisEvidence, EisPage } from "@/content/pages/solutions-eis";
 import {
   EvAction,
   EvDefinition,
@@ -33,56 +35,18 @@ import {
  * hero screen, so it spent the section's strongest position on a repeat.
  */
 
-const BANDS: {
-  label: string;
-  note: string;
-  items: { lead: string; body: string; node: React.ReactNode }[];
-}[] = [
-  {
-    label: "Before you believe it",
-    note: "Everything that has to hold before a figure is worth acting on.",
-    items: [
-      {
-        lead: "Arguments end at the definition.",
-        body: "When two teams produce two numbers, the dispute is never the query. It is what counts as like-for-like, and which stores were excluded.",
-        node: <EvDefinition />,
-      },
-      {
-        lead: "Three spellings, one obligor.",
-        body: "Master data decides that three limits in three systems are the same borrower, and shows how sure it is. Concentration you could not see becomes ₹86 Cr you can.",
-        node: <EvEntity />,
-      },
-      {
-        lead: "Your permissions come with the answer.",
-        body: "Entitlements are applied before the figure is computed, not hidden after. Two people ask the same question and get two correct answers.",
-        node: <EvPermissions />,
-      },
-    ],
-  },
-  {
-    label: "After you decide",
-    note: "Everything that has to hold once a decision leaves the screen.",
-    items: [
-      {
-        lead: "A decision is a typed action.",
-        body: "Not an email. A named field on a named object, written by a scoped service principal, with a key so approving twice cannot write twice.",
-        node: <EvAction />,
-      },
-      {
-        lead: "Read everything. Write almost nothing.",
-        body: "Ingestion is read-only across every system. Write-back is a short, per-system list of named actions, each one approved and reversible.",
-        node: <EvPlanes />,
-      },
-      {
-        lead: "Failures are logged too.",
-        body: "A rejected write is a finding, not a silence. It stays in the record with what blocked it and who was told, and it is never quietly retried.",
-        node: <EvRecord />,
-      },
-    ],
-  },
-];
+/* Each capability's evidence panel, keyed by content's `evidence`. */
+const EVIDENCE: Record<EisEvidence, ReactNode> = {
+  definition: <EvDefinition />,
+  entity: <EvEntity />,
+  permissions: <EvPermissions />,
+  action: <EvAction />,
+  planes: <EvPlanes />,
+  record: <EvRecord />,
+};
 
-export default function EisCapabilities() {
+export default function EisCapabilities({ content }: { content: EisPage["capabilities"] }) {
+  const BANDS = content.bands;
   return (
     <section
       id="capabilities"
@@ -91,13 +55,12 @@ export default function EisCapabilities() {
       <div className="mx-auto max-w-[1180px]">
         <ScrollReveal>
           <h2 className="max-w-[24ch] font-heading text-4xl font-medium leading-[1.05] tracking-tighter sm:text-5xl md:text-6xl">
-            <span className="text-eis-body">A figure you can defend.</span>
+            <span className="text-eis-body">{content.setup}</span>
             <br />
-            <span className="text-eis-ink">An action you can reverse.</span>
+            <span className="text-eis-ink">{content.payoff}</span>
           </h2>
           <p className="mt-5 max-w-[620px] text-balance text-base leading-[1.5] tracking-tight text-eis-body sm:mt-6 sm:text-lg">
-            Six capabilities, in the order an executive meets them. Each one is
-            shown with the evidence it produces, not described.
+            {content.lede}
           </p>
         </ScrollReveal>
 
@@ -126,7 +89,7 @@ export default function EisCapabilities() {
                     <p className="mt-2 text-sm leading-[1.5] text-eis-caption">
                       {c.body}
                     </p>
-                    <div className="mt-5">{c.node}</div>
+                    <div className="mt-5">{EVIDENCE[c.evidence]}</div>
                   </div>
                 </ScrollReveal>
               ))}

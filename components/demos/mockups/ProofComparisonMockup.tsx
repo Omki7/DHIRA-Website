@@ -3,9 +3,10 @@
 // SIMULATED PRODUCT UI: an illustrative before/after, not live product telemetry.
 import type { FocusEventHandler, KeyboardEventHandler } from "react";
 import DhiraLogo from "@/components/icons/DhiraLogo";
-import { HOME_PROOF } from "@/lib/homeSections";
+import type { HomeProof } from "@/content/pages/home";
 
 interface Props {
+  content: HomeProof;
   pos: number;
   width: number;
   glide?: boolean;
@@ -34,21 +35,21 @@ function RelationshipField({ unified, compact }: { unified: boolean; compact: bo
   return (
     <svg viewBox="0 0 100 100" preserveAspectRatio="none" className="absolute inset-0 h-full w-full" fill="none" aria-hidden="true">
       {unified && Array.from({ length: 7 }, (_, strand) => (
-        <path key={`spine-${strand}`} d={`M${48.8 + strand * 0.4} 14 C${46 + strand * 0.7} 34, ${53 - strand * 0.4} 64, ${48.8 + strand * 0.4} 86`} stroke="rgb(var(--blue))" strokeOpacity={strand === 3 ? 0.65 : 0.14} strokeWidth={strand === 3 ? 1.2 : 0.7} vectorEffect="non-scaling-stroke" />
+        <path key={`spine-${strand}`} d={`M${48.8 + strand * 0.4} 14 C${46 + strand * 0.7} 34, ${53 - strand * 0.4} 64, ${48.8 + strand * 0.4} 86`} stroke="rgb(var(--blue))" strokeOpacity={strand === 3 ? 0.8 : 0.24} strokeWidth={strand === 3 ? 1.2 : 0.7} vectorEffect="non-scaling-stroke" />
       ))}
       {ROWS.flatMap((y, row) => [0, 1].flatMap((side) => Array.from({ length: unified ? 6 : 3 }, (_, strand) => {
         const start = side === 0 ? (compact ? 39 : 32) : (compact ? 61 : 68);
         const end = unified ? 49 + strand * 0.4 : side === 0 ? 42 + strand : 57 - strand;
         const offset = (strand - 2.5) * 0.65;
         const destination = unified ? 47 + row * 3 : y + (row % 2 ? -10 : 12) + strand * 2;
-        return <path key={`${row}-${side}-${strand}`} d={`M${start} ${y + offset} C${side === 0 ? 45 : 55} ${y + offset}, ${end} ${destination - 12}, ${end} ${destination}`} stroke={unified ? "rgb(var(--blue))" : "#8893A3"} strokeOpacity={unified ? 0.18 + strand * 0.06 : 0.22 + strand * 0.08} strokeWidth="0.85" vectorEffect="non-scaling-stroke" />;
+        return <path key={`${row}-${side}-${strand}`} d={`M${start} ${y + offset} C${side === 0 ? 45 : 55} ${y + offset}, ${end} ${destination - 12}, ${end} ${destination}`} stroke={unified ? "rgb(var(--blue))" : "rgb(var(--overcast))"} strokeOpacity={unified ? 0.3 + strand * 0.07 : 0.32 + strand * 0.08} strokeWidth="1.1" vectorEffect="non-scaling-stroke" />;
       })))}
-      {!unified && ROWS.map((y, index) => <g key={y} stroke="#8893A3" strokeOpacity="0.5" strokeWidth="0.8" vectorEffect="non-scaling-stroke"><path d={`M45 ${y + 8}l1 -2m8 1 1 -2M48 ${y + 4}l1 -2`} vectorEffect="non-scaling-stroke" /><circle cx={index % 2 ? 56 : 43} cy={y + 13} r="0.35" fill="#8893A3" /></g>)}
+      {!unified && ROWS.map((y, index) => <g key={y} stroke="rgb(var(--overcast))" strokeOpacity="0.5" strokeWidth="0.8" vectorEffect="non-scaling-stroke"><path d={`M45 ${y + 8}l1 -2m8 1 1 -2M48 ${y + 4}l1 -2`} vectorEffect="non-scaling-stroke" /><circle cx={index % 2 ? 56 : 43} cy={y + 13} r="0.35" fill="rgb(var(--overcast))" /></g>)}
     </svg>
   );
 }
 
-export default function ProofComparisonMockup({ pos, width, glide = false, showHint = true, nudge = false, onKeyDown, onFocus }: Props) {
+export default function ProofComparisonMockup({ content: HOME_PROOF, pos, width, glide = false, showHint = true, nudge = false, onKeyDown, onFocus }: Props) {
   const compact = width < 640;
   const ease = glide ? "duration-650 ease-settle" : "duration-0";
 
@@ -71,8 +72,8 @@ export default function ProofComparisonMockup({ pos, width, glide = false, showH
         );
       })}
       {unified && <div className={`absolute left-1/2 flex -translate-x-1/2 -translate-y-1/2 flex-col items-center top-[89%]`}>
-        <div className="flex h-12 w-12 items-center justify-center rounded-full border border-blue-border bg-background ring-[6px] ring-background sm:h-[72px] sm:w-[72px] sm:ring-[10px]"><DhiraLogo className="h-7 w-7 text-ink sm:h-10 sm:w-10" /></div>
-        <span className="mt-3 bg-background px-2 font-mono text-[8px] uppercase tracking-eyebrow text-blue sm:text-[10px]">DHIRA</span>
+        <div className="flex h-12 w-12 items-center justify-center rounded-full border border-blue-border bg-background outline outline-[6px] outline-background sm:h-[72px] sm:w-[72px] sm:outline-[10px]"><DhiraLogo className="h-7 w-7 text-ink sm:h-10 sm:w-10" /></div>
+        <span className="mt-3 bg-background px-2 font-mono text-[8px] uppercase tracking-eyebrow text-blue sm:text-[10px]">{HOME_PROOF.seamLabel}</span>
       </div>}
     </>
   );
@@ -88,26 +89,26 @@ export default function ProofComparisonMockup({ pos, width, glide = false, showH
           <span className="font-mono text-[9px] uppercase tracking-eyebrow text-inkSoft">{HOME_PROOF.before}</span>
           <span className="font-mono text-[9px] uppercase tracking-eyebrow text-blue">{HOME_PROOF.after}</span>
         </div>
-        <div className={`pointer-events-none absolute inset-y-0 z-20 w-px -translate-x-1/2 bg-blue/60 transition-[left] motion-reduce:transition-none ${ease}`} style={{ left: `${pos}%` }} />
+        <div className={`pointer-events-none absolute inset-y-0 z-20 w-px -translate-x-1/2 bg-blue transition-[left] motion-reduce:transition-none ${ease}`} style={{ left: `${pos}%` }} />
       </div>
       <div
         role="slider"
-        aria-label="Before and after comparison"
+        aria-label={HOME_PROOF.sliderLabel}
         aria-describedby="proof-instructions"
         aria-orientation="horizontal"
         aria-valuemin={4}
         aria-valuemax={96}
         aria-valuenow={Math.round(pos)}
-        aria-valuetext={`${Math.round(pos)}% before DHIRA, ${Math.round(100 - pos)}% after DHIRA`}
+        aria-valuetext={`${Math.round(pos)}% ${HOME_PROOF.sliderValue.before}, ${Math.round(100 - pos)}% ${HOME_PROOF.sliderValue.after}`}
         tabIndex={0}
         onKeyDown={onKeyDown}
         onFocus={onFocus}
         className={`absolute top-[46%] z-30 flex h-[60px] w-11 -translate-x-1/2 -translate-y-1/2 cursor-ew-resize items-center justify-center rounded-full outline-none transition-[left] focus-visible:ring-2 focus-visible:ring-blue focus-visible:ring-offset-4 motion-reduce:transition-none ${ease}`}
         style={{ left: `${pos}%` }}
       >
-        <div aria-hidden="true" className={`relative flex h-12 w-11 shrink-0 items-center justify-center rounded-full border border-blue-border bg-background text-blue shadow-frame ${nudge ? "motion-safe:animate-[proofNudge_1.5s_ease-in-out_3]" : ""}`}>
+        <div aria-hidden="true" className={`relative flex h-12 w-11 shrink-0 items-center justify-center rounded-full border border-blue-border bg-background text-blue  ${nudge ? "motion-safe:animate-[proofNudge_1.5s_ease-in-out_3]" : ""}`}>
           <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="m8 7-4 5 4 5m8-10 4 5-4 5M11 8v8m2-8v8" /></svg>
-          {showHint && pos > 20 && pos < 80 && <span className="absolute top-full mt-3 rounded-full border border-default-stroke bg-background px-3 py-1 font-mono text-[9px] uppercase tracking-eyebrow text-inkSoft shadow-card">Drag</span>}
+          {showHint && pos > 20 && pos < 80 && <span className="absolute top-full mt-3 rounded-full border border-default-stroke bg-background px-3 py-1 font-mono text-[9px] uppercase tracking-eyebrow text-inkSoft ">{HOME_PROOF.dragHint}</span>}
         </div>
       </div>
     </div>

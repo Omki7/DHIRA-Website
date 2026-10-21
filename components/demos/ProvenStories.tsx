@@ -43,8 +43,9 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import useOnScreen from "@/hooks/useOnScreen";
 import Image from "next/image";
-import { usePrefersReducedMotion } from "@/hooks/useCountUp";
-import { STORIES, type Metric, type Story } from "@/lib/customerStories";
+import usePrefersReducedMotion from "@/hooks/usePrefersReducedMotion";
+import { useUi } from "@/components/providers/UiProvider";
+import type { Metric, Story } from "@/content/collections/customer-stories";
 
 const CYCLE_MS = 7000;
 
@@ -52,10 +53,12 @@ const CYCLE_MS = 7000;
    shared with the /customers library (moved 15 Oct 2026). */
 
 /* Figures are static by design. Count-up was tried and removed: these targets
-   are small ("2 Billion+", "4M+"), so an animation from zero spends most of
-   its run showing a wrong number ("0 Billion+") and reads as a glitch. */
+   are small ("2 billion+", "4 million+"), so an animation from zero spends most
+   of its run showing a wrong number and reads as a glitch. Units are words,
+   never "B", "M" or "K" (no short forms, 21 Oct 2026), so the unit is set
+   smaller than the figure. */
 function splitValue(value: string) {
-  const match = value.match(/^([\d.]+)(.*)$/);
+  const match = value.match(/^([\d.,]+)(.*)$/);
   if (!match) return { figure: value, suffix: "" };
   return { figure: match[1], suffix: match[2] };
 }
@@ -70,7 +73,7 @@ function MetricCell({ metric }: { metric: Metric }) {
           {figure}
         </span>
         {suffix && (
-          <span className="whitespace-pre text-2xl font-medium leading-none md:text-4xl">
+          <span className="whitespace-pre text-xl font-medium leading-none tracking-tight md:text-[28px]">
             {suffix}
           </span>
         )}
@@ -101,16 +104,14 @@ function Chevron({ dir }: { dir: "left" | "right" }) {
 }
 
 interface ProvenStoriesProps {
-  stories?: Story[];
-  ariaLabel?: string;
-  itemNoun?: string;
+  stories: Story[];
+  ariaLabel: string;
+  /** What one story is called in the controls ("Previous deployment"). */
+  itemNoun: string;
 }
 
-export default function ProvenStories({
-  stories = STORIES,
-  ariaLabel = "Akashic deployments in production",
-  itemNoun = "deployment",
-}: ProvenStoriesProps = {}) {
+export default function ProvenStories({ stories, ariaLabel, itemNoun }: ProvenStoriesProps) {
+  const { carousel } = useUi();
   const reduced = usePrefersReducedMotion();
   const [index, setIndex] = useState(0);
   const [hovered, setPaused] = useState(false);
@@ -135,14 +136,14 @@ export default function ProvenStories({
       ref={rootRef}
       className="relative"
       role="group"
-      aria-roledescription="carousel"
+      aria-roledescription={carousel.roleDescription}
       aria-label={ariaLabel}
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
       onFocusCapture={() => setPaused(true)}
       onBlurCapture={() => setPaused(false)}
     >
-      <div className="relative w-full overflow-hidden rounded-2xl border border-lineSoft bg-background shadow-frame">
+      <div className="relative w-full overflow-hidden rounded-2xl border border-lineSoft bg-background ">
         {stories.map((story, i) => {
           const isActive = i === index;
           return (
@@ -192,10 +193,7 @@ export default function ProvenStories({
                     className="object-cover"
                     priority={i === 0}
                   />
-                  <div
-                    aria-hidden
-                    className="absolute inset-0 bg-gradient-to-t from-ink/40 via-transparent to-transparent"
-                  />
+                  
                 </div>
               </div>
             </div>
@@ -211,16 +209,16 @@ export default function ProvenStories({
       <button
         type="button"
         onClick={() => go(index - 1)}
-        aria-label={`Previous ${itemNoun}`}
-        className="absolute -left-5 lg:-left-6 top-1/2 z-20 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-lineSoft bg-background text-ink shadow-[0_10px_30px_-10px_rgba(16,24,40,0.35)] transition-colors duration-settle ease-settle hover:border-blue/50 hover:text-blue lg:flex"
+        aria-label={`${carousel.previous} ${itemNoun}`}
+        className="absolute -left-5 lg:-left-6 top-1/2 z-20 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-lineSoft bg-background text-ink  transition-colors duration-settle ease-settle hover:border-blue/50 hover:text-blue lg:flex"
       >
         <Chevron dir="left" />
       </button>
       <button
         type="button"
         onClick={() => go(index + 1)}
-        aria-label={`Next ${itemNoun}`}
-        className="absolute -right-5 lg:-right-6 top-1/2 z-20 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-lineSoft bg-background text-ink shadow-[0_10px_30px_-10px_rgba(16,24,40,0.35)] transition-colors duration-settle ease-settle hover:border-blue/50 hover:text-blue lg:flex"
+        aria-label={`${carousel.next} ${itemNoun}`}
+        className="absolute -right-5 lg:-right-6 top-1/2 z-20 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-lineSoft bg-background text-ink  transition-colors duration-settle ease-settle hover:border-blue/50 hover:text-blue lg:flex"
       >
         <Chevron dir="right" />
       </button>
@@ -231,7 +229,7 @@ export default function ProvenStories({
             key={story.id}
             type="button"
             onClick={() => go(i)}
-            aria-label={`Show ${story.platform}`}
+            aria-label={`${carousel.show} ${story.platform}`}
             aria-current={i === index}
             className="flex items-center justify-center p-2.5"
           >

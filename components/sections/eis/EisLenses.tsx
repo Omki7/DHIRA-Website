@@ -1,6 +1,7 @@
 import EisPill from "@/components/ui/eis/EisPill";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import EisLensCompareMockup from "@/components/demos/mockups/eis/EisLensCompareMockup";
+import type { EisPage } from "@/content/pages/solutions-eis";
 
 /* [your-lens] — one system, three operating loops.
  *
@@ -22,7 +23,7 @@ import EisLensCompareMockup from "@/components/demos/mockups/eis/EisLensCompareM
  * and the per-role prose in the old two-column layout.
  */
 
-export default function EisLenses() {
+export default function EisLenses({ content }: { content: EisPage["lenses"] }) {
   return (
     <section
       id="your-lens"
@@ -33,24 +34,21 @@ export default function EisLenses() {
           <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
             <div>
               <h2 className="max-w-[20ch] font-heading text-4xl font-medium leading-[1.05] tracking-tighter sm:text-5xl md:text-6xl">
-                <span className="text-eis-body">Same record.</span>
+                <span className="text-eis-body">{content.setup}</span>
                 <br />
-                <span className="text-eis-ink">Different first screen.</span>
+                <span className="text-eis-ink">{content.payoff}</span>
               </h2>
               <p className="mt-5 max-w-[620px] text-balance text-base leading-[1.5] tracking-tight text-eis-body sm:mt-6 sm:text-lg">
-                EIS is one system running three operating loops, not one
-                dashboard that everybody filters down to the fifth of it that
-                concerns them. Same governed record underneath all three. What
-                changes is which question the screen opens with.
+                {content.lede}
               </p>
             </div>
 
             <EisPill
-              href="#talk-to-our-team"
+              href={content.cta.href}
               tone="outline"
               className="flex-shrink-0 self-start lg:self-auto"
             >
-              Talk to our team
+              {content.cta.label}
             </EisPill>
           </div>
         </ScrollReveal>

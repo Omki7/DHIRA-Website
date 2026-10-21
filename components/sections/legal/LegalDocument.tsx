@@ -2,40 +2,44 @@
  * One layout for every policy page: a plain text hero (label, title,
  * summary, last updated), then the document at reading measure beside a
  * sticky contents list, then the other policies. Dense on purpose: these
- * pages are for reading and citing, not for a story. Copy: lib/legal.ts.
+ * pages are for reading and citing, not for a story. Documents: the legal
+ * collection (content/collections/legal.ts); labels: interface strings.
  */
 
 import Link from "next/link";
 import RichText from "@/components/ui/RichText";
 import ScrollRevealRail from "@/components/ui/ScrollRevealRail";
-import { LEGAL_DOCS, type LegalDoc } from "@/lib/legal";
+import type { LegalDoc } from "@/content/collections/legal";
+import { getUiStrings } from "@/lib/content";
 import { formatDate, outline } from "@/lib/richText";
 
-export default function LegalDocument({ doc }: { doc: LegalDoc }) {
+export default async function LegalDocument({ doc, others }: { doc: LegalDoc; others: LegalDoc[] }) {
+  const { legal, longform } = await getUiStrings();
   const contents = outline(doc.blocks);
-  const others = LEGAL_DOCS.filter((item) => item.slug !== doc.slug);
   return (
     <article className="bg-background">
       <header className="border-b border-lineSoft pb-12 pt-14 lg:pb-16 lg:pt-20">
         <ScrollRevealRail>
           <p className="font-mono text-[11px] uppercase tracking-eyebrow text-inkSoft">
             <Link href="/legal" className="transition-colors duration-150 hover:text-ink">
-              Legal
+              {legal.crumb}
             </Link>
           </p>
           <h1 className="mt-8 text-balance text-[36px] font-semibold leading-[1.08] tracking-[-0.035em] text-ink sm:text-[44px] lg:text-[52px]">
             {doc.title}
           </h1>
           <p className="mt-6 max-w-[38em] text-pretty text-lg leading-relaxed text-secondary-text">{doc.summary}</p>
-          <p className="mt-8 font-mono text-[11px] uppercase tracking-eyebrow text-overcast">Last updated {formatDate(doc.updated)}</p>
+          <p className="mt-8 font-mono text-[11px] uppercase tracking-eyebrow text-overcast">
+            {legal.lastUpdated} {formatDate(doc.updated)}
+          </p>
         </ScrollRevealRail>
       </header>
 
       <ScrollRevealRail>
         <div className="grid gap-12 pb-20 pt-12 lg:grid-cols-12 lg:gap-10 lg:pb-28 lg:pt-16">
           <aside className="lg:col-span-3">
-            <nav aria-label="Contents" className="lg:sticky lg:top-28">
-              <p className="font-mono text-[11px] uppercase tracking-eyebrow text-overcast">Contents</p>
+            <nav aria-label={longform.contents} className="lg:sticky lg:top-28">
+              <p className="font-mono text-[11px] uppercase tracking-eyebrow text-overcast">{longform.contents}</p>
               <ol className="mt-3 space-y-2 border-l border-lineSoft">
                 {contents.map((item) => (
                   <li key={item.id}>
@@ -53,7 +57,7 @@ export default function LegalDocument({ doc }: { doc: LegalDoc }) {
           <div className="min-w-0 lg:col-span-7">
             <RichText blocks={doc.blocks} size="legal" />
             <div className="mt-16 border-t border-lineSoft pt-6">
-              <p className="font-mono text-[11px] uppercase tracking-eyebrow text-overcast">Other policies</p>
+              <p className="font-mono text-[11px] uppercase tracking-eyebrow text-overcast">{legal.otherPolicies}</p>
               <ul className="mt-3 flex flex-wrap gap-x-6 gap-y-2">
                 {others.map((item) => (
                   <li key={item.slug}>

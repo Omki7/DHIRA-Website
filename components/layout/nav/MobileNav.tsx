@@ -5,10 +5,14 @@ import type { KeyboardEvent } from "react";
 import RegionLink from "@/components/ui/RegionLink";
 import DhiraLogo from "@/components/icons/DhiraLogo";
 import ThemeSwitch from "@/components/layout/ThemeSwitch";
-import { NAV_CTA, NAV_MENUS, isCurrentSection } from "@/lib/navigation";
+import { useUi } from "@/components/providers/UiProvider";
+import type { NavMenu } from "@/content/navigation";
+import type { Link } from "@/content/types";
+import { isCurrentSection } from "@/lib/navigation";
 import { MenuRow } from "./MenuPanel";
 import NavFeatured from "./NavFeatured";
 import { BackArrow, ChevronRight, CloseIcon } from "./NavIcons";
+import { nameOrWordmark } from "@/components/icons/AkashicWordmark";
 
 /* Below lg: a full-screen drawer that drills down (Figma / Apple pattern)
    instead of an accordion. Level one is a large row per menu (the logo above them
@@ -21,14 +25,21 @@ import { BackArrow, ChevronRight, CloseIcon } from "./NavIcons";
 const FOCUSABLE = "a[href], button:not([disabled])";
 
 export default function MobileNav({
+  menus,
+  cta,
+  brandName,
   open,
   pathname,
   onClose,
 }: {
+  menus: NavMenu[];
+  cta: Link;
+  brandName: string;
   open: boolean;
   pathname: string;
   onClose: () => void;
 }) {
+  const ui = useUi();
   const [level, setLevel] = useState<string | null>(null);
   const dialogRef = useRef<HTMLDivElement>(null);
 
@@ -91,21 +102,21 @@ export default function MobileNav({
       ref={dialogRef}
       role="dialog"
       aria-modal="true"
-      aria-label="Site menu"
+      aria-label={ui.nav.siteMenu}
       onKeyDown={onKeyDown}
       className="fixed inset-0 z-[60] flex flex-col bg-background lg:hidden"
     >
       <div className="flex h-[72px] shrink-0 items-center justify-between border-b border-subtle-stroke px-4 sm:px-6">
-        <RegionLink href="/" aria-label="DHIRA homepage" onClick={onClose} className="flex items-center gap-1.5 text-primary-text">
+        <RegionLink href="/" aria-label={ui.homeLink} onClick={onClose} className="flex items-center gap-1.5 text-primary-text">
           <DhiraLogo className="h-9 w-9" />
-          <span className="text-[22px] font-semibold tracking-tight">DHIRA</span>
+          <span className="text-[22px] font-semibold tracking-tight">{brandName}</span>
         </RegionLink>
-        <button type="button" className="btn-ghost" onClick={onClose} aria-label="Close menu">
+        <button type="button" className="btn-ghost" onClick={onClose} aria-label={ui.nav.closeMenu}>
           <CloseIcon />
         </button>
       </div>
 
-      <nav aria-label="Primary" data-track className="relative flex-1 overflow-hidden">
+      <nav aria-label={ui.nav.primary} data-track className="relative flex-1 overflow-hidden">
         {/* Level one */}
         <div
           data-level="root"
@@ -115,7 +126,7 @@ export default function MobileNav({
           }`}
         >
           <ul>
-            {NAV_MENUS.map((menu) => (
+            {menus.map((menu) => (
               <li key={menu.id} className="border-b border-subtle-stroke">
                 <button
                   type="button"
@@ -138,7 +149,7 @@ export default function MobileNav({
         </div>
 
         {/* Level two, one per menu */}
-        {NAV_MENUS.map((menu) => {
+        {menus.map((menu) => {
           const active = level === menu.id;
           return (
             <div
@@ -157,11 +168,11 @@ export default function MobileNav({
                 className="-ml-1 inline-flex min-h-[44px] items-center gap-2 px-1 text-[14px] font-medium text-secondary-text"
               >
                 <BackArrow />
-                All menus
+                {ui.nav.allMenus}
               </button>
 
               <div className="mt-2 border-b border-subtle-stroke pb-5">
-                <p className="font-heading text-[26px] font-semibold leading-tight tracking-[-0.02em] text-ink">{menu.lead.title}</p>
+                <p className="font-heading text-[26px] font-semibold leading-tight tracking-[-0.02em] text-ink">{nameOrWordmark(menu.lead.title)}</p>
                 <p className="mt-2 text-balance text-[15px] leading-[1.55] text-secondary-text">{menu.lead.text}</p>
                 <RegionLink
                   href={menu.lead.href}
@@ -195,8 +206,8 @@ export default function MobileNav({
       </nav>
 
       <div className="shrink-0 border-t border-subtle-stroke bg-background px-4 py-4 sm:px-6">
-        <RegionLink href={NAV_CTA.href} onClick={onClose} className="btn-primary btn-lg w-full">
-          {NAV_CTA.label}
+        <RegionLink href={cta.href} onClick={onClose} className="btn-primary btn-lg w-full">
+          {cta.label}
         </RegionLink>
       </div>
     </div>

@@ -1,17 +1,26 @@
-import Nav from "@/components/layout/Nav";
+import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import Footer from "@/components/layout/Footer";
+import Nav from "@/components/layout/Nav";
 import LegalDocument from "@/components/sections/legal/LegalDocument";
-import { COOKIES } from "@/lib/legal";
+import { getLegalDoc, getLegalDocs } from "@/lib/content";
 import { pageMetadata } from "@/lib/metadata";
 
-export const metadata = pageMetadata({ title: COOKIES.title, description: COOKIES.summary, path: "/cookies" });
+const SLUG = "cookies";
 
-export default function Page() {
+export async function generateMetadata(): Promise<Metadata> {
+  const doc = await getLegalDoc(SLUG);
+  return doc ? pageMetadata({ title: doc.title, description: doc.summary, path: `/${SLUG}` }) : {};
+}
+
+export default async function CookiesPage() {
+  const [doc, docs] = await Promise.all([getLegalDoc(SLUG), getLegalDocs()]);
+  if (!doc) notFound();
   return (
     <>
       <Nav />
       <main id="main" className="bg-background">
-        <LegalDocument doc={COOKIES} />
+        <LegalDocument doc={doc} others={docs.filter((item) => item.slug !== SLUG)} />
       </main>
       <Footer />
     </>

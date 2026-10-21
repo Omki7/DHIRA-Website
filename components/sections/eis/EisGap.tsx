@@ -1,5 +1,6 @@
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import EisGapTimelineMockup from "@/components/demos/mockups/eis/EisGapTimelineMockup";
+import type { EisPage } from "@/content/pages/solutions-eis";
 
 /* [the-gap] — why an executive layer has to exist at all.
  *
@@ -22,7 +23,7 @@ import EisGapTimelineMockup from "@/components/demos/mockups/eis/EisGapTimelineM
  * the reason it fails (nothing signable) is the thing that lands.
  */
 
-export default function EisGap() {
+export default function EisGap({ content }: { content: EisPage["gap"] }) {
   return (
     <section
       id="the-gap"
@@ -39,14 +40,12 @@ export default function EisGap() {
                 across two lines, so the pair read as four lines of headline
                 and pushed the diagram (the actual argument) below the fold. */}
             <h2 className="max-w-[26ch] font-heading text-4xl font-medium leading-[1.05] tracking-tighter sm:text-5xl md:text-6xl">
-              <span className="text-eis-body">The number was ready at 06:00.</span>
+              <span className="text-eis-body">{content.setup}</span>
               <br />
-              <span className="text-eis-ink">The decision took twenty-six days.</span>
+              <span className="text-eis-ink">{content.payoff}</span>
             </h2>
             <p className="mt-5 max-w-[620px] text-balance text-base leading-[1.5] tracking-tight text-eis-body sm:mt-6 sm:text-lg">
-              Nobody is short of reporting. What is short is the distance
-              between a figure moving and someone acting on it. Here is one
-              morning at one plant, run three ways.
+              {content.lede}
             </p>
           </ScrollReveal>
         </div>
@@ -58,11 +57,10 @@ export default function EisGap() {
         <ScrollReveal delay={140}>
           <div className="mt-6 flex flex-col gap-4 sm:flex-row sm:items-baseline sm:justify-between">
             <p className="max-w-[620px] text-balance text-base leading-tight text-eis-body sm:text-lg">
-              The gap is not a reporting problem. It is the distance from the
-              figure to the decision, and it is measured in days.
+              {content.conclusion}
             </p>
             <p className="flex-shrink-0 text-[11px] leading-tight text-eis-muted">
-              An illustration, using the demonstration plant shown above.
+              {content.note}
             </p>
           </div>
         </ScrollReveal>

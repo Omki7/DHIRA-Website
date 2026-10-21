@@ -1,16 +1,16 @@
 ﻿import Image from "next/image";
 import AboutSection, { AboutHeading } from "@/components/sections/about/AboutSection";
-import { ABOUT_LEADERS, ABOUT_STORY } from "@/lib/aboutContent";
+import type { Leader } from "@/content/collections/leaders";
+import type { AboutHeadingContent } from "@/content/pages/about";
 
 const PLACEMENT = ["lg:order-3", "lg:order-1 lg:pt-14", "lg:order-2 lg:pt-24", "lg:order-4 lg:pt-24", "lg:order-5 lg:pt-14"];
 
-export default function AboutPeople() {
-  const content = ABOUT_STORY.people;
+export default function AboutPeople({ content, leaders: ABOUT_LEADERS }: { content: AboutHeadingContent; leaders: Leader[] }) {
   return (
     <AboutSection id="people">
-      <AboutHeading number="04" label={content.label} setup={content.setup} title={content.title} intro={content.intro} />
+      <AboutHeading number={content.number} label={content.label} setup={content.setup} title={content.title} intro={content.intro} />
       <div className="about-content relative">
-        <svg viewBox="0 0 1200 240" preserveAspectRatio="none" className="pointer-events-none absolute left-0 top-20 hidden h-60 w-full lg:block" aria-hidden="true"><path d="M26 140C186 220 234 178 365 100S550 30 600 30S744 36 835 100S1014 220 1174 140" fill="none" stroke="#E4E7EC" strokeWidth="1" /></svg>
+        <svg viewBox="0 0 1200 240" preserveAspectRatio="none" className="pointer-events-none absolute left-0 top-20 hidden h-60 w-full lg:block" aria-hidden="true"><path d="M26 140C186 220 234 178 365 100S550 30 600 30S744 36 835 100S1014 220 1174 140" fill="none" stroke="rgb(var(--lineSoft))" strokeWidth="1" /></svg>
         <div className="relative grid grid-cols-2 gap-x-5 gap-y-9 lg:grid-cols-5 lg:gap-x-7">
           {ABOUT_LEADERS.map((leader, index) => (
             <article key={leader.id} data-about-reveal={index * 65} className={`about-leader ${index === 0 ? "col-span-2 grid grid-cols-[112px_1fr] items-center gap-5 pb-4 sm:grid-cols-[160px_1fr] lg:col-span-1 lg:block lg:pb-0" : ""} ${PLACEMENT[index]}`}>

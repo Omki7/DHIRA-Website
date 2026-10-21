@@ -1,52 +1,40 @@
-﻿import "@/components/sections/about/about-page.css";
+import "@/components/sections/about/about-page.css";
 import type { Metadata } from "next";
-import Nav from "@/components/layout/Nav";
 import Footer from "@/components/layout/Footer";
-import AboutHero from "@/components/sections/about/AboutHero";
-import AboutConviction from "@/components/sections/about/AboutConviction";
-import AboutVision from "@/components/sections/about/AboutVision";
-import AboutJourney from "@/components/sections/about/AboutJourney";
-import AboutPeople from "@/components/sections/about/AboutPeople";
-import AboutCulture from "@/components/sections/about/AboutCulture";
-import AboutClose from "@/components/sections/about/AboutClose";
-import AboutMotion from "@/components/sections/about/AboutMotion";
+import Nav from "@/components/layout/Nav";
 import PageMinimap from "@/components/layout/PageMinimap";
-import { ABOUT_HERO, ABOUT_SECTIONS } from "@/lib/aboutSections";
+import AboutClose from "@/components/sections/about/AboutClose";
+import AboutConviction from "@/components/sections/about/AboutConviction";
+import AboutCulture from "@/components/sections/about/AboutCulture";
+import AboutHero from "@/components/sections/about/AboutHero";
+import AboutJourney from "@/components/sections/about/AboutJourney";
+import AboutMotion from "@/components/sections/about/AboutMotion";
+import AboutPeople from "@/components/sections/about/AboutPeople";
+import AboutVision from "@/components/sections/about/AboutVision";
+import { getLeaders, getPage } from "@/lib/content";
+import { pageMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
-  title: "About Us | DHIRA",
-  description:
-    `${ABOUT_HERO.setup} ${ABOUT_HERO.headline} ${ABOUT_HERO.description}`,
-  openGraph: {
-    title: "About Us | DHIRA",
-    description:
-      `${ABOUT_HERO.setup} ${ABOUT_HERO.headline} ${ABOUT_HERO.description}`,
-    images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "About DHIRA" }],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "About Us | DHIRA",
-    description:
-      `${ABOUT_HERO.setup} ${ABOUT_HERO.headline} ${ABOUT_HERO.description}`,
-    images: ["/og-image.png"],
-  },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const { seo } = await getPage("about");
+  return pageMetadata(seo);
+}
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  const [page, leaders] = await Promise.all([getPage("about"), getLeaders()]);
   return (
     <AboutMotion>
       <Nav />
       <main id="main" data-theme-page="company">
-        <AboutHero />
-        <AboutConviction />
-        <AboutJourney />
-        <AboutVision />
-        <AboutPeople />
-        <AboutCulture />
-        <AboutClose />
+        <AboutHero content={page.hero} />
+        <AboutConviction content={page.conviction} />
+        <AboutJourney content={page.journey} />
+        <AboutVision content={page.vision} />
+        <AboutPeople content={page.people} leaders={leaders} />
+        <AboutCulture content={page.culture} />
+        <AboutClose content={page.close} />
       </main>
       <Footer />
-      <PageMinimap sections={ABOUT_SECTIONS} aria-label="About page sections" />
+      <PageMinimap sections={page.sections} aria-label={page.sectionsLabel} />
     </AboutMotion>
   );
 }

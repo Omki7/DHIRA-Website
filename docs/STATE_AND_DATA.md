@@ -1,98 +1,108 @@
-# STATE & DATA — DHIRA Website v3
+# STATE & DATA: DHIRA Website v3
 
-## This is a presentational site — there is no data layer
+Runtime state, environment, forms and the boundaries of the data layer. Where
+content lives and how it reaches the page is in [CONTENT.md](./CONTENT.md).
 
-Read this before adding any data-fetching, state library, API client, or runtime
-validation. As of this writing the site has **none** of these, on purpose:
+## What exists, and what does not
 
-- **No data fetching.** No `fetch`, SWR, react-query, axios, or API routes.
-- **No server state / caching layer.** Nothing to cache; content is baked at build.
-- **No client state library.** No Redux/Zustand/Jotai. Client state is local UI
-  state only (see below).
-- **No environment/runtime config.** No `process.env` usage, no `.env` needed, no
-  keys. Do not add a `.env` or env-schema abstraction for something that has no
-  variables.
-- **No runtime schema validation (Zod, etc.).** There are no external inputs to
-  validate. Types come from TypeScript on static config.
+The site is static and content-driven. Every route is prerendered at build time
+from the typed documents in `content/`, through `lib/content.ts`.
 
-Directives about "loading/error/empty/success states," "retry mechanisms," "API
-fetching layers," and "Zod validation of API inputs" **do not apply to the
-current codebase** — they describe a data-driven app this one is not. See the
-forward-looking section below for when they would.
+What does not exist yet, on purpose:
 
-## Where content lives
+- **No client data fetching.** No SWR, react-query or API client. Pages receive
+  everything at build time.
+- **No API routes.** The generated text routes (`llms.txt`, `rss.xml`) are
+  static.
+- **No client state library.** State is local to components (below).
+- **No runtime validation.** All inputs are typed local documents today. The CMS
+  migration adds schema validation where the network boundary appears
+  (CONTENT.md, step 3).
 
-All copy, figures, and per-section config are **static, typed modules** in `lib/`,
-one file per page:
+Do not scaffold loading, error or retry states for data that is not fetched at
+runtime. When a real runtime data source arrives (a CMS preview, a CRM form
+endpoint), follow the section at the end of this file.
 
-```
-lib/pageSection.ts                     Shared section typing (the PageSection shape)
-lib/homeSections.ts                    Home section metadata (drives PageMinimap)
-lib/{about,akashic,careers,delivery}Sections.ts
-lib/{eis,life,knowledge,publicSector}Sections.ts
-lib/sectorContent.ts                   Drives the shared six-sector template
-lib/{education,energy,finance,healthcare,manufacturing,retail}Sections.ts
-lib/site.ts                            Company facts and SITE_URL: one source for metadata, JSON-LD, footer, contact
-lib/siteRoutes.ts                      Every public route: feeds sitemap.xml, /site-map and llms.txt
-lib/{pricing,trust,contact,partners,release}Sections.ts
-lib/{insights,customerStories,newsroom,integrations,glossary,events,legal}.ts
-                                       The 15 Oct 2026 hub and resource pages (ARCHITECTURE "Resource pages")
-lib/richText.ts                        The Block type for long-form copy
-```
+## Client state (the only state here)
 
-Long-form copy (articles, press releases, story pages, policy pages) is still
-config: a typed `Block[]` (`lib/richText.ts`) rendered by `ui/RichText`, with
-`[label](href)` for inline links. Add an article by adding an entry to
-`lib/insights.ts`; its page, the hub row, the RSS item, the sitemap entry and the
-llms.txt line all follow. Generated files (`sitemap.xml`, `robots.txt`,
-`llms.txt`, `insights/rss.xml`) are never edited by hand.
+Local, component-scoped `useState`, `useRef` and `useEffect`, always degrading
+under `prefers-reduced-motion`.
 
-The forms (`layout/ContactForm`, `ui/SubscribeForm`) are SIMULATED: they show
-their success state without sending anything. The site is the final hi-fi
-mockup and developers wire both at hand-off; when they do, the "If a real data
-layer is ever added" section below applies.
+**Reduced motion.** Read it with `hooks/usePrefersReducedMotion` (an external
+store, false on the server). Derive the resting state from it:
+`const visible = reduced || revealed`. Do not set state in an effect because
+the preference is on. ESLint's `react-hooks/set-state-in-effect` flags that
+pattern.
 
-Rules:
-- **Content is config, not JSX.** Copy, ordered lists, figures, and chip labels
-  belong in the relevant `lib/*Sections.ts` module, typed — not hardcoded inside a
-  section component. This is the site's single source of truth for content.
-- **Figures must be real** (Design Rule 4). Several solution/sector figures are
-  flagged "confirm/reconcile" in the source scripts — resolve before ship, don't
-  invent.
-- Section components are pure functions of their props + their `lib/` config.
+**Patterns in use:**
 
-## Client state patterns (the only state here)
+- **Carousels and auto-advance.** An active index plus a timer, paused on hover
+  or focus and gated on `useOnScreen` (ProvenStories, EverySector, UCSignals).
+- **Toggles.** Before/after (TheProof), the world switch (AkashicFourMoves).
+  Reset state in the event handler that changes it, not in an effect.
+- **Scroll-driven.**
+  - `ScrollReveal` and `useDrawn` use IntersectionObserver.
+  - `usePageScrollSpy` drives PageMinimap.
+  - Sticky scrollytelling: SectorMap, JourneyLayers, LifeSolution.
+- **Count-ups.** `useCountUp`. The server HTML carries the real figure. Do not
+  add a second count-up.
+- **Clocks.** LaunchCountdown reads time as an external store that ticks each
+  minute, so the server render and hydration match.
 
-Local, component-scoped `useState`/`useEffect`/`useRef`, always degrading under
-`prefers-reduced-motion` (via `usePrefersReducedMotion`):
+**Appearance.**
+- `lib/theme.ts` is a browser preference store, read with
+  `useSyncExternalStore` by `layout/ThemeSwitch`.
+- `localStorage` (`dhira-appearance`) persists the choice, and a head bootstrap
+  applies it before paint.
+- A first visit is always light. Every route supports both appearances,
+  including regional pages, collection detail pages, policies and the 404.
+  Navigation keeps the selected appearance; storage changes synchronise tabs.
 
-- **Carousels/auto-advance:** `activeCard`/`active` index + interval, pausing on
-  hover/focus (HeroProductsMockup, ProvenStories, EverySector, UCSignals — 6–7s).
-- **Toggles:** Before/After (TheProof), two-world question (AkashicFourMoves).
-- **Scroll-driven:** IntersectionObserver reveals (`ScrollReveal`), scroll-spy
-  (`usePageScrollSpy` → PageMinimap), sticky scrollytelling (`SectorMap`).
-- **Count-ups:** `useCountUp` / `useCountUpValue` (do not add a third copy).
-- **Appearance:** `lib/theme.ts` is a small browser preference store, read with
-  React's `useSyncExternalStore` by `layout/ThemeSwitch`. The HTML attribute
-  carries the current choice and `localStorage` (`dhira-appearance`) persists it.
-  A head bootstrap applies the choice before paint. First visit is light;
-  unsupported routes stay light while retaining the choice. Storage failures
-  leave the current-tab switch usable. No external state library or server state.
-- **Region:** `hooks/useRegion` is the same pattern for International / India
-  (ARCHITECTURE "Regions"). It reads the visitor's choice from `localStorage`
-  (`dhira-region`) and guesses from the device time zone (`Asia/Kolkata`), so no
-  geolocation service and no request leaves the browser. During SSR only the page's
-  own region is known; links settle after mount. Region-keyed copy lives in the
-  page's `lib/` module as `Record<Region, ...>` (e.g. `HOW_TO_BUY.routes`).
+**Region.**
+- `hooks/useRegion` uses the same pattern for International / India.
+- It reads the stored choice (`dhira-region`), else guesses from the device time
+  zone (`Asia/Kolkata`). No request leaves the browser.
+- During SSR only the page's own region is known, so links settle after mount.
 
-Keep animation/timing constants named at module top (e.g. `ROTATE_MS = 7000`),
-not scattered as magic numbers.
+Name animation and timing constants at module top (`ROTATE_MS = 7000`), not as
+magic numbers in the body.
 
-## If a real data layer is ever added
+## Environment
 
-Then, and only then, adopt the production standard the generic brief describes:
-typed fetchers in a `services/` layer, Zod validation at every external boundary,
-the four explicit UI states (loading skeleton / error-with-retry / empty /
-success), and feature-level Error Boundaries so a data failure degrades
-gracefully. Put env config behind a typed schema with a `.env.example`. Until
-there is external data, none of this exists — do not scaffold it speculatively.
+`lib/env.ts` is the only reader of `process.env`. Every variable is declared
+there with a safe default and documented in `.env.example`.
+
+| Variable | Default | Purpose |
+|---|---|---|
+| `NEXT_PUBLIC_SITE_URL` | `https://www.dhira.ai` | Canonical origin for metadata, sitemap.xml and structured data. Set it on preview deployments |
+
+Local overrides go in `.env.local`, which git ignores (`.env*` except
+`.env.example`). Server-only secrets never take the `NEXT_PUBLIC_` prefix.
+
+## Forms
+
+The contact form (`layout/ContactForm`, used by ContactModal and /contact) and
+the sign-up form (`ui/SubscribeForm`) are **simulated**: they validate, then
+show their success state without sending anything. The site is the final
+high-fidelity build. Developers wire both at hand-off:
+
+- Submit through a Server Action or a route handler.
+- Validate on the server with a schema, and return field errors to the form.
+- Send to the CRM or email provider. Keys go in `lib/env.ts`, server-only.
+- Add the provider's origin to the CSP `connect-src` or `form-action` in
+  `next.config.mjs` only if the browser talks to it directly.
+- Keep the success and error copy in `content/ui.ts`.
+
+## When a runtime data source is added
+
+Adopt the full standard at that boundary, not before:
+
+- **Typed fetchers.** Put them behind `lib/content.ts`, or in a sibling module
+  for non-content data.
+- **Schema validation.** Validate every external response at the boundary.
+- **Explicit UI states.** Loading, error with retry, empty and success, wherever
+  data arrives on the client.
+- **Error boundaries.** Use `error.tsx` per route segment, so one failing source
+  degrades its section and not the page.
+- **Caching.** Use tag-based revalidation (`revalidateTag`) from the source's
+  webhook. Pages stay static where they can.

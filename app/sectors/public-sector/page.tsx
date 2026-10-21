@@ -1,52 +1,40 @@
 import type { Metadata } from "next";
-import Nav from "@/components/layout/Nav";
 import Footer from "@/components/layout/Footer";
-import PublicSectorHero from "@/components/sections/public-sector/PublicSectorHero";
-import PublicSectorGap from "@/components/sections/public-sector/PublicSectorGap";
-import PublicSectorProven from "@/components/sections/public-sector/PublicSectorProven";
-import PublicSectorMoments from "@/components/sections/public-sector/PublicSectorMoments";
-import PublicSectorWhy from "@/components/sections/public-sector/PublicSectorWhy";
-import PublicSectorChain from "@/components/sections/public-sector/PublicSectorChain";
-import PublicSectorDeploy from "@/components/sections/public-sector/PublicSectorDeploy";
-import PublicSectorClose from "@/components/sections/public-sector/PublicSectorClose";
+import Nav from "@/components/layout/Nav";
 import PageMinimap from "@/components/layout/PageMinimap";
-import { PUBLIC_SECTOR_SECTIONS } from "@/lib/publicSectorSections";
+import PublicSectorChain from "@/components/sections/public-sector/PublicSectorChain";
+import PublicSectorClose from "@/components/sections/public-sector/PublicSectorClose";
+import PublicSectorDeploy from "@/components/sections/public-sector/PublicSectorDeploy";
+import PublicSectorGap from "@/components/sections/public-sector/PublicSectorGap";
+import PublicSectorHero from "@/components/sections/public-sector/PublicSectorHero";
+import PublicSectorMoments from "@/components/sections/public-sector/PublicSectorMoments";
+import PublicSectorProven from "@/components/sections/public-sector/PublicSectorProven";
+import PublicSectorWhy from "@/components/sections/public-sector/PublicSectorWhy";
+import { getPage } from "@/lib/content";
+import { pageMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
-  title: "Public Sector",
-  description:
-    "Akashic powers national-scale public digital infrastructure with real citizens, real scale, and audited public records.",
-  openGraph: {
-    title: "Public Sector | DHIRA",
-    description:
-      "Akashic powers national-scale public digital infrastructure.",
-    images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "Public Sector — DHIRA" }],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Public Sector | DHIRA",
-    description:
-      "National-scale public digital infrastructure powered by Akashic.",
-    images: ["/og-image.png"],
-  },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const { seo } = await getPage("sectors/public-sector");
+  return pageMetadata(seo);
+}
 
-export default function PublicSectorPage() {
+export default async function PublicSectorPage() {
+  const page = await getPage("sectors/public-sector");
   return (
     <>
       <Nav />
       <main id="main" className="bg-background">
-        <PublicSectorHero />
-        <PublicSectorGap />
-        <PublicSectorProven />
-        <PublicSectorMoments />
-        <PublicSectorWhy />
-        <PublicSectorChain />
-        <PublicSectorDeploy />
-        <PublicSectorClose />
+        <PublicSectorHero content={page.hero} />
+        <PublicSectorGap content={page.gap} />
+        <PublicSectorProven content={page.proven} />
+        <PublicSectorMoments content={page.moments} />
+        <PublicSectorWhy content={page.why} />
+        <PublicSectorChain content={page.chain} />
+        <PublicSectorDeploy content={page.deploy} />
+        <PublicSectorClose content={page.close} />
       </main>
       <Footer />
-      <PageMinimap sections={PUBLIC_SECTOR_SECTIONS} aria-label="Public Sector page sections" />
+      <PageMinimap sections={page.sections} aria-label={page.sectionsLabel} />
     </>
   );
 }

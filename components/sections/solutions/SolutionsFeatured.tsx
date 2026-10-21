@@ -12,20 +12,21 @@ import PreviewTag from "@/components/ui/PreviewTag";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import ScrollRevealRail from "@/components/ui/ScrollRevealRail";
 import SectionHeader from "@/components/ui/SectionHeader";
-import { FEATURED_SOLUTIONS } from "@/lib/solutionsSections";
+import type { SolutionsPage } from "@/content/pages/solutions";
 
 const pad = (n: number) => String(n).padStart(2, "0");
 
-export default function SolutionsFeatured() {
+export default function SolutionsFeatured({ content }: { content: SolutionsPage["featured"] }) {
+  const FEATURED_SOLUTIONS = content.items;
   return (
     <section id="built-on-akashic" className="scroll-mt-24 bg-background pb-20 pt-16 lg:pb-28 lg:pt-20">
       <ScrollRevealRail>
         <SectionHeader
-          num="01"
-          label="Built on Akashic"
-          setup="The platform, at work."
-          payoff="Three solutions, one foundation."
-          lede="Executive finance, public procurement and frontline care, each on the same pipelines, master data, governance and AI."
+          num={content.num}
+          label={content.label}
+          setup={content.setup}
+          payoff={content.payoff}
+          lede={content.lede}
         />
 
         <div className="mt-12 border-t border-lineSoft lg:mt-16">

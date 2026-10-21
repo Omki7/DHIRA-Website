@@ -1,257 +1,248 @@
-# ARCHITECTURE — DHIRA Website v3
+# ARCHITECTURE: DHIRA Website v3
 
 Directory layout, layer boundaries, import rules, and the section maps for every
-page. This is the "where does code live and what renders where" reference. For
-tokens, brand, and design rules see [DESIGN_SYSTEM.md](./DESIGN_SYSTEM.md); for
-content/data see [STATE_AND_DATA.md](./STATE_AND_DATA.md); for build/scripts see
-[DEVELOPMENT.md](./DEVELOPMENT.md).
+page: where code lives and what renders where. Related docs:
+
+- [CONTENT.md](./CONTENT.md): the content model and the CMS migration.
+- [DESIGN_SYSTEM.md](./DESIGN_SYSTEM.md): tokens and design rules.
+- [STATE_AND_DATA.md](./STATE_AND_DATA.md): runtime state, environment and forms.
+- [DEVELOPMENT.md](./DEVELOPMENT.md): scripts and checks.
 
 ## Stack
 
 ```
 Next.js 16 (App Router, Turbopack) · React 19 · TypeScript 5.7 (strict) · Tailwind CSS 3.4 · framer-motion 12
+ESLint 9 (eslint-config-next, flat config) · knip · Node >= 20.9
 ```
 
-Presentational marketing site. No data-fetching, API, or env layer — see
-STATE_AND_DATA.md.
+A content-driven marketing site:
 
-## Import rules & layer boundaries
+- Every page is prerendered as static HTML at build time.
+- All copy is typed data in `content/`, read through `lib/content.ts` (CONTENT.md).
+- There is no database, no API route and no client data fetching.
 
-- **Path alias:** `@/*` → project root (`tsconfig.json`). All cross-directory
-  imports use this form (`@/components/...`, `@/lib/...`, `@/hooks/...`). Do not
-  reintroduce deep relative chains (`../../../`).
-- **Layers, outermost → innermost:**
-  `app/` (routes, composition) → `components/sections/*` (page sections) →
-  `components/demos/*` + `components/ui/*` + `components/icons/*` (building blocks) →
-  `hooks/`, `lib/` (logic + content config).
-- **Dependency direction:** sections may import demos/ui/icons/hooks/lib;
-  demos/ui/icons must not import sections. `lib/` and `hooks/` import nothing from
+## Layers and import rules
+
+```
+app/                    routes: load content, compose sections, set metadata
+  └─ components/sections/*   page sections: templates, content in via props
+       └─ components/demos/*, ui/*, icons/*, layout/*   building blocks
+            └─ hooks/, lib/     behaviour and helpers
+content/                typed documents; read only by lib/content.ts
+```
+
+- **Path alias:** `@/*` maps to the project root. Cross-directory imports use it
+  (`@/components/...`, `@/lib/...`); no deep relative chains.
+- **Dependency direction:** sections may import demos, ui, icons, hooks and lib.
+  demos, ui and icons never import sections. `hooks/` and `lib/` never import
   `components/`.
-- **Never place files flat in `components/`.** Always use the appropriate
-  subdirectory (`layout/`, `sections/`, `demos/`, `demos/mockups/`, `ui/`,
-  `icons/`). Simulated product UI goes in `demos/mockups/` (see §8a).
+- **Content boundary:** only `lib/content.ts` imports content values. Everything
+  else may import content *types* only. ESLint enforces this
+  (`@typescript-eslint/no-restricted-imports` in `eslint.config.mjs`).
+- **Server and client:**
+  - Routes, layouts and most sections are Server Components.
+  - Interactive pieces declare `"use client"` and take plain-data props.
+  - Client components read interface strings with `useUi()`, never by fetching.
+  - `lib/content.ts` is `server-only`.
+- **Never place files flat in `components/`.** Use a subdirectory: `layout/`,
+  `sections/<page>/`, `demos/`, `demos/mockups/`, `ui/`, `icons/`, `pages/` or
+  `providers/`. Simulated product UI goes in `demos/mockups/` (§8a).
+- **One section, one id.** A section's DOM id is the `id` of its entry in the
+  page's `sections` list (minimap, hero index, nav anchors).
 
 ## Directory tree
 
 ```
 app/
-  layout.tsx           Root layout: loads Google Sans family + Newsreader + Inter (Inter: product-UI mockups only) (Google Fonts, display=swap)
-  page.tsx             Home: <Nav> + <main> of sections in order + <Footer> + PageMinimap
-  globals.css          Tailwind directives + component classes + keyframe animations + :focus-visible ring
-  theme.css            Light/dark semantic values, theme switch and illustration palettes. Dark applies
-                       only while a main[data-theme-page] marker is present (home, /akashic, /about)
-  {about,akashic,careers,delivery,solutions,sectors/*,solutions/*}/page.tsx   Sub-page composers
-                       (`solutions/page.tsx` is the /solutions hub; `solutions/{eis,life}` are product pages)
-  in/                  India versions of regional pages (`in/pricing`). See "Regions" below
-  {insights,customers,newsroom,trust,integrations,glossary,contact,partners,events}/page.tsx
-                       Hub and resource pages (added 15 Oct 2026, see "Resource pages" below). insights,
-                       customers and newsroom also have `[slug]/page.tsx` detail routes (generateStaticParams)
-  akashic/1-0/page.tsx The Akashic 1.0 release page: the nav's Akashic feature card and the announcement bar
-  {privacy,terms,cookies,accessibility,legal}/page.tsx   Policy pages, one layout (sections/legal)
-  site-map/page.tsx    The HTML site map (GIGW). `not-found.tsx` is the branded 404
-  robots.ts, sitemap.ts, llms.txt/route.ts, insights/rss.xml/route.ts
-                       Generated from lib/siteRoutes.ts and the content files, never by hand.
-                       public/.well-known/security.txt is the RFC 9116 contact
+  layout.tsx           Root layout. Loads site settings and interface strings and provides them
+                       (UiProvider). Organization JSON-LD, theme bootstrap, Google Fonts <link>
+                       (Google Sans family, Newsreader, Inter: next/font has no Google Sans Text or
+                       Google Sans Mono), ContactModal, RegionSuggest, OffscreenAnimationGate
+  page.tsx             Home composer
+  globals.css          Tailwind layers, component classes, keyframes, focus ring
+  theme.css            Complete light/dark semantic values and illustration palettes on every route.
+                       The root data-theme preference applies to all pages and shared chrome
+  <route>/page.tsx     One composer per route: `generateMetadata()` from the document's `seo`, then
+                       `await getPage(...)` and sections in order. Every `<main>` is `id="main"`
+    about, akashic, akashic/1-0, careers, delivery, solutions, solutions/{eis,life}
+    sectors/{education,energy,finance,healthcare,manufacturing,retail,public-sector}
+    pricing, in/pricing (India version, see "Regions")
+    insights, insights/[slug], customers, customers/[slug], newsroom, newsroom/[slug]
+                       (detail routes use generateStaticParams over their collection)
+    trust, integrations, glossary, contact, partners, events
+    privacy, terms, cookies, accessibility, legal (one LegalDocument layout)
+    site-map           The HTML site map (GIGW)
+  not-found.tsx        Branded 404 (content/pages/not-found.ts)
+  manifest.ts, robots.ts, sitemap.ts, llms.txt/route.ts, insights/rss.xml/route.ts
+                       Generated from content (lib/routes.ts for the route list), never by hand
+  opengraph-image.png  The default social card
 
-components/
-  layout/
-    Nav.tsx            Site header shell (rebuilt 14 Oct 2026): logo (= home) · Platform · Solutions ·
-                       Services · Resources · About (Platform leads with Akashic and holds Pricing, 15 Oct
-                       2026), then "Talk to our team" (no Sign in in this version). The logo's full form, after a hairline
-                       pipe, hides at lg only. The current section carries a blue bar on the bar's bottom edge.
-                       Hide-on-scroll, 72px bar (sticky offsets across the
-                       site depend on it), root stays `<header data-scrolled>` (about-page.css targets it).
-                       All labels and links live in lib/navigation.ts. See DESIGN_SYSTEM "Navigation"
-    nav/               Header parts
-      MegaSheet.tsx       The ONE shared desktop sheet every menu opens into: attached to the header,
-                          height morphs between menus, panels SSR-rendered and `hidden` until shown
-      MenuPanel.tsx       One menu's lead / groups / featured grid; exports MenuRow (reused by the drawer)
-      NavFeatured.tsx     Featured card + its hairline figure (`.ad-draw` kit), one figure per menu
-      MobileNav.tsx       Below lg: full-screen drill-down drawer (dialog, focus trap, scroll lock)
-      AnnouncementBar.tsx The founder's launch line, ABOVE the sticky header in normal flow; set
-                          NAV_ANNOUNCEMENT to null to remove it everywhere
-      NavIcons.tsx        Chevron, arrows, menu and close glyphs
-    Footer.tsx         Dark footer (bg-vault). Rebuilt 15 Oct 2026 on the header's IA: columns and the legal row
-                       come from lib/navigation.ts (FOOTER_COLUMNS, LEGAL_LINKS), the company line and
-                       "Last updated" from lib/site.ts; RegionSwitch sits in the ribbon
-    ContactForm.tsx    The "Talk to our team" form, shared by ContactModal and /contact (extracted 15 Oct
-                       2026). SIMULATED submit: developers wire it to the CRM at hand-off
-    region/            RegionSuggest.tsx (the "Viewing from India?" card, mounted once in the root layout)
-                       and RegionSwitch.tsx (the footer ribbon's International / India switch). See "Regions"
-    PageMinimap.tsx    Right-edge section links: fixed blue dots, numbered labels on a docked drawer on hover/focus,
-                      a line through passed sections only, direct jumps and keyboard navigation.
-                      Akashic omits platform-screens from the index; the page section remains
-    ThemeSwitch.tsx    Accessible sun/moon switch in the header and mobile drawer. Persists the explicit
-                      light/dark choice; hidden on routes outside the initial three-page rollout
-    OffscreenAnimationGate.tsx  Mounted once in the root layout. Pauses every infinite CSS animation
-                      (`[data-offscreen-paused]`) and SVG SMIL timeline while its section is off screen,
-                      and holds on-screen loops while the page scrolls. SVGs inside `[data-own-motion]`
-                      are left to their component. See DESIGN_SYSTEM Rule 6a
+content/               EVERY WORD ON THE SITE. Typed documents, plain data (CONTENT.md)
+  types.ts             Shared primitives: Link, Cta, ImageAsset, Seo, PageSection, Eyebrow, TwoTone,
+                       Faq, Block (long-form rich text)
+  blocks.ts            Reusable section blocks: PageCloseBlock, ProvenAtScaleBlock
+  site.ts              Site settings: company facts, offices, inbox, legal line, default SEO; mailto()
+  navigation.ts        Header menus, announcement bar, CTA, footer columns and legal row
+  ui.ts                Interface microcopy (aria labels, controls, forms, region prompts)
+  site-map.ts          The static route list and the /site-map and llms.txt copy
+  pages/<page>.ts      One document per page (sectors.ts: the six sector documents + shared template;
+                       sectors-map.ts: their map scenes)
+  collections/*.ts     insights, press-releases, customer-stories, roles, leaders, events, glossary,
+                       integrations, legal
 
-  sections/            One file per page section (see Section Maps below)
-    universal-context/ Parts of MeetAkashic (legacy UC* names from the Attio-replica origin)
-    about/ akashic/ careers/ delivery/ eis/ life/ public-sector/ solutions/
-    manufacturing/ education/ energy/ finance/ healthcare/ retail/ sectors/
-                       Per-page section families; the six industry sectors share sectors/ + sectorContent.ts
-    pricing/ insights/ customers/ newsroom/ trust/ integrations/ release/ legal/
-                       The 15 Oct 2026 hub and resource pages. longform/ holds the shared article layout
-                       (LongformArticle, RelatedList) used by Insights, story pages and press releases
-
-  pages/               Page bodies shared by two routes: a regional page's international and India
-                       versions (`PricingPage.tsx` for /pricing + /in/pricing). Takes `region`. See "Regions"
-
-  demos/               Interactive/animated sub-components used inside sections (real or decorative)
-    HeroConnections.tsx   Animated connection graph behind Hero (decorative; dynamic-imported, ssr:false)
-    DivergentAnswers.tsx  One question answered three irreconcilable ways (ProblemSection)
-    ProvenStories.tsx     ProvenAtScale one-at-a-time deployment carousel
-    VoicesDispatches.tsx  Asymmetric editorial dispatch cards (Voices)
-    AshokaChakra.tsx      Decorative 24-spoke wheel (CareersImpact, ProvenAtScale)
-    LineArtBust.tsx       Line-art figure for SVG scenes (CareersHiring, AboutBeliefs)
-    GlyphMorphCanvas.tsx  rAF atom-field canvas for MeetAkashic "The platform" (dynamic-imported, ssr:false)
-    AkashicFlowConnectors.tsx  Blue-on-white animated connectors for /akashic (decorative)
-    about/                The /about drawings: GrowthRings, ThreadConvergence, JourneyLayers, SurveyScale, SystemSection,
-                          SiloLayer, KolamCulture (see the About section map)
-    careers/              The /careers drawings: SeatingPlan, ReachArcs, HiringLoop (see the Careers map)
-    pricing/              PlanFigure: the five priced modules on one foundation band, filled to the plan's
-                          capacity; Enterprise draws its dedicated boundary (/pricing [01])
-    FieldLedger.tsx       NOT RENDERED since the 20 Jul ProvenAtScale rebuild — kept on disk pending
-                          a delete-or-redeploy decision (do not silently remove)
-    mockups/           SIMULATED PRODUCT UI — fake app screenshots, not real functionality (see §8a)
-      HeroProductsMockup.tsx     Hero 3-card carousel (renders via dangerouslySetInnerHTML — intentional)
-      AkashicModuleMomentsMockup.tsx  /akashic hero stage: one MOMENT per module, not one app
-                                 screen (founder direction 15 Oct 2026: tease, do not reveal).
-                                 Seven bespoke drawings of each module's verb, played in time
-                                 (join gate, golden record, metric, holdout, cited answer, tile,
-                                 masked row); module index sits UNDER the caption. Its header
-                                 holds the grammar for any page that follows. The seven-label
-                                 web below it (HexConnectionsMockup) was deleted the same day
-      AkashicModuleScreensMockup.tsx  the full-window carousel it replaced. NOT RENDERED since
-                                 15 Oct 2026, kept for comparison until the founder signs off
-      ProofComparisonMockup.tsx  TheProof drag-to-compare slider (role="slider", keyboard operable)
-      Eis*Mockup.tsx             /solutions/eis. Every one of these is the EVIDENCE for the caption
-                                 printed beside it, not decoration — if you change a section's claim,
-                                 change its wireframe too. They render frameless (no radius/border of
-                                 their own) because the section supplies the frame.
-        EisBrowserChromeMockup     macOS window chrome (`light` | `dark`), wraps the app screens
-        eis/EisAppChrome           shared light chrome for the app screens: top bar, module rail,
-                                   live chip, CARD/CANVAS tokens
-        eis/EisBriefScreenMockup   hero — the morning brief. Taxonomy line, convergence diagram,
-                                   decision runway, and the loop closing live on Approve
-        eis/EisEstateScreenMockup  [one-picture] — the estate, ranked, columns built per industry
-        eis/EisSchemaMatrixMockup  [one-picture] — all four industries' schemas at once. The two
-                                   right columns repeat verbatim; that repetition IS the argument
-        eis/EisGapTimelineMockup   [the-gap] — one incident, three routes, on an axis of days
-        eis/EisCapabilityEvidence  [capabilities] — the six evidence panels
-        eis/EisLoopCircuitMockup   [the-loop] — five stations plus the drawn return leg
-        eis/EisLensCompareMockup   [your-lens] — the same morning from three seats, side by side
-
-        Rebuilt Jul 2026. Four patterns were removed on purpose and should not come back:
-        horizontal carousels and tab strips (they leave most of a section unpublished),
-        panels clipped by their frame (unreadable), 4:5 atmosphere tiles that are ~55% empty
-        gradient, and white cards floating on a grey canvas (the 2010 dashboard shape).
-
-  icons/               Static SVG components, no logic (AkashicLogo, DhiraLogo, DynamicSketchIcon)
-
-  ui/                  Generic utility components
-    ScrollReveal.tsx      IntersectionObserver fade-in wrapper (`delay` prop in ms, keep <=400)
-    ScrollRevealRail.tsx  Centred 1440px column with the side gutters, nothing drawn. Its edge lines and
-                          gold scroll trail were removed on every page 15 Oct 2026 (user); the name stays
-                          so its 110 call sites did not churn
-    FigureEyebrow.tsx     `[NN]  LABEL` eyebrow on the homepage dashed rail (/about, /careers); `live` adds
-                          the pulsing NOW HIRING marker right; `bare` drops the rail (heroes, closing card)
-    SectionHeader.tsx     /about + /careers section header: eyebrow rail, then TwoToneTitle, then the lede
-                          UNDER it, all left (never headline left / lede right); `children` sit under the lede
-    TwoToneTitle.tsx      Two-tone section headline (soft setup, ink payoff); `tone` light / depth / ink
-    SectionCoda.tsx       Mono sign-off line that ends a drawing-page section; `rule` adds the dashed hairline
-    DrawingSetClose.tsx   Closing `bg-ink` card with the engineering title block + stamp slot (/about, /careers)
-    StatBand.tsx          Site-wide stat-tile recipe (see DESIGN_SYSTEM §4a). Currently unimported —
-                          documented design-system primitive, keep unless the §4a rule is retired
-    PreviewTag.tsx        The dashed "Preview" mark for capabilities that ship in preview (AI agents).
-                          Promoted from sections/akashic/AkashicStory (which re-exports it) so the nav and
-                          the /akashic demos carry it without importing from sections/
-    RegionLink.tsx        next/link that resolves a regional path to the visitor's region; every other href
-                          passes through. Use it for internal links in shared chrome (nav, footer, closes)
-    PageHero.tsx          Text-only hero for hub and resource pages: label, two-tone h1, lede, `meta`, on-page index
-    PageClose.tsx         The shared `bg-ink` closing card (Rule 5b) with a CTA pair; carries #talk-to-our-team
-    FaqSection.tsx        Open two-column questions list on hairlines (no accordion) + FAQPage JSON-LD
-    JsonLd.tsx            One schema.org block, `<` escaped. Every page with structured data uses it
-    RichText.tsx          Renders lib/richText.ts blocks (articles, releases, stories, policies); `[label](href)`
-                          inside text becomes a link; `size` article | legal
-    ShareLinks.tsx        LinkedIn, X, email and copy-link row for long-form pages
-    SubscribeForm.tsx     SIMULATED email sign-up (Insights, events): success state only, wired at hand-off
+lib/
+  content.ts           The content API (server-only): getSiteSettings, getNavigation, getUiStrings,
+                       getSiteMap, getPage(key), getSector(slug), and a getter per collection.
+                       The one file a CMS integration rewrites
+  routes.ts            The full route list: site-map groups plus every collection entry. Feeds
+                       sitemap.xml, /site-map and llms.txt
+  env.ts               The one reader of process.env (NEXT_PUBLIC_SITE_URL), with defaults
+  site.ts              SITE_URL and absoluteUrl()
+  metadata.ts          pageMetadata(seo): title, description, canonical, hreflang, Open Graph, Twitter
+  region.ts            Regions: REGIONAL_PATHS, basePath, regionPath, regionHref, regionAlternates
+  navigation.ts        isCurrentSection / isCurrentPage (the nav's active state)
+  richText.ts          outline, readingMinutes, formatDate (en-GB) for Block[] content
+  pricing.ts           planPrice(): a plan's monthly price for a term and region
+  glossary.ts          groupByLetter() for the /glossary index
+  theme.ts             Sitewide appearance preference store and pre-paint bootstrap
 
 hooks/
-  useCountUp.ts        useCountUp (default, single-string figure), useCountUpValue (re-triggerable numeric),
-                       usePrefersReducedMotion. Do not add a third count-up copy — extend one of these.
-  usePageScrollSpy.ts  PageMinimap active state and native section scrolling; immediate selection,
-                       header offsets, URL fragments, interrupted jumps and keyboard destination focus
-  useDrawn.ts          True once an element enters view (true at once under reduced motion). Pairs with
-                       `data-drawn` and the `.ad-*` classes; used by every /about drawing
-  useOnScreen.ts       True while an element is on screen. Every auto-cycling carousel, rotator and rAF loop
-                       gates on it so nothing ticks off screen (Rule 6a)
-  useMenuIntent.ts     The nav's open state: 120ms hover intent, 300ms close grace, instant switching
-                       between open menus, click pins a hover-opened menu (MENU_OPEN_DELAY / MENU_CLOSE_DELAY)
-  useRegion.ts         The visitor's region: page's own, else stored choice (`dhira-region`), else device time
-                       zone guess. `chooseRegion()` records a choice. See "Regions"
+  usePrefersReducedMotion.ts  Reduced-motion preference as an external store (useSyncExternalStore):
+                       false on the server and at hydration. Derive resting state from it
+  useCountUp.ts        Scroll-triggered count-up for one string figure. The server HTML carries the
+                       real figure. Do not add a second count-up
+  useDrawn.ts          True once an element enters view (always under reduced motion). Pairs with
+                       `data-drawn` and the `.ad-*` classes
+  useOnScreen.ts       True while an element is on screen. Every loop and carousel gates on it (Rule 6a)
+  usePageScrollSpy.ts  PageMinimap active state and section jumps
+  useMenuIntent.ts     The nav's hover intent: 120ms open, 300ms close grace, click to pin
+  useRegion.ts         The visitor's region: the page's own, else the stored choice, else a time-zone
+                       guess. chooseRegion() records a choice
 
-lib/                   Static content config, one file per page (see STATE_AND_DATA.md)
-  theme.ts             Typed appearance preference, route allowlist, pre-paint bootstrap and tab sync.
-                       Root layout injects the bootstrap before the body; light is always the first-visit default
-  region.ts            Regions: REGIONAL_PAGES (paths with an /in version), basePath, regionHref, regionPath,
-                       regionAlternates (hreflang). See "Regions"
-  pageSection.ts       Shared section typing
-  navigation.ts        The site navigation, one source of truth: NAV_MENUS (lead, groups, featured),
-                       NAV_ANNOUNCEMENT, NAV_CTA, and the footer's FOOTER_COLUMNS +
-                       LEGAL_LINKS. Every href must resolve to a route + an id
-  site.ts              Company facts: name, legal entity, offices, email, `SITE_URL` (https://www.dhira.ai,
-                       the metadataBase), `mailto(subject)`, `absoluteUrl(path)`. Rule 26 fields render once filled
-  metadata.ts          `pageMetadata()`: title, description, canonical, Open Graph and Twitter in one call
-  siteRoutes.ts        Every public route, grouped. Feeds sitemap.xml, /site-map and llms.txt: register a new
-                       page here in the same change that adds its route
-  richText.ts          Typed long-form blocks, `outline`, `readingMinutes`, `formatDate`
-  {pricing,trust,contact,partners,release}Sections.ts, insights.ts, customerStories.ts, newsroom.ts,
-  integrations.ts, glossary.ts, events.ts, legal.ts
-                       Content for the 15 Oct 2026 pages; much of it DRAFT (each file's header says what)
-  {home,about,akashic,careers,delivery,eis,life,publicSector,solutions}Sections.ts
-  careersRoles.ts      The four open roles: hero seating plan, /careers board, JoinTheTeam (unrendered)
-  {education,energy,finance,healthcare,manufacturing,retail}Sections.ts + sectorContent.ts
+components/
+  providers/
+    UiProvider.tsx     Hands the interface strings to client components (useUi())
+  layout/
+    Nav.tsx            Server shell: loads navigation and strings, renders nav/NavBar. 72px bar;
+                       sticky offsets across the site depend on it. See DESIGN_SYSTEM "Navigation"
+    nav/               NavBar (client: hide-on-scroll, menus, drawer), MegaSheet (the one shared
+                       desktop sheet), MenuPanel, NavFeatured, MobileNav (dialog drawer),
+                       AnnouncementBar, NavIcons
+    Footer.tsx         Dark footer (bg-vault): columns and legal row from navigation, company line
+                       from site settings, RegionSwitch in the ribbon
+    ContactForm.tsx    The "Talk to our team" form (ContactModal and /contact). SIMULATED submit
+    ContactModal.tsx   Opens for links to #talk-to-our-team (and #get-started, #briefing-form)
+    PageMinimap.tsx    Right-edge section rail, driven by the page's `sections`
+    ThemeSwitch.tsx    Light/dark switch on the routes that support it
+    OffscreenAnimationGate.tsx  Pauses infinite CSS and SMIL animation off screen (Rule 6a)
+    region/            RegionSuggest (the one-time "other version" card) and RegionSwitch
+
+  sections/            Page sections, one file per section
+    <page>/            about, akashic, careers, contact, customers, delivery, eis, events, glossary,
+                       insights, integrations, legal, life, longform (shared article layout),
+                       newsroom, partners, pricing, public-sector, release, sectors (shared sector
+                       template), solutions, trust, universal-context (the parts of homepage
+                       [02] MeetAkashic), and the six bespoke sector families (education,
+                       energy, finance, healthcare, manufacturing, retail)
+    *.tsx              The homepage sections (Hero, ProblemSection, MeetAkashic, BuiltOnAkashic,
+                       HowWeDeliver, EverySector, TheProof, EnterpriseSecurity, Closure,
+                       CareersStrip) and ProvenAtScale, which home, /akashic and /delivery share.
+                       See the Home map for the current order
+
+  pages/               Page bodies shared by two routes: PricingPage for /pricing and /in/pricing
+
+  demos/               Animated or interactive pieces used inside sections
+    about/ careers/ pricing/   The drawing-page figures (see the About and Careers maps)
+    akashic/           AgentRunDrawing, GroundworkDrawing, SolutionWorkflow, ContextTentacles (the
+                       /akashic hero's tentacles and module index)
+    ProvenStories, DivergentAnswers, AshokaChakra, AkashicFlowConnectors, VoicesDispatches,
+    SolutionsOnFoundation (homepage [03])
+    mockups/           SIMULATED PRODUCT UI, not real functionality (§8a)
+      AkashicModuleMomentsMockup   One moment per module (tease, do not reveal): homepage [02] drives
+                                   `ModuleMomentStage`; /akashic/1-0 [01] uses the default export
+      AkashicModuleScreensMockup   /akashic hero: the seven module screens, small (tease), with
+                                   AkashicScreenKitMockup (chrome, Pipelines and Warehouse screens)
+                                   and AkashicBIScreenMockup
+      AkashicTeardownMockup        /akashic modular teardown stage
+      ProofComparisonMockup        TheProof before/after slider (role="slider", keyboard operable)
+      DeliveryFitPreviewMockup     The three small previews under /delivery [06]
+      EisBrowserChromeMockup + eis/*   /solutions/eis screens. Each is the evidence for the
+                                   caption beside it; change the claim, change the screen
+      life/*                       /solutions/life handset and record anatomy
+
+  ui/                  Generic building blocks
+    ScrollReveal, ScrollRevealRail (the centred 1440px column), FigureEyebrow (THE eyebrow),
+    SectionHeader (THE section header), TwoToneTitle, SectionLink (a section's one onward
+    link), SectionCoda, DrawingSetClose, PreviewTag, RegionLink,
+    PageHero (hub and resource hero), PageClose (bg-ink closing card, #talk-to-our-team),
+    FaqSection (+ FAQPage JSON-LD), JsonLd, RichText (renders Block[]), ShareLinks, SubscribeForm
+    (SIMULATED)
+
+  icons/               Static SVG components: AkashicLogo, DhiraLogo, DynamicSketchIcon, CloudProviderLogos
+
+public/                Static files; every one is referenced (ASSETS.md)
+docs/                  This documentation
 ```
 
 ## Regions (added 15 Oct 2026)
 
-The founder asked for region based pages: some India specific, others
-US/International (after Trigyn, whose site routed careers and contact by visitor
-location). One site, two audiences. A regional page's **international** version
-keeps its usual path; its **India** version lives at `/in` + path. Every page not
-listed in `REGIONAL_PAGES` (lib/region.ts) is one page for everyone.
+The founder asked for region-based pages: some specific to India, others for the
+US and international visitors. One site serves both audiences:
 
-- **Live:** `/pricing` + `/in/pricing`. Confirmed for later: Home, Public Sector,
-  Sectors, Contact, Careers. Akashic, About and the rest stay shared.
-- **What may differ:** how a buyer buys (currency, GST, GeM, procurement routes),
-  offices and contact routing. There is one company (DHIRA Software Labs Pvt. Ltd.)
-  and no US customer proof yet, so the international version never gains invented
-  customers or figures (Rule 4). It reuses the real proof until US proof exists.
-- **One body, two routes.** A regional page's body lives in `components/pages/`
-  (`PricingPage.tsx`) and takes `region`; `app/<path>/page.tsx` and
-  `app/in/<path>/page.tsx` only set metadata and pass the region. Sections that
-  differ take a `region` prop and read region-keyed config (`Record<Region, ...>`).
-- **Metadata:** `pageMetadata({ ..., path, region })` sets the version's own
-  canonical, hreflang alternates (`en`, `en-IN`, `x-default` = international) and
-  the OG locale.
-- **Links:** use `ui/RegionLink` (a drop-in for next/link) for internal links in
-  shared chrome. It resolves a regional path to the visitor's region: the page's
-  own region, else their stored choice, else the device time zone guess
-  (`hooks/useRegion`). Every other href passes through unchanged. The nav works on
-  `basePath(pathname)`, so `/in/pricing` marks the same items as `/pricing`.
-- **Never redirect.** `layout/region/RegionSuggest` offers the other version once
-  (fixed bottom-left card, overlays rather than shifting the page) until the visitor
-  picks one; `layout/region/RegionSwitch` in the footer changes it any time. A forced
-  redirect would hide one version from crawlers and trap travellers and VPN users.
-- **Adding a regional page:** move its body to `components/pages/`, add
-  `app/in/<path>/page.tsx`, add the entry (path + one-line `offer` per region) to
-  `REGIONAL_PAGES`, and pass `region` to `pageMetadata` on both routes. Keep
-  `<main id="main">` (the skip link's target). The REGIONAL_PAGES entry is all
-  `app/sitemap.ts` and `/site-map` need: both list the India URL with hreflang.
+- A regional page's **international** version keeps its usual path.
+- Its **India** version lives at `/in` + path.
+- Every page not listed in `REGIONAL_PATHS` (`lib/region.ts`) is one page for
+  everyone.
+
+**Live:**
+- `/pricing` and `/in/pricing`.
+- Confirmed for later: Home, Public Sector, Sectors, Contact and Careers. Akashic,
+  About and the rest stay shared.
+
+**What may differ:**
+- How a buyer buys: currency, GST, GeM and procurement routes.
+- Offices and contact routing.
+
+There is one company (DHIRA Software Labs Pvt. Ltd.) and no US customer proof
+yet. The international version never gains invented customers or figures
+(Rule 4); it reuses the real proof.
+
+**One body, two routes.**
+- A regional page's body lives in `components/pages/` (`PricingPage.tsx`) and
+  takes `region`.
+- `app/<path>/page.tsx` and `app/in/<path>/page.tsx` only load content, set
+  metadata and pass the region.
+- Copy that differs by region is keyed by region in the page's document
+  (`Record<Region, ...>`).
+
+**Metadata.** `pageMetadata({ ...seo, region })` sets the version's own
+canonical, the hreflang alternates (`en`, `en-IN`, and `x-default` for
+international) and the Open Graph locale.
+
+**Links.**
+- Use `ui/RegionLink` (a drop-in for next/link) for internal links in shared
+  chrome.
+- It resolves a regional path to the visitor's region: the page's own, else
+  their stored choice, else the device time-zone guess (`hooks/useRegion`).
+- Every other href passes through unchanged.
+- The nav works on `basePath(pathname)`, so `/in/pricing` marks the same items as
+  `/pricing`.
+
+**Never redirect.**
+- `layout/region/RegionSuggest` offers the other version once, until the visitor
+  picks one. Its offer line per path is `ui.region.offers` in `content/ui.ts`.
+- `layout/region/RegionSwitch` in the footer changes the region at any time.
+- A forced redirect would hide one version from crawlers and trap travellers and
+  VPN users.
+
+**Adding a regional page:**
+
+1. Move its body to `components/pages/`.
+2. Add `app/in/<path>/page.tsx`.
+3. Add the path to `REGIONAL_PATHS`, and its offer line to `ui.region.offers`.
+4. Pass `region` to `pageMetadata` on both routes. Keep `<main id="main">`.
+
+`app/sitemap.ts` and `/site-map` list the India URL with hreflang automatically.
 
 ## Section Maps
 
@@ -260,55 +251,59 @@ Backgrounds, ids, and per-section intent. Eyebrow numbering `[NN]` is deliberate
 
 ### Home (`app/page.tsx`)
 
+Every numbered section uses the section grammar (DESIGN_SYSTEM §3): the shared
+eyebrow rail and header, and no next-section or section-foot buttons (removed
+20 Oct 2026, founder). Copy lives in `content/pages/home.ts`.
+
 | Order | ID | File | Background | Notes |
 |---|---|---|---|---|
-| — | nav | `layout/Nav.tsx` + `layout/nav/` | `bg-background`, solid (no backdrop blur: a sticky blur is re-rendered every scroll frame) | Announcement bar above it scrolls away. Hides on scroll down (30px), shows on up (15px)/near top, always shown while a menu or the drawer is open |
-| 00 | hero | `sections/Hero.tsx` | `bg-background` | Text only on a dot-grid ground (product screen carousel removed 23 Sep 2026; `HeroProductsMockup` + `HeroConnections` kept on disk, unused) |
-| 01 | problem | `sections/ProblemSection.tsx` | `bg-white` | Argument left (headline + demoted industry-record footnote), evidence right (`DivergentAnswers`), verdict below. Three-answers (34–42px) outrank $581B/46% figures. Stanford HAI 2026 + S&P Global data |
-| 02 | platform | `sections/MeetAkashic.tsx` + `universal-context/` | `bg-uc-bg` (= `vault` #0a0a0c, matches [04]) | Eyebrow `THE PLATFORM`. Written for the senior decision maker who funds AI; picks up [01]'s "data never made ready for AI". One job per part, no claim twice: `UCHero` "The intelligence layer" (was "The missing layer"; matches /akashic hero, 14 Oct 2026) / Meet Akashic (64px) / ready for AI, then AI at work · `UCFeatureGrid` what your AI knows (entity resolution, semantic layer, document intelligence, knowledge layer, data lineage; captions balanced to 10 to 12 words) · `UCSignals` what it does (find the change, reason across sources, answer with citations, govern and audit; never oversell: no autonomous decisions, no write-back, there is no reverse ETL; `GlyphMorphCanvas` glyphs index-matched) · `UCConnectivity` nothing to rip out (logo marquee) · `UCSdk` the seven modules under dashboards, models and agents + the section's one CTA (`btn-primary-invert` to `/akashic`). Security, "one platform" and delivery stay out: [08], [06], [04] own them. Site type stack only (no Inter). **FULL BLEED — the one homepage section outside `ScrollRevealRail`.** Carries `#platform` id |
-| 03 | scale | `sections/ProvenAtScale.tsx` | `bg-background` (light; `dark` prop unused on home) | Eyebrow "In production", "Proven at national scale. / Ready for your organisation." (the component default since 14 Oct 2026, shared with /akashic [09]) over the `ProvenStories` carousel. Bridge into [04]: "Akashic is the platform. / DHIRA is your delivery partner." (same partner word as the /akashic close) |
-| 03 | delivery | `sections/HowWeDeliver.tsx` | soft blue band | Three-engagement-model journey selector. The page's one blue band (Rule 5a) |
-| 04 | sectors | `sections/EverySector.tsx` | `bg-white` | Six named industry tabs, photographic feature and concise use cases from `HOME_INDUSTRIES`; manual selection, keyboard navigation, legacy sector hashes and a Public Sector link. Responsive tab grid on mobile |
-| 05 | proof | `sections/TheProof.tsx` | `bg-background`, inset `panel` before side | `ProofComparisonMockup` before/after wipe, three view controls, pointer capture and keyboard input. Engraved record stacks and interrupted threads become a continuous shared spine; responsive labels, no floating node cards. Copy in `HOME_PROOF` |
-| 06 | voices | `sections/Voices.tsx` | flat `bg-[#F1F5FE]` (user-approved second band, same as /akashic [06]) | Reader-led interview spread: arched portrait, Newsreader quote, manual author index. No autoplay |
-| 07 | governance | `sections/EnterpriseSecurity.tsx` | `bg-white` | Stat grid + animated trust-coverage curve |
-| — | careers | `sections/CareersStrip.tsx` | `bg-background` | Unnumbered strip, out of `HOME_SECTIONS`. Open invitation between hairlines: two-tone headline, four branching discipline links sourced from `careersRoles`, primary CTA to `/careers`. Full board lives on /careers |
-| 09 | closure | `sections/Closure.tsx` | `bg-white` | High-contrast dark closure card, mock CLI |
-| — | footer | `layout/Footer.tsx` | `bg-vault` | Dark footer, link columns |
+| — | nav | `layout/Nav.tsx` + `layout/nav/` | `bg-background`, solid | Announcement bar above it scrolls away. Hides on scroll down, shows on up |
+| 00 | hero | `sections/Hero.tsx` | `bg-background` | Rotating "Answers are easy" headline on a dot grid, platform badge, the page's first CTA pair |
+| 01 | problem | `sections/ProblemSection.tsx` + `demos/DivergentAnswers` | `bg-background` | "You asked for one number. / You got three." Header, then the industry record (left) beside the three answers (right), then the verdict as the section's last line. No bridge button |
+| 02 | platform | `sections/MeetAkashic.tsx` + `universal-context/` (UCHero, UCFeatureIcon, UCModules) + `demos/mockups/AkashicModuleMomentsMockup` (`ModuleMomentStage`) | `uc-bg` | The orb intro ("Meet Akashic", one CTA) with the five capabilities as a lined strip INSIDE the dome (21 Oct 2026, so the first fold says what Akashic does; a curved arrangement was rejected the same day), then "Seven modules, one platform": the modules as a timed rail on the left, each module's drawing and plain caption on the right, the lead-in to [03]. The particle "Ask why a number moved" demo it replaced is in `.archive/removed-2026-10-21/`. The eyebrow aligns with every other rail; below it the section is full bleed. "Nothing to rip out" and "Seven modules" removed 20 Oct 2026 (founder); a shorter rebuild was rejected the same day (user): do not cut further without asking |
+| 03 | solutions | `sections/BuiltOnAkashic.tsx` + `demos/SolutionsOnFoundation` | `bg-background` | "Problems we already solve. / Off the shelf, on your data." The solutions are the point (user, 21 Oct 2026); "running on Akashic" is the lede's second beat and the drawing's job: the solutions stand on an Akashic base and the active one fans into the modules it uses. The fourth, dashed block is "Your own process", the bridge into [04]. Module use from the mapping shared with /akashic and /solutions |
+| 04 | delivery | `sections/HowWeDeliver.tsx` | Page ground with `anchor` panel | Same delivery composition, using a solid pastel-blue panel in light mode and midnight in dark. Three opaque service cards, crisp borders, no shadow, glow or texture (21 Oct 2026). Header "Need it built for you? / Our engineers plan and build it." under the eyebrow "Our services": the problems only the reader has, with or without Akashic (user, 21 Oct 2026: earlier headers sounded obsessed with Akashic). The three cards are the nav's three service lines (Strategic Advisory, Engineering at Scale, AI Solutions and Accelerators), each linking to its /delivery anchor |
+| 05 | sectors | `sections/EverySector.tsx` | `bg-background` | "Whatever your sector, / we know the work." Six industry tabs with photography; each photo headline fits one line at every width (22 characters or fewer); legacy sector hashes; Public Sector link |
+| 06 | proof | `sections/TheProof.tsx` + `demos/mockups/ProofComparisonMockup` | `bg-background` | "Same team. Same data. / Less reconciling, more deciding." Before/after slider (stays by direction, 23 Jul 2026) |
+| 07 | scale | `sections/ProvenAtScale.tsx` | `bg-background` | Shared with /akashic and /delivery. Deployment carousel, chakra ornament beside the header |
+| 08 | voices | `sections/Voices.tsx` | flat `band` | "Ask the people who run it. / In their own words." Draft dispatches |
+| 09 | governance | `sections/EnterpriseSecurity.tsx` | `bg-background` | "Your data stays yours. / Governed inside your walls." Rising curve, four figures, certification bar |
+| 10 | get-started | `sections/Closure.tsx` | closing card | Centred close with the page's second CTA pair |
+| — | careers | `sections/CareersStrip.tsx` | `bg-background` | Unnumbered eyebrow "Careers"; roles from the collection; not in the minimap |
+| — | footer | `layout/Footer.tsx` | `vault` | Link columns |
 
 ### Akashic (`app/akashic/page.tsx`)
 
-The nav's Platform menu (lib/navigation.ts, redrawn 15 Oct 2026) links here: its
+The nav's Platform menu (content/navigation.ts, redrawn 15 Oct 2026) links here: its
 Foundation, Intelligence and Trust categories to the span ids `AkashicModules`
 renders (`#data-pipelines`, `#master-data`, `#data-warehousing`,
 `#business-intelligence`, `#ask-ai`, `#machine-learning`, `#governance`) and to
 `#trust` and `#open`; its Intelligence list's "AI agents · Preview" row
 to `#agents`. Rename any of these ids
-and the nav breaks silently: update lib/navigation.ts in the same change.
+and the nav breaks silently: update content/navigation.ts in the same change.
 
 | Order | ID | File | Background |
 |---|---|---|---|
-| 00 | hero / platform-screens | `akashic/AkashicHeroQuote.tsx` (`AkashicHero` + `AkashicShowcase`) | `bg-background` / flat `bg-[#F1F5FE]` sticky quote layer (matches [07]). Hero rewritten 14 Oct 2026 from the founder's wireframe: "The intelligence layer / behind every decision." (his category, our decision promise), eyebrow ASK · PREDICT · DECIDE, lede ends on the organisation-wide gain (every team, same figures, traced). No figures in the hero (user, 14 Oct 2026); his platform figures live in [10]. `AkashicShowcase` renders `AkashicModuleMomentsMockup` (seven module moments, 15 Oct 2026), not full app windows |
-| 01 | akashic-in-action | `akashic/AkashicFourMoves.tsx` | `bg-background`. Eyebrow `ASK AKASHIC`. Header rewritten 14 Oct 2026 to the executive gain, not the demo: "Why the number moved, / answered in seconds." From lg the h2 size tracks the column (`clamp`) so the setup line never wraps. CTA "See what's underneath" leads to [02] |
-| 02 | how-it-works | `akashic/AkashicModular.tsx` | `bg-primary-bg` (exploded platform scroll scene). Headline (in `AkashicTeardownMockup`) "Start with one module. / Grow into the platform."; the lede keeps how the modules hand off to each other. [01] Ask into [02] the modules is the page's opening sequence (user, 14 Oct 2026): do not put another section between them |
-| 03 | architecture | `akashic/AkashicArchitecture.tsx` | `bg-white` |
-| 04 | modules | `akashic/AkashicModules.tsx` | White; compact architecture schematic with three labelled layers, module capabilities and shared governance. Pipelines and Master Data carry an AI agent line with a `PreviewTag`; the coda ("Agents, in preview. The groundwork they need, already live.") hands off to [05]. Heading and introduction left-aligned. Module links open [10] entries |
+| 00 | hero / platform-screens | `akashic/AkashicHeroQuote.tsx` (`AkashicHero` + `AkashicShowcase`) | `bg-background` / flat `band` sticky quote layer (matches [07]). "The intelligence layer / behind every decision." No figures in the hero. `AkashicShowcase` renders `AkashicModuleScreensMockup`: the seven module screens at about 0.56 scale, fading out, with the context tentacles beneath as the module index (restored 20 Oct 2026 on the founder's request; the moments moved to homepage [02]) |
+| 01 | akashic-in-action | `akashic/AkashicFourMoves.tsx` | `bg-background`. Full-width eyebrow rail over two columns. "Why the number moved, / answered in seconds." From lg the h2 size tracks the column (`clamp`). Its "See what's underneath" button went 20 Oct 2026 (no next-section buttons) |
+| 02 | how-it-works | `akashic/AkashicModular.tsx` | `bg-primary-bg` (exploded platform scroll scene). Headline (in `AkashicTeardownMockup`, eyebrow `bare` over the pinned scene) "Start with one module. / Grow into the platform."; its close lost the button that pointed at [03]. [01] Ask into [02] the modules is the page's opening sequence (user, 14 Oct 2026): do not put another section between them |
+| 03 | architecture | `akashic/AkashicArchitecture.tsx` | `bg-background`; `ui/SectionHeader` with a one-line title, "Deploy where your data has to live." |
+| 04 | modules | `akashic/AkashicModules.tsx` | White; "Seven modules. / Nothing to stitch together." Compact architecture schematic with three labelled layers, module capabilities and shared governance. Pipelines and Master Data carry an AI agent line with a `PreviewTag`; the coda ("Agents, in preview. The groundwork they need, already live.") hands off to [05]. Heading and introduction left-aligned. Module links open [10] entries |
 | 05 | agents | `akashic/AkashicAgents.tsx` + `demos/akashic/AgentRunDrawing.tsx` | White, `border-t`. Added 14 Oct 2026 from the founder's agents section. "Agents do the legwork. / People make the call." One drawing: a six-step run (Ask, Plan, Retrieve, Verify, Approve, Record) under three lane brackets (agents dashed blue, a person ink, the record solid blue); each of his eight named agents hangs from the step it works in, the Approve column holds no agent ("No agent signs off."), and the golden-record steward and pipeline monitor run under every run. Placed after the foundation and before [06] Trust. `PreviewTag` on the label; flip `AKASHIC_AGENTS.preview` when agents ship. Claims rules applied to his copy are in the `AKASHIC_AGENTS` comment |
 | 06 | trust | `akashic/AkashicTrust.tsx` | White; "Put AI to work. / Keep control of your data." Restored four privacy cards with compact illustrations and control badges |
 | 07 | open | `akashic/AkashicOpenFoundations.tsx` | Flat `#F1F5FE`; "No lock-in. / Your data, your formats, your call." Restored four principles: modular, inspectable, extensible and portable |
-| 08 | build-vs-buy | `akashic/AkashicBuildVsBuy.tsx` + `demos/akashic/GroundworkDrawing.tsx` | White; one drawing (30 Sep 2026). Four use cases (dashboards, forecasts, AI answers, AI agents in preview) built project by project, groundwork hatched and rebuilt per column, against Akashic, groundwork laid once as a solid blue band. Four numbered pins key one-line CFO, CIO/CTO, CDO/AI and CEO/COO seats listed beneath; one measure line with the CTA. Replaced a lifecycle strip, comparison table and four executive cards. Legacy anchor retained |
+| 08 | build-vs-buy | `akashic/AkashicBuildVsBuy.tsx` + `demos/akashic/GroundworkDrawing.tsx` | White; one drawing (30 Sep 2026), ending on its measure line (the "Map your first use case" button went 20 Oct 2026). Four use cases (dashboards, forecasts, AI answers, AI agents in preview) built project by project, groundwork hatched and rebuilt per column, against Akashic, groundwork laid once as a solid blue band. Four numbered pins key one-line CFO, CIO/CTO, CDO/AI and CEO/COO seats listed beneath; one measure line with the CTA. Replaced a lifecycle strip, comparison table and four executive cards. Legacy anchor retained |
 | 09 | scale | `sections/ProvenAtScale.tsx` | `bg-white` (reused, id="scale"). On /akashic: eyebrow "In production", title "Proven at national scale. / Ready for your organisation." (`title` accepts a node). Keeps its own sourced figures; the founder's programme figures are leadership track record and are not used here |
 | 10 | stack | `akashic/AkashicStack.tsx` | `bg-depth`; compact expandable module index with light specification sheets, grouped connectors and adjacent capability qualifiers. First open; addressable `#reference-*` anchors. Carries the founder's per-module figures: Pipelines 25 built-in transforms, BI 61 data sources and 50+ chart types, Governance 80+ metadata connectors |
-| 11 | solutions | `akashic/AkashicPlatform.tsx` + `demos/akashic/SolutionWorkflow.tsx` | White. Rebuilt 14 Oct 2026: "Not separate products. / Akashic, configured around one process." Owns the configuration claim, NOT [08]'s "groundwork once" (the old "One foundation" headline and foundation strip restated [08] and were removed). One sheet in [08]'s grid language: an axis column, then Enterprise Intelligence, IPMS and Akashic Life side by side (category, audience, claim, three-step glyph workflow, one note). Below, on the `panel` band, the seven modules run as unbroken lines under every column: blue node = switched on, hollow ring = available, a blue spine joins each solution's modules. Desktop rows align through CSS `subgrid` (`.ak-config-*` in akashic-story.css); below lg each solution stacks with only its own modules. Module use per solution is sourced in the `AKASHIC_SOLUTIONS` comment (Rule 4). No autoplay, no simulated screens. The nav's Solutions featured card links here |
+| 11 | solutions | `akashic/AkashicPlatform.tsx` + `demos/akashic/SolutionWorkflow.tsx` | White. "Ready-made for one process. / Live on the foundation you already run." Owns the configuration claim, NOT [08]'s "groundwork once" (the old "One foundation" headline and foundation strip restated [08] and were removed). One sheet in [08]'s grid language: an axis column, then Enterprise Intelligence, IPMS and Akashic Life side by side (category, audience, claim, three-step glyph workflow, one note). Below, on the `panel` band, the seven modules run as unbroken lines under every column: blue node = switched on, hollow ring = available, a blue spine joins each solution's modules. Desktop rows align through CSS `subgrid` (`.ak-config-*` in akashic-story.css); below lg each solution stacks with only its own modules. Module use per solution is sourced in the `AKASHIC_SOLUTIONS` comment (Rule 4). No autoplay, no simulated screens. The nav's Solutions featured card links here |
 | 12 | faq | `akashic/AkashicFaq.tsx` | White, `border-t`. Added 14 Oct 2026, the founder's FAQ re-cut (`AKASHIC_FAQ`): "Questions leaders ask. / Answered plainly." Six questions as an open two-column list on hairlines (no accordion) plus FAQPage JSON-LD. Every answer restates a claim the page already makes |
 | 13 | talk-to-our-team | `akashic/AkashicClose.tsx` | White with `bg-depth` closing card; "See what your data / can decide." (the founder's closing line); question, data and first-step agenda; existing contact modal via `#get-started` |
 
-Sections [04–08], [10–12] and the close use `akashic/AkashicStory.tsx` and
-page-scoped `akashic/akashic-story.css` (23 Sep 2026 redesign). Narrative copy
-lives in `AKASHIC_STORY`, `AKASHIC_AGENTS`, `AKASHIC_FAQ`, `AKASHIC_SECURITY`, `AKASHIC_OPEN_PRINCIPLES` and
-`AKASHIC_ADVANTAGE` and `AKASHIC_SOLUTIONS`; [04] and [10] read the existing module configuration
-in `lib/akashicSections.ts`. 14 Oct 2026: [05] Agents and [12] Questions were inserted and later
-sections renumbered (eyebrows, `AKASHIC_SECTIONS`, `ProvenAtScale sectionNumber`). Security certification
+Sections [04–08], [10–12] and the close use `akashic/AkashicStory.tsx` (`StoryLabel` renders `ui/FigureEyebrow`) and
+page-scoped `akashic/akashic-story.css` (23 Sep 2026 redesign). All copy, the
+section index and the module sheets that [04] and [10] read live in
+`content/pages/akashic.ts` (the `akashic` document). 14 Oct 2026: [05] Agents and [12] Questions were inserted and later
+sections renumbered (eyebrows, the document's `sections`, the `scale` block's `number`). Security certification
 badges and the unconfirmed six-week closing promise are not rendered.
 
 Shared: `demos/AkashicFlowConnectors.tsx` (FlowPath/FanIn/MergeDown/SplitDown/
@@ -336,33 +331,31 @@ the page is already titled "Delivery & Services".
 The nav's Company menu links here: "About DHIRA" → `/about`, "Leadership" →
 `/about#people`. Careers goes to `/careers`, Impact to `/#scale`.
 
-**The sections below the hero read as a set of engineering drawings** (rebuilt 22 Sep 2026), one
-per section, in ONE line language: hairline strokes, mono 11px labels on
-leaders, blue for what exists today, dashed for what does not exist yet. Each
-eyebrow names its drawing on the right (`/ THREADS`, `/ SECTION` ...). Shared
-parts: `ui/FigureEyebrow.tsx`, `ui/TwoToneTitle.tsx`, `ui/SectionCoda.tsx`,
-`ui/DrawingSetClose.tsx`, `hooks/useDrawn.ts` + the `.ad-*` classes in
-globals.css (draw once on view, final state under reduced motion). Copy
-follows the drawing-page copy rules in DESIGN_SYSTEM.md.
-Figures live in `components/demos/about/`. No visible copy on this page uses a
-hyphen or a dash (user direction, 22 Sep 2026).
-
-**Current treatment (30 Sep 2026):** a centred, text-only hero sits over an original landscape photograph spanning the navigation, copy and proof row, then fading into the conviction section. The hero owns an absolutely positioned Next Image (`public/about-landscape.webp`), a contrast overlay and a bottom fade. See ABOUT_LANDSCAPE_ASSET.md for the generation prompt and responsive treatment. Section 01 explains the data-first conviction. Section 02 (rebuilt 6 Oct 2026) draws the whole record as one terraced drawing on white: every release since 2018 is a layer that runs on to today, national programmes hang below the line and only the ambition is dashed. Native scrolling now accumulates one year at a time on roomy desktop viewports, with a stable reading area and a Show all years shortcut. The complete story stays in the drawing: release titles paired with their years, plus trusted context, scoped action and human authority in the right-hand ambition panel. The separate timeline disclosure and future block below were removed at the user's request. Phones and tablets get the complete drawing as an emblem above a readable ledger; without JS the ledger shows at every width. The journey flows directly into section 03, the public-infrastructure vision. The former How we work section and system cutaway are retired because they repeat the conviction and journey. Section 04 places the five leaders on an organic portrait arc; section 05 (added 5 Oct 2026) pairs the three kolam rules with how the team works beside a kolam that draws People, AI, Governance, Security and Data, and its invitation hands off to careers; section 06 closes with contact and careers. Shared editorial styles live in `about/AboutSection.tsx` and `about/about-page.css`; copy lives in `lib/aboutContent.ts` and `lib/aboutJourney.ts`. The opening remains the one soft blue band. Unverified draft quotes are not rendered.
+**The sections below the hero read as a set of engineering drawings** in one
+line language: hairline strokes, mono labels on leaders, blue for what exists
+today, dashed for what does not yet. Each section opens with the site's eyebrow
+rail (`AboutHeading`, or `AboutSection`'s `eyebrow` where the heading sits
+beside a drawing, so the rail still runs full width). Shared parts:
+`ui/FigureEyebrow`, `ui/SectionCoda`, `hooks/useDrawn` + the `.ad-*` classes,
+`about/AboutSection.tsx` and `about/about-page.css`; copy in
+`content/pages/about.ts`. No visible copy uses a hyphen or a dash. The hero is
+a centred, text-only opening over an original landscape photograph
+(provenance in ASSETS.md). [05] Culture's invitation ends on a text link, not a
+button.
 
 | Order | ID | File | Background | Drawing |
 |---|---|---|---|---|
 | 00 | hero | `about/AboutHero.tsx` | Photographic sky and green hills, fading to white | Centred company copy, two actions and an unboxed proof row. No diagram. Landscape extends behind the navigation. Desktop description uses one sentence per line. |
 | 01 | why-we-exist | `about/AboutConviction.tsx` + `demos/about/ThreadConvergence.tsx` | `bg-background` | Three concise beliefs beside the original thread drawing: records, documents and streams converge into governed data, with blue AI threads growing from that foundation. |
-| 02 | journey | `about/AboutJourney.tsx` + `demos/about/JourneyLayers.tsx` | `bg-background` | "Eight years of layers. / One foundation." One complete terraced figure with cumulative native scrolling. From 1200 × 820, when the measured stage fits, the stage pins at 88px and adds one year per 150px of scroll (1350px travel including the final hold). Reverse scrolling retraces the record. The stationary reading area carries the year, headline and explanation. Show all years removes the pin while preserving position. Each layer carries a 17px Google Sans title and 13px mono year on one line, with no supporting subtitle. The year is kept beside its title for context. The calendar ruler uses 12px type and the era captions use 11px; the founding label reserves 208px against the actual historical span. Trusted context, scoped action and human authority are explained inside the right-hand dashed horizon, explicitly an ambition with no release date. **User-restored composition:** no separate Read the full timeline disclosure and no future text block below the figure. Below 1024px, the complete emblem precedes a chronological ledger of titles and years, with historical descriptions for assistive technology and the future principles visible; the ledger is screen-reader-only on desktop. Short viewports and reduced motion show the completed figure without pinning. Without JS, the ledger is visible at every width. The 2025 recognition remains the coda. Content: `lib/aboutJourney.ts`. |
+| 02 | journey | `about/AboutJourney.tsx` + `demos/about/JourneyLayers.tsx` | `bg-background` | "Eight years of layers. / One foundation." One complete terraced figure with cumulative native scrolling. From 1200 × 820, when the measured stage fits, the stage pins at 88px and adds one year per 150px of scroll (1350px travel including the final hold). Reverse scrolling retraces the record. The stationary reading area carries the year, headline and explanation. Show all years removes the pin while preserving position. Each layer carries a 17px Google Sans title and 13px mono year on one line, with no supporting subtitle. The year is kept beside its title for context. The calendar ruler uses 12px type and the era captions use 11px; the founding label reserves 208px against the actual historical span. Trusted context, scoped action and human authority are explained inside the right-hand dashed horizon, explicitly an ambition with no release date. **User-restored composition:** no separate Read the full timeline disclosure and no future text block below the figure. Below 1024px, the complete emblem precedes a chronological ledger of titles and years, with historical descriptions for assistive technology and the future principles visible; the ledger is screen-reader-only on desktop. Short viewports and reduced motion show the completed figure without pinning. Without JS, the ledger is visible at every width. The 2025 recognition remains the coda. Content: `content/pages/about.ts` (`journey`). |
 | 03 | vision | `about/AboutVision.tsx` + `demos/about/SiloLayer.tsx` | `bg-depth` (the page's one dark section) | Elevation: fourteen systems on one ground, each labelled by a public function any government runs; the layer is solid over the three live programmes (education, health, labour; homepage figures, generic names, tagged India in the key) and dashed elsewhere. Headline is jurisdiction agnostic ("intelligence as public infrastructure"): India is the proof, never the market. No Western deployment is implied. Legend keyed to the drawing |
-| 04 | people | `about/AboutPeople.tsx` | `bg-background` | Five framed monochrome portraits follow a fine flowing line, with the founder centred and larger. AI-enhanced 1122 × 1402px derivatives of the existing photographs replace the enlarged cutouts. Sources, prompts and final asset paths: `ABOUT_PORTRAIT_ASSETS.md`. Roles and responsibilities replace draft quotes. Mobile places the founder first and the other leaders in two columns. |
-| 05 | culture | `about/AboutCulture.tsx` + `demos/about/KolamCulture.tsx` | `bg-background` (`lg:py-20`) | "A kolam has three rules. / So do we." The page's one answer to why work here. Heading on the left (lede one line from `xl`), a kolam emblem on the right that draws a FIGURE each run: People (heart) first, then AI, Governance (pillared building), Security (padlock), Data (database cylinder). The line is the page's blue thread at the weight of [01]'s threads, over small ink dots, drawn by an ink pen (a heavy black lattice read as cold, 7 Oct 2026). The lede is a full sentence for newcomers: "Every morning, South Indian homes draw a kolam at the doorstep: one line around every dot." The dots are laid out in the figure, so one closed mirror curve looped around them traces its outline; inside it runs as a regular diagonal weave with a mirror only where loops had to join (each figure verified as ONE line). One pen draws it without lifting from a blue start; the figure's name appears as the line closes; "Draw another" moves to the next ("Same rules, any shape."). Below, the three rules in one row, two tone titles (grey kolam rule over ink team rule); hovering a rule replays it on the figure. Then the invitation as its own band, unnumbered so the three rules stay three: "Find your seat." with a "See where you fit" button and the teams people join in a 2 × 2 grid of groups (Build, Discover, Foundations, Ways in). No count and no link to `lib/careersRoles.ts`; no location or work mode claims; national systems stay with journey and vision. Replaced the 7 × 7 plate on 7 Oct 2026 (too complex, formed no shape, pushed text to the edges). Copy is a DRAFT for review. |
+| 04 | people | `about/AboutPeople.tsx` | `bg-background` | Five framed monochrome portraits follow a fine flowing line, with the founder centred and larger. AI-enhanced 1122 × 1402px derivatives of the existing photographs replace the enlarged cutouts. Sources, prompts and final asset paths: ASSETS.md. Roles and responsibilities replace draft quotes. Mobile places the founder first and the other leaders in two columns. |
+| 05 | culture | `about/AboutCulture.tsx` + `demos/about/KolamCulture.tsx` | `bg-background` (`lg:py-20`) | "A kolam has three rules. / So do we." The page's one answer to why work here. Heading on the left (lede one line from `xl`), a kolam emblem on the right that draws a FIGURE each run: People (heart) first, then AI, Governance (pillared building), Security (padlock), Data (database cylinder). The line is the page's blue thread at the weight of [01]'s threads, over small ink dots, drawn by an ink pen (a heavy black lattice read as cold, 7 Oct 2026). The lede is a full sentence for newcomers: "Every morning, South Indian homes draw a kolam at the doorstep: one line around every dot." The dots are laid out in the figure, so one closed mirror curve looped around them traces its outline; inside it runs as a regular diagonal weave with a mirror only where loops had to join (each figure verified as ONE line). One pen draws it without lifting from a blue start; the figure's name appears as the line closes; "Draw another" moves to the next ("Same rules, any shape."). Below, the three rules in one row, two tone titles (grey kolam rule over ink team rule); hovering a rule replays it on the figure. Then the invitation as its own band, unnumbered so the three rules stay three: "Find your seat." with a "See where you fit" button and the teams people join in a 2 × 2 grid of groups (Build, Discover, Foundations, Ways in). No count and no link to the roles collection; no location or work mode claims; national systems stay with journey and vision. Replaced the 7 × 7 plate on 7 Oct 2026 (too complex, formed no shape, pushed text to the edges). Copy is a DRAFT for review. |
 | 06 | talk-to-our-team | `about/AboutClose.tsx` | `bg-background`, inset `bg-depth` | Two-column close: contact first, careers second, with office locations. Stacks on mobile. Carries `#careers` / `#join-us`. |
 
 `about/AboutMotion.tsx` wraps this page and coordinates native Web Animations reveals and restrained hero scroll depth. All motion respects reduced preferences, including changes during a visit. The journey owns its cumulative scroll reveal and hover lineage, independent of the page reveal controller; its content has a complete static reading alternative. The vision uses the same `AboutHeading` as conviction, leadership and contact; its old rail and duplicate reveal wrappers are removed. Culture [05] was inserted before the close on 5 Oct 2026; the close is now [06].
 
-Not rendered, kept on disk: `AboutWhatWeBuild` and `demos/about/SystemSection` (How we work retired 30 Sep 2026), `demos/about/SurveyScale` (replaced by JourneyExplorer), `demos/about/JourneyExplorer` + `journeyNetwork.ts` + `journey-explorer.css` (the scroll-pinned canvas journey, replaced by JourneyLayers 6 Oct 2026; its chapter exports stay in `lib/aboutJourney.ts`), `demos/about/GrowthRings` (retired from the hero 29 Sep 2026), `AboutBeliefs`, `AboutCareers`, `AboutHow`,
-`AboutPointOfView` (previously merged into How we work), `AboutWhoWeServe` (removed 23 Sep 2026), `AboutProof`, `AboutWhy` (earlier drafts; do not silently delete).
+Retired 16 Oct 2026 (dead-code cleanup): the unrendered About sections and drawings (`AboutWhatWeBuild`, `SystemSection`, `SurveyScale`, `JourneyExplorer`, `GrowthRings`, `AboutBeliefs`, `AboutCareers`, `AboutHow`, `AboutPointOfView`, `AboutWhoWeServe`, `AboutProof`, `AboutWhy`). They are in git history before that date.
 
 ### Careers (`app/careers/page.tsx`)
 
@@ -375,10 +368,10 @@ strokes, mono 11px labels, blue for what is live, dashed for what is not yet,
 live in `components/demos/careers/`. No visible copy carries a hyphen or dash,
 which is why the culture principles read `W01`…`W06`.
 
-The four open roles are ONE source, `lib/careersRoles.ts`: the hero's seating
-plan, this page's board (the canonical one) and `JoinTheTeam.tsx` (not
-rendered since CareersStrip replaced it, kept in the tree) all read it. Add or
-close a role there and every surface follows.
+The four open roles are ONE source, the roles collection
+(`content/collections/roles.ts`): the hero's seating plan, this page's board
+(the canonical one) and the homepage CareersStrip all read it. Add or close a
+role there and every surface follows.
 
 | Order | ID | File | Background | Drawing |
 |---|---|---|---|---|
@@ -389,8 +382,8 @@ close a role there and every surface follows.
 | 04 | how-we-hire | `careers/CareersHiring.tsx` + `demos/careers/HiringLoop.tsx` | `bg-background` | The loop drawn BOTH ways (we learn about you above, you learn about us below) forking into a drawn yes AND a drawn no: that fork is how "no ghosting" is shown rather than claimed |
 | 05 | talk-to-our-team | `careers/CareersClose.tsx` | `bg-background`, `bg-ink` card (Rule 5b) | Title block matching the /about close, stamped with the hero's empty chair |
 
-Not rendered after the rebuild, kept on disk: `demos/LineArtBust.tsx` (was the
-hiring scenes; `AboutBeliefs` still imports it) — do not silently delete.
+`demos/LineArtBust.tsx` (the old hiring scenes) was retired on 16 Oct 2026
+with the unrendered About sections that imported it.
 
 ### Solutions hub (`app/solutions/page.tsx`, added 14 Oct 2026)
 
@@ -398,7 +391,7 @@ The founder's Solutions section (DHIRA_ai_Website_v2, 12 Oct 2026) as an
 **editorial register** (user-approved over his card gallery): hairline-ruled
 rows, numbered points, no cards, no checkmarks, no simulated screens. It exists
 so every nav link has a destination: "All solutions", `#ipms` (IPMS has no page
-yet) and `#function-<slug>`. Copy is DRAFT in `lib/solutionsSections.ts`, the
+yet) and `#function-<slug>`. Copy is DRAFT in `content/pages/solutions.ts`, the
 founder's words with the claims rules applied (no week figures until he
 confirms them; agent lines carry `PreviewTag` and stay on explanation, never
 autonomy; no "golden record" or "Knowledge Graph"). Enterprise Intelligence IS
@@ -424,16 +417,16 @@ ONE grammar, the /solutions hub's user-approved editorial register: `ui/PageHero
 and ruled columns (no cards on grey, no checkmarks, no carousels), one soft blue
 band per page (Rule 5a), and `ui/PageClose` (Rule 5b). Long-form pages (articles,
 stories, press releases) share `sections/longform/LongformArticle`; policy pages
-share `sections/legal/LegalDocument`. Copy is typed config in `lib/`, much of it
+share `sections/legal/LegalDocument`. Copy is typed content in `content/`, much of it
 DRAFT for the founder (each file's header lists what is his, what is drafted,
 and what needs confirming). No prices, counts or customer names are invented
-(Rule 4). Every page is registered in `lib/siteRoutes.ts`.
+(Rule 4). Every page is registered in `content/site-map.ts`.
 
 | Route | Sections (ids) | Blue band | Notes |
 |---|---|---|---|
-| `/pricing` (+ `/in/pricing`) | plans · compare · included · deployment · services · how-to-buy · faq · talk-to-our-team | deployment | No hero (user, 15 Oct 2026): [01] Plans opens the page and carries the h1, the term switch (monthly / 1 year / 3 years) and the region line. The founder's four plans with PLACEHOLDER prices (`LIST_USD` in lib/pricingSections.ts; INR on /in/pricing) and the pricing workbook's limits. Body in `components/pages/PricingPage` (regions). `PlanFigure` draws capacity per plan; compare marks are drawn nodes and rings |
-| `/insights`, `/insights/[slug]` | hero · latest · subscribe · close | subscribe | Six DRAFT articles in `lib/insights.ts`, team bylines (no executive quoted). RSS at `/insights/rss.xml`; BlogPosting + BreadcrumbList JSON-LD |
-| `/customers`, `/customers/[slug]` | hero · stories · close | none | The three ProvenStories deployments, now read from `lib/customerStories.ts` by the carousel too. Naming and analytical-claims rules unchanged |
+| `/pricing` (+ `/in/pricing`) | plans · compare · included · deployment · services · how-to-buy · faq · talk-to-our-team | deployment | No hero (user, 15 Oct 2026): [01] Plans opens the page and carries the h1, the term switch (monthly / 1 year / 3 years) and the region line. The founder's four plans with PLACEHOLDER prices (`LIST_USD` in content/pages/pricing.ts; INR on /in/pricing) and the pricing workbook's limits. Body in `components/pages/PricingPage` (regions). `PlanFigure` draws capacity per plan; compare marks are drawn nodes and rings |
+| `/insights`, `/insights/[slug]` | hero · latest · subscribe · close | subscribe | Six DRAFT articles in `content/collections/insights.ts`, team bylines (no executive quoted). RSS at `/insights/rss.xml`; BlogPosting + BreadcrumbList JSON-LD |
+| `/customers`, `/customers/[slug]` | hero · stories · close | none | The three ProvenStories deployments, now read from `content/collections/customer-stories.ts` by the carousel too. Naming and analytical-claims rules unchanged |
 | `/newsroom`, `/newsroom/[slug]` | hero · announcements · recognition · media-kit · talk-to-our-team | media-kit | Akashic 1.0 release (founder's own quote), the three real recognitions, marks in `public/brand/`, leadership portraits from `ABOUT_LEADERS` |
 | `/trust` | hero · security · privacy · responsible-ai · compliance · documents · subprocessors · disclosure · faq · talk-to-our-team | responsible-ai | Controls by domain from the founder's eight; frameworks repeat the homepage [07] set; document requests are mailto subjects |
 | `/integrations` | hero · directory · how-it-connects · talk-to-our-team | how-it-connects | Connectors read from `AKASHIC_MODULES` (the /akashic [10] sheets), so the two pages cannot drift. Client filter |
@@ -441,9 +434,9 @@ and what needs confirming). No prices, counts or customer names are invented
 | `/contact` | hero · write-to-us · routes · offices | write-to-us | `layout/ContactForm` inline; other routes are subject-lined mailto links to the one published inbox |
 | `/partners` | hero · ways-to-partner · what-partners-get · how-to-join · talk-to-our-team | how-to-join | No partner named until one is confirmed |
 | `/events` | hero · upcoming · invitations · close | invitations | Only real events: the launch (Event JSON-LD) and the founder's standing walkthrough |
-| `/akashic/1-0` | hero · generally-available · in-preview · where-it-runs · talk-to-our-team | where-it-runs | Modules read from the /akashic data; agents carry PreviewTag; launch countdown. Flip `RELEASE.live` on 1 Nov |
-| `/privacy`, `/terms`, `/cookies`, `/accessibility`, `/legal` | header · document · other policies | none | DRAFT FOR LEGAL REVIEW (`lib/legal.ts`); replace the footer's old dead anchors |
-| `/site-map`, 404 | hero · groups | none | Site map from `lib/siteRoutes.ts` + India versions; the 404 routes to six destinations |
+| `/akashic/1-0` | hero · generally-available · in-preview · where-it-runs · talk-to-our-team | where-it-runs | [01] opens with the module moments above the register; modules read from the /akashic data; agents carry PreviewTag; launch countdown. Flip `RELEASE.live` on 1 Nov |
+| `/privacy`, `/terms`, `/cookies`, `/accessibility`, `/legal` | header · document · other policies | none | DRAFT FOR LEGAL REVIEW (`content/collections/legal.ts`); replace the footer's old dead anchors |
+| `/site-map`, 404 | hero · groups | none | Site map from `lib/routes.ts` (content/site-map.ts + the collections) + India versions; the 404 routes to six destinations |
 
 ### Solution pages (`/solutions/{eis,life}`)
 
@@ -547,7 +540,7 @@ no chain rail, no `ProvenAtScale`. Do not "restore consistency" with
 | 8 | questions | `eis/EisFaq.tsx` (3 bands, first answer open) | white |
 | 9 | talk-to-our-team | `eis/EisClose.tsx` | atmosphere (`dusk`) |
 
-**Section [03]'s id is `capabilities`, not `the-brief`** — `lib/eisSections.ts`
+**Section [03]'s id is `capabilities`, not `the-brief`**: `content/pages/solutions-eis.ts`
 drives the minimap from these ids and they must match the `id` attributes.
 
 **Every section is left-aligned at `max-w-[1180px]` with a two-tone headline**
@@ -620,22 +613,14 @@ rest of `demos/` (real/decorative). Every file is `*Mockup` and carries a
 top-of-file `SIMULATED PRODUCT UI` comment. New fake-screenshot components go
 here with the same suffix + comment.
 
-### `demos/mockups/HeroProductsMockup.tsx` (large)
-Three product panels rendered with `dangerouslySetInnerHTML` (complex SVG+HTML
-mocks that are not React trees — intentional; do not refactor without a concrete
-reason). `activeCard` (0|1|2) auto-cycles every 6000ms; `.hs-card` +
-`data-pos="center|left|right"` handles the fan. Kept SSR (hero LCP visual).
-
 ### Dynamic imports (perf)
-`HeroConnections` and `GlyphMorphCanvas` are decorative, absolutely-positioned
-canvases loaded via `next/dynamic({ ssr: false })` so their animation JS stays
-off the initial critical path. `HeroProductsMockup` stays static (LCP). Do not
-`ssr:false` a content section — it would drop from SSR HTML and hurt SEO/CLS.
+Do not `ssr:false` a content section: it would drop from the server HTML and
+hurt SEO and CLS. Only a purely decorative canvas may load that way.
 
 ### `ui/ScrollRevealRail.tsx`
 The rail draws nothing since 15 Oct 2026 (its edge lines and gold trail were
 removed on every page, user; `.rail-container` and `.ak-story-wrap` lost their
 `border-x` the same day). It is still a 1440px column, so a section inside it
 **must not** carry a `w-screen` rule (it overflows the body). If a section needs
-edge-to-edge rules, take it out of the rail entirely, as `MeetAkashic` does
-(full-bleed, outside the rail). Do not bring edge lines back without direction.
+edge-to-edge rules, take it out of the rail entirely. Do not bring edge lines
+back without direction.

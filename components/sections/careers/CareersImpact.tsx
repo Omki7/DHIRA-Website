@@ -19,24 +19,25 @@ import ScrollRevealRail from "@/components/ui/ScrollRevealRail";
 import SectionHeader from "@/components/ui/SectionHeader";
 import SectionCoda from "@/components/ui/SectionCoda";
 import ReachArcs from "@/components/demos/careers/ReachArcs";
+import type { CareersPage } from "@/content/pages/careers";
 
-export default function CareersImpact() {
+export default function CareersImpact({ content }: { content: CareersPage["work"] }) {
   return (
     <section id="the-work" className="scroll-mt-24 bg-background pt-12 pb-20 lg:pt-16 lg:pb-24">
       <ScrollRevealRail>
         <SectionHeader
-          num="01"
-          label="The work"
-          setup="Ship to production."
-          payoff="Production is a country."
-          lede="Most engineering ships to a dashboard nobody opens. Here, code runs inside national platforms, and every number is public record."
+          num={content.num}
+          label={content.label}
+          setup={content.setup}
+          payoff={content.payoff}
+          lede={content.lede}
         />
 
         <ScrollReveal delay={180}>
           <div className="mt-10 lg:mt-12">
-            <ReachArcs />
+            <ReachArcs content={content} />
           </div>
-          <SectionCoda rule lead="No sandbox. No staging theatre." payoff="Real systems from week one." />
+          <SectionCoda rule lead={content.coda.lead} payoff={content.coda.payoff} />
         </ScrollReveal>
       </ScrollRevealRail>
     </section>

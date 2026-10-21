@@ -4,13 +4,15 @@
  * Akashic Hero + Showcase Wireframes with Sticky Quote Backdrop.
  * Lifted and shifted from the homepage hero: the Hero and wireframe showcase
  * ride on top as a curtain; scrolling down slides the curtain away to reveal
- * the sticky quote on the flat #F1F5FE band, with word-by-word ink animation
+ * the sticky quote on the flat rgb(var(--band)) band, with word-by-word ink animation
  * responding to scroll progress.
  */
 
 import { useEffect, useRef, useState } from "react";
 import AkashicHero from "@/components/sections/akashic/AkashicHero";
 import AkashicShowcase from "@/components/sections/akashic/AkashicShowcase";
+import usePrefersReducedMotion from "@/hooks/usePrefersReducedMotion";
+import type { AkashicPage } from "@/content/pages/akashic";
 
 /* Sticky quote track, in viewport heights.
    The quote panel is `sticky top-16` inside a section `QUOTE_TRACK_VH + curtainHeight`
@@ -23,28 +25,10 @@ import AkashicShowcase from "@/components/sections/akashic/AkashicShowcase";
 const QUOTE_TRACK_VH = 200;
 const QUOTE_REVEAL_VH = 75;
 
-const quoteWords = [
-  "“I",
-  "didn’t",
-  "realise",
-  "how",
-  "much",
-  "I’d",
-  "stopped",
-  "trusting",
-  "our",
-  "own",
-  "numbers",
-  "until",
-  "the",
-  "day",
-  "I",
-  "finally",
-  "could",
-  "again.”",
-];
 
-export default function AkashicHeroQuote() {
+export default function AkashicHeroQuote({ quote, hero }: { quote: AkashicPage["quote"]; hero: AkashicPage["hero"] }) {
+  const reducedMotion = usePrefersReducedMotion();
+  const quoteWords = quote.text.split(" ");
   const [quoteProgress, setQuoteProgress] = useState(0);
   const curtainRef = useRef<HTMLDivElement>(null);
   const [curtainHeight, setCurtainHeight] = useState(1400);
@@ -67,6 +51,7 @@ export default function AkashicHeroQuote() {
   }, []);
 
   useEffect(() => {
+    if (reducedMotion) return;
     const handleScroll = () => {
       const scrollPos = window.scrollY;
 
@@ -89,43 +74,36 @@ export default function AkashicHeroQuote() {
       window.removeEventListener("scroll", handleScroll);
       window.removeEventListener("resize", handleScroll);
     };
-  }, [curtainHeight]);
+  }, [curtainHeight, reducedMotion]);
 
   const totalWords = quoteWords.length;
 
   return (
     <div className="relative">
-      {/* Quote section — tall sticky backdrop. Same flat #F1F5FE band as
-          [06] Open architecture (22 Sep 2026, user direction), so the page's
-          two blue moments are one colour. It was `blue-subtle` #EEF1FC under
-          a grey dot grid, which read lavender and dusty beside [06]; the
-          grid went with it. The last 60vh fades to white so the band melts
-          into [01] with no hard edge (23 Sep 2026, user direction). */}
+      {/* A solid blue quote band sits beneath the rising hero curtain. */}
       <section
         className="relative w-full bg-band"
         style={{
           height: `calc(${QUOTE_TRACK_VH}vh + ${curtainHeight}px)`,
-          backgroundImage:
-            "linear-gradient(to bottom, rgb(var(--band)) calc(100% - 60vh), rgb(var(--background)) 100%)",
         }}
       >
         <div className="sticky top-16 flex h-[calc(100vh-64px)] w-full flex-col items-center justify-center text-center px-4">
           <div className="w-full flex justify-center">
             <p className="max-w-[18em] text-[35px] font-medium leading-[1.1] tracking-tight text-ink lg:text-[56px]">
               {quoteWords.map((word, i) => {
-                const isActive = quoteProgress * totalWords >= i + 0.3;
+                const isActive = reducedMotion || quoteProgress * totalWords >= i + 0.3;
                 return (
                   <span key={i} className="inline">
                     <span
                       className="transition-colors duration-[250ms] ease-settle"
                       style={{
-                        color: isActive ? "rgb(var(--ink))" : "rgb(var(--ink) / 0.35)",
+                        color: isActive ? "rgb(var(--ink))" : "rgb(var(--inkSoft))",
                       }}
                     >
                       {word}
                     </span>
                     {i < totalWords - 1 && <span className="inline"> </span>}
-                    {word === "trusting" && (
+                    {word === quote.breakAfter && (
                       <br className="hidden md:block" />
                     )}
                   </span>
@@ -135,21 +113,18 @@ export default function AkashicHeroQuote() {
           </div>
           {/* Author attribution — statically visible immediately as part of the quote */}
           <div className="mt-8 flex flex-col items-center text-sm text-inkSoft">
-            <span className="font-semibold text-ink">Ananya Rao</span>
-            <span>Chief Operating Officer · Nexora</span>
+            <span className="font-semibold text-ink">{quote.name}</span>
+            <span>{quote.role}</span>
           </div>
         </div>
       </section>
 
-      {/* Hero + wireframes showcase content layer — absolute positioned to act as a rising curtain.
-          It ends on the module index (15 Oct 2026, the seven-label web below
-          it was removed) and its lower edge carries a soft shadow, so it reads
-          as a layer lifting off the quote rather than a colour change. */}
+      {/* Keep the rising curtain; a fine border defines its lower edge. */}
       <div
         ref={curtainRef}
-        className="absolute inset-x-0 top-0 z-10 flex w-full flex-col bg-background shadow-[0_22px_44px_-26px_rgba(18,20,26,0.22)]"
+        className="absolute inset-x-0 top-0 z-10 flex w-full flex-col border-b border-card-line bg-background"
       >
-        <AkashicHero />
+        <AkashicHero content={hero} />
         <AkashicShowcase />
       </div>
     </div>

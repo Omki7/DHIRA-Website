@@ -58,7 +58,8 @@ const CALLOUTS = [
   { n: "03", y: 118, from: W - 6, to: 392, right: true },
 ];
 
-export default function ThreadConvergence() {
+/** `labels` name the two threads (content: about conviction.threads). */
+export default function ThreadConvergence({ labels }: { labels: { data: string; ai: string } }) {
   const [ref, drawn] = useDrawn<HTMLDivElement>(0.25);
   const pct = (v: number, of: number) => `${(v / of) * 100}%`;
   const half = (GAP * (COUNT - 1)) / 2 + 6;
@@ -177,14 +178,14 @@ export default function ThreadConvergence() {
         className="absolute -translate-x-1/2 -translate-y-full pb-1 text-[17px] font-semibold tracking-tight text-ink"
         style={{ left: pct(BUNDLE_X, W), top: pct(TOP - 30, H) }}
       >
-        Data
+        {labels.data}
       </span>
       <span
         className="absolute -translate-x-1/2 -translate-y-full"
         style={{ left: pct(AI[1].x1, W), top: pct(TOP - 30, H) }}
       >
         <span className="ad-fade block pb-1 text-[17px] font-semibold tracking-tight text-blue" style={{ ["--ad-delay" as string]: "2.4s" }}>
-          AI
+          {labels.ai}
         </span>
       </span>
     </div>

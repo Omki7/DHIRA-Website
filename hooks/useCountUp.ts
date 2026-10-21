@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
+import usePrefersReducedMotion from "./usePrefersReducedMotion";
 
 function parseFigure(figure: string): {
   prefix: string;
@@ -24,42 +25,32 @@ function parseFigure(figure: string): {
   };
 }
 
+const noSubscribe = () => () => {};
+
 const easeOutCubic = (p: number) => 1 - Math.pow(1 - p, 3);
 
 /* Scroll-triggered count-up. Parses a single string figure (e.g. "$581B"),
-   animates once when its ref enters the viewport. */
+   animates once when its ref enters the viewport. Under reduced motion, or
+   for a figure with no number in it, it shows the figure as written. */
 export default function useCountUp(
   figure: string,
   options: { duration?: number; delay?: number; startAtZero?: boolean } = {}
 ) {
   const { duration = 1200, delay = 0, startAtZero = false } = options;
   const ref = useRef<HTMLDivElement>(null);
-  const [display, setDisplay] = useState(figure);
+  const reduced = usePrefersReducedMotion();
+  const { prefix, numeric, suffix, decimals } = parseFigure(figure);
+  const still = reduced || numeric === 0;
+  /* The running value; null until the count starts. */
+  const [counted, setCounted] = useState<string | null>(null);
+  /* False in the server render and during hydration, so the HTML carries the
+     real figure; a startAtZero count drops to zero only once hydrated. */
+  const hydrated = useSyncExternalStore(noSubscribe, () => true, () => false);
   const hasAnimated = useRef(false);
 
   useEffect(() => {
     const node = ref.current;
-    if (!node) return;
-
-    const prefersReduced =
-      typeof window !== "undefined" &&
-      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-    if (prefersReduced) {
-      setDisplay(figure);
-      return;
-    }
-
-    const { prefix, numeric, suffix, decimals } = parseFigure(figure);
-
-    if (numeric === 0) {
-      setDisplay(figure);
-      return;
-    }
-
-    if (startAtZero && !hasAnimated.current) {
-      setDisplay(`${prefix}${(0).toFixed(decimals)}${suffix}`);
-    }
+    if (!node || still) return;
     let frame = 0;
 
     const observer = new IntersectionObserver(
@@ -81,9 +72,7 @@ export default function useCountUp(
             const progress = Math.min(elapsed / duration, 1);
             const current = numeric * easeOutCubic(progress);
 
-            setDisplay(
-              `${prefix}${current.toFixed(decimals).replace(/\.0+$/, "")}${suffix}`
-            );
+            setCounted(`${prefix}${current.toFixed(decimals).replace(/\.0+$/, "")}${suffix}`);
 
             if (progress < 1) {
               frame = requestAnimationFrame(step);
@@ -101,53 +90,8 @@ export default function useCountUp(
       observer.disconnect();
       cancelAnimationFrame(frame);
     };
-  }, [figure, duration, delay, startAtZero]);
+  }, [still, numeric, prefix, suffix, decimals, duration, delay]);
 
+  const display = still ? figure : (counted ?? (startAtZero && hydrated ? `${prefix}${(0).toFixed(decimals)}${suffix}` : figure));
   return { ref, display };
-}
-
-/* Re-triggerable count-up for content that is already visible (e.g. inside
-   a parent ScrollReveal). Animates from 4% of target to target whenever
-   `kick` changes, with no IntersectionObserver of its own. */
-export function useCountUpValue(
-  target: number,
-  kick: unknown,
-  reduced: boolean,
-  duration = 1000
-) {
-  const [val, setVal] = useState(0);
-  const raf = useRef<number | null>(null);
-
-  useEffect(() => {
-    if (raf.current) cancelAnimationFrame(raf.current);
-    if (reduced) {
-      setVal(target);
-      return;
-    }
-    const start = performance.now();
-    setVal(target * 0.04);
-    const tick = (now: number) => {
-      const p = Math.min(1, (now - start) / duration);
-      setVal(target * easeOutCubic(p));
-      if (p < 1) raf.current = requestAnimationFrame(tick);
-    };
-    raf.current = requestAnimationFrame(tick);
-    return () => {
-      if (raf.current) cancelAnimationFrame(raf.current);
-    };
-  }, [target, reduced, kick, duration]);
-
-  return val;
-}
-
-export function usePrefersReducedMotion() {
-  const [reduced, setReduced] = useState(false);
-  useEffect(() => {
-    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const on = () => setReduced(mq.matches);
-    on();
-    mq.addEventListener("change", on);
-    return () => mq.removeEventListener("change", on);
-  }, []);
-  return reduced;
 }

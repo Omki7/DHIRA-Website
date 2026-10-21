@@ -19,32 +19,28 @@
  */
 
 import useDrawn from "@/hooks/useDrawn";
-import { AKASHIC_ADVANTAGE as c, type SeatPin } from "@/lib/akashicSections";
+import type { AkashicAdvantage } from "@/content/pages/akashic";
 import PreviewTag from "@/components/ui/PreviewTag";
 
-const pinNumber = (pin: SeatPin) => c.seats.findIndex((s) => s.pin === pin) + 1;
-
-function Pin({ pin, className }: { pin: SeatPin; className: string }) {
-  return <span className={"ak-gw-pin ad-fade " + className} style={{ "--ad-delay": "1.3s" } as React.CSSProperties}>{pinNumber(pin)}</span>;
+/* A numbered pin; `n` is the seat (1-based) whose line it illustrates. */
+function Pin({ n, className }: { n: number; className: string }) {
+  return <span className={"ak-gw-pin ad-fade " + className} style={{ "--ad-delay": "1.3s" } as React.CSSProperties}>{n}</span>;
 }
 
 const delay = (s: number) => ({ "--ad-delay": `${s}s` }) as React.CSSProperties;
 
-export default function GroundworkDrawing() {
+export default function GroundworkDrawing({ content: c }: { content: AkashicAdvantage }) {
+  const pinNumber = (pin: AkashicAdvantage["seats"][number]["pin"]) => c.seats.findIndex((s) => s.pin === pin) + 1;
   const [ref, drawn] = useDrawn<HTMLElement>(0.3);
   const cols = c.useCases;
 
   return (
     <>
       <figure ref={ref} data-drawn={drawn} className="ak-gw">
-        <figcaption className="sr-only">
-          Four use cases, dashboards, forecasts, AI answers and AI agents, built two ways. Project by project,
-          each use case rebuilds its own connect, unify and define groundwork. With Akashic, the groundwork
-          is laid once and every use case builds only its own work on top. AI agents are in preview.
-        </figcaption>
+        <figcaption className="sr-only">{c.figureCaption}</figcaption>
 
         <div className="ak-gw-grid" aria-hidden="true">
-          <span className="ak-gw-corner ak-small-label">Use case</span>
+          <span className="ak-gw-corner ak-small-label">{c.cornerLabel}</span>
           {cols.map((u, i) => (
             <div key={u.name} className="ak-gw-head">
               <span className="ak-gw-index">{String(i + 1).padStart(2, "0")}</span>
@@ -63,7 +59,7 @@ export default function GroundworkDrawing() {
               {c.layers.map((layer, li) => (
                 <span key={layer} className="ak-gw-rebuilt ad-fade" style={delay(col * 0.2 + (c.layers.length - 1 - li) * 0.06)}>
                   <span>{layer}</span>
-                  {col === 1 && li === 1 && <Pin pin="rebuilt" className="ak-gw-pin-rebuilt" />}
+                  {col === 1 && li === 1 && <Pin n={pinNumber("rebuilt")} className="ak-gw-pin-rebuilt" />}
                 </span>
               ))}
             </div>
@@ -77,15 +73,15 @@ export default function GroundworkDrawing() {
             <div className="ak-gw-works">
               {cols.map((u, col) => (
                 <span key={u.name} className="ak-gw-work ad-fade" data-preview={u.preview} style={delay(1 + col * 0.12)}>
-                  {col === 0 && <Pin pin="work" className="ak-gw-pin-work" />}
+                  {col === 0 && <Pin n={pinNumber("work")} className="ak-gw-pin-work" />}
                 </span>
               ))}
             </div>
             {c.layers.map((layer, li) => (
               <span key={layer} className="ak-gw-band ad-strike" style={delay(0.35 + (c.layers.length - 1 - li) * 0.1)}>
                 <span>{layer}</span>
-                {li === 0 && <Pin pin="define" className="ak-gw-pin-define" />}
-                {li === c.layers.length - 1 && <Pin pin="band" className="ak-gw-pin-band" />}
+                {li === 0 && <Pin n={pinNumber("define")} className="ak-gw-pin-define" />}
+                {li === c.layers.length - 1 && <Pin n={pinNumber("band")} className="ak-gw-pin-band" />}
               </span>
             ))}
             <p className="ak-gw-governance">

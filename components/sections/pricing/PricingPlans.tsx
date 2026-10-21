@@ -18,7 +18,8 @@ import PlanFigure from "@/components/demos/pricing/PlanFigure";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import ScrollRevealRail from "@/components/ui/ScrollRevealRail";
 import SectionHeader from "@/components/ui/SectionHeader";
-import { PLANS, PRICING_INTRO, PRICING_REGION, TERMS, planPrice, type TermId } from "@/lib/pricingSections";
+import type { PlaceholderPrices, PricingPage, Term, TermId } from "@/content/pages/pricing";
+import { planPrice } from "@/lib/pricing";
 import { REGIONS, regionPath, type Region } from "@/lib/region";
 
 const pad = (n: number) => String(n).padStart(2, "0");
@@ -26,9 +27,9 @@ const pad = (n: number) => String(n).padStart(2, "0");
 /* Column rules: two columns from sm, four from lg, a hairline between. */
 const COLUMN = ["", "sm:border-l sm:pl-6", "lg:border-l lg:pl-6", "sm:border-l sm:pl-6"];
 
-function TermSwitch({ term, onChange }: { term: TermId; onChange: (term: TermId) => void }) {
+function TermSwitch({ terms: TERMS, labels, term, onChange }: { terms: Term[]; labels: PricingPage["planCopy"]; term: TermId; onChange: (term: TermId) => void }) {
   return (
-    <div role="radiogroup" aria-label="Billing term" className="inline-flex rounded-btn border border-subtle-stroke bg-primary-bg p-1">
+    <div role="radiogroup" aria-label={labels.termLabel} className="inline-flex rounded-btn border border-subtle-stroke bg-primary-bg p-1">
       {TERMS.map((option) => {
         const on = option.id === term;
         return (
@@ -39,13 +40,13 @@ function TermSwitch({ term, onChange }: { term: TermId; onChange: (term: TermId)
             aria-checked={on}
             onClick={() => onChange(option.id)}
             className={`inline-flex h-9 items-center gap-2 whitespace-nowrap rounded-[6px] px-3 text-[14px] font-medium transition-colors duration-150 sm:px-3.5 ${
-              on ? "bg-background text-ink shadow-card" : "text-secondary-text hover:text-ink"
+              on ? "bg-background text-ink " : "text-secondary-text hover:text-ink"
             }`}
           >
             {option.label}
             {option.save && (
               <span className={`font-mono text-[10.5px] uppercase tracking-eyebrow ${on ? "text-blue" : "text-overcast"}`}>
-                <span className="hidden sm:inline">Save </span>
+                <span className="hidden sm:inline">{labels.save} </span>
                 <span className="sm:hidden">&minus;</span>
                 {option.save}
               </span>
@@ -57,11 +58,20 @@ function TermSwitch({ term, onChange }: { term: TermId; onChange: (term: TermId)
   );
 }
 
-export default function PricingPlans({ region }: { region: Region }) {
+export default function PricingPlans({
+  region,
+  content,
+  prices,
+}: {
+  region: Region;
+  content: Pick<PricingPage, "intro" | "plans" | "terms" | "planCopy" | "region">;
+  prices: PlaceholderPrices;
+}) {
+  const { intro: PRICING_INTRO, plans: PLANS, terms: TERMS, planCopy: labels } = content;
   const [term, setTerm] = useState<TermId>("monthly");
   const billing = TERMS.find((option) => option.id === term)?.billing ?? "";
   const other: Region = region === "in" ? "intl" : "in";
-  const copy = PRICING_REGION[region];
+  const copy = content.region[region];
 
   return (
     <section id="plans" className="scroll-mt-24 bg-background pb-20 pt-8 lg:pb-28 lg:pt-10">
@@ -75,9 +85,9 @@ export default function PricingPlans({ region }: { region: Region }) {
           titleAs="h1"
         >
           <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-4">
-            <TermSwitch term={term} onChange={setTerm} />
+            <TermSwitch terms={TERMS} labels={labels} term={term} onChange={setTerm} />
             <p className="sr-only" aria-live="polite">
-              Prices shown {billing}
+              {labels.pricesShown} {billing}
             </p>
             <p className="flex flex-wrap items-center gap-x-4 gap-y-1 font-mono text-[11px] uppercase tracking-eyebrow text-overcast">
               <span>{copy.line}</span>
@@ -112,11 +122,11 @@ export default function PricingPlans({ region }: { region: Region }) {
                   <h2 className="mt-3 text-[28px] font-semibold leading-none tracking-[-0.03em] text-ink">{plan.name}</h2>
 
                   <p className="mt-5 flex items-baseline gap-2 text-ink">
-                    {enterprise && <span className="font-mono text-[11px] uppercase tracking-eyebrow text-overcast">From</span>}
-                    <span className="text-[36px] font-semibold leading-none tracking-[-0.03em] tabular-nums">{planPrice(plan.id, term, region)}</span>
+                    {enterprise && <span className="font-mono text-[11px] uppercase tracking-eyebrow text-overcast">{labels.from}</span>}
+                    <span className="text-[36px] font-semibold leading-none tracking-[-0.03em] tabular-nums">{planPrice(prices, plan.id, term, region)}</span>
                   </p>
                   <p className="mt-2 text-[13px] text-secondary-text">
-                    {enterprise ? "per month, annual agreement" : billing}
+                    {enterprise ? labels.enterpriseBilling : billing}
                     {copy.tax}
                   </p>
 
@@ -132,8 +142,8 @@ export default function PricingPlans({ region }: { region: Region }) {
                   </ul>
 
                   <div className="mt-auto pt-8">
-                    <Link href="#talk-to-our-team" className={`${enterprise ? "btn-secondary" : "btn-primary"} w-full`}>
-                      {enterprise ? "Talk to our team" : `Start with ${plan.name}`}
+                    <Link href={labels.ctaHref} className={`${enterprise ? "btn-secondary" : "btn-primary"} w-full`}>
+                      {enterprise ? labels.enterpriseCta : `${labels.startWith} ${plan.name}`}
                     </Link>
                   </div>
                 </article>

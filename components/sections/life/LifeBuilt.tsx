@@ -13,39 +13,24 @@
 
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import { LifeEyebrow, LifeCornerArc } from "@/components/ui/life/LifeChrome";
+import type { LifePage } from "@/content/pages/solutions-life";
 
-const layers = [
-  {
-    module: "Akashic Machine Learning",
-    name: "On-device risk reading",
-    body: "Models tuned small enough to run on the basic Android handsets frontline workers already carry, and to read a full antenatal screen locally with nothing leaving the device.",
-  },
-  {
-    module: "Akashic Master Data",
-    name: "One golden record",
-    body: "The same mother is recognised as the same mother whether she is seen by a health worker, a primary health centre or a district hospital. One record, not three.",
-  },
-  {
-    module: "Akashic BI and Governance",
-    name: "Audited by design",
-    body: "Aggregated, anonymised risk flows into district and national dashboards with full lineage, audit trails and role-based access, exactly as in every other Akashic deployment.",
-  },
-];
 
-export default function LifeBuilt() {
+export default function LifeBuilt({ content }: { content: LifePage["built"] }) {
+  const { layers } = content;
   return (
     <section id="how-its-built" className="relative scroll-mt-20 bg-life-cream">
       <div
         aria-hidden
-        className="absolute inset-0 bg-[linear-gradient(178deg,#FBF8F1_0%,#F3F8F6_40%,#E7F5F9_100%)]"
+        className="absolute inset-0 life-paper"
       />
       <LifeCornerArc tone="light" />
 
       <div className="relative mx-auto w-full max-w-[1440px] px-6 pb-28 pt-28 sm:px-10 lg:px-14 lg:pb-36 lg:pt-40">
         <ScrollReveal className="flex flex-col items-center text-center">
-          <LifeEyebrow num="07" tone="light">What is underneath</LifeEyebrow>
+          <LifeEyebrow num={content.eyebrow.num} tone="light">{content.eyebrow.label}</LifeEyebrow>
           <h2 className="mt-9 max-w-[15em] text-[30px] font-medium leading-[1.28] tracking-[-0.005em] text-life-navy sm:text-[38px] lg:text-[46px]">
-            Nothing here is bespoke. It is Akashic, pointed at a village.
+            {content.title}
           </h2>
         </ScrollReveal>
 

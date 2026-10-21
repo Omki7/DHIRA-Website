@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useState, type CSSProperties, type KeyboardEvent } from "react";
-import type { PageSection } from "@/lib/pageSection";
+import { useUi } from "@/components/providers/UiProvider";
+import type { PageSection } from "@/content/types";
 import { usePageScrollSpy } from "@/hooks/usePageScrollSpy";
 
 const CLOSE_DELAY_MS = 160;
@@ -22,8 +23,9 @@ function keepLinkVisible(link: HTMLAnchorElement) {
 
 export default function PageMinimap({
   sections,
-  "aria-label": ariaLabel = "Page sections",
+  "aria-label": ariaLabel,
 }: PageMinimapProps) {
+  const ui = useUi();
   const { activeId, scrollTo } = usePageScrollSpy(sections);
   const [expanded, setExpanded] = useState(false);
   const [labelWidth, setLabelWidth] = useState(0);
@@ -117,7 +119,7 @@ export default function PageMinimap({
       />
       <nav
         ref={navRef}
-        aria-label={ariaLabel}
+        aria-label={ariaLabel ?? ui.pageSections}
         data-expanded={expanded}
         className="page-minimap pointer-events-none fixed top-1/2 z-40 hidden -translate-y-1/2 py-2 lg:block"
         style={railStyle}

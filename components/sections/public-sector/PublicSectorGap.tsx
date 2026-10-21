@@ -8,6 +8,9 @@
 
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import ScrollRevealRail from "@/components/ui/ScrollRevealRail";
+import type { PublicSectorPage } from "@/content/pages/sectors-public-sector";
+
+type Visuals = PublicSectorPage["gap"]["visuals"];
 
 /* Dot-matrix India: rows of [start, end] column segments. Deliberately an
    abstract patchwork of disconnected state-system tints, not a boundary map. */
@@ -38,7 +41,7 @@ const INDIA_ROWS: [number, number][][] = [
   [[6, 6]],
 ];
 
-const TINTS = ["#C8D2F5", "#A9B9EF", "#8FA5EA", "#DCE3FA"];
+const TINTS = ["rgb(var(--blue-border))", "rgb(var(--blue-border))", "rgb(var(--blue-400))", "rgb(var(--blue-subtle))"];
 const PITCH = 11;
 const CELL = 8.5;
 
@@ -88,51 +91,46 @@ function FragmentedIndia() {
   );
 }
 
-function IndiaVisual() {
+function IndiaVisual({ copy }: { copy: Visuals["india"] }) {
   return (
     <div className="flex flex-col items-center gap-5 sm:flex-row sm:gap-3">
       <FragmentedIndia />
       {/* The dashes travel by transform on an inner strip (Rule 6a), not by
           background-position, which repainted the line every frame. */}
       <span className="relative hidden h-px min-w-[36px] flex-1 overflow-hidden sm:block" aria-hidden>
-        <span className="absolute inset-y-0 -left-8 right-0 bg-[length:16px_1px] bg-repeat-x bg-[repeating-linear-gradient(90deg,#C8D2F5_0_8px,transparent_8px_16px)] animate-[ps-dash_1.8s_linear_infinite]" />
+        <span className="absolute inset-y-0 -left-8 right-0 bg-[length:16px_1px] bg-repeat-x bg-[repeating-linear-gradient(90deg,rgb(var(--blue-border))_0_8px,transparent_8px_16px)] animate-[ps-dash_1.8s_linear_infinite]" />
       </span>
-      <div className="w-full max-w-[210px] shrink-0 rounded-[10px] border border-subtle-stroke bg-white px-3.5 py-3 shadow-card">
+      <div className="w-full max-w-[210px] shrink-0 rounded-[10px] border border-subtle-stroke bg-background px-3.5 py-3 ">
         <div className="flex items-center justify-between gap-2">
           <span className="font-mono text-[8.5px] font-bold uppercase tracking-[0.08em] text-ink">
-            The centre&rsquo;s view
+            {copy.title}
           </span>
-          <span className="inline-flex items-center gap-1 rounded-[5px] border border-[#E3D5BC] bg-[#FDF9F1] px-1.5 py-[2px] font-mono text-[7.5px] font-bold text-[#8A6A33]">
-            <span className="h-[4px] w-[4px] rounded-full bg-[#C0883A] animate-[ps-pulse_2s_infinite]" aria-hidden />
-            DELAYED
+          <span className="inline-flex items-center gap-1 rounded-[5px] border border-[rgb(var(--diagram-gold-line))] bg-[rgb(var(--diagram-gold-bg))] px-1.5 py-[2px] font-mono text-[7.5px] font-bold text-[rgb(var(--diagram-gold))]">
+            <span className="h-[4px] w-[4px] rounded-full bg-[rgb(var(--diagram-gold))] animate-[ps-pulse_2s_infinite]" aria-hidden />
+            {copy.status}
           </span>
         </div>
         <p className="mt-1.5 text-[10.5px] leading-snug text-inkSoft">
-          Arrives quarterly. Incomplete. Reconciled by hand.
+          {copy.body}
         </p>
       </div>
     </div>
   );
 }
 
-const duplicates = [
-  { name: "Rekha Devi", scheme: "Health", rotate: "-rotate-1" },
-  { name: "R. Devi", scheme: "Food", rotate: "rotate-[0.5deg]" },
-  { name: "REKHA D", scheme: "Housing", rotate: "-rotate-[0.5deg]" },
-  { name: "Rekha Devi (W/O)", scheme: "Pension", rotate: "rotate-1" },
-  { name: "R Devi", scheme: "Education", rotate: "-rotate-[0.75deg]" },
-];
+/* Each duplicate card's tilt, by position (art direction). */
+const TILTS = ["-rotate-1", "rotate-[0.5deg]", "-rotate-[0.5deg]", "rotate-1", "-rotate-[0.75deg]"];
 
-function DuplicatesVisual() {
+function DuplicatesVisual({ copy }: { copy: Visuals["duplicates"] }) {
   return (
     <div className="w-full max-w-[380px]">
       <div className="space-y-1.5">
-        {duplicates.map((record) => (
+        {copy.records.map((record, k) => (
           <div
             key={record.scheme}
-            className={`flex items-center gap-2.5 rounded-[8px] border border-subtle-stroke bg-white px-3 py-1.5 shadow-card ${record.rotate}`}
+            className={`flex items-center gap-2.5 rounded-[8px] border border-subtle-stroke bg-background px-3 py-1.5  ${TILTS[k % TILTS.length]}`}
           >
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#8E8F91" strokeWidth="2" aria-hidden className="shrink-0">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="rgb(var(--tertiary-text))" strokeWidth="2" aria-hidden className="shrink-0">
               <circle cx="12" cy="8" r="4" />
               <path d="M5 20c0-3.3 3.1-6 7-6s7 2.7 7 6" />
             </svg>
@@ -146,28 +144,28 @@ function DuplicatesVisual() {
         ))}
       </div>
       <p className="mt-3 text-center font-mono text-[9px] uppercase tracking-[0.08em] text-overcast">
-        One person &middot; five schemes &middot; five different records
+        {copy.caption}
       </p>
     </div>
   );
 }
 
-function LagVisual() {
-  const stops = ["Field", "District", "State", "Ministry"];
+function LagVisual({ copy }: { copy: Visuals["lag"] }) {
+  const stops = copy.stops;
   return (
     <div className="w-full max-w-[420px]">
       <div className="relative">
-        <div className="absolute inset-x-1 top-[5px] h-px bg-[length:12px_1px] bg-repeat-x bg-[repeating-linear-gradient(90deg,#D3D8DF_0_6px,transparent_6px_12px)]" aria-hidden />
+        <div className="absolute inset-x-1 top-[5px] h-px bg-[length:12px_1px] bg-repeat-x bg-[repeating-linear-gradient(90deg,rgb(var(--line))_0_6px,transparent_6px_12px)]" aria-hidden />
         {/* A full-width carrier slides the dot by transform (Rule 6a);
             animating left relaid the page out every frame. */}
         <span className="pointer-events-none absolute inset-x-0 top-[1px] animate-[ps-zip_8s_linear_infinite]" aria-hidden>
-          <span className="block h-[9px] w-[9px] rounded-full bg-blue shadow-[0_0_0_3px_rgba(62,99,221,0.15)]" />
+          <span className="block h-[9px] w-[9px] rounded-full bg-blue " />
         </span>
         <div className="relative flex justify-between">
           {stops.map((stop, idx) => (
             <div key={stop} className="flex flex-col items-center gap-1.5">
               <span
-                className={`h-[11px] w-[11px] rounded-full border bg-white ${
+                className={`h-[11px] w-[11px] rounded-full border bg-background ${
                   idx === stops.length - 1 ? "border-ink" : "border-default-stroke"
                 }`}
                 aria-hidden
@@ -180,51 +178,36 @@ function LagVisual() {
         </div>
       </div>
       <p className="mt-4 text-center font-mono text-[9px] uppercase tracking-[0.08em] text-overcast">
-        One report&rsquo;s journey &middot; month 1 to month 3
+        {copy.caption}
       </p>
     </div>
   );
 }
 
-const gaps = [
-  {
-    figure: "28 states",
-    title: "One fragmented view",
-    desc: "Most national schemes run on state-wise systems that don't talk to each other, so the centre sees a delayed, incomplete picture.",
-    visual: <IndiaVisual />,
-  },
-  {
-    figure: "Crores",
-    title: "Manual reconciliation",
-    desc: "Beneficiary and citizen data duplicated across departments: the same person counted differently in five different schemes.",
-    visual: <DuplicatesVisual />,
-  },
-  {
-    figure: "Months",
-    title: "Reporting lag",
-    desc: "Field-level data takes months to reach ministry dashboards. By the time a gap is visible, the budget cycle has already moved on.",
-    visual: <LagVisual />,
-  },
-];
 
-export default function PublicSectorGap() {
+export default function PublicSectorGap({ content }: { content: PublicSectorPage["gap"] }) {
+  const visuals = {
+    india: <IndiaVisual copy={content.visuals.india} />,
+    duplicates: <DuplicatesVisual copy={content.visuals.duplicates} />,
+    lag: <LagVisual copy={content.visuals.lag} />,
+  };
+  const gaps = content.items;
   return (
     <section id="the-gap" className="scroll-mt-24 border-t border-lineSoft bg-background pt-12 pb-24 lg:pt-16 lg:pb-32">
       <ScrollRevealRail>
         <ScrollReveal>
           <div className="flex items-baseline justify-between font-mono text-[11px] uppercase tracking-eyebrow">
             <p>
-              <span className="text-overcast">[01]</span>
-              <span className="text-inkSoft">&nbsp;&nbsp;The governance gap</span>
+              <span className="text-overcast">[{content.eyebrow.number}]</span>
+              <span className="text-inkSoft">&nbsp;&nbsp;{content.eyebrow.label}</span>
             </p>
-            <span className="hidden text-overcast sm:inline">/ Three problems, one pattern</span>
+            <span className="hidden text-overcast sm:inline">{content.eyebrow.aside}</span>
           </div>
           <h2 className="mt-5 text-heading-sm font-semibold text-ink md:text-heading-md lg:text-heading-lg">
-            Public programmes move at population scale.
+            {content.title}
           </h2>
           <p className="mt-5 max-w-[34em] text-lg leading-relaxed text-secondary-text">
-            Most data systems don&rsquo;t. The gap shows up the same way in every
-            ministry review.
+            {content.lede}
           </p>
         </ScrollReveal>
 
@@ -244,7 +227,7 @@ export default function PublicSectorGap() {
                   </p>
                 </div>
                 <div className="flex justify-center rounded-frame border border-subtle-stroke bg-primary-bg px-6 py-8 lg:justify-center">
-                  {gap.visual}
+                  {visuals[gap.visual]}
                 </div>
               </div>
             </ScrollReveal>
@@ -253,10 +236,10 @@ export default function PublicSectorGap() {
 
         <ScrollReveal delay={260}>
           <p className="mt-12 max-w-[24em] text-[26px] font-semibold leading-snug tracking-tight text-ink md:text-[30px] lg:mt-14">
-            Not a hypothetical problem for DHIRA. We have solved it{" "}
+            {content.closing.lead}{" "}
             <span className="relative inline-block whitespace-nowrap">
-              more than once.
-              <span className="absolute -bottom-[0.04em] left-0 h-[0.09em] w-full rounded-full bg-blue/35" aria-hidden />
+              {content.closing.marked}
+              <span className="absolute -bottom-[0.04em] left-0 h-[0.09em] w-full rounded-full bg-blue" aria-hidden />
             </span>
           </p>
         </ScrollReveal>

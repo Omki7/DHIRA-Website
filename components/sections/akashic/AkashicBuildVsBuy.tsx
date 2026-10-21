@@ -1,29 +1,30 @@
-import Link from "next/link";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import GroundworkDrawing from "@/components/demos/akashic/GroundworkDrawing";
-import { AKASHIC_ADVANTAGE as content } from "@/lib/akashicSections";
-import { StoryLabel, StoryTitle, StoryArrow } from "@/components/sections/akashic/AkashicStory";
+import type { AkashicPage } from "@/content/pages/akashic";
+import { StoryLabel, StoryTitle } from "@/components/sections/akashic/AkashicStory";
 
 /* [07] Why Akashic: header, one drawing with four keyed executive seats,
    one measure line with the CTA. The drawing owns the reuse argument;
    see GroundworkDrawing for what each row claims. */
-export default function AkashicBuildVsBuy() {
+export default function AkashicBuildVsBuy({ content }: { content: AkashicPage["advantage"] }) {
   return (
     <section id="build-vs-buy" className="ak-story bg-background">
       <div className="ak-story-wrap">
         <ScrollReveal>
-          <StoryLabel number="08">Why Akashic</StoryLabel>
+          <StoryLabel number={content.number}>{content.label}</StoryLabel>
           <div className="ak-story-heading">
             <StoryTitle setup={content.setup}>{content.title}</StoryTitle>
             <p className="ak-story-intro">{content.intro}</p>
           </div>
         </ScrollReveal>
 
-        <GroundworkDrawing />
+        <GroundworkDrawing content={content} />
 
+        {/* The section ends on its measure line. The "Map your first use
+            case" button went on 20 Oct 2026: the close owns the contact
+            CTA, and no section ends on a button (founder). */}
         <div className="ak-gw-close">
           <p>{content.measure}</p>
-          <Link href="#get-started" className="btn-primary btn-lg">{content.cta}<StoryArrow /></Link>
         </div>
       </div>
     </section>

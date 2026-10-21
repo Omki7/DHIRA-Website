@@ -1,45 +1,34 @@
 import type { Metadata } from "next";
-import Nav from "@/components/layout/Nav";
 import Footer from "@/components/layout/Footer";
+import Nav from "@/components/layout/Nav";
 import PageMinimap from "@/components/layout/PageMinimap";
-import SolutionsHero from "@/components/sections/solutions/SolutionsHero";
-import SolutionsFeatured from "@/components/sections/solutions/SolutionsFeatured";
-import SolutionsMore from "@/components/sections/solutions/SolutionsMore";
-import SolutionsIndex from "@/components/sections/solutions/SolutionsIndex";
 import SolutionsClose from "@/components/sections/solutions/SolutionsClose";
-import { SOLUTIONS_HERO, SOLUTIONS_SECTIONS } from "@/lib/solutionsSections";
+import SolutionsFeatured from "@/components/sections/solutions/SolutionsFeatured";
+import SolutionsHero from "@/components/sections/solutions/SolutionsHero";
+import SolutionsIndex from "@/components/sections/solutions/SolutionsIndex";
+import SolutionsMore from "@/components/sections/solutions/SolutionsMore";
+import { getPage } from "@/lib/content";
+import { pageMetadata } from "@/lib/metadata";
 
-const description = `${SOLUTIONS_HERO.payoff} ${SOLUTIONS_HERO.lede}`;
+export async function generateMetadata(): Promise<Metadata> {
+  const { seo } = await getPage("solutions");
+  return pageMetadata(seo);
+}
 
-export const metadata: Metadata = {
-  title: "Solutions",
-  description,
-  openGraph: {
-    title: "Solutions | DHIRA",
-    description,
-    images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "Solutions built on Akashic" }],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Solutions | DHIRA",
-    description,
-    images: ["/og-image.png"],
-  },
-};
-
-export default function SolutionsPage() {
+export default async function SolutionsPage() {
+  const page = await getPage("solutions");
   return (
     <>
       <Nav />
       <main id="main" className="bg-background">
-        <SolutionsHero />
-        <SolutionsFeatured />
-        <SolutionsMore />
-        <SolutionsIndex />
-        <SolutionsClose />
+        <SolutionsHero content={page.hero} sections={page.sections} />
+        <SolutionsFeatured content={page.featured} />
+        <SolutionsMore content={page.more} />
+        <SolutionsIndex content={page.index} featured={page.featured.items} more={page.more.items} />
+        <SolutionsClose content={page.close} />
       </main>
       <Footer />
-      <PageMinimap sections={SOLUTIONS_SECTIONS} aria-label="Solutions page sections" />
+      <PageMinimap sections={page.sections} aria-label={page.sectionsLabel} />
     </>
   );
 }

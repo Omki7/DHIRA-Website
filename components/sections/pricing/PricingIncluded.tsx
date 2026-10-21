@@ -9,11 +9,11 @@
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import ScrollRevealRail from "@/components/ui/ScrollRevealRail";
 import SectionHeader from "@/components/ui/SectionHeader";
-import { EVERY_PLAN } from "@/lib/pricingSections";
+import type { PricingPage } from "@/content/pages/pricing";
 
 const pad = (n: number) => String(n).padStart(2, "0");
 
-export default function PricingIncluded() {
+export default function PricingIncluded({ content: EVERY_PLAN }: { content: PricingPage["everyPlan"] }) {
   return (
     <section id="included" className="scroll-mt-24 border-t border-lineSoft bg-background pb-20 pt-16 lg:pb-28 lg:pt-20">
       <ScrollRevealRail>

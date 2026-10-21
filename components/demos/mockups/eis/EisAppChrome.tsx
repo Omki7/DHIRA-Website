@@ -5,7 +5,7 @@
  * screens on that page read as one product rather than six illustrations.
  * Deliberately on the same token system as the /akashic module screens:
  *
- *   ground    #FAFAFB app · #F6F7F8 canvas · #FFFFFF cards
+ *   ground    #FAFAFB app · #F6F7F8 canvas · rgb(var(--background)) cards
  *   borders   #E9EAEE cards and chrome · #EEEFF1 soft dividers
  *   text      #1A1C1D · #5C5E63 · #8E8F91
  *   accents   blue #3E63DD · green #1F9D6B · amber #E0A93B · rose #C13059
@@ -18,8 +18,8 @@
 
 import type { ReactNode } from "react";
 
-export const CARD = "rounded-[10px] border border-[#E9EAEE] bg-white";
-export const CANVAS = "bg-[#F6F7F8]";
+export const CARD = "rounded-[10px] border border-card-line bg-background";
+export const CANVAS = "bg-panel";
 
 /* ---------------------------------------------------------------- top bar */
 
@@ -33,20 +33,20 @@ export function AppTopBar({
   right?: ReactNode;
 }) {
   return (
-    <div className="flex h-11 flex-shrink-0 items-center gap-2.5 border-b border-[#E9EAEE] bg-white px-3.5">
-      <span className="flex h-[22px] w-[22px] flex-shrink-0 items-center justify-center rounded-[6px] bg-ink text-[10px] font-bold text-white">
+    <div className="flex h-11 flex-shrink-0 items-center gap-2.5 border-b border-card-line bg-background px-3.5">
+      <span className="flex h-[22px] w-[22px] flex-shrink-0 items-center justify-center rounded-[6px] bg-ink text-[10px] font-bold text-on-action">
         A
       </span>
       <span className="min-w-0">
         <span className="block truncate text-[12px] font-bold leading-tight text-ink">
           Akashic EIS
         </span>
-        <span className="block truncate text-[9px] leading-tight text-[#8E8F91]">
+        <span className="block truncate text-[9px] leading-tight text-tertiary-text">
           {org}
         </span>
       </span>
-      <span className="mx-1 h-[18px] w-px bg-[#E9EAEE]" />
-      <span className="truncate text-[11px] font-medium text-[#5C5E63]">{view}</span>
+      <span className="mx-1 h-[18px] w-px bg-card-line" />
+      <span className="truncate text-[11px] font-medium text-secondary-text">{view}</span>
       <span className="flex-1" />
       {right}
     </div>
@@ -56,18 +56,18 @@ export function AppTopBar({
 /* Green "Live" pill, matching the /akashic screens exactly. */
 export function LiveChip({ label = "Live" }: { label?: string }) {
   return (
-    <span className="inline-flex h-[24px] flex-shrink-0 items-center gap-1.5 rounded-full border border-[#CBE8D9] bg-[#EAF7F0] px-2.5">
-      <span className="h-[6px] w-[6px] rounded-full bg-[#1F9D6B]" />
-      <span className="text-[10.5px] font-semibold text-[#1B8A5F]">{label}</span>
+    <span className="inline-flex h-[24px] flex-shrink-0 items-center gap-1.5 rounded-full border border-positive-border bg-positive-subtle px-2.5">
+      <span className="h-[6px] w-[6px] rounded-full bg-positive" />
+      <span className="text-[10.5px] font-semibold text-positive-text">{label}</span>
     </span>
   );
 }
 
 export function FilterChip({ label }: { label: string }) {
   return (
-    <span className="flex h-[26px] flex-shrink-0 items-center gap-1.5 rounded-[7px] border border-[#E9EAEE] bg-white px-2">
+    <span className="flex h-[26px] flex-shrink-0 items-center gap-1.5 rounded-[7px] border border-card-line bg-background px-2">
       <span className="text-[11px] font-medium text-ink">{label}</span>
-      <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="#8E8F91" strokeWidth="3" strokeLinecap="round" aria-hidden>
+      <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="rgb(var(--tertiary-text))" strokeWidth="3" strokeLinecap="round" aria-hidden>
         <path d="m6 9 6 6 6-6" />
       </svg>
     </span>
@@ -91,14 +91,14 @@ export function ModuleRail({ active }: { active: keyof typeof RAIL_ICONS }) {
     { key: "record", label: "Record" },
   ];
   return (
-    <div className="hidden w-[58px] flex-shrink-0 flex-col items-center gap-1 border-r border-[#E9EAEE] bg-white py-2.5 sm:flex">
+    <div className="hidden w-[58px] flex-shrink-0 flex-col items-center gap-1 border-r border-card-line bg-background py-2.5 sm:flex">
       {items.map((i) => {
         const on = i.key === active;
         return (
           <span
             key={i.key}
             className={`flex w-[46px] flex-col items-center gap-1 rounded-[8px] py-1.5 ${
-              on ? "bg-blue-subtle text-blue" : "text-[#8E8F91]"
+              on ? "bg-blue-subtle text-blue" : "text-tertiary-text"
             }`}
           >
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden>

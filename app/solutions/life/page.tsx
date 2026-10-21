@@ -1,63 +1,44 @@
 import type { Metadata } from "next";
-import Nav from "@/components/layout/Nav";
 import Footer from "@/components/layout/Footer";
-import LifeHero from "@/components/sections/life/LifeHero";
-import LifeGap from "@/components/sections/life/LifeGap";
-import LifeSolution from "@/components/sections/life/LifeSolution";
-import LifeBenefits from "@/components/sections/life/LifeBenefits";
-import LifeRecord from "@/components/sections/life/LifeRecord";
-import LifeAltitude from "@/components/sections/life/LifeAltitude";
-import LifeRecordOfWork from "@/components/sections/life/LifeRecordOfWork";
-import LifeBuilt from "@/components/sections/life/LifeBuilt";
-import LifeStake from "@/components/sections/life/LifeStake";
-import LifeClose from "@/components/sections/life/LifeClose";
+import Nav from "@/components/layout/Nav";
 import PageMinimap from "@/components/layout/PageMinimap";
-import { LIFE_SECTIONS } from "@/lib/lifeSections";
+import LifeAltitude from "@/components/sections/life/LifeAltitude";
+import LifeBenefits from "@/components/sections/life/LifeBenefits";
+import LifeBuilt from "@/components/sections/life/LifeBuilt";
+import LifeClose from "@/components/sections/life/LifeClose";
+import LifeGap from "@/components/sections/life/LifeGap";
+import LifeHero from "@/components/sections/life/LifeHero";
+import LifeRecord from "@/components/sections/life/LifeRecord";
+import LifeRecordOfWork from "@/components/sections/life/LifeRecordOfWork";
+import LifeSolution from "@/components/sections/life/LifeSolution";
+import LifeStake from "@/components/sections/life/LifeStake";
+import { getPage } from "@/lib/content";
+import { pageMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
-  title: "Akashic Life Solution",
-  description:
-    "The intelligence layer for care that cannot wait: specialist-grade risk detection on a frontline worker's handset, offline, carried all the way to a national dashboard.",
-  openGraph: {
-    title: "Akashic Life Solution | DHIRA",
-    description:
-      "The intelligence layer for care that cannot wait: specialist-grade risk detection on a frontline worker's handset, offline, carried all the way to a national dashboard.",
-    images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "Akashic Life Solution — DHIRA" }],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Akashic Life Solution | DHIRA",
-    description: "Specialist-grade risk detection at the remote edge, offline.",
-    images: ["/og-image.png"],
-  },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const { seo } = await getPage("solutions/life");
+  return pageMetadata(seo);
+}
 
-/* Ground rhythm, deliberate: dark, white, dark, dark, light, light, dark,
-   light, white, dark. The page never spends more than two sections in one
-   register.
-   A quote band sat at [07] and was removed 23 Jul 2026: its only attribution
-   was "from a customer platform review", and an unnamed testimonial is not a
-   claim this page can make for a product that is not sold yet. An unsourced
-   pull-quote would have been worse than none. Do not reinstate it without a
-   named, printable source. */
-export default function LifePage() {
+export default async function LifePage() {
+  const page = await getPage("solutions/life");
   return (
     <>
       <Nav />
       <main id="main" className="bg-background">
-        <LifeHero />
-        <LifeGap />
-        <LifeSolution />
-        <LifeBenefits />
-        <LifeRecord />
-        <LifeAltitude />
-        <LifeRecordOfWork />
-        <LifeBuilt />
-        <LifeStake />
-        <LifeClose />
+        <LifeHero content={page.hero} />
+        <LifeGap content={page.gap} />
+        <LifeSolution content={page.solution} />
+        <LifeBenefits content={page.benefits} />
+        <LifeRecord content={page.record} />
+        <LifeAltitude content={page.altitude} />
+        <LifeRecordOfWork content={page.recordOfWork} />
+        <LifeBuilt content={page.built} />
+        <LifeStake content={page.stake} />
+        <LifeClose content={page.close} />
       </main>
       <Footer />
-      <PageMinimap sections={LIFE_SECTIONS} aria-label="Life page sections" />
+      <PageMinimap sections={page.sections} aria-label={page.sectionsLabel} />
     </>
   );
 }

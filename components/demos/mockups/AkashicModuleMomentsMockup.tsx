@@ -2,7 +2,15 @@
 
 /**
  * SIMULATED PRODUCT UI — not real Akashic app code.
- * The /akashic hero's product stage: one MOMENT per module, not one screen.
+ * One MOMENT per module, not one screen. Two hosts: homepage [02], where the
+ * seven-module rail drives `ModuleMomentStage` (21 Oct 2026, user: the
+ * modules on the left, these drawings on the right, as the lead-in to the
+ * solutions), and /akashic/1-0 "Generally available", which uses the default
+ * export with its own index.
+ * Built 15 Oct 2026 for the /akashic hero. On 20 Oct 2026 the founder asked
+ * for the module screens back there (AkashicModuleScreensMockup) and for
+ * this work to be reused, not discarded; homepage [02] hosted it briefly the
+ * same day before the user restored the original [02].
  *
  * WHY (15 Oct 2026, founder direction): the live wireframes were good but
  * gave too much away. The stage that stood here (AkashicModuleScreensMockup)
@@ -34,13 +42,13 @@
  *
  * Every figure is lifted from the screen it replaced and belongs to the ONE
  * demo world in HeroProductScreensMockup (Sales Performance, Q2 FY26, USD).
- * Nothing here is new data. South's attainment is deliberately absent: [01]
- * owns that story on this page.
+ * Nothing here is new data. South's attainment is deliberately absent: the
+ * /akashic [01] answer owns that story.
  */
 
 import { Fragment, useEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
 import Link from "next/link";
-import { usePrefersReducedMotion } from "@/hooks/useCountUp";
+import usePrefersReducedMotion from "@/hooks/usePrefersReducedMotion";
 import useOnScreen from "@/hooks/useOnScreen";
 
 /* ---------------------------------------------------------------- */
@@ -48,7 +56,7 @@ import useOnScreen from "@/hooks/useOnScreen";
 /* ---------------------------------------------------------------- */
 const C = {
   sf: "#2A9BE0", // Salesforce
-  plan: "#E0A93B", // Sales Plan FY26
+  plan: "#E0A93B", // Sales plan, fiscal 2026
   ns: "#7C5CFC", // NetSuite
   blue: "rgb(var(--blue))",
   mute: "rgb(var(--tertiary-text) / 0.45)",
@@ -115,7 +123,7 @@ function Flow({ x, y, run, n = 3, dur = 3200, color = C.blue, kind = "dot", dela
   );
 }
 
-const panel = "rounded-xl border border-card-line bg-[rgb(var(--screen-surface))] shadow-[0_1px_2px_rgba(18,20,26,0.05),0_14px_36px_-18px_rgba(18,20,26,0.18)]";
+const panel = "rounded-xl border border-card-line bg-[rgb(var(--screen-surface))] ";
 const eyebrow = "font-mono text-[9px] uppercase tracking-[0.12em]";
 
 /* Characters arriving one at a time: a typed prompt, without a width or
@@ -136,9 +144,9 @@ function Typed({ text, start, step = 24 }: { text: string; start: number; step?:
 /* ---------------------------------------------------------------- */
 function PipelinesMoment() {
   const lanes = [
-    { y: 92, name: "Salesforce", meta: "82.4k orders", c: C.sf },
-    { y: 160, name: "Sales Plan FY26", meta: "60 targets", c: C.plan },
-    { y: 228, name: "NetSuite", meta: "81.1k invoices", c: C.ns },
+    { y: 92, name: "Salesforce", meta: "82,400 orders", c: C.sf },
+    { y: 160, name: "Sales plan 2026", meta: "60 targets", c: C.plan },
+    { y: 228, name: "NetSuite", meta: "81,100 invoices", c: C.ns },
   ];
   return (
     <>
@@ -209,7 +217,7 @@ function MasterDataMoment() {
   const fields = [
     { k: "tax_id", v: <span className="font-mono text-[11px]">94-2404110</span>, why: "exact match" },
     { k: "address", v: "500 Harbor Blvd, Ste 2", why: "most recent" },
-    { k: "terms", v: "net-45", why: "prefer ERP" },
+    { k: "terms", v: "net-45", why: "prefer finance system" },
   ];
   return (
     <>
@@ -305,9 +313,9 @@ function WarehouseMoment() {
     { d: "M372 242 L 306 194", one: [356, 246], n: [312, 202] },
   ];
   const surfaces = [
-    { y: 116, name: "BI", meta: "Sales Overview" },
+    { y: 116, name: "Business Intelligence", meta: "Sales Overview" },
     { y: 160, name: "Ask Akashic", meta: "answers" },
-    { y: 204, name: "ML", meta: "demand_forecast" },
+    { y: 204, name: "Machine Learning", meta: "demand_forecast" },
   ];
   return (
     <>
@@ -352,7 +360,7 @@ function WarehouseMoment() {
         <Fragment key={s.name}>
           <HLine x={760} y={s.y} w={200} fade="out" color={C.blueLine} delay={2000 + i * 200} />
           <Flow x={764} y={s.y} run={196} n={2} dur={2800} delay={2300 + i * 260} />
-          <Tag name={s.name} meta={s.meta} upper={false} style={{ ...at(790, s.y - 17), ...play("mm-fade", 2100 + i * 200) }} />
+          <Tag name={s.name} meta={s.meta} upper={false} stack style={{ ...at(790, s.y - 28), ...play("mm-fade", 2100 + i * 200) }} />
         </Fragment>
       ))}
     </>
@@ -369,16 +377,16 @@ function MlMoment() {
     { id: "#23", mape: "6.9%", pts: "410,192 450,166 490,170 530,150 560,146" },
     { id: "#24", mape: "6.2%", pts: "410,192 450,172 490,177 530,159 560,154", best: true },
   ];
-  const months = ["Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+  const months = ["July", "August", "September", "October", "November", "December"];
   return (
     <>
       {/* leaderboard: each row lands with its line */}
-      <div style={{ ...at(64, 74, { width: 150 }), ...play("mm-fade", 600) }} className={eyebrow + " text-tertiary-text"}>Runs · MAPE</div>
+      <div style={{ ...at(64, 74, { width: 150 }), ...play("mm-fade", 600) }} className={eyebrow + " text-tertiary-text"}>Runs · forecast error</div>
       {runs.map((r, i) => (
         <div key={r.id} className="flex items-center gap-3 font-mono text-[11px]" style={{ ...at(64, 96 + i * 22, { width: 160 }), ...play("mm-slide", 1000 + i * 420, 420) }}>
           <span className={r.best ? "text-blue" : "text-tertiary-text"}>{r.id}</span>
           <span className={r.best ? "font-semibold text-primary-text" : "text-secondary-text"}>{r.mape}</span>
-          {r.best && <span className="rounded bg-positive-subtle px-1.5 py-0.5 text-[8.5px] text-positive-text">prod</span>}
+          {r.best && <span className="rounded bg-positive-subtle px-1.5 py-0.5 text-[8.5px] text-positive-text">live</span>}
         </div>
       ))}
       <HLine x={0} y={248} w={246} fade="in" delay={200} />
@@ -387,7 +395,7 @@ function MlMoment() {
 
       <svg aria-hidden width={960} height={320} className="absolute left-0 top-0 overflow-visible">
         <rect x={410} y={48} width={150} height={214} className="fill-tertiary-bg/70" style={play("mm-fade", 600, 600)} />
-        <text x={416} y={62} className="fill-tertiary-text font-mono text-[8.5px] tracking-[0.1em]" style={play("mm-fade", 700)}>HOLDOUT · 12 WK</text>
+        <text x={416} y={62} className="fill-tertiary-text font-mono text-[8.5px] tracking-[0.1em]" style={play("mm-fade", 700)}>TEST PERIOD · 12 WEEKS</text>
         <line x1={250} y1={262} x2={750} y2={262} stroke={C.mute} strokeWidth={1} style={play("mm-fade", 100)} />
         {months.map((m, i) => (
           <text key={m} x={250 + i * 100} y={278} textAnchor="middle" className="fill-tertiary-text font-mono text-[9px]" style={play("mm-fade", 150)}>{m}</text>
@@ -411,13 +419,13 @@ function MlMoment() {
         <polygon points="560,156 750,100 750,164" className="fill-blue/10" style={{ transformBox: "fill-box", transformOrigin: "left center", ...play("progressFill", 2950, 900) }} />
         <polyline points="560,156 750,132" fill="none" stroke={C.blue} strokeWidth={1.75} strokeDasharray="5 4" style={play("mm-fade", 3100)} />
       </svg>
-      <span className="rounded-md border border-card-line bg-[rgb(var(--screen-surface))] px-2 py-1 text-[11px] font-medium text-primary-text shadow-sm" style={{ ...at(762, 120), ...play("mm-slide", 3500) }}>
-        ≈12,400 units next qtr
+      <span className="rounded-md border border-card-line bg-[rgb(var(--screen-surface))] px-2 py-1 text-[11px] font-medium text-primary-text " style={{ ...at(762, 120), ...play("mm-slide", 3500) }}>
+        ≈12,400 units next quarter
       </span>
 
       <HLine x={754} y={236} w={206} fade="out" color={C.blueLine} delay={3700} />
       <Flow x={758} y={236} run={200} n={2} dur={2600} delay={3900} />
-      <Tag name="v3 serving" meta="1.2M preds/day" upper={false} style={{ ...at(776, 219), ...play("mm-fade", 3800) }} />
+      <Tag name="Model 3 in use" meta="1.2 million forecasts a day" upper={false} stack style={{ ...at(776, 205), ...play("mm-fade", 3800) }} />
     </>
   );
 }
@@ -432,7 +440,7 @@ function Cited({ children, n, delay }: { children: ReactNode; n: number; delay: 
           first line box */}
       <span className="relative whitespace-nowrap">
         {children}
-        <span className="absolute -bottom-[1px] left-0 right-0 h-[1.5px] origin-left bg-blue/50" style={play("progressFill", delay, 600)} />
+        <span className="absolute -bottom-[1px] left-0 right-0 h-[1.5px] origin-left bg-blue" style={play("progressFill", delay, 600)} />
       </span>
       <sup className="ml-0.5 font-mono text-[10px] font-semibold text-blue" style={play("mm-fade", delay + 300)}>{n}</sup>
     </>
@@ -484,7 +492,7 @@ function AskMoment() {
 
       {/* the evidence the answer stands on */}
       <div style={{ ...at(650, 104, { width: 250 }), ...play("mm-fade", 1900) }}>
-        <div className={eyebrow + " text-tertiary-text"}>Share of $25.4M · Q2 FY26</div>
+        <div className={eyebrow + " text-tertiary-text"}>Share of $25.4 million this quarter</div>
         <div className="mt-3 flex h-2 gap-[3px]">
           {CHANNELS.map((c, i) => (
             <span
@@ -499,7 +507,7 @@ function AskMoment() {
             <div key={c.name} className="flex items-baseline justify-between text-[12px]" style={play("mm-slide", 2300 + i * 140, 420)}>
               <span className={c.answer ? "font-medium text-primary-text" : "text-secondary-text"}>{c.name}</span>
               <span className="flex items-baseline gap-2 font-mono text-[11px]">
-                {c.answer && <span className="text-[10px] text-positive-text">+18% QoQ</span>}
+                {c.answer && <span className="text-[10px] text-positive-text">+18% this quarter</span>}
                 <span className={c.answer ? "font-semibold text-blue" : "text-secondary-text"}>{c.pct}%</span>
               </span>
             </div>
@@ -532,7 +540,7 @@ function BiMoment() {
     <>
       <div style={{ ...at(48, 96, { width: 290 }), ...play("mm-fade", 0) }} className={eyebrow + " text-tertiary-text"}>Ask Akashic · Sales Overview</div>
       <div style={at(48, 116, { width: 290 })} className="text-[13.5px] text-primary-text">
-        <Typed text="Add a tile: revenue vs plan, weekly" start={200} step={24} />
+        <Typed text="Add a tile: revenue against plan, weekly" start={200} step={24} />
       </div>
       <span style={{ ...at(48, 142, { width: 290, height: 1 }), ...play("mm-fade", 100) }} className="bg-card-line" />
       {["net_revenue · gold", "plan_attainment · target 100%"].map((m, i) => (
@@ -545,12 +553,12 @@ function BiMoment() {
       {/* the tile, built */}
       <div className={panel + " px-4 pb-3 pt-3"} style={{ ...at(374, 60, { width: 268 }), ...play("mm-slide", 1350, 600) }}>
         <div className="flex items-baseline justify-between">
-          <span className="text-[12.5px] font-semibold text-primary-text">Revenue vs plan</span>
-          <span className="font-mono text-[9px] text-tertiary-text">weekly · Q2 FY26</span>
+          <span className="text-[12.5px] font-semibold text-primary-text">Revenue against plan</span>
+          <span className="font-mono text-[9px] text-tertiary-text">$ million · weekly</span>
         </div>
         {/* gridlines sit at 25/50/75% of the plot; the labels sit on them */}
         <div className="relative mt-3 h-[124px]">
-          {[["$2.4M", "25%"], ["$1.6M", "50%"], ["$0.8M", "75%"]].map(([v, top]) => (
+          {[["2.4", "25%"], ["1.6", "50%"], ["0.8", "75%"]].map(([v, top]) => (
             <span key={v} className="absolute left-0 -translate-y-1/2 font-mono text-[8px] text-tertiary-text" style={{ top }}>{v}</span>
           ))}
           <div className="absolute inset-y-0 left-9 right-9"><TileChart height={124} delay={1800} /></div>
@@ -559,7 +567,7 @@ function BiMoment() {
           <span className="absolute right-0 font-mono text-[8.5px] font-medium text-blue" style={{ top: "24%", ...play("mm-fade", 2400) }}>actual</span>
         </div>
         <div className="ml-9 mr-9 mt-1.5 flex justify-between font-mono text-[8.5px] text-tertiary-text">
-          {["W1", "W4", "W8", "W12"].map((w) => <span key={w}>{w}</span>)}
+          {["Week 1", "Week 4", "Week 8", "Week 12"].map((w) => <span key={w}>{w}</span>)}
         </div>
       </div>
 
@@ -659,16 +667,69 @@ type Moment = {
 
 const MOMENTS: Moment[] = [
   { module: "Pipelines", caption: "Three sources join into one governed table. Nothing rejected.", focus: 700, Draw: PipelinesMoment },
-  { module: "Master Data", caption: "Three spellings, one golden record. Every field keeps its source.", focus: 754, Draw: MasterDataMoment },
-  { module: "Warehouse", caption: "A metric defined once. BI, Ask and ML all read the same one.", focus: 640, Draw: WarehouseMoment },
-  { module: "ML", caption: "Runs compete on the holdout. The best one serves the forecast.", focus: 600, Draw: MlMoment },
+  { module: "Master Data", caption: "Three spellings, one record. Every field keeps its source.", focus: 754, Draw: MasterDataMoment },
+  { module: "Warehouse", caption: "A metric defined once. Dashboards, answers and forecasts all read the same one.", focus: 640, Draw: WarehouseMoment },
+  { module: "Machine Learning", caption: "Models are tested on past data. The most accurate one makes the forecast.", focus: 600, Draw: MlMoment },
   { module: "Ask Akashic", caption: "Plain questions, answered from governed metrics, every figure cited.", focus: 416, Draw: AskMoment },
-  { module: "BI", caption: "Ask for a tile. It is built on governed metrics and lands on the dashboard.", focus: 508, Draw: BiMoment },
-  { module: "Governance", caption: "Every column traced upstream and down. One row, masked by role.", focus: 480, Draw: GovernanceMoment },
+  { module: "Business Intelligence", caption: "Ask for a chart. It is built on the agreed figures and lands on the dashboard.", focus: 508, Draw: BiMoment },
+  { module: "Governance", caption: "Every field traced to its source. Private details hidden by role.", focus: 480, Draw: GovernanceMoment },
 ];
 
 const N = MOMENTS.length;
 const MOMENT_DURATION_MS = 8500;
+
+/**
+ * One module's moment, by its index in MOMENTS (the platform's module order:
+ * a page that drives the stage lists its own copy in the same order), fitted
+ * to its container and replayed from the start
+ * whenever `index` or `playKey` changes. Decorative (aria-hidden): the page
+ * around it says what the module does. Wide containers show the whole
+ * drawing scaled down; narrow ones crop around the moment's focus at 0.82,
+ * so the small type stays legible.
+ */
+export function ModuleMomentStage({ index, playKey = 0, caption = false }: { index: number; playKey?: number; caption?: boolean }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [width, setWidth] = useState(960);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    setWidth(el.offsetWidth);
+    const observer = new ResizeObserver(([entry]) => setWidth(entry.contentRect.width));
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  const m = MOMENTS[index];
+  const Draw = m.Draw;
+  const narrow = width < 600;
+  const scale = narrow ? 0.82 : Math.min(1, width / 960);
+  const fx = narrow ? m.focus : 480;
+
+  return (
+    <figure className="w-full">
+      <div
+        ref={ref}
+        aria-hidden
+        className="relative w-full overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_5%,black_95%,transparent)]"
+        style={{ height: Math.round(330 * scale) }}
+      >
+        <div
+          key={`${index}-${playKey}`}
+          className="absolute left-1/2 top-1/2 h-[320px] w-[960px]"
+          style={{ transform: `translate(${-fx}px, -50%) scale(${scale})`, transformOrigin: `${fx}px 50%` }}
+        >
+          <Draw />
+        </div>
+      </div>
+      {caption && (
+        <figcaption key={`${index}-${playKey}`} className="mt-4 animate-[ps-rise_420ms_cubic-bezier(0.2,0.8,0.2,1)_both] px-4 text-center text-[13.5px] leading-relaxed text-uc-mute">
+          {m.caption}
+        </figcaption>
+      )}
+    </figure>
+  );
+}
 
 export default function AkashicModuleMomentsMockup() {
   const rootRef = useRef<HTMLDivElement>(null);
@@ -702,7 +763,7 @@ export default function AkashicModuleMomentsMockup() {
         aria-hidden
         className="relative mx-auto h-[330px] w-full max-w-[1000px] overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_4%,black_96%,transparent)] md:[mask-image:linear-gradient(to_right,transparent,black_6%,black_94%,transparent)]"
       >
-        <div className="dot-grid absolute inset-0 [mask-image:radial-gradient(ellipse_50%_62%_at_center,black_25%,transparent_100%)]" />
+        
         {/* Phones see ~400 drawing px around the moment's focus, at 0.88 so a
             360px text column still fits; scaled about the focus itself so the
             crop stays where it was aimed. md and up: native size, centred. */}
@@ -738,7 +799,7 @@ export default function AkashicModuleMomentsMockup() {
                 isActive ? "font-semibold text-primary-text" : "font-normal text-tertiary-text hover:text-secondary-text"
               }`}
             >
-              <span className={`font-mono text-[10px] font-normal ${isActive ? "text-blue" : "text-tertiary-text/70"}`}>{String(i + 1).padStart(2, "0")}</span>
+              <span className={`font-mono text-[10px] font-normal ${isActive ? "text-blue" : "text-tertiary-text"}`}>{String(i + 1).padStart(2, "0")}</span>
               {mo.module}
               <span aria-hidden className="absolute bottom-0 left-0 h-px w-full bg-tertiary-text/15" />
               {isActive && (

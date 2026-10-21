@@ -1,46 +1,40 @@
 import type { Metadata } from "next";
-import Nav from "@/components/layout/Nav";
 import Footer from "@/components/layout/Footer";
+import Nav from "@/components/layout/Nav";
+import { InsightsLatest, InsightsSubscribe } from "@/components/sections/insights/InsightsIndex";
 import PageClose from "@/components/ui/PageClose";
 import PageHero from "@/components/ui/PageHero";
-import { InsightsLatest, InsightsSubscribe } from "@/components/sections/insights/InsightsIndex";
-import { INSIGHTS, INSIGHTS_HERO } from "@/lib/insights";
+import { getInsights, getPage, getUiStrings } from "@/lib/content";
 import { pageMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
-  ...pageMetadata({
-    title: "Insights",
-    description: `${INSIGHTS_HERO.payoff} ${INSIGHTS_HERO.lede}`,
-    path: "/insights",
-  }),
-  alternates: {
-    canonical: "/insights",
-    types: { "application/rss+xml": [{ url: "/insights/rss.xml", title: "DHIRA Insights" }] },
-  },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const { seo, rss } = await getPage("insights");
+  return {
+    ...(await pageMetadata(seo)),
+    alternates: {
+      canonical: seo.path,
+      types: { "application/rss+xml": [{ url: "/insights/rss.xml", title: rss.title }] },
+    },
+  };
+}
 
-export default function InsightsPage() {
+export default async function InsightsPage() {
+  const [page, insights, ui] = await Promise.all([getPage("insights"), getInsights(), getUiStrings()]);
+  const { hero } = page;
   return (
     <>
       <Nav />
       <main id="main" className="bg-background">
         <PageHero
-          label={INSIGHTS_HERO.label}
-          setup={INSIGHTS_HERO.setup}
-          payoff={INSIGHTS_HERO.payoff}
-          lede={INSIGHTS_HERO.lede}
-          meta={`${INSIGHTS.length} articles · Perspectives · Product · Public sector`}
+          label={hero.label}
+          setup={hero.setup}
+          payoff={hero.payoff}
+          lede={hero.lede}
+          meta={`${insights.length} ${hero.metaSuffix} · ${hero.metaTopics}`}
         />
-        <InsightsLatest />
-        <InsightsSubscribe />
-        <PageClose
-          label="Talk to our team"
-          setup="Have a question an article raised?"
-          payoff="Ask the people who wrote it."
-          body="Our product, advisory and public sector teams answer every enquiry directly."
-          primary={{ label: "Talk to our team", href: "#talk-to-our-team" }}
-          secondary={{ label: "Explore Akashic", href: "/akashic" }}
-        />
+        <InsightsLatest insights={insights} content={page.latest} minRead={ui.longform.minRead} />
+        <InsightsSubscribe content={page.subscribe} />
+        <PageClose {...page.close} />
       </main>
       <Footer />
     </>

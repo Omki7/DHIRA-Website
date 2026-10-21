@@ -19,7 +19,7 @@ type Tone = "light" | "depth" | "ink";
 const TONES: Record<Tone, { setup: string; payoff: string }> = {
   light: { setup: "text-inkSoft", payoff: "text-ink" },
   depth: { setup: "text-uc-mute", payoff: "text-uc-text" },
-  ink: { setup: "text-white/55", payoff: "text-white" },
+  ink: { setup: "text-inkSoft", payoff: "text-ink" },
 };
 
 export default function TwoToneTitle({
@@ -27,18 +27,21 @@ export default function TwoToneTitle({
   payoff,
   tone = "light",
   as: Tag = "h2",
+  id,
   className = "",
 }: {
-  setup: ReactNode;
+  /** Omit for a one-line title (the payoff alone, in ink). */
+  setup?: ReactNode;
   payoff: ReactNode;
   tone?: Tone;
   as?: ElementType;
+  id?: string;
   className?: string;
 }) {
   const t = TONES[tone];
   return (
-    <Tag className={`text-[34px] font-semibold leading-[1.08] tracking-tighter sm:text-heading-md lg:text-[52px] ${className}`}>
-      <span className={`block text-balance ${t.setup}`}>{setup}</span>
+    <Tag id={id} className={`text-[34px] font-semibold leading-[1.08] tracking-tighter sm:text-heading-md lg:text-[52px] ${className}`}>
+      {setup && <span className={`block text-balance ${t.setup}`}>{setup}</span>}
       <span className={`block text-balance ${t.payoff}`}>{payoff}</span>
     </Tag>
   );

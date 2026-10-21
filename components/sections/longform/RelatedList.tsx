@@ -6,17 +6,20 @@
 import Link from "next/link";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import ScrollRevealRail from "@/components/ui/ScrollRevealRail";
+import { getUiStrings } from "@/lib/content";
 
 export type RelatedItem = { href: string; eyebrow: string; title: string; dek: string };
 
-export default function RelatedList({ heading = "Keep reading", items }: { heading?: string; items: RelatedItem[] }) {
+/** `heading` defaults to the interface string "Keep reading". */
+export default async function RelatedList({ heading, items }: { heading?: string; items: RelatedItem[] }) {
   if (items.length === 0) return null;
+  const ui = await getUiStrings();
   return (
     <section aria-labelledby="related-heading" className="border-t border-lineSoft bg-background pb-16 pt-12 lg:pb-20 lg:pt-14">
       <ScrollRevealRail>
         <ScrollReveal>
           <h2 id="related-heading" className="font-mono text-[11px] uppercase tracking-eyebrow text-overcast">
-            {heading}
+            {heading ?? ui.longform.keepReading}
           </h2>
           <ul className={`mt-4 grid border-t border-lineSoft ${items.length > 2 ? "lg:grid-cols-3" : "lg:grid-cols-2"}`}>
             {items.map((item, index) => (

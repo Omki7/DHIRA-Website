@@ -2,25 +2,40 @@
 
 /**
  * SIMULATED PRODUCT UI — not real Akashic app code.
- * Seven fake module screens for the /akashic product page: two homepage
- * hero screens (Pipelines, Warehouse — shared via HeroProductScreensMockup,
- * along with the app chrome helpers), a /akashic-local Ask screen forked
- * from the shared one (channel growth, so it never restates South's
- * attainment — [01] owns that story on this page), three built here in the
- * same idiom (Master Data, ML, Governance), and the interactive BI screen
- * from AkashicHeroBIWireframe. Same carousel mechanics as HeroProductsMockup:
- * `.hs-card` fan layout with a `far` off-stage position, auto-cycling every
- * 6000ms. ONE demo world in USD, shared with the home hero and canonical for
- * both pages — see the header of HeroProductScreensMockup for the full figure
- * set (Sales Performance: 82,401 rows, South the laggard at 92%, $25.4M net
- * revenue), plus the [04] walkthrough (12,400 units, MAPE 6.2%).
+ * The /akashic hero stage: the seven live module screens, drawn small, with
+ * the context tentacles hanging beneath them.
+ *
+ * HISTORY. Full app windows (920×600, centre card scaled to 1058×690) stood
+ * here until 15 Oct 2026, when one-moment drawings replaced them
+ * (AkashicModuleMomentsMockup, now the homepage [02] tease). On 20 Oct 2026
+ * the founder asked for these screens back, with the tentacles, "smaller and
+ * more illustrative, to tease". Screens and tentacles restored from git
+ * 3b9d8c4.
+ *
+ * THE TEASE, so the next edit keeps it:
+ *   1. Small. The centre screen renders at 0.56 of its native 920×600, so the
+ *      layout and the shapes read and the 11px product text does not. The
+ *      caption under the stage carries the claim in legible type.
+ *   2. A fragment, not a window. Every screen dissolves into the page over
+ *      its lower third (a mask), so no screen is ever shown whole.
+ *   3. Neighbours recede. Side screens are smaller, paler and desaturated;
+ *      the ones beyond them are a trace at the frame's edge.
+ *   4. Nothing inside a screen is interactive. A side screen is a button that
+ *      brings it to the centre; so is its tentacle.
+ *   5. The tentacles are the index: each module names what it adds to the
+ *      organisation's context, and its four lines turn blue while its screen
+ *      is in front.
+ *
+ * Claims: the old Ask screen's "Suggested action" block was cut on restore
+ * (agents and answers never propose the next move), and the sparkle and
+ * purple gradient that marked AI became plain blue (DESIGN_SYSTEM, AI
+ * positioning). The ONE demo world is in AkashicScreenKitMockup's header.
  */
 
-import { useState, useEffect, useRef } from "react";
-import { usePrefersReducedMotion } from "@/hooks/useCountUp";
-import useOnScreen from "@/hooks/useOnScreen";
-import AkashicHeroBIWireframe from "@/components/demos/mockups/AkashicHeroBIWireframe";
-import ScreenProgressRail from "@/components/ui/ScreenProgressRail";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
+import Link from "next/link";
+import ContextTentacles from "@/components/demos/akashic/ContextTentacles";
+import AkashicBIScreenMockup from "@/components/demos/mockups/AkashicBIScreenMockup";
 import {
   PIPELINES_SCREEN_HTML,
   MODELS_SCREEN_HTML,
@@ -29,7 +44,9 @@ import {
   appTopBar,
   moduleRail,
   sidebarSearch,
-} from "@/components/demos/mockups/HeroProductScreensMockup";
+} from "@/components/demos/mockups/AkashicScreenKitMockup";
+import useOnScreen from "@/hooks/useOnScreen";
+import usePrefersReducedMotion from "@/hooks/usePrefersReducedMotion";
 
 /* ---------------------------------------------------------------- */
 /* Ask Akashic — /akashic-local fork of the shared hero Ask screen.  */
@@ -39,7 +56,7 @@ import {
 /* the /akashic showcase asks a non-colliding question: channel      */
 /* growth. Both screens now read from the same figure set.           */
 /* ---------------------------------------------------------------- */
-const ASK_SPARKLE = "M12 2l2.4 7.6L22 12l-7.6 2.4L12 22l-2.4-7.6L2 12l7.6-2.4z";
+const ASK_SPARKLE = "M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z";
 const CHANNEL_BARS = [
   { name: "Direct", pct: 46, color: "rgb(var(--blue))", note: "" },
   { name: "Partner", pct: 32, color: "#7C5CFC", note: "" },
@@ -66,10 +83,10 @@ const ASK_SCREEN_CHANNEL_HTML = `<div style="width:100%;height:100%;display:flex
           </div>
           <div style="display:flex;align-items:center;justify-content:space-between;padding:9px 3px 4px"><span style="display:inline-flex;align-items:center;gap:4px;font-size:9.5px;font-weight:700;color:rgb(var(--tertiary-text));letter-spacing:0.07em;cursor:pointer"><svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="rgb(var(--tertiary-text))" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>CONTEXTS</span><span style="font-size:9px;color:rgb(var(--tertiary-text));background:rgb(var(--tertiary-bg));border-radius:5px;padding:0 5px;font-weight:600">1</span></div>
           <div style="display:flex;flex-direction:column;gap:1px">
-            <div style="display:flex;align-items:center;gap:8px;padding:5px 7px;border-radius:7px"><div style="width:18px;height:18px;border-radius:5px;background:linear-gradient(135deg,#3E63DD,#6E56CF);display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.7l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.7l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg></div><span style="font-size:11px;color:rgb(var(--ink))">Sales Performance</span></div>
+            <div style="display:flex;align-items:center;gap:8px;padding:5px 7px;border-radius:7px"><div style="width:18px;height:18px;border-radius:5px;background:rgb(var(--blue));display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.7l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.7l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg></div><span style="font-size:11px;color:rgb(var(--ink))">Sales Performance</span></div>
           </div>
         </div>
-        <div style="padding:9px 12px;border-top:1px solid rgb(var(--subtle-stroke));display:flex;align-items:center;gap:7px"><div style="width:18px;height:18px;border-radius:5px;background:linear-gradient(135deg,#3E63DD,#6E56CF);display:flex;align-items:center;justify-content:center"><svg width="10" height="10" viewBox="0 0 24 24" fill="#fff" stroke="none"><path d="${ASK_SPARKLE}"/></svg></div><div style="min-width:0"><div style="font-size:10.5px;color:rgb(var(--ink));font-weight:600">Ask Akashic</div><div style="font-size:9px;color:rgb(var(--tertiary-text))">3 metrics · 3 sources</div></div></div>
+        <div style="padding:9px 12px;border-top:1px solid rgb(var(--subtle-stroke));display:flex;align-items:center;gap:7px"><div style="width:18px;height:18px;border-radius:5px;background:rgb(var(--blue));display:flex;align-items:center;justify-content:center"><svg width="10" height="10" viewBox="0 0 24 24" fill="#fff" stroke="none"><path d="${ASK_SPARKLE}"/></svg></div><div style="min-width:0"><div style="font-size:10.5px;color:rgb(var(--ink));font-weight:600">Ask Akashic</div><div style="font-size:9px;color:rgb(var(--tertiary-text))">3 metrics · 3 sources</div></div></div>
       </div>
       <div style="flex:1;display:flex;flex-direction:column;overflow:hidden;background:rgb(var(--screen-surface));min-width:0">
         <div style="height:40px;border-bottom:1px solid rgb(var(--subtle-stroke));display:flex;align-items:center;padding:0 16px;gap:10px;flex-shrink:0;background:rgb(var(--screen-surface))">
@@ -87,11 +104,11 @@ const ASK_SCREEN_CHANNEL_HTML = `<div style="width:100%;height:100%;display:flex
               <span style="font-size:8.5px;color:rgb(var(--tertiary-text));padding-right:2px">2m ago</span>
             </div>
             <div style="display:flex;gap:10px;align-items:flex-start">
-              <div style="width:25px;height:25px;border-radius:7px;background:linear-gradient(135deg,#3E63DD,#6E56CF);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px"><svg width="13" height="13" viewBox="0 0 24 24" fill="white" stroke="none"><path d="${ASK_SPARKLE}"/></svg></div>
+              <div style="width:25px;height:25px;border-radius:7px;background:rgb(var(--blue));display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px"><svg width="13" height="13" viewBox="0 0 24 24" fill="white" stroke="none"><path d="${ASK_SPARKLE}"/></svg></div>
               <div style="flex:1;min-width:0;background:rgb(var(--screen-surface));border:1px solid rgb(var(--card-line));border-radius:12px;padding:12px 14px">
                 <div style="display:flex;align-items:center;gap:6px;margin-bottom:9px;flex-wrap:wrap">
                   <span style="font-size:9.5px;font-weight:600;color:rgb(var(--tertiary-text));letter-spacing:0.03em">GROUNDED IN</span>
-                  <div style="display:inline-flex;align-items:center;gap:5px;padding:3px 8px 3px 4px;background:rgb(var(--screen-surface));border:1px solid rgb(var(--card-line));border-radius:7px"><div style="width:15px;height:15px;border-radius:4px;background:linear-gradient(135deg,#3E63DD,#6E56CF);display:flex;align-items:center;justify-content:center"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.7l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.7l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg></div><span style="font-size:10px;color:rgb(var(--ink));font-weight:600">Sales Performance</span></div>
+                  <div style="display:inline-flex;align-items:center;gap:5px;padding:3px 8px 3px 4px;background:rgb(var(--screen-surface));border:1px solid rgb(var(--card-line));border-radius:7px"><div style="width:15px;height:15px;border-radius:4px;background:rgb(var(--blue));display:flex;align-items:center;justify-content:center"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.7l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.7l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg></div><span style="font-size:10px;color:rgb(var(--ink));font-weight:600">Sales Performance</span></div>
                   <div style="display:inline-flex;align-items:center;gap:5px;padding:3px 8px 3px 4px;background:rgb(var(--screen-surface));border:1px solid rgb(var(--card-line));border-radius:7px"><div style="width:15px;height:15px;border-radius:4px;background:#3E63DD;display:flex;align-items:center;justify-content:center"><span aria-hidden="true" style="font-size:9px;color:#fff;font-weight:700">❄</span></div><span style="font-size:10px;color:rgb(var(--ink));font-weight:600">net_revenue</span><span style="font-size:8.5px;color:rgb(var(--tertiary-text))">gold</span></div>
                 </div>
                 <p style="margin:0 0 9px;font-size:13px;color:rgb(var(--ink));line-height:1.6">Online is your fastest-growing channel, <strong style="color:rgb(var(--ink))">up 18% quarter on quarter</strong> and now 22% of revenue. Direct grew 6% and Partner was flat. At this pace, Online overtakes Partner by Q4.</p>
@@ -123,11 +140,6 @@ const ASK_SCREEN_CHANNEL_HTML = `<div style="width:100%;height:100%;display:flex
                     <span style="font-size:9px;color:rgb(var(--tertiary-text))">Q2 FY26 · vs Q1</span>
                   </div>
                 </div>
-                <div style="background:rgb(var(--panel));border-left:2px solid rgb(var(--blue));border-radius:0 10px 10px 0;padding:10px 13px">
-                  <div style="font-size:11.5px;font-weight:600;color:rgb(var(--ink));margin-bottom:3px">Suggested action</div>
-                  <div style="font-size:11.5px;color:rgb(var(--secondary-text));line-height:1.5">Shift Q4 acquisition budget toward Online. A <strong style="color:rgb(var(--ink))">5-point share gain</strong> adds back roughly <strong style="color:rgb(var(--ink))">$1.3M</strong> in H2.</div>
-                  <div style="margin-top:8px;display:flex;gap:7px"><div style="display:inline-flex;align-items:center;height:25px;padding:0 11px;background:#3E63DD;border-radius:7px;cursor:pointer"><span style="font-size:10.5px;color:#fff;font-weight:600">Model the shift</span></div><div style="display:inline-flex;align-items:center;height:25px;padding:0 11px;background:rgb(var(--screen-surface));border:1px solid rgb(var(--card-line));border-radius:7px;cursor:pointer"><span style="font-size:10.5px;color:rgb(var(--blue));font-weight:600">Open lineage</span></div></div>
-                </div>
                 <div style="display:flex;align-items:center;gap:2px;margin-top:9px">
                   <div style="display:inline-flex;align-items:center;gap:5px;height:25px;padding:0 10px;border:1px solid rgb(var(--card-line));border-radius:8px;cursor:pointer;background:rgb(var(--screen-surface));margin-right:4px" title="Read this answer aloud"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="rgb(var(--secondary-text))" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H2v6h4l5 4z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg><span style="font-size:10px;color:rgb(var(--ink));font-weight:600">Listen</span><span style="font-size:9px;color:rgb(var(--tertiary-text))">0:31</span></div>
                   <div style="width:25px;height:25px;border-radius:7px;display:flex;align-items:center;justify-content:center;cursor:pointer" title="Copy"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="rgb(var(--tertiary-text))" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg></div>
@@ -143,12 +155,12 @@ const ASK_SCREEN_CHANNEL_HTML = `<div style="width:100%;height:100%;display:flex
         </div>
         <div style="flex-shrink:0;background:rgb(var(--screen-surface));border-top:1px solid rgb(var(--subtle-stroke));padding:10px 20px 12px">
           <div style="width:100%;max-width:600px;margin:0 auto">
-            <div style="border:1px solid rgb(var(--card-line));border-radius:12px;padding:8px 10px;display:flex;align-items:center;gap:9px;background:rgb(var(--screen-surface));box-shadow:0 1px 2px rgba(18,20,26,0.04)">
+            <div style="border:1px solid rgb(var(--card-line));border-radius:12px;padding:8px 10px;display:flex;align-items:center;gap:9px;background:rgb(var(--screen-surface));box-shadow:none">
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgb(var(--tertiary-text))" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="cursor:pointer;flex-shrink:0"><path d="M5 12h14M12 5v14"/></svg>
               <span style="flex:1;font-size:12.5px;color:rgb(var(--tertiary-text))">Ask a follow-up…</span>
-              <div style="display:flex;align-items:center;gap:5px;padding:3px 8px;background:rgb(var(--primary-bg));border:1px solid rgb(var(--subtle-stroke));border-radius:7px;cursor:pointer;flex-shrink:0"><div style="width:12px;height:12px;border-radius:3px;background:linear-gradient(135deg,#3E63DD,#6E56CF);display:flex;align-items:center;justify-content:center"><svg width="7" height="7" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.7l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.7l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg></div><span style="font-size:10.5px;color:rgb(var(--ink));font-weight:500">Sales Performance</span><svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="rgb(var(--tertiary-text))" stroke-width="3" stroke-linecap="round"><path d="m6 9 6 6 6-6"/></svg></div>
+              <div style="display:flex;align-items:center;gap:5px;padding:3px 8px;background:rgb(var(--primary-bg));border:1px solid rgb(var(--subtle-stroke));border-radius:7px;cursor:pointer;flex-shrink:0"><div style="width:12px;height:12px;border-radius:3px;background:rgb(var(--blue));display:flex;align-items:center;justify-content:center"><svg width="7" height="7" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.7l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.7l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg></div><span style="font-size:10.5px;color:rgb(var(--ink));font-weight:500">Sales Performance</span><svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="rgb(var(--tertiary-text))" stroke-width="3" stroke-linecap="round"><path d="m6 9 6 6 6-6"/></svg></div>
               <div style="width:28px;height:28px;border:1px solid rgb(var(--card-line));border-radius:8px;background:rgb(var(--screen-surface));display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0" title="Dictate"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="rgb(var(--secondary-text))" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><path d="M12 19v3"/></svg></div>
-              <div style="width:28px;height:28px;background:linear-gradient(135deg,#3E63DD,#6E56CF);border-radius:8px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 7-7 7 7M12 19V5"/></svg></div>
+              <div style="width:28px;height:28px;background:rgb(var(--blue));border-radius:8px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 7-7 7 7M12 19V5"/></svg></div>
             </div>
             <div style="display:flex;align-items:center;justify-content:center;gap:5px;margin-top:7px"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="rgb(var(--tertiary-text))" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg><span style="font-size:9px;color:rgb(var(--tertiary-text))">Answers respect your row-level access · every claim traceable to source</span></div>
           </div>
@@ -175,7 +187,7 @@ const MASTER_DATA_SCREEN_HTML = `<div style="width:100%;height:100%;display:flex
         <div style="width:1px;height:18px;background:rgb(var(--card-line))"></div>
         <div style="height:27px;padding:0 11px;background:rgb(var(--anchor));border-radius:7px;display:flex;align-items:center;gap:6px;cursor:pointer;flex-shrink:0"><span style="font-size:11.5px;color:#fff;font-weight:600">Actions</span><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"><path d="m6 9 6 6 6-6"/></svg></div>
         <div style="display:flex;align-items:center;height:27px;background:rgb(var(--tertiary-bg));border-radius:8px;padding:2px;flex-shrink:0">
-          <span style="height:23px;display:flex;align-items:center;padding:0 10px;background:rgb(var(--screen-surface));border-radius:6px;font-size:10.5px;font-weight:600;color:rgb(var(--ink));box-shadow:0 1px 2px rgba(18,20,26,0.07)">Canvas</span>
+          <span style="height:23px;display:flex;align-items:center;padding:0 10px;background:rgb(var(--screen-surface));border-radius:6px;font-size:10.5px;font-weight:600;color:rgb(var(--ink));box-shadow:none">Canvas</span>
           <span style="height:23px;display:flex;align-items:center;padding:0 10px;font-size:10.5px;color:rgb(var(--secondary-text));cursor:pointer">Records</span>
           <span style="height:23px;display:flex;align-items:center;padding:0 10px;font-size:10.5px;color:rgb(var(--secondary-text));cursor:pointer">Rules</span>
           <span style="height:23px;display:flex;align-items:center;padding:0 10px;font-size:10.5px;color:rgb(var(--secondary-text));cursor:pointer">Queue</span>
@@ -186,8 +198,8 @@ const MASTER_DATA_SCREEN_HTML = `<div style="width:100%;height:100%;display:flex
         <div style="height:27px;padding:0 10px;border:1px solid rgb(var(--card-line));border-radius:20px;display:flex;align-items:center;gap:5px;background:rgb(var(--screen-surface));cursor:pointer;flex-shrink:0"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="rgb(var(--tertiary-text))" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="7" r="4"/><path d="M2 21v-1a7 7 0 0 1 14 0v1"/><path d="M19 8v6M22 11h-6"/></svg><span style="font-size:10.5px;color:rgb(var(--secondary-text));font-weight:500">Review queue · 3</span></div>
         <div style="flex:1"></div>
         <div style="display:flex;align-items:center;flex-shrink:0">
-          <div style="width:22px;height:22px;border-radius:50%;background:linear-gradient(135deg,#E0A93B,#E5547B);border:1.5px solid #fff;display:flex;align-items:center;justify-content:center"><span style="font-size:9px;color:#fff;font-weight:700">AR</span></div>
-          <div style="width:22px;height:22px;border-radius:50%;background:linear-gradient(135deg,rgb(var(--positive)),#2A9BE0);border:1.5px solid #fff;display:flex;align-items:center;justify-content:center;margin-left:-7px"><span style="font-size:9px;color:#fff;font-weight:700">DK</span></div>
+          <div style="width:22px;height:22px;border-radius:50%;background:rgb(var(--blue-solid));border:1.5px solid #fff;display:flex;align-items:center;justify-content:center"><span style="font-size:9px;color:#fff;font-weight:700">AR</span></div>
+          <div style="width:22px;height:22px;border-radius:50%;background:rgb(var(--blue-solid));border:1.5px solid #fff;display:flex;align-items:center;justify-content:center;margin-left:-7px"><span style="font-size:9px;color:#fff;font-weight:700">DK</span></div>
         </div>
         <span style="font-size:10.5px;color:rgb(var(--tertiary-text))">12,447 golden records · 0 open conflicts</span>
         ${LIVE_CHIP}
@@ -224,20 +236,20 @@ const MASTER_DATA_SCREEN_HTML = `<div style="width:100%;height:100%;display:flex
             <path d="M180,370 C 230,370 240,280 288,262" stroke="rgb(var(--blue))" fill="none" stroke-width="1.6"/>
             <circle cx="288" cy="196" r="3" fill="rgb(var(--tertiary-text))"/><circle cx="288" cy="230" r="3" fill="rgb(var(--tertiary-text))"/><circle cx="288" cy="262" r="3.5" fill="rgb(var(--blue))"/>
           </svg>
-          <div style="position:absolute;left:20px;top:56px;width:160px;background:rgb(var(--screen-surface));border:1px solid rgb(var(--card-line));border-radius:10px;box-shadow:0 1px 2px rgba(18,20,26,0.05);overflow:hidden">
+          <div style="position:absolute;left:20px;top:56px;width:160px;background:rgb(var(--screen-surface));border:1px solid rgb(var(--card-line));border-radius:10px;box-shadow:none;overflow:hidden">
             <div style="display:flex;align-items:center;gap:8px;padding:9px 10px 7px"><div style="width:24px;height:24px;border-radius:7px;background:#2A9BE0;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="13" height="13" viewBox="0 0 24 24" fill="#fff"><path d="M14.5 6.5a4.5 4.5 0 0 0-8.4-1.6A3.7 3.7 0 0 0 1 8.4a3.7 3.7 0 0 0 1 7.1h11a4 4 0 0 0 1.5-7.7 4.5 4.5 0 0 0 0-1.3z"/></svg></div><div style="min-width:0;flex:1"><div style="font-size:11.5px;font-weight:600;color:rgb(var(--ink))">Whitmore Retail</div><div style="font-size:9px;color:rgb(var(--tertiary-text))">Salesforce · #4471</div></div></div>
             <div style="border-top:1px solid rgb(var(--subtle-stroke));background:rgb(var(--primary-bg));padding:5px 10px"><span style="display:block;font-size:9px;color:rgb(var(--secondary-text));white-space:nowrap;overflow:hidden;text-overflow:ellipsis">tax_id 94-2404110 · Harbor Blvd</span></div>
           </div>
-          <div style="position:absolute;left:20px;top:196px;width:160px;background:rgb(var(--screen-surface));border:1px solid rgb(var(--card-line));border-radius:10px;box-shadow:0 1px 2px rgba(18,20,26,0.05);overflow:hidden">
+          <div style="position:absolute;left:20px;top:196px;width:160px;background:rgb(var(--screen-surface));border:1px solid rgb(var(--card-line));border-radius:10px;box-shadow:none;overflow:hidden">
             <div style="display:flex;align-items:center;gap:8px;padding:9px 10px 7px"><div style="width:24px;height:24px;border-radius:7px;background:#1F2A52;display:flex;align-items:center;justify-content:center;flex-shrink:0"><span style="font-size:11px;color:#fff;font-weight:700">N</span></div><div style="min-width:0;flex:1"><div style="font-size:11.5px;font-weight:600;color:rgb(var(--ink))">Whitmore Retail Pvt</div><div style="font-size:9px;color:rgb(var(--tertiary-text))">NetSuite · #4471-B</div></div></div>
             <div style="border-top:1px solid rgb(var(--subtle-stroke));background:rgb(var(--primary-bg));padding:5px 10px"><span style="display:block;font-size:9px;color:rgb(var(--secondary-text));white-space:nowrap;overflow:hidden;text-overflow:ellipsis">same tax_id · Ste 2 · net-45</span></div>
           </div>
-          <div style="position:absolute;left:20px;top:336px;width:160px;background:rgb(var(--screen-surface));border:1px solid rgb(var(--card-line));border-radius:10px;box-shadow:0 1px 2px rgba(18,20,26,0.05);overflow:hidden">
+          <div style="position:absolute;left:20px;top:336px;width:160px;background:rgb(var(--screen-surface));border:1px solid rgb(var(--card-line));border-radius:10px;box-shadow:none;overflow:hidden">
             <div style="display:flex;align-items:center;gap:8px;padding:9px 10px 7px"><div style="width:24px;height:24px;border-radius:7px;background:#E5547B;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg></div><div style="min-width:0;flex:1"><div style="font-size:11.5px;font-weight:600;color:rgb(var(--ink))">WHITMORE RETAIL</div><div style="font-size:9px;color:rgb(var(--tertiary-text))">Invoice PDF · bill-to</div></div></div>
             <div style="border-top:1px solid rgb(var(--subtle-stroke));background:rgb(var(--primary-bg));padding:5px 10px"><span style="display:block;font-size:9px;color:rgb(var(--diagram-gold));font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">no tax_id · fuzzy match 0.97</span></div>
           </div>
-          <div style="position:absolute;left:288px;top:148px;width:186px;background:rgb(var(--screen-surface));border:1.5px solid rgb(var(--blue));border-radius:11px;box-shadow:0 1px 3px rgba(62,99,221,0.12);overflow:hidden">
-            <div style="height:34px;background:linear-gradient(135deg,#3E63DD,#5870E8);display:flex;align-items:center;gap:8px;padding:0 12px"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0 1 12 0v1"/></svg><span style="font-size:12px;font-weight:700;color:#fff">Golden record</span><div style="flex:1"></div><span style="font-size:9px;color:rgb(var(--blue-border));font-weight:600">CU-9042</span></div>
+          <div style="position:absolute;left:288px;top:148px;width:186px;background:rgb(var(--screen-surface));border:1.5px solid rgb(var(--blue));border-radius:11px;box-shadow:none;overflow:hidden">
+            <div style="height:34px;background:rgb(var(--blue-solid));display:flex;align-items:center;gap:8px;padding:0 12px"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0 1 12 0v1"/></svg><span style="font-size:12px;font-weight:700;color:#fff">Golden record</span><div style="flex:1"></div><span style="font-size:9px;color:rgb(var(--blue-border));font-weight:600">CU-9042</span></div>
             <div style="padding:9px 12px;display:flex;flex-direction:column;gap:5px">
               <div style="display:flex;align-items:center;justify-content:space-between"><span style="font-size:10px;color:rgb(var(--secondary-text))">Name</span><span style="font-size:10px;color:rgb(var(--ink));font-weight:600">Whitmore Retail</span></div>
               <div style="display:flex;align-items:center;justify-content:space-between"><span style="font-size:10px;color:rgb(var(--secondary-text))">tax_id</span><span style="font-size:10px;color:rgb(var(--ink));font-family:var(--font-mono)">94-2404110</span></div>
@@ -246,8 +258,8 @@ const MASTER_DATA_SCREEN_HTML = `<div style="width:100%;height:100%;display:flex
             </div>
             <div style="border-top:1px solid rgb(var(--blue-subtle));background:rgb(var(--primary-bg));padding:6px 12px;display:flex;align-items:center;gap:6px"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="rgb(var(--positive))" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg><span style="font-size:9.5px;color:rgb(var(--positive-text));font-weight:600">Confidence 0.98 · 3 sources</span><div style="flex:1"></div><span style="font-size:9.5px;color:rgb(var(--blue));font-weight:600;cursor:pointer">Open record →</span></div>
           </div>
-          <div style="position:absolute;left:196px;top:100px;background:rgb(var(--screen-surface));border:1px solid rgb(var(--card-line));border-radius:20px;padding:2px 8px;font-size:9px;color:rgb(var(--secondary-text));font-family:var(--font-mono);box-shadow:0 1px 2px rgba(18,20,26,0.05)">tax_id · exact match</div>
-          <div style="position:absolute;left:202px;top:378px;background:rgb(var(--panel));border:1px solid rgb(var(--blue-border));border-radius:20px;padding:2px 8px;font-size:9px;color:rgb(var(--blue));font-family:var(--font-mono);box-shadow:0 1px 2px rgba(18,20,26,0.05)">steward approved · 2m ago</div>
+          <div style="position:absolute;left:196px;top:100px;background:rgb(var(--screen-surface));border:1px solid rgb(var(--card-line));border-radius:20px;padding:2px 8px;font-size:9px;color:rgb(var(--secondary-text));font-family:var(--font-mono);box-shadow:none">tax_id · exact match</div>
+          <div style="position:absolute;left:202px;top:378px;background:rgb(var(--panel));border:1px solid rgb(var(--blue-border));border-radius:20px;padding:2px 8px;font-size:9px;color:rgb(var(--blue));font-family:var(--font-mono);box-shadow:none">steward approved · 2m ago</div>
           <div style="position:absolute;left:508px;top:176px;width:100px;background:rgb(var(--primary-bg));border:1px solid rgb(var(--card-line));border-radius:9px;padding:8px 10px">
             <div style="font-size:9px;color:rgb(var(--tertiary-text));font-family:var(--font-mono)">#4471</div>
             <div style="font-size:9px;color:rgb(var(--tertiary-text))">superseded</div>
@@ -256,11 +268,11 @@ const MASTER_DATA_SCREEN_HTML = `<div style="width:100%;height:100%;display:flex
             <div style="font-size:9px;color:rgb(var(--tertiary-text));font-family:var(--font-mono)">#4471-B</div>
             <div style="font-size:9px;color:rgb(var(--tertiary-text))">superseded</div>
           </div>
-          <div style="position:absolute;bottom:12px;right:14px;background:rgb(var(--screen-surface));border:1px solid rgb(var(--card-line));border-radius:8px;padding:5px 11px;display:flex;align-items:center;gap:12px;box-shadow:0 1px 2px rgba(18,20,26,0.05)">
+          <div style="position:absolute;bottom:12px;right:14px;background:rgb(var(--screen-surface));border:1px solid rgb(var(--card-line));border-radius:8px;padding:5px 11px;display:flex;align-items:center;gap:12px;box-shadow:none">
             <span style="display:inline-flex;align-items:center;gap:5px"><span style="width:8px;height:8px;border-radius:2px;background:#3E63DD"></span><span style="font-size:10px;color:rgb(var(--ink))">1 golden record</span></span>
             <span style="display:inline-flex;align-items:center;gap:5px"><span style="width:8px;height:8px;border-radius:2px;border:1.5px solid rgb(var(--tertiary-text))"></span><span style="font-size:10px;color:rgb(var(--ink))">2 superseded · lineage kept</span></span>
           </div>
-          <div style="position:absolute;bottom:12px;left:14px;background:rgb(var(--screen-surface));border:1px solid rgb(var(--card-line));border-radius:8px;padding:5px 9px;display:flex;align-items:center;gap:9px;box-shadow:0 1px 2px rgba(18,20,26,0.05)">
+          <div style="position:absolute;bottom:12px;left:14px;background:rgb(var(--screen-surface));border:1px solid rgb(var(--card-line));border-radius:8px;padding:5px 9px;display:flex;align-items:center;gap:9px;box-shadow:none">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="rgb(var(--secondary-text))" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="cursor:pointer"><path d="M5 12h14"/></svg>
             <span style="font-size:10.5px;color:rgb(var(--ink));font-weight:600;min-width:30px;text-align:center">100%</span>
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="rgb(var(--secondary-text))" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="cursor:pointer"><path d="M5 12h14M12 5v14"/></svg>
@@ -290,8 +302,8 @@ const ML_SCREEN_HTML = `<div style="width:100%;height:100%;display:flex;flex-dir
         <div style="height:27px;padding:0 10px;border:1px solid rgb(var(--card-line));border-radius:7px;background:rgb(var(--screen-surface));display:flex;align-items:center;gap:6px;cursor:pointer;flex-shrink:0"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="rgb(var(--secondary-text))" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M8 2v4M16 2v4M3 10h18"/></svg><span style="font-size:11.5px;color:rgb(var(--secondary-text));font-weight:500">Schedule: Weekly</span><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="rgb(var(--tertiary-text))" stroke-width="3" stroke-linecap="round"><path d="m6 9 6 6 6-6"/></svg></div>
         <div style="flex:1"></div>
         <div style="display:flex;align-items:center;flex-shrink:0">
-          <div style="width:22px;height:22px;border-radius:50%;background:linear-gradient(135deg,#E0A93B,#E5547B);border:1.5px solid #fff;display:flex;align-items:center;justify-content:center"><span style="font-size:9px;color:#fff;font-weight:700">AR</span></div>
-          <div style="width:22px;height:22px;border-radius:50%;background:linear-gradient(135deg,rgb(var(--positive)),#2A9BE0);border:1.5px solid #fff;display:flex;align-items:center;justify-content:center;margin-left:-7px"><span style="font-size:9px;color:#fff;font-weight:700">DK</span></div>
+          <div style="width:22px;height:22px;border-radius:50%;background:rgb(var(--blue-solid));border:1.5px solid #fff;display:flex;align-items:center;justify-content:center"><span style="font-size:9px;color:#fff;font-weight:700">AR</span></div>
+          <div style="width:22px;height:22px;border-radius:50%;background:rgb(var(--blue-solid));border:1.5px solid #fff;display:flex;align-items:center;justify-content:center;margin-left:-7px"><span style="font-size:9px;color:#fff;font-weight:700">DK</span></div>
         </div>
         <span style="font-size:10.5px;color:rgb(var(--tertiary-text))">Autosaved 2m ago</span>
         <div style="height:24px;padding:0 9px;background:rgb(var(--positive-subtle));border:1px solid rgb(var(--positive-border));border-radius:20px;display:flex;align-items:center;gap:5px"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="rgb(var(--positive))" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg><span style="font-size:10.5px;color:rgb(var(--positive-text));font-weight:600">v3 · Production</span></div>
@@ -440,7 +452,7 @@ const GOVERNANCE_SCREEN_HTML = `<div style="width:100%;height:100%;display:flex;
               Sales
             </span>
             <span style="display:inline-flex;align-items:center;gap:4px;font-size:9.5px;color:rgb(var(--secondary-text))">
-              <div style="width:14px;height:14px;border-radius:50%;background:linear-gradient(135deg,#3E63DD,#6E56CF);display:flex;align-items:center;justify-content:center;color:#fff;font-size:7px;font-weight:600">KI</div>
+              <div style="width:14px;height:14px;border-radius:50%;background:rgb(var(--blue));display:flex;align-items:center;justify-content:center;color:#fff;font-size:7px;font-weight:600">KI</div>
               Kavya Iyer
             </span>
             <span style="font-size:9px;color:rgb(var(--diagram-gold));background:rgb(var(--diagram-gold-bg));border:1px solid rgb(var(--diagram-gold-line));border-radius:4px;padding:1px 5px;font-weight:600">Tier 1</span>
@@ -475,13 +487,13 @@ const GOVERNANCE_SCREEN_HTML = `<div style="width:100%;height:100%;display:flex;
       <div style="flex:1;position:relative;overflow:hidden;background:rgb(var(--screen-surface));background-image:radial-gradient(circle,rgb(var(--lineSoft)) 1.1px,transparent 1.1px);background-size:16px 16px;min-width:0">
         <!-- Search Lineage -->
         <div style="position:absolute;top:10px;left:10px;display:flex;align-items:center;gap:6px;z-index:5">
-          <div style="background:rgb(var(--screen-surface));border:1px solid rgb(var(--card-line));border-radius:6px;padding:3.5px 8px;display:flex;align-items:center;gap:6px;box-shadow:0 1px 2px rgba(18,20,26,0.05)">
+          <div style="background:rgb(var(--screen-surface));border:1px solid rgb(var(--card-line));border-radius:6px;padding:3.5px 8px;display:flex;align-items:center;gap:6px;box-shadow:none">
             <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="rgb(var(--tertiary-text))" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
             <span style="font-size:9.5px;color:rgb(var(--tertiary-text));width:90px">Search lineage</span>
           </div>
           <span style="font-size:9.5px;color:rgb(var(--blue));font-weight:600;cursor:pointer">Advanced ></span>
-          <div style="background:rgb(var(--screen-surface));border:1px solid rgb(var(--card-line));border-radius:6px;padding:3.5px 7px;display:flex;align-items:center;gap:4px;cursor:pointer;box-shadow:0 1px 2px rgba(18,20,26,0.05)"><span style="font-size:9px;color:rgb(var(--secondary-text))">Upstream</span><span style="font-size:9px;color:rgb(var(--ink));font-weight:700">2</span><svg width="7" height="7" viewBox="0 0 24 24" fill="none" stroke="rgb(var(--tertiary-text))" stroke-width="3" stroke-linecap="round"><path d="m6 9 6 6 6-6"/></svg></div>
-          <div style="background:rgb(var(--screen-surface));border:1px solid rgb(var(--card-line));border-radius:6px;padding:3.5px 7px;display:flex;align-items:center;gap:4px;cursor:pointer;box-shadow:0 1px 2px rgba(18,20,26,0.05)"><span style="font-size:9px;color:rgb(var(--secondary-text))">Downstream</span><span style="font-size:9px;color:rgb(var(--ink));font-weight:700">1</span><svg width="7" height="7" viewBox="0 0 24 24" fill="none" stroke="rgb(var(--tertiary-text))" stroke-width="3" stroke-linecap="round"><path d="m6 9 6 6 6-6"/></svg></div>
+          <div style="background:rgb(var(--screen-surface));border:1px solid rgb(var(--card-line));border-radius:6px;padding:3.5px 7px;display:flex;align-items:center;gap:4px;cursor:pointer;box-shadow:none"><span style="font-size:9px;color:rgb(var(--secondary-text))">Upstream</span><span style="font-size:9px;color:rgb(var(--ink));font-weight:700">2</span><svg width="7" height="7" viewBox="0 0 24 24" fill="none" stroke="rgb(var(--tertiary-text))" stroke-width="3" stroke-linecap="round"><path d="m6 9 6 6 6-6"/></svg></div>
+          <div style="background:rgb(var(--screen-surface));border:1px solid rgb(var(--card-line));border-radius:6px;padding:3.5px 7px;display:flex;align-items:center;gap:4px;cursor:pointer;box-shadow:none"><span style="font-size:9px;color:rgb(var(--secondary-text))">Downstream</span><span style="font-size:9px;color:rgb(var(--ink));font-weight:700">1</span><svg width="7" height="7" viewBox="0 0 24 24" fill="none" stroke="rgb(var(--tertiary-text))" stroke-width="3" stroke-linecap="round"><path d="m6 9 6 6 6-6"/></svg></div>
           <div style="background:rgb(var(--blue-subtle));border:1px solid rgb(var(--blue-border));border-radius:6px;padding:3.5px 7px;display:flex;align-items:center;gap:5px;cursor:pointer"><span style="font-size:9px;color:rgb(var(--blue));font-weight:600">Column level</span><span style="position:relative;width:16px;height:9px;border-radius:5px;background:#3E63DD;display:inline-block"><span style="position:absolute;right:1px;top:1px;width:7px;height:7px;border-radius:50%;background:rgb(var(--screen-surface))"></span></span></div>
         </div>
 
@@ -510,7 +522,7 @@ const GOVERNANCE_SCREEN_HTML = `<div style="width:100%;height:100%;display:flex;
 
         <!-- Upstream Nodes -->
         <!-- Salesforce orders node -->
-        <div style="position:absolute;left:12px;top:36px;width:154px;background:rgb(var(--screen-surface));border:1px solid rgb(var(--card-line));border-radius:8px;box-shadow:0 1px 2px rgba(18,20,26,0.05);font-family:var(--font-sans)">
+        <div style="position:absolute;left:12px;top:36px;width:154px;background:rgb(var(--screen-surface));border:1px solid rgb(var(--card-line));border-radius:8px;box-shadow:none;font-family:var(--font-sans)">
           <div style="position:absolute;left:-7px;top:50%;transform:translateY(-50%);width:14px;height:14px;border:1px solid rgb(var(--line));border-radius:50%;background:rgb(var(--screen-surface));display:flex;align-items:center;justify-content:center;font-size:8px;color:rgb(var(--tertiary-text));cursor:pointer;z-index:2">+</div>
           <div style="position:absolute;right:-7px;top:50%;transform:translateY(-50%);width:14px;height:14px;border:1px solid rgb(var(--line));border-radius:50%;background:rgb(var(--screen-surface));display:flex;align-items:center;justify-content:center;font-size:8px;color:rgb(var(--tertiary-text));cursor:pointer;z-index:2">-</div>
           
@@ -538,7 +550,7 @@ const GOVERNANCE_SCREEN_HTML = `<div style="width:100%;height:100%;display:flex;
         </div>
 
         <!-- NetSuite invoices node (expanded) -->
-        <div style="position:absolute;left:12px;top:124px;width:154px;background:rgb(var(--screen-surface));border:1.5px solid rgb(var(--blue));border-radius:8px;box-shadow:0 2px 4px rgba(62,99,221,0.12);font-family:var(--font-sans);z-index:3">
+        <div style="position:absolute;left:12px;top:124px;width:154px;background:rgb(var(--screen-surface));border:1.5px solid rgb(var(--blue));border-radius:8px;box-shadow:none;font-family:var(--font-sans);z-index:3">
           <div style="position:absolute;left:-7px;top:20px;width:14px;height:14px;border:1px solid rgb(var(--blue));border-radius:50%;background:rgb(var(--screen-surface));display:flex;align-items:center;justify-content:center;font-size:8px;color:rgb(var(--blue));cursor:pointer;z-index:2">+</div>
           <div style="position:absolute;right:-7px;top:20px;width:14px;height:14px;border:1px solid rgb(var(--blue));border-radius:50%;background:rgb(var(--screen-surface));display:flex;align-items:center;justify-content:center;font-size:8px;color:rgb(var(--blue));cursor:pointer;z-index:2">-</div>
 
@@ -582,7 +594,7 @@ const GOVERNANCE_SCREEN_HTML = `<div style="width:100%;height:100%;display:flex;
         </div>
 
         <!-- Middle Node: fact_sales -->
-        <div style="position:absolute;left:224px;top:60px;width:172px;background:rgb(var(--screen-surface));border:1.5px solid rgb(var(--blue));border-radius:8px;box-shadow:0 3px 6px rgba(62,99,221,0.15);font-family:var(--font-sans);z-index:3">
+        <div style="position:absolute;left:224px;top:60px;width:172px;background:rgb(var(--screen-surface));border:1.5px solid rgb(var(--blue));border-radius:8px;box-shadow:none;font-family:var(--font-sans);z-index:3">
           <div style="position:absolute;left:-7px;top:20px;width:14px;height:14px;border:1px solid rgb(var(--blue));border-radius:50%;background:rgb(var(--screen-surface));display:flex;align-items:center;justify-content:center;font-size:8px;color:rgb(var(--blue));cursor:pointer;z-index:2">-</div>
           <div style="position:absolute;right:-7px;top:20px;width:14px;height:14px;border:1px solid rgb(var(--blue));border-radius:50%;background:rgb(var(--screen-surface));display:flex;align-items:center;justify-content:center;font-size:8px;color:rgb(var(--blue));cursor:pointer;z-index:2">-</div>
 
@@ -627,7 +639,7 @@ const GOVERNANCE_SCREEN_HTML = `<div style="width:100%;height:100%;display:flex;
 
         <!-- Downstream Nodes -->
         <!-- Tableau sales node -->
-        <div style="position:absolute;left:444px;top:48px;width:140px;background:rgb(var(--screen-surface));border:1px solid rgb(var(--card-line));border-radius:8px;box-shadow:0 1px 2px rgba(18,20,26,0.05);font-family:var(--font-sans)">
+        <div style="position:absolute;left:444px;top:48px;width:140px;background:rgb(var(--screen-surface));border:1px solid rgb(var(--card-line));border-radius:8px;box-shadow:none;font-family:var(--font-sans)">
           <div style="position:absolute;left:-7px;top:50%;transform:translateY(-50%);width:14px;height:14px;border:1px solid rgb(var(--line));border-radius:50%;background:rgb(var(--screen-surface));display:flex;align-items:center;justify-content:center;font-size:8px;color:rgb(var(--tertiary-text));cursor:pointer;z-index:2">-</div>
           <div style="position:absolute;right:-7px;top:50%;transform:translateY(-50%);width:14px;height:14px;border:1px solid rgb(var(--line));border-radius:50%;background:rgb(var(--screen-surface));display:flex;align-items:center;justify-content:center;font-size:8px;color:rgb(var(--tertiary-text));cursor:pointer;z-index:2">+</div>
 
@@ -650,7 +662,7 @@ const GOVERNANCE_SCREEN_HTML = `<div style="width:100%;height:100%;display:flex;
         </div>
 
         <!-- demand_forecast model node -->
-        <div style="position:absolute;left:444px;top:144px;width:140px;background:rgb(var(--screen-surface));border:1px solid rgb(var(--card-line));border-radius:8px;box-shadow:0 1px 2px rgba(18,20,26,0.05);font-family:var(--font-sans)">
+        <div style="position:absolute;left:444px;top:144px;width:140px;background:rgb(var(--screen-surface));border:1px solid rgb(var(--card-line));border-radius:8px;box-shadow:none;font-family:var(--font-sans)">
           <div style="position:absolute;left:-7px;top:50%;transform:translateY(-50%);width:14px;height:14px;border:1px solid rgb(var(--line));border-radius:50%;background:rgb(var(--screen-surface));display:flex;align-items:center;justify-content:center;font-size:8px;color:rgb(var(--tertiary-text));cursor:pointer;z-index:2">-</div>
           <div style="position:absolute;right:-7px;top:50%;transform:translateY(-50%);width:14px;height:14px;border:1px solid rgb(var(--line));border-radius:50%;background:rgb(var(--screen-surface));display:flex;align-items:center;justify-content:center;font-size:8px;color:rgb(var(--tertiary-text));cursor:pointer;z-index:2">+</div>
 
@@ -673,7 +685,7 @@ const GOVERNANCE_SCREEN_HTML = `<div style="width:100%;height:100%;display:flex;
         </div>
 
         <!-- finance_ledger table node -->
-        <div style="position:absolute;left:444px;top:240px;width:140px;background:rgb(var(--screen-surface));border:1px solid rgb(var(--card-line));border-radius:8px;box-shadow:0 1px 2px rgba(18,20,26,0.05);font-family:var(--font-sans)">
+        <div style="position:absolute;left:444px;top:240px;width:140px;background:rgb(var(--screen-surface));border:1px solid rgb(var(--card-line));border-radius:8px;box-shadow:none;font-family:var(--font-sans)">
           <div style="position:absolute;left:-7px;top:50%;transform:translateY(-50%);width:14px;height:14px;border:1px solid rgb(var(--line));border-radius:50%;background:rgb(var(--screen-surface));display:flex;align-items:center;justify-content:center;font-size:8px;color:rgb(var(--tertiary-text));cursor:pointer;z-index:2">-</div>
           <div style="position:absolute;right:-7px;top:50%;transform:translateY(-50%);width:14px;height:14px;border:1px solid rgb(var(--line));border-radius:50%;background:rgb(var(--screen-surface));display:flex;align-items:center;justify-content:center;font-size:8px;color:rgb(var(--tertiary-text));cursor:pointer;z-index:2">+</div>
 
@@ -696,7 +708,7 @@ const GOVERNANCE_SCREEN_HTML = `<div style="width:100%;height:100%;display:flex;
         </div>
 
         <!-- Floating panel (Edge Information) -->
-        <div style="position:absolute;right:10px;top:10px;bottom:10px;width:242px;background:rgb(var(--screen-surface));border:1px solid rgb(var(--card-line));border-radius:8px;box-shadow:-2px 0 8px rgba(18,20,26,0.06);display:flex;flex-direction:column;overflow:hidden;z-index:5;font-family:var(--font-sans)">
+        <div style="position:absolute;right:10px;top:10px;bottom:10px;width:242px;background:rgb(var(--screen-surface));border:1px solid rgb(var(--card-line));border-radius:8px;box-shadow:none;display:flex;flex-direction:column;overflow:hidden;z-index:5;font-family:var(--font-sans)">
           <div style="padding:8px 10px;border-bottom:1px solid rgb(var(--subtle-stroke));display:flex;align-items:center;justify-content:space-between">
             <span style="font-size:10.5px;font-weight:700;color:rgb(var(--ink))">Edge information</span>
             <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="rgb(var(--tertiary-text))" stroke-width="2.5" style="cursor:pointer"><path d="M18 6 6 18M6 6l12 12"/></svg>
@@ -740,7 +752,7 @@ const GOVERNANCE_SCREEN_HTML = `<div style="width:100%;height:100%;display:flex;
         </div>
 
         <!-- Canvas bottom controls -->
-        <div style="position:absolute;bottom:10px;left:10px;background:rgb(var(--screen-surface));border:1px solid rgb(var(--card-line));border-radius:6px;padding:4px 8px;display:flex;align-items:center;gap:8px;box-shadow:0 1px 2px rgba(18,20,26,0.05)">
+        <div style="position:absolute;bottom:10px;left:10px;background:rgb(var(--screen-surface));border:1px solid rgb(var(--card-line));border-radius:6px;padding:4px 8px;display:flex;align-items:center;gap:8px;box-shadow:none">
           <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="rgb(var(--secondary-text))" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="cursor:pointer"><path d="M5 12h14"/></svg>
           <span style="font-size:9.5px;color:rgb(var(--ink));font-weight:600;min-width:24px;text-align:center">100%</span>
           <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="rgb(var(--secondary-text))" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="cursor:pointer"><path d="M5 12h14M12 5v14"/></svg>
@@ -749,7 +761,7 @@ const GOVERNANCE_SCREEN_HTML = `<div style="width:100%;height:100%;display:flex;
         </div>
 
         <!-- Test-count legend: decodes the green/amber/red chips on every node -->
-        <div style="position:absolute;bottom:10px;left:148px;background:rgb(var(--screen-surface));border:1px solid rgb(var(--card-line));border-radius:6px;padding:4px 9px;display:flex;align-items:center;gap:8px;box-shadow:0 1px 2px rgba(18,20,26,0.05)">
+        <div style="position:absolute;bottom:10px;left:148px;background:rgb(var(--screen-surface));border:1px solid rgb(var(--card-line));border-radius:6px;padding:4px 9px;display:flex;align-items:center;gap:8px;box-shadow:none">
           <span style="font-size:8px;color:rgb(var(--tertiary-text));font-weight:700;letter-spacing:0.06em">TESTS</span>
           <span style="display:inline-flex;align-items:center;gap:3px"><span style="width:7px;height:7px;border-radius:2px;background:rgb(var(--positive-subtle));border:1px solid rgb(var(--positive-border))"></span><span style="font-size:8.5px;color:rgb(var(--secondary-text))">passed</span></span>
           <span style="display:inline-flex;align-items:center;gap:3px"><span style="width:7px;height:7px;border-radius:2px;background:rgb(var(--diagram-gold-bg));border:1px solid rgb(var(--diagram-gold-line))"></span><span style="font-size:8.5px;color:rgb(var(--secondary-text))">warning</span></span>
@@ -757,7 +769,7 @@ const GOVERNANCE_SCREEN_HTML = `<div style="width:100%;height:100%;display:flex;
         </div>
 
         <!-- Security indicator -->
-        <div style="position:absolute;bottom:10px;right:262px;background:rgb(var(--screen-surface));border:1px solid rgb(var(--card-line));border-radius:6px;padding:4px 8px;display:flex;align-items:center;gap:5px;box-shadow:0 1px 2px rgba(18,20,26,0.05)">
+        <div style="position:absolute;bottom:10px;right:262px;background:rgb(var(--screen-surface));border:1px solid rgb(var(--card-line));border-radius:6px;padding:4px 8px;display:flex;align-items:center;gap:5px;box-shadow:none">
           <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="rgb(var(--positive))" stroke-width="2.5"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg>
           <span style="font-size:9.5px;color:rgb(var(--secondary-text))">Row-level security enforced · 4,211 events audited</span>
         </div>
@@ -766,163 +778,136 @@ const GOVERNANCE_SCREEN_HTML = `<div style="width:100%;height:100%;display:flex;
   </div>
 </div>`;
 
-const TABS = [
-  { label: "Pipelines", html: PIPELINES_SCREEN_HTML },
-  { label: "Master Data", html: MASTER_DATA_SCREEN_HTML },
-  { label: "Warehouse", html: MODELS_SCREEN_HTML },
-  { label: "ML", html: ML_SCREEN_HTML },
-  { label: "Ask Akashic", html: ASK_SCREEN_CHANNEL_HTML },
-  { label: "BI", html: "" }, // rendered as the interactive AkashicHeroBIWireframe component below
-  { label: "Governance", html: GOVERNANCE_SCREEN_HTML },
+
+type Screen = {
+  module: string;
+  /** What the module adds to the organisation's context: its tentacle label. */
+  adds: string;
+  /** One legible line under the stage: the claim the small screen stands for. */
+  caption: string;
+  html?: string;
+};
+
+/* Order is the platform's: Foundation, then Intelligence, then Governance. */
+const SCREENS: Screen[] = [
+  { module: "Pipelines", adds: "Connected sources", caption: "Three sources join into one governed table. Nothing rejected.", html: PIPELINES_SCREEN_HTML },
+  { module: "Master Data", adds: "Resolved entities", caption: "Three spellings, one record. Every field keeps its source.", html: MASTER_DATA_SCREEN_HTML },
+  { module: "Warehouse", adds: "Shared definitions", caption: "A metric defined once. BI, Ask and ML all read the same one.", html: MODELS_SCREEN_HTML },
+  { module: "ML", adds: "Forecasts", caption: "Models trained on governed data, with every run on record.", html: ML_SCREEN_HTML },
+  { module: "Ask Akashic", adds: "Cited answers", caption: "Plain questions, answered from governed metrics, every figure cited.", html: ASK_SCREEN_CHANNEL_HTML },
+  { module: "BI", adds: "Dashboards and alerts", caption: "Dashboards on governed metrics. Ask for a tile and it lands." },
+  { module: "Governance", adds: "Lineage and access", caption: "Every column traced upstream and down. Access set by role.", html: GOVERNANCE_SCREEN_HTML },
 ];
 
-const N = TABS.length;
-
-/* Dwell per screen. Raised from 6000ms on 22 Jul 2026 (team feedback) to match
-   the home hero rail: six modules at 6s cycled faster than a reader could
-   take in one screen, let alone recognise it as a different module. */
+const N = SCREENS.length;
 const SCREEN_DURATION_MS = 8500;
+const NATIVE_W = 920;
+const NATIVE_H = 600;
+/* The front screen's scale: small enough that the product text stops reading. */
+const FRONT_SCALE = 0.56;
+
+/* Where a screen sits for its distance from the front (computed geometry,
+   Rule 8). `w` is the stage width; the centre scale shrinks with it. */
+function placement(rp: number, w: number): CSSProperties {
+  const sc = Math.min(FRONT_SCALE, (w - 24) / NATIVE_W);
+  const wide = w >= 768;
+  const step = rp === 0 ? 0 : rp <= N / 2 ? rp : rp - N; // -3..3
+  const d = Math.abs(step);
+  const side = Math.sign(step);
+  if (d === 0) return { transform: `translate(-50%, 0) scale(${sc})`, opacity: 1, zIndex: 30 };
+  if (!wide || d > 2) return { transform: `translate(-50%, ${sc * 60}px) scale(${sc * 0.7})`, opacity: 0, zIndex: 0, pointerEvents: "none" };
+  const x = side * w * (d === 1 ? 0.27 : 0.44);
+  const s = sc * (d === 1 ? 0.8 : 0.64);
+  return {
+    transform: `translate(calc(-50% + ${x}px), ${d === 1 ? 26 : 50}px) rotate(${side * d * 1.5}deg) scale(${s})`,
+    opacity: d === 1 ? 0.62 : 0.26,
+    zIndex: 30 - d * 10,
+    filter: "saturate(0.55)",
+  };
+}
 
 export default function AkashicModuleScreensMockup() {
   const rootRef = useRef<HTMLDivElement>(null);
+  const stageRef = useRef<HTMLDivElement>(null);
   const reduced = usePrefersReducedMotion();
-  // Off screen, nothing cycles: no timer, and the SMIL loops (always
-  // main-thread work) are paused.
+  // Off screen, nothing cycles (Rule 6a).
   const onScreen = useOnScreen(rootRef);
-  const [activeCard, setActiveCard] = useState(0);
-  const [resetTrigger, setResetTrigger] = useState(0);
+  const [active, setActive] = useState(0);
+  const [resetKey, setResetKey] = useState(0);
+  const [width, setWidth] = useState(1152);
 
-  const handleSelect = (id: number) => {
-    setActiveCard(id);
-    setResetTrigger((prev) => prev + 1);
+  const select = (i: number) => {
+    setActive(i);
+    setResetKey((k) => k + 1);
   };
+
+  useEffect(() => {
+    const el = stageRef.current;
+    if (!el) return;
+    setWidth(el.offsetWidth);
+    const observer = new ResizeObserver(([entry]) => setWidth(entry.contentRect.width));
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
     if (reduced || !onScreen) return;
-    const timer = setInterval(() => {
-      setActiveCard((prev) => (prev + 1) % N);
-    }, SCREEN_DURATION_MS);
-    return () => clearInterval(timer);
-  }, [activeCard, resetTrigger, reduced, onScreen]);
+    const timer = setTimeout(() => setActive((a) => (a + 1) % N), SCREEN_DURATION_MS);
+    return () => clearTimeout(timer);
+  }, [active, resetKey, reduced, onScreen]);
 
+  // The screens' own SMIL loops rest under reduced motion.
   useEffect(() => {
-    // Only the centre card is live; the cards behind it hold still, and so
-    // does everything while the page is scrolling (Rule 6a scroll hold).
-    let scrolling = false;
-    let rest = 0;
-    const sync = () =>
-      rootRef.current?.querySelectorAll("svg").forEach((svg) => {
-        const live = !reduced && onScreen && !scrolling && svg.closest('.hs-card[data-pos="center"]') !== null;
-        if (live) svg.unpauseAnimations();
-        else svg.pauseAnimations();
-      });
-    const onScroll = () => {
-      if (!scrolling) {
-        scrolling = true;
-        sync();
-      }
-      window.clearTimeout(rest);
-      rest = window.setTimeout(() => {
-        scrolling = false;
-        sync();
-      }, 200);
-    };
-    sync();
-    if (!reduced && onScreen) window.addEventListener("scroll", onScroll, { passive: true });
-    return () => {
-      window.clearTimeout(rest);
-      window.removeEventListener("scroll", onScroll);
-    };
-  }, [reduced, activeCard, onScreen]);
+    stageRef.current?.querySelectorAll("svg").forEach((svg) => (reduced ? svg.pauseAnimations() : svg.unpauseAnimations()));
+  }, [reduced, active]);
 
-  const getPos = (rp: number) => {
-    if (rp === 0) return "center";
-    if (rp === 1) return "right";
-    if (rp === 2) return "far-right";
-    if (rp === N - 2) return "far-left";
-    if (rp === N - 1) return "left";
-    return "far";
-  };
+  const sc = Math.min(FRONT_SCALE, (width - 24) / NATIVE_W);
+  const s = SCREENS[active];
 
   return (
-    <div ref={rootRef} data-own-motion style={{ padding: "6px 0 12px", fontFamily: "var(--font-sans)" }} className="relative z-10 mx-auto w-full max-w-[1152px]">
-      <div className="mx-auto mb-2 flex w-fit max-w-full items-center gap-5 overflow-x-auto px-4 lg:gap-8">
-        {TABS.map((tab, id) => {
-          const isActive = activeCard === id;
+    <div ref={rootRef} className="relative z-10 mx-auto w-full max-w-[1152px]">
+      {/* The stage. Decorative: the caption and the index carry the content. */}
+      <div
+        ref={stageRef}
+        aria-hidden
+        className="relative w-full [mask-image:linear-gradient(to_right,transparent,black_5%,black_95%,transparent)]"
+        style={{ height: Math.round(NATIVE_H * sc * 0.86) + 40 }}
+      >
+        {SCREENS.map((screen, i) => {
+          const rp = (i - active + N) % N;
+          const front = rp === 0;
           return (
             <div
-              key={tab.label}
-              onClick={() => handleSelect(id)}
-              role="button"
-              tabIndex={0}
-              onKeyDown={(e) => (e.key === "Enter" || e.key === " ") && handleSelect(id)}
-              className={`group relative flex cursor-pointer select-none items-center gap-2 whitespace-nowrap pb-2 text-[15px] tracking-tight transition-colors duration-200 ${
-                isActive ? "text-primary-text" : "text-tertiary-text hover:text-secondary-text"
+              key={screen.module}
+              onClick={() => !front && select(i)}
+              className={`absolute left-1/2 top-0 overflow-hidden rounded-[14px] border border-card-line bg-[rgb(var(--screen-raised))]  transition-[transform,opacity,filter] duration-500 ease-settle [mask-image:linear-gradient(to_bottom,black_58%,transparent_96%)] motion-reduce:transition-none ${
+                front ? "" : "cursor-pointer"
               }`}
-              style={{ fontFamily: "var(--font-sans)", fontWeight: isActive ? 600 : 400 }}
+              style={{ width: NATIVE_W, height: NATIVE_H, transformOrigin: "center top", ...placement(rp, width) }}
             >
-              <span
-                className={`h-1.5 w-1.5 rounded-full transition-all duration-200 ${
-                  isActive ? "scale-100 bg-blue opacity-100" : "scale-50 bg-tertiary-text opacity-40 group-hover:opacity-70"
-                }`}
-              />
-              {tab.label}
-              <span
-                key={isActive ? `active-${resetTrigger}` : "inactive"}
-                className="absolute bottom-0 left-0 h-px origin-left bg-tertiary-text/40 transition-all duration-300"
-                style={{
-                  width: isActive ? "100%" : "0%",
-                  animation: isActive ? "progressFill 6s linear forwards" : undefined,
-                }}
-              />
+              <div className="pointer-events-none h-full w-full select-none">
+                {screen.html ? <div className="h-full w-full" dangerouslySetInnerHTML={{ __html: screen.html }} /> : <AkashicBIScreenMockup />}
+              </div>
             </div>
           );
         })}
       </div>
-      <p className="mx-auto mb-3 whitespace-nowrap px-4 text-center text-[12.5px] font-normal text-tertiary-text md:text-[13.5px]">
-        Seven modules, one product, one governed foundation.
+
+      <p className="relative z-40 mx-auto -mt-2 min-h-[3rem] max-w-[56rem] px-4 text-center text-[13.5px] leading-relaxed text-secondary-text md:text-[14.5px]">
+        <span key={active} className="inline-block animate-[ps-rise_420ms_cubic-bezier(0.2,0.8,0.2,1)_both]">
+          <span className="text-primary-text">{s.module}.</span> {s.caption}
+        </span>{" "}
+        <Link href="#talk-to-our-team" className="whitespace-nowrap font-medium text-blue underline-offset-4 hover:underline">
+          See it with your own data
+        </Link>
       </p>
-      {/* 690px, not 600px: `.hs-card` is 600px with `transform-origin: center
-          top` and the centre card is `scale(1.15)`, so the stack really stands
-          690px tall. Anything below a 600px box is painted over by the cards. */}
-      <div style={{ position: "relative", height: "690px", width: "100%" }}>
-        {TABS.map((tab, i) => {
-          const rp = (i - activeCard + N) % N;
-          const pos = getPos(rp);
-          
-          if (tab.label === "BI") {
-            return (
-              <div
-                key={tab.label}
-                className="hs-card overflow-hidden"
-                data-pos={pos}
-                onClick={() => rp !== 0 && handleSelect(i)}
-              >
-                <div className={`w-full h-full ${rp !== 0 ? "pointer-events-none select-none" : ""}`}>
-                  <AkashicHeroBIWireframe />
-                </div>
-              </div>
-            );
-          }
 
-          return (
-            <div
-              key={tab.label}
-              className="hs-card"
-              data-pos={pos}
-              onClick={() => rp !== 0 && handleSelect(i)}
-              dangerouslySetInnerHTML={{ __html: tab.html }}
-            />
-          );
-        })}
-      </div>
-
-      <ScreenProgressRail
-        count={N}
-        active={activeCard}
-        durationMs={SCREEN_DURATION_MS}
-        resetKey={resetTrigger}
-        className="mt-4"
+      <ContextTentacles
+        nodes={SCREENS.map(({ module, adds }) => ({ module, adds }))}
+        active={active}
+        resetKey={resetKey}
+        durationMs={reduced ? 0 : SCREEN_DURATION_MS}
+        onSelect={select}
       />
     </div>
   );

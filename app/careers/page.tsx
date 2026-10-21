@@ -1,48 +1,36 @@
 import type { Metadata } from "next";
-import Nav from "@/components/layout/Nav";
 import Footer from "@/components/layout/Footer";
-import CareersHero from "@/components/sections/careers/CareersHero";
-import CareersImpact from "@/components/sections/careers/CareersImpact";
-import CareersCulture from "@/components/sections/careers/CareersCulture";
-import CareersRoles from "@/components/sections/careers/CareersRoles";
-import CareersHiring from "@/components/sections/careers/CareersHiring";
-import CareersClose from "@/components/sections/careers/CareersClose";
+import Nav from "@/components/layout/Nav";
 import PageMinimap from "@/components/layout/PageMinimap";
-import { CAREERS_SECTIONS } from "@/lib/careersSections";
+import CareersClose from "@/components/sections/careers/CareersClose";
+import CareersCulture from "@/components/sections/careers/CareersCulture";
+import CareersHero from "@/components/sections/careers/CareersHero";
+import CareersHiring from "@/components/sections/careers/CareersHiring";
+import CareersImpact from "@/components/sections/careers/CareersImpact";
+import CareersRoles from "@/components/sections/careers/CareersRoles";
+import { getPage, getRoles } from "@/lib/content";
+import { pageMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
-  title: "Careers",
-  description:
-    "Help build intelligence for public systems. A small team shipping inside national platforms, on systems built to outlast budget cycles.",
-  openGraph: {
-    title: "Careers | DHIRA",
-    description:
-      "A small team shipping inside national platforms. Real systems from week one.",
-    images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "Careers at DHIRA" }],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Careers | DHIRA",
-    description:
-      "Help build intelligence for public systems.",
-    images: ["/og-image.png"],
-  },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const { seo } = await getPage("careers");
+  return pageMetadata(seo);
+}
 
-export default function CareersPage() {
+export default async function CareersPage() {
+  const [page, roles] = await Promise.all([getPage("careers"), getRoles()]);
   return (
     <>
       <Nav />
       <main id="main" className="bg-background">
-        <CareersHero />
-        <CareersImpact />
-        <CareersCulture />
-        <CareersRoles />
-        <CareersHiring />
-        <CareersClose />
+        <CareersHero content={page.hero} roles={roles} />
+        <CareersImpact content={page.work} />
+        <CareersCulture content={page.culture} />
+        <CareersRoles content={page.roles} roles={roles} />
+        <CareersHiring content={page.hiring} />
+        <CareersClose content={page.close} roles={roles} />
       </main>
       <Footer />
-      <PageMinimap sections={CAREERS_SECTIONS} aria-label="Careers page sections" />
+      <PageMinimap sections={page.sections} aria-label={page.sectionsLabel} />
     </>
   );
 }

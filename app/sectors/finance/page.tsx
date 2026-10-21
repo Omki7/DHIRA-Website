@@ -1,51 +1,36 @@
 import type { Metadata } from "next";
-import Nav from "@/components/layout/Nav";
 import Footer from "@/components/layout/Footer";
+import Nav from "@/components/layout/Nav";
+import PageMinimap from "@/components/layout/PageMinimap";
 import FinanceHero from "@/components/sections/finance/FinanceHero";
 import FinanceChain from "@/components/sections/finance/FinanceChain";
-import SectorMap from "@/components/sections/sectors/SectorMap";
-import SectorSolution from "@/components/sections/sectors/SectorSolution";
-import SectorOutcomes from "@/components/sections/sectors/SectorOutcomes";
 import SectorClose from "@/components/sections/sectors/SectorClose";
-import PageMinimap from "@/components/layout/PageMinimap";
-import { FINANCE_SECTIONS } from "@/lib/financeSections";
-import { SECTOR_PAGES } from "@/components/sections/sectors/sectorContent";
+import SectorMap from "@/components/sections/sectors/SectorMap";
+import SectorOutcomes from "@/components/sections/sectors/SectorOutcomes";
+import SectorSolution from "@/components/sections/sectors/SectorSolution";
+import { getSector } from "@/lib/content";
+import { pageMetadata } from "@/lib/metadata";
 
-const content = SECTOR_PAGES.finance;
+export async function generateMetadata(): Promise<Metadata> {
+  const { content } = await getSector("finance");
+  return pageMetadata(content.seo);
+}
 
-export const metadata: Metadata = {
-  title: "Finance & Banking",
-  description:
-    "Akashic watches every transaction against the whole graph: one resolved customer across products, real-time pattern recognition, and lineage on every alert.",
-  openGraph: {
-    title: "Finance & Banking Sector | DHIRA",
-    description:
-      "Akashic watches every transaction against the whole graph: one resolved customer across products, real-time pattern recognition, and lineage on every alert.",
-    images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "Finance & Banking Sector — DHIRA" }],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Finance & Banking Sector | DHIRA",
-    description:
-      "Akashic watches every transaction against the whole graph: one resolved customer across products.",
-    images: ["/og-image.png"],
-  },
-};
-
-export default function FinancePage() {
+export default async function FinancePage() {
+  const { content, map, template, sections } = await getSector("finance");
   return (
     <>
       <Nav />
       <main id="main" className="bg-background">
-        <FinanceHero />
-        <FinanceChain />
-        <SectorMap slug="finance" />
-        <SectorSolution content={content} />
-        <SectorOutcomes content={content} />
-        <SectorClose content={content} />
+        <FinanceHero content={content} template={template} />
+        <FinanceChain content={content} template={template.problem} />
+        <SectorMap scene={map} touchline={content.touchline} template={template.map} />
+        <SectorSolution content={content} template={template.solution} />
+        <SectorOutcomes content={content} template={template.outcomes} />
+        <SectorClose content={content} template={template.close} />
       </main>
       <Footer />
-      <PageMinimap sections={FINANCE_SECTIONS} aria-label="Finance page sections" />
+      <PageMinimap sections={sections} aria-label={content.sectionsLabel} />
     </>
   );
 }

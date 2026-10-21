@@ -17,8 +17,9 @@
 
 import Link from "next/link";
 import ScrollReveal from "@/components/ui/ScrollReveal";
+import type { LifePage } from "@/content/pages/solutions-life";
 
-export default function LifeClose() {
+export default function LifeClose({ content }: { content: LifePage["close"] }) {
   return (
     <section
       id="talk-to-our-team"
@@ -36,12 +37,12 @@ export default function LifeClose() {
               out of the page's colour system, at the end of nine sections of
               ocean. The other four dark sections here already anchor their
               ramps on #0A0E24; this is the fifth. */}
-          <div className="fl-sheen relative mx-auto max-w-[1100px] overflow-hidden rounded-outer bg-life-abyss px-6 py-14 text-center text-white md:px-12 md:py-20">
-            {/* Accent follows the ground: sitewide `blue` (#266DF2) on a navy
+          <div className=" relative mx-auto max-w-[1100px] overflow-hidden rounded-outer bg-life-abyss px-6 py-14 text-center text-ink md:px-12 md:py-20">
+            {/* Accent follows the ground: sitewide `blue` (rgb(var(--blue))) on a navy
                 slab is indigo on indigo. `life-cyan` is this page's accent and
                 carries 7.9:1 on `life-abyss`. */}
             <div
-              className="absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r from-life-cyan/70 via-life-cyan/30 to-transparent"
+              className="absolute inset-x-0 top-0 h-[3px] bg-blue"
               aria-hidden
             />
             {/* `dot-grid-dark`, not `dot-grid ... invert`. The site has a
@@ -49,23 +50,20 @@ export default function LifeClose() {
                 other dark closing slab uses it — homepage Closure, AkashicStack,
                 DeliveryModels. Inverting the LIGHT grid instead produced a
                 heavier texture that measured ~5 L* of lift on the slab. */}
-            <div className="dot-grid-dark pointer-events-none absolute inset-0 opacity-20" aria-hidden />
+            
             <div className="relative">
-              <h2 className="mx-auto mt-2 max-w-[18em] text-balance text-heading-sm font-semibold text-white md:text-heading-md">
-                Care that cannot wait should not have to.
+              <h2 className="mx-auto mt-2 max-w-[18em] text-balance text-heading-sm font-semibold text-ink md:text-heading-md">
+                {content.title}
               </h2>
-              <p className="mx-auto mt-8 max-w-[36em] text-base leading-relaxed text-white/60 md:text-lg">
-                Bring specialist-grade risk detection to the visits your health
-                workers are already making, on the handsets they already carry,
-                and read the result at district and national level the moment
-                there is signal.
+              <p className="mx-auto mt-8 max-w-[36em] text-base leading-relaxed text-secondary-text md:text-lg">
+                {content.body}
               </p>
               <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
-                <Link href="/#get-started" className="btn-primary-invert">
-                  Talk to our team
+                <Link href={content.primary.href} className="btn-primary">
+                  {content.primary.label}
                 </Link>
-                <Link href="#record-of-work" className="btn-secondary-invert">
-                  See the record
+                <Link href={content.secondary.href} className="btn-secondary">
+                  {content.secondary.label}
                 </Link>
               </div>
             </div>

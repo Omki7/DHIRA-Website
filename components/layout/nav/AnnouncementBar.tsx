@@ -1,5 +1,5 @@
 import RegionLink from "@/components/ui/RegionLink";
-import { NAV_ANNOUNCEMENT } from "@/lib/navigation";
+import type { NavAnnouncement } from "@/content/navigation";
 import { Arrow } from "./NavIcons";
 
 /* The founder's launch line. Sits ABOVE the sticky header in normal flow, so
@@ -8,10 +8,10 @@ import { Arrow } from "./NavIcons";
    under, mono label in blue. z-[45]: above the menu scrim (z-40), so it
    stays crisp like the header, and above the /about landscape, which paints
    later. `/about` makes it transparent over that landscape (about-page.css).
-   Renders nothing when the config is null. */
-export default function AnnouncementBar() {
-  if (!NAV_ANNOUNCEMENT) return null;
-  const { label, text, href, cta } = NAV_ANNOUNCEMENT;
+   Renders nothing when the Navigation document's announcement is null. */
+export default function AnnouncementBar({ announcement }: { announcement: NavAnnouncement | null }) {
+  if (!announcement) return null;
+  const { label, text, href, cta } = announcement;
 
   return (
     <div className="nav-announce relative z-[45] border-b border-subtle-stroke bg-background">

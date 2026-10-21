@@ -4,34 +4,24 @@
  * principles are numbered registers; documents and subprocessors are
  * tables a reviewer can scan. The page's one soft blue band (Rule 5a) is
  * [03] Responsible AI, the part of the page that is DHIRA's argument.
- * Copy: lib/trustSections.ts (parts DRAFT).
+ * Copy: content/pages/trust.ts (parts DRAFT), passed in by app/trust/page.tsx.
  */
 
 import Link from "next/link";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import ScrollRevealRail from "@/components/ui/ScrollRevealRail";
 import SectionHeader from "@/components/ui/SectionHeader";
-import {
-  TRUST_AI,
-  TRUST_COMPLIANCE,
-  TRUST_CONTROLS,
-  TRUST_DISCLOSURE,
-  TRUST_DOCUMENTS,
-  TRUST_PRIVACY,
-  TRUST_SUBPROCESSORS,
-} from "@/lib/trustSections";
-import { mailto } from "@/lib/site";
+import type { TrustPage, TrustPoint } from "@/content/pages/trust";
 
 const pad = (n: number) => String(n).padStart(2, "0");
 const label = "font-mono text-[11px] uppercase tracking-eyebrow text-overcast";
 const section = "scroll-mt-24 border-t border-lineSoft bg-background pb-20 pt-16 lg:pb-28 lg:pt-20";
 
-export function TrustSecurity() {
-  const c = TRUST_CONTROLS;
+export function TrustSecurity({ content: c }: { content: TrustPage["security"] }) {
   return (
     <section id="security" className="scroll-mt-24 bg-background pb-20 pt-16 lg:pb-28 lg:pt-20">
       <ScrollRevealRail>
-        <SectionHeader num="01" label={c.label} setup={c.setup} payoff={c.payoff} lede={c.lede} />
+        <SectionHeader num={c.num} label={c.label} setup={c.setup} payoff={c.payoff} lede={c.lede} />
         <div className="mt-12 grid border-t border-ink/80 sm:grid-cols-2 lg:mt-16 lg:grid-cols-4">
           {c.domains.map((domain, index) => (
             <ScrollReveal
@@ -57,7 +47,7 @@ export function TrustSecurity() {
   );
 }
 
-function NumberedRegister({ items, columns = 2 }: { items: { title: string; text: string }[]; columns?: 2 | 3 }) {
+function NumberedRegister({ items, columns = 2 }: { items: TrustPoint[]; columns?: 2 | 3 }) {
   return (
     <ol className={`mt-12 grid border-t border-lineSoft lg:mt-16 lg:gap-x-16 ${columns === 3 ? "md:grid-cols-2 lg:grid-cols-3" : "lg:grid-cols-2"}`}>
       {items.map((item, index) => (
@@ -73,17 +63,16 @@ function NumberedRegister({ items, columns = 2 }: { items: { title: string; text
   );
 }
 
-export function TrustPrivacy() {
-  const c = TRUST_PRIVACY;
+export function TrustPrivacy({ content: c }: { content: TrustPage["privacy"] }) {
   return (
     <section id="privacy" className={section}>
       <ScrollRevealRail>
-        <SectionHeader num="02" label={c.label} setup={c.setup} payoff={c.payoff}>
+        <SectionHeader num={c.num} label={c.label} setup={c.setup} payoff={c.payoff}>
           <Link
-            href="/privacy"
+            href={c.policy.href}
             className="group mt-6 inline-flex items-center gap-1.5 text-[15px] font-medium text-blue transition-colors duration-150 hover:text-blue-hover"
           >
-            Read the privacy policy
+            {c.policy.label}
             <span aria-hidden className="transition-transform duration-250 ease-settle group-hover:translate-x-0.5">
               &rarr;
             </span>
@@ -97,21 +86,20 @@ export function TrustPrivacy() {
   );
 }
 
-export function TrustResponsibleAi() {
-  const c = TRUST_AI;
+export function TrustResponsibleAi({ content: c }: { content: TrustPage["responsibleAi"] }) {
   return (
     <section
       id="responsible-ai"
-      className="scroll-mt-24 bg-[linear-gradient(180deg,#FFFFFF_0%,#F1F5FE_14%,#F1F5FE_86%,#FFFFFF_100%)] pb-20 pt-16 lg:pb-28 lg:pt-20"
+      className="scroll-mt-24 bg-band pb-20 pt-16 lg:pb-28 lg:pt-20"
     >
       <ScrollRevealRail>
-        <SectionHeader num="03" label={c.label} setup={c.setup} payoff={c.payoff} lede={c.lede} />
+        <SectionHeader num={c.num} label={c.label} setup={c.setup} payoff={c.payoff} lede={c.lede} />
         <ScrollReveal delay={80}>
           <NumberedRegister items={c.principles} columns={3} />
         </ScrollReveal>
         <ScrollReveal delay={120}>
           <div className="mt-10 border-t border-dashed border-lineSoft pt-5">
-            <p className={label}>Guidance we map our controls to</p>
+            <p className={label}>{c.frameworksLabel}</p>
             <ul className="mt-3 flex flex-wrap gap-x-8 gap-y-2">
               {c.frameworks.map((framework) => (
                 <li key={framework} className="text-[15px] text-ink">
@@ -126,20 +114,19 @@ export function TrustResponsibleAi() {
   );
 }
 
-export function TrustCompliance() {
-  const c = TRUST_COMPLIANCE;
+export function TrustCompliance({ content: c }: { content: TrustPage["compliance"] }) {
   return (
     <section id="compliance" className={section}>
       <ScrollRevealRail>
-        <SectionHeader num="04" label={c.label} setup={c.setup} payoff={c.payoff} />
+        <SectionHeader num={c.num} label={c.label} setup={c.setup} payoff={c.payoff} />
         <ScrollReveal delay={80}>
           <ul className="mt-12 grid border-t border-ink/80 sm:grid-cols-3 lg:mt-16 lg:grid-cols-5">
             {c.frameworks.map((framework, index) => (
               <li key={framework.name} className={`border-b border-lineSoft py-7 pr-6 lg:border-b-0 ${index > 0 ? "lg:border-l lg:pl-6" : ""}`}>
                 <p className="text-[20px] font-semibold tracking-[-0.01em] text-ink">{framework.name}</p>
                 <p className="mt-1.5 text-[14px] text-secondary-text">{framework.scope}</p>
-                <a href="#documents" className="mt-4 inline-block font-mono text-[11px] uppercase tracking-eyebrow text-blue hover:text-blue-hover">
-                  Evidence on request
+                <a href={c.evidence.href} className="mt-4 inline-block font-mono text-[11px] uppercase tracking-eyebrow text-blue hover:text-blue-hover">
+                  {c.evidence.label}
                 </a>
               </li>
             ))}
@@ -150,12 +137,11 @@ export function TrustCompliance() {
   );
 }
 
-export function TrustDocuments() {
-  const c = TRUST_DOCUMENTS;
+export function TrustDocuments({ content: c }: { content: TrustPage["documents"] }) {
   return (
     <section id="documents" className={section}>
       <ScrollRevealRail>
-        <SectionHeader num="05" label={c.label} setup={c.setup} payoff={c.payoff} lede={c.lede} />
+        <SectionHeader num={c.num} label={c.label} setup={c.setup} payoff={c.payoff} lede={c.lede} />
         <ScrollReveal delay={80}>
           <ul className="mt-12 grid border-t border-lineSoft lg:mt-16 lg:grid-cols-2 lg:gap-x-16">
             {c.items.map((item) => (
@@ -164,16 +150,16 @@ export function TrustDocuments() {
                   <span className="block text-[17px] font-semibold tracking-[-0.01em] text-ink">
                     {item.name}
                     {item.nda && (
-                      <span className="ml-2 align-[2px] font-mono text-[10px] uppercase tracking-eyebrow text-overcast">NDA</span>
+                      <span className="ml-2 align-[2px] font-mono text-[10px] uppercase tracking-eyebrow text-overcast">{c.ndaLabel}</span>
                     )}
                   </span>
                   <span className="mt-1 block text-[14px] text-secondary-text">{item.note}</span>
                 </span>
                 <a
-                  href={mailto(`Trust document request: ${item.name}`)}
+                  href={item.href}
                   className="shrink-0 text-[14px] font-medium text-blue transition-colors duration-150 hover:text-blue-hover"
                 >
-                  Request
+                  {c.requestLabel}
                 </a>
               </li>
             ))}
@@ -184,18 +170,17 @@ export function TrustDocuments() {
   );
 }
 
-export function TrustSubprocessors() {
-  const c = TRUST_SUBPROCESSORS;
+export function TrustSubprocessors({ content: c }: { content: TrustPage["subprocessors"] }) {
   return (
     <section id="subprocessors" className={section}>
       <ScrollRevealRail>
-        <SectionHeader num="06" label={c.label} setup={c.setup} payoff={c.payoff} lede={c.lede} />
+        <SectionHeader num={c.num} label={c.label} setup={c.setup} payoff={c.payoff} lede={c.lede} />
         <ScrollReveal delay={80}>
           <div className="mt-12 overflow-x-auto lg:mt-16">
             <table className="w-full min-w-[640px] border-collapse text-left">
               <thead>
                 <tr className="border-b border-ink/80">
-                  {["Subprocessor", "Purpose", "Applies to"].map((heading) => (
+                  {[c.columns.name, c.columns.purpose, c.columns.scope].map((heading) => (
                     <th key={heading} scope="col" className={`py-3 pr-6 font-normal ${label}`}>
                       {heading}
                     </th>
@@ -221,17 +206,13 @@ export function TrustSubprocessors() {
   );
 }
 
-export function TrustDisclosure() {
-  const c = TRUST_DISCLOSURE;
+export function TrustDisclosure({ content: c }: { content: TrustPage["disclosure"] }) {
   return (
     <section id="disclosure" className={section}>
       <ScrollRevealRail>
-        <SectionHeader num="07" label={c.label} setup={c.setup} payoff={c.payoff}>
-          <a
-            href={mailto("Security report")}
-            className="btn-primary btn-lg mt-8"
-          >
-            Report a vulnerability
+        <SectionHeader num={c.num} label={c.label} setup={c.setup} payoff={c.payoff}>
+          <a href={c.cta.href} className="btn-primary btn-lg mt-8">
+            {c.cta.label}
           </a>
         </SectionHeader>
         <ScrollReveal delay={80}>
@@ -245,12 +226,12 @@ export function TrustDisclosure() {
               ))}
             </ol>
             <div className="lg:col-span-5">
-              <p className={label}>Safe harbour</p>
+              <p className={label}>{c.harbourLabel}</p>
               <p className="mt-3 text-pretty text-[15px] leading-relaxed text-secondary-text">{c.harbour}</p>
               <p className="mt-5 text-[14px] text-secondary-text">
-                Machine-readable contact:{" "}
-                <a href="/.well-known/security.txt" className="text-blue underline decoration-blue/30 underline-offset-[3px] hover:decoration-blue">
-                  security.txt
+                {c.machineReadable.lead}{" "}
+                <a href={c.machineReadable.link.href} className="text-blue underline decoration-blue/30 underline-offset-[3px] hover:decoration-blue">
+                  {c.machineReadable.link.label}
                 </a>
               </p>
             </div>

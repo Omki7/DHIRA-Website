@@ -14,10 +14,11 @@ import FigureEyebrow from "@/components/ui/FigureEyebrow";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import ScrollRevealRail from "@/components/ui/ScrollRevealRail";
 import TwoToneTitle from "@/components/ui/TwoToneTitle";
+import { getUiStrings } from "@/lib/content";
 
 export type HeroIndexItem = { id: string; label: string };
 
-export default function PageHero({
+export default async function PageHero({
   label,
   setup,
   payoff,
@@ -34,6 +35,7 @@ export default function PageHero({
   meta?: ReactNode;
   children?: ReactNode;
 }) {
+  const ui = await getUiStrings();
   return (
     <section id="hero" className="relative border-b border-lineSoft bg-background pb-14 pt-16 lg:pb-20 lg:pt-24">
       <ScrollRevealRail>
@@ -55,7 +57,7 @@ export default function PageHero({
           {index && index.length > 0 && (
             <ScrollReveal delay={180}>
               <nav
-                aria-label="On this page"
+                aria-label={ui.onThisPage}
                 className="mt-10 flex flex-wrap gap-x-7 gap-y-3 border-t border-dashed border-lineSoft pt-5 font-mono text-[11px] uppercase tracking-eyebrow"
               >
                 {index.map((item, k) => (

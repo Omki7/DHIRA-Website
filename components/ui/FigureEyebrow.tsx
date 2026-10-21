@@ -1,41 +1,48 @@
 "use client";
 
+import type { ReactNode } from "react";
+
 /*
- * The section eyebrow for /about and /careers, on the homepage rail: a
- * dashed hairline above and below, `[NN]  LABEL` on the left, left only
- * (DESIGN_SYSTEM, eyebrow pattern). The right hand `/ FIGURE` descriptor was
- * dropped on 23 Sep 2026 when these pages moved to the homepage and /akashic
- * header grammar.
+ * THE section eyebrow, on every page (DESIGN_SYSTEM, "Section grammar";
+ * founder, 20 Oct 2026: one format across the site). A dashed hairline above
+ * and below, `[NN]  LABEL` in 11px mono on the left: number `overcast`, label
+ * `inkSoft`. Always left-aligned, never centred, never coloured, no dots.
+ * Sections render it through `ui/SectionHeader`; use it directly only where
+ * a section cannot.
  *
- * `live` puts the site's pulsing NOW HIRING marker in the right slot, the one
- * eyebrow accent the design system allows (as on the homepage JoinTheTeam).
- *
- * `bare` drops the rail for placements that sit inside a card (the closing
- * `DrawingSetClose`) or open the page (the hero), where a ruled band would
- * read as a second frame.
+ * `tag` sets a required status mark after the label (PreviewTag on agents).
+ * `live` puts the pulsing NOW HIRING marker in the right slot (careers only).
+ * `bare` drops the rail inside a card (the closing `DrawingSetClose`).
  */
 
 export default function FigureEyebrow({
   num,
   label,
+  tag,
   live,
   dark = false,
   bare = false,
 }: {
   num?: string;
   label: string;
+  /** A status mark set after the label, e.g. `PreviewTag` on a section
+      about agents. The claims rules require it; it is not decoration. */
+  tag?: ReactNode;
   live?: string;
   dark?: boolean;
   bare?: boolean;
 }) {
   const rail = bare
     ? ""
-    : `border-y border-dashed px-[2px] py-[17px] ${dark ? "border-white/15" : "border-lineSoft"}`;
+    : `border-y border-dashed px-[2px] py-[17px] ${dark ? "border-line" : "border-lineSoft"}`;
   return (
     <div className={`flex items-center justify-between gap-6 font-mono text-[11px] uppercase tracking-eyebrow ${rail}`}>
-      <p>
-        {num && <span className={dark ? "text-uc-dim" : "text-overcast"}>[{num}]&nbsp;&nbsp;</span>}
-        <span className={dark ? "text-uc-mute" : "text-inkSoft"}>{label}</span>
+      <p className="flex items-center gap-3">
+        <span>
+          {num && <span className={dark ? "text-uc-dim" : "text-overcast"}>[{num}]&nbsp;&nbsp;</span>}
+          <span className={dark ? "text-uc-mute" : "text-inkSoft"}>{label}</span>
+        </span>
+        {tag}
       </p>
       {live && (
         <span className="flex items-center gap-2 text-blue">

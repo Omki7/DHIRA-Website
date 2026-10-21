@@ -102,7 +102,7 @@ function leaderPath(card: Card) {
 
 function InsightCard({ card }: { card: Card }) {
   return (
-    <div className="w-full rounded-[10px] border border-white/70 bg-white/85 px-4 py-3.5 shadow-[0_10px_30px_-12px_rgba(3,4,94,0.22)] backdrop-blur-sm">
+    <div className="w-full rounded-[10px] border border-line bg-background px-4 py-3.5  ">
       <p className="text-[10.5px] font-bold uppercase tracking-[0.1em] text-life-blue">
         {card.label}
       </p>
@@ -138,7 +138,7 @@ export default function LifeRecordAnatomyMockup() {
             <path
               key={card.label}
               d={leaderPath(card)}
-              stroke="#0096C7"
+              stroke="rgb(var(--life-cyan))"
               strokeOpacity="0.45"
               strokeWidth="1"
               className="alife-leader"

@@ -15,13 +15,15 @@
 
 import { useEffect, useRef, useState } from "react";
 import AkashicTeardownMockup, { TEARDOWN_TRACK_VH } from "@/components/demos/mockups/AkashicTeardownMockup";
-import { usePrefersReducedMotion } from "@/hooks/useCountUp";
+import usePrefersReducedMotion from "@/hooks/usePrefersReducedMotion";
+import type { AkashicPage } from "@/content/pages/akashic";
 
 type Props = {
+  content: AkashicPage["howItWorks"];
   curtainContent?: React.ReactNode;
 };
 
-export default function AkashicModular({ curtainContent }: Props = {}) {
+export default function AkashicModular({ content, curtainContent }: Props) {
   const trackRef = useRef<HTMLDivElement>(null);
   const curtainRef = useRef<HTMLDivElement>(null);
   const [curtainHeight, setCurtainHeight] = useState(0);
@@ -119,7 +121,7 @@ export default function AkashicModular({ curtainContent }: Props = {}) {
         style={{ height: `calc(${TEARDOWN_TRACK_VH}vh${curtainHeight > 0 ? ` + ${curtainHeight}px` : ""})` }}
       >
         <div className="sticky top-0 h-screen overflow-hidden">
-          <AkashicTeardownMockup trackRef={trackRef} curtainHeight={curtainHeight} />
+          <AkashicTeardownMockup content={content} trackRef={trackRef} curtainHeight={curtainHeight} />
         </div>
       </div>
 

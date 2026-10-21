@@ -2,7 +2,7 @@
 
 import { useLayoutEffect, useRef, useState } from "react";
 import type { KeyboardEvent, MouseEvent } from "react";
-import type { NavMenu } from "@/lib/navigation";
+import type { NavMenu } from "@/content/navigation";
 import MenuPanel from "./MenuPanel";
 
 /* The one shared surface every desktop menu opens into (the pattern Stripe,
@@ -77,13 +77,13 @@ export default function MegaSheet({ menus, openId, motion, threadX, drawn, pathn
           along the sheet's top edge, the site's drawing language. */}
       <span
         aria-hidden
-        className={`pointer-events-none absolute inset-x-0 top-0 z-10 h-px bg-blue/40 transition-transform ease-settle ${
+        className={`pointer-events-none absolute inset-x-0 top-0 z-10 h-px bg-blue transition-transform ease-settle ${
           open ? "duration-650" : "duration-150"
         }`}
         style={{ transformOrigin: `${threadX}px 0`, transform: `scaleX(${open ? 1 : 0})` }}
       />
       <div
-        className={`overflow-hidden bg-background shadow-frame transition-[height,opacity] duration-250 ease-settle ${
+        className={`overflow-hidden bg-background  transition-[height,opacity] duration-250 ease-settle ${
           open ? "opacity-100" : "opacity-0"
         }`}
         style={{ height: open ? height : 0 }}

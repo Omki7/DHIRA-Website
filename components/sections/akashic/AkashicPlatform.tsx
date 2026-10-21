@@ -1,11 +1,7 @@
 import Link from "next/link";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import SolutionWorkflow from "@/components/demos/akashic/SolutionWorkflow";
-import {
-  AKASHIC_SOLUTIONS as content,
-  AKASHIC_SOLUTION_MODULES as MODULES,
-  type AkashicSolution,
-} from "@/lib/akashicSections";
+import type { AkashicPage, AkashicSolution } from "@/content/pages/akashic";
 import { StoryLabel, StoryTitle, StoryArrow } from "@/components/sections/akashic/AkashicStory";
 
 /*
@@ -30,7 +26,7 @@ type Spine = "start" | "mid" | "end" | undefined;
 
 /* Where a module cell sits on its solution's spine, which runs from the
    first module the solution uses to the last. */
-function spineAt(solution: AkashicSolution, index: number): Spine {
+function spineAt(MODULES: string[], solution: AkashicSolution, index: number): Spine {
   const used = MODULES.flatMap((module, i) => (solution.modules.includes(module) ? [i] : []));
   const first = used[0];
   const last = used[used.length - 1];
@@ -40,12 +36,13 @@ function spineAt(solution: AkashicSolution, index: number): Spine {
   return "mid";
 }
 
-export default function AkashicPlatform() {
+export default function AkashicPlatform({ content }: { content: AkashicPage["solutions"] }) {
+  const MODULES = content.modules;
   return (
     <section id="solutions" className="ak-story ak-solutions bg-background">
       <div className="ak-story-wrap">
         <ScrollReveal>
-          <StoryLabel number="11">Built on Akashic</StoryLabel>
+          <StoryLabel number={content.number}>{content.label}</StoryLabel>
           <div className="ak-story-heading">
             <StoryTitle setup={content.setup}>{content.title}</StoryTitle>
             <p className="ak-story-intro">{content.intro}</p>
@@ -58,9 +55,9 @@ export default function AkashicPlatform() {
               {/* Row labels for the desktop sheet; every cell also names its
                   own module for assistive technology, so this column is hidden. */}
               <div className="ak-config-axis" aria-hidden="true">
-                <p className="ak-config-axis-head">Solution</p>
-                <p className="ak-config-axis-flow">Workflow</p>
-                <p className="ak-config-axis-under">Akashic underneath</p>
+                <p className="ak-config-axis-head">{content.axis.solution}</p>
+                <p className="ak-config-axis-flow">{content.axis.workflow}</p>
+                <p className="ak-config-axis-under">{content.axis.underneath}</p>
                 {MODULES.map((module) => (
                   <p key={module} className="ak-config-axis-module">
                     {module}
@@ -81,16 +78,16 @@ export default function AkashicPlatform() {
                   <SolutionWorkflow solution={solution} />
 
                   <p className="ak-config-under">
-                    <span>Akashic underneath</span>
+                    <span>{content.axis.underneath}</span>
                   </p>
                   {MODULES.map((module, index) => {
                     const used = solution.modules.includes(module);
                     return (
-                      <p key={module} className="ak-config-cell" data-used={used} data-spine={spineAt(solution, index)}>
+                      <p key={module} className="ak-config-cell" data-used={used} data-spine={spineAt(MODULES, solution, index)}>
                         <span className="ak-config-node" data-used={used} aria-hidden="true" />
                         <span className="ak-config-cell-name">
                           {module}
-                          <span className="sr-only">{used ? ", in use" : ", not used"}</span>
+                          <span className="sr-only">{used ? content.used : content.unused}</span>
                         </span>
                       </p>
                     );
@@ -107,11 +104,11 @@ export default function AkashicPlatform() {
             <div className="ak-config-legend">
               <p>
                 <span className="ak-config-node" data-used="true" aria-hidden="true" />
-                Switched on
+                {content.legend.on}
               </p>
               <p>
                 <span className="ak-config-node" data-used="false" aria-hidden="true" />
-                Available, not used
+                {content.legend.off}
               </p>
               <Link href={content.all.href} className="ak-config-all">
                 {content.all.label}

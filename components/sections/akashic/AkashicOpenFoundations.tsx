@@ -1,19 +1,19 @@
 import ScrollReveal from "@/components/ui/ScrollReveal";
-import AkashicLogo from "@/components/icons/AkashicLogo";
-import { AKASHIC_OPEN_PRINCIPLES } from "@/lib/akashicSections";
+import type { AkashicPage } from "@/content/pages/akashic";
 import { StoryLabel, StoryTitle } from "@/components/sections/akashic/AkashicStory";
+import { nameOrWordmark } from "@/components/icons/AkashicWordmark";
 
-export default function AkashicOpenFoundations() {
+export default function AkashicOpenFoundations({ content }: { content: AkashicPage["open"] }) {
   return (
     <section id="open" className="ak-story ak-open-principles">
       <div className="ak-story-wrap">
         <ScrollReveal>
-          <StoryLabel number="07">Open architecture</StoryLabel>
-          <div className="mt-7"><StoryTitle setup="No lock-in.">Your data, your formats, your call.</StoryTitle></div>
+          <StoryLabel number={content.number}>{content.label}</StoryLabel>
+          <div className="mt-10 lg:mt-12"><StoryTitle setup={content.setup}>{content.title}</StoryTitle></div>
         </ScrollReveal>
         <ScrollReveal delay={100}>
           <div className="ak-principles">
-            {AKASHIC_OPEN_PRINCIPLES.map((principle, i) => (
+            {content.principles.map((principle, i) => (
               <article key={principle.title}>
                 <span className="ak-small-label">{principle.eyebrow}</span>
                 <svg viewBox="0 0 120 48" className="ak-principle-mark" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
@@ -30,8 +30,8 @@ export default function AkashicOpenFoundations() {
           </div>
         </ScrollReveal>
         <div className="ak-principles-close">
-          <span className="inline-flex items-center gap-1 font-semibold text-ink"><AkashicLogo className="h-6 w-6" />Akashic</span>
-          <p>Own your data. Own your standards. Keep your freedom to choose.</p>
+          <span className="inline-flex items-center font-semibold text-ink">{nameOrWordmark(content.productName)}</span>
+          <p>{content.close}</p>
         </div>
       </div>
     </section>

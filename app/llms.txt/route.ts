@@ -1,28 +1,29 @@
-import { SITE, absoluteUrl } from "@/lib/site";
-import { ROUTE_GROUPS } from "@/lib/siteRoutes";
+import { getSiteMap, getSiteSettings } from "@/lib/content";
+import { getRouteGroups } from "@/lib/routes";
+import { absoluteUrl } from "@/lib/site";
 
 /* /llms.txt (llmstxt.org format), built from the one route list so it
-   cannot drift. The founder's wireframe links it from <head>. It points AI
-   systems at canonical descriptions of DHIRA and Akashic; evidence that
-   assistants read it is thin, so it stays small and generated. Static at
-   build time. */
+   cannot drift. It points AI systems at canonical descriptions of DHIRA
+   and Akashic; evidence that assistants read it is thin, so it stays small
+   and generated. Static at build time. */
 
 export const dynamic = "force-static";
 
-export function GET() {
-  const sections = ROUTE_GROUPS.map((group) => {
+export async function GET() {
+  const [groups, site, { llms }] = await Promise.all([getRouteGroups(), getSiteSettings(), getSiteMap()]);
+  const sections = groups.map((group) => {
     const lines = group.routes.map((route) => `- [${route.title}](${absoluteUrl(route.path)}): ${route.description}`);
     return `## ${group.heading}\n\n${lines.join("\n")}`;
   });
 
   const body = [
-    `# ${SITE.name}`,
+    `# ${site.name}`,
     "",
-    `> ${SITE.description}`,
+    `> ${site.description}`,
     "",
-    "DHIRA is the company; Akashic is its platform. Keep the two distinct. Akashic 1.0 is generally available on 1 November 2026. AI agents are in preview: they gather evidence and explain, and a person approves every consequential step. Customer programmes are described by sector and are not named.",
+    llms.note,
     "",
-    `Offices: ${SITE.offices.map((office) => office.city).join(", ")}. Contact: ${SITE.email}.`,
+    `${llms.offices}: ${site.offices.map((office) => office.city).join(", ")}. ${llms.contact}: ${site.email}.`,
     "",
     ...sections.flatMap((section) => [section, ""]),
   ].join("\n");

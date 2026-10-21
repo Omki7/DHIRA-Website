@@ -20,7 +20,7 @@
 
 import type { CSSProperties } from "react";
 import useDrawn from "@/hooks/useDrawn";
-import { AKASHIC_AGENTS as c, type AkashicAgent } from "@/lib/akashicSections";
+import type { AkashicAgent, AkashicAgents } from "@/content/pages/akashic";
 
 const delay = (s: number) => ({ "--ad-delay": `${s}s` }) as CSSProperties;
 
@@ -33,13 +33,13 @@ function PersonGlyph() {
   );
 }
 
-function AgentList({ agents, start }: { agents: AkashicAgent[]; start: number }) {
+function AgentList({ agents, start, preview }: { agents: AkashicAgent[]; start: number; preview: boolean }) {
   return (
     <ul className="ak-ag-agents">
       {agents.map((a, i) => (
         <li key={a.code} className="ad-fade" style={delay(start + i * 0.1)}>
           <span className="ak-ag-agent">
-            <span className="ak-ag-code" data-preview={c.preview}>{a.code}</span>
+            <span className="ak-ag-code" data-preview={preview}>{a.code}</span>
             <strong>{a.name}</strong>
           </span>
           <span className="ak-ag-agent-line">{a.line}</span>
@@ -49,7 +49,7 @@ function AgentList({ agents, start }: { agents: AkashicAgent[]; start: number })
   );
 }
 
-export default function AgentRunDrawing() {
+export default function AgentRunDrawing({ content: c }: { content: AkashicAgents }) {
   const [ref, drawn] = useDrawn<HTMLElement>(0.3);
   const steps = c.steps;
   const agentSteps = steps.filter((s) => s.kind === "agent").length;
@@ -57,11 +57,7 @@ export default function AgentRunDrawing() {
   return (
     <figure ref={ref} data-drawn={drawn} className="ak-ag">
       <figcaption className="sr-only">
-        One agent run in six steps. Agents handle ask, plan, retrieve and verify: a BI concierge, an
-        orchestrator, SQL, document and hybrid agents, and a metadata agent. A person approves, with
-        maker-checker sign-off, and no agent signs off. The run is recorded on an append-only audit
-        trail with the model and prompt version. A golden-record steward and a pipeline monitor run
-        under every run. {c.preview ? "Agents are in preview." : ""}
+        {c.figureCaption} {c.preview ? c.previewNote : ""}
       </figcaption>
 
       {/* Lanes: who owns each stretch of the run (desktop; below lg the
@@ -95,7 +91,7 @@ export default function AgentRunDrawing() {
               <p className="ak-ag-detail">{step.detail}</p>
             </div>
             {step.agents ? (
-              <AgentList agents={step.agents} start={0.6 + i * 0.16} />
+              <AgentList agents={step.agents} start={0.6 + i * 0.16} preview={c.preview} />
             ) : (
               <p className="ak-ag-note ad-fade" data-kind={step.kind} style={delay(1.1 + i * 0.05)}>{step.note}</p>
             )}
@@ -105,7 +101,7 @@ export default function AgentRunDrawing() {
 
       <div className="ak-ag-foundation">
         <p className="ak-small-label">{c.foundation.label}</p>
-        <AgentList agents={c.foundation.agents} start={1.3} />
+        <AgentList agents={c.foundation.agents} start={1.3} preview={c.preview} />
       </div>
 
       <ul className="ak-ag-legend" aria-hidden="true">

@@ -14,60 +14,30 @@ import { useState } from "react";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import ScrollRevealRail from "@/components/ui/ScrollRevealRail";
 import DynamicSketchIcon from "@/components/icons/DynamicSketchIcon";
+import type { PublicSectorPage } from "@/content/pages/sectors-public-sector";
 
-const moments = [
-  {
-    ministry: "Ministry of Education",
-    platform: "DIKSHA",
-    icon: "Education",
-    figures: ["1.89 Cr learners", "564 Cr sessions", "Updated daily"],
-    need: "Which districts are falling behind on course completion?",
-    story:
-      "A state education secretary needs to know, right now, which districts are falling behind. Instead of waiting for a quarterly report, the Akashic BI dashboard shows live numbers: by state, by district, down to the school. Updated daily, not quarterly.",
-    did: "Unified content, enrolment, and completion data from every state into one real-time national dashboard.",
-  },
-  {
-    ministry: "Ministry of External Affairs",
-    platform: "eMigrate",
-    icon: "Workforce",
-    figures: ["3.87 L emigrations", "Real-time oversight"],
-    need: "Which countries, job categories, and states are driving emigration?",
-    story:
-      "A ministry official needs to understand emigration patterns to plan worker protection policy. Akashic surfaces this instantly, broken down by destination country, demand type, and gender, updated in real time.",
-    did: "Connected emigration clearance data nationally and built a live oversight dashboard for ministry review.",
-  },
-  {
-    ministry: "Bihar Government",
-    platform: "Statewide Caste Survey",
-    icon: "Public Sector",
-    figures: ["Population scale", "AI narratives"],
-    need: "One defensible view of population-level demographics.",
-    story:
-      "A state government needs a single view of education, employment, income, and migration to design policy and allocate resources fairly. Akashic powers a statewide analytics dashboard with AI-generated narrative summaries, so officials get not just numbers, but plain-language explanations of what the data means.",
-    did: "Structured population-scale survey data and layered Akashic AI on top to generate human-readable insights.",
-  },
-];
 
-export default function PublicSectorMoments() {
+export default function PublicSectorMoments({ content }: { content: PublicSectorPage["moments"] }) {
+  const moments = content.items;
   const [active, setActive] = useState(0);
   const current = moments[active];
 
   return (
     <section
       id="in-practice"
-      className="scroll-mt-24 border-t border-lineSoft bg-[linear-gradient(180deg,#FFFFFF_0%,#F1F5FE_16%,#F1F5FE_84%,#FFFFFF_100%)] pt-12 pb-24 lg:pt-16 lg:pb-32"
+      className="scroll-mt-24 border-t border-lineSoft bg-band pt-12 pb-24 lg:pt-16 lg:pb-32"
     >
       <ScrollRevealRail>
         <ScrollReveal>
           <div className="flex items-baseline justify-between font-mono text-[11px] uppercase tracking-eyebrow">
             <p>
-              <span className="text-overcast">[03]</span>
-              <span className="text-inkSoft">&nbsp;&nbsp;What this looks like in practice</span>
+              <span className="text-overcast">[{content.eyebrow.number}]</span>
+              <span className="text-inkSoft">&nbsp;&nbsp;{content.eyebrow.label}</span>
             </p>
-            <span className="hidden text-overcast sm:inline">/ Live in ministries</span>
+            <span className="hidden text-overcast sm:inline">{content.eyebrow.aside}</span>
           </div>
           <h2 className="mt-5 text-heading-sm font-semibold text-ink md:text-heading-md lg:text-heading-lg">
-            Three real moments. Three government platforms.
+            {content.title}
           </h2>
         </ScrollReveal>
 
@@ -125,10 +95,10 @@ export default function PublicSectorMoments() {
               key={active}
               className="sector-text-in flex h-full flex-col overflow-hidden rounded-frame border border-subtle-stroke bg-primary-bg"
             >
-              <div className="h-[3px] bg-gradient-to-r from-blue/55 via-blue/25 to-transparent" aria-hidden />
+              <div className="h-[3px] bg-blue" aria-hidden />
               <div className="flex flex-1 flex-col p-7 md:p-8">
                 <div className="flex flex-wrap items-center gap-3">
-                  <span className="flex h-[38px] w-[38px] shrink-0 items-center justify-center rounded-[10px] border border-blue/20 bg-gradient-to-br from-[#E4EAFF] to-[#D4DEFF] shadow-[inset_0_1px_0_rgba(255,255,255,0.9)]">
+                  <span className="flex h-[38px] w-[38px] shrink-0 items-center justify-center rounded-[10px] border border-blue/20 bg-blue-subtle ">
                     <DynamicSketchIcon text={current.icon} className="h-[18px] w-[18px] text-blue" />
                   </span>
                   <div className="min-w-0">
@@ -141,7 +111,7 @@ export default function PublicSectorMoments() {
                   </div>
                   <span className="ml-auto flex items-center gap-1.5 font-mono text-[9px] uppercase tracking-[0.08em] text-positive-text">
                     <span className="h-[5px] w-[5px] rounded-full bg-positive animate-[ps-pulse_2s_infinite]" aria-hidden />
-                    In production
+                    {content.live}
                   </span>
                 </div>
 
@@ -149,7 +119,7 @@ export default function PublicSectorMoments() {
                   {current.figures.map((figure) => (
                     <span
                       key={figure}
-                      className="inline-flex items-center rounded-[6px] border border-subtle-stroke bg-white px-2 py-[3px] font-mono text-[8.5px] uppercase tracking-[0.05em] text-inkSoft"
+                      className="inline-flex items-center rounded-[6px] border border-subtle-stroke bg-background px-2 py-[3px] font-mono text-[8.5px] uppercase tracking-[0.05em] text-inkSoft"
                     >
                       {figure}
                     </span>
@@ -162,7 +132,7 @@ export default function PublicSectorMoments() {
 
                 <div className="mt-7 border-l-2 border-blue/60 pl-5">
                   <p className="font-mono text-[9px] font-bold uppercase tracking-eyebrow text-blue">
-                    What Akashic did
+                    {content.didLabel}
                   </p>
                   <p className="mt-2 max-w-[40em] text-[14px] leading-relaxed text-inkSoft">
                     {current.did}

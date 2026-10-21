@@ -6,8 +6,8 @@
  * packets. Inline attributes are computed geometry (Rule 8 exception).
  */
 
-import type { Building, MapScene } from "./mapData";
-import { ROUTES, RETURN_ROUTE } from "./mapData";
+import type { Building, MapScene } from "@/content/pages/sectors-map";
+import { ROUTES, RETURN_ROUTE } from "./routes";
 
 const EASE = "cubic-bezier(0.4, 0, 0.2, 1)";
 
@@ -30,7 +30,7 @@ function Shadow({ x, y, w, d, dim }: { x: number; y: number; w: number; d: numbe
       cy={y - (w + d) / 4 + 4}
       rx={(w + d) * 0.62}
       ry={(w + d) * 0.2}
-      fill="#0a0a0c"
+      fill="rgb(var(--vault))"
       style={{ opacity: dim ? 0.02 : 0.045, transition: `opacity 500ms ${EASE}` }}
     />
   );
@@ -56,7 +56,7 @@ function Box({
   topFill?: string;
 }) {
   const { p0, p1, p2, p3 } = corners(x, y, w, d);
-  const stroke = active ? "#3E63DD" : "#c9cfd8";
+  const stroke = active ? "rgb(var(--blue))" : "rgb(var(--line))";
   const common = {
     stroke,
     strokeWidth: active ? 1.25 : 1,
@@ -65,9 +65,9 @@ function Box({
   };
   return (
     <g style={{ opacity: dim ? 0.35 : 1, transition: `opacity 500ms ${EASE}` }}>
-      <polygon points={j([p0, p3, up(p3, h), up(p0, h)])} fill="#FAFAFB" {...common} />
-      <polygon points={j([p0, p1, up(p1, h), up(p0, h)])} fill="#F3F3F4" {...common} />
-      <polygon points={j([up(p0, h), up(p1, h), up(p2, h), up(p3, h)])} fill={topFill ?? (active ? "#EEF1FC" : "#FFFFFF")} {...common} />
+      <polygon points={j([p0, p3, up(p3, h), up(p0, h)])} fill="rgb(var(--primary-bg))" {...common} />
+      <polygon points={j([p0, p1, up(p1, h), up(p0, h)])} fill="rgb(var(--tertiary-bg))" {...common} />
+      <polygon points={j([up(p0, h), up(p1, h), up(p2, h), up(p3, h)])} fill={topFill ?? (active ? "rgb(var(--blue-subtle))" : "rgb(var(--background))")} {...common} />
     </g>
   );
 }
@@ -92,7 +92,7 @@ function FaceLines({
 }) {
   const rows: number[] = [];
   for (let lift = 18; lift < h - 10; lift += 22) rows.push(lift);
-  const stroke = active ? "#C8D2F5" : "#e0e3e8";
+  const stroke = active ? "rgb(var(--blue-border))" : "rgb(var(--line))";
   return (
     <g style={{ opacity: dim ? 0.3 : 1, transition: `opacity 500ms ${EASE}` }}>
       {rows.map((lift) => (
@@ -123,7 +123,7 @@ function FaceLines({
 
 function BuildingShape({ b, active, dim, reduced }: { b: Building; active: boolean; dim: boolean; reduced: boolean }) {
   const { x, y, w, d, h } = b;
-  const stroke = active ? "#3E63DD" : "#c9cfd8";
+  const stroke = active ? "rgb(var(--blue))" : "rgb(var(--line))";
 
   switch (b.type) {
     case "tower":
@@ -152,7 +152,7 @@ function BuildingShape({ b, active, dim, reduced }: { b: Building; active: boole
         </g>
       );
     case "shed": {
-      const doorStroke = active ? "#3E63DD" : "#c9cfd8";
+      const doorStroke = active ? "rgb(var(--blue))" : "rgb(var(--line))";
       return (
         <g>
           <Shadow x={x} y={y} w={w} d={d} dim={dim} />
@@ -166,7 +166,7 @@ function BuildingShape({ b, active, dim, reduced }: { b: Building; active: boole
                 y1={y - (d * t) / 2}
                 x2={x - d * t}
                 y2={y - (d * t) / 2 - h + 6}
-                stroke={active ? "#C8D2F5" : "#e0e3e8"}
+                stroke={active ? "rgb(var(--blue-border))" : "rgb(var(--line))"}
                 strokeWidth={1}
                 style={{ transition: `stroke 500ms ${EASE}` }}
               />
@@ -180,7 +180,7 @@ function BuildingShape({ b, active, dim, reduced }: { b: Building; active: boole
               [x + w * 0.66, y - w * 0.33 - h * 0.55],
               [x + w * 0.34, y - w * 0.17 - h * 0.55],
             ])}
-            fill="#FAFAFB"
+            fill="rgb(var(--primary-bg))"
             stroke={doorStroke}
             strokeWidth={1}
             style={{ transition: `all 500ms ${EASE}`, opacity: dim ? 0.35 : 1 }}
@@ -200,7 +200,7 @@ function BuildingShape({ b, active, dim, reduced }: { b: Building; active: boole
               [x + w * 0.8, y - w * 0.4 - h * 0.8],
               [x + w * 0.2, y - w * 0.1 - h * 0.8],
             ])}
-            fill={active ? "#EEF1FC" : "#FFFFFF"}
+            fill={active ? "rgb(var(--blue-subtle))" : "rgb(var(--background))"}
             stroke={stroke}
             strokeWidth={0.8}
             style={{ transition: `all 500ms ${EASE}`, opacity: dim ? 0.35 : 1 }}
@@ -215,7 +215,7 @@ function BuildingShape({ b, active, dim, reduced }: { b: Building; active: boole
             cx={x}
             cy={y - h - 8}
             r={4}
-            fill={active ? "#3E63DD" : "#c9cfd8"}
+            fill={active ? "rgb(var(--blue))" : "rgb(var(--line))"}
             style={{
               transition: `fill 500ms ${EASE}`,
               opacity: dim ? 0.35 : 1,
@@ -253,7 +253,7 @@ function BuildingShape({ b, active, dim, reduced }: { b: Building; active: boole
           <path
             d={`M ${x} ${y - h + 16} Q ${x + 42} ${y - 21 - h + 34} ${x + 84} ${y - 42 - h + 16}`}
             fill="none"
-            stroke={active ? "#C8D2F5" : "#dfe2e8"}
+            stroke={active ? "rgb(var(--blue-border))" : "rgb(var(--line))"}
             strokeWidth={1}
             style={{ transition: `stroke 500ms ${EASE}` }}
           />
@@ -266,7 +266,7 @@ function BuildingShape({ b, active, dim, reduced }: { b: Building; active: boole
         <g>
           <Shadow x={x} y={y} w={w} d={d} dim={dim} />
           <Box x={x} y={y} w={w} d={d} h={h} active={active} dim={dim} />
-          <Box x={screenX} y={screenY} w={56} d={8} h={42} active={active} dim={dim} topFill="#FFFFFF" />
+          <Box x={screenX} y={screenY} w={56} d={8} h={42} active={active} dim={dim} topFill="rgb(var(--background))" />
           {[0.24, 0.5, 0.76].map((t, i) => {
             const bx = screenX + t * 56;
             const by = screenY - t * 28;
@@ -277,7 +277,7 @@ function BuildingShape({ b, active, dim, reduced }: { b: Building; active: boole
                 y1={by - 8}
                 x2={bx}
                 y2={by - 8 - (12 + i * 6)}
-                stroke={active ? "#3E63DD" : "#c9cfd8"}
+                stroke={active ? "rgb(var(--blue))" : "rgb(var(--line))"}
                 strokeWidth={4.5}
                 strokeLinecap="round"
                 style={{ transition: `stroke 500ms ${EASE}`, opacity: dim ? 0.35 : 1 }}
@@ -304,7 +304,7 @@ function Label({ b, active, dim }: { b: Building; active: boolean; dim: boolean 
         fontSize={9.5}
         fontWeight={600}
         letterSpacing="0.1em"
-        fill={active ? "#3E63DD" : "#5C5E63"}
+        fill={active ? "rgb(var(--blue))" : "rgb(var(--secondary-text))"}
         style={{ textTransform: "uppercase", transition: `fill 500ms ${EASE}` }}
       >
         {title}
@@ -317,7 +317,7 @@ function Label({ b, active, dim }: { b: Building; active: boolean; dim: boolean 
           className="font-mono"
           fontSize={8.5}
           letterSpacing="0.08em"
-          fill="#8f99a8"
+          fill="rgb(var(--uc-mute))"
           style={{ textTransform: "uppercase" }}
         >
           {sub}
@@ -347,7 +347,7 @@ function Flow({
       <path
         d={path}
         fill="none"
-        stroke="#3E63DD"
+        stroke="rgb(var(--blue))"
         strokeWidth={1.5}
         strokeLinecap="round"
         strokeDasharray="1.5 7"
@@ -359,7 +359,7 @@ function Flow({
       />
       {packets && !reduced
         ? [0, -1.3].map((begin) => (
-            <circle key={begin} r={3} fill="#3E63DD" opacity={0.9}>
+            <circle key={begin} r={3} fill="rgb(var(--blue))" opacity={0.9}>
               <animateMotion
                 dur="2.6s"
                 repeatCount="indefinite"
@@ -424,7 +424,7 @@ export default function SectorMapScene({
             [500, 340 + ry],
           ])}
           fill="none"
-          stroke="#eef0f3"
+          stroke="rgb(var(--lineSoft))"
           strokeDasharray="3 6"
         />
       ))}
@@ -442,7 +442,7 @@ export default function SectorMapScene({
             fontSize={11}
             fontWeight={700}
             letterSpacing="0.16em"
-            fill={plateActive ? "#3E63DD" : "#5C5E63"}
+            fill={plateActive ? "rgb(var(--blue))" : "rgb(var(--secondary-text))"}
             style={{ textTransform: "uppercase", transition: `fill 500ms ${EASE}` }}
           >
             Akashic
@@ -454,7 +454,7 @@ export default function SectorMapScene({
             className="font-mono"
             fontSize={8.5}
             letterSpacing="0.1em"
-            fill="#8f99a8"
+            fill="rgb(var(--uc-mute))"
             style={{ textTransform: "uppercase" }}
           >
             one governed record
@@ -496,16 +496,16 @@ export default function SectorMapScene({
           y1={alert.tick[1]}
           x2={alert.tick[2]}
           y2={alert.tick[3]}
-          stroke="#3E63DD"
+          stroke="rgb(var(--blue))"
           strokeWidth={1}
           strokeDasharray="2 3"
         />
-        <rect x={alert.x} y={alert.y} width={alert.w} height={26} rx={13} fill="#EEF1FC" stroke="#C8D2F5" />
+        <rect x={alert.x} y={alert.y} width={alert.w} height={26} rx={13} fill="rgb(var(--blue-subtle))" stroke="rgb(var(--blue-border))" />
         <circle
           cx={alert.x + 14}
           cy={alert.y + 13}
           r={3}
-          fill="#3E63DD"
+          fill="rgb(var(--blue))"
           style={{ animation: backOn && !reduced ? "ps-pulse 2s infinite" : undefined }}
         />
         <text
@@ -515,7 +515,7 @@ export default function SectorMapScene({
           fontSize={9.5}
           fontWeight={600}
           letterSpacing="0.05em"
-          fill="#1A1C1D"
+          fill="rgb(var(--ink))"
           style={{ textTransform: "uppercase" }}
         >
           {alert.text}

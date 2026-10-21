@@ -14,16 +14,16 @@ type Tone = "light" | "dark";
 
 const SURFACE: Record<Tone, { bar: string; pill: string; icon: string; edge: string }> = {
   light: {
-    bar: "bg-[#EDEDEF]",
-    pill: "bg-white/70 text-[#5C5E63]",
-    icon: "text-[#9A9CA1]",
-    edge: "border-black/[0.08]",
+    bar: "bg-panel",
+    pill: "bg-background text-secondary-text",
+    icon: "text-overcast",
+    edge: "border-card-line",
   },
   dark: {
-    bar: "bg-[#26272B]",
-    pill: "bg-white/[0.07] text-white/60",
-    icon: "text-white/40",
-    edge: "border-white/10",
+    bar: "bg-panel",
+    pill: "bg-tertiary-bg text-secondary-text",
+    icon: "text-inkSoft",
+    edge: "border-line",
   },
 };
 
@@ -59,7 +59,7 @@ export default function EisBrowserChromeMockup({
 
   return (
     <div
-      className={`overflow-hidden rounded-outer border ${s.edge} shadow-float-dark ${className}`}
+      className={`overflow-hidden rounded-outer border ${s.edge}  ${className}`}
     >
       <div className={`flex h-11 items-center gap-3 px-4 ${s.bar}`}>
         <div className="flex shrink-0 items-center gap-2">

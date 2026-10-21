@@ -14,31 +14,25 @@
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import LifeRecordAnatomyMockup from "@/components/demos/mockups/life/LifeRecordAnatomyMockup";
 import { LifeEyebrow, LifeCornerArc } from "@/components/ui/life/LifeChrome";
+import type { LifePage } from "@/content/pages/solutions-life";
 
-export default function LifeRecord() {
+export default function LifeRecord({ content }: { content: LifePage["record"] }) {
   return (
     <section id="the-record" className="relative scroll-mt-20 overflow-hidden bg-life-ice">
       <div
         aria-hidden
-        className="absolute inset-0 bg-[linear-gradient(158deg,#CAF0F8_0%,#DFF3F6_34%,#F2F7F2_66%,#FBF8F1_100%)]"
+        className="absolute inset-0 life-paper"
       />
       {/* Two soft blooms so the ground is weather rather than a flat fill. */}
-      <div
-        aria-hidden
-        className="alife-aurora absolute left-[6%] top-[18%] h-[380px] w-[380px] rounded-full bg-[#8FE3F2]/35"
-      />
-      <div
-        aria-hidden
-        className="alife-aurora absolute bottom-[10%] right-[8%] h-[420px] w-[420px] rounded-full bg-[#FFE9B8]/30"
-      />
+      
+      
       <LifeCornerArc tone="light" />
 
       <div className="relative mx-auto w-full max-w-[1440px] px-6 pb-28 pt-28 sm:px-10 lg:px-14 lg:pb-40 lg:pt-40">
         <ScrollReveal className="flex flex-col items-center text-center">
-          <LifeEyebrow num="04" tone="light">The record</LifeEyebrow>
+          <LifeEyebrow num={content.eyebrow.num} tone="light">{content.eyebrow.label}</LifeEyebrow>
           <h2 className="mt-9 max-w-[17em] text-[30px] font-medium leading-[1.28] tracking-[-0.005em] text-life-navy sm:text-[38px] lg:text-[46px]">
-            A frontline worker holds the whole record, and so does everyone
-            above her.
+            {content.title}
           </h2>
         </ScrollReveal>
 

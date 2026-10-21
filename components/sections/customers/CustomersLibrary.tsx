@@ -11,7 +11,8 @@ import Link from "next/link";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import ScrollRevealRail from "@/components/ui/ScrollRevealRail";
 import SectionHeader from "@/components/ui/SectionHeader";
-import { STORIES, type Metric } from "@/lib/customerStories";
+import type { Metric, Story } from "@/content/collections/customer-stories";
+import type { CustomersPage } from "@/content/pages/customers";
 
 export function MetricPair({ metrics }: { metrics: Metric[] }) {
   return (
@@ -29,16 +30,16 @@ export function MetricPair({ metrics }: { metrics: Metric[] }) {
   );
 }
 
-export default function CustomersLibrary() {
+export default function CustomersLibrary({ content, stories: STORIES }: { content: CustomersPage["library"]; stories: Story[] }) {
   return (
     <section id="stories" className="scroll-mt-24 bg-background pb-20 pt-16 lg:pb-28 lg:pt-20">
       <ScrollRevealRail>
         <SectionHeader
-          num="01"
-          label="In production"
-          setup="Country-scale programmes."
-          payoff="One governed picture each."
-          lede="DHIRA built the intelligence layer in each programme, not the transaction system. The figures below are what Akashic unified, resolved and reconciled."
+          num={content.num}
+          label={content.label}
+          setup={content.setup}
+          payoff={content.payoff}
+          lede={content.lede}
         />
 
         <div className="mt-12 border-t border-lineSoft lg:mt-16">
@@ -72,7 +73,7 @@ export default function CustomersLibrary() {
                     href={`/customers/${story.id}`}
                     className="group mt-6 inline-flex items-center gap-1.5 self-start text-[15px] font-medium text-blue transition-colors duration-150 hover:text-blue-hover"
                   >
-                    Read the story
+                    {content.readStory}
                     <span aria-hidden className="transition-transform duration-250 ease-settle group-hover:translate-x-0.5">
                       &rarr;
                     </span>

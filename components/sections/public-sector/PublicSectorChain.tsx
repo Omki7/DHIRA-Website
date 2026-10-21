@@ -8,51 +8,15 @@
 
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import ScrollRevealRail from "@/components/ui/ScrollRevealRail";
+import type { PublicSectorPage } from "@/content/pages/sectors-public-sector";
 
-const steps = [
-  {
-    num: "01",
-    name: "Connect",
-    module: "23+ CONNECTORS",
-    desc: "Ingest from citizen registries, ministry databases, state portals, and field applications: real-time or batch, no migration required.",
-  },
-  {
-    num: "02",
-    name: "Unify",
-    module: "AKASHIC MDM",
-    desc: "One Golden Record per citizen or beneficiary, deduplicating records across schemes, departments, and states.",
-  },
-  {
-    num: "03",
-    name: "Structure",
-    module: "DATA WAREHOUSE",
-    desc: "Governed, analytics-ready models, built for both ministry-level and district-level queries.",
-  },
-  {
-    num: "04",
-    name: "Analyse",
-    module: "AKASHIC BI",
-    desc: "Live dashboards by state, district, and scheme. Role-based, so a district officer and a secretary see what's relevant to them.",
-  },
-  {
-    num: "05",
-    name: "Predict",
-    module: "AKASHIC ML",
-    desc: "Flags coverage gaps, predicts scheme drop-off, and scores eligibility, surfacing risk before it becomes a crisis.",
-  },
-  {
-    num: "06",
-    name: "Ask",
-    module: "ASK AKASHIC",
-    desc: "Plain language, including regional languages. “Which districts have the lowest scheme coverage?” Answered in seconds.",
-  },
-];
+type Step = PublicSectorPage["chain"]["steps"][number];
 
 function SpineCap({ label, dark }: { label: string; dark?: boolean }) {
   return (
     <span
-      className={`relative z-10 inline-flex items-center gap-1.5 rounded-full border px-3.5 py-1.5 font-mono text-[9px] font-bold uppercase tracking-[0.08em] shadow-card ${
-        dark ? "border-ink bg-ink text-white" : "border-blue-border bg-blue-subtle text-blue"
+      className={`relative z-10 inline-flex items-center gap-1.5 rounded-full border px-3.5 py-1.5 font-mono text-[9px] font-bold uppercase tracking-[0.08em]  ${
+        dark ? "border-ink bg-ink text-on-action" : "border-blue-border bg-blue-subtle text-blue"
       }`}
     >
       <span
@@ -66,13 +30,13 @@ function SpineCap({ label, dark }: { label: string; dark?: boolean }) {
 
 function StepNode({ num }: { num: string }) {
   return (
-    <span className="relative z-10 flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-blue-border bg-white font-mono text-[10px] font-bold text-blue shadow-card">
+    <span className="relative z-10 flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-blue-border bg-background font-mono text-[10px] font-bold text-blue ">
       {num}
     </span>
   );
 }
 
-function StepBody({ step, alignRight }: { step: (typeof steps)[number]; alignRight?: boolean }) {
+function StepBody({ step, alignRight }: { step: Step; alignRight?: boolean }) {
   return (
     <div className={alignRight ? "md:text-right" : ""}>
       <div className={`flex flex-wrap items-center gap-2.5 ${alignRight ? "md:justify-end" : ""}`}>
@@ -88,31 +52,32 @@ function StepBody({ step, alignRight }: { step: (typeof steps)[number]; alignRig
   );
 }
 
-export default function PublicSectorChain() {
+export default function PublicSectorChain({ content }: { content: PublicSectorPage["chain"] }) {
+  const { steps } = content;
   return (
     <section id="how-it-works" className="scroll-mt-24 border-t border-lineSoft bg-background pt-12 pb-24 lg:pt-16 lg:pb-32">
       <ScrollRevealRail>
         <ScrollReveal>
           <div className="flex items-baseline justify-between font-mono text-[11px] uppercase tracking-eyebrow">
             <p>
-              <span className="text-overcast">[05]</span>
-              <span className="text-inkSoft">&nbsp;&nbsp;How Akashic works for government</span>
+              <span className="text-overcast">[{content.eyebrow.number}]</span>
+              <span className="text-inkSoft">&nbsp;&nbsp;{content.eyebrow.label}</span>
             </p>
-            <span className="hidden text-overcast sm:inline">/ The paper trail, automated</span>
+            <span className="hidden text-overcast sm:inline">{content.eyebrow.aside}</span>
           </div>
           <h2 className="mt-5 text-heading-sm font-semibold text-ink md:text-heading-md lg:text-heading-lg">
-            From citizen record to policy decision.
+            {content.title}
           </h2>
         </ScrollReveal>
 
         {/* Desktop: centre-spine, steps alternating sides */}
         <div className="relative mt-14 hidden md:block lg:mt-16">
           <span
-            className="absolute bottom-5 left-1/2 top-5 w-px -translate-x-1/2 bg-[length:1px_16px] bg-repeat-y bg-[repeating-linear-gradient(180deg,#C8D2F5_0_8px,transparent_8px_16px)]"
+            className="absolute bottom-5 left-1/2 top-5 w-px -translate-x-1/2 bg-[length:1px_16px] bg-repeat-y bg-[repeating-linear-gradient(180deg,rgb(var(--blue-border))_0_8px,transparent_8px_16px)]"
             aria-hidden
           />
           <div className="flex justify-center">
-            <SpineCap label="Citizen record" />
+            <SpineCap label={content.start} />
           </div>
           <div className="mt-4 space-y-2">
             {steps.map((step, idx) => {
@@ -135,18 +100,18 @@ export default function PublicSectorChain() {
             })}
           </div>
           <div className="mt-4 flex justify-center">
-            <SpineCap label="Policy decision" dark />
+            <SpineCap label={content.end} dark />
           </div>
         </div>
 
         {/* Mobile: single left rail */}
         <div className="relative mt-10 md:hidden">
           <span
-            className="absolute bottom-4 left-4 top-4 w-px bg-[length:1px_16px] bg-repeat-y bg-[repeating-linear-gradient(180deg,#C8D2F5_0_8px,transparent_8px_16px)]"
+            className="absolute bottom-4 left-4 top-4 w-px bg-[length:1px_16px] bg-repeat-y bg-[repeating-linear-gradient(180deg,rgb(var(--blue-border))_0_8px,transparent_8px_16px)]"
             aria-hidden
           />
           <div className="pl-0">
-            <SpineCap label="Citizen record" />
+            <SpineCap label={content.start} />
           </div>
           <div className="mt-6 space-y-8">
             {steps.map((step) => (
@@ -161,7 +126,7 @@ export default function PublicSectorChain() {
             ))}
           </div>
           <div className="mt-6">
-            <SpineCap label="Policy decision" dark />
+            <SpineCap label={content.end} dark />
           </div>
         </div>
       </ScrollRevealRail>

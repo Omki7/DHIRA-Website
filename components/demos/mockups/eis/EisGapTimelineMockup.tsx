@@ -25,7 +25,7 @@
  * labelled as an illustration on screen.
  * --------------------------------------------------------------------- */
 
-import { SEVERITY } from "@/lib/eisDomains";
+import { SEVERITY } from "./severity";
 
 /* The axis. 30 days, because that is the horizon the hero's decision
    runway already established, so the two diagrams share a scale. */
@@ -78,7 +78,7 @@ const LANES: Lane[] = [
 
 const TONE = {
   late: SEVERITY.high.text,
-  none: "#8E8F91",
+  none: "rgb(var(--tertiary-text))",
   now: SEVERITY.clear.text,
 } as const;
 
@@ -86,7 +86,7 @@ const pct = (d: number) => `${(d / HORIZON) * 100}%`;
 
 export default function EisGapTimelineMockup() {
   return (
-    <div className="overflow-hidden rounded-outer border border-eis-line bg-white">
+    <div className="overflow-hidden rounded-outer border border-eis-line bg-background">
       {/* What happened, and when. Stated once, above the axis. */}
       <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1 border-b border-eis-line px-5 py-3.5 sm:px-7">
         <span className="text-[10px] font-bold uppercase tracking-[0.13em] text-eis-ink">
@@ -141,7 +141,7 @@ export default function EisGapTimelineMockup() {
                   whichever point the route actually reaches. */}
               <div className="relative h-[40px]">
                 {/* Faint full span, so every lane shares one visible axis. */}
-                <div className="absolute left-0 right-0 top-[5px] h-px bg-[#EDEDEA]" aria-hidden />
+                <div className="absolute left-0 right-0 top-[5px] h-px bg-lineSoft" aria-hidden />
 
                 {/* How far this route got. Dashed where time is simply
                     elapsing, solid where something is actually happening. */}
@@ -150,8 +150,8 @@ export default function EisGapTimelineMockup() {
                   style={{
                     width: pct(l.atDay),
                     ...(l.tone === "late"
-                      ? { borderColor: "#A9ACA5" }
-                      : { background: l.tone === "now" ? SEVERITY.clear.dot : "#7E8180" }),
+                      ? { borderColor: "rgb(var(--line))" }
+                      : { background: l.tone === "now" ? SEVERITY.clear.dot : "rgb(var(--inkSoft))" }),
                   }}
                   aria-hidden
                 />
@@ -167,7 +167,7 @@ export default function EisGapTimelineMockup() {
                       marginTop: -5,
                       marginLeft: -5.5,
                       background: l.tone === "now" ? SEVERITY.clear.dot : SEVERITY.high.dot,
-                      boxShadow: `0 0 0 4px ${l.tone === "now" ? SEVERITY.clear.bg : SEVERITY.high.bg}`,
+                      boxShadow: "none",
                     }}
                     aria-hidden
                   />
@@ -182,7 +182,7 @@ export default function EisGapTimelineMockup() {
                       left: pct(l.atDay),
                       top: -4,
                       height: 19,
-                      background: "#6E7170",
+                      background: "rgb(var(--secondary-text))",
                     }}
                     aria-hidden
                   />

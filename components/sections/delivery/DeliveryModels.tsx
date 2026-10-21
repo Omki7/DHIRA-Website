@@ -11,84 +11,11 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import ScrollRevealRail from "@/components/ui/ScrollRevealRail";
+import type { DeliveryPage } from "@/content/pages/delivery";
 
-interface DeliveryModelItem {
-  id: string;
-  number: string;
-  title: string;
-  tagline: string;
-  description: string;
-  image: string;
-  badge: string;
-  icon: string;
-  bullets: string[];
-  href: string;
-}
 
-const DELIVERY_MODELS: DeliveryModelItem[] = [
-  {
-    id: "saas",
-    number: "01",
-    title: "Akashic SaaS",
-    tagline: "Instant Managed Cloud",
-    description: "Turnkey managed sovereign cloud instance. Zero setup friction, continuous automated pipelines, and 99.99% SLA.",
-    image: "/delivery/saas.jpg",
-    badge: "Managed Platform",
-    icon: "🔄",
-    bullets: ["99.99% Availability SLA", "Automated streaming pipelines", "Zero-drift data sync"],
-    href: "/akashic",
-  },
-  {
-    id: "whitelabel",
-    number: "02",
-    title: "White Label",
-    tagline: "Sovereign Private Cloud",
-    description: "Deploy Akashic inside your private ecosystem under your brand. Dedicated isolated VPC with customer-managed keys.",
-    image: "/delivery/whitelabel.jpg",
-    badge: "100% Whitelabeled",
-    icon: "🛡️",
-    bullets: ["Isolated VPC perimeter", "Customer-Managed Keys (CMEK)", "SAML 2.0 & SSO integration"],
-    href: "#talk-to-our-team",
-  },
-  {
-    id: "customai",
-    number: "03",
-    title: "Custom Tech & AI",
-    tagline: "Bespoke Architectures",
-    description: "Custom AI applications, specialized ML pipelines, and microservices built for your stack with 100% IP ownership.",
-    image: "/delivery/customai.jpg",
-    badge: "100% Sovereign IP",
-    icon: "⚡",
-    bullets: ["Custom PyTorch / LLM pipelines", "Distributed microservices", "Full code IP transfer"],
-    href: "#capabilities",
-  },
-  {
-    id: "engineering",
-    number: "04",
-    title: "Product Engineering",
-    tagline: "Full Lifecycle Delivery",
-    description: "Build new software products from scratch or modernise legacy systems with 2-week sprint cadences and production CI/CD.",
-    image: "/delivery/engineering.jpg",
-    badge: "Agile 2-Wk Sprints",
-    icon: "📈",
-    bullets: ["Automated QA & testing", "2-week sprint iterations", "Production CI/CD pipelines"],
-    href: "#methodology",
-  },
-  {
-    id: "augmentation",
-    number: "05",
-    title: "Staff Augmentation",
-    tagline: "Embedded Senior Engineers",
-    description: "Embed principal AI, cloud, and distributed systems engineers directly into your squads to accelerate release velocity.",
-    image: "/delivery/augmentation.jpg",
-    badge: "Direct Squad Sync",
-    icon: "👥",
-    bullets: ["Principal AI & Cloud leads", "Zero management overhead", "Direct GitHub & Jira sync"],
-    href: "#talk-to-our-team",
-  },
-];
-
-export default function DeliveryModels() {
+export default function DeliveryModels({ content }: { content: DeliveryPage["models"] }) {
+  const DELIVERY_MODELS = content.items;
   const [activeIndex, setActiveIndex] = useState(0);
   const activeModel = DELIVERY_MODELS[activeIndex];
 
@@ -114,7 +41,7 @@ export default function DeliveryModels() {
       window.removeEventListener("hashchange", onHashChange);
       document.removeEventListener("click", onClick);
     };
-  }, []);
+  }, [DELIVERY_MODELS]);
 
   return (
     <section
@@ -133,23 +60,23 @@ export default function DeliveryModels() {
         <ScrollReveal>
           <div className="flex items-center justify-center font-mono text-[11px] uppercase tracking-eyebrow text-center">
             <p>
-              <span className="text-overcast">[02]</span>
-              <span className="text-inkSoft">&nbsp;&nbsp;Ways to work with Dhira</span>
+              <span className="text-overcast">[{content.eyebrow.number}]</span>
+              <span className="text-inkSoft">&nbsp;&nbsp;{content.eyebrow.label}</span>
             </p>
           </div>
 
           <h2 className="mt-4 text-center text-3xl font-bold tracking-tight text-ink md:text-4xl lg:text-5xl">
-            One partner. Five ways to ship.
+            {content.title}
           </h2>
           <p className="mt-3 text-center max-w-2xl mx-auto text-base text-inkSoft">
-            Choose the engagement model that fits your timeline, team, and architecture. Every path delivers with sovereign engineering accountability.
+            {content.lede}
           </p>
         </ScrollReveal>
 
         {/* Center Pill Tab Switcher */}
         <ScrollReveal delay={50}>
           <div className="mt-8 flex items-center justify-center">
-            <div className="inline-flex flex-wrap items-center justify-center gap-1.5 rounded-full border border-subtle-stroke bg-tertiary-bg/60 p-1.5 shadow-inner">
+            <div className="inline-flex flex-wrap items-center justify-center gap-1.5 rounded-full border border-subtle-stroke bg-tertiary-bg p-1.5 ">
               {DELIVERY_MODELS.map((model, idx) => {
                 const isActive = idx === activeIndex;
                 return (
@@ -159,8 +86,8 @@ export default function DeliveryModels() {
                     onClick={() => setActiveIndex(idx)}
                     className={`rounded-full px-4 py-2 text-xs font-medium transition-all duration-200 ${
                       isActive
-                        ? "bg-white text-ink shadow-sm border border-subtle-stroke font-semibold"
-                        : "text-secondary-text hover:text-ink hover:bg-white/50"
+                        ? "bg-background text-ink  border border-subtle-stroke font-semibold"
+                        : "text-secondary-text hover:text-ink hover:bg-tertiary-bg"
                     }`}
                   >
                     {model.title}
@@ -194,7 +121,7 @@ export default function DeliveryModels() {
               <div className="space-y-3 pt-2">
                 {activeModel.bullets.map((bullet, idx) => (
                   <div key={idx} className="flex items-start gap-3">
-                    <div className="mt-1 flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-blue/10 text-blue">
+                    <div className="mt-1 flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-blue-subtle text-blue">
                       <span className="h-1.5 w-1.5 rounded-full bg-blue" />
                     </div>
                     <span className="text-sm font-medium text-ink">{bullet}</span>
@@ -208,7 +135,9 @@ export default function DeliveryModels() {
                   href={activeModel.href}
                   className="inline-flex items-center gap-2 font-semibold text-sm text-blue hover:text-blue-hover transition-colors group"
                 >
-                  <span>Learn more about {activeModel.title}</span>
+                  <span>
+                    {content.learnMore} {activeModel.title}
+                  </span>
                   <span className="transition-transform group-hover:translate-x-1">&rarr;</span>
                 </Link>
               </div>
@@ -217,7 +146,7 @@ export default function DeliveryModels() {
 
           {/* Right Column: Visual Card Showcase */}
           <ScrollReveal delay={150} className="lg:col-span-6 xl:col-span-7">
-            <div className="relative aspect-[4/3] overflow-hidden rounded-[24px] border border-subtle-stroke bg-vault shadow-frame">
+            <div className="relative aspect-[4/3] overflow-hidden rounded-[24px] border border-subtle-stroke bg-vault ">
               {/* Animated Image Transition */}
               <AnimatePresence mode="wait">
                 <motion.div
@@ -236,7 +165,7 @@ export default function DeliveryModels() {
                     priority
                     className="object-cover object-center"
                   />
-                  <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-vault/40 via-transparent to-transparent" />
+                  
                 </motion.div>
               </AnimatePresence>
             </div>

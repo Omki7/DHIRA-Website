@@ -12,7 +12,7 @@ import PreviewTag from "@/components/ui/PreviewTag";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import ScrollRevealRail from "@/components/ui/ScrollRevealRail";
 import SectionHeader from "@/components/ui/SectionHeader";
-import { COMPARE, COMPARE_NOTE, PLANS, type Cell } from "@/lib/pricingSections";
+import type { Cell, Plan, PricingPage } from "@/content/pages/pricing";
 
 function Node() {
   return <span aria-hidden className="inline-block h-[9px] w-[9px] rounded-full bg-blue align-middle" />;
@@ -26,9 +26,9 @@ function Absent() {
   return <span aria-hidden className="inline-block h-px w-3 bg-overcast/70 align-middle" />;
 }
 
-function Mark({ cell }: { cell: Cell }) {
+function Mark({ cell, labels }: { cell: Cell; labels: Record<"yes" | "option" | "no", string> }) {
   if (typeof cell === "object") return <span className="text-[14px] font-medium text-ink">{cell.text}</span>;
-  const text = { yes: "Included", option: "Available on request", no: "Not in this plan" }[cell];
+  const text = labels[cell];
   return (
     <>
       {cell === "yes" ? <Node /> : cell === "option" ? <Ring /> : <Absent />}
@@ -37,21 +37,23 @@ function Mark({ cell }: { cell: Cell }) {
   );
 }
 
-export default function PricingCompare() {
+export default function PricingCompare({ content, plans: PLANS }: { content: PricingPage["compare"]; plans: Plan[] }) {
+  const COMPARE = content.groups;
+  const markLabels = { yes: content.legend.yes, option: content.legend.option, no: content.absentLabel };
   return (
     <section id="compare" className="scroll-mt-24 border-t border-lineSoft bg-background pb-20 pt-16 lg:pb-28 lg:pt-20">
       <ScrollRevealRail>
         <SectionHeader
-          num="02"
-          label="Compare plans"
-          setup="Side by side."
-          payoff="What each plan carries."
-          lede="Every module is in every plan. The rows that change are how much each one carries, where Akashic runs and how it recovers."
+          num={content.num}
+          label={content.label}
+          setup={content.setup}
+          payoff={content.payoff}
+          lede={content.lede}
         >
           <p className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-2 font-mono text-[11px] uppercase tracking-eyebrow text-inkSoft">
-            <span className="inline-flex items-center gap-2"><Node /> Included</span>
-            <span className="inline-flex items-center gap-2"><Ring /> Available on request</span>
-            <span className="inline-flex items-center gap-2"><Absent /> Not in the plan</span>
+            <span className="inline-flex items-center gap-2"><Node /> {content.legend.yes}</span>
+            <span className="inline-flex items-center gap-2"><Ring /> {content.legend.option}</span>
+            <span className="inline-flex items-center gap-2"><Absent /> {content.legend.no}</span>
           </p>
         </SectionHeader>
 
@@ -62,11 +64,11 @@ export default function PricingCompare() {
               viewport and pushes fixed UI such as RegionSuggest off screen. */}
           <div className="mt-12 overflow-x-auto [contain:paint] lg:mt-16">
             <table className="w-full min-w-[760px] border-collapse text-left">
-              <caption className="sr-only">Akashic plans compared</caption>
+              <caption className="sr-only">{content.caption}</caption>
               <thead>
                 <tr className="border-b border-ink/80">
                   <th scope="col" className="sticky left-0 z-10 w-[34%] bg-background py-4 pr-6 font-mono text-[11px] font-normal uppercase tracking-eyebrow text-overcast">
-                    Plan
+                    {content.planHeader}
                   </th>
                   {PLANS.map((plan) => (
                     <th key={plan.id} scope="col" className="w-[16.5%] py-4 text-center text-[17px] font-semibold tracking-[-0.01em] text-ink">
@@ -94,7 +96,7 @@ export default function PricingCompare() {
                       </th>
                       {row.cells.map((cell, k) => (
                         <td key={PLANS[k].id} className="py-3.5 text-center">
-                          <Mark cell={cell} />
+                          <Mark cell={cell} labels={markLabels} />
                         </td>
                       ))}
                     </tr>
@@ -103,7 +105,7 @@ export default function PricingCompare() {
               ))}
             </table>
           </div>
-          <p className="mt-6 max-w-[46em] text-pretty text-[14px] leading-relaxed text-secondary-text">{COMPARE_NOTE}</p>
+          <p className="mt-6 max-w-[46em] text-pretty text-[14px] leading-relaxed text-secondary-text">{content.note}</p>
         </ScrollReveal>
       </ScrollRevealRail>
     </section>

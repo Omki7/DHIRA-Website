@@ -18,13 +18,14 @@
  */
 
 import { useEffect, useRef } from "react";
-import Link from "next/link";
 import AkashicLogo from "@/components/icons/AkashicLogo";
+import FigureEyebrow from "@/components/ui/FigureEyebrow";
 import PreviewTag from "@/components/ui/PreviewTag";
-import { usePrefersReducedMotion } from "@/hooks/useCountUp";
+import type { AkashicPage } from "@/content/pages/akashic";
+import usePrefersReducedMotion from "@/hooks/usePrefersReducedMotion";
 
 /* intro + 7 modules + modular pick + close, in vh of scroll each */
-export const TEARDOWN_SEGS_VH = [60, 90, 90, 90, 90, 90, 90, 90, 120, 200];
+const TEARDOWN_SEGS_VH = [60, 90, 90, 90, 90, 90, 90, 90, 120, 200];
 export const TEARDOWN_TRACK_VH = TEARDOWN_SEGS_VH.reduce((a, b) => a + b, 0);
 
 const ACC = "rgb(var(--blue))";
@@ -38,78 +39,6 @@ const OPEN = 88; // exploded gap between plates
 
 const HUD_NAMES = ["PIPELINES", "MASTER DATA", "WAREHOUSE", "ML", "ASK", "BI", "GOVERNANCE"];
 
-const MODULES = [
-  {
-    kicker: "Ingestion",
-    name: "Akashic Pipelines",
-    lede: "Every source, ingested and validated.",
-    points: [
-      { icon: "database", text: "CRMs, ERPs, PDFs, live feeds: streaming, batch, CDC" },
-      { icon: "funnel", text: "Validated on arrival, so nothing downstream inherits a problem" },
-      { icon: "cpu", text: "AI agents help build and monitor pipelines", preview: true },
-    ],
-  },
-  {
-    kicker: "Entity resolution",
-    name: "Akashic Master Data",
-    lede: "One golden record. No duplicates.",
-    points: [
-      { icon: "merge", text: "One golden record, settled by survivorship rules" },
-      { icon: "graph", text: "Records link into the knowledge layer as they merge" },
-      { icon: "cpu", text: "AI agents suggest matches; stewards approve", preview: true },
-    ],
-  },
-  {
-    kicker: "Modelled storage",
-    name: "Akashic Warehouse",
-    lede: "Structured, modelled, ready to query.",
-    points: [
-      { icon: "cube", text: "Dimensional models, built for sub-second queries" },
-      { icon: "target", text: "The governed metric layer: “revenue” defined once, used everywhere" },
-      { icon: "cloud", text: "Bring your own warehouse, or run Akashic’s" },
-    ],
-  },
-  {
-    kicker: "Prediction",
-    name: "Akashic ML",
-    lede: "Forecasts, trained on governed data.",
-    points: [
-      { icon: "cpu", text: "Train and deploy where the data lives: no exports" },
-      { icon: "eye", text: "Drift, bias, and freshness monitored automatically" },
-      { icon: "trace", text: "Every prediction traceable to governed features" },
-    ],
-  },
-  {
-    kicker: "Conversational AI",
-    name: "Ask Akashic",
-    lede: "Plain-language answers, grounded.",
-    points: [
-      { icon: "database", text: "Questions become SQL on the governed metric layer" },
-      { icon: "quote", text: "A citation on every line, never a guess" },
-      { icon: "lock", text: "Row-level security enforced at answer time" },
-    ],
-  },
-  {
-    kicker: "Decision surface",
-    name: "Akashic BI",
-    lede: "The same number, on every surface.",
-    points: [
-      { icon: "sparkle", text: "Describe a chart in plain language: AI builds it on governed data" },
-      { icon: "bell", text: "Alerts the moment a metric crosses its threshold" },
-      { icon: "share", text: "Shared dashboards, one live source of truth" },
-    ],
-  },
-  {
-    kicker: "Always on",
-    name: "Akashic Governance",
-    lede: "It’s been running the whole time.",
-    points: [
-      { icon: "shield", text: "Access, lineage, and audit under every module" },
-      { icon: "key", text: "Deployed in-region, with keys only you hold" },
-      { icon: "badge", text: "DPDP · ISO 27001 · SOC 2 · GDPR · CERT-In" },
-    ],
-  },
-];
 
 const PLATE_TAGS = [
   "A-01 · Pipelines · ingest / validate",
@@ -120,7 +49,6 @@ const PLATE_TAGS = [
   "A-06 · BI · decision surface",
 ];
 
-const ASK_Q = "Why did this number change?";
 
 /* source chips share AkashicModules' dot colours */
 const PIPE_SOURCES = [
@@ -149,11 +77,12 @@ const FRAG_ROTS = [-12, 9, -7, 14, -10, 6, 11, -13, 8, -6, 12, -9];
 const FRAG_GRID: number[][] = [];
 for (let r = 0; r < 3; r++) for (let c = 0; c < 4; c++) FRAG_GRID.push([145 + c * 68, 140 + r * 44]);
 
-/* "start anywhere" drawer combos for the close chapter: [plate, pull direction] */
-const COMBOS: { set: [number, number][]; label: string }[] = [
-  { set: [[0, 1]], label: "RUN PIPELINES ON ITS OWN" },
-  { set: [[1, 1], [4, -1]], label: "OR MASTER DATA + ASK AKASHIC" },
-  { set: [[0, 0], [1, 0], [2, 0], [3, 0], [4, 0], [5, 0]], label: "OR THE WHOLE PLATFORM" },
+/* "start anywhere" drawer combos for the close chapter: [plate, pull
+   direction]. Index-matched to content howItWorks.combos (the captions). */
+const COMBO_SETS: [number, number][][] = [
+  [[0, 1]],
+  [[1, 1], [4, -1]],
+  [[0, 0], [1, 0], [2, 0], [3, 0], [4, 0], [5, 0]],
 ];
 
 /* ---------------------------------------------------------------- */
@@ -193,12 +122,12 @@ function PlateShell({ i, extra, children }: { i: number; extra?: React.ReactNode
     >
       <div
         data-ak={`shadow-${i}`}
-        style={{ position: "absolute", inset: -6, borderRadius: 20, background: `radial-gradient(closest-side, ${inkA(0.28)}, ${inkA(0)} 76%)`, transform: "translateZ(-9px)", opacity: 0 }}
+        style={{ position: "absolute", inset: -6, borderRadius: 20, background: "transparent", transform: "translateZ(-9px)", opacity: 0 }}
       />
       {side("n", { left: 0, top: 0, width: W, height: TH, transform: `translateZ(${TH}px) rotateX(-90deg)`, background: "rgb(var(--plate-north))" })}
       {side(
         "s",
-        { left: 0, top: H, width: W, height: TH, transform: `translateZ(${TH}px) rotateX(-90deg)`, background: "linear-gradient(180deg,rgb(var(--plate-south)),rgb(var(--plate-edge)))" },
+        { left: 0, top: H, width: W, height: TH, transform: `translateZ(${TH}px) rotateX(-90deg)`, background: "rgb(var(--plate-south))" },
         <span
           data-ak-led={i}
           style={{ position: "absolute", left: W / 2 - 9, top: 6.5, width: 18, height: 3, borderRadius: 2, background: ACC, opacity: 0.3 }}
@@ -208,9 +137,9 @@ function PlateShell({ i, extra, children }: { i: number; extra?: React.ReactNode
       {side("e", { left: W, top: 0, width: TH, height: H, transform: `translateZ(${TH}px) rotateY(90deg)`, background: "rgb(var(--plate-east))" })}
       <div
         data-ak={`top-${i}`}
-        style={{ position: "absolute", inset: 0, borderRadius: 14, transform: `translateZ(${TH}px)`, border: `1px solid ${inkA(0.36)}`, boxShadow: "inset 0 1px 0 var(--plate-highlight)", overflow: "hidden" }}
+        style={{ position: "absolute", inset: 0, borderRadius: 14, transform: `translateZ(${TH}px)`, border: `1px solid ${inkA(0.36)}`, boxShadow: "none", overflow: "hidden" }}
       >
-        <div data-ak={`surf-${i}`} style={{ position: "absolute", inset: 0, borderRadius: 13, background: "linear-gradient(165deg,rgb(var(--plate-top)),rgb(var(--plate-bottom)))" }} />
+        <div data-ak={`surf-${i}`} style={{ position: "absolute", inset: 0, borderRadius: 13, background: "rgb(var(--plate-top))" }} />
         <div
           data-ak={`ghost-${i}`}
           style={{
@@ -222,7 +151,7 @@ function PlateShell({ i, extra, children }: { i: number; extra?: React.ReactNode
         {[[9, 9], [536, 9], [9, 376], [536, 376]].map((p) => (
           <div
             key={`${p[0]}-${p[1]}`}
-            style={{ position: "absolute", left: p[0], top: p[1], width: 6, height: 6, borderRadius: "50%", border: `1px solid ${inkA(0.28)}`, background: "radial-gradient(circle at 35% 35%, rgb(var(--background)), rgb(var(--line)))" }}
+            style={{ position: "absolute", left: p[0], top: p[1], width: 6, height: 6, borderRadius: "50%", border: `1px solid ${inkA(0.28)}`, background: "rgb(var(--background))" }}
           />
         ))}
         {extra}
@@ -412,11 +341,13 @@ const MODULE_HASHES = [
 ];
 
 type Props = {
+  content: AkashicPage["howItWorks"];
   trackRef: React.RefObject<HTMLDivElement | null>;
   curtainHeight: number;
 };
 
-export default function AkashicTeardownMockup({ trackRef, curtainHeight }: Props) {
+export default function AkashicTeardownMockup({ content, trackRef, curtainHeight }: Props) {
+  const MODULES = content.modules;
   const rootRef = useRef<HTMLDivElement>(null);
   const curtainRef = useRef(curtainHeight);
   const boundsRef = useRef<number[]>([0]);
@@ -426,6 +357,21 @@ export default function AkashicTeardownMockup({ trackRef, curtainHeight }: Props
   const lastHashRef = useRef("");
   const initialCheckedRef = useRef(false);
   const measureRef = useRef<() => void>(() => {});
+
+  /* Scrolls to module c's rest position (rail clicks and #hash links). Reads
+     refs only, so the scroll effect below can call it. */
+  const goToModule = (c: number) => {
+    if (measureRef.current) measureRef.current();
+    const b = boundsRef.current;
+    if (!b || b.length < c + 3) return;
+    const dest = geomRef.current.trackTop + curtainRef.current + b[c + 1] + (b[c + 2] - b[c + 1]) * 0.5;
+    const hash = MODULE_HASHES[c];
+    if (hash && typeof window !== "undefined" && window.location.hash !== hash) {
+      lastHashRef.current = hash;
+      window.history.replaceState(null, "", hash);
+    }
+    window.scrollTo({ top: dest, behavior: "smooth" });
+  };
 
   useEffect(() => {
     curtainRef.current = curtainHeight;
@@ -549,7 +495,7 @@ export default function AkashicTeardownMockup({ trackRef, curtainHeight }: Props
       for (let i = 0; i < 6; i++) {
         let pullT = 0, ringT = 0, dimT = 0;
         if (comboIdx >= 0) {
-          const entry = COMBOS[comboIdx].set.find((e) => e[0] === i);
+          const entry = COMBO_SETS[comboIdx].find((e) => e[0] === i);
           if (entry) {
             pullT = 140 * entry[1];
             ringT = comboIdx === 2 ? 0.6 : 1;
@@ -611,10 +557,7 @@ export default function AkashicTeardownMockup({ trackRef, curtainHeight }: Props
         /* focus is a hard 1.5px accent edge only; the 58px blue bloom that
            used to ride with it is gone (it tinted the plates around it) */
         const effF = Math.max(F, ring[i] * 0.85);
-        top.style.boxShadow =
-          effF > 0.01
-            ? `0 0 0 1.5px ${accA(0.9 * effF)}, inset 0 1px 0 var(--plate-highlight)`
-            : "inset 0 1px 0 var(--plate-highlight)";
+        top.style.outline = effF > 0.01 ? `1.5px solid ${ACC}` : "none";
         const sOp = `${(0.1 + 0.9 * P) * (1 - 0.35 * dim[i])}`;
         for (const sd of sides[i]) sd.style.opacity = sOp;
         leds[i].style.opacity = (
@@ -690,7 +633,7 @@ export default function AkashicTeardownMockup({ trackRef, curtainHeight }: Props
 
       const combo = get("combo");
       if (comboIdx !== lastCombo) {
-        if (comboIdx >= 0) combo.textContent = `${comboIdx + 1} / 3 · ${COMBOS[comboIdx].label}`;
+        if (comboIdx >= 0) combo.textContent = `${comboIdx + 1} / ${COMBO_SETS.length} · ${content.combos[comboIdx]}`;
         capAlpha = 0; // restart the fade so each state announces itself
         lastCombo = comboIdx;
       }
@@ -701,7 +644,7 @@ export default function AkashicTeardownMockup({ trackRef, curtainHeight }: Props
       setText(get("pct"), `${String(depth).padStart(3, "0")}%`);
       get("prog").style.width = `${depth}%`;
       const mi = Math.floor(cpos);
-      setText(get("hudmod"), mi === 0 ? "SEALED" : mi >= 8 ? "MODULAR" : HUD_NAMES[mi - 1]);
+      setText(get("hudmod"), mi === 0 ? content.hud.sealed : mi >= 8 ? content.hud.modular : HUD_NAMES[mi - 1]);
       for (let c = 0; c < 7; c++) {
         const on = mi - 1 === c;
         tickLines[c].style.background = on ? ACC : inkA(0.4);
@@ -752,9 +695,9 @@ export default function AkashicTeardownMockup({ trackRef, curtainHeight }: Props
       get("ml-fc").style.opacity = fco.toFixed(3);
       get("ml-fclab").style.opacity = fco.toFixed(3);
       get("ml-band").style.opacity = ss(gArr[3], 0.72, 0.95).toFixed(3);
-      const n = Math.round(ss(gArr[4], 0.15, 0.55) * ASK_Q.length);
+      const n = Math.round(ss(gArr[4], 0.15, 0.55) * content.askQuestion.length);
       if (n !== lastQN) {
-        get("ask-q").textContent = ASK_Q.slice(0, n);
+        get("ask-q").textContent = content.askQuestion.slice(0, n);
         lastQN = n;
       }
       const ao = ss(gArr[4], 0.62, 0.8);
@@ -923,20 +866,7 @@ export default function AkashicTeardownMockup({ trackRef, curtainHeight }: Props
       window.removeEventListener("hashchange", onHashChange);
       window.removeEventListener("popstate", onHashChange);
     };
-  }, [trackRef]);
-
-  const goToModule = (c: number) => {
-    if (measureRef.current) measureRef.current();
-    const b = boundsRef.current;
-    if (!b || b.length < c + 3) return;
-    const dest = geomRef.current.trackTop + curtainRef.current + b[c + 1] + (b[c + 2] - b[c + 1]) * 0.5;
-    const hash = MODULE_HASHES[c];
-    if (hash && typeof window !== "undefined" && window.location.hash !== hash) {
-      lastHashRef.current = hash;
-      window.history.replaceState(null, "", hash);
-    }
-    window.scrollTo({ top: dest, behavior: "smooth" });
-  };
+  }, [trackRef, content]);
 
   return (
     <div ref={rootRef} className="relative h-full w-full select-none overflow-hidden bg-primary-bg text-ink">
@@ -944,14 +874,7 @@ export default function AkashicTeardownMockup({ trackRef, curtainHeight }: Props
           wash sat behind the stack until 22 Sep 2026 and was cut by user
           direction: it tinted every plate lavender and made the unit read
           soft. The accent now appears only as hard lines, never as haze. */}
-      <div
-        className="dot-grid pointer-events-none absolute inset-0 opacity-60"
-        style={{
-          WebkitMaskImage: "radial-gradient(880px at 62% 46%, black 20%, transparent 78%)",
-          maskImage: "radial-gradient(880px at 62% 46%, black 20%, transparent 78%)",
-        }}
-        aria-hidden
-      />
+      
 
       {/* ============ 3D scene ============ */}
       <div data-ak="scene" className="pointer-events-none absolute inset-0" style={{ perspective: 1900, perspectiveOrigin: "62% 44%" }}>
@@ -970,7 +893,7 @@ export default function AkashicTeardownMockup({ trackRef, curtainHeight }: Props
           />
           <div
             data-ak="floorshadow"
-            style={{ position: "absolute", left: -410, top: -310, width: 820, height: 620, transform: "translateZ(-25px)", background: `radial-gradient(closest-side, ${inkA(0.16)}, ${inkA(0)} 70%)`, opacity: 0.5 }}
+            style={{ position: "absolute", left: -410, top: -310, width: 820, height: 620, transform: "translateZ(-25px)", background: "transparent", opacity: 0.5 }}
           />
 
           {/* governance rails */}
@@ -978,7 +901,7 @@ export default function AkashicTeardownMockup({ trackRef, curtainHeight }: Props
             <div
               key={i}
               data-ak={`rail-${i}`}
-              style={{ position: "absolute", left: p[0], top: p[1], width: 1, height: 600, transformOrigin: "0 0", transform: "rotateX(90deg) scaleY(0.06)", background: `linear-gradient(0deg, ${ACC}, ${accA(0.2)})`, opacity: 0.06 }}
+              style={{ position: "absolute", left: p[0], top: p[1], width: 1, height: 600, transformOrigin: "0 0", transform: "rotateX(90deg) scaleY(0.06)", background: ACC, opacity: 0.06 }}
             />
           ))}
 
@@ -993,7 +916,7 @@ export default function AkashicTeardownMockup({ trackRef, curtainHeight }: Props
           {/* grounding beam */}
           <div
             data-ak="beam"
-            style={{ position: "absolute", left: -1, top: 0, width: 2, height: 560, transformOrigin: "0 0", transform: "translateZ(76px) rotateX(-90deg) scaleY(0)", background: `linear-gradient(180deg, ${ACC}, ${accA(0)})`, opacity: 0 }}
+            style={{ position: "absolute", left: -1, top: 0, width: 2, height: 560, transformOrigin: "0 0", transform: "translateZ(76px) rotateX(-90deg) scaleY(0)", background: ACC, opacity: 0 }}
           />
 
           {/* governance billboard labels */}
@@ -1011,7 +934,7 @@ export default function AkashicTeardownMockup({ trackRef, curtainHeight }: Props
           {/* -------- plate 0 · pipelines -------- */}
           <PlateShell i={0}>
             <div style={{ position: "absolute", left: 172, top: 159, width: 216, height: 82, border: `1px dashed ${accA(0.5)}`, borderRadius: 10 }} />
-            <div style={{ position: "absolute", left: 185, top: 172, width: 190, height: 56, border: `1px solid rgb(var(--blue-border))`, borderRadius: 6, background: "rgb(var(--blue-subtle))", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: `0 4px 12px ${inkA(0.08)}` }}>
+            <div style={{ position: "absolute", left: 185, top: 172, width: 190, height: 56, border: `1px solid rgb(var(--blue-border))`, borderRadius: 6, background: "rgb(var(--blue-subtle))", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "none" }}>
               <span style={{ ...mono, fontSize: 11, fontWeight: 500, letterSpacing: "0.2em", color: ACC }}>INGEST · VALIDATE</span>
             </div>
             {PIPE_SOURCES.map((s) => (
@@ -1045,7 +968,7 @@ export default function AkashicTeardownMockup({ trackRef, curtainHeight }: Props
                     data-ak-frag
                     data-x0={p[0]} data-y0={p[1]} data-x1={end[0]} data-y1={end[1]} data-r0={FRAG_ROTS[i]}
                     data-merge={merge ? "1" : "0"}
-                    style={{ position: "absolute", left: 0, top: 0, width: 52, height: 34, border: `1px solid ${inkA(0.5)}`, borderRadius: 4, background: "rgb(var(--background) / 0.94)", boxSizing: "border-box", padding: "5px 6px", boxShadow: `0 3px 8px ${inkA(0.08)}` }}
+                    style={{ position: "absolute", left: 0, top: 0, width: 52, height: 34, border: `1px solid ${inkA(0.5)}`, borderRadius: 4, background: "rgb(var(--background) / 0.94)", boxSizing: "border-box", padding: "5px 6px", boxShadow: "none" }}
                   >
                     <div style={{ height: 4, width: `${56 + ((i * 13) % 4) * 8}%`, background: inkA(0.28), borderRadius: 2 }} />
                     <div style={{ height: 4, width: `${30 + ((i * 7) % 4) * 8}%`, background: inkA(0.18), borderRadius: 2, marginTop: 5 }} />
@@ -1054,7 +977,7 @@ export default function AkashicTeardownMockup({ trackRef, curtainHeight }: Props
               })}
               <div
                 data-ak="gold"
-                style={{ position: "absolute", left: 213, top: 184, width: 52, height: 34, border: `1.5px solid ${ACC}`, borderRadius: 5, background: "rgb(var(--background) / 0.96)", boxSizing: "border-box", padding: "5px 6px", boxShadow: `0 0 0 3px ${accA(0.16)}`, opacity: 0 }}
+                style={{ position: "absolute", left: 213, top: 184, width: 52, height: 34, border: `1.5px solid ${ACC}`, borderRadius: 5, background: "rgb(var(--background) / 0.96)", boxSizing: "border-box", padding: "5px 6px", boxShadow: "none", opacity: 0 }}
               >
                 <div style={{ height: 4, width: "72%", background: accA(0.55), borderRadius: 2 }} />
                 <div style={{ height: 4, width: "46%", background: accA(0.3), borderRadius: 2, marginTop: 5 }} />
@@ -1095,7 +1018,7 @@ export default function AkashicTeardownMockup({ trackRef, curtainHeight }: Props
               <div
                 key={t.id}
                 data-ak={t.id}
-                style={{ position: "absolute", left: t.left, top: t.top, width: t.w, height: t.h, border: `1px solid ${t.fact ? "rgb(var(--blue-border))" : inkA(0.5)}`, borderRadius: 6, background: "rgb(var(--background) / 0.96)", overflow: "hidden", opacity: 0, boxShadow: `0 4px 12px ${inkA(0.08)}` }}
+                style={{ position: "absolute", left: t.left, top: t.top, width: t.w, height: t.h, border: `1px solid ${t.fact ? "rgb(var(--blue-border))" : inkA(0.5)}`, borderRadius: 6, background: "rgb(var(--background) / 0.96)", overflow: "hidden", opacity: 0, boxShadow: "none" }}
               >
                 <div style={{ height: 24, borderBottom: `1px solid ${t.fact ? "rgb(var(--blue-border))" : inkA(0.18)}`, background: t.fact ? "rgb(var(--blue-subtle))" : inkA(0.045), display: "flex", alignItems: "center", padding: "0 9px", ...mono, fontSize: 10.5, fontWeight: 600, letterSpacing: "0.08em", color: t.fact ? ACC : inkA(0.88) }}>
                   {t.name}
@@ -1136,7 +1059,7 @@ export default function AkashicTeardownMockup({ trackRef, curtainHeight }: Props
 
           {/* -------- plate 4 · ask -------- */}
           <PlateShell i={4}>
-            <div style={{ position: "absolute", left: 100, top: 132, width: 360, height: 56, border: `1px solid rgb(var(--blue-border))`, borderRadius: 10, background: "rgb(var(--background))", boxShadow: `0 6px 18px ${inkA(0.08)}`, display: "flex", alignItems: "center", gap: 11, padding: "0 18px", boxSizing: "border-box" }}>
+            <div style={{ position: "absolute", left: 100, top: 132, width: 360, height: 56, border: `1px solid rgb(var(--blue-border))`, borderRadius: 10, background: "rgb(var(--background))", boxShadow: "none", display: "flex", alignItems: "center", gap: 11, padding: "0 18px", boxSizing: "border-box" }}>
               <span style={{ display: "block", width: 8, height: 8, borderRadius: "50%", background: ACC, flex: "none" }} />
               <span data-ak="ask-q" style={{ fontSize: 14.5, letterSpacing: "-0.01em", color: "rgb(var(--ink))", whiteSpace: "nowrap", overflow: "hidden" }} />
               <span className="animate-[ps-caret-blink_1.1s_step-end_infinite]" style={{ display: "block", width: 1.5, height: 20, background: "rgb(var(--ink))" }} />
@@ -1158,18 +1081,19 @@ export default function AkashicTeardownMockup({ trackRef, curtainHeight }: Props
             i={5}
             extra={
               <div data-ak="word" style={{ position: "absolute", inset: 0 }}>
-                <div className="dot-grid" style={{ position: "absolute", inset: 12, borderRadius: 8, opacity: 0.5 }} />
-                <div style={{ position: "absolute", left: 12, top: 12, bottom: 12, width: 3, borderRadius: 2, background: `linear-gradient(180deg, ${ACC}, ${accA(0)})` }} />
+                
+                <div style={{ position: "absolute", left: 12, top: 12, bottom: 12, width: 3, borderRadius: 2, background: ACC }} />
                 <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 13 }}>
-                  <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
-                    <AkashicLogo className="h-9 w-9" primaryColor="rgb(var(--ink))" />
-                    <span style={{ fontSize: 30, fontWeight: 600, letterSpacing: "0.32em", color: inkA(0.82), textIndent: 0, fontFamily: "var(--font-heading)" }}>AKASHIC</span>
+                  {/* The wordmark: the logo is the A (21 Oct 2026). */}
+                  <div style={{ display: "flex", alignItems: "center" }}>
+                    <AkashicLogo className="h-11 w-11" primaryColor="rgb(var(--ink))" />
+                    <span aria-hidden style={{ marginLeft: -4, fontSize: 30, fontWeight: 600, letterSpacing: "0.32em", color: inkA(0.82), fontFamily: "var(--font-heading)" }}>KASHIC</span>
                   </div>
-                  <div style={{ ...mono, fontSize: 10.5, letterSpacing: "0.22em", color: inkA(0.6) }}>UNIFIED DATA &amp; AI PLATFORM</div>
+                  <div style={{ ...mono, fontSize: 10.5, letterSpacing: "0.22em", color: "rgb(var(--secondary-text))" }}>UNIFIED DATA &amp; AI PLATFORM</div>
                 </div>
-                <div style={{ position: "absolute", left: 26, top: 22, ...mono, fontSize: 10, letterSpacing: "0.16em", color: inkA(0.6) }}>DHIRA · DATA SYSTEMS</div>
-                <div style={{ position: "absolute", right: 26, top: 22, ...mono, fontSize: 10, letterSpacing: "0.16em", color: inkA(0.6) }}>UNIT 07</div>
-                <div style={{ position: "absolute", left: 26, bottom: 20, ...mono, fontSize: 10, letterSpacing: "0.16em", color: inkA(0.6) }}>07 MODULES · ONE FOUNDATION</div>
+                <div style={{ position: "absolute", left: 26, top: 22, ...mono, fontSize: 10, letterSpacing: "0.16em", color: 'rgb(var(--secondary-text))' }}>DHIRA · DATA SYSTEMS</div>
+                <div style={{ position: "absolute", right: 26, top: 22, ...mono, fontSize: 10, letterSpacing: "0.16em", color: 'rgb(var(--secondary-text))' }}>UNIT 07</div>
+                <div style={{ position: "absolute", left: 26, bottom: 20, ...mono, fontSize: 10, letterSpacing: "0.16em", color: 'rgb(var(--secondary-text))' }}>07 MODULES · ONE FOUNDATION</div>
                 <div style={{ position: "absolute", right: 26, bottom: 20, display: "flex", alignItems: "center", gap: 7 }}>
                   <span data-ak="faceled" style={{ display: "block", width: 6, height: 6, borderRadius: "50%", background: ACC }} />
                   <span style={{ ...mono, fontSize: 10, fontWeight: 500, letterSpacing: "0.16em", color: ACC }}>GOVERNED</span>
@@ -1215,28 +1139,25 @@ export default function AkashicTeardownMockup({ trackRef, curtainHeight }: Props
       {/* ============ narrative rail ============ */}
       <div className="pointer-events-none absolute left-[6%] right-[6%] top-[15%] md:right-auto md:left-[7%] md:top-[46%] md:w-[470px] md:-translate-y-[40%]">
         <div data-ak="txt-0">
-          <p className="flex items-center gap-2.5 font-mono text-[11px] uppercase tracking-eyebrow">
-            <span className="text-overcast">[02]</span>
-            <span className="block h-px w-8 bg-line" aria-hidden />
-            <span className="text-inkSoft">How it works · the walkthrough</span>
-          </p>
+          {/* The site's eyebrow, without its rail: this text floats over a
+              pinned scene, where a ruled band has nothing to span. */}
+          <FigureEyebrow num={content.eyebrow.number} label={content.eyebrow.label} bare />
           {/* Gain-led headline (14 Oct 2026): adopt one module, grow into
               the platform, which is where the walkthrough ends ("run
               Pipelines on its own / or the whole platform"). The lede
               keeps how the seven modules come together. */}
-          <h2 className="mt-5 text-[30px] font-semibold leading-[1.06] tracking-tighter text-ink md:text-[44px]">
-            <span className="text-inkSoft">Start with one module.</span> <span className="md:block">Grow into the platform.</span>
+          <h2 className="mt-6 text-[30px] font-semibold leading-[1.06] tracking-tighter text-ink md:text-[44px]">
+            <span className="text-inkSoft">{content.title.setup}</span> <span className="md:block">{content.title.payoff}</span>
           </h2>
           <p className="mt-5 max-w-[430px] text-[15px] leading-relaxed text-inkSoft md:text-[16.5px]">
-            Each module does one job and hands its output to the next, on one governed
-            foundation. Scroll to open the platform and walk through them, one at a time.
+            {content.lede}
           </p>
           <div className="mt-8 flex items-center gap-3.5">
             <span className="relative block h-[26px] w-px overflow-hidden bg-ink/15">
               <span className="absolute left-0 top-0 h-2 w-px animate-[ak-drop_1.8s_ease-in-out_infinite] bg-blue" />
             </span>
             <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.2em] text-secondary-text">
-              Scroll · open the platform
+              {content.scrollHint}
             </span>
           </div>
         </div>
@@ -1255,7 +1176,7 @@ export default function AkashicTeardownMockup({ trackRef, curtainHeight }: Props
               0{i + 1}
             </span>
             <p className="relative flex items-center gap-2.5 font-mono text-[11px] uppercase tracking-eyebrow">
-              <span className="text-blue">0{i + 1} / 07</span>
+              <span className="text-blue">0{i + 1} / {String(MODULES.length).padStart(2, "0")}</span>
               <span className="block h-px w-8 bg-line" aria-hidden />
               <span className="rounded-[5px] border border-blue-border bg-blue-subtle px-2 py-[3px] text-[9.5px] text-blue">
                 {m.kicker}
@@ -1287,24 +1208,21 @@ export default function AkashicTeardownMockup({ trackRef, curtainHeight }: Props
       <div className="pointer-events-none absolute left-1/2 top-[8%] w-[min(92vw,760px)] -translate-x-1/2 text-center md:top-[10%]">
         <div data-ak="txt-8" style={{ opacity: 0 }}>
           <p className="flex items-center justify-center gap-2.5 font-mono text-[11px] uppercase tracking-eyebrow">
-            <span className="text-blue">Start anywhere</span>
+            <span className="text-blue">{content.close.kicker[0]}</span>
             <span className="block h-px w-8 bg-line" aria-hidden />
-            <span className="text-inkSoft">Scale everywhere</span>
+            <span className="text-inkSoft">{content.close.kicker[1]}</span>
           </p>
           <h3 className="mx-auto mt-5 max-w-[16em] text-[28px] font-semibold leading-[1.08] tracking-tighter text-ink md:text-[42px]">
-            Every module works on its own. Together, they&rsquo;re the whole platform.
+            {content.close.title}
           </h3>
           <p className="mx-auto mt-4 max-w-[36em] text-[15px] leading-relaxed text-inkSoft md:text-[16.5px]">
-            Pick the modules that solve today&rsquo;s problem: they run alongside whatever you
-            already have. Add the rest when you&rsquo;re ready. The foundation never changes.
+            {content.close.body}
           </p>
+          {/* Its "Deploy it where your data lives" button pointed at the next
+              section; removed 20 Oct 2026 (no next-section buttons). */}
           <div className="mt-7 flex flex-wrap items-center justify-center gap-x-5 gap-y-4">
-            <Link href="#architecture" className="btn-primary pointer-events-auto px-6">
-              Deploy it where your data lives
-              <span className="font-mono text-[13px]" aria-hidden>&rarr;</span>
-            </Link>
             <span className="font-mono text-[10.5px] font-semibold uppercase tracking-[0.18em] text-secondary-text">
-              Seven modules · one platform
+              {content.close.tagline}
             </span>
           </div>
         </div>
@@ -1321,25 +1239,25 @@ export default function AkashicTeardownMockup({ trackRef, curtainHeight }: Props
       <div className="pointer-events-none absolute inset-x-0 top-0 flex h-[54px] items-center justify-between border-b border-lineSoft px-[6%] md:px-[7%]">
         <span className="flex items-center gap-2.5 font-mono text-[10px] uppercase tracking-[0.2em] text-secondary-text">
           <span className="block h-1.5 w-1.5 animate-[ps-pulse_2s_infinite] rounded-full bg-blue" aria-hidden />
-          [02] Introducing Akashic · seven modules
+          {content.frameLabel}
         </span>
       </div>
 
       <div
         data-ak="hud"
-        className="absolute inset-x-0 bottom-0 flex h-16 items-center justify-between border-t border-lineSoft bg-primary-bg/75 px-[6%] backdrop-blur-md md:px-[7%]"
+        className="absolute inset-x-0 bottom-0 flex h-16 items-center justify-between border-t border-lineSoft bg-primary-bg px-[6%] md:px-[7%]"
       >
         <div className="hidden w-[190px] items-center gap-3 font-mono text-[10px] uppercase tracking-[0.16em] md:flex">
-          <span className="text-secondary-text">Module</span>
-          <span data-ak="hudmod" className="text-ink">SEALED</span>
+          <span className="text-secondary-text">{content.hud.module}</span>
+          <span data-ak="hudmod" className="text-ink">{content.hud.sealed}</span>
         </div>
         <div className="flex items-end gap-4 md:gap-[22px]">
           {HUD_NAMES.map((name, c) => (
             <button
               key={name}
               type="button"
-              title={`Module 0${c + 1}: ${name}`}
-              aria-label={`Go to module 0${c + 1}: ${name.toLowerCase()}`}
+              title={`${content.hud.module} 0${c + 1}: ${name}`}
+              aria-label={`${content.hud.goTo} 0${c + 1}: ${name.toLowerCase()}`}
               onClick={() => goToModule(c)}
               className="group flex flex-col items-center gap-[7px] px-1 py-1.5 cursor-pointer transition-transform duration-150 hover:scale-110 focus-visible:outline-none"
             >
@@ -1351,12 +1269,12 @@ export default function AkashicTeardownMockup({ trackRef, curtainHeight }: Props
           ))}
         </div>
         <div className="hidden w-[190px] items-center justify-end gap-3 font-mono text-[10px] uppercase tracking-[0.16em] md:flex">
-          <span className="text-secondary-text">Depth</span>
+          <span className="text-secondary-text">{content.hud.depth}</span>
           <span data-ak="pct" className="text-ink">000%</span>
         </div>
         <span
           data-ak="prog"
-          className="absolute bottom-0 left-0 h-[2px] bg-gradient-to-r from-blue via-blue to-blue/40"
+          className="absolute bottom-0 left-0 h-[2px] bg-blue"
           style={{ width: "0%" }}
           aria-hidden
         />

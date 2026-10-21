@@ -15,32 +15,21 @@ import type { Metadata } from "next";
 
    Nobody is redirected. A regional page can suggest its other version
    (components/layout/region/RegionSuggest), and site links follow the
-   visitor's region (components/ui/RegionLink, hooks/useRegion). */
+   visitor's region (components/ui/RegionLink, hooks/useRegion).
+
+   This file is routing logic. The words (region names, the suggestion
+   card's offer lines) are content: content/ui.ts `region`. */
 
 export type Region = "intl" | "in";
 
-export const REGIONS: Record<Region, { label: string; hreflang: string; locale: string }> = {
-  intl: { label: "International", hreflang: "en", locale: "en_GB" },
-  in: { label: "India", hreflang: "en-IN", locale: "en_IN" },
+export const REGIONS: Record<Region, { hreflang: string; locale: string }> = {
+  intl: { hreflang: "en", locale: "en_GB" },
+  in: { hreflang: "en-IN", locale: "en_IN" },
 };
 
-export type RegionalPage = {
-  /** The international path. The India version is /in + path. */
-  path: string;
-  /** What the version offers, one terse line per region, for the suggestion card. */
-  offer: Record<Region, string>;
-};
-
-/* Add a page here only once its /in route exists. */
-export const REGIONAL_PAGES: RegionalPage[] = [
-  {
-    path: "/pricing",
-    offer: {
-      intl: "Prices in USD and international buying routes.",
-      in: "Prices in INR, GST and GeM buying routes.",
-    },
-  },
-];
+/* The international paths that have an India version at /in + path. Add a
+   path only once its /in route exists, with its offer lines in content/ui.ts. */
+export const REGIONAL_PATHS: string[] = ["/pricing"];
 
 const trim = (path: string) => path.replace(/\/$/, "") || "/";
 
@@ -51,8 +40,8 @@ export function basePath(pathname: string): string {
   return path.startsWith("/in/") ? path.slice(3) : path;
 }
 
-/** The regional page a path belongs to, in either version. */
-export const regionalPage = (pathname: string) => REGIONAL_PAGES.find((page) => page.path === basePath(pathname));
+/** The international path of the regional page a path belongs to, in either version. */
+export const regionalPage = (pathname: string) => REGIONAL_PATHS.find((path) => path === basePath(pathname));
 
 /** The region of the page at `pathname`, or null for a page that is the same everywhere. */
 export function pageRegion(pathname: string): Region | null {
@@ -70,7 +59,7 @@ export function regionHref(href: string, region: Region): string {
   const cut = href.search(/[?#]/);
   const path = cut === -1 ? href : href.slice(0, cut);
   const page = regionalPage(path);
-  return page ? regionPath(page.path, region) + (cut === -1 ? "" : href.slice(cut)) : href;
+  return page ? regionPath(page, region) + (cut === -1 ? "" : href.slice(cut)) : href;
 }
 
 /** Canonical plus hreflang alternates for a page that has both versions. */

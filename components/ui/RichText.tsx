@@ -10,7 +10,7 @@
 
 import type { ReactNode } from "react";
 import Link from "next/link";
-import type { Block } from "@/lib/richText";
+import type { Block } from "@/content/types";
 
 const LINK = /\[([^\]]+)\]\(([^)\s]+)\)/g;
 const linkClass =

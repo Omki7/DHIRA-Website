@@ -10,6 +10,7 @@ import Image from "next/image";
 import Link from "next/link";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import ScrollRevealRail from "@/components/ui/ScrollRevealRail";
+import type { SectorContent, SectorTemplate } from "@/content/pages/sectors";
 import { LiveChip } from "@/components/sections/akashic/AkashicCardChrome";
 
 const assets = [
@@ -48,30 +49,30 @@ function DriftTrace() {
       </div>
       <svg viewBox="0 0 440 74" className="mt-2 h-[74px] w-full" aria-hidden>
         {/* trip threshold */}
-        <line x1="0" y1={trip} x2="440" y2={trip} stroke="#8DA2F0" strokeWidth="1" strokeDasharray="3 4" opacity="0.7" />
-        <text x="2" y={trip - 4} fontFamily="monospace" fontSize="8" fill="#c9cfda">
+        <line x1="0" y1={trip} x2="440" y2={trip} stroke="rgb(var(--blue-400))" strokeWidth="1" strokeDasharray="3 4" opacity="0.7" />
+        <text x="2" y={trip - 4} fontFamily="monospace" fontSize="8" fill="rgb(var(--line))">
           TRIP RISK
         </text>
-        <line x1="0" y1={baseline} x2="440" y2={baseline} stroke="#ffffff" strokeWidth="1" opacity="0.09" />
+        <line x1="0" y1={baseline} x2="440" y2={baseline} stroke="rgb(var(--background))" strokeWidth="1" opacity="0.09" />
         {/* thermal drift rising toward the trip line */}
         <polyline
           fill="none"
-          stroke="#aab2be"
+          stroke="rgb(var(--overcast))"
           strokeWidth="1.5"
           points="0,52 44,50 88,49 132,47 176,45 220,43"
         />
         <polyline
           fill="none"
-          stroke="#8DA2F0"
+          stroke="rgb(var(--blue-400))"
           strokeWidth="1.8"
           points="220,43 264,39 308,34 352,29 396,24 432,20"
         />
-        <circle cx="432" cy="20" r="3.5" fill="#8DA2F0" />
-        <line x1="220" y1="8" x2="220" y2={baseline} stroke="#8DA2F0" strokeWidth="1" strokeDasharray="2 3" opacity="0.5" />
-        <text x="214" y="12" textAnchor="end" fontFamily="monospace" fontSize="8" fill="#c9cfda">
+        <circle cx="432" cy="20" r="3.5" fill="rgb(var(--blue-400))" />
+        <line x1="220" y1="8" x2="220" y2={baseline} stroke="rgb(var(--blue-400))" strokeWidth="1" strokeDasharray="2 3" opacity="0.5" />
+        <text x="214" y="12" textAnchor="end" fontFamily="monospace" fontSize="8" fill="rgb(var(--line))">
           DAY 1
         </text>
-        <text x="226" y="12" fontFamily="monospace" fontSize="8" fill="#9db0f5">
+        <text x="226" y="12" fontFamily="monospace" fontSize="8" fill="rgb(var(--blue-300))">
           DAY 2 FLAGGED
         </text>
       </svg>
@@ -81,10 +82,10 @@ function DriftTrace() {
 
 function ControlConsole() {
   return (
-    <div className="w-full max-w-[520px] overflow-hidden rounded-frame border border-white/[0.14] bg-[rgba(14,16,20,0.55)] text-left shadow-[0_30px_90px_-30px_rgba(0,0,0,0.8)] backdrop-blur-2xl">
-      <div className="h-[3px] bg-gradient-to-r from-blue/70 via-blue/30 to-transparent" aria-hidden />
-      <div className="flex items-center justify-between border-b border-white/[0.1] px-4 py-3">
-        <span className="flex items-center gap-1.5 font-mono text-[10px] font-semibold uppercase tracking-eyebrow text-white/70">
+    <div className="w-full max-w-[520px] overflow-hidden rounded-frame border border-card-line bg-background text-left ">
+      <div className="h-[3px] bg-blue" aria-hidden />
+      <div className="flex items-center justify-between border-b border-line px-4 py-3">
+        <span className="flex items-center gap-1.5 font-mono text-[10px] font-semibold uppercase tracking-eyebrow text-secondary-text">
           <span className="h-[5px] w-[5px] rounded-full bg-blue animate-[ps-pulse_2s_infinite]" aria-hidden />
           Control room · Asset watch
         </span>
@@ -95,7 +96,7 @@ function ControlConsole() {
 
       <div className="px-4 pb-4 pt-3">
         <div className="relative">
-          <div className="absolute left-[7px] right-[7px] top-[5px] border-t border-dashed border-white/15" aria-hidden />
+          <div className="absolute left-[7px] right-[7px] top-[5px] border-t border-dashed border-line" aria-hidden />
           <div className="grid grid-cols-4">
             {assets.map((asset) => (
               <div key={asset.code + asset.name} className="flex flex-col items-start">
@@ -103,16 +104,16 @@ function ControlConsole() {
                   className={`relative z-10 block h-[11px] w-[11px] rounded-full border-2 ${
                     asset.state === "drift"
                       ? "border-blue bg-blue animate-[ps-pulse_2s_infinite]"
-                      : "border-white/30 bg-transparent"
+                      : "border-line bg-transparent"
                   }`}
                   aria-hidden
                 />
-                <span className="mt-2 font-mono text-[8.5px] uppercase tracking-[0.08em] text-white/45">
+                <span className="mt-2 font-mono text-[8.5px] uppercase tracking-[0.08em] text-inkSoft">
                   {asset.code}
                 </span>
                 <span
                   className={`text-[11.5px] font-semibold tracking-tight ${
-                    asset.state === "drift" ? "text-blue-subtle" : "text-white"
+                    asset.state === "drift" ? "text-blue" : "text-ink"
                   }`}
                 >
                   {asset.name}
@@ -124,49 +125,49 @@ function ControlConsole() {
 
         <div className="mt-4 grid grid-cols-3 gap-2">
           {signalRows.map((row) => (
-            <div key={row.label} className="rounded-card border border-white/[0.1] bg-white/[0.04] px-3 py-2">
-              <p className="font-mono text-[8px] font-semibold uppercase tracking-[0.08em] text-white/45">
+            <div key={row.label} className="rounded-card border border-line bg-tertiary-bg px-3 py-2">
+              <p className="font-mono text-[8px] font-semibold uppercase tracking-[0.08em] text-inkSoft">
                 {row.label}
               </p>
-              <p className="mt-1 text-[11.5px] font-semibold leading-snug tracking-tight text-white/90">
+              <p className="mt-1 text-[11.5px] font-semibold leading-snug tracking-tight text-ink">
                 {row.value}
               </p>
             </div>
           ))}
         </div>
 
-        <div className="mt-4 flex items-center justify-between gap-3 rounded-card border border-blue/40 bg-blue/[0.16] px-3.5 py-2.5">
+        <div className="mt-4 flex items-center justify-between gap-3 rounded-card border border-blue-border bg-blue-subtle px-3.5 py-2.5">
           <div className="min-w-0">
-            <p className="truncate text-[12px] font-semibold tracking-tight text-white">
+            <p className="truncate text-[12px] font-semibold tracking-tight text-ink">
               Thermal drift · TX-042 · Feeder 7
             </p>
-            <p className="font-mono text-[8.5px] uppercase tracking-[0.08em] text-white/55">
+            <p className="font-mono text-[8.5px] uppercase tracking-[0.08em] text-inkSoft">
               Flagged before the trip · work order ready
             </p>
           </div>
-          <span className="shrink-0 rounded-full bg-blue px-2.5 py-1 font-mono text-[8.5px] font-semibold uppercase tracking-[0.08em] text-white">
+          <span className="shrink-0 rounded-full bg-blue px-2.5 py-1 font-mono text-[8.5px] font-semibold uppercase tracking-[0.08em] text-on-action">
             Dispatch
           </span>
         </div>
       </div>
 
-      <div className="grid grid-cols-3 divide-x divide-white/10 border-t border-white/10">
+      <div className="grid grid-cols-3 divide-x divide-line border-t border-line">
         {readouts.map((readout) => (
           <div key={readout.label} className="px-3.5 py-3">
-            <p className="flex items-center gap-1.5 font-mono text-[8.5px] font-semibold uppercase tracking-[0.1em] text-white/55">
+            <p className="flex items-center gap-1.5 font-mono text-[8.5px] font-semibold uppercase tracking-[0.1em] text-inkSoft">
               <span className="h-[5px] w-[5px] shrink-0 rounded-full bg-blue animate-[ps-pulse_2s_infinite]" aria-hidden />
               {readout.label}
             </p>
-            <p className="mt-1.5 font-mono text-[15px] font-bold tracking-tight text-white">
+            <p className="mt-1.5 font-mono text-[15px] font-bold tracking-tight text-ink">
               {readout.value}
             </p>
           </div>
         ))}
       </div>
 
-      <div className="flex items-center justify-between gap-3 border-t border-white/10 bg-white/[0.03] px-4 py-2.5 font-mono text-[8.5px] uppercase tracking-[0.06em]">
-        <span className="text-white/50">SCADA · AMI · historian unified</span>
-        <span className="text-white/35">Every asset traceable</span>
+      <div className="flex items-center justify-between gap-3 border-t border-line bg-tertiary-bg px-4 py-2.5 font-mono text-[8.5px] uppercase tracking-[0.06em]">
+        <span className="text-inkSoft">SCADA · AMI · historian unified</span>
+        <span className="text-inkSoft">Every asset traceable</span>
       </div>
     </div>
   );
@@ -174,15 +175,15 @@ function ControlConsole() {
 
 function GridSystemsRail() {
   return (
-    <div className="grid gap-3 border-t border-white/[0.15] py-5 md:grid-cols-[auto_1fr] md:items-center">
-      <p className="font-mono text-[10px] font-semibold uppercase tracking-eyebrow text-white/[0.55]">
+    <div className="grid gap-3 border-t border-line py-5 md:grid-cols-[auto_1fr] md:items-center">
+      <p className="font-mono text-[10px] font-semibold uppercase tracking-eyebrow text-inkSoft">
         Systems joined
       </p>
       <div className="flex flex-wrap gap-2 md:justify-end">
         {gridSystems.map((system) => (
           <span
             key={system}
-            className="rounded-full border border-white/[0.18] bg-white/10 px-3 py-1.5 font-mono text-[9.5px] font-semibold uppercase tracking-[0.08em] text-white/80 backdrop-blur-md"
+            className="rounded-full border border-line bg-background px-3 py-1.5 font-mono text-[9.5px] font-semibold uppercase tracking-[0.08em] text-secondary-text "
           >
             {system}
           </span>
@@ -192,70 +193,61 @@ function GridSystemsRail() {
   );
 }
 
-export default function EnergyHero() {
+export default function EnergyHero({ content, template }: { content: SectorContent; template: SectorTemplate }) {
+  const [eyebrowLead, eyebrowTail] = content.eyebrow.split(" · ");
   return (
-    <section id="hero" className="relative overflow-hidden bg-ink text-white">
-      <Image
-        src="/sectors/energy-hq.jpg"
-        alt="High-voltage transmission towers and lines against a dusk sky"
-        fill
-        priority
-        sizes="100vw"
-        className="object-cover"
-      />
-      <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(10,10,12,0.92)_0%,rgba(10,10,12,0.74)_44%,rgba(10,10,12,0.36)_100%)]" aria-hidden />
-      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(10,10,12,0.1)_0%,rgba(10,10,12,0.28)_62%,rgba(10,10,12,0.82)_100%)]" aria-hidden />
-      <div className="dot-grid absolute inset-0 opacity-[0.08] invert" aria-hidden />
+    <section id="hero" className="relative overflow-hidden bg-anchor text-ink">
+      
+      
+      
+      
 
       <ScrollRevealRail>
         <div className="grid min-h-[calc(100vh-72px)] grid-cols-1 items-center gap-12 py-16 md:py-20 lg:grid-cols-[minmax(0,0.95fr)_minmax(420px,0.9fr)] lg:gap-16">
           <div>
             <ScrollReveal>
-              <figure className="mb-7 inline-flex items-center gap-2 rounded-full border border-white/[0.18] bg-white/[0.12] px-3.5 py-1.5 text-xs text-white shadow-sm backdrop-blur-md sm:text-sm">
-                <span className="font-semibold">Energy</span>
-                <span className="h-3.5 w-px bg-white/[0.24]" aria-hidden />
-                <span className="font-medium text-white/[0.72]">Akashic by sector</span>
+              <figure className="mb-7 inline-flex items-center gap-2 rounded-full border border-line bg-tertiary-bg px-3.5 py-1.5 text-xs text-ink   sm:text-sm">
+                <span className="font-semibold">{content.name}</span>
+                <span className="h-3.5 w-px bg-tertiary-bg" aria-hidden />
+                <span className="font-medium text-secondary-text">{template.badge}</span>
               </figure>
             </ScrollReveal>
 
             <ScrollReveal delay={80}>
-              <p className="font-mono text-[11px] uppercase tracking-eyebrow text-white/[0.62]">
-                Akashic for energy <span className="text-white/[0.35]">·</span> Utilities &amp; grid operators
+              <p className="font-mono text-[11px] uppercase tracking-eyebrow text-secondary-text">
+                {eyebrowLead} <span className="text-inkSoft">·</span> {eyebrowTail}
               </p>
             </ScrollReveal>
 
             <ScrollReveal delay={140}>
-              <h1 className="mt-6 max-w-[9.5em] text-5xl font-semibold leading-[1.02] tracking-tightest text-white md:text-6xl lg:text-[66px]">
-                See the grid{" "}
+              <h1 className="mt-6 max-w-[9.5em] text-5xl font-semibold leading-[1.02] tracking-tightest text-ink md:text-6xl lg:text-[66px]">
+                {content.headlinePlain}{" "}
                 <span className="relative inline-block">
-                  before it fails.
-                  <span className="absolute -bottom-[0.08em] left-0 h-[0.08em] w-full rounded-full bg-blue/80" aria-hidden />
+                  {content.headlineMarked}
+                  <span className="absolute -bottom-[0.08em] left-0 h-[0.08em] w-full rounded-full bg-blue" aria-hidden />
                 </span>
               </h1>
             </ScrollReveal>
 
             <ScrollReveal delay={220}>
-              <p className="mt-7 max-w-[37em] text-lg leading-relaxed text-white/[0.72]">
-                The telemetry that predicts a failure already exists. It sits in
-                a historian nobody queries. Akashic unifies SCADA, metering, and
-                asset data into one governed live picture, so the grid is
-                maintained on condition, not on the calendar.
+              <p className="mt-7 max-w-[37em] text-lg leading-relaxed text-secondary-text">
+                {content.intro}
               </p>
             </ScrollReveal>
 
             <ScrollReveal delay={300}>
               <div className="mt-9 flex flex-wrap items-center gap-3">
                 <Link
-                  href="#solution"
-                  className="btn-primary-invert"
+                  href={template.primary.href}
+                  className="btn-primary"
                 >
-                  See how Akashic tackles it
+                  {template.primary.label}
                 </Link>
                 <Link
-                  href="#talk-to-our-team"
-                  className="btn-secondary-invert backdrop-blur-md"
+                  href={template.secondary.href}
+                  className="btn-secondary "
                 >
-                  Talk to our team
+                  {template.secondary.label}
                 </Link>
               </div>
             </ScrollReveal>
@@ -263,7 +255,9 @@ export default function EnergyHero() {
 
           <ScrollReveal delay={260} className="min-w-0">
             <div className="flex justify-center lg:justify-end">
-              <ControlConsole />
+<div className="w-full max-w-[520px]"><div className="relative mb-4 aspect-[16/5] w-full overflow-hidden rounded-frame border border-card-line">
+                    <Image src={content.image.src} alt={content.image.alt} fill priority sizes="(min-width: 1024px) 520px, 100vw" className="object-cover" />
+                  </div><ControlConsole /></div>
             </div>
           </ScrollReveal>
         </div>

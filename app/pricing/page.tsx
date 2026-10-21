@@ -1,17 +1,17 @@
+import type { Metadata } from "next";
 import PricingPage from "@/components/pages/PricingPage";
+import { getPage } from "@/lib/content";
 import { pageMetadata } from "@/lib/metadata";
-import { PRICING_INTRO } from "@/lib/pricingSections";
 
-/* International pricing. The India version is app/in/pricing; both render
-   components/pages/PricingPage (lib/region.ts). */
+/* International pricing. The India version is app/in/pricing;
+   both render components/pages/PricingPage (lib/region.ts). */
 
-export const metadata = pageMetadata({
-  title: "Plans and pricing",
-  description: `${PRICING_INTRO.payoff} ${PRICING_INTRO.lede} Prices in USD.`,
-  path: "/pricing",
-  region: "intl",
-});
+export async function generateMetadata(): Promise<Metadata> {
+  const { seo } = await getPage("pricing");
+  return pageMetadata({ ...seo.intl, region: "intl" });
+}
 
-export default function Page() {
-  return <PricingPage region="intl" />;
+export default async function Page() {
+  const content = await getPage("pricing");
+  return <PricingPage region="intl" content={content} />;
 }

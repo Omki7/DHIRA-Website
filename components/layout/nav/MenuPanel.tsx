@@ -1,8 +1,10 @@
 import RegionLink from "@/components/ui/RegionLink";
 import PreviewTag from "@/components/ui/PreviewTag";
-import { isCurrentPage, type NavLink, type NavMenu } from "@/lib/navigation";
+import type { NavLink, NavMenu } from "@/content/navigation";
+import { isCurrentPage } from "@/lib/navigation";
 import NavFeatured from "./NavFeatured";
 import { Arrow, ArrowUpRight } from "./NavIcons";
+import { nameOrWordmark } from "@/components/icons/AkashicWordmark";
 
 /* One menu's contents inside the desktop sheet, the same grammar for every
    menu: lead (hairline to its right), vertical link lists, featured card on
@@ -12,18 +14,22 @@ import { Arrow, ArrowUpRight } from "./NavIcons";
    Each block is one `fr` track sized by its `span`; gutters are 24px below
    xl and 32px from xl. Headings share the first
    row (CSS subgrid) and sit on its baseline, so when one wraps to two lines
-   every list still starts on the same line. */
+   every list still starts on the same line. A `divided` group draws the
+   lead's hairline again, centred in the gutter before it, so it costs the
+   list no width. */
 
 export function MenuRow({ link, pathname }: { link: NavLink; pathname: string }) {
   return (
     <RegionLink
       href={link.href}
       aria-current={isCurrentPage(link.href, pathname) ? "page" : undefined}
-      className={`group flex flex-col rounded-tile px-3 transition-colors duration-150 hover:bg-tertiary-bg focus-visible:bg-tertiary-bg aria-[current=page]:bg-tertiary-bg/70 ${
-        link.caption ? "py-2" : "py-1.5"
+      className={`group flex flex-col rounded-tile px-3 transition-colors duration-150 hover:bg-tertiary-bg focus-visible:bg-tertiary-bg aria-[current=page]:bg-tertiary-bg ${
+        link.caption ? "pb-2 pt-1.5" : "py-1.5"
       }`}
     >
-      {/* The hover arrow hangs past the label instead of taking room from
+      {/* Every row has the same top padding, so a captioned list's first
+          label lines up with an uncaptioned neighbour's.
+          The hover arrow hangs past the label instead of taking room from
           it, so a label only wraps when its own words do not fit; a tag
           that does not fit drops under the label rather than breaking it. */}
       <span className="relative flex flex-wrap items-center gap-x-2 gap-y-1 self-start text-[15px] font-medium leading-snug text-ink">
@@ -49,7 +55,7 @@ export default function MenuPanel({ menu, drawn, pathname }: { menu: NavMenu; dr
   return (
     <div className="grid grid-rows-[auto_1fr] gap-x-6 pb-9 pt-8 xl:gap-x-8" style={{ gridTemplateColumns: columns }}>
       <div className="row-span-2 border-r border-lineSoft pr-6 xl:pr-8">
-        <p className="font-heading text-[24px] font-semibold leading-[1.15] tracking-[-0.02em] text-ink">{lead.title}</p>
+        <p className="font-heading text-[24px] font-semibold leading-[1.15] tracking-[-0.02em] text-ink">{nameOrWordmark(lead.title)}</p>
         <p className="mt-3 text-balance text-[14px] leading-[1.55] text-secondary-text">{lead.text}</p>
         <RegionLink
           href={lead.href}
@@ -64,7 +70,14 @@ export default function MenuPanel({ menu, drawn, pathname }: { menu: NavMenu; dr
       {groups.map((group) => {
         const headingId = `nav-${menu.id}-${group.heading.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`;
         return (
-          <div key={group.heading} className="row-span-2 grid grid-rows-subgrid">
+          <div
+            key={group.heading}
+            className={`row-span-2 grid grid-rows-subgrid ${
+              group.divided
+                ? "relative before:absolute before:inset-y-0 before:-left-3 before:w-px before:bg-lineSoft xl:before:-left-4"
+                : ""
+            }`}
+          >
             <p
               id={headingId}
               className="self-end text-balance px-3 pb-2.5 font-mono text-[11px] font-medium uppercase leading-[1.5] tracking-eyebrow text-overcast"

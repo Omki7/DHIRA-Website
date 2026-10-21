@@ -11,7 +11,7 @@ import Link from "next/link";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import ScrollRevealRail from "@/components/ui/ScrollRevealRail";
 import SectionHeader from "@/components/ui/SectionHeader";
-import { HOW_TO_BUY, SERVICES_PRICING } from "@/lib/pricingSections";
+import type { PricingPage } from "@/content/pages/pricing";
 import type { Region } from "@/lib/region";
 
 type Row = { name: string; line: string; billing?: string; href?: string; cta?: string };
@@ -47,7 +47,7 @@ function Register({ rows }: { rows: Row[] }) {
   );
 }
 
-export function PricingServices() {
+export function PricingServices({ content: SERVICES_PRICING }: { content: PricingPage["services"] }) {
   return (
     <section id="services" className="scroll-mt-24 bg-background pb-20 pt-16 lg:pb-28 lg:pt-20">
       <ScrollRevealRail>
@@ -59,10 +59,10 @@ export function PricingServices() {
           lede={SERVICES_PRICING.lede}
         >
           <Link
-            href="/delivery"
+            href={SERVICES_PRICING.cta.href}
             className="group mt-6 inline-flex items-center gap-1.5 text-[15px] font-medium text-blue transition-colors duration-150 hover:text-blue-hover"
           >
-            See how we work
+            {SERVICES_PRICING.cta.label}
             <span aria-hidden className="transition-transform duration-250 ease-settle group-hover:translate-x-0.5">
               &rarr;
             </span>
@@ -76,7 +76,7 @@ export function PricingServices() {
   );
 }
 
-export function PricingBuy({ region }: { region: Region }) {
+export function PricingBuy({ region, content: HOW_TO_BUY }: { region: Region; content: PricingPage["howToBuy"] }) {
   return (
     <section id="how-to-buy" className="scroll-mt-24 border-t border-lineSoft bg-background pb-20 pt-16 lg:pb-28 lg:pt-20">
       <ScrollRevealRail>

@@ -18,8 +18,9 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# local env files
-.env*.local
+# local env files (the example is committed)
+.env*
+!.env.example
 
 # vercel
 .vercel
@@ -33,9 +34,9 @@ next-env.d.ts
 .crush
 .playwright-mcp
 
-# temporary folders
-Editing Akashic section (1)/
-
 # local debug output and review screenshots
 debug.log
 /shots/
+
+# local archive of removed files (purge when no longer needed)
+/.archive/

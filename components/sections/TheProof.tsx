@@ -1,19 +1,19 @@
-﻿"use client";
+"use client";
 
 import { useCallback, useEffect, useRef, useState, type KeyboardEvent, type PointerEvent } from "react";
-import Link from "next/link";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import ScrollRevealRail from "@/components/ui/ScrollRevealRail";
+import SectionHeader from "@/components/ui/SectionHeader";
 import ProofComparisonMockup from "@/components/demos/mockups/ProofComparisonMockup";
-import { usePrefersReducedMotion } from "@/hooks/useCountUp";
-import { HOME_PROOF } from "@/lib/homeSections";
+import usePrefersReducedMotion from "@/hooks/usePrefersReducedMotion";
+import type { HomeProof } from "@/content/pages/home";
 
 const BEFORE_END = 96;
 const AFTER_END = 4;
 const DEMO_STEPS: readonly [number, number][] = [[600, BEFORE_END], [2000, AFTER_END], [3400, BEFORE_END], [4150, AFTER_END], [4900, 50]];
 const DEMO_NUDGE_MS = 5600;
 
-export default function TheProof() {
+export default function TheProof({ content: HOME_PROOF }: { content: HomeProof }) {
   const [pos, setPos] = useState(50);
   const [width, setWidth] = useState(1100);
   const [glide, setGlide] = useState(false);
@@ -70,7 +70,7 @@ export default function TheProof() {
   }, [clearDemo]);
 
   useEffect(() => {
-    if (reduced) { clearDemo(); setNudge(false); setGlide(false); }
+    if (reduced) clearDemo();
   }, [reduced, clearDemo]);
 
   const updatePos = (clientX: number) => {
@@ -120,27 +120,25 @@ export default function TheProof() {
   const mode = pos >= 90 ? "before" : pos <= 10 ? "after" : "compare";
 
   return (
-    <section id="proof" aria-labelledby="proof-heading" className="relative overflow-hidden bg-background pt-10 pb-12 lg:pt-14 lg:pb-16">
+    <section id="proof" className="relative overflow-hidden bg-background pt-12 pb-16 lg:pt-16 lg:pb-24">
       <ScrollRevealRail>
-        <ScrollReveal>
-          <div className="mb-8 flex items-center border-y border-dashed border-lineSoft px-[2px] py-[17px] font-mono text-[11px] uppercase tracking-eyebrow text-inkSoft">
-            <span><span className="text-overcast">[06]</span>&nbsp;&nbsp;THE DIFFERENCE</span>
-          </div>
-          <h2 id="proof-heading" className="text-[38px] font-semibold leading-[1.1] tracking-tighter sm:text-[48px] lg:text-[56px]">
-            <span className="text-inkSoft">{HOME_PROOF.title[0]} </span><span className="text-ink">{HOME_PROOF.title[1]}</span>
-          </h2>
-          <p className="mt-4 text-[16px] leading-relaxed text-inkSoft sm:text-[18px]">{HOME_PROOF.description}</p>
-        </ScrollReveal>
+        <SectionHeader
+          num={HOME_PROOF.eyebrow.number}
+          label={HOME_PROOF.eyebrow.label}
+          setup={HOME_PROOF.title.setup}
+          payoff={HOME_PROOF.title.payoff}
+          lede={HOME_PROOF.description}
+        />
 
         <ScrollReveal delay={80}>
-          <div className="mx-auto mt-7 max-w-[1100px] sm:mt-8">
+          <div className="mx-auto mt-12 max-w-[1100px] lg:mt-14">
             <div className="mb-4 flex flex-col items-start justify-between gap-3 sm:flex-row sm:items-center">
               <p id="proof-instructions" className="text-[13px] text-inkSoft">
                 {HOME_PROOF.instruction}<span className="sr-only"> {HOME_PROOF.keyboardInstruction}</span>
               </p>
-              <div role="group" aria-label="Comparison view" className="inline-flex rounded-btn border border-default-stroke bg-primary-bg p-1">
-                {([{ id: "before", label: "Before", target: BEFORE_END }, { id: "compare", label: "Compare", target: 50 }, { id: "after", label: "After", target: AFTER_END }] as const).map((item) => (
-                  <button key={item.id} type="button" aria-pressed={mode === item.id} onClick={() => showSide(item.target)} className={`min-h-10 rounded-chip px-4 text-[13px] font-medium transition-colors duration-250 motion-reduce:transition-none sm:px-5 ${mode === item.id ? "bg-ink text-on-action shadow-card" : "text-inkSoft hover:bg-tertiary-bg hover:text-ink"}`}>
+              <div role="group" aria-label={HOME_PROOF.viewLabel} className="inline-flex rounded-btn border border-default-stroke bg-primary-bg p-1">
+                {([{ id: "before", label: HOME_PROOF.views.before, target: BEFORE_END }, { id: "compare", label: HOME_PROOF.views.compare, target: 50 }, { id: "after", label: HOME_PROOF.views.after, target: AFTER_END }] as const).map((item) => (
+                  <button key={item.id} type="button" aria-pressed={mode === item.id} onClick={() => showSide(item.target)} className={`min-h-10 rounded-chip px-4 text-[13px] font-medium transition-colors duration-250 motion-reduce:transition-none sm:px-5 ${mode === item.id ? "bg-ink text-on-action " : "text-inkSoft hover:bg-tertiary-bg hover:text-ink"}`}>
                     {item.label}
                   </button>
                 ))}
@@ -156,20 +154,20 @@ export default function TheProof() {
               onPointerUp={endDrag}
               onPointerCancel={endDrag}
               onLostPointerCapture={() => { pointer.current = null; setDragging(false); }}
-              className="relative h-[490px] w-full touch-pan-y cursor-ew-resize select-none rounded-outer border border-lineSoft bg-primary-bg shadow-frame sm:h-auto sm:min-h-[580px] sm:aspect-[1100/660] lg:min-h-0"
+              className="relative h-[490px] w-full touch-pan-y cursor-ew-resize select-none rounded-outer border border-lineSoft bg-primary-bg  sm:h-auto sm:min-h-[580px] sm:aspect-[1100/660] lg:min-h-0"
             >
-              <ProofComparisonMockup pos={pos} width={width} glide={glide && !reduced} showHint={!used} nudge={nudge && !reduced} onKeyDown={handleKeyDown} onFocus={stopDemo} />
+              <ProofComparisonMockup content={HOME_PROOF} pos={pos} width={width} glide={glide && !reduced} showHint={!used} nudge={nudge && !reduced} onKeyDown={handleKeyDown} onFocus={stopDemo} />
             </div>
             <div className="sr-only">
-              <h3>Before DHIRA</h3><ul>{HOME_PROOF.nodes.map((node) => <li key={node.id}>{node.beforeLabel}: {node.beforeDetail}</li>)}</ul>
-              <h3>After DHIRA</h3><ul>{HOME_PROOF.nodes.map((node) => <li key={node.id}>{node.afterLabel}</li>)}</ul>
+              <h3>{HOME_PROOF.before}</h3><ul>{HOME_PROOF.nodes.map((node) => <li key={node.id}>{node.beforeLabel}: {node.beforeDetail}</li>)}</ul>
+              <h3>{HOME_PROOF.after}</h3><ul>{HOME_PROOF.nodes.map((node) => <li key={node.id}>{node.afterLabel}</li>)}</ul>
             </div>
-            <div className="mt-5 flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
-              <div>
-                <p className="text-[14px] leading-relaxed text-inkSoft">{HOME_PROOF.summary}</p>
-                <p className="mt-2 font-mono text-[9px] uppercase tracking-eyebrow text-inkSoft">{HOME_PROOF.illustrationLabel}</p>
-              </div>
-              <Link href="/delivery" className="btn-primary shrink-0">{HOME_PROOF.cta}<span aria-hidden="true" className="ml-2">→</span></Link>
+            {/* The section ends on the comparison's caption. Its "See how we
+                deliver it" button went on 20 Oct 2026: no section ends on a
+                button (founder). */}
+            <div className="mt-5">
+              <p className="text-[14px] leading-relaxed text-inkSoft">{HOME_PROOF.summary}</p>
+              <p className="mt-2 font-mono text-[9px] uppercase tracking-eyebrow text-inkSoft">{HOME_PROOF.illustrationLabel}</p>
             </div>
           </div>
         </ScrollReveal>

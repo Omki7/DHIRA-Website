@@ -1,18 +1,19 @@
-﻿import ScrollReveal from "@/components/ui/ScrollReveal";
+import ScrollReveal from "@/components/ui/ScrollReveal";
 import VoicesDispatches from "@/components/demos/VoicesDispatches";
 import ScrollRevealRail from "@/components/ui/ScrollRevealRail";
+import SectionHeader from "@/components/ui/SectionHeader";
+import type { HomeVoices } from "@/content/pages/home";
 
-export default function Voices() {
+/* Homepage [08] Partner voices, on the flat band (Rule 5a, approved second).
+   The shared header, then the dispatches. */
+export default function Voices({ content }: { content: HomeVoices }) {
   return (
-    <section id="voices" aria-labelledby="voices-heading" className="relative overflow-hidden bg-band pb-12 pt-10 lg:pb-16 lg:pt-14">
+    <section id="voices" className="relative overflow-hidden bg-band pt-12 pb-16 lg:pt-16 lg:pb-24">
       <ScrollRevealRail>
-        <ScrollReveal>
-          <div className="mb-8 flex items-center border-y border-dashed border-blue-border/70 px-[2px] py-[17px] font-mono text-[11px] uppercase tracking-eyebrow text-inkSoft lg:mb-10">
-            <span><span className="text-overcast">[07]</span>&nbsp;&nbsp;PARTNER VOICES</span>
-          </div>
-          <h2 id="voices-heading" className="max-w-[19ch] text-[40px] font-semibold leading-[1.08] tracking-tighter text-ink sm:text-[48px] lg:text-[56px]">Proven in the field,<br />not in a pitch deck.</h2>
+        <SectionHeader num={content.eyebrow.number} label={content.eyebrow.label} setup={content.title.setup} payoff={content.title.payoff} />
+        <ScrollReveal delay={120} className="mt-4 lg:mt-6">
+          <VoicesDispatches content={content} />
         </ScrollReveal>
-        <ScrollReveal delay={120}><VoicesDispatches /></ScrollReveal>
       </ScrollRevealRail>
     </section>
   );

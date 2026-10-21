@@ -15,26 +15,20 @@
  */
 
 import useDrawn from "@/hooks/useDrawn";
+import type { CareersPage } from "@/content/pages/careers";
 
 const W = 1000;
 const H = 330;
 const CX = 26;
 const CY = H / 2;
 
-const RINGS = [
-  { r: 150, label: "Your branch" },
-  { r: 270, label: "Review" },
-  { r: 390, label: "Release" },
-  { r: 510, label: "The platform" },
-  { r: 630, label: "A country" },
-];
-const OUTER = RINGS[RINGS.length - 1].r;
+/* Ring radii, innermost first; labels come from content (work.rings). */
+const RADII = [150, 270, 390, 510, 630];
+const OUTER = RADII[RADII.length - 1];
+/* Where each deployment's callout sits, in content order (work.deployments). */
+const DEPLOYMENT_Y = [58, 165, 272];
 
-export const DEPLOYMENTS = [
-  { name: "National Learning Platform", figure: "187M+", label: "enrolments resolved", y: 58 },
-  { name: "National Immunisation Registry", figure: "2 Billion+", label: "dose records reconciled", y: 165 },
-  { name: "Overseas Employment Registry", figure: "4M+", label: "worker clearances reconciled", y: 272 },
-];
+type Work = CareersPage["work"];
 
 /* A circle centred off canvas: the visible part is the wavefront. */
 const arc = (r: number) => `M${CX} ${CY - r}A${r} ${r} 0 0 1 ${CX} ${CY + r}`;
@@ -45,7 +39,9 @@ function onOuter(y: number) {
   return CX + Math.sqrt(Math.max(0, OUTER * OUTER - dy * dy));
 }
 
-export default function ReachArcs() {
+export default function ReachArcs({ content }: { content: Work }) {
+  const RINGS = RADII.map((r, k) => ({ r, label: content.rings[k] ?? "" }));
+  const DEPLOYMENTS = content.deployments.map((d, k) => ({ ...d, y: DEPLOYMENT_Y[k] ?? 0 }));
   const [ref, drawn] = useDrawn<HTMLDivElement>(0.25);
   const pct = (v: number, of: number) => `${(v / of) * 100}%`;
 
@@ -60,7 +56,7 @@ export default function ReachArcs() {
               d={arc(ring.r)}
               pathLength={1}
               fill="none"
-              stroke="#1A1C1D"
+              stroke="rgb(var(--ink))"
               strokeOpacity={k === RINGS.length - 1 ? 0.5 : 0.22}
               strokeWidth={k === RINGS.length - 1 ? 1.4 : 1.1}
               className="ad-draw"
@@ -75,7 +71,7 @@ export default function ReachArcs() {
           {/* Markers where each programme sits on the outer arc */}
           {DEPLOYMENTS.map((d, k) => (
             <g key={d.name} className="ad-fade" style={{ ["--ad-delay" as string]: `${1.3 + k * 0.15}s` }}>
-              <line x1={onOuter(d.y)} x2={700} y1={d.y} y2={d.y} stroke="#3E63DD" strokeOpacity="0.4" strokeWidth="1" />
+              <line x1={onOuter(d.y)} x2={700} y1={d.y} y2={d.y} stroke="rgb(var(--blue))" strokeOpacity="0.4" strokeWidth="1" />
               <circle cx={onOuter(d.y)} cy={d.y} r="4" className="fill-blue" />
             </g>
           ))}
@@ -100,7 +96,7 @@ export default function ReachArcs() {
         ))}
         <span className="absolute -translate-y-1/2 pl-4" style={{ left: pct(CX, W), top: pct(CY - 46, H) }}>
           <span className="ad-fade block whitespace-nowrap font-mono text-[11px] uppercase tracking-[0.08em] text-blue">
-            Your work
+            {content.origin}
           </span>
         </span>
 
@@ -132,7 +128,7 @@ export default function ReachArcs() {
                 d={`M14 ${75 - r}A${r} ${r} 0 0 1 14 ${75 + r}`}
                 pathLength={1}
                 fill="none"
-                stroke="#1A1C1D"
+                stroke="rgb(var(--ink))"
                 strokeOpacity={k === 4 ? 0.5 : 0.22}
                 strokeWidth={k === 4 ? 1.4 : 1.1}
                 className="ad-draw"
@@ -143,10 +139,10 @@ export default function ReachArcs() {
             <circle cx="14" cy="75" r="5" className="ad-ping fill-blue" />
           </svg>
           <span className="absolute left-[7%] top-[26%] font-mono text-[11px] uppercase tracking-[0.08em] text-blue">
-            Your work
+            {content.origin}
           </span>
           <span className="absolute right-[3%] top-[46%] font-mono text-[11px] uppercase tracking-[0.08em] text-ink">
-            A country
+            {content.reach}
           </span>
         </div>
         <ul className="mt-6 border-t border-lineSoft">

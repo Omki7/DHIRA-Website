@@ -23,9 +23,9 @@
  * line moving, 03 sends a pen once round and home.
  */
 
-import Link from "next/link";
 import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
-import { ABOUT_STORY } from "@/lib/aboutContent";
+import SectionLink from "@/components/ui/SectionLink";
+import type { AboutPage } from "@/content/pages/about";
 
 type Pt = readonly [number, number];
 
@@ -122,8 +122,7 @@ function SeatGlyph({ className = "" }: { className?: string }) {
   );
 }
 
-export default function KolamCulture({ heading }: { heading: ReactNode }) {
-  const content = ABOUT_STORY.culture;
+export default function KolamCulture({ heading, content }: { heading: ReactNode; content: AboutPage["culture"] }) {
   const welcome = content.welcome;
   const [figure, setFigure] = useState(0);
   const geo = useMemo(() => build(figure), [figure]);
@@ -337,7 +336,7 @@ export default function KolamCulture({ heading }: { heading: ReactNode }) {
         {content.rules.map((rule, k) => (
           <li key={rule.title} data-about-reveal={120 + k * 60} onMouseEnter={enter(k + 1)} onMouseLeave={leave}>
             <p className="font-mono text-[12px] uppercase tracking-[0.08em] text-secondary-text">
-              <span className="text-blue">{`0${k + 1}`}</span>&nbsp;&nbsp;Kolam rule
+              <span className="text-blue">{`0${k + 1}`}</span>&nbsp;&nbsp;{content.ruleLabel}
             </p>
             <h3 className="mt-3 font-heading text-[24px] font-medium leading-[1.2] tracking-tight xl:text-[26px]">
               <span className="block text-inkSoft">{rule.rule}</span>
@@ -360,9 +359,9 @@ export default function KolamCulture({ heading }: { heading: ReactNode }) {
           </p>
           <h3 className="mt-3 font-heading text-[24px] font-medium leading-[1.2] tracking-tight text-ink xl:text-[26px]">{welcome.title}</h3>
           <p className="mt-3 max-w-[24rem] text-[17px] leading-[1.65] text-secondary-text">{welcome.body}</p>
-          <Link href="/careers" className="btn-primary mt-5">
-            {welcome.link} <span aria-hidden="true">↗</span>
-          </Link>
+          {/* A quiet onward link, not a button: only the hero and the close
+              carry buttons (DESIGN_SYSTEM, "Section grammar"). */}
+          <SectionLink href={welcome.link.href}>{welcome.link.label}</SectionLink>
         </div>
         <dl className="grid grid-cols-2 gap-x-6 gap-y-8 sm:gap-x-10 lg:pt-1">
           {content.teams.map((group) => (

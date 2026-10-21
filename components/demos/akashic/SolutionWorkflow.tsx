@@ -1,4 +1,4 @@
-import type { AkashicSolution } from "@/lib/akashicSections";
+import type { AkashicSolution } from "@/content/pages/akashic";
 
 /* A solution's three-step workflow for /akashic [10]: a vertical run of line
    glyphs joined by a dashed spine, so three solutions fit side by side.

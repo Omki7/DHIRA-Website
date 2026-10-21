@@ -10,8 +10,8 @@ import { useCallback, useEffect, useRef, useState } from "react";
    - a click pins a hover-opened menu (it does not toggle it shut under the
      cursor); a second click, Escape, the scrim or focus leaving closes it.
    Keyboard activation (click with detail 0) and touch always toggle. */
-export const MENU_OPEN_DELAY = 120;
-export const MENU_CLOSE_DELAY = 300;
+const MENU_OPEN_DELAY = 120;
+const MENU_CLOSE_DELAY = 300;
 
 type Mode = "hover" | "pinned";
 

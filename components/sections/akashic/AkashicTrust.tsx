@@ -1,5 +1,5 @@
 import ScrollReveal from "@/components/ui/ScrollReveal";
-import { AKASHIC_SECURITY as content } from "@/lib/akashicSections";
+import type { AkashicPage } from "@/content/pages/akashic";
 import { StoryLabel, StoryTitle } from "@/components/sections/akashic/AkashicStory";
 
 function SecurityIllustration({ index }: { index: number }) {
@@ -25,15 +25,14 @@ function SecurityIllustration({ index }: { index: number }) {
   );
 }
 
-export default function AkashicTrust() {
+export default function AkashicTrust({ content }: { content: AkashicPage["trust"] }) {
   return (
     <section id="trust" className="ak-story ak-security bg-background">
-      <div className="ak-security-grid" aria-hidden="true" />
       <div className="ak-story-wrap relative">
         <ScrollReveal>
-          <StoryLabel number="06">Data privacy &amp; security</StoryLabel>
-          <div className="mt-7"><StoryTitle setup={content.setup}>{content.title}</StoryTitle></div>
-          <p className="ak-story-intro mt-5">{content.intro}</p>
+          <StoryLabel number={content.number}>{content.label}</StoryLabel>
+          <div className="mt-10 lg:mt-12"><StoryTitle setup={content.setup}>{content.title}</StoryTitle></div>
+          <p className="ak-story-intro mt-6">{content.intro}</p>
           <div className="ak-security-badges">
             {content.badges.map((badge, i) => <span key={badge}><span aria-hidden="true">0{i + 1}</span>{badge}</span>)}
           </div>

@@ -8,12 +8,16 @@ import FigureEyebrow from "@/components/ui/FigureEyebrow";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import ScrollRevealRail from "@/components/ui/ScrollRevealRail";
 import TwoToneTitle from "@/components/ui/TwoToneTitle";
-import { SOLUTIONS_HERO, SOLUTIONS_SECTIONS } from "@/lib/solutionsSections";
+import type { PageSection } from "@/content/types";
+import type { SolutionsPage } from "@/content/pages/solutions";
+import { getUiStrings } from "@/lib/content";
 
 /* The four content sections, numbered as their eyebrows are. */
-const INDEX = SOLUTIONS_SECTIONS.filter((section) => !["hero", "talk-to-our-team"].includes(section.id));
 
-export default function SolutionsHero() {
+export default async function SolutionsHero({ content: SOLUTIONS_HERO, sections }: { content: SolutionsPage["hero"]; sections: PageSection[] }) {
+  const ui = await getUiStrings();
+  /* The on-page index lists the body sections, not the hero or the close. */
+  const INDEX = sections.slice(1, -1);
   return (
     <section id="hero" className="relative border-b border-lineSoft bg-background pb-14 pt-16 lg:pb-20 lg:pt-24">
       <ScrollRevealRail>
@@ -31,7 +35,7 @@ export default function SolutionsHero() {
           </ScrollReveal>
           <ScrollReveal delay={180}>
             <nav
-              aria-label="On this page"
+              aria-label={ui.onThisPage}
               className="mt-10 flex flex-wrap gap-x-7 gap-y-3 border-t border-dashed border-lineSoft pt-5 font-mono text-[11px] uppercase tracking-eyebrow"
             >
               {INDEX.map((section, index) => (

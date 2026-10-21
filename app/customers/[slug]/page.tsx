@@ -8,19 +8,20 @@ import PageClose from "@/components/ui/PageClose";
 import LongformArticle from "@/components/sections/longform/LongformArticle";
 import RelatedList from "@/components/sections/longform/RelatedList";
 import { MetricPair } from "@/components/sections/customers/CustomersLibrary";
-import { STORIES, findStory } from "@/lib/customerStories";
+import { getCustomerStories, getCustomerStory, getPage } from "@/lib/content";
 import { pageMetadata } from "@/lib/metadata";
 import { absoluteUrl } from "@/lib/site";
 
 type Params = { params: Promise<{ slug: string }> };
 
-export function generateStaticParams() {
-  return STORIES.map((story) => ({ slug: story.id }));
+export async function generateStaticParams() {
+  const stories = await getCustomerStories();
+  return stories.map((story) => ({ slug: story.id }));
 }
 
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const { slug } = await params;
-  const story = findStory(slug);
+  const story = await getCustomerStory(slug);
   if (!story) return {};
   return pageMetadata({
     title: story.title,
@@ -33,11 +34,12 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
 
 export default async function CustomerStoryPage({ params }: Params) {
   const { slug } = await params;
-  const story = findStory(slug);
+  const story = await getCustomerStory(slug);
   if (!story) notFound();
 
+  const [{ story: copy }, stories] = await Promise.all([getPage("customers"), getCustomerStories()]);
   const url = absoluteUrl(`/customers/${story.id}`);
-  const others = STORIES.filter((item) => item.id !== story.id).map((item) => ({
+  const others = stories.filter((item) => item.id !== story.id).map((item) => ({
     href: `/customers/${item.id}`,
     eyebrow: item.authority,
     title: item.title,
@@ -52,14 +54,14 @@ export default async function CustomerStoryPage({ params }: Params) {
           data={{
             "@type": "BreadcrumbList",
             itemListElement: [
-              { "@type": "ListItem", position: 1, name: "Customer stories", item: absoluteUrl("/customers") },
+              { "@type": "ListItem", position: 1, name: copy.crumb, item: absoluteUrl("/customers") },
               { "@type": "ListItem", position: 2, name: story.title, item: url },
             ],
           }}
         />
         <LongformArticle
           crumbs={[
-            { label: "Customer stories", href: "/customers" },
+            { label: copy.crumb, href: "/customers" },
             { label: story.sector, href: `/customers#${story.id}` },
           ]}
           title={story.title}
@@ -79,11 +81,11 @@ export default async function CustomerStoryPage({ params }: Params) {
                   <Image src={story.image} alt={story.alt} fill sizes="(min-width: 1024px) 60vw, 100vw" className="object-cover" />
                 </div>
                 <figcaption className="mt-3 font-mono text-[11px] uppercase tracking-eyebrow text-overcast">
-                  Photograph illustrative of the sector
+                  {copy.photoCaption}
                 </figcaption>
               </figure>
               <div className="mt-10 border-t border-dashed border-lineSoft pt-5">
-                <p className="font-mono text-[11px] uppercase tracking-eyebrow text-overcast">Built on</p>
+                <p className="font-mono text-[11px] uppercase tracking-eyebrow text-overcast">{copy.builtOn}</p>
                 <ul className="mt-3 flex flex-wrap gap-x-6 gap-y-2">
                   {story.modules.map((module) => (
                     <li key={module} className="text-[15px] font-medium text-ink">
@@ -95,15 +97,8 @@ export default async function CustomerStoryPage({ params }: Params) {
             </div>
           }
         />
-        <RelatedList heading="More customer stories" items={others} />
-        <PageClose
-          label="Talk to our team"
-          setup="Your figures, with their trail."
-          payoff="Start with one programme."
-          body="A solutions architect works through one of your questions on your own records."
-          primary={{ label: "Talk to our team", href: "#talk-to-our-team" }}
-          secondary={{ label: "All customer stories", href: "/customers" }}
-        />
+        <RelatedList heading={copy.relatedHeading} items={others} />
+        <PageClose {...copy.close} />
       </main>
       <Footer />
     </>

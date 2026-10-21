@@ -7,9 +7,9 @@
 import Link from "next/link";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import ScrollRevealRail from "@/components/ui/ScrollRevealRail";
-import type { SectorContent } from "./sectorContent";
+import type { SectorContent, SectorTemplate } from "@/content/pages/sectors";
 
-export default function SectorSolution({ content }: { content: SectorContent }) {
+export default function SectorSolution({ content, template }: { content: SectorContent; template: SectorTemplate["solution"] }) {
   const { solution } = content;
 
   return (
@@ -18,10 +18,10 @@ export default function SectorSolution({ content }: { content: SectorContent }) 
         <ScrollReveal>
           <div className="mb-10 flex items-center justify-between border-t border-b border-dashed border-lineSoft py-[17px] px-[2px] font-mono text-[11px] uppercase tracking-eyebrow text-inkSoft">
             <span>
-              <span className="text-overcast">[03]</span>
-              &nbsp;&nbsp;HOW AKASHIC TACKLES IT
+              <span className="text-overcast">[{template.eyebrow.number}]</span>
+              &nbsp;&nbsp;{template.eyebrow.label}
             </span>
-            <span className="text-overcast">/ FOUR MOVES, ONE FOUNDATION</span>
+            <span className="text-overcast">{template.aside}</span>
           </div>
         </ScrollReveal>
 
@@ -45,7 +45,7 @@ export default function SectorSolution({ content }: { content: SectorContent }) 
                 <div>
                   <span
                     className={`relative z-10 block h-[13px] w-[13px] rounded-full border-2 border-blue ${
-                      idx === solution.steps.length - 1 ? "bg-blue" : "bg-white"
+                      idx === solution.steps.length - 1 ? "bg-blue" : "bg-background"
                     }`}
                     aria-hidden
                   />
@@ -84,7 +84,7 @@ export default function SectorSolution({ content }: { content: SectorContent }) 
                 <div className="relative pl-9">
                   <span
                     className={`absolute left-0 top-[5px] block h-[13px] w-[13px] rounded-full border-2 border-blue ${
-                      idx === solution.steps.length - 1 ? "bg-blue" : "bg-white"
+                      idx === solution.steps.length - 1 ? "bg-blue" : "bg-background"
                     }`}
                     aria-hidden
                   />
@@ -116,7 +116,7 @@ export default function SectorSolution({ content }: { content: SectorContent }) 
 
         <ScrollReveal delay={160}>
           <p className="mt-12 border-t border-dashed border-lineSoft pt-6 font-mono text-[10px] uppercase tracking-eyebrow text-overcast">
-            Every module runs on the same governed foundation &middot; every answer arrives with its lineage
+            {template.footer}
           </p>
         </ScrollReveal>
       </ScrollRevealRail>

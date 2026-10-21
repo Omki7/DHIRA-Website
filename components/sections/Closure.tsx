@@ -4,14 +4,13 @@ import Link from "next/link";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import ScrollRevealRail from "@/components/ui/ScrollRevealRail";
 import AkashicLogo from "@/components/icons/AkashicLogo";
+import type { HomeClose } from "@/content/pages/home";
 
 /*
  * [10] Ready when you are.
  *
- * Black card, black footer under it. [10] and [04] swapped grounds on
- * 22 Jul 2026 (user direction): the woven light-blue panel moved up to [04],
- * so the page now runs light → dark into the footer rather than closing on two
- * dark blocks with no edge between them.
+ * The closing card and footer follow the selected appearance. The pale blue
+ * light treatment shares the same geometry as the layered midnight version.
  *
  * The typographic polish built during the blue round stays: `closeRule` draws
  * the hairline under the headline on reveal, and the two ambient auras drift
@@ -19,7 +18,7 @@ import AkashicLogo from "@/components/icons/AkashicLogo";
  * decorative and stop dead under the global reduced-motion override.
  */
 
-export default function Closure() {
+export default function Closure({ content }: { content: HomeClose }) {
   return (
     <section
       id="get-started"
@@ -32,50 +31,35 @@ export default function Closure() {
       <ScrollRevealRail className="z-10">
         {/* Immersive typography-first card */}
         <ScrollReveal delay={120}>
-          <div className="group/card relative overflow-hidden rounded-outer border border-white/10 bg-vault px-6 py-24 text-white shadow-2xl transition-all duration-500 ease-settle hover:border-white/20 md:py-32 lg:py-40">
+          <div className="group/card relative overflow-hidden rounded-outer border border-line bg-vault px-6 py-24 text-ink  transition-all duration-500 ease-settle hover:border-line md:py-32 lg:py-40">
             {/* Custom dot-grid background */}
-            <div className="dot-grid-dark pointer-events-none absolute inset-0 opacity-40" />
+            
 
-            {/* Glowing amber ambient background — centred */}
-            <div
-              aria-hidden
-              className="pointer-events-none absolute left-1/2 top-1/2 h-[600px] w-[600px] -translate-x-1/2 -translate-y-1/2 animate-[closeFloat_18s_ease-in-out_infinite_alternate] rounded-full opacity-[0.16] blur-[140px] transition-opacity duration-500 group-hover/card:opacity-[0.22]"
-              style={{
-                background: "radial-gradient(circle, #D9A034, transparent 75%)",
-              }}
-            />
-
-            {/* Glowing blue ambient background — offset centre, counter-drifting */}
-            <div
-              aria-hidden
-              className="pointer-events-none absolute left-[45%] top-[55%] h-[520px] w-[520px] -translate-x-1/2 -translate-y-1/2 animate-[closeFloat_23s_ease-in-out_infinite_alternate-reverse] rounded-full opacity-[0.14] blur-[130px] transition-opacity duration-500 group-hover/card:opacity-[0.2]"
-              style={{
-                background: "radial-gradient(circle, #3E63DD, transparent 75%)",
-              }}
-            />
+{/* Glowing blue ambient background — offset centre, counter-drifting */}
+            
 
             {/* Immersive Typography CTA Content */}
             <div className="relative z-10 mx-auto flex max-w-[54rem] flex-col items-center text-center">
               {/* Minimalist Accent Badge */}
-              <div className="mb-8 flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 font-mono text-[11px] tracking-eyebrow text-white/70">
-                <AkashicLogo className="h-3.5 w-3.5" accentColor="#D9A034" />
-                <span>DEPLOYED AT NATIONAL SCALE</span>
+              <div className="mb-8 flex items-center gap-2 rounded-full border border-line bg-background px-3 py-1 font-mono text-[11px] tracking-eyebrow text-secondary-text">
+                <AkashicLogo className="h-3.5 w-3.5" accentColor="rgb(var(--diagram-gold))" />
+                <span className="uppercase">{content.badge}</span>
               </div>
 
               <h2
                 id="get-started-h"
-                className="text-balance bg-gradient-to-b from-white via-[#F8F9FA] to-[#C3C5C9] bg-clip-text pb-1 text-[44px] font-semibold leading-[1.03] tracking-tighter text-transparent sm:text-[60px] md:text-[80px] lg:text-[96px]"
+                className="text-balance  pb-1 text-[44px] font-semibold leading-[1.03] tracking-tighter text-ink sm:text-[60px] md:text-[80px] lg:text-[96px]"
               >
-                Ground every decision in fact.
+                {content.title}
               </h2>
 
               {/* Hairline that draws itself in under the headline. */}
               <span
                 aria-hidden
-                className="mt-6 h-px w-[min(420px,70%)] origin-center animate-[closeRule_900ms_cubic-bezier(0.2,0.8,0.2,1)_320ms_both] bg-gradient-to-r from-transparent via-white/40 to-transparent"
+                className="mt-6 h-px w-[min(420px,70%)] origin-center animate-[closeRule_900ms_cubic-bezier(0.2,0.8,0.2,1)_320ms_both] bg-blue"
               />
 
-              <p className="mt-7 max-w-[34em] text-base leading-relaxed text-white/60 md:text-lg lg:text-xl">
+              <p className="mt-7 max-w-[34em] text-base leading-relaxed text-secondary-text md:text-lg lg:text-xl">
                 {/* The explicit {" "} are load-bearing — JSX drops the
                     whitespace around the newline before a <br>, so below `sm`,
                     where these breaks are hidden, the lines closed up into
@@ -84,30 +68,36 @@ export default function Closure() {
                 {/* Last line rewritten 14 Oct 2026: "run enterprise
                     intelligence" now reads as the Enterprise Intelligence
                     solution. It ends on /akashic's hero promise instead. */}
-                Unify structured, unstructured and streaming data.{" "}
-                <br className="hidden sm:block" />
-                Resolve core entities through a governed knowledge layer.{" "}
-                <br className="hidden sm:block" />
-                Trace every answer and forecast to its source.
+                {content.body.map((line, k) => (
+                  <span key={line}>
+                    {line}
+                    {k < content.body.length - 1 && (
+                      <>
+                        {" "}
+                        <br className="hidden sm:block" />
+                      </>
+                    )}
+                  </span>
+                ))}
               </p>
 
               {/* Centered CTA Buttons */}
               <div className="mt-12 flex w-full flex-col items-center justify-center gap-4 sm:w-auto sm:flex-row">
                 <Link
-                  href="#talk-to-our-team"
-                  className="btn-primary-invert btn-lg transition-transform duration-250 ease-settle hover:-translate-y-0.5"
+                  href={content.primary.href}
+                  className="btn-primary btn-lg transition-transform duration-250 ease-settle hover:-translate-y-0.5"
                 >
-                  Talk to our team
+                  {content.primary.label}
                 </Link>
                 {/* Was `#platform` — at the closing CTA, half the exits
                     pointed BACK UP the page the reader has just finished. A
                     close should only offer forward moves, so this goes to the
                     platform page. */}
                 <Link
-                  href="/akashic"
-                  className="btn-secondary-invert btn-lg transition-transform duration-250 ease-settle hover:-translate-y-0.5"
+                  href={content.secondary.href}
+                  className="btn-secondary btn-lg transition-transform duration-250 ease-settle hover:-translate-y-0.5"
                 >
-                  Explore the platform
+                  {content.secondary.label}
                 </Link>
               </div>
             </div>

@@ -9,14 +9,14 @@
  */
 
 import { useEffect, useRef, useState } from "react";
-import { usePrefersReducedMotion } from "@/hooks/useCountUp";
+import usePrefersReducedMotion from "@/hooks/usePrefersReducedMotion";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import ScrollRevealRail from "@/components/ui/ScrollRevealRail";
 import SectorMapScene from "./map/SectorMapScene";
-import { MAP_SCENES } from "./map/mapData";
-import { SECTOR_PAGES } from "./sectorContent";
+import type { MapScene } from "@/content/pages/sectors-map";
+import type { SectorTemplate } from "@/content/pages/sectors";
 
-function StepsRail({ step, scene }: { step: number; scene: (typeof MAP_SCENES)[string] }) {
+function StepsRail({ step, scene }: { step: number; scene: MapScene }) {
   return (
     <ol className="flex flex-col gap-6">
       {scene.steps.map((s, i) => {
@@ -25,7 +25,7 @@ function StepsRail({ step, scene }: { step: number; scene: (typeof MAP_SCENES)[s
           <li key={s.tag} className="grid grid-cols-[34px_1fr] gap-x-4">
             <span
               className={`mt-[2px] flex h-[26px] w-[26px] items-center justify-center rounded-full border font-mono text-[10px] font-semibold transition-colors duration-500 ${
-                active ? "border-blue bg-blue text-white" : "border-line bg-white text-overcast"
+                active ? "border-blue bg-blue text-on-action" : "border-line bg-background text-overcast"
               }`}
             >
               0{i + 1}
@@ -46,9 +46,7 @@ function StepsRail({ step, scene }: { step: number; scene: (typeof MAP_SCENES)[s
   );
 }
 
-export default function SectorMap({ slug }: { slug: string }) {
-  const scene = MAP_SCENES[slug];
-  const touchline = SECTOR_PAGES[slug].touchline;
+export default function SectorMap({ scene, touchline, template }: { scene: MapScene; touchline: string; template: SectorTemplate["map"] }) {
   const trackRef = useRef<HTMLDivElement>(null);
   const [step, setStep] = useState(0);
   const reduced = usePrefersReducedMotion();
@@ -75,10 +73,10 @@ export default function SectorMap({ slug }: { slug: string }) {
           <ScrollReveal>
             <div className="mb-8 flex items-center justify-between border-t border-b border-dashed border-lineSoft py-[17px] px-[2px] font-mono text-[11px] uppercase tracking-eyebrow text-inkSoft">
               <span>
-                <span className="text-overcast">[02]</span>
+                <span className="text-overcast">[{template.eyebrow.number}]</span>
                 &nbsp;&nbsp;{scene.eyebrow}
               </span>
-              <span className="text-overcast">/ PLAYERS &amp; FLOWS</span>
+              <span className="text-overcast">{template.aside}</span>
             </div>
           </ScrollReveal>
           <ScrollReveal delay={80}>
@@ -88,9 +86,8 @@ export default function SectorMap({ slug }: { slug: string }) {
           </ScrollReveal>
           <ScrollReveal delay={160}>
             <p className="mt-5 max-w-[42em] text-lg leading-relaxed text-inkSoft">
-              Scroll through your own {scene.noun}: the players you already
-              have, and what changes when their data lands on one governed
-              record.
+              {template.lede.lead} {scene.noun}
+              {template.lede.tail}
             </p>
           </ScrollReveal>
         </div>

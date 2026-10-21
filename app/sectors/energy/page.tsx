@@ -1,51 +1,36 @@
 import type { Metadata } from "next";
-import Nav from "@/components/layout/Nav";
 import Footer from "@/components/layout/Footer";
+import Nav from "@/components/layout/Nav";
+import PageMinimap from "@/components/layout/PageMinimap";
 import EnergyHero from "@/components/sections/energy/EnergyHero";
 import EnergySignal from "@/components/sections/energy/EnergySignal";
-import SectorMap from "@/components/sections/sectors/SectorMap";
-import SectorSolution from "@/components/sections/sectors/SectorSolution";
-import SectorOutcomes from "@/components/sections/sectors/SectorOutcomes";
 import SectorClose from "@/components/sections/sectors/SectorClose";
-import PageMinimap from "@/components/layout/PageMinimap";
-import { ENERGY_SECTIONS } from "@/lib/energySections";
-import { SECTOR_PAGES } from "@/components/sections/sectors/sectorContent";
+import SectorMap from "@/components/sections/sectors/SectorMap";
+import SectorOutcomes from "@/components/sections/sectors/SectorOutcomes";
+import SectorSolution from "@/components/sections/sectors/SectorSolution";
+import { getSector } from "@/lib/content";
+import { pageMetadata } from "@/lib/metadata";
 
-const content = SECTOR_PAGES.energy;
+export async function generateMetadata(): Promise<Metadata> {
+  const { content } = await getSector("energy");
+  return pageMetadata(content.seo);
+}
 
-export const metadata: Metadata = {
-  title: "Energy & Utilities",
-  description:
-    "Akashic unifies SCADA, metering, and asset data into one governed live picture, so the grid is maintained on condition, not on the calendar.",
-  openGraph: {
-    title: "Energy & Utilities Sector | DHIRA",
-    description:
-      "Akashic unifies SCADA, metering, and asset data into one governed live picture.",
-    images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "Energy & Utilities Sector — DHIRA" }],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Energy & Utilities Sector | DHIRA",
-    description:
-      "Unify SCADA, metering, and asset data into one governed live picture.",
-    images: ["/og-image.png"],
-  },
-};
-
-export default function EnergyPage() {
+export default async function EnergyPage() {
+  const { content, map, template, sections } = await getSector("energy");
   return (
     <>
       <Nav />
       <main id="main" className="bg-background">
-        <EnergyHero />
-        <EnergySignal />
-        <SectorMap slug="energy" />
-        <SectorSolution content={content} />
-        <SectorOutcomes content={content} />
-        <SectorClose content={content} />
+        <EnergyHero content={content} template={template} />
+        <EnergySignal content={content} template={template.problem} />
+        <SectorMap scene={map} touchline={content.touchline} template={template.map} />
+        <SectorSolution content={content} template={template.solution} />
+        <SectorOutcomes content={content} template={template.outcomes} />
+        <SectorClose content={content} template={template.close} />
       </main>
       <Footer />
-      <PageMinimap sections={ENERGY_SECTIONS} aria-label="Energy page sections" />
+      <PageMinimap sections={sections} aria-label={content.sectionsLabel} />
     </>
   );
 }

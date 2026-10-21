@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import type { PageSection } from "@/lib/pageSection";
+import type { PageSection } from "@/content/types";
 
 export type { PageSection };
 

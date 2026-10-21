@@ -25,132 +25,48 @@ import ScrollReveal from "@/components/ui/ScrollReveal";
 import ScrollRevealRail from "@/components/ui/ScrollRevealRail";
 import SectionHeader from "@/components/ui/SectionHeader";
 import SectionCoda from "@/components/ui/SectionCoda";
+import type { CareersPage } from "@/content/pages/careers";
 
-type Audience = "fresher" | "experienced";
-type QA = { num: string; principle: string; question: string; answer: string };
-
-const AUDIENCES: { id: Audience; label: string }[] = [
-  { id: "fresher", label: "Fresher" },
-  { id: "experienced", label: "Experienced" },
-];
-
-const QA_SETS: Record<Audience, QA[]> = {
-  fresher: [
-    {
-      num: "W01",
-      principle: "Ship real work, early.",
-      question: "What will I do in my first month?",
-      answer: "Ship. No bench of observers. Your work reaches production systems within weeks.",
-    },
-    {
-      num: "W02",
-      principle: "Outcomes over hours.",
-      question: "What are the hours really like?",
-      answer: "Trusted outcomes count, not hours logged. A written rule, applied inside the team too.",
-    },
-    {
-      num: "W03",
-      principle: "An open stack, portable skills.",
-      question: "Will I grow here, or get locked in?",
-      answer: "Open technologies, inspectable and swappable. Every skill you sharpen travels with you.",
-    },
-    {
-      num: "W04",
-      principle: "Straight answers, both directions.",
-      question: "How does feedback work?",
-      answer: "A clear yes or no, with reasons. In hiring, in reviews, in daily work.",
-    },
-    {
-      num: "W05",
-      principle: "Work where you work best.",
-      question: "Can I work from where I live?",
-      answer: "New York, Hyderabad, Bangalore or remote. One team, three time zones.",
-    },
-    {
-      num: "W06",
-      principle: "No throwaway projects, no throwaway teams.",
-      question: "Can I build a long career here?",
-      answer: "Systems built to outlive budget cycles, staffed the same way. Lasting work is the point.",
-    },
-  ],
-  experienced: [
-    {
-      num: "W01",
-      principle: "Ship real work, early.",
-      question: "Will I own real scope, or inherit a roadmap?",
-      answer: "Senior hires own a system, not a ticket queue. The outcome and the decisions, from week one.",
-    },
-    {
-      num: "W02",
-      principle: "Outcomes over hours.",
-      question: "Is there an on call or crunch culture?",
-      answer: "Trusted outcomes count, not hours or heroics. The rule holds under deadline too.",
-    },
-    {
-      num: "W03",
-      principle: "An open stack, portable skills.",
-      question: "Legacy maintenance, or modern tooling?",
-      answer: "Open, modern technologies. Inspectable, swappable, and no black box to inherit.",
-    },
-    {
-      num: "W04",
-      principle: "Straight answers, both directions.",
-      question: "Who makes the final technical call?",
-      answer: "Senior engineers own their calls. A clear yes or no, with reasons. Disagreement gets written down.",
-    },
-    {
-      num: "W05",
-      principle: "Work where you work best.",
-      question: "Is distributed work real here?",
-      answer: "New York, Hyderabad, Bangalore and remote. Distributed is the default, not an exception.",
-    },
-    {
-      num: "W06",
-      principle: "No throwaway projects, no throwaway teams.",
-      question: "Will the platform survive the next rewrite?",
-      answer: "Systems built to outlive budget cycles. If a newcomer cannot maintain the code, the work failed.",
-    },
-  ],
-};
+type Audience = CareersPage["culture"]["audiences"][number]["id"];
 
 /* The answer arrives: down out of the question, then across. */
 function Elbow() {
   return (
     <svg viewBox="0 0 18 26" className="mt-1 h-[26px] w-[18px] shrink-0" aria-hidden>
-      <path d="M2 0V18a6 6 0 0 0 6 6h9" fill="none" stroke="#3E63DD" strokeWidth="1.4" />
-      <circle cx="17" cy="24" r="2.2" fill="#3E63DD" />
+      <path d="M2 0V18a6 6 0 0 0 6 6h9" fill="none" stroke="rgb(var(--blue))" strokeWidth="1.4" />
+      <circle cx="17" cy="24" r="2.2" fill="rgb(var(--blue))" />
     </svg>
   );
 }
 
-export default function CareersCulture() {
-  const [audience, setAudience] = useState<Audience>("fresher");
-  const qa = QA_SETS[audience];
+export default function CareersCulture({ content }: { content: CareersPage["culture"] }) {
+  const [audience, setAudience] = useState<Audience>(content.audiences[0].id);
+  const qa = content.qa[audience];
 
   return (
     <section
       id="how-we-work"
-      className="scroll-mt-24 bg-[linear-gradient(180deg,#FFFFFF_0%,#F1F5FE_16%,#F1F5FE_84%,#FFFFFF_100%)] pt-12 pb-20 lg:pt-16 lg:pb-24"
+      className="scroll-mt-24 bg-band pt-12 pb-20 lg:pt-16 lg:pb-24"
     >
       <ScrollRevealRail>
         <SectionHeader
-          num="02"
-          label="Working here"
-          setup="Candid questions,"
-          payoff="straight answers."
-          lede="Six questions candidates hold back, each pinned to a working principle."
+          num={content.num}
+          label={content.label}
+          setup={content.setup}
+          payoff={content.payoff}
+          lede={content.lede}
         >
           <div className="mt-8 flex flex-wrap items-center gap-3">
-            <span className="font-mono text-[11px] uppercase tracking-[0.08em] text-overcast">Answering as</span>
-            <div className="flex gap-1 rounded-full border border-blue-border bg-white p-1">
-              {AUDIENCES.map((a) => (
+            <span className="font-mono text-[11px] uppercase tracking-[0.08em] text-overcast">{content.audienceLabel}</span>
+            <div className="flex gap-1 rounded-full border border-blue-border bg-background p-1">
+              {content.audiences.map((a) => (
                 <button
                   key={a.id}
                   type="button"
                   onClick={() => setAudience(a.id)}
                   aria-pressed={audience === a.id}
                   className={`rounded-full px-4 py-1.5 text-sm font-medium transition-colors duration-150 ${
-                    audience === a.id ? "bg-ink text-white" : "text-inkSoft hover:text-ink"
+                    audience === a.id ? "bg-ink text-on-action" : "text-inkSoft hover:text-ink"
                   }`}
                 >
                   {a.label}
@@ -183,7 +99,7 @@ export default function CareersCulture() {
         </dl>
 
         <ScrollReveal delay={120}>
-          <SectionCoda lead="No perks theatre." payoff="Ask the rest on the intro call." />
+          <SectionCoda lead={content.coda.lead} payoff={content.coda.payoff} />
         </ScrollReveal>
       </ScrollRevealRail>
     </section>

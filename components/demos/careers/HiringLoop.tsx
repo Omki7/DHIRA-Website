@@ -14,31 +14,23 @@
  */
 
 import useDrawn from "@/hooks/useDrawn";
+import type { CareersPage } from "@/content/pages/careers";
 
 const W = 1000;
 const H = 210;
 const TRACK = 102;
-const STATIONS = [
-  { x: 70, num: "01", name: "Intro call", tag: "Both ways" },
-  { x: 250, num: "02", name: "Technical deep dive", tag: "No puzzles" },
-  { x: 430, num: "03", name: "Working session", tag: "Real work" },
-  { x: 610, num: "04", name: "Decision", tag: "Yes or no" },
-];
+/* Station positions on the track, in content order (hiring.steps). */
+const STATION_X = [70, 250, 430, 610];
 const FORK_X = 700;
 const END_X = 930;
 
-const DESCRIPTIONS = [
-  "Thirty minutes with your future team. You interview us too.",
-  "Real problems we have shipped. No whiteboard puzzles.",
-  "Solve a real problem with your future colleagues.",
-  "A clear yes or no, with reasons.",
-];
 
 function arrow(x: number, y: number, dir: 1 | -1) {
   return `M${x - 5 * dir} ${y - 4}L${x} ${y}L${x - 5 * dir} ${y + 4}`;
 }
 
-export default function HiringLoop() {
+export default function HiringLoop({ content }: { content: CareersPage["hiring"] }) {
+  const STATIONS = content.steps.map((step, k) => ({ ...step, x: STATION_X[k] ?? 0 }));
   const [ref, drawn] = useDrawn<HTMLDivElement>(0.3);
   const pct = (v: number, of: number) => `${(v / of) * 100}%`;
 
@@ -51,7 +43,7 @@ export default function HiringLoop() {
             d={`M56 ${TRACK}L${FORK_X} ${TRACK}`}
             pathLength={1}
             fill="none"
-            stroke="#1A1C1D"
+            stroke="rgb(var(--ink))"
             strokeOpacity="0.5"
             strokeWidth="1.3"
             className="ad-draw"
@@ -63,8 +55,8 @@ export default function HiringLoop() {
             const next = STATIONS[k + 1].x;
             return (
               <g key={`f${s.num}`} className="ad-fade" style={{ ["--ad-delay" as string]: `${0.5 + k * 0.12}s` }}>
-                <line x1={s.x + 26} x2={next - 26} y1={TRACK - 26} y2={TRACK - 26} stroke="#1A1C1D" strokeOpacity="0.35" strokeWidth="1" />
-                <path d={arrow(next - 26, TRACK - 26, 1)} fill="none" stroke="#1A1C1D" strokeOpacity="0.35" strokeWidth="1" />
+                <line x1={s.x + 26} x2={next - 26} y1={TRACK - 26} y2={TRACK - 26} stroke="rgb(var(--ink))" strokeOpacity="0.35" strokeWidth="1" />
+                <path d={arrow(next - 26, TRACK - 26, 1)} fill="none" stroke="rgb(var(--ink))" strokeOpacity="0.35" strokeWidth="1" />
               </g>
             );
           })}
@@ -74,8 +66,8 @@ export default function HiringLoop() {
             const next = STATIONS[k + 1].x;
             return (
               <g key={`b${s.num}`} className="ad-fade" style={{ ["--ad-delay" as string]: `${0.9 + k * 0.12}s` }}>
-                <line x1={s.x + 26} x2={next - 26} y1={TRACK + 26} y2={TRACK + 26} stroke="#3E63DD" strokeOpacity="0.55" strokeWidth="1" />
-                <path d={arrow(s.x + 26, TRACK + 26, -1)} fill="none" stroke="#3E63DD" strokeOpacity="0.55" strokeWidth="1" />
+                <line x1={s.x + 26} x2={next - 26} y1={TRACK + 26} y2={TRACK + 26} stroke="rgb(var(--blue))" strokeOpacity="0.55" strokeWidth="1" />
+                <path d={arrow(s.x + 26, TRACK + 26, -1)} fill="none" stroke="rgb(var(--blue))" strokeOpacity="0.55" strokeWidth="1" />
               </g>
             );
           })}
@@ -83,9 +75,9 @@ export default function HiringLoop() {
           {/* Stations */}
           {STATIONS.map((s, k) => (
             <g key={s.num} className="ad-fade" style={{ ["--ad-delay" as string]: `${0.2 + k * 0.12}s` }}>
-              <circle cx={s.x} cy={TRACK} r="16" fill="#FFFFFF" stroke="#1A1C1D" strokeOpacity="0.55" strokeWidth="1.3" />
+              <circle cx={s.x} cy={TRACK} r="16" fill="rgb(var(--background))" stroke="rgb(var(--ink))" strokeOpacity="0.55" strokeWidth="1.3" />
               {/* Phones keep the dot; from md the step number sits in the ring */}
-              <circle cx={s.x} cy={TRACK} r="4" fill="#1A1C1D" fillOpacity="0.75" className="md:hidden" />
+              <circle cx={s.x} cy={TRACK} r="4" fill="rgb(var(--ink))" fillOpacity="0.75" className="md:hidden" />
             </g>
           ))}
 
@@ -94,19 +86,19 @@ export default function HiringLoop() {
             <path
               d={`M${FORK_X} ${TRACK}C${FORK_X + 60} ${TRACK} ${FORK_X + 60} ${TRACK - 56} ${FORK_X + 120} ${TRACK - 56}L${END_X} ${TRACK - 56}`}
               fill="none"
-              stroke="#3E63DD"
+              stroke="rgb(var(--blue))"
               strokeWidth="1.6"
             />
-            <path d={arrow(END_X, TRACK - 56, 1)} fill="none" stroke="#3E63DD" strokeWidth="1.6" />
-            <circle cx={FORK_X} cy={TRACK} r="3.5" fill="#1A1C1D" />
+            <path d={arrow(END_X, TRACK - 56, 1)} fill="none" stroke="rgb(var(--blue))" strokeWidth="1.6" />
+            <circle cx={FORK_X} cy={TRACK} r="3.5" fill="rgb(var(--ink))" />
             <path
               d={`M${FORK_X} ${TRACK}C${FORK_X + 60} ${TRACK} ${FORK_X + 60} ${TRACK + 56} ${FORK_X + 120} ${TRACK + 56}L${END_X} ${TRACK + 56}`}
               fill="none"
-              stroke="#1A1C1D"
+              stroke="rgb(var(--ink))"
               strokeOpacity="0.55"
               strokeWidth="1.6"
             />
-            <path d={arrow(END_X, TRACK + 56, 1)} fill="none" stroke="#1A1C1D" strokeOpacity="0.55" strokeWidth="1.6" />
+            <path d={arrow(END_X, TRACK + 56, 1)} fill="none" stroke="rgb(var(--ink))" strokeOpacity="0.55" strokeWidth="1.6" />
           </g>
         </svg>
 
@@ -129,24 +121,24 @@ export default function HiringLoop() {
         {/* Direction labels */}
         <span className="absolute -translate-y-full pb-1" style={{ left: pct(56, W), top: pct(TRACK - 34, H) }}>
           <span className="ad-fade block whitespace-nowrap font-mono text-[11px] uppercase tracking-[0.08em] text-inkSoft" style={{ ["--ad-delay" as string]: "0.6s" }}>
-            We learn about you
+            {content.weLearn}
           </span>
         </span>
         <span className="absolute pt-1" style={{ left: pct(56, W), top: pct(TRACK + 34, H) }}>
           <span className="ad-fade block whitespace-nowrap font-mono text-[11px] uppercase tracking-[0.08em] text-blue" style={{ ["--ad-delay" as string]: "1s" }}>
-            You learn about us
+            {content.youLearn}
           </span>
         </span>
 
         {/* Both answers */}
         <span className="absolute -translate-y-1/2 pl-3" style={{ left: pct(END_X, W), top: pct(TRACK - 56, H) }}>
           <span className="ad-fade block whitespace-nowrap font-mono text-[11px] uppercase tracking-[0.08em] text-blue" style={{ ["--ad-delay" as string]: "1.6s" }}>
-            Yes
+            {content.yes}
           </span>
         </span>
         <span className="absolute -translate-y-1/2 pl-3" style={{ left: pct(END_X, W), top: pct(TRACK + 56, H) }}>
           <span className="ad-fade block whitespace-nowrap font-mono text-[11px] uppercase tracking-[0.08em] text-inkSoft" style={{ ["--ad-delay" as string]: "1.6s" }}>
-            No
+            {content.no}
           </span>
         </span>
       </div>
@@ -160,7 +152,7 @@ export default function HiringLoop() {
                 {s.num}&nbsp;&nbsp;<span className="text-blue">{s.tag}</span>
               </p>
               <h3 className="mt-1.5 text-[18px] font-semibold tracking-tight text-ink">{s.name}</h3>
-              <p className="mt-1 text-pretty text-[15px] leading-relaxed text-inkSoft">{DESCRIPTIONS[k]}</p>
+              <p className="mt-1 text-pretty text-[15px] leading-relaxed text-inkSoft">{s.description}</p>
             </div>
           </li>
         ))}

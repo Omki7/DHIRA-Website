@@ -1,11 +1,12 @@
 import type { MetadataRoute } from "next";
+import { getSiteSettings } from "@/lib/content";
 
-export default function manifest(): MetadataRoute.Manifest {
+export default async function manifest(): Promise<MetadataRoute.Manifest> {
+  const { name, seo } = await getSiteSettings();
   return {
-    name: "DHIRA — Answers you can act on.",
-    short_name: "DHIRA",
-    description:
-      "From spreadsheets to PDFs to live streams, DHIRA gives your AI the full picture. Powered by Akashic, the intelligence layer behind every decision.",
+    name: seo.title,
+    short_name: name,
+    description: seo.description,
     start_url: "/",
     display: "standalone",
     background_color: "#0A0E24",

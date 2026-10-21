@@ -7,21 +7,23 @@
  */
 
 import { useState } from "react";
+import { useUi } from "@/components/providers/UiProvider";
 
 export default function ShareLinks({ url, title }: { url: string; title: string }) {
+  const { share } = useUi();
   const [copied, setCopied] = useState(false);
   const encodedUrl = encodeURIComponent(url);
   const encodedTitle = encodeURIComponent(title);
   const links = [
-    { label: "LinkedIn", href: `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}` },
-    { label: "X", href: `https://x.com/intent/post?url=${encodedUrl}&text=${encodedTitle}` },
-    { label: "Email", href: `mailto:?subject=${encodedTitle}&body=${encodedUrl}` },
+    { label: share.linkedIn, href: `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}` },
+    { label: share.x, href: `https://x.com/intent/post?url=${encodedUrl}&text=${encodedTitle}` },
+    { label: share.email, href: `mailto:?subject=${encodedTitle}&body=${encodedUrl}` },
   ];
   const linkClass = "text-inkSoft transition-colors duration-150 hover:text-blue";
 
   return (
     <div className="font-mono text-[11px] uppercase tracking-eyebrow">
-      <p className="text-overcast">Share</p>
+      <p className="text-overcast">{share.label}</p>
       <ul className="mt-3 flex flex-wrap gap-x-5 gap-y-2">
         {links.map((link) => (
           <li key={link.label}>
@@ -48,7 +50,7 @@ export default function ShareLinks({ url, title }: { url: string; title: string 
               }
             }}
           >
-            {copied ? "Link copied" : "Copy link"}
+            {copied ? share.copied : share.copy}
           </button>
         </li>
       </ul>

@@ -1,6 +1,7 @@
 import EisPill from "@/components/ui/eis/EisPill";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import EisLoopCircuitMockup from "@/components/demos/mockups/eis/EisLoopCircuitMockup";
+import type { EisPage } from "@/content/pages/solutions-eis";
 
 /* [the-loop] — the half a reporting tool cannot do.
  *
@@ -19,7 +20,7 @@ import EisLoopCircuitMockup from "@/components/demos/mockups/eis/EisLoopCircuitM
  * either ignorance or nerve.
  */
 
-export default function EisLoop() {
+export default function EisLoop({ content }: { content: EisPage["loop"] }) {
   return (
     <section
       id="the-loop"
@@ -30,15 +31,12 @@ export default function EisLoop() {
           <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
             <div>
               <h2 className="max-w-[20ch] font-heading text-4xl font-medium leading-[1.05] tracking-tighter sm:text-5xl md:text-6xl">
-                <span className="text-eis-body">Reading the business</span>
+                <span className="text-eis-body">{content.setup}</span>
                 <br />
-                <span className="text-eis-ink">is half the job.</span>
+                <span className="text-eis-ink">{content.payoff}</span>
               </h2>
               <p className="mt-5 max-w-[620px] text-balance text-base leading-[1.5] tracking-tight text-eis-body sm:mt-6 sm:text-lg">
-                Executive information systems got the ambition right in the
-                1980s and the technology wrong. The screens could not read the
-                systems, so someone rekeyed the numbers by hand, and nothing on
-                the screen could act. Both of those are now solved problems.
+                {content.lede}
               </p>
             </div>
 
@@ -46,11 +44,11 @@ export default function EisLoop() {
                 photographic grounds, and this section is on white, so the
                 default rendered as unstyled black text. */}
             <EisPill
-              href="#talk-to-our-team"
+              href={content.cta.href}
               tone="outline"
               className="flex-shrink-0 self-start lg:self-auto"
             >
-              Bring us a decision you cannot close
+              {content.cta.label}
             </EisPill>
           </div>
         </ScrollReveal>

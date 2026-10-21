@@ -22,14 +22,14 @@
 
 import type { ReactNode } from "react";
 
-const PANEL = "rounded-inner border border-[#E9EAEE] bg-primary-bg px-3.5 py-3";
+const PANEL = "rounded-inner border border-card-line bg-primary-bg px-3.5 py-3";
 
 /* A key/value line. The workhorse: most of what makes a figure defensible
    is a list of definitions somebody can dispute. */
 function Row({ k, v, mono = true }: { k: string; v: string; mono?: boolean }) {
   return (
     <div className="flex items-baseline justify-between gap-3">
-      <span className="flex-shrink-0 text-[9px] font-bold uppercase tracking-[0.06em] text-[#8E8F91]">
+      <span className="flex-shrink-0 text-[9px] font-bold uppercase tracking-[0.06em] text-tertiary-text">
         {k}
       </span>
       <span
@@ -43,7 +43,7 @@ function Row({ k, v, mono = true }: { k: string; v: string; mono?: boolean }) {
 
 function Cap({ children }: { children: ReactNode }) {
   return (
-    <span className="block text-[8.5px] font-bold uppercase tracking-[0.09em] text-[#B4BAC2]">
+    <span className="block text-[8.5px] font-bold uppercase tracking-[0.09em] text-overcast">
       {children}
     </span>
   );
@@ -55,7 +55,7 @@ export function EvDefinition() {
     <div className={PANEL}>
       <Cap>Retail</Cap>
       <div className="mt-1.5 flex items-baseline gap-2">
-        <span className="text-[10.5px] text-[#8E8F91]">Like-for-like sales</span>
+        <span className="text-[10.5px] text-tertiary-text">Like-for-like sales</span>
         <span className="ml-auto border-b-2 border-blue/50 text-[17px] font-bold leading-none tracking-tight text-ink">
           +4.2%
         </span>
@@ -65,11 +65,11 @@ export function EvDefinition() {
         <Row k="Excludes" v="Closures, refits, new formats" />
         <Row k="As at" v="Today 05:58" />
       </div>
-      <div className="mt-2.5 flex items-center gap-1 border-t border-[#EEEFF1] pt-2.5">
+      <div className="mt-2.5 flex items-center gap-1 border-t border-subtle-stroke pt-2.5">
         {["POS estate", "sales_daily", "lfl_sales"].map((n, i) => (
           <span key={n} className="flex min-w-0 items-center gap-1">
-            {i > 0 && <span className="flex-shrink-0 text-[9px] text-[#B4BAC2]">&rarr;</span>}
-            <span className="truncate rounded-[5px] border border-[#E9EAEE] bg-white px-1.5 py-[2px] font-mono text-[9px] text-[#5C5E63]">
+            {i > 0 && <span className="flex-shrink-0 text-[9px] text-overcast">&rarr;</span>}
+            <span className="truncate rounded-[5px] border border-card-line bg-background px-1.5 py-[2px] font-mono text-[9px] text-secondary-text">
               {n}
             </span>
           </span>
@@ -92,10 +92,10 @@ export function EvEntity() {
         ].map(([sys, name]) => (
           <div key={sys} className="flex items-center gap-2">
             {/* 74px: "Core banking" truncated to "CORE BANK…" at 62. */}
-            <span className="w-[74px] flex-shrink-0 truncate text-[8.5px] font-bold uppercase tracking-[0.06em] text-[#8E8F91]">
+            <span className="w-[74px] flex-shrink-0 truncate text-[8.5px] font-bold uppercase tracking-[0.06em] text-tertiary-text">
               {sys}
             </span>
-            <span className="min-w-0 flex-1 truncate rounded-[6px] bg-white px-2 py-[3px] font-mono text-[9.5px] text-[#5C5E63]">
+            <span className="min-w-0 flex-1 truncate rounded-[6px] bg-background px-2 py-[3px] font-mono text-[9.5px] text-secondary-text">
               {name}
             </span>
           </div>
@@ -112,7 +112,7 @@ export function EvEntity() {
         </span>
         <span className="flex-shrink-0 text-right">
           <span className="block text-[13px] font-bold leading-none text-ink">₹86 Cr</span>
-          <span className="block text-[8.5px] text-[#8E8F91]">total exposure</span>
+          <span className="block text-[8.5px] text-tertiary-text">total exposure</span>
         </span>
       </div>
     </div>
@@ -132,7 +132,7 @@ export function EvPermissions() {
     <div className={PANEL}>
       <div className="flex items-baseline gap-2">
         <Cap>Manufacturing</Cap>
-        <span className="ml-auto text-[9px] text-[#8E8F91]">
+        <span className="ml-auto text-[9px] text-tertiary-text">
           &ldquo;What is exposed?&rdquo;
         </span>
       </div>
@@ -140,11 +140,11 @@ export function EvPermissions() {
         {seats.map((s) => (
           <div
             key={s.who}
-            className="flex items-center gap-2 rounded-[7px] bg-white px-2.5 py-2"
+            className="flex items-center gap-2 rounded-[7px] bg-background px-2.5 py-2"
           >
             <span className="min-w-0 flex-1">
               <span className="block truncate text-[11px] font-medium text-ink">{s.who}</span>
-              <span className="block truncate text-[9px] text-[#8E8F91]">{s.scope}</span>
+              <span className="block truncate text-[9px] text-tertiary-text">{s.scope}</span>
             </span>
             <span className="flex-shrink-0 text-[13px] font-bold leading-none text-ink">
               {s.figure}
@@ -152,7 +152,7 @@ export function EvPermissions() {
           </div>
         ))}
       </div>
-      <p className="mt-2.5 border-t border-[#EEEFF1] pt-2.5 text-[10px] leading-snug text-[#8E8F91]">
+      <p className="mt-2.5 border-t border-subtle-stroke pt-2.5 text-[10px] leading-snug text-tertiary-text">
         One question, one definition, two answers. Rows outside your
         entitlement never enter the answer.
       </p>
@@ -179,7 +179,7 @@ export function EvAction() {
         <Row k="Target" v="Oracle TMS, prod" />
         <Row k="Key" v="ACT-5120, single write" />
       </div>
-      <p className="mt-2.5 border-t border-[#EEEFF1] pt-2.5 text-[10px] leading-snug text-[#8E8F91]">
+      <p className="mt-2.5 border-t border-subtle-stroke pt-2.5 text-[10px] leading-snug text-tertiary-text">
         Composed by A. Mehta, approved by R. Nambiar. Never the same person.
       </p>
     </div>
@@ -198,18 +198,18 @@ export function EvPlanes() {
     <div className={PANEL}>
       <div className="flex items-baseline gap-2">
         <Cap>Across the estate</Cap>
-        <span className="ml-auto text-[9px] text-[#8E8F91]">23 connectors</span>
+        <span className="ml-auto text-[9px] text-tertiary-text">23 connectors</span>
       </div>
-      <div className="mt-2 divide-y divide-[#EEEFF1]">
+      <div className="mt-2 divide-y divide-[rgb(var(--subtle-stroke))]">
         {rows.map((r) => (
           <div key={r.name} className="flex items-center gap-2 py-[6px] first:pt-0">
             <span className="min-w-0 flex-1">
               <span className="block truncate text-[11px] font-medium text-ink">{r.name}</span>
-              <span className="block text-[8.5px] text-[#B4BAC2]">{r.kind}</span>
+              <span className="block text-[8.5px] text-overcast">{r.kind}</span>
             </span>
             <span className="flex flex-shrink-0 items-center gap-1.5">
-              <span className="h-[6px] w-[6px] rounded-full bg-[#1F9D6B]" />
-              <span className="text-[9px] text-[#8E8F91]">read</span>
+              <span className="h-[6px] w-[6px] rounded-full bg-positive" />
+              <span className="text-[9px] text-tertiary-text">read</span>
             </span>
             <span className="w-[62px] flex-shrink-0 text-right">
               {r.writes > 0 ? (
@@ -217,7 +217,7 @@ export function EvPlanes() {
                   {r.writes} {r.writes === 1 ? "write" : "writes"}
                 </span>
               ) : (
-                <span className="text-[9px] text-[#B4BAC2]">no writes</span>
+                <span className="text-[9px] text-overcast">no writes</span>
               )}
             </span>
           </div>
@@ -238,29 +238,29 @@ export function EvRecord() {
     <div className={PANEL}>
       <div className="flex items-baseline gap-2">
         <Cap>Across the estate</Cap>
-        <span className="ml-auto text-[9px] text-[#8E8F91]">Append only</span>
+        <span className="ml-auto text-[9px] text-tertiary-text">Append only</span>
       </div>
       <div className="mt-2 space-y-1.5">
         {rows.map((r) => (
           <div key={r.t} className="flex items-baseline gap-2.5">
-            <span className="w-[30px] flex-shrink-0 font-mono text-[9.5px] text-[#8E8F91]">
+            <span className="w-[30px] flex-shrink-0 font-mono text-[9.5px] text-tertiary-text">
               {r.t}
             </span>
             <span className="min-w-0 flex-1 truncate text-[11px] text-ink">{r.what}</span>
             <span
               className="flex flex-shrink-0 items-center gap-1.5 text-[9.5px] font-semibold"
-              style={{ color: r.ok ? "#1B8A5F" : "#C13059" }}
+              style={{ color: r.ok ? "rgb(var(--positive-text))" : "rgb(var(--diagram-pink))" }}
             >
               <span
                 className="h-[6px] w-[6px] rounded-full"
-                style={{ background: r.ok ? "#1F9D6B" : "#C13059" }}
+                style={{ background: r.ok ? "rgb(var(--positive))" : "rgb(var(--diagram-pink))" }}
               />
               {r.ok ? "written" : "rejected"}
             </span>
           </div>
         ))}
       </div>
-      <p className="mt-2.5 border-t border-[#EEEFF1] pt-2.5 text-[10px] leading-snug text-[#C13059]">
+      <p className="mt-2.5 border-t border-subtle-stroke pt-2.5 text-[10px] leading-snug text-[rgb(var(--diagram-pink))]">
         Held, not retried. The permission gap was raised to the lending system
         owner.
       </p>

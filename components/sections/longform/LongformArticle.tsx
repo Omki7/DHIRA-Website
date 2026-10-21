@@ -11,11 +11,13 @@ import Link from "next/link";
 import RichText from "@/components/ui/RichText";
 import ScrollRevealRail from "@/components/ui/ScrollRevealRail";
 import ShareLinks from "@/components/ui/ShareLinks";
-import { outline, type Block } from "@/lib/richText";
+import type { Block } from "@/content/types";
+import { getUiStrings } from "@/lib/content";
+import { outline } from "@/lib/richText";
 
 export type Crumb = { label: string; href: string };
 
-export default function LongformArticle({
+export default async function LongformArticle({
   crumbs,
   title,
   dek,
@@ -34,12 +36,13 @@ export default function LongformArticle({
   /** Optional block above the body (a figure strip, a key facts list). */
   lead?: ReactNode;
 }) {
+  const ui = await getUiStrings();
   const contents = outline(blocks);
   return (
     <article className="bg-background">
       <header className="border-b border-lineSoft pb-12 pt-14 lg:pb-16 lg:pt-20">
         <ScrollRevealRail>
-          <nav aria-label="Breadcrumb">
+          <nav aria-label={ui.longform.breadcrumb}>
             <ol className="flex flex-wrap items-center gap-x-2 font-mono text-[11px] uppercase tracking-eyebrow text-overcast">
               {crumbs.map((crumb, index) => (
                 <li key={crumb.href} className="flex items-center gap-2">
@@ -64,8 +67,8 @@ export default function LongformArticle({
           <aside className="lg:col-span-3">
             <div className="lg:sticky lg:top-28">
               {contents.length > 1 && (
-                <nav aria-label="Contents" className="hidden lg:block">
-                  <p className="font-mono text-[11px] uppercase tracking-eyebrow text-overcast">Contents</p>
+                <nav aria-label={ui.longform.contents} className="hidden lg:block">
+                  <p className="font-mono text-[11px] uppercase tracking-eyebrow text-overcast">{ui.longform.contents}</p>
                   <ol className="mt-3 space-y-2 border-l border-lineSoft">
                     {contents.map((item) => (
                       <li key={item.id}>

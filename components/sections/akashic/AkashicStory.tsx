@@ -1,7 +1,24 @@
 import type { ReactNode } from "react";
+import FigureEyebrow from "@/components/ui/FigureEyebrow";
 
-export function StoryLabel({ number, children }: { number: string; children: ReactNode }) {
-  return <p className="ak-story-label"><span>[{number}]</span>{children}</p>;
+/* The /akashic section label IS the site's one eyebrow (ui/FigureEyebrow):
+   dashed rail, `[NN]  LABEL`, left. It rendered its own unruled mono line
+   until 20 Oct 2026, which is what made /akashic read differently from the
+   homepage (founder: one eyebrow format across the site). `tag` sets a
+   required status mark after the label (PreviewTag on agents); `tone="card"`
+   drops the rail inside the closing card. */
+export function StoryLabel({
+  number,
+  children,
+  tag,
+  tone = "light",
+}: {
+  number: string;
+  children: string;
+  tag?: ReactNode;
+  tone?: "light" | "depth" | "card";
+}) {
+  return <FigureEyebrow num={number} label={children} tag={tag} dark={tone === "depth"} bare={tone === "card"} />;
 }
 
 export function StoryTitle({ setup, children }: { setup: string; children: ReactNode }) {

@@ -1,6 +1,6 @@
 import type { ComponentType, CSSProperties } from "react";
 import RegionLink from "@/components/ui/RegionLink";
-import type { NavDrawing, NavFeature } from "@/lib/navigation";
+import type { NavDrawing, NavFeature } from "@/content/navigation";
 import { Arrow } from "./NavIcons";
 
 /* The featured slot at the right of every menu. Its figure is drawn in the

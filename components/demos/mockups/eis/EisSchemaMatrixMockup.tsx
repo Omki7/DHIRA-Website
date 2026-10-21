@@ -15,20 +15,20 @@
  * Driven from lib/eisDomains.ts so it cannot drift from the screens.
  * --------------------------------------------------------------------- */
 
-import { DOMAINS } from "@/lib/eisDomains";
+import type { Domain } from "@/content/pages/solutions-eis";
 
 /* Column headers are the ROLE each pillar plays, not its industry name:
    the industry names are the cells. */
 const ROLES = ["The unit you run", "What it produces", "The people", "The money"];
 
-export default function EisSchemaMatrixMockup() {
+export default function EisSchemaMatrixMockup({ domains: DOMAINS }: { domains: Domain[] }) {
   return (
-    <div className="overflow-hidden rounded-outer border border-eis-line bg-white">
+    <div className="overflow-hidden rounded-outer border border-eis-line bg-background">
       {/* Group headers. Colour encodes the category, and the two groups get
           different weights because they are not equally interesting. */}
       <div className="grid grid-cols-[1.15fr_1fr_1fr] border-b border-eis-line sm:grid-cols-[1.15fr_1fr_1fr_1fr_1fr]">
         <span className="hidden sm:block" />
-        <span className="col-span-2 border-l border-eis-line bg-blue-subtle/60 px-4 py-2.5 text-[9.5px] font-bold uppercase tracking-[0.11em] text-blue">
+        <span className="col-span-2 border-l border-eis-line bg-blue-subtle px-4 py-2.5 text-[9.5px] font-bold uppercase tracking-[0.11em] text-blue">
           Shaped by your industry
         </span>
         <span className="col-span-2 border-l border-eis-line px-4 py-2.5 text-[9.5px] font-bold uppercase tracking-[0.11em] text-eis-caption">
@@ -66,7 +66,7 @@ export default function EisSchemaMatrixMockup() {
               <span
                 key={p.key}
                 className={`flex flex-col justify-center px-4 pb-3 sm:border-l sm:border-eis-line sm:py-3.5 ${
-                  i < 2 ? "sm:bg-blue-subtle/30" : ""
+                  i < 2 ? "sm:bg-blue-subtle" : ""
                 }`}
               >
                 <span

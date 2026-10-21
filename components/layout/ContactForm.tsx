@@ -15,28 +15,28 @@
 
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import { useUi } from "@/components/providers/UiProvider";
 
-type Interest = "Platform deployment" | "Product build" | "Advisory" | "Just exploring";
-
-const interests: Interest[] = ["Platform deployment", "Product build", "Advisory", "Just exploring"];
-
-const empty = { name: "", email: "", company: "", interest: "" as "" | Interest, message: "" };
+/* Every label, placeholder and status line is content: content/ui.ts
+   `contactForm`. The interest options are its `interest.options`. */
+const empty = { name: "", email: "", company: "", interest: "", message: "" };
 
 const fieldLabel = "mb-1.5 block font-mono text-[10px] font-semibold uppercase tracking-eyebrow text-tertiary-text";
 const fieldInput =
-  "h-11 w-full rounded-[10px] border border-subtle-stroke bg-background px-3.5 text-[14px] text-primary-text shadow-input transition-all duration-200 placeholder:text-tertiary-text focus:border-blue focus:outline-none focus:ring-2 focus:ring-blue/15";
+  "h-11 w-full rounded-[10px] border border-default-stroke bg-background px-3.5 text-[14px] text-primary-text transition-all duration-200 placeholder:text-tertiary-text focus:border-blue focus:outline-none focus:ring-2 focus:ring-blue/15";
 
 export default function ContactForm({
   idPrefix,
   onProgress,
   onDone,
-  doneLabel = "Close",
+  doneLabel,
 }: {
   idPrefix: string;
   onProgress?: (percent: number) => void;
   onDone?: () => void;
   doneLabel?: string;
 }) {
+  const { contactForm: copy } = useUi();
   const [sent, setSent] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [form, setForm] = useState(empty);
@@ -77,17 +77,18 @@ export default function ContactForm({
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
             transition={{ type: "spring", stiffness: 400, damping: 20, delay: 0.1 }}
-            className="flex h-14 w-14 items-center justify-center rounded-full border border-blue-border bg-blue-subtle text-blue shadow-xs"
+            className="flex h-14 w-14 items-center justify-center rounded-full border border-blue-border bg-blue-subtle text-blue "
           >
             <svg viewBox="0 0 24 24" className="h-7 w-7" fill="none" aria-hidden>
               <path d="M5 12.5l4.2 4.2L19 7" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </motion.span>
           <h3 className="mt-5 text-[22px] font-semibold tracking-tight text-primary-text">
-            Your message is sent{form.name ? `, ${form.name.split(" ")[0]}` : ""}.
+            {copy.sentTitle}
+            {form.name ? `, ${form.name.split(" ")[0]}` : ""}.
           </h3>
           <p className="mt-2.5 max-w-[26em] text-[14px] leading-relaxed text-secondary-text">
-            It&rsquo;s with our team now. Expect a reply within one business day from a real engineer who read it.
+            {copy.sentBody}
           </p>
           <button
             type="button"
@@ -101,7 +102,7 @@ export default function ContactForm({
             }}
             className="btn-secondary mt-7 px-6"
           >
-            {onDone ? doneLabel : "Send another message"}
+            {onDone ? (doneLabel ?? copy.close) : copy.sendAnother}
           </button>
         </motion.div>
       ) : (
@@ -109,7 +110,7 @@ export default function ContactForm({
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <div>
               <label htmlFor={id("name")} className={fieldLabel}>
-                Full name
+                {copy.name.label}
               </label>
               <input
                 id={id("name")}
@@ -119,12 +120,12 @@ export default function ContactForm({
                 value={form.name}
                 onChange={(e) => update("name", e.target.value)}
                 className={fieldInput}
-                placeholder="Veman Chippa"
+                placeholder={copy.name.placeholder}
               />
             </div>
             <div>
               <label htmlFor={id("email")} className={fieldLabel}>
-                Work email
+                {copy.email.label}
               </label>
               <input
                 id={id("email")}
@@ -134,12 +135,12 @@ export default function ContactForm({
                 value={form.email}
                 onChange={(e) => update("email", e.target.value)}
                 className={fieldInput}
-                placeholder="veman.chippa@dhira.ai"
+                placeholder={copy.email.placeholder}
               />
             </div>
             <div>
               <label htmlFor={id("company")} className={fieldLabel}>
-                Company
+                {copy.company.label}
               </label>
               <input
                 id={id("company")}
@@ -149,25 +150,25 @@ export default function ContactForm({
                 value={form.company}
                 onChange={(e) => update("company", e.target.value)}
                 className={fieldInput}
-                placeholder="Dhira ai"
+                placeholder={copy.company.placeholder}
               />
             </div>
             <div>
               <label htmlFor={id("interest")} className={fieldLabel}>
-                I&rsquo;m interested in
+                {copy.interest.label}
               </label>
               <select
                 id={id("interest")}
                 value={form.interest}
-                onChange={(e) => update("interest", e.target.value as Interest)}
-                className={`h-11 w-full rounded-[10px] border border-subtle-stroke bg-background px-3.5 text-[14px] shadow-input transition-all duration-200 appearance-none bg-[url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2212%22 height=%2212%22 viewBox=%220 0 12 12%22 fill=%22none%22><path d=%22M2.5 4.5L6 8l3.5-3.5%22 stroke=%22%236f7988%22 stroke-width=%221.4%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22/></svg>')] bg-[length:12px] bg-[right_14px_center] bg-no-repeat pr-9 focus:border-blue focus:outline-none focus:ring-2 focus:ring-blue/15 ${
+                onChange={(e) => update("interest", e.target.value)}
+                className={`h-11 w-full rounded-[10px] border border-default-stroke bg-background px-3.5 text-[14px] transition-all duration-200 appearance-none bg-[url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2212%22 height=%2212%22 viewBox=%220 0 12 12%22 fill=%22none%22><path d=%22M2.5 4.5L6 8l3.5-3.5%22 stroke=%22%236f7988%22 stroke-width=%221.4%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22/></svg>')] bg-[length:12px] bg-[right_14px_center] bg-no-repeat pr-9 focus:border-blue focus:outline-none focus:ring-2 focus:ring-blue/15 ${
                   form.interest ? "text-primary-text" : "text-tertiary-text"
                 }`}
               >
                 <option value="" disabled>
-                  Select one
+                  {copy.interest.placeholder}
                 </option>
-                {interests.map((opt) => (
+                {copy.interest.options.map((opt) => (
                   <option key={opt} value={opt} className="text-primary-text">
                     {opt}
                   </option>
@@ -178,7 +179,7 @@ export default function ContactForm({
 
           <div>
             <label htmlFor={id("message")} className={fieldLabel}>
-              What are you trying to solve?
+              {copy.message.label}
             </label>
             <textarea
               id={id("message")}
@@ -186,27 +187,27 @@ export default function ContactForm({
               rows={4}
               value={form.message}
               onChange={(e) => update("message", e.target.value)}
-              className="w-full rounded-[10px] border border-subtle-stroke bg-background px-3.5 py-3 text-[14px] leading-relaxed text-primary-text shadow-input transition-all duration-200 resize-none placeholder:text-tertiary-text focus:border-blue focus:outline-none focus:ring-2 focus:ring-blue/15"
-              placeholder="Tell us about your data challenge, project goals, or questions..."
+              className="w-full rounded-[10px] border border-default-stroke bg-background px-3.5 py-3 text-[14px] leading-relaxed text-primary-text transition-all duration-200 resize-none placeholder:text-tertiary-text focus:border-blue focus:outline-none focus:ring-2 focus:ring-blue/15"
+              placeholder={copy.message.placeholder}
             />
           </div>
 
           <button
             type="submit"
             disabled={submitting}
-            className="btn-primary mt-5 h-11 w-full text-[15px] font-semibold transition-all duration-200 hover:shadow-md disabled:opacity-70 flex items-center justify-center gap-2 group"
+            className="btn-primary mt-5 h-11 w-full text-[15px] font-semibold transition-all duration-200  disabled:opacity-70 flex items-center justify-center gap-2 group"
           >
             {submitting ? (
               <span className="flex items-center gap-2">
-                <svg className="h-4 w-4 animate-spin text-white" viewBox="0 0 24 24" fill="none">
+                <svg className="h-4 w-4 animate-spin text-on-action" viewBox="0 0 24 24" fill="none">
                   <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                   <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
                 </svg>
-                Sending message…
+                {copy.submitting}
               </span>
             ) : (
               <>
-                <span>Send message</span>
+                <span>{copy.submit}</span>
                 <svg width="13" height="13" viewBox="0 0 13 13" fill="none" className="transition-transform duration-200 group-hover:translate-x-1" aria-hidden>
                   <path
                     fillRule="evenodd"
@@ -220,11 +221,11 @@ export default function ContactForm({
           </button>
 
           <p className="mt-3 text-center text-[12px] leading-relaxed text-tertiary-text">
-            By sending this you agree we may contact you about your enquiry. See our{" "}
-            <a href="/privacy" className="underline decoration-line underline-offset-2 hover:text-secondary-text">
-              privacy policy
+            {copy.consent.before}{" "}
+            <a href={copy.consent.link.href} className="underline decoration-line underline-offset-2 hover:text-secondary-text">
+              {copy.consent.link.label}
             </a>
-            .
+            {copy.consent.after}
           </p>
         </form>
       )}

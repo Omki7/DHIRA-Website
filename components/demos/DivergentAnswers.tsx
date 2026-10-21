@@ -2,8 +2,8 @@
 
 import { useEffect, useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
-import { usePrefersReducedMotion } from "@/hooks/useCountUp";
-import { HOME_PROBLEM, HOME_PROBLEM_SPREAD } from "@/lib/homeSections";
+import usePrefersReducedMotion from "@/hooks/usePrefersReducedMotion";
+import type { HomeProblem } from "@/content/pages/home";
 
 const TYPE_DELAY_MS = 300;
 const CHARACTER_MS = 38;
@@ -25,7 +25,13 @@ function SourceGlyph({ kind }: { kind: "documents" | "warehouse" | "stream" }) {
   );
 }
 
-export default function DivergentAnswers() {
+/** The gap between the largest and smallest answer, in whole people. */
+function spread(answers: HomeProblem["answers"]) {
+  const totals = answers.map((answer) => Math.round(Number(answer.figure) * 1_000_000));
+  return new Intl.NumberFormat("en-GB").format(Math.max(...totals) - Math.min(...totals));
+}
+
+export default function DivergentAnswers({ content: HOME_PROBLEM }: { content: HomeProblem }) {
   const ref = useRef<HTMLElement>(null);
   const entered = useInView(ref, { once: true, amount: 0.3 });
   const reduced = usePrefersReducedMotion();
@@ -49,11 +55,11 @@ export default function DivergentAnswers() {
       clearTimeout(delay);
       clearInterval(interval);
     };
-  }, [entered, reduced]);
+  }, [entered, reduced, HOME_PROBLEM.question.length]);
 
   return (
-    <figure ref={ref} className="relative isolate mx-auto w-full max-w-[600px] py-5 sm:py-7" aria-label="One question produces three different totals across documents, a warehouse and live streams.">
-      <div aria-hidden="true" className="pointer-events-none absolute inset-x-4 inset-y-12 -z-10 bg-[radial-gradient(ellipse_at_center,rgba(62,99,221,0.055),transparent_70%)]" />
+    <figure ref={ref} className="relative isolate mx-auto w-full max-w-[600px] py-5 sm:py-7" aria-label={HOME_PROBLEM.figureLabel}>
+      
       <div className="text-center">
         <p className="font-mono text-[10px] uppercase tracking-eyebrow text-inkSoft">{HOME_PROBLEM.period}</p>
         <p data-problem-question aria-label={HOME_PROBLEM.question} className="relative mx-auto mt-3 max-w-[20em] text-[21px] font-medium leading-tight tracking-tight text-ink sm:text-[25px]">
@@ -90,16 +96,18 @@ export default function DivergentAnswers() {
           {HOME_PROBLEM.answers.map((answer, index) => (
             <div key={answer.source} className="relative min-w-0 px-1 pt-20 text-center sm:px-3">
               <motion.div initial={{ opacity: 0, y: 6 }} animate={{ opacity: draw ? 1 : 0, y: draw ? 0 : 6 }} transition={{ duration: reduced ? 0 : 0.45, delay: reduced ? 0 : 0.35 + index * 0.08 }}>
-                <div className="relative mx-auto flex h-11 w-11 items-center justify-center rounded-tile border border-blue-border bg-background text-blue shadow-card">
+                <div className="relative mx-auto flex h-11 w-11 items-center justify-center rounded-tile border border-blue-border bg-background text-blue ">
                   <SourceGlyph kind={answer.kind} />
                 </div>
                 <p className="relative mt-3 h-4 font-mono text-[9px] uppercase leading-4 tracking-[0.06em] text-inkSoft sm:text-[10px] sm:tracking-eyebrow"><span className="bg-background px-1.5">{answer.source}</span></p>
               </motion.div>
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: draw ? 1 : 0, y: draw ? 0 : 10 }} transition={{ duration: reduced ? 0 : 0.55, delay: reduced ? 0 : CONNECTOR_SECONDS + index * 0.08 }}>
                 <p data-problem-answer className={`mt-16 whitespace-nowrap text-[34px] font-medium leading-none tracking-tightest tabular-nums sm:text-[46px] lg:text-[40px] xl:text-[52px] ${index === 1 ? "text-blue" : "text-ink"}`}>
-                  {answer.figure}<span className="ml-0.5 text-[0.52em] text-inkSoft">{answer.unit}</span>
+                  {answer.figure}
                 </p>
-                <p className="mt-3 text-[11px] leading-snug text-inkSoft sm:text-[12px]">{answer.caveat}</p>
+                {/* The unit is a word on its own line ("million"), never "M". */}
+                <p className="mt-2 text-[13px] font-medium text-inkSoft sm:text-[14px]">{answer.unit}</p>
+                <p className="mt-2 text-[11px] leading-snug text-inkSoft sm:text-[12px]">{answer.caveat}</p>
                 <div aria-hidden="true" className="mx-auto mt-5 h-8 w-px border-l border-dashed border-red/40" />
               </motion.div>
             </div>
@@ -113,7 +121,7 @@ export default function DivergentAnswers() {
             <svg viewBox="0 0 32 20" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-5 w-8"><path d="m11 3-4 14M24 3l-4 14" /></svg>
           </span>
           <p className="text-[14px] leading-snug text-inkSoft sm:text-[15px]">
-            <span className="font-semibold text-red-deep">{HOME_PROBLEM_SPREAD}</span> {HOME_PROBLEM.spreadLabel}
+            <span className="font-semibold text-red-deep">{spread(HOME_PROBLEM.answers)}</span> {HOME_PROBLEM.spreadLabel}
           </p>
           <p className="mt-2 text-[17px] font-medium tracking-tight text-ink sm:text-[19px]">{HOME_PROBLEM.conclusion}</p>
         </div>

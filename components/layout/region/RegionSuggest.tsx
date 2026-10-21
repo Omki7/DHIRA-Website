@@ -2,8 +2,9 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useUi } from "@/components/providers/UiProvider";
 import useRegion, { chooseRegion } from "@/hooks/useRegion";
-import { REGIONS, basePath, regionHref, regionalPage } from "@/lib/region";
+import { basePath, regionHref, regionalPage } from "@/lib/region";
 
 /* The suggestion card (added 15 Oct 2026). Mounted once in the root layout;
    renders only on a regional page whose region differs from the visitor's
@@ -14,6 +15,7 @@ import { REGIONS, basePath, regionHref, regionalPage } from "@/lib/region";
 
 export default function RegionSuggest() {
   const router = useRouter();
+  const { region: copy } = useUi();
   const { pathname, page, choice, detected } = useRegion();
   const [closed, setClosed] = useState(false);
   const regional = regionalPage(pathname);
@@ -21,7 +23,6 @@ export default function RegionSuggest() {
   if (closed || !regional || !page || choice || !detected || detected === page) return null;
 
   const target = detected;
-  const name = target === "in" ? "India" : "international";
 
   const view = () => {
     chooseRegion(target);
@@ -34,22 +35,22 @@ export default function RegionSuggest() {
 
   return (
     <aside
-      aria-label="Regional version of this page"
-      className="fixed inset-x-4 bottom-4 z-[60] rounded-outer border border-subtle-stroke bg-background p-5 shadow-frame motion-safe:animate-fade-in sm:inset-x-auto sm:bottom-6 sm:left-6 sm:w-[23rem]"
+      aria-label={copy.suggestion}
+      className="fixed inset-x-4 bottom-4 z-[60] rounded-outer border border-subtle-stroke bg-background p-5  motion-safe:animate-fade-in sm:inset-x-auto sm:bottom-6 sm:left-6 sm:w-[23rem]"
     >
-      <p className="font-mono text-[11px] font-medium uppercase tracking-eyebrow text-blue">{REGIONS[target].label}</p>
+      <p className="font-mono text-[11px] font-medium uppercase tracking-eyebrow text-blue">{copy.names[target]}</p>
       <p className="mt-2 text-[16px] font-semibold tracking-[-0.01em] text-ink">
-        {target === "in" ? "Viewing from India?" : "Viewing from outside India?"}
+        {copy.question[target]}
       </p>
       <p className="mt-1 text-pretty text-[14px] leading-snug text-secondary-text">
-        This page has {target === "in" ? "an India" : "an international"} version. {regional.offer[target]}
+        {copy.hasVersion[target]} {copy.offers[regional]?.[target]}
       </p>
       <div className="mt-4 flex flex-wrap items-center gap-2">
         <button type="button" className="btn-primary text-sm" onClick={view}>
-          View the {name} page
+          {copy.view[target]}
         </button>
         <button type="button" className="btn-ghost text-sm" onClick={stay}>
-          Stay here
+          {copy.stay}
         </button>
       </div>
     </aside>

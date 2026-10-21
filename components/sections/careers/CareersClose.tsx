@@ -12,46 +12,47 @@
 
 import Link from "next/link";
 import DrawingSetClose, { type TitleCell } from "@/components/ui/DrawingSetClose";
-import { ROLES } from "@/lib/careersRoles";
-
-const TITLE_BLOCK: TitleCell[] = [
-  { label: "Company", value: "DHIRA" },
-  { label: "Seats open", value: String(ROLES.length) },
-  { label: "Answer", value: "Yes or no" },
-  { label: "Sheet", value: "05 of 05" },
-];
+import type { Role } from "@/content/collections/roles";
+import type { CareersPage } from "@/content/pages/careers";
 
 function ChairStamp() {
   return (
     <svg viewBox="0 0 96 64" className="h-14 w-20" aria-hidden>
-      <rect x="10" y="8" width="76" height="20" rx="6" fill="none" stroke="#FFFFFF" strokeOpacity="0.25" strokeWidth="1.3" />
-      <rect x="10" y="36" width="76" height="20" rx="6" fill="none" stroke="#8AA8FB" strokeWidth="1.6" />
-      <line x1="48" y1="28" x2="48" y2="36" stroke="#8AA8FB" strokeWidth="1.4" />
+      <rect x="10" y="8" width="76" height="20" rx="6" fill="none" stroke="rgb(var(--background))" strokeOpacity="0.25" strokeWidth="1.3" />
+      <rect x="10" y="36" width="76" height="20" rx="6" fill="none" stroke="rgb(var(--blue-400))" strokeWidth="1.6" />
+      <line x1="48" y1="28" x2="48" y2="36" stroke="rgb(var(--blue-400))" strokeWidth="1.4" />
     </svg>
   );
 }
 
-export default function CareersClose() {
+export default function CareersClose({ content, roles }: { content: CareersPage["close"]; roles: Role[] }) {
+  const { cells } = content;
+  const titleBlock: TitleCell[] = [
+    cells.company,
+    { label: cells.seats, value: String(roles.length) },
+    cells.answer,
+    cells.sheet,
+  ];
   return (
     <DrawingSetClose
-      num="05"
-      label="Talk to us"
-      setup="Built something real?"
-      payoff={<>Let&rsquo;s talk.</>}
-      body="Share shipped work and the role you want. Every note gets an answer."
+      num={content.num}
+      label={content.label}
+      setup={content.setup}
+      payoff={content.payoff}
+      body={content.body}
       actions={
         <>
-          <Link href="/#get-started" className="btn-primary-invert btn-lg">
-            Talk to our team
+          <Link href={content.primary.href} className="btn-primary btn-lg">
+            {content.primary.label}
           </Link>
-          <Link href="/about#people" className="btn-secondary-invert btn-lg">
-            Meet the team
+          <Link href={content.secondary.href} className="btn-secondary btn-lg">
+            {content.secondary.label}
           </Link>
         </>
       }
-      cells={TITLE_BLOCK}
-      wide={{ label: "Where", value: <>New York &middot; Hyderabad &middot; Bangalore &middot; Remote</> }}
-      drawnBy="A small team shipping across three time zones."
+      cells={titleBlock}
+      wide={content.where}
+      drawnBy={content.drawnBy}
       stamp={<ChairStamp />}
       anchors={["login"]}
     />

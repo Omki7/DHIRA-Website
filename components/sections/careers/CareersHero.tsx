@@ -20,34 +20,35 @@ import ScrollReveal from "@/components/ui/ScrollReveal";
 import ScrollRevealRail from "@/components/ui/ScrollRevealRail";
 import FigureEyebrow from "@/components/ui/FigureEyebrow";
 import SeatingPlan from "@/components/demos/careers/SeatingPlan";
+import type { Role } from "@/content/collections/roles";
+import type { CareersPage } from "@/content/pages/careers";
 
-export default function CareersHero() {
+export default function CareersHero({ content, roles }: { content: CareersPage["hero"]; roles: Role[] }) {
   return (
     <section id="hero" className="relative overflow-hidden bg-background pt-16 pb-16 lg:pt-20 lg:pb-20">
       <ScrollRevealRail>
         <ScrollReveal>
-          <FigureEyebrow label="Careers" live="Now hiring" bare />
+          <FigureEyebrow label={content.label} live={content.live} bare />
         </ScrollReveal>
 
         <div className="mt-8 max-w-[46rem]">
           <ScrollReveal delay={80}>
             <h1 className="text-[38px] font-semibold leading-[1.04] tracking-tightest min-[400px]:text-[42px] sm:text-6xl lg:text-[64px]">
-              <span className="block text-balance text-inkSoft">Help build intelligence</span>
-              <span className="block text-balance text-ink">for public systems.</span>
+              <span className="block text-balance text-inkSoft">{content.title.setup}</span>
+              <span className="block text-balance text-ink">{content.title.payoff}</span>
             </h1>
           </ScrollReveal>
 
           <ScrollReveal delay={140}>
             <p className="mt-7 max-w-[34em] text-pretty text-lg leading-relaxed text-inkSoft sm:text-xl">
-              A small team shipping inside national platforms. Systems built to outlast budget
-              cycles.
+              {content.lede}
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-3">
-              <Link href="#open-roles" className="btn-primary">
-                See open roles
+              <Link href={content.primary.href} className="btn-primary">
+                {content.primary.label}
               </Link>
-              <Link href="#how-we-hire" className="btn-secondary">
-                How we hire
+              <Link href={content.secondary.href} className="btn-secondary">
+                {content.secondary.label}
               </Link>
             </div>
           </ScrollReveal>
@@ -56,7 +57,7 @@ export default function CareersHero() {
         <ScrollReveal delay={200}>
           {/* The plan's viewBox carries headroom above the top chairs */}
           <div className="mt-8 lg:mt-6">
-            <SeatingPlan />
+            <SeatingPlan roles={roles} labels={content.seating} />
           </div>
         </ScrollReveal>
       </ScrollRevealRail>
