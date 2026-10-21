@@ -104,6 +104,49 @@ export type Domain = {
 
 const domains: Domain[] = [
   {
+    key: "professional-services",
+    tab: "Professional services",
+    org: "Nexora",
+    role: "Chief executive",
+    pillars: [
+      { key: "unit", label: "Clients", value: "48", note: "Top 3 are 32.4%", shared: false, source: "Salesforce" },
+      { key: "output", label: "Engagements", value: "31", note: "4 gone red", shared: false, source: "Jira" },
+      { key: "people", label: "Workforce", value: "1,840", note: "7 single points of failure", shared: true, source: "Workday" },
+      { key: "money", label: "Financials", value: "₹142 Cr", note: "Group revenue, FY26", shared: true, source: "SAP" },
+    ],
+    sources: [
+      { name: "SAP S/4HANA", kind: "ERP", age: "2 min", writes: 2 },
+      { name: "Salesforce", kind: "CRM", age: "2 min", writes: 3 },
+      { name: "Jira", kind: "Delivery", age: "1 min", writes: 0 },
+      { name: "Workday", kind: "HR", age: "6 min", writes: 0 },
+    ],
+    subject: "Meridian Retail",
+    subjectKind: "Orion rollout",
+    clock: "Renewal in 18 days",
+    exposure: "₹14.2 Cr",
+    exposureNote: "10% of group ARR",
+    signals: [
+      { system: "Contracts", finding: "MSA renewal due 22 Jun", source: "Salesforce", age: "2 min" },
+      { system: "Delivery", finding: "Orion rollout 11 days over plan", source: "Jira", age: "1 min" },
+      { system: "People", finding: "Lead architect at high attrition risk", source: "Workday", age: "6 min" },
+    ],
+    headline: "Meridian Retail is your single largest exposure, and three systems say so.",
+    action: "Escalate renewal to steering",
+    actionField: "Opportunity.StageName",
+    actionTarget: "Salesforce",
+    approver: "Chief financial officer",
+    estateTitle: "Exposure by client",
+    estateNote: "48 clients",
+    rows: [
+      { unit: "Meridian Retail", output: "Orion rollout", people: "V. Rao", money: "₹14.2 Cr", signals: 3, severity: "high", note: "Renewal, slip, exit risk", dueDays: 18 },
+      { unit: "Hanseatic", output: "Ledger upgrade", people: "A. Fernandes", money: "₹6.1 Cr", signals: 2, severity: "watch", note: "Milestone M7 unsigned", dueDays: 25 },
+      { unit: "Kestrel Logistics", output: "Fleet telemetry", people: "R. Nambiar", money: "₹4.3 Cr", signals: 2, severity: "watch", note: "Invoice overdue 94 days", dueDays: 12 },
+      { unit: "Nexora Bank", output: "Atlas migration", people: "S. Iyer", money: "₹8.4 Cr", signals: 0, severity: "clear", note: "Renewed to Mar 2027", dueDays: 0 },
+      { unit: "Aurelia Health", output: "Claims platform", people: "P. Deshmukh", money: "₹5.2 Cr", signals: 0, severity: "clear", note: "Ahead of plan", dueDays: 0 },
+    ],
+    question: "What could take the firm down, and is the model shifting fast enough?",
+  },
+  {
     key: "manufacturing",
     tab: "Manufacturing",
     org: "Kalyani Industries",
@@ -232,49 +275,6 @@ const domains: Domain[] = [
     ],
     question: "Where is risk concentrating, and will we clear the covenant test?",
   },
-  {
-    key: "professional-services",
-    tab: "Professional services",
-    org: "Nexora",
-    role: "Chief executive",
-    pillars: [
-      { key: "unit", label: "Clients", value: "48", note: "Top 3 are 32.4%", shared: false, source: "Salesforce" },
-      { key: "output", label: "Engagements", value: "31", note: "4 gone red", shared: false, source: "Jira" },
-      { key: "people", label: "Workforce", value: "1,840", note: "7 single points of failure", shared: true, source: "Workday" },
-      { key: "money", label: "Financials", value: "₹142 Cr", note: "Group revenue, FY26", shared: true, source: "SAP" },
-    ],
-    sources: [
-      { name: "SAP S/4HANA", kind: "ERP", age: "2 min", writes: 2 },
-      { name: "Salesforce", kind: "CRM", age: "2 min", writes: 3 },
-      { name: "Jira", kind: "Delivery", age: "1 min", writes: 0 },
-      { name: "Workday", kind: "HR", age: "6 min", writes: 0 },
-    ],
-    subject: "Meridian Retail",
-    subjectKind: "Orion rollout",
-    clock: "Renewal in 18 days",
-    exposure: "₹14.2 Cr",
-    exposureNote: "10% of group ARR",
-    signals: [
-      { system: "Contracts", finding: "MSA renewal due 22 Jun", source: "Salesforce", age: "2 min" },
-      { system: "Delivery", finding: "Orion rollout 11 days over plan", source: "Jira", age: "1 min" },
-      { system: "People", finding: "Lead architect at high attrition risk", source: "Workday", age: "6 min" },
-    ],
-    headline: "Meridian Retail is your single largest exposure, and three systems say so.",
-    action: "Escalate renewal to steering",
-    actionField: "Opportunity.StageName",
-    actionTarget: "Salesforce",
-    approver: "Chief financial officer",
-    estateTitle: "Exposure by client",
-    estateNote: "48 clients",
-    rows: [
-      { unit: "Meridian Retail", output: "Orion rollout", people: "V. Rao", money: "₹14.2 Cr", signals: 3, severity: "high", note: "Renewal, slip, exit risk", dueDays: 18 },
-      { unit: "Hanseatic", output: "Ledger upgrade", people: "A. Fernandes", money: "₹6.1 Cr", signals: 2, severity: "watch", note: "Milestone M7 unsigned", dueDays: 25 },
-      { unit: "Kestrel Logistics", output: "Fleet telemetry", people: "R. Nambiar", money: "₹4.3 Cr", signals: 2, severity: "watch", note: "Invoice overdue 94 days", dueDays: 12 },
-      { unit: "Nexora Bank", output: "Atlas migration", people: "S. Iyer", money: "₹8.4 Cr", signals: 0, severity: "clear", note: "Renewed to Mar 2027", dueDays: 0 },
-      { unit: "Aurelia Health", output: "Claims platform", people: "P. Deshmukh", money: "₹5.2 Cr", signals: 0, severity: "clear", note: "Ahead of plan", dueDays: 0 },
-    ],
-    question: "What could take the firm down, and is the model shifting fast enough?",
-  },
 ];
 
 /* ------------------------------------------------------------------ */
@@ -314,9 +314,13 @@ export interface EisPage {
   gap: EisHeading & { conclusion: string; note: string };
   capabilities: EisHeading & {
     bands: { label: string; note: string; items: { lead: string; body: string; evidence: EisEvidence }[] }[];
+    pillars?: { tag: string; title: string; body: string; metrics: string[]; evidence: EisEvidence }[];
   };
   onePicture: EisHeading & { estateLede: string; screenUrl: string };
   loop: EisHeading & { cta: Cta };
+  pipeline: EisHeading & {
+    steps: { number: string; title: string; body: string; modules: string[] }[];
+  };
   lenses: EisHeading & { cta: Cta };
   proof: EisHeading & {
     deployments: { key: string; name: string; image: string; line: string; body: string; figures: { value: string; unit: string; label: string }[] }[];
@@ -327,6 +331,7 @@ export interface EisPage {
     lede: string;
     /** The question that starts open. */
     openByDefault: string;
+    items?: Faq[];
     bands: { label: string; note: string; items: Faq[] }[];
   };
   close: {
@@ -348,11 +353,10 @@ export const solutionsEis: EisPage = {
   },
   sections: [
     { id: "hero", label: "Akashic EIS" },
+    { id: "your-lens", label: "Your lens" },
     { id: "the-gap", label: "The gap" },
     { id: "capabilities", label: "Capabilities" },
-    { id: "one-picture", label: "One picture" },
     { id: "the-loop", label: "The loop" },
-    { id: "your-lens", label: "Your lens" },
     { id: "proof", label: "Proof" },
     { id: "questions", label: "Questions" },
     { id: "talk-to-our-team", label: "Talk to our team" },
@@ -362,21 +366,20 @@ export const solutionsEis: EisPage = {
 
   hero: {
     title: ["Your whole business.", "Answering for itself."],
-    /* Four different industries, so a plant director and a retail COO both
-       see themselves in the first thing that types itself on this page. */
+    /* Grounded in the four core questions from the executive wireframe */
     prompts: [
-      "Which plant stops production first, and why?",
-      "Where will we run out of stock before peak?",
-      "Which portfolio is closest to breaching its limit?",
-      "What could take the firm down this quarter?",
+      "Will we hit the FY revenue plan, and where is the gap?",
+      "Which fixed-price project is slipping into margin compression?",
+      "Which customer has overdue receivables and a sponsor change?",
+      "How many engineers are on the bench before next month's kickoff?",
     ],
-    lede: { lead: "Intelligence and action for whatever you run,", tail: "read live from" },
+    lede: { lead: "Real-time operating truth and verified leadership decisions,", tail: "connected directly to" },
     readsLabel: "Reads",
     sources: [
-      { label: "SAP", src: "/universal-context/sap.svg" },
+      { label: "ERPNext", src: "/universal-context/postgresql.svg" },
       { label: "Salesforce", src: "/universal-context/salesforce.svg" },
+      { label: "SAP", src: "/universal-context/sap.svg" },
       { label: "Oracle", src: "/universal-context/oracle.svg" },
-      { label: "PostgreSQL", src: "/universal-context/postgresql.svg" },
     ],
     primary: { label: "See it with your own data", href: "#talk-to-our-team" },
     secondary: { label: "How the loop closes", href: "#the-loop" },
@@ -384,34 +387,57 @@ export const solutionsEis: EisPage = {
   },
 
   gap: {
-    setup: "The number was ready at 06:00.",
-    payoff: "The decision took twenty-six days.",
-    lede: "Nobody is short of reporting. What is short is the distance between a figure moving and someone acting on it. Here is one morning at one plant, run three ways.",
-    conclusion: "The gap is not a reporting problem. It is the distance from the figure to the decision, and it is measured in days.",
-    note: "An illustration, using the demonstration plant shown above.",
+    setup: "Monthly packs arrive weeks late.",
+    payoff: "Operational risks compound in silence.",
+    lede: "When contracts, engineering delivery, hiring pipelines, and invoices sit in disconnected departmental tools, leadership spots revenue leakage only after margins have already eroded. Akashic EIS correlates pipeline health, project delivery, and cash flow into one continuous decision runway before irreversible deadlines expire.",
+    conclusion: "The true cost to an enterprise is the latency between an operational shift and leadership having the verified context to intervene.",
+    note: "Enterprise decision latency benchmark.",
   },
 
   capabilities: {
     setup: "A figure you can defend.",
     payoff: "An action you can reverse.",
-    lede: "Six capabilities, in the order an executive meets them. Each one is shown with the evidence it produces, not described.",
+    lede: "Ungoverned chatbots hallucinate raw SQL; static BI reports deliver yesterday's news. Akashic EIS provides the three enterprise governance guarantees required before acting on mission-critical numbers.",
+    pillars: [
+      {
+        tag: "Foundation",
+        title: "One Governed Golden Record",
+        body: "Master data continuously reconciles customers, workforce, and multi-entity projects across ERPNext, Salesforce, and Workday with strict row-level security before computation.",
+        metrics: ["Single Golden Record", "Row-Level Governance", "Full Data Lineage"],
+        evidence: "entity",
+      },
+      {
+        tag: "Intelligence",
+        title: "Continuous Predictive Signals",
+        body: "Autonomous background agents monitor delivery milestones, payment ageing, and bench allocation, surfacing margin compression risks 30 days before month-end.",
+        metrics: ["Rolling 12M Forecast", "Early Margin Detection", "Cross-Silo Alerts"],
+        evidence: "definition",
+      },
+      {
+        tag: "Execution",
+        title: "Governed Human-in-the-Loop Action",
+        body: "Decisions are structured, policy-checked interventions with segregated duties. Once approved by the designated executive, verified updates commit directly to systems of record with a complete audit trail.",
+        metrics: ["Human Authorisation", "Zero Hallucinated SQL", "Defensible Audit Trail"],
+        evidence: "record",
+      },
+    ],
     bands: [
       {
-        label: "Before you believe it",
+        label: "Before you believe the figure",
         note: "Everything that has to hold before a figure is worth acting on.",
         items: [
-          { lead: "Arguments end at the definition.", body: "When two teams produce two numbers, the dispute is never the query. It is what counts as like-for-like, and which stores were excluded.", evidence: "definition" },
-          { lead: "Three spellings, one obligor.", body: "Master data decides that three limits in three systems are the same borrower, and shows how sure it is. Concentration you could not see becomes ₹86 Cr you can.", evidence: "entity" },
-          { lead: "Your permissions come with the answer.", body: "Entitlements are applied before the figure is computed, not hidden after. Two people ask the same question and get two correct answers.", evidence: "permissions" },
+          { lead: "Arguments end at the definition.", body: "When two teams produce two revenue numbers, the dispute is never the query. It is whether deferred revenue is recognized, and which entities were consolidated.", evidence: "definition" },
+          { lead: "One golden record across ERPNext.", body: "Master data resolves customers, people, and projects across Selling, Projects, HRMS, and Accounts into one verified entity with zero manual crosswalking.", evidence: "entity" },
+          { lead: "Permissions enforced before computation.", body: "Row-level security ensures leaders see only what they are accountable for. The CEO sees the full company; Delivery leads see their projects; HR sees people; Finance sees P&L.", evidence: "permissions" },
         ],
       },
       {
         label: "After you decide",
         note: "Everything that has to hold once a decision leaves the screen.",
         items: [
-          { lead: "A decision is a typed action.", body: "Not an email. A named field on a named object, written by a scoped service principal, with a key so approving twice cannot write twice.", evidence: "action" },
-          { lead: "Read everything. Write almost nothing.", body: "Ingestion is read-only across every system. Write-back is a short, per-system list of named actions, each one approved and reversible.", evidence: "planes" },
-          { lead: "Failures are logged too.", body: "A rejected write is a finding, not a silence. It stays in the record with what blocked it and who was told, and it is never quietly retried.", evidence: "record" },
+          { lead: "A decision is a typed, scoped action.", body: "Not an email. A concrete action with a named owner and quantified impact, written by a scoped service principal into ERPNext.", evidence: "action" },
+          { lead: "Autonomous signals, human sign-off.", body: "Agents watch the knowledge graph for margin compression, overdue AR, and bench build-up, proposing interventions for human approval before execution.", evidence: "planes" },
+          { lead: "Immutable four-stage audit trail.", body: "Every action follows consent check, live ERPNext re-read, human approval, and an immutable log written back through the ERPNext REST API.", evidence: "record" },
         ],
       },
     ],
@@ -426,24 +452,68 @@ export const solutionsEis: EisPage = {
   },
 
   loop: {
-    setup: "Reading the business",
-    payoff: "is half the job.",
-    lede: "Executive information systems got the ambition right in the 1980s and the technology wrong. The screens could not read the systems, so someone rekeyed the numbers by hand, and nothing on the screen could act. Both of those are now solved problems.",
+    setup: "Observation alone",
+    payoff: "solves nothing.",
+    lede: "Traditional BI tools stop at passive charts, leaving leadership to chase department heads over email to confirm facts and trigger actions. Akashic EIS closes the operating loop: continuously detecting enterprise risks, presenting verified interventions for executive approval, and executing updates directly back to your core systems.",
     cta: { label: "Bring us a decision you cannot close", href: "#talk-to-our-team" },
   },
 
+  pipeline: {
+    setup: "One save in your ERP.",
+    payoff: "A decision in minutes.",
+    lede: "Most intelligence platforms snap a photo of your data and let it age. Akashic EIS reads every committed change as it happens, resolves it against one governed record, and keeps the executive picture current without a refresh.",
+    steps: [
+      {
+        number: "System of record",
+        title: "ERPNext",
+        body: "Selling, Projects, HRMS and Accounts stay the system of record. Nothing is ripped or replaced.",
+        modules: ["ERPNext"],
+      },
+      {
+        number: "Step 01",
+        title: "Capture",
+        body: "Debezium reads every committed change the moment it is written. Nothing is keyed in twice.",
+        modules: ["ADP"],
+      },
+      {
+        number: "Step 02",
+        title: "Resolve",
+        body: "One golden record per customer, person and project, with a crosswalk to every source system ID.",
+        modules: ["AMD"],
+      },
+      {
+        number: "Step 03",
+        title: "Connect",
+        body: "The knowledge layer links people, tasks, milestones, invoices and contracts into one navigable graph.",
+        modules: ["AKL"],
+      },
+      {
+        number: "Step 04",
+        title: "Forecast",
+        body: "Warehouse facts feed the rolling 12-month model and every 360 view. Assumptions are adjustable.",
+        modules: ["ADW", "Akashic BI"],
+      },
+      {
+        number: "Step 05",
+        title: "Act",
+        body: "Agents explain what changed and propose scoped actions. People approve them. The record never goes dark.",
+        modules: ["Akashic Agents", "AWM"],
+      },
+    ],
+  },
+
   lenses: {
-    setup: "Same record.",
-    payoff: "Different first screen.",
-    lede: "EIS is one system running three operating loops, not one dashboard that everybody filters down to the fifth of it that concerns them. Same governed record underneath all three. What changes is which question the screen opens with.",
+    setup: "Five executive roles.",
+    payoff: "One ground truth.",
+    lede: "Executive leadership teams waste weeks debating conflicting spreadsheets across departments. Akashic EIS delivers role-tailored operational cockpits for the CEO, Finance, Delivery, Sales, and People leadership, all anchored to the same live, governed numbers. When every leader works from identical ground truth, decisions happen in minutes instead of end-of-quarter reviews.",
     cta: { label: "Talk to our team", href: "#talk-to-our-team" },
   },
 
   /* Figures as on the public record (Rule 4); see the customer stories collection. */
   proof: {
-    setup: "If it reconciles a country,",
-    payoff: "it will reconcile your business units.",
-    lede: "Not pilots. Three systems in production at country scale, on the public record. The team that built Akashic runs them.",
+    setup: "Proven at sovereign scale.",
+    payoff: "Ready for enterprise complexity.",
+    lede: "These are not laboratory proofs-of-concept. The underlying Akashic architecture powers live national registries handling billions of transactions across millions of distributed records.",
     deployments: [
       {
         key: "education",
@@ -479,15 +549,37 @@ export const solutionsEis: EisPage = {
         ],
       },
     ],
-    closing: "Akashic EIS is the executive layer on that same governed foundation. Reconciling every dose in a country into one published figure and reconciling twelve plants into one morning brief are the same problem at different sizes.",
+    closing: "Akashic EIS is the executive intelligence layer built on that same mission-critical foundation. Reconciling billions of national data points and reconciling multi-entity global enterprises require the exact same standard of zero-defect governance.",
   },
 
   faq: {
-    title: "Questions.",
-    lede: "The nine an executive actually asks, grouped the way a buyer works through them. Answered in full, including the two things we need from you.",
+    title: "Frequently asked questions.",
+    lede: "Direct answers to the architectural, security, and operational questions executive leadership asks before deployment.",
     /* Opened by default: the page makes both claims and they sound
        contradictory until the two planes are separated. */
-    openByDefault: "You say read-only, then you say it writes to my ERP. Which is it?",
+    openByDefault: "Does EIS replace my ERP?",
+    items: [
+      {
+        question: "Does EIS replace my ERP?",
+        answer: "No. Akashic EIS sits on top of the systems you already run. It reads ERPNext, Salesforce, SAP, and Workday, connects what they each hold about the same account, and surfaces what matters. No rip and replace, no migration, no downtime.",
+      },
+      {
+        question: "You say read-only, then you say it writes to my ERP. Which is it?",
+        answer: "Both, on two separate paths. Ingestion is strictly read-only across every connected system and never mutates a source record. Write-back is a deliberately short list of named actions you define during implementation: a specific field executed by a scoped service principal behind explicit human approval with an idempotency key. Without that approval, the system stays 100% read-only.",
+      },
+      {
+        question: "How is your answer engine different from asking an AI chatbot?",
+        answer: "It does not write SQL against your raw tables. Questions resolve against the governed metric layer, so a question can only be answered in terms that have already been defined, tested, and permissioned. If a metric does not exist, EIS says so rather than inventing a plausible number. Every answer shows its working.",
+      },
+      {
+        question: "Who can see what, and who can approve what?",
+        answer: "Akashic Governance decides. Access control, lineage, audit trail, and data residency sit under every screen. Approval rights are held separately from composition rights, so the person who composes an action cannot be the person who approves it. That segregation of duties is what makes the audit trail defensible.",
+      },
+      {
+        question: "What do you need from us to get started?",
+        answer: "Two things, and it is fair to know them upfront. Someone has to own the metric definitions, because a governed number is an organisational decision, not an engineering assumption. And for each write-back action you want, someone with authority over that system has to approve the scope.",
+      },
+    ],
     bands: [
       {
         label: "What it is",
@@ -554,9 +646,9 @@ export const solutionsEis: EisPage = {
     title: ["See it with", "your own numbers."],
     sessionLabel: "Thirty minutes, on a dataset shaped like yours",
     session: [
-      "Your systems, named. What EIS would read on day one, and what it would not.",
-      "One decision you cannot currently close, walked from signal to write-back.",
-      "What write-back would need from the people who own those systems.",
+      "Your enterprise systems mapped. What Akashic EIS connects to on day one, without migration or downtime.",
+      "One high-stakes operational decision your team cannot currently close, traced from signal to verified action.",
+      "Security, access boundaries, and human sign-off policies required by your leadership.",
     ],
     prompt: "Bring the question you currently cannot get answered by Friday.",
     primary: { label: "Talk to our team", href: "#talk-to-our-team" },

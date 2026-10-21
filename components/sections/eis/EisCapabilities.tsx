@@ -1,5 +1,7 @@
 import type { ReactNode } from "react";
 import ScrollReveal from "@/components/ui/ScrollReveal";
+import ScrollRevealRail from "@/components/ui/ScrollRevealRail";
+import SectionHeader from "@/components/ui/SectionHeader";
 import type { EisEvidence, EisPage } from "@/content/pages/solutions-eis";
 import {
   EvAction,
@@ -10,32 +12,15 @@ import {
   EvRecord,
 } from "@/components/demos/mockups/eis/EisCapabilityEvidence";
 
-/* [capabilities] — what the executive layer actually does.
- *
- * The previous build was a six-card horizontal carousel headed "Built for
- * the executive level." Four problems, all fixed here:
- *
- *   1. THE HEADLINE ASSERTED A CATEGORY AND TAUGHT NOTHING. It could have
- *      sat above any section on any B2B site.
- *   2. NO TAXONOMY. Six features in a flat rail is a feature list, and an
- *      executive reads a feature list as "they have not decided what matters".
- *      They are now two labelled bands in the order the reader meets them:
- *      what has to hold before you believe a figure, and what has to hold
- *      after you act on one.
- *   3. HALF THE CONTENT WAS UNPUBLISHED. Only about 2.7 of 6 cards were ever
- *      on screen, the fourth was clipped mid-word, and executives do not
- *      scroll horizontal rails. It is a grid now, nothing hidden.
- *   4. A REAL CONTENT GAP. [the-gap] indicts ungoverned assistants for
- *      having "no access check" and then no capability answered that.
- *      "Your permissions come with the answer" is new, and it demonstrates
- *      entitlements the only way that lands: the same question, two seats,
- *      two different figures.
- *
- * The old first card ("The brief writes itself") is gone. It restated the
- * hero screen, so it spent the section's strongest position on a repeat.
+/* [capabilities] — Section [03]: Governed Capabilities
+ * Adheres to Section Grammar: FigureEyebrow [03] GOVERNED CAPABILITIES,
+ * two-tone headline, lede directly below, ScrollRevealRail layout.
+ * Displays three high-impact governed pillars:
+ *   1. One Governed Golden Record
+ *   2. Continuous Predictive Signals
+ *   3. Four-Stage Governed Action
  */
 
-/* Each capability's evidence panel, keyed by content's `evidence`. */
 const EVIDENCE: Record<EisEvidence, ReactNode> = {
   definition: <EvDefinition />,
   entity: <EvEntity />,
@@ -46,57 +31,86 @@ const EVIDENCE: Record<EisEvidence, ReactNode> = {
 };
 
 export default function EisCapabilities({ content }: { content: EisPage["capabilities"] }) {
-  const BANDS = content.bands;
+  const pillars = content.pillars ?? [
+    {
+      tag: "Foundation",
+      title: "One Governed Golden Record",
+      body: "Master data unifies customers, workforce, and projects across Selling, Projects, HRMS, and Accounts. Row-level permissions are strictly enforced before any metric computes.",
+      metrics: ["AMD Master Data", "Row-Level Security", "Lineage-Audited"],
+      evidence: "entity" as EisEvidence,
+    },
+    {
+      tag: "Intelligence",
+      title: "Continuous Predictive Signals",
+      body: "Background agents monitor the knowledge layer for margin compression, unbilled milestones, and bench exposure. Anomalies surface as prioritized risks before month-end.",
+      metrics: ["Rolling 12M Model", "Margin Risk Engine", "Real-Time Triggers"],
+      evidence: "definition" as EisEvidence,
+    },
+    {
+      tag: "Execution",
+      title: "Four-Stage Governed Action",
+      body: "A decision is an executable, typed action with segregated duties. Once approved by a named human leader, it commits back via scoped REST APIs with complete auditability.",
+      metrics: ["Human-in-the-Loop", "Policy Gate (G1)", "Idempotent Write-Back"],
+      evidence: "record" as EisEvidence,
+    },
+  ];
+
   return (
     <section
       id="capabilities"
-      className="scroll-mt-24 bg-background px-6 pb-20 pt-20 sm:pt-24 lg:pb-28 lg:pt-32"
+      className="relative w-full scroll-mt-24 overflow-clip bg-background pt-12 pb-16 lg:pt-16 lg:pb-24"
     >
-      <div className="mx-auto max-w-[1180px]">
-        <ScrollReveal>
-          <h2 className="max-w-[24ch] font-heading text-4xl font-medium leading-[1.05] tracking-tighter sm:text-5xl md:text-6xl">
-            <span className="text-eis-body">{content.setup}</span>
-            <br />
-            <span className="text-eis-ink">{content.payoff}</span>
-          </h2>
-          <p className="mt-5 max-w-[620px] text-balance text-base leading-[1.5] tracking-tight text-eis-body sm:mt-6 sm:text-lg">
-            {content.lede}
-          </p>
-        </ScrollReveal>
+      <ScrollRevealRail>
+        <SectionHeader
+          num="03"
+          label="GOVERNED CAPABILITIES"
+          setup={content.setup}
+          payoff={content.payoff}
+          lede={content.lede}
+        />
 
-        {BANDS.map((band, bi) => (
-          <div key={band.label} className={bi === 0 ? "mt-12 sm:mt-16" : "mt-14 sm:mt-20"}>
-            <ScrollReveal>
-              <div className="flex flex-wrap items-baseline gap-x-4 gap-y-1 border-b border-eis-line pb-3">
-                <h3 className="text-[11px] font-bold uppercase tracking-[0.14em] text-eis-ink">
-                  {band.label}
-                </h3>
-                <p className="text-sm text-eis-caption">{band.note}</p>
+        <div className="mt-12 grid grid-cols-1 gap-6 lg:mt-14 lg:grid-cols-3 xl:gap-8">
+          {pillars.map((p, i) => (
+            <ScrollReveal key={p.title} delay={i * 90}>
+              <div className="flex h-full flex-col justify-between rounded-outer border border-lineSoft bg-background p-6 transition-all duration-250 hover:border-line sm:p-7">
+                <div>
+                  <div className="flex items-center justify-between">
+                    <span className="font-mono text-[10px] font-semibold uppercase tracking-eyebrow text-blue">
+                      [{p.tag}]
+                    </span>
+                    <span className="font-mono text-[10px] text-tertiary-text">
+                      0{i + 1} / 03
+                    </span>
+                  </div>
+
+                  <h3 className="mt-3 text-[19px] font-semibold tracking-tight text-ink sm:text-[21px]">
+                    {p.title}
+                  </h3>
+
+                  <p className="mt-2.5 text-[14px] leading-relaxed text-secondary-text">
+                    {p.body}
+                  </p>
+
+                  <div className="mt-4 flex flex-wrap gap-1.5">
+                    {p.metrics.map((m) => (
+                      <span
+                        key={m}
+                        className="rounded-[5px] border border-card-line bg-primary-bg px-2 py-0.5 font-mono text-[10px] text-secondary-text"
+                      >
+                        {m}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="mt-6 border-t border-card-divide pt-4">
+                  {EVIDENCE[p.evidence]}
+                </div>
               </div>
             </ScrollReveal>
-
-            <div className="grid gap-x-8 gap-y-10 pt-8 sm:grid-cols-2 lg:grid-cols-3">
-              {band.items.map((c, i) => (
-                <ScrollReveal key={c.lead} delay={i * 80}>
-                  {/* No cell border. The band rule above and the evidence
-                      panel's own edge give enough structure; boxing each
-                      cell as well is the card grid this page keeps
-                      deliberately avoiding. */}
-                  <div className="flex h-full flex-col">
-                    <p className="text-[17px] font-medium leading-snug tracking-tight text-eis-ink">
-                      {c.lead}
-                    </p>
-                    <p className="mt-2 text-sm leading-[1.5] text-eis-caption">
-                      {c.body}
-                    </p>
-                    <div className="mt-5">{EVIDENCE[c.evidence]}</div>
-                  </div>
-                </ScrollReveal>
-              ))}
-            </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      </ScrollRevealRail>
     </section>
   );
 }

@@ -30,7 +30,7 @@ import { SEVERITY } from "./severity";
 /* The axis. 30 days, because that is the horizon the hero's decision
    runway already established, so the two diagrams share a scale. */
 const HORIZON = 30;
-/* The consequence everything is measured against. */
+/* The consequence everything is measured against (e.g. renewal notice deadline). */
 const FAILURE_DAY = 9;
 
 type Lane = {
@@ -49,28 +49,28 @@ type Lane = {
 const LANES: Lane[] = [
   {
     name: "The monthly pack",
-    detail: "Compiled by hand, reviewed at the monthly operations meeting.",
+    detail: "Compiled manually weeks after month-end; reviewed at the monthly review.",
     atDay: 26,
     when: "Day 26",
-    verdict: "Seventeen days after the line stopped",
+    verdict: "Seventeen days after the contract renewal deadline passed",
     tone: "late",
     decides: true,
   },
   {
     name: "An assistant with no grounding",
-    detail: "Answers the question in four seconds, from no definition, no lineage, no access check.",
+    detail: "Answers in four seconds from generic scraping; no ERP lineage, no contract terms, no governance.",
     atDay: 0.4,
     when: "Four seconds",
-    verdict: "Nothing anyone can sign, so nothing is decided",
+    verdict: "Nothing an executive can sign, so nothing is decided",
     tone: "none",
     decides: false,
   },
   {
     name: "Akashic EIS",
-    detail: "Three systems converge overnight and the action is composed against SAP PM.",
+    detail: "Accounts and CRM converge on commit; action composed with owner and verified impact.",
     atDay: 0.2,
-    when: "06:02",
-    verdict: "Approved and written the same morning",
+    when: "09:30",
+    verdict: "Approved and written back the same morning",
     tone: "now",
     decides: true,
   },
@@ -90,13 +90,13 @@ export default function EisGapTimelineMockup() {
       {/* What happened, and when. Stated once, above the axis. */}
       <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1 border-b border-eis-line px-5 py-3.5 sm:px-7">
         <span className="text-[10px] font-bold uppercase tracking-[0.13em] text-eis-ink">
-          Monday 04 June, 06:00
+          Monday 10 October, 09:00
         </span>
         <span className="text-[13px] text-eis-body">
-          A bearing at Pune Plant 4 crosses its wear threshold.
+          Northwind Insurance: invoice crosses 74 days overdue with a new, unengaged VP Claims.
         </span>
         <span className="ml-auto text-[11px] font-semibold" style={{ color: SEVERITY.high.text }}>
-          ₹38 Cr of order book runs on that line
+          $180 K ARR renewal at risk
         </span>
       </div>
 
@@ -105,7 +105,7 @@ export default function EisGapTimelineMockup() {
             rule below can stay silent and just be a rule. */}
         <div className="relative mb-3 h-4">
           <span className="absolute left-0 top-0 text-[9px] font-bold uppercase tracking-[0.1em] text-eis-caption">
-            06:00 today
+            09:00 today
           </span>
           <span
             className="absolute top-0 whitespace-nowrap text-[9px] font-bold uppercase tracking-[0.1em]"

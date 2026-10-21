@@ -1,70 +1,45 @@
 import ScrollReveal from "@/components/ui/ScrollReveal";
+import ScrollRevealRail from "@/components/ui/ScrollRevealRail";
+import SectionHeader from "@/components/ui/SectionHeader";
 import EisGapTimelineMockup from "@/components/demos/mockups/eis/EisGapTimelineMockup";
 import type { EisPage } from "@/content/pages/solutions-eis";
 
-/* [the-gap] — why an executive layer has to exist at all.
- *
- * The section used to be three atmosphere tiles (Traditional BI / Ungoverned
- * AI / Akashic EIS) each floating a clipped white panel, all three answering
- * "what is our operating margin?". Three problems with that, in order of
- * severity:
- *
- *   1. It argued about latency without ever showing time passing.
- *   2. Operating margin is a reporting question, not a decision. The hero
- *      ends on a press line stopping in nine days with ₹38 Cr against it;
- *      dropping to a static margin percentage de-escalates exactly where
- *      the story should tighten.
- *   3. Two named strawmen beside our own product is the shape of a vendor
- *      slide, and an executive discounts it on sight.
- *
- * Now it is one incident on one axis of days. The comparison is still
- * three-way, but it is settled on a measurable axis rather than by
- * assertion, and the middle lane is allowed to be genuinely fast so that
- * the reason it fails (nothing signable) is the thing that lands.
+/* [the-gap] — Section [02]: The Decision Gap
+ * Adheres to Section Grammar: FigureEyebrow [02] THE DECISION GAP,
+ * two-tone headline, lede directly below, ScrollRevealRail layout.
  */
-
 export default function EisGap({ content }: { content: EisPage["gap"] }) {
   return (
     <section
       id="the-gap"
-      className="scroll-mt-24 bg-eis-band px-6 pb-20 pt-20 sm:pt-24 lg:pb-28 lg:pt-32"
+      className="relative w-full scroll-mt-24 overflow-clip bg-eis-band pt-12 pb-16 lg:pt-16 lg:pb-24"
     >
-      <div className="mx-auto max-w-[1180px]">
-        <div className="mb-10 sm:mb-14">
-          <ScrollReveal>
-            {/* Soft setup, ink payoff — the sitewide two-tone rule. A
-                declarative pair, not the old question ("Have your decisions
-                caught up?"), which an executive answers "yes, mine have"
-                and scrolls past. */}
-            {/* 6xl, not 7xl: at 7xl with a 16ch measure each sentence broke
-                across two lines, so the pair read as four lines of headline
-                and pushed the diagram (the actual argument) below the fold. */}
-            <h2 className="max-w-[26ch] font-heading text-4xl font-medium leading-[1.05] tracking-tighter sm:text-5xl md:text-6xl">
-              <span className="text-eis-body">{content.setup}</span>
-              <br />
-              <span className="text-eis-ink">{content.payoff}</span>
-            </h2>
-            <p className="mt-5 max-w-[620px] text-balance text-base leading-[1.5] tracking-tight text-eis-body sm:mt-6 sm:text-lg">
-              {content.lede}
-            </p>
-          </ScrollReveal>
-        </div>
+      <ScrollRevealRail>
+        <SectionHeader
+          num="02"
+          label="THE DECISION GAP"
+          setup={content.setup}
+          payoff={content.payoff}
+          lede={content.lede}
+        />
 
         <ScrollReveal delay={90}>
-          <EisGapTimelineMockup />
+          <div className="mt-12 lg:mt-14">
+            <EisGapTimelineMockup />
+          </div>
         </ScrollReveal>
 
         <ScrollReveal delay={140}>
-          <div className="mt-6 flex flex-col gap-4 sm:flex-row sm:items-baseline sm:justify-between">
-            <p className="max-w-[620px] text-balance text-base leading-tight text-eis-body sm:text-lg">
+          <div className="mt-8 flex flex-col gap-4 border-t border-lineSoft pt-6 sm:flex-row sm:items-baseline sm:justify-between">
+            <p className="max-w-[620px] text-balance text-base leading-relaxed text-secondary-text sm:text-lg">
               {content.conclusion}
             </p>
-            <p className="flex-shrink-0 text-[11px] leading-tight text-eis-muted">
+            <p className="flex-shrink-0 font-mono text-[11px] uppercase tracking-wider text-tertiary-text">
               {content.note}
             </p>
           </div>
         </ScrollReveal>
-      </div>
+      </ScrollRevealRail>
     </section>
   );
 }

@@ -1,53 +1,34 @@
 import Image from "next/image";
 import ScrollReveal from "@/components/ui/ScrollReveal";
+import ScrollRevealRail from "@/components/ui/ScrollRevealRail";
+import SectionHeader from "@/components/ui/SectionHeader";
 import type { EisPage } from "@/content/pages/solutions-eis";
 
-/* [proof] — the only section on this page whose figures are real.
- *
- * DESIGN RULE 4 APPLIES HARDEST HERE. Every figure below is one already
- * published on this site's proof section: none is estimated, rounded up, or
- * summed across deployments. They are deliberately NOT added together into
- * one headline number, because "learning interactions", "worker clearances"
- * and "dose records" are different units and a combined total would be a
- * claim nobody could verify.
- *
- * WHAT CHANGED. The previous build put all three deployments behind a pill
- * switcher, so a reader saw one national system and had to click twice to
- * learn there were three. The cumulative weight IS the argument, so all
- * three are on screen. The photographs also shrank from a 220px hero strip
- * to a band: they are mood, per Design Rule 7, and they were sitting above
- * the evidence in the most valuable space on the card.
- *
- * The section also now states the bridge it only implied. An executive who
- * accepts that we run national systems still has to be told, in a sentence,
- * why that matters for twelve plants.
+/* [proof] — Section [05]: Proven at Scale
+ * Adheres to Section Grammar: FigureEyebrow [05] PROVEN AT SCALE,
+ * two-tone headline, lede directly below, ScrollRevealRail layout.
  */
-
-
 export default function EisProof({ content }: { content: EisPage["proof"] }) {
   const DEPLOYMENTS = content.deployments;
   return (
     <section
       id="proof"
-      className="scroll-mt-24 bg-background px-6 pb-20 pt-20 sm:pt-24 lg:pb-28 lg:pt-32"
+      className="relative w-full scroll-mt-24 overflow-clip bg-background pt-12 pb-16 lg:pt-16 lg:pb-24"
     >
-      <div className="mx-auto max-w-[1180px]">
-        <ScrollReveal>
-          <h2 className="max-w-[24ch] font-heading text-4xl font-medium leading-[1.05] tracking-tighter sm:text-5xl md:text-6xl">
-            <span className="text-eis-body">{content.setup}</span>
-            <br />
-            <span className="text-eis-ink">{content.payoff}</span>
-          </h2>
-          <p className="mt-5 max-w-[620px] text-balance text-base leading-[1.5] tracking-tight text-eis-body sm:mt-6 sm:text-lg">
-            {content.lede}
-          </p>
-        </ScrollReveal>
+      <ScrollRevealRail>
+        <SectionHeader
+          num="05"
+          label="PROVEN AT SCALE"
+          setup={content.setup}
+          payoff={content.payoff}
+          lede={content.lede}
+        />
 
-        <div className="mt-10 grid gap-5 sm:mt-14 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-12 grid gap-6 sm:mt-14 sm:grid-cols-2 lg:grid-cols-3">
           {DEPLOYMENTS.map((d, i) => (
             <ScrollReveal key={d.key} delay={i * 80}>
-              <div className="flex h-full flex-col overflow-hidden rounded-outer border border-eis-line bg-background">
-                <div className="relative h-[104px] w-full">
+              <div className="flex h-full flex-col overflow-hidden rounded-outer border border-lineSoft bg-background transition-all duration-250 hover:border-line">
+                <div className="relative h-[112px] w-full bg-primary-bg">
                   <Image
                     src={d.image}
                     alt=""
@@ -55,34 +36,31 @@ export default function EisProof({ content }: { content: EisPage["proof"] }) {
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 380px"
                     className="object-cover"
                   />
-                  {/* The photograph is a mood, not evidence. It fades into the
-                      panel so the figures below stay the loudest thing. */}
-                  
                 </div>
 
-                <div className="flex flex-1 flex-col p-5">
-                  <span className="block text-[9.5px] font-medium uppercase tracking-eyebrow text-eis-caption">
+                <div className="flex flex-1 flex-col p-6">
+                  <span className="font-mono text-[10px] font-semibold uppercase tracking-eyebrow text-blue">
                     {d.name}
                   </span>
-                  <p className="mt-2 text-balance text-[17px] font-medium leading-snug tracking-tight text-eis-ink">
+                  <p className="mt-2 text-balance text-[17px] font-semibold leading-snug tracking-tight text-ink">
                     {d.line}
                   </p>
-                  <p className="mt-2 text-[13px] leading-[1.45] text-eis-caption">
+                  <p className="mt-2 text-[13.5px] leading-relaxed text-secondary-text">
                     {d.body}
                   </p>
 
-                  <div className="mt-auto grid grid-cols-2 gap-4 border-t border-eis-line pt-5">
+                  <div className="mt-auto grid grid-cols-2 gap-4 border-t border-lineSoft pt-5">
                     {d.figures.map((f) => (
                       <div key={f.label}>
-                        <span className="flex items-baseline gap-0.5">
-                          <span className="font-heading text-[34px] font-medium leading-none tracking-tighter text-eis-ink">
+                        <div className="flex items-baseline gap-1">
+                          <span className="text-[30px] font-semibold leading-none tracking-tight text-ink tabular-nums sm:text-[34px]">
                             {f.value}
                           </span>
-                          <span className="text-base font-medium tracking-tight text-eis-body">
+                          <span className="text-base font-medium tracking-tight text-inkSoft">
                             {f.unit}
                           </span>
-                        </span>
-                        <span className="mt-1.5 block text-[11.5px] leading-tight text-eis-caption">
+                        </div>
+                        <span className="mt-1.5 block font-mono text-[10.5px] uppercase tracking-wider text-tertiary-text">
                           {f.label}
                         </span>
                       </div>
@@ -94,13 +72,14 @@ export default function EisProof({ content }: { content: EisPage["proof"] }) {
           ))}
         </div>
 
-        {/* The bridge the section previously left the reader to make alone. */}
         <ScrollReveal delay={150}>
-          <p className="mt-8 max-w-[760px] text-balance text-base leading-[1.5] text-eis-body sm:text-lg">
-            {content.closing}
-          </p>
+          <div className="mt-10 border-t border-lineSoft pt-6">
+            <p className="max-w-[760px] text-balance text-base leading-relaxed text-secondary-text sm:text-lg">
+              {content.closing}
+            </p>
+          </div>
         </ScrollReveal>
-      </div>
+      </ScrollRevealRail>
     </section>
   );
 }

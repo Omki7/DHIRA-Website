@@ -532,15 +532,14 @@ no chain rail, no `ProvenAtScale`. Do not "restore consistency" with
 
 | # | `id` | Component | Ground |
 |---|---|---|---|
-| 1 | hero | `eis/EisHero.tsx` (industry switcher) | atmosphere (`hero`) |
-| 2 | the-gap | `eis/EisGap.tsx` (decision timeline) | `eis-band` #F4F5F0 |
-| 3 | capabilities | `eis/EisCapabilities.tsx` (2 bands × 3, grid) | white |
-| 4 | one-picture | `eis/EisOnePicture.tsx` (schema matrix + estate) | white + `dusk` panel |
+| 1 | hero | `eis/EisHero.tsx` (executive command bar & connectors) | atmosphere (`hero`) |
+| 2 | your-lens | `eis/EisLenses.tsx` (5-role command centre) | white |
+| 3 | the-gap | `eis/EisGap.tsx` (decision timeline) | `eis-band` #F4F5F0 |
+| 4 | capabilities | `eis/EisCapabilities.tsx` (3 governed pillars) | white |
 | 5 | the-loop | `eis/EisLoop.tsx` (5-station circuit) | white |
-| 6 | your-lens | `eis/EisLenses.tsx` (3 seats side by side) | white |
-| 7 | proof | `eis/EisProof.tsx` (3 deployments, all shown) | white |
-| 8 | questions | `eis/EisFaq.tsx` (3 bands, first answer open) | white |
-| 9 | talk-to-our-team | `eis/EisClose.tsx` | atmosphere (`dusk`) |
+| 6 | proof | `eis/EisProof.tsx` (3 sovereign deployments) | white |
+| 7 | questions | `eis/EisFaq.tsx` (5 executive questions) | white |
+| 8 | talk-to-our-team | `eis/EisClose.tsx` | atmosphere (`dusk`) |
 
 **Section [03]'s id is `capabilities`, not `the-brief`**: `content/pages/solutions-eis.ts`
 drives the minimap from these ids and they must match the `id` attributes.

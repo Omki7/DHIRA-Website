@@ -9,7 +9,6 @@ import EisGap from "@/components/sections/eis/EisGap";
 import EisHero from "@/components/sections/eis/EisHero";
 import EisLenses from "@/components/sections/eis/EisLenses";
 import EisLoop from "@/components/sections/eis/EisLoop";
-import EisOnePicture from "@/components/sections/eis/EisOnePicture";
 import EisProof from "@/components/sections/eis/EisProof";
 import { getPage } from "@/lib/content";
 import { pageMetadata } from "@/lib/metadata";
@@ -25,12 +24,11 @@ export default async function EisPage() {
     <>
       <Nav />
       <main id="main" className="bg-background">
-        <EisHero content={page.hero} domains={page.domains} />
+        <EisHero content={page.hero} />
+        <EisLenses content={page.lenses} />
         <EisGap content={page.gap} />
         <EisCapabilities content={page.capabilities} />
-        <EisOnePicture content={page.onePicture} domains={page.domains} />
         <EisLoop content={page.loop} />
-        <EisLenses content={page.lenses} />
         <EisProof content={page.proof} />
         <EisFaq content={page.faq} />
         <EisClose content={page.close} />
