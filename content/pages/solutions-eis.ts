@@ -397,7 +397,7 @@ export const solutionsEis: EisPage = {
   capabilities: {
     setup: "A figure you can defend.",
     payoff: "An action you can reverse.",
-    lede: "Ungoverned chatbots hallucinate raw SQL; static BI reports deliver yesterday's news. Akashic EIS provides the three enterprise governance guarantees required before acting on mission-critical numbers.",
+    lede: "Ungoverned chatbots hallucinate raw SQL, while static reports deliver yesterday's news. Akashic EIS operates on three non-negotiable governance guarantees: deterministic metric definitions, continuous risk correlation, and dual-key human sign-off.",
     pillars: [
       {
         tag: "Foundation",
