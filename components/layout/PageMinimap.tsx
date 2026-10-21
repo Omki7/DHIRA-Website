@@ -28,6 +28,7 @@ export default function PageMinimap({
   const ui = useUi();
   const { activeId, scrollTo } = usePageScrollSpy(sections);
   const [expanded, setExpanded] = useState(false);
+  const [atFooter, setAtFooter] = useState(false);
   const [labelWidth, setLabelWidth] = useState(0);
   const navRef = useRef<HTMLElement>(null);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -56,6 +57,22 @@ export default function PageMinimap({
       desktop.removeEventListener("change", measure);
     };
   }, [sections]);
+
+  // The rail maps the page's sections, not the site footer: it steps aside
+  // once the footer's top passes the middle of the screen, where it sits.
+  useEffect(() => {
+    const footer = document.querySelector("footer");
+    if (!footer) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setAtFooter(entry.isIntersecting);
+        if (entry.isIntersecting) setExpanded(false);
+      },
+      { rootMargin: "0px 0px -50% 0px" },
+    );
+    observer.observe(footer);
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
     const link = navRef.current?.querySelector<HTMLAnchorElement>('a[aria-current="location"]');
@@ -121,6 +138,7 @@ export default function PageMinimap({
         ref={navRef}
         aria-label={ariaLabel ?? ui.pageSections}
         data-expanded={expanded}
+        data-hidden={atFooter}
         className="page-minimap pointer-events-none fixed top-1/2 z-40 hidden -translate-y-1/2 py-2 lg:block"
         style={railStyle}
         onPointerEnter={(event) => { if (event.pointerType !== "touch") open(); }}

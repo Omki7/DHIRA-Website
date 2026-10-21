@@ -6,9 +6,7 @@ import { Arrow } from "./NavIcons";
    it scrolls away and the header keeps its 72px (sticky offsets across ~78
    files are measured against it). One link, quiet: white ground, hairline
    under, mono label in blue. z-[45]: above the menu scrim (z-40), so it
-   stays crisp like the header, and above the /about landscape, which paints
-   later. `/about` makes it transparent over that landscape (about-page.css).
-   Renders nothing when the Navigation document's announcement is null. */
+   stays crisp like the header. Renders nothing when the Navigation document's announcement is null. */
 export default function AnnouncementBar({ announcement }: { announcement: NavAnnouncement | null }) {
   if (!announcement) return null;
   const { label, text, href, cta } = announcement;

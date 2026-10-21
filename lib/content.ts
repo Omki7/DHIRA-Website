@@ -1,9 +1,7 @@
 import "server-only";
 import { cache } from "react";
 import { customerStories } from "@/content/collections/customer-stories";
-import { events } from "@/content/collections/events";
 import { glossaryTerms } from "@/content/collections/glossary";
-import { connectorCategories } from "@/content/collections/integrations";
 import { legalDocs } from "@/content/collections/legal";
 import { insights } from "@/content/collections/insights";
 import { leaders } from "@/content/collections/leaders";
@@ -17,14 +15,12 @@ import { careers } from "@/content/pages/careers";
 import { contactPage } from "@/content/pages/contact";
 import { customersPage } from "@/content/pages/customers";
 import { delivery } from "@/content/pages/delivery";
-import { eventsPage } from "@/content/pages/events";
 import { glossaryPage } from "@/content/pages/glossary";
 import { home } from "@/content/pages/home";
 import { newsroomPage } from "@/content/pages/newsroom";
 import { notFoundPage } from "@/content/pages/not-found";
 import { partnersPage } from "@/content/pages/partners";
 import { insightsPage } from "@/content/pages/insights";
-import { integrationsPage } from "@/content/pages/integrations";
 import { pricing } from "@/content/pages/pricing";
 import { sectorPages, sectorSections, sectorTemplate, type SectorSlug } from "@/content/pages/sectors";
 import { sectorMaps } from "@/content/pages/sectors-map";
@@ -32,7 +28,6 @@ import { sectorsPublicSector } from "@/content/pages/sectors-public-sector";
 import { solutions } from "@/content/pages/solutions";
 import { solutionsEis } from "@/content/pages/solutions-eis";
 import { solutionsLife } from "@/content/pages/solutions-life";
-import { trustPage } from "@/content/pages/trust";
 import { site } from "@/content/site";
 import { siteMap } from "@/content/site-map";
 import { ui } from "@/content/ui";
@@ -84,12 +79,9 @@ const pages = {
   insights: insightsPage,
   customers: customersPage,
   newsroom: newsroomPage,
-  trust: trustPage,
-  integrations: integrationsPage,
   glossary: glossaryPage,
   contact: contactPage,
   partners: partnersPage,
-  events: eventsPage,
   "not-found": notFoundPage,
 };
 
@@ -121,12 +113,6 @@ export const getLegalDoc = cache(async (slug: string) => legalDocs.find((doc) =>
 
 /** Glossary terms, in authored order (lib/glossary.ts groups them A to Z). */
 export const getGlossary = cache(async () => glossaryTerms);
-
-/** Events: dated ones and standing, on-request sessions. */
-export const getEvents = cache(async () => events);
-
-/** The connector directory, grouped by category. */
-export const getIntegrations = cache(async () => connectorCategories);
 
 export const getLeaders = cache(async () => leaders);
 

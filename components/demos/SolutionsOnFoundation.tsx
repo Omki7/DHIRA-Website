@@ -1,230 +1,71 @@
-"use client";
-
-/*
- * Homepage [03]: the solutions, standing on Akashic (rebuilt 20 Oct 2026; the
- * founder: "it does not feel like solutions are built on top of Akashic").
- *
- * An elevation, read bottom up. Akashic is the slab along the bottom, its
- * seven modules side by side. The solutions stand on it, each on a stem.
- * One solution at a time fans its stem out into the modules its process
- * switches on (blue, solid); the dashed fourth block is the reader's next
- * process, and its fan reaches every module, dashed: all seven are already
- * there. That is the section's claim, drawn.
- *
- * Which modules each solution uses comes from the shared mapping in
- * content/pages/akashic.ts, never from this file. The active solution
- * cycles on screen (held off screen and under reduced motion, Rule 6a);
- * hovering or focusing a block takes over and stops the cycle.
- *
- * lg and up draw the fans from measured positions. Below lg the blocks stack
- * and each lists its modules in words above the same slab.
- */
-
-import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import useOnScreen from "@/hooks/useOnScreen";
-import usePrefersReducedMotion from "@/hooks/usePrefersReducedMotion";
 import { nameOrWordmark } from "@/components/icons/AkashicWordmark";
-
-export type FoundationBlock = {
-  id: string;
-  audience: string;
-  name: string;
-  benefit: string;
-  href: string;
-  linkLabel: string;
-  /** The modules it switches on. Empty for the next process: every module is available. */
-  modules: string[];
-  next?: boolean;
-};
+import SolutionIllustration from "@/components/demos/SolutionIllustration";
+import type { HomeSolution, HomeSolutions } from "@/content/pages/home";
 
 type Props = {
-  blocks: FoundationBlock[];
+  blocks: HomeSolution[];
   modules: string[];
-  foundation: { name: string; caption: string };
-  usedLabel: string;
-  legend: { on: string; available: string };
+  foundation: HomeSolutions["foundation"];
 };
 
-const CYCLE_MS = 4200;
-
-type Geometry = { width: number; height: number; starts: { x: number; y: number }[]; ends: { x: number; y: number }[] };
-
-export default function SolutionsOnFoundation({ blocks, modules, foundation, usedLabel, legend }: Props) {
-  const rootRef = useRef<HTMLDivElement>(null);
-  const blockRefs = useRef<(HTMLAnchorElement | null)[]>([]);
-  const cellRefs = useRef<(HTMLLIElement | null)[]>([]);
-  const onScreen = useOnScreen(rootRef);
-  const reduced = usePrefersReducedMotion();
-  const [active, setActive] = useState(0);
-  const [held, setHeld] = useState(false);
-  const [geo, setGeo] = useState<Geometry | null>(null);
-
-  const measure = useCallback(() => {
-    const root = rootRef.current;
-    if (!root) return;
-    const box = root.getBoundingClientRect();
-    const starts = blockRefs.current.map((el) => {
-      const r = el?.getBoundingClientRect();
-      return r ? { x: r.left + r.width / 2 - box.left, y: r.bottom - box.top } : { x: 0, y: 0 };
-    });
-    const ends = cellRefs.current.map((el) => {
-      const r = el?.getBoundingClientRect();
-      return r ? { x: r.left + r.width / 2 - box.left, y: r.top - box.top } : { x: 0, y: 0 };
-    });
-    setGeo({ width: box.width, height: box.height, starts, ends });
-  }, []);
-
-  useEffect(() => {
-    measure();
-    const observer = new ResizeObserver(measure);
-    if (rootRef.current) observer.observe(rootRef.current);
-    return () => observer.disconnect();
-  }, [measure]);
-
-  useEffect(() => {
-    if (reduced || held || !onScreen) return;
-    const timer = setTimeout(() => setActive((a) => (a + 1) % blocks.length), CYCLE_MS);
-    return () => clearTimeout(timer);
-  }, [active, held, reduced, onScreen, blocks.length]);
-
-  const take = (i: number) => {
-    setActive(i);
-    setHeld(true);
-  };
-
-  const current = blocks[active];
-  const lit = (name: string) => (current.next ? false : current.modules.includes(name));
-
+/* The shared base belongs to every solution. No selection or module subsets. */
+export default function SolutionsOnFoundation({ blocks, modules, foundation }: Props) {
   return (
-    <div ref={rootRef} className="relative" onPointerLeave={() => setHeld(false)}>
-      {/* The fans. Decorative: every block also lists its modules in words. */}
-      {geo && (
-        <svg aria-hidden className="pointer-events-none absolute inset-0 hidden h-full w-full overflow-visible lg:block" width={geo.width} height={geo.height}>
-          {blocks.map((block, i) => {
-            const s = geo.starts[i];
-            const on = i === active;
-            const targets = block.next ? modules.map((_, k) => k) : block.modules.map((m) => modules.indexOf(m)).filter((k) => k >= 0);
-            return (
-              <g key={block.id}>
-                {/* The stem every block stands on. */}
-                <line
-                  x1={s.x}
-                  y1={s.y}
-                  x2={s.x}
-                  y2={geo.ends[0]?.y ?? s.y}
-                  stroke="rgb(var(--ink))"
-                  strokeOpacity={on ? 0 : 0.18}
-                  strokeDasharray={block.next ? "3 4" : undefined}
-                  style={{ transition: "stroke-opacity 300ms cubic-bezier(0.2,0.8,0.2,1)" }}
-                />
-                {targets.map((k) => {
-                  const e = geo.ends[k];
-                  const mid = s.y + (e.y - s.y) * 0.55;
-                  return (
-                    <g key={k} style={{ opacity: on ? 1 : 0, transition: "opacity 360ms cubic-bezier(0.2,0.8,0.2,1)" }}>
-                      <path
-                        d={`M ${s.x} ${s.y} C ${s.x} ${mid}, ${e.x} ${mid}, ${e.x} ${e.y}`}
-                        fill="none"
-                        stroke="rgb(var(--blue))"
-                        strokeOpacity={block.next ? 0.55 : 0.8}
-                        strokeWidth={1.1}
-                        strokeDasharray={block.next ? "3 4" : undefined}
-                      />
-                      <circle cx={e.x} cy={e.y} r={2.5} fill={block.next ? "rgb(var(--background))" : "rgb(var(--blue))"} stroke="rgb(var(--blue))" strokeWidth={1} />
-                    </g>
-                  );
-                })}
-                <circle cx={s.x} cy={s.y} r={2.5} fill={on ? "rgb(var(--blue))" : "rgb(var(--ink) / 0.3)"} />
-              </g>
-            );
-          })}
-        </svg>
-      )}
-
-      {/* The blocks. */}
-      <ul className="relative grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 lg:gap-6">
-        {blocks.map((block, i) => {
-          const on = i === active;
-          return (
-            <li key={block.id} className="min-w-0">
-              <Link
-                ref={(el) => {
-                  blockRefs.current[i] = el;
-                }}
-                href={block.href}
-                onPointerEnter={() => take(i)}
-                onFocus={() => take(i)}
-                onBlur={() => setHeld(false)}
-                className={`group flex h-full flex-col rounded-frame border p-5 transition-colors duration-300 ease-settle lg:p-6 ${
-                  block.next
-                    ? `border-dashed bg-transparent ${on ? "border-blue" : "border-line"}`
-                    : `bg-background ${on ? "border-blue " : "border-subtle-stroke"}`
-                }`}
-              >
-                <span className="font-mono text-[11px] uppercase tracking-eyebrow text-overcast">{block.audience}</span>
-                <span className="mt-3 text-balance text-[20px] font-semibold leading-tight tracking-tight text-ink lg:text-[21px]">{block.name}</span>
-                <span className="mt-3 text-[15px] leading-relaxed text-inkSoft">{block.benefit}</span>
-                {/* Below lg there are no fans, so the modules are said in words. */}
-                <span className="mt-4 font-mono text-[10.5px] uppercase leading-relaxed tracking-[0.06em] text-blue lg:hidden">
-                  {block.next ? modules.join(" · ") : block.modules.join(" · ")}
-                </span>
-                <span className="sr-only">
-                  {usedLabel}: {(block.next ? modules : block.modules).join(", ")}.
-                </span>
-                <span className="mt-auto inline-flex items-center gap-2 pt-6 text-[14px] font-medium text-ink transition-colors duration-250 group-hover:text-blue">
-                  {block.linkLabel}
-                  <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.4" className="h-4 w-4 transition-transform duration-250 group-hover:translate-x-1 motion-reduce:transform-none" aria-hidden>
+    <div>
+      <ul className="grid grid-cols-1 gap-12 lg:grid-cols-3 lg:gap-8">
+        {blocks.map((block) => (
+          <li key={block.id} className="relative min-w-0 lg:pb-12">
+            <Link
+              href={block.href}
+              aria-labelledby={`home-solution-${block.id}`}
+              className="group flex h-full flex-col rounded-outer focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-8 focus-visible:outline-blue sm:grid sm:grid-cols-2 sm:gap-6 lg:flex lg:gap-0"
+            >
+              <div className="flex h-[280px] items-center justify-center overflow-hidden border-y border-lineSoft bg-primary-bg sm:h-full sm:min-h-[280px] lg:h-[304px] lg:min-h-0">
+                <SolutionIllustration kind={block.id} label={block.illustrationLabel} />
+              </div>
+              <div className="flex flex-1 flex-col px-1 pt-6 sm:py-4 lg:px-2 lg:pb-0 lg:pt-8">
+                <p className="font-mono text-[11px] uppercase tracking-eyebrow text-secondary-text">{block.audience}</p>
+                <h3 id={`home-solution-${block.id}`} className="mt-3 text-pretty font-heading text-[25px] font-semibold leading-[1.2] tracking-tight text-ink lg:min-h-[3.6em] lg:text-[28px] xl:min-h-[2.4em]">
+                  {block.name}
+                </h3>
+                <p className="mt-4 max-w-[20em] text-pretty text-[16px] leading-relaxed text-secondary-text">{block.benefit}</p>
+                <span className="mt-auto inline-flex min-h-11 items-center gap-2 self-start pt-5 text-[14px] font-medium text-ink group-hover:text-blue group-focus-visible:text-blue lg:pt-6">
+                  <span className="underline decoration-line underline-offset-[5px] group-hover:decoration-blue">{block.linkLabel}</span>
+                  <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.4" className="h-4 w-4 transition-transform duration-250 group-hover:translate-x-1 motion-reduce:!transform-none motion-reduce:transition-none" aria-hidden="true">
                     <path d="M3 10h13m-5-5 5 5-5 5" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
                 </span>
-              </Link>
-            </li>
-          );
-        })}
+              </div>
+            </Link>
+            <span aria-hidden="true" className="absolute bottom-0 left-1/2 hidden h-6 w-px bg-line lg:block" />
+          </li>
+        ))}
       </ul>
 
-      {/* The slab. */}
-      <div className="relative mt-6 rounded-frame border border-blue-border bg-band p-3 lg:mt-24 lg:p-4">
-        <ul className="grid grid-cols-2 gap-2 sm:grid-cols-4 lg:grid-cols-7">
-          {modules.map((name, k) => {
-            const on = lit(name);
-            const all = current.next;
-            return (
-              <li
-                key={name}
-                ref={(el) => {
-                  cellRefs.current[k] = el;
-                }}
-                className={`flex h-12 items-center justify-center rounded-tile border px-2 text-center text-[13px] font-medium leading-tight transition-colors duration-300 ease-settle ${
-                  on
-                    ? "border-blue bg-background text-ink"
-                    : all
-                      ? "border-dashed border-blue/60 bg-background text-ink"
-                      : "border-subtle-stroke bg-background text-tertiary-text"
-                }`}
-              >
-                {name}
-              </li>
-            );
-          })}
-        </ul>
-        <div className="mt-3 flex flex-col gap-1 px-1 sm:flex-row sm:items-center sm:justify-between">
-          <span className="inline-flex items-center text-[15px] font-semibold tracking-tight text-ink">{nameOrWordmark(foundation.name)}</span>
-          <span className="font-mono text-[11px] uppercase tracking-[0.06em] text-secondary-text">{foundation.caption}</span>
-        </div>
+      {/* The stems meet one continuous rail before entering the platform. */}
+      <div aria-hidden="true" className="relative mx-auto hidden h-8 w-[calc((100%+2rem)/3*2)] border-t border-line lg:block">
+        <span className="absolute left-1/2 top-0 h-full w-px bg-line" />
       </div>
-
-      <ul className="mt-5 hidden flex-wrap gap-x-6 gap-y-2 font-mono text-[10px] uppercase tracking-[0.08em] text-inkSoft lg:flex" aria-hidden>
-        <li className="flex items-center gap-2">
-          <span className="block h-px w-6 bg-blue" />
-          {legend.on}
-        </li>
-        <li className="flex items-center gap-2">
-          <span className="block w-6 border-t border-dashed border-blue" />
-          {legend.available}
-        </li>
-      </ul>
+      <div className="relative mt-10 rounded-outer border border-blue-border bg-depth px-5 py-6 lg:mt-0 lg:px-8 lg:py-7">
+        <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:gap-10">
+          <div className="shrink-0 text-[30px] font-semibold tracking-tight text-ink">
+            {nameOrWordmark(foundation.name)}
+          </div>
+          <div className="lg:border-l lg:border-blue-border lg:pl-10">
+            <p className="text-[17px] font-medium tracking-tight text-ink">{foundation.caption}</p>
+            <p className="mt-1 text-pretty text-[14px] leading-relaxed text-secondary-text">{foundation.description}</p>
+          </div>
+        </div>
+        <ul className="mt-6 grid grid-cols-2 gap-x-4 gap-y-3 border-t border-blue-border pt-5 sm:grid-cols-3 lg:grid-cols-7 lg:gap-x-3">
+          {modules.map((name) => (
+            <li key={name} className="flex items-center gap-2 text-[12px] font-medium leading-relaxed text-ink lg:justify-center lg:text-center xl:text-[13px]">
+              <span aria-hidden="true" className="h-1 w-1 shrink-0 rounded-full bg-blue lg:hidden" />
+              {name}
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 }

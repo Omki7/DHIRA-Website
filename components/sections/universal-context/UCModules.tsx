@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type RefObject } from "react";
 import { ModuleMomentStage } from "@/components/demos/mockups/AkashicModuleMomentsMockup";
 import useOnScreen from "@/hooks/useOnScreen";
 import usePrefersReducedMotion from "@/hooks/usePrefersReducedMotion";
@@ -13,50 +13,105 @@ import type { HomePlatform } from "@/content/pages/home";
  * replaced the particle "Ask why a number moved" demo, whose claim /akashic
  * [01] owns.
  *
- * Left, the rail: each module with a dwell bar and, while active, what it
+ * Left, the rail: each module on a line and, while active, what it
  * does in plain words. Right, that module's moment drawing
  * (ModuleMomentStage), replayed each time the rail moves. The module names
  * are the ones the [03] slab draws, so the next section reads as these
  * modules switched on. The rotation runs only on screen and not at all
  * under reduced motion (Rule 6a); choosing a module takes over.
+ *
+ * Desktop (user, 21 Oct 2026): the block sits on the same centred column
+ * as the five capabilities above it, its text on their left line, with the
+ * heading on top and the rail and drawing below. A hairline leaves the end
+ * of every module's line and converges on the drawing's frame, which holds
+ * the middle. The active module's progress is one blue fill along that
+ * whole route, from under its name to the frame, timed so it arrives as
+ * the next module takes over (user, same day: one seamless line, and show
+ * when the module will shift). The connectors are measured from the rail,
+ * so they follow it as a module's text opens and closes.
  */
 
 const ROTATE_MS = 8500;
 
 type Item = HomePlatform["modules"]["items"][number];
+type Point = { x: number; y: number };
 
-// Horizontal dwell bar: fills while a module is active, full once passed.
-function LoadBar({ state, reduced, run }: { state: "done" | "active" | "idle"; reduced: boolean; run: number }) {
+// The module's line, a hairline track that turns light blue while its module
+// plays. On desktop the blue progress is drawn over it by RailConnectors, one
+// fill from here to the drawing; phones and tablets have no connectors, so
+// the line fills itself (`fill`).
+function ModuleLine({
+  on,
+  fill,
+  run,
+  reduced,
+  lineRef,
+}: {
+  on: boolean;
+  fill: boolean;
+  run: number;
+  reduced: boolean;
+  lineRef?: (el: HTMLSpanElement | null) => void;
+}) {
   return (
-    <span className="mt-2.5 block h-[2px] w-full max-w-[320px] overflow-hidden rounded-full bg-uc-line">
-      {state === "done" && <span className="block size-full bg-uc-mute" />}
-      {state === "active" &&
-        (reduced ? (
-          <span className="block size-full bg-uc-mute" />
-        ) : (
-          <span key={run} className="block size-full origin-left bg-uc-mute" style={{ animation: `uc-load ${ROTATE_MS}ms linear both` }} />
-        ))}
+    <span
+      ref={lineRef}
+      className={`mt-2.5 block h-[2px] w-full max-w-[320px] overflow-hidden transition-colors duration-500 ease-settle ${on ? "bg-blue-border" : "bg-uc-line"}`}
+    >
+      {fill && on && (
+        <span
+          key={run}
+          className="block size-full origin-left bg-blue"
+          style={reduced ? undefined : { animation: `progressFill ${ROTATE_MS}ms linear both` }}
+        />
+      )}
     </span>
   );
 }
 
-function ModuleRail({ items, active, choose, reduced, run }: { items: Item[]; active: number; choose: (i: number) => void; reduced: boolean; run: number }) {
+function ModuleRail({
+  items,
+  active,
+  choose,
+  run,
+  reduced,
+  bars,
+}: {
+  items: Item[];
+  active: number;
+  choose: (i: number) => void;
+  run: number;
+  reduced: boolean;
+  /** Desktop: the lines' elements, for RailConnectors, which then draws the progress. */
+  bars?: RefObject<(HTMLSpanElement | null)[]>;
+}) {
   return (
     <ol className="flex w-full flex-col">
       {items.map((item, i) => {
         const on = i === active;
         return (
           <li key={item.name} className="flex gap-4 pb-5 last:pb-0">
-            <span aria-hidden="true" className={`w-6 shrink-0 pt-[3px] font-mono text-[11px] transition-colors duration-500 ease-settle ${on ? "text-uc-text" : "text-uc-mute"}`}>
+            <span aria-hidden="true" className={`w-6 shrink-0 pt-[3px] font-mono text-[11px] transition-colors duration-500 ease-settle ${on ? "text-blue" : "text-uc-mute"}`}>
               {String(i + 1).padStart(2, "0")}
             </span>
             <div className="flex min-w-0 flex-1 flex-col">
               <button type="button" onClick={() => choose(i)} aria-pressed={on} className="w-fit cursor-pointer text-left">
-                <span className={`text-[17px] font-medium leading-snug transition-colors duration-500 ease-settle ${on ? "text-uc-text" : "text-uc-mute hover:text-uc-text"}`}>
+                <span className={`text-[17px] leading-snug transition-colors duration-500 ease-settle ${on ? "font-semibold text-uc-text" : "font-medium text-uc-mute hover:text-uc-text"}`}>
                   {item.name}
                 </span>
               </button>
-              <LoadBar state={i < active ? "done" : on ? "active" : "idle"} reduced={reduced} run={run} />
+              <ModuleLine
+                on={on}
+                fill={!bars}
+                run={run}
+                reduced={reduced}
+                lineRef={
+                  bars &&
+                  ((el) => {
+                    bars.current[i] = el;
+                  })
+                }
+              />
               <div className={`grid transition-all duration-500 ease-settle ${on ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"}`}>
                 <div className="overflow-hidden">
                   <p className="mt-2 max-w-[380px] text-pretty text-[15px] leading-relaxed text-uc-mute">{item.text}</p>
@@ -67,6 +122,112 @@ function ModuleRail({ items, active, choose, reduced, run }: { items: Item[]; ac
         );
       })}
     </ol>
+  );
+}
+
+// A module line's two ends.
+type Line = { x0: number; x1: number; y: number };
+
+// Leaves the line's end level and arrives level at the drawing.
+const connector = (a: Line, b: Point) => {
+  const k = (b.x - a.x1) * 0.55;
+  return `M ${a.x1} ${a.y} C ${a.x1 + k} ${a.y}, ${b.x - k} ${b.y}, ${b.x} ${b.y}`;
+};
+
+// The whole route, from under the module's name to the drawing.
+const route = (a: Line, b: Point) => `M ${a.x0} ${a.y} L ${connector(a, b).slice(2)}`;
+
+/* The hairlines from each module line's end to the frame's left edge, and
+   the active module's progress: one blue fill along the whole route that
+   reaches the drawing as the module hands over (user, 21 Oct 2026: show
+   when the module will shift). Linear over ROTATE_MS, so its speed is the
+   same along the line and the curve. Measured from the DOM and re-measured
+   whenever a rail row changes height (a module's text opening or closing),
+   so the lines travel with the rail. */
+function RailConnectors({
+  rowRef,
+  bars,
+  stageHostRef,
+  active,
+  run,
+  reduced,
+}: {
+  rowRef: RefObject<HTMLDivElement | null>;
+  bars: RefObject<(HTMLSpanElement | null)[]>;
+  stageHostRef: RefObject<HTMLDivElement | null>;
+  active: number;
+  run: number;
+  reduced: boolean;
+}) {
+  const [geo, setGeo] = useState<{ starts: Line[]; end: Point } | null>(null);
+
+  useEffect(() => {
+    const row = rowRef.current;
+    const host = stageHostRef.current;
+    if (!row || !host) return;
+    const measure = () => {
+      const o = row.getBoundingClientRect();
+      // The frame's left edge, level with the drawing itself (not its
+      // caption): ModuleMomentStage's figure > stage.
+      const f = host.getBoundingClientRect();
+      const s = (host.querySelector("figure > div") ?? host).getBoundingClientRect();
+      const starts = bars.current.map((bar) => {
+        const r = bar?.getBoundingClientRect();
+        return r ? { x0: r.left - o.left, x1: r.right - o.left, y: r.top + r.height / 2 - o.top } : { x0: 0, x1: 0, y: 0 };
+      });
+      setGeo({ starts, end: { x: f.left - o.left, y: s.top + s.height / 2 - o.top } });
+    };
+    measure();
+    const observer = new ResizeObserver(measure);
+    observer.observe(row);
+    observer.observe(host);
+    for (const bar of bars.current) {
+      const li = bar?.closest("li");
+      if (li) observer.observe(li);
+    }
+    return () => observer.disconnect();
+  }, [rowRef, bars, stageHostRef]);
+
+  if (!geo || !geo.starts[active]) return null;
+  const { end } = geo;
+  const d = route(geo.starts[active], end);
+  // One clock for the fill and its head: both CSS, linear, same duration.
+  const timed = (name: string) => (reduced ? undefined : `${name} ${ROTATE_MS}ms linear both`);
+
+  return (
+    <>
+      <svg aria-hidden="true" className="pointer-events-none absolute inset-0 size-full overflow-visible">
+        {geo.starts.map((a, i) => (
+          <path key={i} d={connector(a, end)} fill="none" stroke="rgb(var(--uc-line))" strokeWidth={1} />
+        ))}
+        {/* The active route in full, light blue, so the time left reads as
+            the distance left; the blue fill runs along it. */}
+        <path d={d} fill="none" stroke="rgb(var(--blue-border))" strokeWidth={2} />
+        <path
+          key={`${active}-${run}`}
+          d={d}
+          pathLength={1}
+          strokeDasharray={reduced ? undefined : "1 1"}
+          fill="none"
+          stroke="rgb(var(--blue))"
+          strokeWidth={2}
+          style={{ animation: timed("uc-route-fill") }}
+        />
+        {/* where the seven meet the drawing */}
+        <circle cx={end.x} cy={end.y} r={7} fill="rgb(var(--blue-border))" />
+        <circle cx={end.x} cy={end.y} r={3.5} fill="rgb(var(--blue))" />
+      </svg>
+      {/* The fill's head, a flat disc riding the same route. Pinned to the
+          row's origin so the path's coordinates are the row's. */}
+      {!reduced && (
+        <span
+          key={`head-${active}-${run}`}
+          aria-hidden="true"
+          className="pointer-events-none absolute left-0 top-0 size-[11px] rounded-full border-[3px] border-blue-border bg-blue"
+          style={{ offsetPath: `path("${d}")`, offsetRotate: "0deg", animation: timed("uc-route-head") }}
+        />
+      )}
+    </>
   );
 }
 
@@ -85,11 +246,14 @@ function Heading({ content, center = false }: { content: HomePlatform["modules"]
 export default function UCModules({ content }: { content: HomePlatform["modules"] }) {
   const items = content.items;
   const rootRef = useRef<HTMLDivElement>(null);
+  const rowRef = useRef<HTMLDivElement>(null);
+  const stageHostRef = useRef<HTMLDivElement>(null);
+  const bars = useRef<(HTMLSpanElement | null)[]>([]);
   const [active, setActive] = useState(0);
   const inView = useOnScreen(rootRef);
   const reduced = usePrefersReducedMotion();
   // Bumped when the section returns to view or a module is chosen, so the
-  // dwell bar and the drawing restart together.
+  // blue connector and the drawing restart together.
   const [run, setRun] = useState(0);
   const [wasInView, setWasInView] = useState(inView);
   if (inView !== wasInView) {
@@ -110,16 +274,21 @@ export default function UCModules({ content }: { content: HomePlatform["modules"
 
   return (
     <div ref={rootRef} className="relative w-full border-y border-uc-line">
-      {/* desktop split */}
-      <div className="relative z-10 hidden lg:flex lg:flex-row">
-        <div className="flex flex-1 flex-col justify-center px-6 py-[clamp(64px,10svh,112px)] md:px-10 xl:px-14">
-          <Heading content={content} />
-          <div className="mt-10 w-full max-w-[520px]">
-            <ModuleRail items={items} active={active} choose={choose} reduced={reduced} run={run} />
+      {/* Desktop. The hairlines above and below stay full bleed; the content
+          sits on the five capabilities' column (1000px, 1100px from xl) with
+          their inset, so the heading starts on the first capability's line. */}
+      <div className="relative z-10 mx-auto hidden w-full max-w-[1000px] px-5 py-[clamp(64px,10svh,112px)] lg:block xl:max-w-[1100px] xl:px-6">
+        <Heading content={content} />
+        <div ref={rowRef} className="relative mt-12 flex items-center justify-between">
+          <div className="w-[256px] shrink-0">
+            <ModuleRail items={items} active={active} choose={choose} run={run} reduced={reduced} bars={bars} />
           </div>
-        </div>
-        <div className="flex items-center border-l border-uc-stroke px-4 py-12 lg:w-[56%] xl:px-8">
-          <ModuleMomentStage index={active} playKey={run} caption />
+          {/* The frame gives every line the same landing, the frame's left
+              edge, whichever moment is playing and wherever it starts. */}
+          <div ref={stageHostRef} className="w-[600px] min-w-0 rounded-frame border border-uc-stroke bg-uc-surface pb-5 pt-6 xl:w-[640px]">
+            <ModuleMomentStage index={active} playKey={run} caption />
+          </div>
+          <RailConnectors rowRef={rowRef} bars={bars} stageHostRef={stageHostRef} active={active} run={run} reduced={reduced} />
         </div>
       </div>
 
@@ -130,7 +299,7 @@ export default function UCModules({ content }: { content: HomePlatform["modules"
           <ModuleMomentStage index={active} playKey={run} caption />
         </div>
         <div className="mx-auto mt-8 w-full max-w-[440px]">
-          <ModuleRail items={items} active={active} choose={choose} reduced={reduced} run={run} />
+          <ModuleRail items={items} active={active} choose={choose} run={run} reduced={reduced} />
         </div>
       </div>
     </div>

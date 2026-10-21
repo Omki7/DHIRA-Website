@@ -188,6 +188,13 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
+/* /pricing: a plan's figures re-enter when the billing term changes
+   (sections/pricing/PricingPlans keys them by value). Reduced motion: the
+   new figures simply appear. */
+@keyframes pr-tick { from { opacity: 0; transform: translateY(0.18em); } to { opacity: 1; transform: none; } }
+.pr-tick { display: inline-block; animation: pr-tick 320ms cubic-bezier(0.2, 0.8, 0.2, 1); }
+@media (prefers-reduced-motion: reduce) { .pr-tick { animation: none; } }
+
 /* One link per section: the labels unfold without moving the dots. */
 .page-minimap,
 .page-minimap-sheet {
@@ -202,9 +209,16 @@ h1, h2, h3, h4, h5, h6 {
 .page-minimap {
   right: var(--minimap-edge);
   width: 44px;
-  transition: width 250ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  transition: width 250ms cubic-bezier(0.2, 0.8, 0.2, 1), opacity 200ms ease, visibility 0s linear 0s;
 }
 .page-minimap[data-expanded="true"] { width: var(--minimap-open-w); }
+/* Over the site footer the rail fades out, and visibility takes its links
+   out of the tab order once the fade ends. */
+.page-minimap[data-hidden="true"] {
+  opacity: 0;
+  visibility: hidden;
+  transition: width 250ms cubic-bezier(0.2, 0.8, 0.2, 1), opacity 200ms ease, visibility 0s linear 200ms;
+}
 /* The drawer: docked to the screen edge (square there, rounded only where it
    meets the page), as tall as the rail and as wide as the longest title. Its
    leading edge starts at the dots and travels with the labels' unfold, 12px
@@ -311,6 +325,10 @@ h1, h2, h3, h4, h5, h6 {
 /* Progress bars fill with scaleX (origin-left on the bar), never width:
    width relayouts the page every frame for as long as a carousel cycles. */
 @keyframes progressFill { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+/* Homepage [02] modules: the active module's progress along its route (a
+   path with pathLength=1 and dasharray "1 1") and the disc at its head. */
+@keyframes uc-route-fill { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+@keyframes uc-route-head { from { offset-distance: 0%; } to { offset-distance: 100%; } }
 @keyframes sa-info { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
 .sa-info-in { animation: sa-info 0.4s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
 @keyframes ak-drop { 0% { transform: translateY(-4px); opacity: 0; } 25% { opacity: 1; } 100% { transform: translateY(24px); opacity: 0; } }
@@ -341,7 +359,6 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Meet Akashic connectivity strip — seamless single-row marquee. Track holds
    two identical copies; animating -50% → 0 slides the row left-to-right. */
-@keyframes uc-load { from { transform: scaleX(0); } to { transform: scaleX(1); } }
 @keyframes uc-marquee { from{transform:translateX(-50%)} to{transform:translateX(0)} }
 
 /* Proof Comparison Animations */

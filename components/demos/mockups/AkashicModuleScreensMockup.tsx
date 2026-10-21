@@ -790,7 +790,7 @@ type Screen = {
 
 /* Order is the platform's: Foundation, then Intelligence, then Governance. */
 const SCREENS: Screen[] = [
-  { module: "Pipelines", adds: "Connected sources", caption: "Three sources join into one governed table. Nothing rejected.", html: PIPELINES_SCREEN_HTML },
+  { module: "Data Pipelines", adds: "Connected sources", caption: "Three sources join into one governed table. Nothing rejected.", html: PIPELINES_SCREEN_HTML },
   { module: "Master Data", adds: "Resolved entities", caption: "Three spellings, one record. Every field keeps its source.", html: MASTER_DATA_SCREEN_HTML },
   { module: "Warehouse", adds: "Shared definitions", caption: "A metric defined once. BI, Ask and ML all read the same one.", html: MODELS_SCREEN_HTML },
   { module: "ML", adds: "Forecasts", caption: "Models trained on governed data, with every run on record.", html: ML_SCREEN_HTML },

@@ -30,7 +30,7 @@
 
 import type { ProvenAtScaleBlock } from "../blocks";
 import type { Cta, Eyebrow, PageSection, TwoTone } from "../types";
-import { akashicSolutions, solutionModules, type AkashicSolution } from "./akashic";
+import { solutionModules, type AkashicSolution } from "./akashic";
 
 /* ---------------- Types: the CMS contract for this page ---------------- */
 
@@ -97,19 +97,17 @@ export interface HomePlatform {
 }
 
 export interface HomeSolution {
-  id: AkashicSolution["id"] | "next";
-  /** Who it serves, set as the block's label. */
+  id: AkashicSolution["id"];
+  /** The process the illustration represents. */
   audience: string;
   /** In full: the homepage spells out what the nav spells out. */
   name: string;
   /** What the reader gains, in one line. */
   benefit: string;
+  /** Accessible description of the solution's process drawing. */
+  illustrationLabel: string;
   href: string;
   linkLabel: string;
-  /** The modules it switches on, read from the shared /akashic mapping.
-      Empty for the next process: every module is already there. */
-  modules: string[];
-  next?: boolean;
 }
 
 export interface HomeSolutions {
@@ -119,12 +117,7 @@ export interface HomeSolutions {
   /** All seven modules, in the order every figure draws them. */
   modules: string[];
   items: HomeSolution[];
-  /** The dashed fourth block: the reader's next process. */
-  next: HomeSolution;
-  foundation: { name: string; caption: string };
-  /** Spoken before each block's list of modules. */
-  usedLabel: string;
-  legend: { on: string; available: string };
+  foundation: { name: string; caption: string; description: string };
   cta: Cta;
 }
 
@@ -261,9 +254,6 @@ export interface HomePage {
 
 /* ---------------- Content ---------------- */
 
-/** Module use per solution, from the one mapping /akashic and /solutions read. */
-const modulesOf = (id: AkashicSolution["id"]) => akashicSolutions.items.find((item) => item.id === id)?.modules ?? [];
-
 export const home: HomePage = {
   /* Previous copy and visuals restored; retain the revised section order.
      Keep this order, the eyebrows and app/page.tsx in sync. */
@@ -362,7 +352,7 @@ export const home: HomePage = {
       title: { setup: "Seven modules, one platform.", payoff: "Start with the one you need." },
       lede: "Each module does one job and shares the same data, definitions and access rules with the others. Use one, or switch on several together.",
       items: [
-        { name: "Pipelines", text: "Brings in data from every system you run, checked as it arrives." },
+        { name: "Data Pipelines", text: "Brings in data from every system you run, checked as it arrives." },
         { name: "Master Data", text: "Matches customers, citizens and assets into one record each." },
         { name: "Warehouse", text: "Stores the data and defines every figure once." },
         { name: "Machine Learning", text: "Builds forecasts from the same governed data." },
@@ -377,56 +367,48 @@ export const home: HomePage = {
      solution itself... people care about actual solutions", not that Akashic
      builds them faster). The header names what is solved; "runs on Akashic"
      is the lede's second beat and the drawing's job. Each block names who it
-     serves and what they gain. Module use comes from the mapping shared with
-     /akashic and /solutions. [04] answers the problems these do not cover. */
+     serves and what they gain. All three use every Akashic module (user,
+     21 Oct 2026). [04] answers the problems these do not cover. */
   solutions: {
     eyebrow: { number: "03", label: "Solutions" },
     /* Headline: two lines, each on one line from 1024px. Lede: two lines. */
     title: { setup: "Problems we already solve.", payoff: "Off the shelf, on your data." },
-    description: "Ready-made for business planning, public procurement and maternal care, each one running on Akashic.",
+    description: "Purpose-built for business planning, public procurement and maternal care. Every solution runs on the complete Akashic platform.",
     modules: solutionModules,
     items: [
       {
         id: "ei",
-        audience: "Business and operations leaders",
+        audience: "Business planning",
         name: "Enterprise Intelligence",
-        benefit: "Know where the business will land, long before the month-end pack arrives.",
+        benefit: "See where the business is heading. Trace every forecast to the source.",
+        illustrationLabel: "Invoices, timesheets and opportunities feed a rolling twelve-month forecast. The illustration connects incoming records to a revised forecast.",
         href: "/solutions/eis",
         linkLabel: "See the solution",
-        modules: modulesOf("ei"),
       },
       {
         id: "ipms",
-        audience: "Public procurement teams",
+        audience: "Public procurement",
         name: "Intelligent Procurement Management System",
         benefit: "Award contracts you can defend, with evidence at every step.",
+        illustrationLabel: "An illustrative tender requirement for prior delivery is linked to a completion certificate in the bid. The evidence trail supports committee review.",
         href: "/solutions#ipms",
         linkLabel: "See the solution",
-        modules: modulesOf("ipms"),
       },
       {
         id: "life",
-        audience: "Health programmes and care teams",
+        audience: "Maternal care",
         name: "Akashic Life",
         benefit: "Read the risk at the visit. Carry the record into care.",
+        illustrationLabel: "An antenatal visit is screened offline and saved on the health worker's phone. The same mother's care record reaches the health centre when connected.",
         href: "/solutions/life",
         linkLabel: "See the solution",
-        modules: modulesOf("life"),
       },
     ],
-    next: {
-      id: "next",
-      audience: "Something else",
-      name: "Your own process",
-      benefit: "Tell us the problem. We scope a solution with you.",
-      href: "#talk-to-our-team",
-      linkLabel: "Talk to our team",
-      modules: [],
-      next: true,
+    foundation: {
+      name: "Akashic",
+      caption: "Every solution. All seven modules.",
+      description: "Shared data, intelligence and governance, from the first record to the final decision.",
     },
-    foundation: { name: "Akashic", caption: "The platform underneath · seven modules" },
-    usedLabel: "Runs on",
-    legend: { on: "In use", available: "Already in place" },
     cta: { label: "All solutions", href: "/solutions" },
   },
 
@@ -451,7 +433,7 @@ export const home: HomePage = {
       {
         number: "02",
         title: "Build what you need",
-        description: "Software, data platforms and pipelines, on the stack you choose.",
+        description: "Software, data platforms and data pipelines, on the stack you choose.",
         scope: "Engineering at Scale",
         href: "/delivery#engineering",
       },

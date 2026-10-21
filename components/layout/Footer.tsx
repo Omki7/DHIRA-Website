@@ -6,23 +6,28 @@ import RegionLink from "@/components/ui/RegionLink";
 import ScrollRevealRail from "@/components/ui/ScrollRevealRail";
 import type { FooterLink } from "@/content/navigation";
 import { getNavigation, getSiteSettings, getUiStrings } from "@/lib/content";
-import { formatDate } from "@/lib/richText";
+import { REGIONAL_PATHS } from "@/lib/region";
 import { nameOrWordmark } from "@/components/icons/AkashicWordmark";
 
 /* Rebuilt 15 Oct 2026 on the header's IA: the columns live in the
    Navigation document (content/navigation.ts) beside the header menus, so
-   the two cannot drift again. The old Insights / Delivery / "EIS" columns and the dead
-   #privacy / #terms anchors are gone: the legal row is the founder's policy
-   list, every link a real route. The company line is the founder's
-   ("Akashic is a product of DHIRA Software Labs Pvt. Ltd."); the registered
-   office and CIN (Rule 26) render once filled in content/site.ts.
+   the two cannot drift again. The legal row is the founder's policy list,
+   every link a real route. The company line is the founder's ("Akashic is
+   a product of DHIRA Software Labs Pvt. Ltd."); the registered office and
+   CIN (Rule 26) render once filled in content/site.ts.
    Internal links go through RegionLink, so India visitors reach /in pages
-   where one exists; RegionSwitch sits in the ribbon (lib/region.ts). */
+   where one exists. RegionSwitch sits in the ribbon only while some page
+   has an India version (lib/region.ts REGIONAL_PATHS); none does today.
+   Audited 21 Oct 2026: what qualifies for a footer link is set out above
+   the columns in content/navigation.ts. The hand-kept "Last updated" date
+   went: it had already gone stale, and none of the reference footers
+   carries one. */
 
-/* Contrast on `vault` (#0a0a0c): white/50 is 5.3:1 and white/55 is 6.3:1,
-   both over the 4.5:1 AA floor. The old /30, /35 and /40 greys measured
-   2.6 to 3.8:1 and failed at these 11 to 12px sizes. */
-const headingClass = "font-mono text-[11px] font-medium uppercase tracking-eyebrow text-inkSoft mb-5";
+/* inkSoft on vault measures 4.8:1 in light and 7.8:1 in dark, over the
+   4.5:1 AA floor at these 11 to 14px sizes. Every heading is one fixed
+   16px row, so the Akashic wordmark's taller logo cannot push its column
+   below the others. */
+const headingClass = "font-mono text-[11px] font-medium uppercase tracking-eyebrow text-inkSoft mb-5 flex h-4 items-center";
 const linkClass = "text-inkSoft text-sm hover:text-ink transition-colors duration-250 ease-settle";
 const ribbonLinkClass = "hover:text-secondary-text transition-colors duration-250 ease-settle";
 
@@ -82,8 +87,8 @@ export default async function Footer() {
           ))}
         </div>
 
-        {/* Ribbon: the company line, the legal row and the last-updated date
-            on the left; the region switch and LinkedIn on the right.
+        {/* Ribbon: the company line and the legal row on the left; the
+            region switch and LinkedIn on the right.
             Left-aligned on mobile to match the columns above. */}
         <div className="flex flex-col items-start gap-6 border-t border-line pt-8 lg:flex-row lg:items-end lg:justify-between">
           <div className="space-y-3 text-xs text-inkSoft">
@@ -100,14 +105,11 @@ export default async function Footer() {
                     </RegionLink>
                   </li>
                 ))}
-                <li className="text-inkSoft">
-                  {ui.footer.lastUpdated} {formatDate(site.lastUpdated)}
-                </li>
               </ul>
             </nav>
           </div>
           <div className="flex items-center gap-6 text-inkSoft">
-            <RegionSwitch />
+            {REGIONAL_PATHS.length > 0 && <RegionSwitch />}
             {site.social.map((profile) => (
               <Link
                 key={profile.href}

@@ -11,12 +11,11 @@ import { StoryLabel, StoryTitle, StoryArrow } from "@/components/sections/akashi
  * then a column per solution. Above, each solution stands in its own column
  * (who it serves, its claim, a three-step workflow). Below, on the tinted
  * platform band, the seven modules run as continuous lines across every
- * column: a blue node where a solution switches a module on, a hollow ring
- * where it is available but off, and a blue spine joining that solution's
- * modules. Separate columns above, shared lines below: the claim, drawn.
+ * column: all seven nodes are in use, with a blue spine joining them.
+ * Separate columns above, shared lines below: the claim, drawn.
  * Desktop rows align across columns with `grid-template-rows: subgrid`
  * (akashic-story.css); below lg each solution stacks with only its own
- * modules. Copy and module sources: AKASHIC_SOLUTIONS in lib/akashicSections.
+ * modules. All solutions use all seven (user correction, 21 Oct 2026).
  * Replaces a tab carousel with auto-advance and simulated product screens:
  * no autoplay, no screens (the page already carries them), all three
  * solutions visible at once.
@@ -105,10 +104,6 @@ export default function AkashicPlatform({ content }: { content: AkashicPage["sol
               <p>
                 <span className="ak-config-node" data-used="true" aria-hidden="true" />
                 {content.legend.on}
-              </p>
-              <p>
-                <span className="ak-config-node" data-used="false" aria-hidden="true" />
-                {content.legend.off}
               </p>
               <Link href={content.all.href} className="ak-config-all">
                 {content.all.label}

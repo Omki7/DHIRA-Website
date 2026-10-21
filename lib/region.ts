@@ -28,8 +28,11 @@ export const REGIONS: Record<Region, { hreflang: string; locale: string }> = {
 };
 
 /* The international paths that have an India version at /in + path. Add a
-   path only once its /in route exists, with its offer lines in content/ui.ts. */
-export const REGIONAL_PATHS: string[] = ["/pricing"];
+   path only once its /in route exists, with its offer lines in content/ui.ts.
+   Empty since 21 Oct 2026: /in/pricing went when pricing became USD only
+   (user). While it is empty the footer hides its region switch and the
+   suggestion card never shows; the routing stays for the next regional page. */
+export const REGIONAL_PATHS: string[] = [];
 
 const trim = (path: string) => path.replace(/\/$/, "") || "/";
 

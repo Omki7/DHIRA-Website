@@ -59,7 +59,11 @@ function Expansion({ text }: { text: string }) {
           {k > 0 && " "}
           {/^[A-Z]/.test(word) ? (
             <>
-              <span className="font-extrabold">{word[0]}</span>
+              {/* Medium weight in ink over the regular grey: Google Sans Text
+                  has no 600, so anything bolder lands on 700 and shouts at
+                  11px (user, 21 Oct 2026). Ink is the wordmark's colour, not
+                  an accent. */}
+              <span className="font-medium text-primary-text">{word[0]}</span>
               {word.slice(1)}
             </>
           ) : (

@@ -54,7 +54,7 @@ export const insights: Insight[] = [
       {
         type: "ol",
         items: [
-          "Akashic Pipelines: ingest and validate every source, structured, unstructured and streaming.",
+          "Akashic Data Pipelines: ingest and validate every source, structured, unstructured and streaming.",
           "Akashic Master Data: entity resolution, with the lineage of every merge kept.",
           "Akashic Warehouse: dimensional models, and metrics defined once.",
           "Akashic ML: train, deploy and monitor models, with drift and bias monitoring.",
@@ -66,7 +66,7 @@ export const insights: Insight[] = [
       { type: "h2", id: "in-preview", text: "What stays in preview" },
       {
         type: "p",
-        text: "AI agents remain in preview with design partners. Pipeline agents help build and monitor pipelines. Matching agents suggest entity matches for data stewards to approve. The access control, lineage and audit the agents depend on are generally available today.",
+        text: "AI agents remain in preview with design partners. Pipeline agents help build and monitor data pipelines. Matching agents suggest entity matches for data stewards to approve. The access control, lineage and audit the agents depend on are generally available today.",
       },
       { type: "h2", id: "where-it-runs", text: "Where it runs" },
       {
@@ -323,7 +323,7 @@ export const insights: Insight[] = [
       },
       {
         type: "p",
-        text: "Yet most organisations build it again for every project. The dashboard team builds pipelines. The forecasting team builds its own. The AI pilot builds a third set, plus a retrieval layer, plus its own access rules. Each is reasonable alone. Together they are three foundations that disagree.",
+        text: "Yet most organisations build it again for every project. The dashboard team builds data pipelines. The forecasting team builds its own. The AI pilot builds a third set, plus a retrieval layer, plus its own access rules. Each is reasonable alone. Together they are three foundations that disagree.",
       },
       { type: "h2", id: "the-hidden-cost", text: "The hidden cost" },
       {

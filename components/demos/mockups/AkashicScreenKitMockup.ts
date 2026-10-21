@@ -2,7 +2,7 @@
  * SIMULATED PRODUCT UI — not real Akashic app code.
  * The screen kit for the /akashic hero stage (AkashicModuleScreensMockup):
  * shared desktop-app chrome (window bar, top bar, global module rail) plus
- * the Pipelines canvas and Warehouse star schema. Every screen on the stage
+ * the Data Pipelines canvas and Warehouse star schema. Every screen on the stage
  * renders through these helpers, so the seven read as one product. Static
  * HTML strings consumed via dangerouslySetInnerHTML.
  *
@@ -109,11 +109,11 @@ export function sidebarSearch(placeholder: string) {
 }
 
 /* ---------------------------------------------------------------- */
-/* Pipelines — visual pipeline canvas, sources → unify → model      */
+/* Data Pipelines — visual pipeline canvas, sources → unify → model      */
 /* ---------------------------------------------------------------- */
 export const PIPELINES_SCREEN_HTML = `<div style="width:100%;height:100%;display:flex;flex-direction:column;font-family:var(--font-sans);background:rgb(var(--primary-bg))">
   ${WINDOW_BAR}
-  ${appTopBar("Pipelines", "Sales Performance")}
+  ${appTopBar("Data Pipelines", "Sales Performance")}
   <div style="flex:1;display:flex;overflow:hidden">
     ${moduleRail("pipelines")}
     <div style="flex:1;display:flex;flex-direction:column;min-width:0;overflow:hidden">

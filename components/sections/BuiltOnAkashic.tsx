@@ -1,10 +1,4 @@
-/*
- * Homepage [03] Solutions. The header states the reader's gain (built on one
- * foundation, so each next solution goes live faster); the drawing shows the
- * mechanism: the solutions stand on Akashic and fan into the modules they
- * use (demos/SolutionsOnFoundation). Module use is the mapping shared with
- * /akashic and /solutions.
- */
+/* Homepage [03]: three illustrated solutions on the complete Akashic platform. */
 
 import SolutionsOnFoundation from "@/components/demos/SolutionsOnFoundation";
 import ScrollReveal from "@/components/ui/ScrollReveal";
@@ -23,11 +17,9 @@ export default function BuiltOnAkashic({ content }: { content: HomeSolutions }) 
 
         <ScrollReveal delay={140} className="mt-12 lg:mt-14">
           <SolutionsOnFoundation
-            blocks={[...content.items, content.next]}
+            blocks={content.items}
             modules={content.modules}
             foundation={content.foundation}
-            usedLabel={content.usedLabel}
-            legend={content.legend}
           />
         </ScrollReveal>
       </ScrollRevealRail>

@@ -47,8 +47,8 @@ export type NavGroup = {
   /** Lay the links out in two columns inside the group. */
   twoColumn?: boolean;
   /** Stands apart from the lists before it: a hairline to its left on the
-      desktop sheet. For a list of ways in (Pricing, Documentation) that
-      follows lists of what a product contains. */
+      desktop sheet. For a list of ways in (Pricing) that follows lists of
+      what a product contains. */
   divided?: boolean;
 };
 
@@ -87,11 +87,11 @@ export type NavMenu = {
 /* The Platform menu (redrawn again 15 Oct 2026, user): the same grammar as
    every other menu, lead, vertical lists, the featured card on the right.
    Four lists: the seven modules in the three categories that match the
-   /akashic layers (data, intelligence, governance), then Start (Pricing
-   and Documentation). Headings are one word each, so none wraps (user).
+   /akashic layers (data, intelligence, governance), then Start (Pricing;
+   Documentation left on 21 Oct 2026, its host does not resolve yet). Headings are one word each, so none wraps (user).
    The module lists carry no captions, so they read at a glance. Start is
    a different kind of list, the ways in rather than what is inside, so it
-   sits behind a hairline and only its two links carry captions: the one
+   sits behind a hairline and only its link carries a caption: the one
    list with a second line of text is the one the eye finds first (16 Oct
    2026, user: nobody should get lost looking for pricing or docs). AI
    agents close the Intelligence list with the Preview mark (the dashed strip that drew
@@ -114,7 +114,7 @@ const menus: NavMenu[] = [
         heading: "Foundation",
         span: 1.75,
         links: [
-          { label: "Pipelines", href: "/akashic#data-pipelines" },
+          { label: "Data Pipelines", href: "/akashic#data-pipelines" },
           { label: "Master Data", href: "/akashic#master-data" },
           { label: "Warehouse", href: "/akashic#data-warehousing" },
         ],
@@ -144,7 +144,6 @@ const menus: NavMenu[] = [
         divided: true,
         links: [
           { label: "Pricing", href: "/pricing", caption: "Plans by capacity" },
-          { label: "Documentation", href: site.docsUrl, external: true, caption: "Guides and reference" },
         ],
       },
     ],
@@ -260,14 +259,15 @@ const menus: NavMenu[] = [
     },
   },
   /* Resources (added 15 Oct 2026): the founder's Insights returns with
-     content behind it, beside the pages an evaluation needs. */
+     content behind it, beside the proof an evaluation needs. Events,
+     Integrations and Trust Centre left the site on 21 Oct 2026 (user). */
   {
     id: "resources",
     label: "Resources",
-    match: ["/insights", "/customers", "/events", "/glossary", "/integrations", "/trust"],
+    match: ["/insights", "/customers", "/glossary"],
     lead: {
       title: "Resources",
-      text: "Ideas, proof and the facts a review needs.",
+      text: "Ideas, proof and the terms we use.",
       href: "/insights",
       cta: "Read Insights",
       span: 3,
@@ -278,7 +278,6 @@ const menus: NavMenu[] = [
         span: 3,
         links: [
           { label: "Insights", href: "/insights", caption: "Perspectives on data and AI" },
-          { label: "Events", href: "/events", caption: "Launches and walkthroughs" },
           { label: "Glossary", href: "/glossary", caption: "The terms we use, defined" },
         ],
       },
@@ -287,8 +286,6 @@ const menus: NavMenu[] = [
         span: 3,
         links: [
           { label: "Customer stories", href: "/customers", caption: "Country-scale programmes" },
-          { label: "Integrations", href: "/integrations", caption: "Every system Akashic reads" },
-          { label: "Trust Centre", href: "/trust", caption: "Security, privacy and AI" },
         ],
       },
     ],
@@ -308,7 +305,7 @@ const menus: NavMenu[] = [
     match: ["/about", "/careers", "/newsroom", "/partners", "/contact"],
     lead: {
       title: "About",
-      text: "Built on data. Proven in production.",
+      text: "Data you can trust. Decisions you can stand behind.",
       href: "/about",
       cta: "About DHIRA",
       span: 3,
@@ -346,8 +343,7 @@ const menus: NavMenu[] = [
 ];
 
 /* The founder's launch bar. Set to null to remove it everywhere: the bar
-   renders nothing, and the /about landscape only reaches up behind it while
-   it exists (`:has(> .nav-announce)` in about-page.css). */
+   renders nothing. */
 export type NavAnnouncement = { label: string; text: string; href: string; cta: string };
 
 const announcement: NavAnnouncement | null = {
@@ -368,10 +364,24 @@ const cta: Link = { label: "Talk to our team", href: "#talk-to-our-team" };
 /*  Footer: the same IA, one source with the header (15 Oct 2026)      */
 /* ------------------------------------------------------------------ */
 /* Mirrors the header menus (Akashic · Solutions · Services · Resources ·
-   Company), replacing the old Insights / Delivery / "EIS" columns. Every
-   href resolves to a route and an id that exists. The legal row is the
-   founder's policy row (his footer: privacy, terms, accessibility,
-   copyright and hyperlinking policies, sitemap). */
+   Company). The legal row is the founder's policy row (his footer:
+   privacy, terms, accessibility, copyright and hyperlinking policies,
+   sitemap).
+
+   Audited 21 Oct 2026 (user: keep only what is used, made and worth its
+   upkeep) against Linear, Scale, C3 AI, Anthropic, Palantir, Stripe and
+   Vercel, whose footers run 32 to 45 links with no newsletter field and
+   no "last updated" line. A footer link must be:
+   - a page, not an in-page anchor to a page already listed (Modules,
+     Leadership, Ways to engage and How we deliver went);
+   - live: no placeholder hosts (Documentation went, docs.dhira.ai does
+     not resolve yet);
+   - shipped: nothing in preview, which the footer cannot mark (AI agents
+     went; they keep the Preview mark in the Platform menu);
+   - not dated: nothing that goes stale on its own (Events went, its one
+     dated event was the 1 November launch).
+   The same day the user removed Documentation, Events, Integrations and
+   Trust Centre from the whole site. */
 export type FooterLink = { label: string; href: string; external?: boolean };
 
 export type FooterColumn = { heading: string; links: FooterLink[]; subHeading?: string; subLinks?: FooterLink[] };
@@ -381,12 +391,8 @@ const footerColumns: FooterColumn[] = [
     heading: "Akashic",
     links: [
       { label: "Platform overview", href: "/akashic" },
-      { label: "Modules", href: "/akashic#modules" },
-      { label: "AI agents", href: "/akashic#agents" },
       { label: "Akashic 1.0", href: "/akashic/1-0" },
-      { label: "Integrations", href: "/integrations" },
       { label: "Pricing", href: "/pricing" },
-      { label: "Documentation", href: site.docsUrl, external: true },
     ],
   },
   {
@@ -414,8 +420,6 @@ const footerColumns: FooterColumn[] = [
       { label: "Strategic Advisory", href: "/delivery#advisory" },
       { label: "Engineering at Scale", href: "/delivery#engineering" },
       { label: "AI Solutions and Accelerators", href: "/delivery#ai-solutions" },
-      { label: "Ways to engage", href: "/delivery#engagement-models" },
-      { label: "How we deliver", href: "/delivery#methodology" },
     ],
   },
   {
@@ -423,16 +427,13 @@ const footerColumns: FooterColumn[] = [
     links: [
       { label: "Insights", href: "/insights" },
       { label: "Customer stories", href: "/customers" },
-      { label: "Events", href: "/events" },
       { label: "Glossary", href: "/glossary" },
-      { label: "Trust Centre", href: "/trust" },
     ],
   },
   {
     heading: "Company",
     links: [
       { label: "About DHIRA", href: "/about" },
-      { label: "Leadership", href: "/about#people" },
       { label: "Newsroom", href: "/newsroom" },
       { label: "Careers", href: "/careers" },
       { label: "Partners", href: "/partners" },

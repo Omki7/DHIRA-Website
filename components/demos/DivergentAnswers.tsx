@@ -8,10 +8,13 @@ import type { HomeProblem } from "@/content/pages/home";
 const TYPE_DELAY_MS = 300;
 const CHARACTER_MS = 38;
 const CONNECTOR_SECONDS = 1.1;
+// Tightened 21 Oct 2026 (user: "tighten this version"): the branch is 176
+// tall, not 208, so the source tiles sit higher and each drop to its figure
+// is shorter. The dots at y=172 sit just above the figures.
 const CONNECTOR_PATHS = [
-  "M300 0v20c0 16-12 26-28 26H128c-18 0-28 12-28 30v126",
-  "M300 0v202",
-  "M300 0v20c0 16 12 26 28 26h144c18 0 28 12 28 30v126",
+  "M300 0v14c0 14-12 22-28 22H128c-18 0-28 10-28 26v110",
+  "M300 0v172",
+  "M300 0v14c0 14 12 22 28 22h144c18 0 28 10 28 26v110",
 ] as const;
 
 // An editorial diagram of the existing illustrative scenario, not product UI.
@@ -58,7 +61,7 @@ export default function DivergentAnswers({ content: HOME_PROBLEM }: { content: H
   }, [entered, reduced, HOME_PROBLEM.question.length]);
 
   return (
-    <figure ref={ref} className="relative isolate mx-auto w-full max-w-[600px] py-5 sm:py-7" aria-label={HOME_PROBLEM.figureLabel}>
+    <figure ref={ref} className="relative isolate mx-auto w-full max-w-[600px] py-3 sm:py-4" aria-label={HOME_PROBLEM.figureLabel}>
       
       <div className="text-center">
         <p className="font-mono text-[10px] uppercase tracking-eyebrow text-inkSoft">{HOME_PROBLEM.period}</p>
@@ -73,7 +76,7 @@ export default function DivergentAnswers({ content: HOME_PROBLEM }: { content: H
       </div>
 
       <div className="relative mt-4">
-        <svg viewBox="0 0 600 208" preserveAspectRatio="none" className="pointer-events-none absolute inset-x-0 top-0 h-[208px] w-full overflow-visible text-blue/65" fill="none" aria-hidden="true">
+        <svg viewBox="0 0 600 176" preserveAspectRatio="none" className="pointer-events-none absolute inset-x-0 top-0 h-[176px] w-full overflow-visible text-blue/65" fill="none" aria-hidden="true">
           {CONNECTOR_PATHS.map((path, index) => (
             <motion.path
               key={path}
@@ -89,12 +92,12 @@ export default function DivergentAnswers({ content: HOME_PROBLEM }: { content: H
           ))}
           <circle cx="300" cy="3" r="3" className="fill-blue" />
           {[100, 300, 500].map((x, index) => (
-            <motion.circle key={x} cx={x} cy="202" r="3" className="fill-blue" initial={{ opacity: 0 }} animate={{ opacity: draw ? 1 : 0 }} transition={{ duration: reduced ? 0 : 0.3, delay: reduced ? 0 : CONNECTOR_SECONDS + index * 0.08 }} />
+            <motion.circle key={x} cx={x} cy="172" r="3" className="fill-blue" initial={{ opacity: 0 }} animate={{ opacity: draw ? 1 : 0 }} transition={{ duration: reduced ? 0 : 0.3, delay: reduced ? 0 : CONNECTOR_SECONDS + index * 0.08 }} />
           ))}
         </svg>
         <div className="grid grid-cols-3">
           {HOME_PROBLEM.answers.map((answer, index) => (
-            <div key={answer.source} className="relative min-w-0 px-1 pt-20 text-center sm:px-3">
+            <div key={answer.source} className="relative min-w-0 px-1 pt-16 text-center sm:px-3">
               <motion.div initial={{ opacity: 0, y: 6 }} animate={{ opacity: draw ? 1 : 0, y: draw ? 0 : 6 }} transition={{ duration: reduced ? 0 : 0.45, delay: reduced ? 0 : 0.35 + index * 0.08 }}>
                 <div className="relative mx-auto flex h-11 w-11 items-center justify-center rounded-tile border border-blue-border bg-background text-blue ">
                   <SourceGlyph kind={answer.kind} />
@@ -102,13 +105,13 @@ export default function DivergentAnswers({ content: HOME_PROBLEM }: { content: H
                 <p className="relative mt-3 h-4 font-mono text-[9px] uppercase leading-4 tracking-[0.06em] text-inkSoft sm:text-[10px] sm:tracking-eyebrow"><span className="bg-background px-1.5">{answer.source}</span></p>
               </motion.div>
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: draw ? 1 : 0, y: draw ? 0 : 10 }} transition={{ duration: reduced ? 0 : 0.55, delay: reduced ? 0 : CONNECTOR_SECONDS + index * 0.08 }}>
-                <p data-problem-answer className={`mt-16 whitespace-nowrap text-[34px] font-medium leading-none tracking-tightest tabular-nums sm:text-[46px] lg:text-[40px] xl:text-[52px] ${index === 1 ? "text-blue" : "text-ink"}`}>
+                <p data-problem-answer className={`mt-11 whitespace-nowrap text-[34px] font-medium leading-none tracking-tightest tabular-nums sm:text-[46px] lg:text-[40px] xl:text-[52px] ${index === 1 ? "text-blue" : "text-ink"}`}>
                   {answer.figure}
                 </p>
                 {/* The unit is a word on its own line ("million"), never "M". */}
                 <p className="mt-2 text-[13px] font-medium text-inkSoft sm:text-[14px]">{answer.unit}</p>
                 <p className="mt-2 text-[11px] leading-snug text-inkSoft sm:text-[12px]">{answer.caveat}</p>
-                <div aria-hidden="true" className="mx-auto mt-5 h-8 w-px border-l border-dashed border-red/40" />
+                <div aria-hidden="true" className="mx-auto mt-4 h-6 w-px border-l border-dashed border-red/40" />
               </motion.div>
             </div>
           ))}
@@ -116,7 +119,7 @@ export default function DivergentAnswers({ content: HOME_PROBLEM }: { content: H
       </div>
 
       <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: draw ? 1 : 0, y: draw ? 0 : 8 }} transition={{ duration: reduced ? 0 : 0.6, delay: reduced ? 0 : CONNECTOR_SECONDS + 0.45 }}>
-        <div className="relative mx-auto w-5/6 border-t border-red/40 pt-7 text-center">
+        <div className="relative mx-auto w-5/6 border-t border-red/40 pt-6 text-center">
           <span aria-hidden="true" className="absolute left-1/2 top-0 flex h-6 w-10 -translate-x-1/2 -translate-y-1/2 items-center justify-center bg-background text-red">
             <svg viewBox="0 0 32 20" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-5 w-8"><path d="m11 3-4 14M24 3l-4 14" /></svg>
           </span>
@@ -125,7 +128,7 @@ export default function DivergentAnswers({ content: HOME_PROBLEM }: { content: H
           </p>
           <p className="mt-2 text-[17px] font-medium tracking-tight text-ink sm:text-[19px]">{HOME_PROBLEM.conclusion}</p>
         </div>
-        <figcaption className="mt-6 text-center font-mono text-[9px] uppercase tracking-eyebrow text-inkSoft">{HOME_PROBLEM.scenarioLabel}</figcaption>
+        <figcaption className="mt-4 text-center font-mono text-[9px] uppercase tracking-eyebrow text-inkSoft">{HOME_PROBLEM.scenarioLabel}</figcaption>
       </motion.div>
     </figure>
   );

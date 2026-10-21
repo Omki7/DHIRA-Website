@@ -14,7 +14,6 @@ export default function AboutMotion({ children }: { children: ReactNode }) {
     const targets = Array.from(root.querySelectorAll<HTMLElement>("[data-about-enter], [data-about-reveal]"));
     const animations = new Set<Animation>();
     const seen = new Set<HTMLElement>();
-    const landscape = root.querySelector<HTMLElement>(".about-landscape-plane");
     let observer: IntersectionObserver | undefined;
 
     const release = (target: HTMLElement) => {
@@ -38,7 +37,6 @@ export default function AboutMotion({ children }: { children: ReactNode }) {
       animations.forEach((animation) => animation.cancel());
       animations.clear();
       targets.forEach(release);
-landscape?.style.removeProperty("transform");
     };
     const start = () => {
       stop();
@@ -62,12 +60,6 @@ landscape?.style.removeProperty("transform");
           observer?.observe(target);
         }
       });
-      const photo = landscape?.querySelector("img");
-      if (photo && scrollY < 100) {
-        const animation = photo.animate([{ transform: "scale(1.025)" }, { transform: "scale(1)" }], { duration: 1800, easing: EASE });
-        animations.add(animation);
-        animation.finished.then(() => animations.delete(animation)).catch(() => {});
-      }
     };
     start();
     preference.addEventListener("change", start);

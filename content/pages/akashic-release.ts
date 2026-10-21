@@ -138,7 +138,7 @@ export const akashicRelease: AkashicReleasePage = {
     payoff: "The groundwork they need, already live.",
     lede: "Agents work on the governed foundation and stop for a person's approval. The access control, lineage and audit around them ship in 1.0.",
     agents: [
-      { name: "Pipeline agents", line: "Help build and monitor pipelines." },
+      { name: "Pipeline agents", line: "Help build and monitor data pipelines." },
       { name: "Matching agents", line: "Suggest entity matches for data stewards to approve." },
     ],
     link: { label: "How the agents are designed", href: "/insights/agents-do-the-legwork" },

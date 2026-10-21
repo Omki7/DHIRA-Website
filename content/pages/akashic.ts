@@ -3,9 +3,7 @@
 /* ------------------------------------------------------------------ */
 /* Every word on /akashic, in section order. Composer: app/akashic/page.tsx.
    Shared with other documents: `akashicSolutions` (the /solutions hub),
-   `akashicSecurity` (/trust), `dataLayerModules` and
-   `intelligenceLayerModules` (/akashic/1-0), `akashicModules`
-   (the integrations collection).
+   `dataLayerModules` and `intelligenceLayerModules` (/akashic/1-0).
 
    Claims rules for this page: agents ship in PREVIEW; no module count other
    than seven; no "weeks" delivery claims; every figure real (Rule 4). */
@@ -28,15 +26,10 @@ export interface StoryHeading {
    distinct from [08]'s "lay the groundwork once": the solutions are not
    separate products but Akashic, configured. Its evidence is the module
    matrix: the same seven modules under every solution.
-   Module use, by source (Rule 4, no invented data):
-   - Enterprise Intelligence: the EIS list approved 23 Sep 2026, plus
-     Warehouse from the founder's chips (his forecast runs on ADW).
-   - IPMS: the founder's "Akashic modules used" chips mapped to the seven
-     names. His rules engine and workflow are platform services, not
-     modules, so they appear in the copy only.
-   - Akashic Life: the list approved 23 Sep 2026.
+   Every solution uses all seven modules (user correction, 21 Oct 2026).
+   Keep one shared list so the homepage and platform matrix agree.
    Enterprise Intelligence IS /solutions/eis (user, 14 Oct 2026). */
-export const solutionModules = ["Pipelines", "Master Data", "Warehouse", "Machine Learning", "Ask Akashic", "Business Intelligence", "Governance"];
+export const solutionModules = ["Data Pipelines", "Master Data", "Warehouse", "Machine Learning", "Ask Akashic", "Business Intelligence", "Governance"];
 
 export type AkashicModuleName = string;
 
@@ -66,7 +59,7 @@ export interface AkashicSolutions {
 export const akashicSolutions: AkashicSolutions = {
   setup: "Ready-made for one process.",
   title: "Live on the foundation you already run.",
-  intro: "Enterprise Intelligence, IPMS and Akashic Life are Akashic, configured. Each solution switches on the modules its process needs, on the sources and access rules already in place.",
+  intro: "Enterprise Intelligence, Intelligent Procurement Management System and Akashic Life each use all seven Akashic modules, with shared data, intelligence and governance.",
   items: [
     {
       id: "ei",
@@ -81,7 +74,7 @@ export const akashicSolutions: AkashicSolutions = {
         { title: "Approve the action", detail: "Scoped and auditable" },
       ],
       note: "Read-only ingestion. Write-back only through approved, scoped actions.",
-      modules: ["Pipelines", "Master Data", "Warehouse", "Ask Akashic", "Business Intelligence", "Governance"],
+      modules: solutionModules,
       href: "/solutions/eis",
       cta: "Explore Enterprise Intelligence",
     },
@@ -98,7 +91,7 @@ export const akashicSolutions: AkashicSolutions = {
         { title: "Approve the award", detail: "Bids sealed until approval" },
       ],
       note: "Rules decide, people approve, and every step lands in the audit trail.",
-      modules: ["Pipelines", "Master Data", "Ask Akashic", "Business Intelligence", "Governance"],
+      modules: solutionModules,
       href: "/solutions#ipms",
       cta: "See IPMS",
     },
@@ -115,7 +108,7 @@ export const akashicSolutions: AkashicSolutions = {
         { title: "Coordinate care", detail: "From frontline to district" },
       ],
       note: "Designed to connect the frontline visit with the wider care pathway.",
-      modules: ["Machine Learning", "Master Data", "Business Intelligence", "Governance"],
+      modules: solutionModules,
       href: "/solutions/life",
       cta: "Explore Akashic Life",
     },
@@ -282,7 +275,7 @@ export interface AkashicPage {
     axis: { solution: string; workflow: string; underneath: string };
     used: string;
     unused: string;
-    legend: { on: string; off: string };
+    legend: { on: string };
   };
   faq: StoryHeading & { items: Faq[] };
   close: StoryHeading & {
@@ -337,7 +330,7 @@ export const dataLayerModules: LayerModule[] = [
   {
     id: "modules-data-pipelines",
     icon: "Akashic Data Pipelines",
-    name: "Akashic Pipelines",
+    name: "Akashic Data Pipelines",
     sub: "Ingest and validate every source",
     caps: ["Ready-made connectors", "Streaming · batch · CDC", "PDF, email & OCR intake", "Schema validation"],
     agent: "Pipeline agents",
@@ -406,7 +399,7 @@ export const akashicModules: ModuleDef[] = [
   {
     id: "pipelines",
     icon: "Akashic Data Pipelines",
-    name: "Akashic Pipelines",
+    name: "Akashic Data Pipelines",
     tagline: "Ingestion",
     desc: "Every source, ingested and validated the moment it arrives. Structured, unstructured, or streaming: one entry point into the platform, or a standalone ingestion layer.",
     groups: [
@@ -464,7 +457,7 @@ export const akashicModules: ModuleDef[] = [
         kind: "cap",
         preview: true,
         items: [
-          { icon: "bolt", term: "Pipeline agents", sub: "help build and monitor pipelines" },
+          { icon: "bolt", term: "Pipeline agents", sub: "help build and monitor data pipelines" },
         ],
       },
     ],
@@ -740,7 +733,7 @@ export const akashic: AkashicPage = {
   seo: {
     title: "Akashic: Data and AI Platform",
     description:
-      "Akashic is the governed data and AI platform. Pipelines, master data, warehouse, ML, AI answers and BI on one foundation, ready for agents, with lineage, access control and audit under every layer.",
+      "Akashic is the governed data and AI platform. Data Pipelines, master data, warehouse, ML, AI answers and BI on one foundation, ready for agents, with lineage, access control and audit under every layer.",
     path: "/akashic",
   },
   sections: [
@@ -885,12 +878,12 @@ export const akashic: AkashicPage = {
     modules: [
       {
         kicker: "Ingestion",
-        name: "Akashic Pipelines",
+        name: "Akashic Data Pipelines",
         lede: "Every source, ingested and validated.",
         points: [
           { icon: "database", text: "CRMs, ERPs, PDFs, live feeds: streaming, batch, CDC" },
           { icon: "funnel", text: "Validated on arrival, so nothing downstream inherits a problem" },
-          { icon: "cpu", text: "AI agents help build and monitor pipelines", preview: true },
+          { icon: "cpu", text: "AI agents help build and monitor data pipelines", preview: true },
         ],
       },
       {
@@ -955,7 +948,7 @@ export const akashic: AkashicPage = {
       },
     ],
     askQuestion: "Why did this number change?",
-    combos: ["Run Pipelines on its own", "Or Master Data + Ask Akashic", "Or the whole platform"],
+    combos: ["Run Data Pipelines on its own", "Or Master Data + Ask Akashic", "Or the whole platform"],
     close: {
       kicker: ["Start anywhere", "Scale everywhere"],
       title: "Every module works on its own. Together, they’re the whole platform.",
@@ -1127,7 +1120,7 @@ export const akashic: AkashicPage = {
   },
 
   /* The founder's platform figures, real per Rule 4, live in [10]'s module
-     sheets beside the claim each one proves: Pipelines 25 built-in
+     sheets beside the claim each one proves: Data Pipelines 25 built-in
      transforms, BI 61 data sources and 50+ chart types, Governance 80+
      metadata connectors. Not used: his "10 modules" and "13 agents" (held). */
   reference: {
@@ -1149,7 +1142,7 @@ export const akashic: AkashicPage = {
     axis: { solution: "Solution", workflow: "Workflow", underneath: "Akashic underneath" },
     used: ", in use",
     unused: ", not used",
-    legend: { on: "Switched on", off: "Available, not used" },
+    legend: { on: "All seven modules in every solution" },
   },
 
   /* [12] Questions (14 Oct 2026). The founder's FAQ, re-cut for this page.
@@ -1163,7 +1156,7 @@ export const akashic: AkashicPage = {
     items: [
       {
         question: "What is Akashic?",
-        answer: "The governed data and AI platform. Seven modules cover pipelines, master data, warehouse, machine learning, AI answers, BI and governance on one foundation. Akashic 1.0 is generally available on 1 November 2026.",
+        answer: "The governed data and AI platform. Seven modules cover data pipelines, master data, warehouse, machine learning, AI answers, BI and governance on one foundation. Akashic 1.0 is generally available on 1 November 2026.",
       },
       {
         question: "Do we have to replace the systems we run today?",

@@ -24,7 +24,6 @@ export interface UiStrings {
   footer: {
     rights: string;
     policies: string;
-    lastUpdated: string;
     registeredOffice: string;
     cin: string;
     /** Accessible name for a social profile link; the profile label follows. */
@@ -112,7 +111,6 @@ export const ui: UiStrings = {
   footer: {
     rights: "All rights reserved.",
     policies: "Website policies",
-    lastUpdated: "Last updated",
     registeredOffice: "Registered office:",
     cin: "CIN",
     socialPrefix: "DHIRA on",
@@ -131,12 +129,9 @@ export const ui: UiStrings = {
     question: { intl: "Viewing from outside India?", in: "Viewing from India?" },
     hasVersion: { intl: "This page has an international version.", in: "This page has an India version." },
     view: { intl: "View the international page", in: "View the India page" },
-    offers: {
-      "/pricing": {
-        intl: "Prices in USD and international buying routes.",
-        in: "Prices in INR, GST and GeM buying routes.",
-      },
-    },
+    /* Empty since 21 Oct 2026: pricing is USD only (user), so no page has
+       an India version yet. */
+    offers: {},
   },
   preview: "Preview",
   opensInNewTab: "(opens in a new tab)",

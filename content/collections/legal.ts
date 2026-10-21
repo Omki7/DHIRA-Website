@@ -101,7 +101,7 @@ const privacy: LegalDoc = {
     { type: "h2", id: "security", text: "Security" },
     {
       type: "p",
-      text: "We protect personal data with encryption in transit, access control and monitoring. Our wider security practice is described in the [Trust Center](/trust).",
+      text: "We protect personal data with encryption in transit, access control and monitoring. How Akashic secures the data it holds is set out on the [Akashic page](/akashic#trust).",
     },
     { type: "h2", id: "cookies", text: "Cookies and local storage" },
     { type: "p", text: "How the site uses cookies and browser storage is set out in the [cookie policy](/cookies)." },
@@ -141,7 +141,7 @@ const terms: LegalDoc = {
         "use the site for any unlawful purpose.",
       ],
     },
-    { type: "p", text: "Security research done in good faith under our [vulnerability disclosure policy](/trust#disclosure) is welcome." },
+    { type: "p", text: "Security research done in good faith is welcome. Report what you find to the contact in our [security.txt](/.well-known/security.txt)." },
     { type: "h2", id: "intellectual-property", text: "Intellectual property" },
     {
       type: "p",
@@ -301,7 +301,6 @@ const websitePolicies: LegalDoc = {
         "[Terms of use](/terms)",
         "[Cookie policy](/cookies)",
         "[Accessibility statement](/accessibility)",
-        "[Trust Center: security, subprocessors and vulnerability disclosure](/trust)",
         "[Site map](/site-map)",
       ],
     },

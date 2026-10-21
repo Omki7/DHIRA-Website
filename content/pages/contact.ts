@@ -74,7 +74,7 @@ export const contactPage: ContactPage = {
     items: [
       { name: "Partnerships", line: "Systems integrators, technology partners and resellers.", cta: { label: "Write to partnerships", href: mailto("Partnership enquiry") } },
       { name: "Press", line: "Interviews, briefings, fact checks and the media kit.", cta: { label: "Write to the press team", href: mailto("Press enquiry") } },
-      { name: "Security", line: "Security reviews, questionnaires and vulnerability reports.", cta: { label: "Visit the Trust Center", href: "/trust" } },
+      { name: "Security", line: "Security reviews, questionnaires and vulnerability reports.", cta: { label: "Write to security", href: mailto("Security enquiry") } },
       { name: "Customer support", line: "Help with an Akashic deployment you already run.", cta: { label: "Write to support", href: mailto("Support request") } },
       { name: "Careers", line: "Open roles, internships and how we hire.", cta: { label: "See open roles", href: "/careers" } },
       { name: "Privacy", line: "Questions about your personal data, or a request to exercise your rights.", cta: { label: "Write to privacy", href: mailto("Privacy request") } },

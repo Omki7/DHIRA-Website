@@ -107,8 +107,9 @@ however many components ask for it.
   `next.config.mjs`.
 - **Mailto links** are built in content with `mailto(subject)` from
   `content/site.ts`, so the inbox is defined once.
-- **Region-specific copy** is keyed by region (`Record<Region, ...>`), for example
-  the pricing page's `seo` and how-to-buy routes. See ARCHITECTURE "Regions".
+- **Region-specific copy** is keyed by region (`Record<Region, ...>`). No page
+  has an India version today (pricing is US dollars only since 21 Oct 2026).
+  See ARCHITECTURE "Regions".
 
 ### DRAFT markers
 

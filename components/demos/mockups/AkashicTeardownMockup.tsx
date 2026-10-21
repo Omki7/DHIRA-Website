@@ -37,11 +37,11 @@ const TH = 16; // plate thickness
 const SEAL = 3; // sealed gap between plates
 const OPEN = 88; // exploded gap between plates
 
-const HUD_NAMES = ["PIPELINES", "MASTER DATA", "WAREHOUSE", "ML", "ASK", "BI", "GOVERNANCE"];
+const HUD_NAMES = ["DATA PIPELINES", "MASTER DATA", "WAREHOUSE", "ML", "ASK", "BI", "GOVERNANCE"];
 
 
 const PLATE_TAGS = [
-  "A-01 · Pipelines · ingest / validate",
+  "A-01 · Data Pipelines · ingest / validate",
   "A-02 · Master data · entity resolution",
   "A-03 · Warehouse · modelled storage",
   "A-04 · ML · train / deploy / monitor",
@@ -1144,7 +1144,7 @@ export default function AkashicTeardownMockup({ content, trackRef, curtainHeight
           <FigureEyebrow num={content.eyebrow.number} label={content.eyebrow.label} bare />
           {/* Gain-led headline (14 Oct 2026): adopt one module, grow into
               the platform, which is where the walkthrough ends ("run
-              Pipelines on its own / or the whole platform"). The lede
+              Data Pipelines on its own / or the whole platform"). The lede
               keeps how the seven modules come together. */}
           <h2 className="mt-6 text-[30px] font-semibold leading-[1.06] tracking-tighter text-ink md:text-[44px]">
             <span className="text-inkSoft">{content.title.setup}</span> <span className="md:block">{content.title.payoff}</span>

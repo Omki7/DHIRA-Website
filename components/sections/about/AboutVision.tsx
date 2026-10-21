@@ -1,7 +1,9 @@
 "use client";
 
 /*
- * [03] Vision: "The ambition: intelligence as public infrastructure."
+ * [03] Vision: "Public systems, working as one. / Citizens tell their
+ * story once." (21 Oct 2026; the headline was "Intelligence as public
+ * infrastructure." until the cold reader pass promoted the citizen line.)
  *
  * Intent: the ambition, drawn honestly, and for any government. Until
  * 23 Sep 2026 this read "India's intelligence layer", which told a US, UK
@@ -60,9 +62,9 @@ export default function AboutVision({ content }: { content: AboutPage["vision"] 
             <SiloLayer systems={content.systems} deployments={content.deployments} keyLabels={content.key} />
           </div>
 
-          {/* Below lg: the three built drops, listed (the labels under the
-              ground collide at tablet widths) */}
-          <ul className="mt-6 space-y-3 lg:hidden">
+          {/* Below xl: the three built drops, listed (the labels under the
+              ground collide below 1280px once figures are in words) */}
+          <ul className="mt-6 space-y-3 xl:hidden">
             {content.deployments.map((d) => (
               <li key={d.name} className="flex gap-3">
                 <span className="mt-[5px] h-2 w-2 shrink-0 rounded-full bg-blue-400" aria-hidden />

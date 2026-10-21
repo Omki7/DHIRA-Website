@@ -49,10 +49,9 @@ export const siteMap: SiteMapContent = {
       heading: "Akashic",
       routes: [
         { path: "/", title: "Home", description: "DHIRA and Akashic, the governed data and AI platform: the intelligence layer behind every decision." },
-        { path: "/akashic", title: "Akashic", description: "The governed data and AI platform: seven modules on one foundation, from pipelines to AI answers with citations." },
+        { path: "/akashic", title: "Akashic", description: "The governed data and AI platform: seven modules on one foundation, from data pipelines to AI answers with citations." },
         { path: "/akashic/1-0", title: "Akashic 1.0", description: "What is generally available on 1 November 2026, what stays in preview, and where it runs." },
-        { path: "/integrations", title: "Integrations", description: "The business applications, databases, cloud data platforms, documents and AI models Akashic connects to." },
-        { path: "/pricing", title: "Plans and pricing", description: "Four plans with every data module in each, sized by capacity: limits per plan, terms, deployment, services and how to buy." },
+        { path: "/pricing", title: "Plans and pricing", description: "Four plans with every data module in each, sized by capacity, priced in US dollars: limits per plan, terms, deployment, services and how to buy." },
       ],
     },
     {
@@ -81,9 +80,7 @@ export const siteMap: SiteMapContent = {
       routes: [
         { path: "/insights", title: "Insights", description: "Perspectives from the team building Akashic." },
         { path: "/customers", title: "Customer stories", description: "Country-scale programmes where Akashic is the intelligence layer." },
-        { path: "/events", title: "Events", description: "The Akashic 1.0 launch and walkthroughs on your own use case." },
         { path: "/glossary", title: "Glossary", description: "The data and AI terms used on this site, defined once." },
-        { path: "/trust", title: "Trust Centre", description: "Security controls, privacy commitments, responsible AI, documents and vulnerability disclosure." },
       ],
     },
     {

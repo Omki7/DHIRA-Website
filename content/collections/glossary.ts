@@ -32,14 +32,14 @@ export const glossaryTerms: GlossaryTerm[] = [
     term: "Append-only audit log",
     definition: "A record of actions that can be added to but never edited or deleted, so the history of who did what stays intact.",
     inAkashic: "Always on, under every module.",
-    href: "/trust#security",
+    href: "/akashic#trust",
   },
   {
     id: "change-data-capture",
     term: "Change data capture (CDC)",
     definition: "Reading inserts, updates and deletes from a source database as they happen, instead of copying whole tables on a schedule.",
-    inAkashic: "One of three ingestion modes in Akashic Pipelines, beside streaming and batch.",
-    href: "/integrations",
+    inAkashic: "One of three ingestion modes in Akashic Data Pipelines, beside streaming and batch.",
+    href: "/akashic#data-pipelines",
   },
   {
     id: "citation",
@@ -59,7 +59,7 @@ export const glossaryTerms: GlossaryTerm[] = [
     id: "data-contract",
     term: "Data contract",
     definition: "An agreed, versioned description of the shape and quality of the data a source will deliver, checked when the data arrives.",
-    inAkashic: "Versioned in Akashic Pipelines; failures are quarantined, retried and backfilled.",
+    inAkashic: "Versioned in Akashic Data Pipelines; failures are quarantined, retried and backfilled.",
     href: "/akashic#data-pipelines",
   },
   {
@@ -67,7 +67,7 @@ export const glossaryTerms: GlossaryTerm[] = [
     term: "Data residency",
     definition: "Keeping data storage, processing and AI inference inside a chosen country or boundary.",
     inAkashic: "SaaS in your region, your own cloud account, or on-premise.",
-    href: "/trust#security",
+    href: "/akashic#trust",
   },
   {
     id: "data-steward",
@@ -81,7 +81,7 @@ export const glossaryTerms: GlossaryTerm[] = [
     term: "Document intelligence",
     definition: "Reading contracts, certificates, reports and scanned forms, extracting their facts and linking them to the entities they mention.",
     inAkashic: "PDF, Office, email and scanned intake, with page-level citations.",
-    href: "/integrations#documents",
+    href: "/akashic#data-pipelines",
   },
   {
     id: "entity-resolution",
@@ -123,21 +123,21 @@ export const glossaryTerms: GlossaryTerm[] = [
     term: "Bring your own model",
     definition: "Running each AI task on a model you choose: a commercial provider with your own key, an open model, or one hosted inside your boundary.",
     inAkashic: "Ask Akashic works with the model providers you enable.",
-    href: "/integrations#models",
+    href: "/akashic#ask-ai",
   },
   {
     id: "pii-masking",
     term: "PII masking",
     definition: "Detecting personal data such as names, identity numbers and addresses, and hiding it from the people and answers not permitted to see it.",
     inAkashic: "Detected on arrival, masked in answers.",
-    href: "/trust#security",
+    href: "/akashic#trust",
   },
   {
     id: "row-and-column-security",
     term: "Row and column security",
     definition: "Access rules that limit which rows and columns of a table a person may see, applied at the moment the query runs.",
     inAkashic: "Permissions follow the person from the records to the answer.",
-    href: "/trust#security",
+    href: "/akashic#trust",
   },
   {
     id: "semantic-layer",
@@ -158,7 +158,7 @@ export const glossaryTerms: GlossaryTerm[] = [
     term: "Tenant isolation",
     definition: "Keeping each customer's data, storage, identity and network separate inside a shared service.",
     inAkashic: "Multi-tenant SaaS isolates every tenant at all four levels.",
-    href: "/trust#security",
+    href: "/akashic#trust",
   },
   {
     id: "text-to-sql",

@@ -33,42 +33,17 @@ non-photographic ones came from.
 | `favicon.*`, `icon-*.png`, `apple-touch-icon.png` | App and browser icons (`app/manifest.ts`) |
 | `og-image.png` | Default social card (`content/site.ts` `seo.ogImage`) |
 | `brand/` | Logo files for press and partners |
-| `about-landscape.webp` | The /about hero landscape (provenance below) |
 | `avatars/` | Leadership portraits (`*-executive-v1.webp`, provenance below) and the homepage voices portraits |
 | `delivery/` | /delivery engagement-model and capability photographs |
 | `sectors/` | Sector page photographs |
 | `proof/` | Homepage proof imagery |
 | `universal-context/` | System logos (SAP, Salesforce, Oracle, PostgreSQL) on the /solutions/eis hero. The other eight went to `.archive/removed-2026-10-20/` with the homepage logo strip |
-| `.well-known/security.txt` | Security contact, linked from the Trust Center |
+| `.well-known/security.txt` | Security contact, linked from the terms of use |
 
 ## Provenance
 
 These images are generated or AI-edited, not camera photographs of DHIRA
 people or places. Say so if anyone asks.
-
-### About hero landscape (`public/about-landscape.webp`)
-
-- 1536 × 1024, about 109 KiB.
-- Generated with an image model on 29 September 2026: an original pastoral
-  landscape inspired by the open-sky composition of keytail.ai.
-- Decorative scenery, not a DHIRA location.
-- It spans the navigation and hero under a light overlay for text contrast, with
-  a bottom mask into the white page.
-- On entry it settles from a 1.025 scale and moves at most 28px with hero
-  scroll. Both effects are off under reduced motion.
-
-Prompt:
-
-> Use case: photorealistic-natural. Create an original premium website hero
-> background photograph, landscape 1536x1024. Vast airy pale blue morning sky
-> occupies the upper 72 percent, subtle wispy clouds and soft haze, gradually
-> brightening toward horizon. The bottom 28 percent has gently rolling green
-> countryside hills, distant layered blue-grey ridges, soft sunlight from the
-> right, muted sage and olive grass. Calm expansive pastoral scenery, natural
-> photographic texture, atmospheric perspective. Composition must keep the
-> entire central upper two thirds very clean and light so dark website headline
-> and two lines of description can be placed over it. No people, buildings,
-> roads, objects, text, logos, interface, frames, or watermark.
 
 ### Leadership portraits (`public/avatars/*-executive-v1.webp`)
 

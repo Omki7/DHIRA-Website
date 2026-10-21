@@ -24,7 +24,10 @@ import type { HomePlatform } from "@/content/pages/home";
 // The eyebrow is the site's one rail (ui/FigureEyebrow), aligned with every
 // other section's rail. Below it the section stays full bleed (22 Jul): the
 // orb and the feature grid's hairlines run edge to edge, so do not put the
-// parts back inside the rail.
+// parts back inside the rail. The one exception is the modules block's
+// content (21 Oct 2026, user): its hairlines stay full bleed, but its text
+// and drawing sit on the five capabilities' centred column, the heading on
+// the first capability's line (see UCModules).
 //
 // TYPE (22 Sep 2026): the site stack only. Do not reintroduce a section-local
 // face.

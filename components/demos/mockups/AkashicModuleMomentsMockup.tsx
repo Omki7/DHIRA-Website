@@ -20,7 +20,7 @@
  * Second pass, same day (user: "they feel basic"): the first moments were one
  * white card template with key/value rows, seven times over. Each moment is
  * now its own drawing of the module's VERB, played in time:
- *   Pipelines    three record streams pass a join gate and fill one table
+ *   Data Pipelines    three record streams pass a join gate and fill one table
  *   Master Data  three spellings, match evidence, a golden record assembled
  *                field by field with each field's provenance
  *   Warehouse    the star schema, and one metric that BI, Ask and ML read
@@ -140,7 +140,7 @@ function Typed({ text, start, step = 24 }: { text: string; start: number; step?:
 }
 
 /* ---------------------------------------------------------------- */
-/* 01 Pipelines: three streams, one join, one table                  */
+/* 01 Data Pipelines: three streams, one join, one table                  */
 /* ---------------------------------------------------------------- */
 function PipelinesMoment() {
   const lanes = [
@@ -666,7 +666,7 @@ type Moment = {
 };
 
 const MOMENTS: Moment[] = [
-  { module: "Pipelines", caption: "Three sources join into one governed table. Nothing rejected.", focus: 700, Draw: PipelinesMoment },
+  { module: "Data Pipelines", caption: "Three sources join into one governed table. Nothing rejected.", focus: 700, Draw: PipelinesMoment },
   { module: "Master Data", caption: "Three spellings, one record. Every field keeps its source.", focus: 754, Draw: MasterDataMoment },
   { module: "Warehouse", caption: "A metric defined once. Dashboards, answers and forecasts all read the same one.", focus: 640, Draw: WarehouseMoment },
   { module: "Machine Learning", caption: "Models are tested on past data. The most accurate one makes the forecast.", focus: 600, Draw: MlMoment },

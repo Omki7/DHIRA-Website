@@ -68,7 +68,7 @@ export const customerStories: Story[] = [
       { value: "5.75 billion+", label: "Learning interactions unified" },
       { value: "187 million+", label: "Enrolments resolved" },
     ],
-    modules: ["Akashic Pipelines", "Akashic Master Data", "Akashic Warehouse", "Akashic BI", "Akashic Governance"],
+    modules: ["Akashic Data Pipelines", "Akashic Master Data", "Akashic Warehouse", "Akashic BI", "Akashic Governance"],
     body: [
       { type: "h2", id: "situation", text: "The situation" },
       {
@@ -108,7 +108,7 @@ export const customerStories: Story[] = [
       { value: "4 million+", label: "Worker clearances reconciled" },
       { value: "282,000+", label: "Employer profiles resolved" },
     ],
-    modules: ["Akashic Pipelines", "Akashic Master Data", "Akashic Warehouse", "Akashic Governance"],
+    modules: ["Akashic Data Pipelines", "Akashic Master Data", "Akashic Warehouse", "Akashic Governance"],
     body: [
       { type: "h2", id: "situation", text: "The situation" },
       {
@@ -145,7 +145,7 @@ export const customerStories: Story[] = [
       { value: "2 billion+", label: "Dose records reconciled" },
       { value: "26 million+", label: "Vaccination sessions reconciled" },
     ],
-    modules: ["Akashic Pipelines", "Akashic Master Data", "Akashic Warehouse", "Akashic BI", "Akashic Governance"],
+    modules: ["Akashic Data Pipelines", "Akashic Master Data", "Akashic Warehouse", "Akashic BI", "Akashic Governance"],
     body: [
       { type: "h2", id: "situation", text: "The situation" },
       {

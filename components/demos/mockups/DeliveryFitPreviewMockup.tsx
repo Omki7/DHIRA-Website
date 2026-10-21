@@ -21,7 +21,7 @@ export default function DeliveryFitPreviewMockup({ kind }: { kind: Kind }) {
           <div className="flex items-center justify-between border-b border-subtle-stroke pb-2">
             <div className="flex items-center gap-1.5 bg-background px-2 py-1 rounded border border-subtle-stroke text-inkSoft">
               <span>🔍</span>
-              <span>Search pipelines...</span>
+              <span>Search data pipelines...</span>
             </div>
             <div className="flex items-center gap-1.5 font-mono">
               <span className="rounded bg-background px-1.5 py-0.5 border border-subtle-stroke text-ink font-semibold">&lt;/&gt; SQL</span>

@@ -37,7 +37,7 @@ export const pressReleases: PressRelease[] = [
       },
       {
         type: "p",
-        text: "Akashic brings pipelines, master data, warehousing, machine learning, conversational AI, business intelligence and governance onto one foundation. Every module shares the same access control, lineage and audit, so dashboards, models and AI answers work from the same definitions and every figure traces to its source.",
+        text: "Akashic brings data pipelines, master data, warehousing, machine learning, conversational AI, business intelligence and governance onto one foundation. Every module shares the same access control, lineage and audit, so dashboards, models and AI answers work from the same definitions and every figure traces to its source.",
       },
       {
         type: "p",

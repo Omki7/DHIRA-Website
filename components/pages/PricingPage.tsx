@@ -1,10 +1,14 @@
 /*
- * /pricing and /in/pricing (lib/region.ts). One page body, two routes: the
- * route files only set metadata and pass the region. The versions differ in
- * the plans' currency and region line, the SaaS hosting line and the How to
- * buy register; every other section is the same. No hero: the page opens on
- * [01] Plans (user, 15 Oct 2026). A route sharing its body with another route keeps that body
- * here in components/pages/.
+ * /pricing (redesigned 21 Oct 2026; one currency, US dollars, since the
+ * India version was removed the same day). No hero: the page opens on [01]
+ * Plans (user, 15 Oct 2026). [01] and [02] share the billing term
+ * (PricingTerm), so one switch moves every price on the page.
+ *
+ * Section shapes, one per job (Rule 1): [01] the plan frame on its
+ * foundation, [02] the limits grid, [03] the control layer under every
+ * plan, [04] three footprints on the page's one soft blue band, [05] the
+ * services rate card, [06] four doors to buy, [07] questions in a split,
+ * then the closing card.
  */
 
 import Nav from "@/components/layout/Nav";
@@ -18,13 +22,13 @@ import PricingDeployment from "@/components/sections/pricing/PricingDeployment";
 import PricingIncluded from "@/components/sections/pricing/PricingIncluded";
 import PricingPlans from "@/components/sections/pricing/PricingPlans";
 import { PricingBuy, PricingServices } from "@/components/sections/pricing/PricingServices";
+import { PricingTermProvider } from "@/components/sections/pricing/PricingTerm";
 import type { PricingPage as PricingContent } from "@/content/pages/pricing";
-import { regionPath, type Region } from "@/lib/region";
 import { absoluteUrl } from "@/lib/site";
 
-export default function PricingPage({ region, content }: { region: Region; content: PricingContent }) {
+export default function PricingPage({ content }: { content: PricingContent }) {
   const PLANS = content.plans;
-  const path = regionPath("/pricing", region);
+  const { faq } = content;
 
   return (
     <>
@@ -43,17 +47,19 @@ export default function PricingPage({ region, content }: { region: Region; conte
               "@type": "Offer",
               name: `Akashic ${plan.name}`,
               description: plan.summary,
-              url: absoluteUrl(`${path}#${plan.id}`),
+              url: absoluteUrl(`/pricing#${plan.id}`),
             })),
           }}
         />
-        <PricingPlans region={region} content={content} prices={content.prices} />
-        <PricingCompare content={content.compare} plans={PLANS} />
-        <PricingIncluded content={content.everyPlan} />
-        <PricingDeployment region={region} content={content.deployment} />
+        <PricingTermProvider>
+          <PricingPlans content={content} prices={content.prices} />
+          <PricingCompare content={content.compare} plans={PLANS} prices={content.prices} labels={content.planCopy} />
+        </PricingTermProvider>
+        <PricingIncluded content={content.everyPlan} plans={PLANS} />
+        <PricingDeployment content={content.deployment} />
         <PricingServices content={content.services} />
-        <PricingBuy region={region} content={content.howToBuy} />
-        <FaqSection num="07" label={content.faq.label} setup={content.faq.setup} payoff={content.faq.payoff} items={content.faq.items} />
+        <PricingBuy content={content.howToBuy} />
+        <FaqSection num="07" label={faq.label} setup={faq.setup} payoff={faq.payoff} lede={faq.lede} link={faq.link} groups={faq.groups} />
         <PageClose {...content.close} />
       </main>
       <Footer />

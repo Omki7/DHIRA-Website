@@ -43,11 +43,11 @@ export interface SiteSettings {
   registeredOffice: string;
   cin: string;
   grievanceContact: string;
-  /** The footer's "Last updated" line (GIGW 3.0). ISO date; bump on content changes. */
+  /** sitemap.xml's lastModified for routes that set no `updated` date. ISO date.
+      No longer printed in the footer (21 Oct 2026). */
   lastUpdated: string;
-  /** Off-site product hosts. DRAFT placeholders until the product team confirms them. */
+  /** The off-site product host. DRAFT placeholder until the product team confirms it. */
   appUrl: string;
-  docsUrl: string;
   /** Default metadata for pages that set none, and the social card. */
   seo: {
     title: string;
@@ -85,10 +85,10 @@ export const site: SiteSettings = {
   cin: "",
   grievanceContact: "",
   lastUpdated: "2026-10-15",
-  /* The Akashic app and its documentation live off this site (user, 15 Oct
-     2026: no pages here). The app has no Sign in link in this version. */
+  /* The Akashic app lives off this site (user, 15 Oct 2026: no pages here).
+     It has no Sign in link in this version. Documentation (docs.dhira.ai)
+     was removed on 21 Oct 2026 (user): the host does not resolve yet. */
   appUrl: "https://app.dhira.ai",
-  docsUrl: "https://docs.dhira.ai",
   seo: {
     title: "DHIRA | Answers You Can Act On",
     description:

@@ -24,7 +24,9 @@ to every page you touch.
   before the full word ("logo Akashic"): that reads as "AAkashic".
 - **The full form** "Digital Human Interfaces & Robotic Agents" sits after the
   wordmark in the header. Each word's initial is **bold, never coloured**
-  (founder, 20 Oct 2026). It hides at lg (1024 to 1279px), where the menus need
+  (founder, 20 Oct 2026), and the bold is subtle: medium weight in ink over
+  the regular grey. Extrabold read as ugly at 11px (user, 21 Oct 2026), and
+  Google Sans Text has no 600, so anything above 500 lands on 700. It hides at lg (1024 to 1279px), where the menus need
   the room.
 - Akashic unifies structured, unstructured and streaming data into one governed
   foundation, links it through a governed knowledge layer, and runs BI,

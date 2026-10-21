@@ -4,7 +4,20 @@
 /* Every word on /about, in section order. Composer: app/about/page.tsx.
    The leaders are a collection (content/collections/leaders.ts), shared
    with the newsroom media kit. Positioning: DHIRA was a data company from
-   day one that saw AI coming; engineering is the foundation. */
+   day one that saw AI coming; engineering is the foundation.
+
+   THE STORY (cold reader pass, 21 Oct 2026, same rules as the homepage):
+   each section answers the question the one before it raises, and every
+   headline states what the reader gains.
+     hero      who DHIRA is and the mission: trusted data, defensible decisions
+     [01]      why data comes first: AI is only as good as the records beneath
+     [02]      the record: building since 2018, in production since 2020
+     [03]      the ambition: public systems working as one
+     [04]      who answers for the work: one head for each part
+     [05]      what working here is like: three kolam rules
+     [06]      the next step: talk to us, or join us
+   NO SHORT FORMS: "Business Intelligence", "machine learning", figures in
+   words ("187 million+"). "AI" is the one exception. */
 
 import type { PageSection, Seo } from "../types";
 
@@ -112,7 +125,7 @@ export const about: AboutPage = {
   seo: {
     title: "About Us",
     description:
-      "Built on data. Proven in production. Since 2018, DHIRA has built data and AI systems for governments and enterprises. We give people a foundation for decisions they can explain and stand behind.",
+      "Data you can trust. Decisions you can stand behind. DHIRA is a data and AI company for governments and enterprises, and builds Akashic, the platform that makes all your data agree.",
     path: "/about",
   },
   sections: [
@@ -128,14 +141,15 @@ export const about: AboutPage = {
 
   hero: {
     label: "About DHIRA",
-    setup: "Built on data.",
-    headline: "Proven in production.",
+    setup: "Data you can trust.",
+    headline: "Decisions you can stand behind.",
+    /* One sentence per line on desktop: what DHIRA is, then what it builds. */
     description:
-      "Since 2018, DHIRA has built data and AI systems for governments and enterprises. We give people a foundation for decisions they can explain and stand behind.",
-    primary: { label: "Work with us", href: "#talk-to-our-team" },
-    secondary: { label: "Meet the team", href: "#people" },
+      "DHIRA is a data and AI company for governments and enterprises. We build Akashic, the platform that makes all your data agree.",
+    primary: { label: "Talk to our team", href: "#talk-to-our-team" },
+    secondary: { label: "Meet the leaders", href: "#people" },
     proof: [
-      { value: "2018", label: "Founded, data first" },
+      { value: "2018", label: "Founded as a data company" },
       { value: "3", label: "National programmes live" },
       { value: "In-country", label: "Your cloud or data centre" },
     ],
@@ -144,13 +158,14 @@ export const about: AboutPage = {
   conviction: {
     number: "01",
     label: "Why we exist",
-    setup: "Data first.",
-    title: "AI built on it.",
-    intro: "Useful intelligence starts with information people can trust. That has been our focus from the beginning.",
+    setup: "Fix the data first.",
+    title: "Then AI you can trust.",
+    intro: "Every AI answer is only as good as the records beneath. Since 2018, DHIRA has started with the records.",
+    /* Parallel bodies: one line each at desktop, matched lengths. */
     beliefs: [
-      { title: "Bring the records together.", body: "Connect information scattered across systems, documents and streams." },
-      { title: "Build a foundation people trust.", body: "Resolve, govern and trace the data before asking more of it." },
-      { title: "Put intelligence to work.", body: "Build AI on that foundation, for the people making decisions." },
+      { title: "Bring the records together.", body: "Connect records, documents and streams from every system." },
+      { title: "Build a foundation people trust.", body: "Resolve, govern and trace every record before AI reads one." },
+      { title: "Put intelligence to work.", body: "Build AI on the governed data, for people making decisions." },
     ],
     threads: { data: "Data", ai: "AI" },
   },
@@ -163,16 +178,16 @@ export const about: AboutPage = {
   journey: {
     number: "02",
     label: "Our journey",
-    setup: "Eight years of layers.",
-    title: "One foundation.",
-    intro: "Above the line, what we built, release by release. Below the line, national programmes, live since 2020.",
+    setup: "Building since 2018.",
+    title: "Live since 2020.",
+    intro: "Above the line, each release, still running today. Below the line, the national programmes we deliver.",
     timeline: {
       today,
       todayLabel: "Today",
       built: [
         { id: "founding", kind: "foundation", year: "2018", from: 2018.06, to: 2018.7, title: "DHIRA founded", detail: "Data engineering", description: "Founded on data engineering, with dependable data as the starting point." },
         { id: "akashic", kind: "platform", year: "2019", from: 2019.14, to: 2019.86, title: "Akashic research", detail: "Data to insight", description: "Research and engineering begin on a platform connecting data to insight." },
-        { id: "machine-learning", kind: "platform", year: "2023", from: 2023.14, to: 2023.86, title: "Machine learning", detail: "Akashic ML", description: "The Akashic ML module launches, taking the platform from analysis to prediction." },
+        { id: "machine-learning", kind: "platform", year: "2023", from: 2023.14, to: 2023.86, title: "Machine learning", detail: "Akashic Machine Learning", description: "The Akashic Machine Learning module launches, taking the platform from analysis to prediction." },
         { id: "artificial-intelligence", kind: "platform", year: "2024", from: 2024.14, to: 2024.86, title: "Artificial intelligence", detail: "Akashic AI", description: "The Akashic AI module launches, building on the platform's data foundation." },
         { id: "master-data", kind: "platform", year: "2025", from: 2025.14, to: 2025.86, title: "Master data", detail: "Records and identities", description: "Akashic launches the module for consistent records and identities." },
         { id: "governance", kind: "platform", year: "2025", from: 2025.14, to: 2025.86, title: "Governance and meaning", detail: "Knowledge · semantic layers", description: "Data governance launches alongside knowledge and semantic layers." },
@@ -183,8 +198,8 @@ export const about: AboutPage = {
         year: "2022",
         at: 2022.18,
         title: "Akashic launches",
-        detail: "Pipelines · warehousing · BI",
-        description: "Data pipelines, warehousing and BI come together in a cloud agnostic platform.",
+        detail: "Data Pipelines · warehousing · Business Intelligence",
+        description: "Data pipelines, warehousing and Business Intelligence come together in a cloud agnostic platform.",
       },
       proven: [
         { id: "national-scale", kind: "programme", year: "2020", from: 2020.56, to: 2020.98, title: "First national-scale system", detail: "Live at year end", description: "Our first national scale project goes live at the end of the year." },
@@ -214,7 +229,7 @@ export const about: AboutPage = {
         { year: "2018", title: "Start with dependable data.", description: "DHIRA begins with data engineering as the foundation." },
         { year: "2019", title: "Build the common foundation.", description: "Research begins on Akashic, connecting data to insight." },
         { year: "2020", title: "Put it to work at national scale.", description: "Our first national scale system goes live at year end." },
-        { year: "2022", title: "Bring the platform together.", description: "Akashic launches with pipelines, warehousing and BI." },
+        { year: "2022", title: "Bring the platform together.", description: "Akashic launches with data pipelines, warehousing and Business Intelligence." },
         { year: "2023", title: "Add prediction. Extend the reach.", description: "Machine learning launches. Akashic serves a national learning programme." },
         { year: "2024", title: "Build AI on the data foundation.", description: "The AI module launches. Akashic serves a national employment programme." },
         { year: "2025", title: "Give intelligence shared meaning.", description: "Master data, governance, knowledge and semantic layers join the platform." },
@@ -248,14 +263,14 @@ export const about: AboutPage = {
   vision: {
     number: "03",
     label: "Our ambition",
-    setup: "Intelligence as",
-    title: "public infrastructure.",
-    intro: "Citizens should tell their story once. Our ambition is a governed foundation connecting public systems.",
+    setup: "Public systems, working as one.",
+    title: "Citizens tell their story once.",
+    intro: "Our ambition: one governed foundation beneath every public system, in any country. Three national programmes in India are the proof.",
     systems: ["Tax", "Treasury", "Education", "Benefits", "Licensing", "Land", "Justice", "Health", "Census", "Transport", "Energy", "Labour", "Water", "Housing"],
     deployments: [
-      { name: "National Learning Platform", figure: "187M+ enrolments resolved" },
-      { name: "National Immunisation Registry", figure: "2 Billion+ dose records reconciled" },
-      { name: "Overseas Employment Registry", figure: "4M+ worker clearances reconciled" },
+      { name: "National Learning Platform", figure: "187 million+ enrolments resolved" },
+      { name: "National Immunisation Registry", figure: "2 billion+ dose records reconciled" },
+      { name: "Overseas Employment Registry", figure: "4 million+ worker clearances reconciled" },
     ],
     legend: [
       { title: "Sovereign by design", caption: "Runs in-country, in your cloud or your data centre." },
@@ -273,9 +288,9 @@ export const about: AboutPage = {
   people: {
     number: "04",
     label: "Leadership",
-    setup: "Meet the leaders",
-    title: "behind our work.",
-    intro: "Engineering, solutions, people and partnerships, brought together by a shared commitment to the work.",
+    setup: "One accountable head",
+    title: "for every part of the work.",
+    intro: "From platform engineering to partnerships, each part of DHIRA has one named leader. The founder sets the direction and the architecture.",
   },
 
   /* DRAFT for review (7 Oct 2026). Rules are the three real sikku kolam
@@ -303,7 +318,7 @@ export const about: AboutPage = {
       link: { label: "See where you fit", href: "/careers" },
     },
     teams: [
-      { group: "Build", items: ["Product engineering", "AI/ML"] },
+      { group: "Build", items: ["Product engineering", "AI and machine learning"] },
       { group: "Discover", items: ["Data science", "Applied research"] },
       { group: "Foundations", items: ["Data engineering", "Distributed systems"] },
       { group: "Ways in", items: ["Freshers", "Internships"] },

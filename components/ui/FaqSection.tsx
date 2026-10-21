@@ -1,18 +1,27 @@
 /*
- * A questions section for hub pages: SectionHeader, then an open two-column
- * list on hairlines, every answer readable without a click (the /akashic
- * [12] decision: no accordion). Carries FAQPage structured data for exactly
- * the answers shown. Every answer must restate a claim the page already
- * makes.
+ * A questions section for hub pages. Every answer is readable without a
+ * click (the /akashic [12] decision: no accordion). Carries FAQPage
+ * structured data for exactly the answers shown, and every answer must
+ * restate a claim the page already makes.
+ *
+ * Laid out as a split (21 Oct 2026, /pricing redesign): the eyebrow runs the
+ * full width, the title, lede and one onward link hold on the left from lg
+ * while the questions scroll past on the right, in named groups (a
+ * taxonomy, not a heap of ten). Below lg it is one column.
  */
 
+import FigureEyebrow from "@/components/ui/FigureEyebrow";
 import JsonLd from "@/components/ui/JsonLd";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import ScrollRevealRail from "@/components/ui/ScrollRevealRail";
-import SectionHeader from "@/components/ui/SectionHeader";
-import type { Faq } from "@/content/types";
+import SectionLink from "@/components/ui/SectionLink";
+import TwoToneTitle from "@/components/ui/TwoToneTitle";
+import type { Cta, Faq } from "@/content/types";
 
-const pad = (n: number) => String(n).padStart(2, "0");
+export interface FaqGroup {
+  heading?: string;
+  items: Faq[];
+}
 
 export default function FaqSection({
   id = "faq",
@@ -20,17 +29,22 @@ export default function FaqSection({
   label,
   setup,
   payoff,
-  items,
+  lede,
+  link,
+  groups,
 }: {
   id?: string;
   num: string;
   label: string;
   setup: string;
   payoff: string;
-  items: Faq[];
+  lede?: string;
+  link?: Cta;
+  groups: FaqGroup[];
 }) {
+  const items = groups.flatMap((group) => group.items);
   return (
-    <section id={id} className="scroll-mt-24 border-t border-lineSoft bg-background pb-20 pt-16 lg:pb-28 lg:pt-20">
+    <section id={id} className="scroll-mt-24 border-t border-lineSoft bg-background pb-16 pt-12 lg:pb-24 lg:pt-16">
       <JsonLd
         data={{
           "@type": "FAQPage",
@@ -42,22 +56,50 @@ export default function FaqSection({
         }}
       />
       <ScrollRevealRail>
-        <SectionHeader num={num} label={label} setup={setup} payoff={payoff} />
-        <ScrollReveal delay={80}>
-          <dl className="mt-12 grid gap-x-16 lg:mt-16 lg:grid-cols-2">
-            {items.map((item, index) => (
-              <div key={item.question} className="grid grid-cols-[44px_1fr] gap-4 border-t border-lineSoft py-6">
-                <span aria-hidden className="pt-[5px] font-mono text-[11px] tracking-eyebrow text-overcast">
-                  {pad(index + 1)}
-                </span>
-                <div>
-                  <dt className="text-pretty text-[17px] font-semibold leading-snug tracking-[-0.01em] text-ink">{item.question}</dt>
-                  <dd className="mt-2 text-pretty text-[15px] leading-relaxed text-secondary-text">{item.answer}</dd>
-                </div>
+        <ScrollReveal>
+          <FigureEyebrow num={num} label={label} />
+        </ScrollReveal>
+
+        <div className="mt-10 grid gap-y-12 lg:mt-12 lg:grid-cols-12 lg:gap-x-12">
+          <div className="lg:col-span-4">
+            <div className="lg:sticky lg:top-28">
+              <ScrollReveal delay={80}>
+                <TwoToneTitle setup={setup} payoff={payoff} />
+              </ScrollReveal>
+              {lede && (
+                <ScrollReveal delay={140}>
+                  <p className="mt-6 max-w-[30em] text-pretty text-base leading-relaxed text-inkSoft sm:text-lg">{lede}</p>
+                </ScrollReveal>
+              )}
+              {link && (
+                <ScrollReveal delay={180}>
+                  <SectionLink href={link.href}>{link.label}</SectionLink>
+                </ScrollReveal>
+              )}
+            </div>
+          </div>
+
+          <ScrollReveal delay={120} className="lg:col-span-8">
+            {groups.map((group, g) => (
+              <div key={group.heading ?? g} className={g > 0 ? "mt-10" : ""}>
+                {group.heading && (
+                  <h3 className="flex items-center gap-3 font-mono text-[11px] font-normal uppercase tracking-eyebrow text-inkSoft">
+                    {group.heading}
+                    <span aria-hidden className="text-overcast">{String(group.items.length).padStart(2, "0")}</span>
+                  </h3>
+                )}
+                <dl className="mt-4 border-t border-ink/80">
+                  {group.items.map((item) => (
+                    <div key={item.question} className="border-b border-lineSoft py-[18px]">
+                      <dt className="text-pretty text-[17px] font-semibold leading-snug tracking-[-0.01em] text-ink">{item.question}</dt>
+                      <dd className="mt-1.5 max-w-[52em] text-pretty text-[15px] leading-relaxed text-secondary-text">{item.answer}</dd>
+                    </div>
+                  ))}
+                </dl>
               </div>
             ))}
-          </dl>
-        </ScrollReveal>
+          </ScrollReveal>
+        </div>
       </ScrollRevealRail>
     </section>
   );

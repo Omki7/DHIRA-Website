@@ -3,19 +3,7 @@
 }
 .about-page > header { @apply border-subtle-stroke bg-background; }
 .about-page > .nav-announce { @apply border-subtle-stroke bg-primary-bg; }
-.about-page .about-hero { padding-bottom: 64px; }
-.about-page .about-hero-landscape {
-  position: relative;
-  overflow: hidden;
-  aspect-ratio: 24 / 7;
-  margin-top: 32px;
-  border: 1px solid rgb(var(--card-line));
-  border-radius: 16px;
-}
-.about-page .about-landscape-plane { position:absolute; inset:0; }
-@media (max-width: 639px) {
-  .about-page .about-hero-landscape { aspect-ratio: 16 / 9; }
-}
+.about-page .about-hero { padding-bottom: 32px; }
 .about-page .about-hero h1 > span:first-child {
   @apply text-secondary-text;
 }
@@ -39,7 +27,7 @@
   .about-page #culture .about-intro { max-width: none; }
 }
 @media (max-width: 639px) {
-  .about-page .about-hero { padding-bottom: 72px; }
+  .about-page .about-hero { padding-bottom: 40px; }
 }
 @media (min-width: 768px) and (max-width: 1023px) {
   .about-page #vision dl > div { flex-direction: column; }
@@ -85,7 +73,6 @@
 }
 @media (prefers-reduced-motion:reduce) {
   .about-page :is([data-about-enter],[data-about-reveal]) { opacity:1 !important; transform:none !important; }
-  .about-page .about-landscape-plane { transform:none !important; }
   .about-page :is(.ad-draw,.ad-fade) { opacity:1; stroke-dashoffset:0; }
 }
 @media (scripting:none) {

@@ -218,7 +218,7 @@ export const solutions: SolutionsPage = {
     label: "Built on Akashic",
     setup: "The platform, at work.",
     payoff: "Three solutions, one foundation.",
-    lede: "Executive finance, public procurement and frontline care, each on the same pipelines, master data, governance and AI.",
+    lede: "Executive finance, public procurement and frontline care, each using all seven Akashic modules with shared data, intelligence and governance.",
     items: featured,
   },
   more: {
