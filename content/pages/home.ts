@@ -309,10 +309,10 @@ export const home: HomePage = {
       scrollHint: "Scroll to explore the modules",
       modules: [
         { kind: "master-data", module: "Master Data", title: "Your business hierarchy", description: "See the relationships between your group, regions and locations." },
-        { kind: "bi", module: "Business Intelligence", title: "Revenue by channel", description: "See revenue and channel contribution at a glance." },
+        { kind: "bi", module: "Business Intelligence", title: "Revenue against plan", description: "See revenue week by week against plan, and how the quarter landed." },
         { kind: "governance", module: "Governance", title: "The right view for every role", description: "Share business information with clear ownership and access for each role." },
         { kind: "ask", module: "Ask Akashic", title: "Answers with evidence", description: "Ask a business question in plain language and trace the answer to its source." },
-        { kind: "pipelines", module: "Data Pipelines", title: "Your teams, connected", description: "Bring sales, finance and operations into one connected business view." },
+        { kind: "pipelines", module: "Data Pipelines", title: "Every system, connected", description: "Bring Salesforce, NetSuite and the sales plan into one view of every order." },
         { kind: "ml", module: "Machine Learning", title: "Plan for demand ahead", description: "See expected demand alongside past performance to plan ahead." },
         { kind: "warehouse", module: "Warehouse", title: "One agreed set of figures", description: "Give every team the same agreed figures for reporting and decisions." },
       ],

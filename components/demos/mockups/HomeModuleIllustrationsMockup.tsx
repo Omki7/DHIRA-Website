@@ -1,205 +1,299 @@
 ﻿"use client";
 
 /**
- * SIMULATED PRODUCT UI: native-size product fragments for the homepage.
- * The established illustrative world uses $25.4 million revenue and channel
- * shares of 46 / 32 / 22. These are business teasers, not application layouts.
+ * SIMULATED PRODUCT UI: the small product fragments around the homepage pitch.
+ *
+ * Refined 22 Oct 2026 (user: "more elegant for 2026 platform UI standards and
+ * a little smaller"). The grammar, so the next edit keeps it:
+ *   1. One shell for all seven (HomeHeroTeasersMockup): hairline border, one
+ *      surface, a mono header row naming the module and one live detail.
+ *   2. One type scale: a 24px figure in tabular numerals, 12px body, 9.5px
+ *      mono labels. Nothing competes with the headline beside it.
+ *   3. Hairline drawings in ink and one blue. Colour only marks a source
+ *      system or the single thing that matters (the selected row, the lead).
+ *   4. No icon tiles, no chunky bars, no badges stacked on badges.
+ *   5. Figures come from the one demo world ($25.4 million net revenue up
+ *      6.4%, 98% of plan, 82,401 orders, 214 locations, Online up 18% to 22%
+ *      of revenue, about 12,400 units next quarter, $308 per order).
+ *      Parties are named by what they are, never invented brands.
  */
-import { motion } from "framer-motion";
 import type { ReactNode } from "react";
 import type { HomeHeroModuleKind } from "@/content/pages/home";
 import usePrefersReducedMotion from "@/hooks/usePrefersReducedMotion";
 
-type SymbolName = "building" | "store" | "box" | "lock" | "document" | "message" | "link" | "chart";
+/* Source systems keep one colour wherever they appear (Rule 8: SVG hex). */
+const SRC = { salesforce: "#2A9BE0", netsuite: "#7C5CFC", plan: "#E0A93B" };
 
-function Symbol({ name, className = "h-4 w-4" }: { name: SymbolName; className?: string }) {
-  const paths: Record<SymbolName, ReactNode> = {
-    building: <><path d="M4 21V5l8-3 8 3v16M2 21h20M9 21v-5h6v5M8 7h1m6 0h1M8 11h1m6 0h1" /></>,
-    store: <><path d="M4 10v10h16V10M3 10l2-6h14l2 6M3 10c0 4 6 4 6 0 0 4 6 4 6 0 0 4 6 4 6 0M9 20v-6h6v6" /></>,
-    box: <><path d="m12 3 9 5v9l-9 5-9-5V8ZM3 8l9 5 9-5M12 13v9M7.5 5.5l9 5" /></>,
-    lock: <><rect x="5" y="10" width="14" height="11" rx="3" /><path d="M8 10V7a4 4 0 0 1 8 0v3M12 14v3" /></>,
-    document: <><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9ZM14 3v6h6M8 13h8M8 17h5" /></>,
-    message: <path d="M7 18H4V4h16v14h-8l-5 4Z" />,
-    link: <><path d="m9 15 6-6M7 14l-2 2a3 3 0 0 0 4 4l4-4M11 8l4-4a3 3 0 0 1 4 4l-2 2" /></>,
-    chart: <><path d="M4 20V10M12 20V4M20 20v-8" /></>,
-  };
-  return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden>{paths[name]}</svg>;
-}
+const mono = "font-mono text-[9.5px] uppercase tracking-[0.1em]";
+const figure = "font-heading text-[24px] font-medium leading-none tracking-tight tabular-nums text-ink";
 
-function Tag({ children, positive = false }: { children: ReactNode; positive?: boolean }) {
-  return <span className={"inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] leading-none " + (positive ? "bg-positive-subtle text-positive-text" : "bg-primary-bg text-secondary-text")}>{children}</span>;
-}
-
-function MasterDataTeaser() {
+function Figure({ value, unit, aside }: { value: string; unit?: string; aside?: ReactNode }) {
   return (
-    <div className="pt-4">
-      <div className="flex items-center gap-3">
-        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-inner bg-ink text-background"><Symbol name="building" className="h-5 w-5" /></span>
-        <div>
-          <p className="text-[15px] font-medium tracking-tight text-ink">Your organisation</p>
-          <p className="mt-0.5 text-[11px] text-secondary-text">Group</p>
-        </div>
-        <span className="ml-auto h-2 w-2 rounded-full bg-positive" />
+    <div className="flex items-end justify-between gap-2">
+      <p className={figure}>
+        {value}
+        {unit && <span className="ml-1 font-sans text-[12px] font-normal tracking-normal text-secondary-text">{unit}</span>}
+      </p>
+      {aside}
+    </div>
+  );
+}
+
+/* ---------------------------------------------------------------- */
+/* Master Data: the organisation as a hierarchy                      */
+/* ---------------------------------------------------------------- */
+function MasterDataTeaser() {
+  const regions = [
+    { name: "North region", detail: "Stores · Distribution", on: true },
+    { name: "West region", on: false },
+  ];
+  return (
+    <div>
+      <div className="flex items-center gap-2.5">
+        <span className="flex h-6 w-6 items-center justify-center rounded-[7px] border border-card-line text-ink">
+          <svg viewBox="0 0 16 16" className="h-3 w-3" fill="none" stroke="currentColor" strokeWidth={1.3} strokeLinejoin="round" aria-hidden>
+            <path d="M3 14V3.5L8 2l5 1.5V14M1.5 14h13M6.5 14v-3h3v3" />
+          </svg>
+        </span>
+        <span className="text-[12.5px] font-medium tracking-tight text-ink">Your organisation</span>
       </div>
-      <div className="relative ml-5 mt-3 border-l border-line pl-5">
-        <div className="absolute -left-px top-0 h-10 w-px bg-blue" />
-        {[
-          { region: "North region", selected: true },
-          { region: "South region", selected: false },
-        ].map(({ region, selected }) => (
-          <div key={region} className="relative py-2">
-            <span className={"absolute -left-5 top-6 h-px w-5 " + (selected ? "bg-blue" : "bg-line")} />
-            <div className={"rounded-inner px-3 py-2.5 " + (selected ? "bg-blue-subtle" : "bg-primary-bg")}>
-              <div className="flex items-center justify-between gap-2">
-                <span className="text-[13px] font-medium text-ink">{region}</span>
-                <Symbol name="building" className={"h-4 w-4 " + (selected ? "text-blue" : "text-secondary-text")} />
+      <div className="relative ml-3 mt-2 border-l border-line pl-4">
+        {regions.map((r) => (
+          <div key={r.name} className="relative py-1">
+            <span className={"absolute -left-4 top-1/2 h-px w-3.5 " + (r.on ? "bg-blue" : "bg-line")} />
+            <div className={"rounded-[8px] px-2.5 py-1.5 " + (r.on ? "bg-blue-subtle" : "")}>
+              <div className="flex items-center justify-between">
+                <span className={"text-[12px] " + (r.on ? "font-medium text-ink" : "text-secondary-text")}>{r.name}</span>
+                {r.on && <span className="h-1.5 w-1.5 rounded-full bg-blue" />}
               </div>
-              <div className="mt-2 flex items-center gap-3 text-[10px] text-secondary-text">
-                <span className="flex items-center gap-1"><Symbol name="store" className="h-3 w-3" />Stores</span>
-                <span className="flex items-center gap-1"><Symbol name="box" className="h-3 w-3" />Distribution</span>
-              </div>
+              {r.detail && <p className={"mt-0.5 text-tertiary-text " + mono}>{r.detail}</p>}
             </div>
           </div>
         ))}
+        <div className="relative py-1">
+          <span className="absolute -left-4 top-1/2 h-px w-3.5 bg-line" />
+          <span className="px-2.5 text-[11.5px] text-tertiary-text">3 more regions</span>
+        </div>
       </div>
     </div>
   );
 }
 
-const CHANNELS = [
-  { name: "Direct", share: 46, colour: "bg-blue" },
-  { name: "Partner", share: 32, colour: "bg-inkSoft" },
-  { name: "Online", share: 22, colour: "bg-[rgb(var(--diagram-purple))]" },
-];
+/* ---------------------------------------------------------------- */
+/* Business Intelligence: the quarter, week by week, against plan    */
+/* ---------------------------------------------------------------- */
+/* Thirteen weeks summing to $25.4 million at 98% of a flat plan (the same
+   series as the /akashic outcome card). */
+const WEEKS = [1.78, 1.86, 1.92, 1.84, 1.95, 2.03, 1.93, 1.97, 1.99, 1.9, 2.05, 2.1, 2.08];
+const PLAN = 25.4 / 0.98 / WEEKS.length;
+const SPARK = { w: 208, h: 44, lo: 1.7, hi: 2.14 };
+const sy = (v: number) => SPARK.h - ((v - SPARK.lo) / (SPARK.hi - SPARK.lo)) * SPARK.h;
+const sx = (i: number) => (i * SPARK.w) / (WEEKS.length - 1);
+const SPARK_LINE = WEEKS.map((v, i) => `${i ? "L" : "M"} ${sx(i).toFixed(1)} ${sy(v).toFixed(1)}`).join(" ");
+const SPARK_AREA = `${SPARK_LINE} L ${SPARK.w} ${SPARK.h} L 0 ${SPARK.h} Z`;
 
 function BusinessIntelligenceTeaser() {
-  const reduced = usePrefersReducedMotion();
+  const last = WEEKS.length - 1;
   return (
-    <div className="pt-3">
-      <div className="flex items-end justify-between gap-2">
-        <div>
-          <p className="text-[11px] text-secondary-text">Net revenue</p>
-          <p className="mt-1 font-heading text-[40px] font-medium leading-none tracking-tightest text-ink">$25.4<span className="ml-1.5 text-[13px] font-normal tracking-normal text-secondary-text">million</span></p>
-        </div>
-        <Tag>Quarter 2</Tag>
+    <div>
+      <p className="text-[11px] text-secondary-text">Net revenue</p>
+      <div className="mt-1.5">
+        <Figure value="$25.4" unit="million" aside={<span className="pb-0.5 text-[11px] font-medium text-blue">+6.4%</span>} />
       </div>
-      <div className="mt-5 grid grid-cols-3 gap-3 border-b border-lineSoft px-2 pb-0">
-        {CHANNELS.map((channel, index) => (
-          <div key={channel.name} className="flex flex-col items-center justify-end">
-            <span className="mb-1.5 text-[12px] font-medium text-ink">{channel.share}%</span>
-            <motion.div className={"w-full max-w-12 origin-bottom rounded-t-[5px] " + channel.colour}
-              style={{ height: channel.share * 1.65 }}
-              initial={reduced ? false : { scaleY: 0.15 }}
-              animate={reduced ? { scaleY: 1 } : undefined}
-              whileInView={{ scaleY: 1 }} viewport={{ once: true }}
-              transition={{ duration: reduced ? 0 : 0.75, delay: reduced ? 0 : index * 0.1, ease: [0.2, 0.8, 0.2, 1] }} />
-          </div>
-        ))}
-      </div>
-      <div className="mt-2 grid grid-cols-3 gap-3 px-2 text-center text-[11px] text-secondary-text">
-        {CHANNELS.map(channel => <span key={channel.name}>{channel.name}</span>)}
+      <svg viewBox={`0 0 ${SPARK.w} ${SPARK.h}`} className="mt-3 h-11 w-full overflow-visible" fill="none" aria-hidden>
+        <path d={SPARK_AREA} className="fill-blue-subtle" />
+        <path d={`M 0 ${sy(PLAN)} H ${SPARK.w}`} className="stroke-inkSoft" strokeOpacity={0.5} strokeDasharray="2 3" />
+        <path d={SPARK_LINE} className="stroke-blue" strokeWidth={1.5} strokeLinejoin="round" strokeLinecap="round" />
+        <circle cx={sx(last)} cy={sy(WEEKS[last])} r={2.5} className="fill-blue" />
+      </svg>
+      <div className={"mt-2 flex justify-between text-tertiary-text " + mono}>
+        <span>98% of plan</span>
+        <span>Up 2 points</span>
       </div>
     </div>
   );
 }
 
+/* ---------------------------------------------------------------- */
+/* Governance: one report, a different view for each role            */
+/* ---------------------------------------------------------------- */
 function GovernanceTeaser() {
+  const roles = [
+    { role: "Finance", scope: "All regions", open: true },
+    { role: "Regional head", scope: "Own region", open: true },
+    { role: "Analyst", scope: "Tax ID masked", open: false },
+  ];
   return (
-    <div className="pt-4">
-      <div className="flex items-center gap-3">
-        <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-blue-border bg-background text-blue"><Symbol name="lock" className="h-5 w-5" /></span>
-        <div>
-          <p className="text-[17px] font-medium leading-tight tracking-tight text-ink">Private by design.</p>
-          <p className="mt-1 text-[11px] text-secondary-text">Access follows every role.</p>
+    <div className="divide-y divide-lineSoft">
+      {roles.map((r) => (
+        <div key={r.role} className="flex items-center justify-between py-2 first:pt-0 last:pb-0">
+          <span className="text-[12px] text-ink">{r.role}</span>
+          <span className={"flex items-center gap-1.5 " + mono + " " + (r.open ? "text-blue" : "text-tertiary-text")}>
+            {!r.open && (
+              <svg viewBox="0 0 12 12" className="h-2.5 w-2.5" fill="none" stroke="currentColor" strokeWidth={1.2} aria-hidden>
+                <rect x="2.5" y="5.5" width="7" height="5" rx="1.2" />
+                <path d="M4 5.5V4a2 2 0 0 1 4 0v1.5" />
+              </svg>
+            )}
+            {r.scope}
+          </span>
         </div>
-      </div>
-      <div className="mt-4 flex items-center justify-between border-t border-blue-border pt-3">
-        <span className="text-[11px] text-secondary-text">Finance <span className="text-blue">·</span> Owner</span>
-        <Tag positive><span className="h-1.5 w-1.5 rounded-full bg-positive" />Governed</Tag>
-      </div>
+      ))}
     </div>
   );
 }
 
+/* ---------------------------------------------------------------- */
+/* Ask Akashic: a plain question, a cited answer                     */
+/* ---------------------------------------------------------------- */
 function AskTeaser() {
   return (
-    <div className="pt-3">
-      <div className="ml-4 flex items-start gap-2 rounded-inner border border-card-line bg-primary-bg px-3 py-2.5 text-[12px] leading-relaxed text-secondary-text">
-        <Symbol name="message" className="mt-0.5 h-3.5 w-3.5 shrink-0" />
-        <span>Which channel is growing fastest?</span>
+    <div>
+      <p className="ml-8 rounded-[12px] rounded-br-[4px] border border-lineSoft bg-primary-bg px-3 py-2 text-[12px] leading-snug text-secondary-text">
+        Which channel is growing fastest?
+      </p>
+      <div className="mt-3 flex gap-2.5">
+        <span className="mt-[3px] flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-blue-subtle">
+          <span className="h-1.5 w-1.5 rounded-full bg-blue" />
+        </span>
+        <p className="text-[13px] leading-snug text-ink">
+          Online, up <span className="font-medium text-blue">18%</span> this quarter. Now 22% of revenue.
+          <span className="ml-1 align-top font-mono text-[9px] text-blue">[1]</span>
+        </p>
       </div>
-      <div className="relative mt-3 rounded-outer border border-card-line bg-background px-4 py-4">
-        <p className="text-[18px] font-medium tracking-tight text-ink">Online leads.</p>
-        <div className="mt-1.5 flex items-end gap-2">
-          <span className="font-heading text-[42px] font-medium leading-none tracking-tightest text-blue">18%</span>
-          <span className="pb-1 text-[11px] leading-tight text-secondary-text">growth<br />this quarter</span>
-          <svg aria-hidden viewBox="0 0 68 35" className="mb-1 ml-auto h-9 w-[68px]" fill="none"><path d="M2 31C10 31 8 22 17 23S24 28 31 18 39 23 47 12 56 13 66 3" className="stroke-blue" strokeWidth="2" strokeLinecap="round" /><circle cx="66" cy="3" r="2.5" className="fill-blue" /></svg>
-        </div>
-        <div className="mt-4 flex items-center gap-2 border-t border-lineSoft pt-3 text-[11px] text-secondary-text">
-          <Symbol name="document" className="h-3.5 w-3.5 text-blue" />
-          <span>Sales records</span>
-          <span className="ml-auto rounded-full bg-blue-subtle px-2 py-0.5 text-[10px] text-blue">Source cited</span>
-        </div>
+      <p className={"mt-3 border-t border-lineSoft pt-2.5 text-tertiary-text " + mono}>[1] Sales records</p>
+    </div>
+  );
+}
+
+/* ---------------------------------------------------------------- */
+/* Data Pipelines: three systems arrive as one view                  */
+/* ---------------------------------------------------------------- */
+const LANES = [
+  { y: 10, name: "Salesforce", colour: SRC.salesforce },
+  { y: 36, name: "NetSuite", colour: SRC.netsuite },
+  { y: 62, name: "Sales plan", colour: SRC.plan },
+];
+const JOIN = { x: 168, y: 36 };
+const lane = (y: number) => (y === JOIN.y ? `M 78 ${y} H ${JOIN.x}` : `M 78 ${y} H 112 C 142 ${y}, 140 ${JOIN.y}, ${JOIN.x} ${JOIN.y}`);
+
+function PipelinesTeaser() {
+  const reduced = usePrefersReducedMotion();
+  return (
+    <div>
+      <svg viewBox="0 0 208 72" className="h-[72px] w-full overflow-visible" fill="none" aria-hidden>
+        {LANES.map((l) => (
+          <g key={l.name}>
+            <circle cx={4} cy={l.y} r={3} fill={l.colour} />
+            <text x={13} y={l.y + 3.8} className="fill-ink font-sans text-[11px]">
+              {l.name}
+            </text>
+            <path d={lane(l.y)} stroke={l.colour} strokeOpacity={0.55} strokeWidth={1.2} />
+          </g>
+        ))}
+        <path d={`M ${JOIN.x} ${JOIN.y} H 208`} className="stroke-blue" strokeWidth={1.4} />
+        <circle cx={JOIN.x} cy={JOIN.y} r={7} className="stroke-blue-border" />
+        <circle cx={JOIN.x} cy={JOIN.y} r={3} className="fill-blue" />
+        {/* Records travel; the global gate rests SMIL off screen (Rule 6a). */}
+        {!reduced &&
+          LANES.map((l, i) => (
+            <circle key={l.name} r={2} fill={l.colour}>
+              <animateMotion dur="2.6s" begin={`-${i * 0.85}s`} repeatCount="indefinite" path={lane(l.y)} />
+            </circle>
+          ))}
+      </svg>
+      <div className="mt-2.5 flex items-baseline justify-between border-t border-lineSoft pt-2.5">
+        <span className="text-[12px] text-ink">
+          <span className="font-medium tabular-nums">82,401</span> orders
+        </span>
+        <span className={"text-tertiary-text " + mono}>0 rejected</span>
       </div>
     </div>
   );
 }
 
-function PipelinesTeaser() {
-  return (
-    <div className="pt-4">
-      <div className="flex items-center">
-        {(["chart", "document", "box"] as const).map((symbol, index) => (
-          <div key={symbol} className="flex flex-1 items-center">
-            <span className={"flex h-10 w-10 shrink-0 items-center justify-center rounded-inner " + (index === 1 ? "bg-blue text-on-accent" : "border border-card-line bg-background text-inkSoft")}><Symbol name={symbol} className="h-[18px] w-[18px]" /></span>
-            {index < 2 && <span className="relative mx-2 h-px flex-1 bg-line"><span className="absolute left-1/2 -top-0.5 h-[5px] w-[5px] rounded-full bg-blue" /></span>}
-          </div>
-        ))}
-        <Tag positive><span className="h-1.5 w-1.5 rounded-full bg-positive" />In sync</Tag>
-      </div>
-      <p className="mt-4 text-[18px] font-medium tracking-tight text-ink">One connected business.</p>
-      <p className="mt-1 text-[11px] text-secondary-text">Sales · Finance · Operations</p>
-    </div>
-  );
-}
+/* ---------------------------------------------------------------- */
+/* Machine Learning: next quarter, with its likely range             */
+/* ---------------------------------------------------------------- */
+const HISTORY = [812, 840, 826, 868, 851, 889, 874, 902, 893, 921, 905, 934, 918, 940];
+const FORECAST = [942, 946, 940, 951, 955, 948, 958, 962, 955, 966, 970, 964];
+const CHART = { w: 240, h: 56, today: 150 };
+const fy = (v: number) => CHART.h - ((v - 790) / 200) * CHART.h;
+const hx = (i: number) => (i * CHART.today) / (HISTORY.length - 1);
+const fx = (j: number) => CHART.today + ((j + 1) * (CHART.w - CHART.today)) / FORECAST.length;
+const HIST_LINE = HISTORY.map((v, i) => `${i ? "L" : "M"} ${hx(i).toFixed(1)} ${fy(v).toFixed(1)}`).join(" ");
+const START = `M ${CHART.today} ${fy(HISTORY[HISTORY.length - 1]).toFixed(1)}`;
+const FC_LINE = `${START} ` + FORECAST.map((v, j) => `L ${fx(j).toFixed(1)} ${fy(v).toFixed(1)}`).join(" ");
+const band = (j: number) => 2 + 1.1 * (j + 1);
+const FC_BAND =
+  `${START} ` +
+  FORECAST.map((v, j) => `L ${fx(j).toFixed(1)} ${(fy(v) - band(j)).toFixed(1)}`).join(" ") +
+  " " +
+  [...FORECAST.keys()]
+    .reverse()
+    .map((j) => `L ${fx(j).toFixed(1)} ${(fy(FORECAST[j]) + band(j)).toFixed(1)}`)
+    .join(" ") +
+  " Z";
 
 function ForecastTeaser() {
   return (
-    <div className="pt-3">
-      <div className="flex items-center justify-between">
-        <p className="text-[18px] font-medium tracking-tight text-ink">Demand, ahead.</p>
-        <Tag>Forecast</Tag>
-      </div>
-      <svg aria-hidden viewBox="0 0 300 105" className="mt-3 h-[105px] w-full overflow-visible" fill="none">
-        <path d="M0 87H300M0 48H300" className="stroke-lineSoft" strokeDasharray="2 5" />
-        <path d="M165 50C185 30 200 42 218 21S255 20 300 5V56C260 58 245 49 218 66S185 56 165 50Z" className="fill-blue-subtle" />
-        <path d="M0 87C14 87 17 72 33 75S48 89 62 71 81 75 96 59 118 68 133 53 153 58 165 50" className="stroke-inkSoft" strokeWidth="2" strokeLinecap="round" />
-        <path d="M165 50C185 38 200 49 218 37S255 35 300 25" className="stroke-blue" strokeWidth="2.5" strokeDasharray="4 5" strokeLinecap="round" />
-        <path d="M165 9V97" className="stroke-blue-border" />
-        <circle cx="165" cy="50" r="6" className="fill-background stroke-blue" strokeWidth="2" />
-        <circle cx="165" cy="50" r="2" className="fill-blue" />
+    <div>
+      <Figure value="12,400" unit="units next quarter" />
+      <svg viewBox={`0 0 ${CHART.w} ${CHART.h + 12}`} className="mt-3 h-[68px] w-full overflow-visible" fill="none" aria-hidden>
+        <path d={FC_BAND} className="fill-blue-subtle" />
+        <path d={HIST_LINE} className="stroke-ink" strokeOpacity={0.7} strokeWidth={1.4} strokeLinejoin="round" strokeLinecap="round" />
+        <path d={FC_LINE} className="stroke-blue" strokeWidth={1.5} strokeDasharray="3 3" strokeLinecap="round" />
+        <path d={`M ${CHART.today} 0 V ${CHART.h}`} className="stroke-line" strokeDasharray="2 2" />
+        <circle cx={CHART.today} cy={fy(HISTORY[HISTORY.length - 1])} r={2.5} className="fill-ink" />
+        <text x={CHART.today} y={CHART.h + 11} textAnchor="middle" className="fill-tertiary-text font-mono text-[8.5px] uppercase tracking-[0.1em]">
+          Today
+        </text>
       </svg>
-      <div className="flex justify-between text-[10px] text-secondary-text"><span>Past performance</span><span className="text-blue">Expected demand →</span></div>
     </div>
   );
 }
 
+/* ---------------------------------------------------------------- */
+/* Warehouse: one number, defined once, with its drivers             */
+/* ---------------------------------------------------------------- */
 function WarehouseTeaser() {
   return (
-    <div className="pt-3">
-      <div className="flex items-center justify-between text-[11px] text-secondary-text">
-        <span>Net revenue</span>
-        <Symbol name="link" className="h-4 w-4 text-blue" />
+    <div>
+      <p className="text-[11px] text-secondary-text">Net revenue</p>
+      <div className="mt-1.5">
+        <Figure value="$25.4" unit="million" />
       </div>
-      <p className="mt-1.5 font-heading text-[30px] font-medium leading-tight tracking-tightest text-ink">$25.4 <span className="text-[18px] font-normal tracking-tight">million</span></p>
-      <div className="mt-4 flex items-center gap-1.5 border-t border-lineSoft pt-3">
-        {["Sales", "Finance", "Leadership"].map(team => <span key={team} className="rounded-full border border-card-line px-2 py-1 text-[10px] text-secondary-text">{team}</span>)}
-        <Symbol name="link" className="ml-auto h-3.5 w-3.5 text-blue" />
+      <div className="mt-3 flex items-end gap-2 border-t border-lineSoft pt-3">
+        <div className="min-w-0 flex-1">
+          <p className={"text-tertiary-text " + mono}>Orders</p>
+          <p className="mt-1 text-[13px] font-medium tabular-nums text-ink">82,401</p>
+        </div>
+        <span className="pb-px text-[13px] text-blue" aria-hidden>
+          ×
+        </span>
+        <div className="min-w-0 flex-1 text-right">
+          <p className={"whitespace-nowrap text-tertiary-text " + mono}>Order value</p>
+          <p className="mt-1 text-[13px] font-medium tabular-nums text-ink">$308</p>
+        </div>
       </div>
-      <p className="mt-2.5 text-[11px] text-secondary-text">One definition. Every team.</p>
     </div>
   );
 }
+
+/* The live detail on each card's header row, beside the module name. */
+export const TEASER_META: Record<HomeHeroModuleKind, ReactNode> = {
+  "master-data": "214 locations",
+  bi: "Quarter 2",
+  governance: "Audited",
+  ask: "Cited",
+  pipelines: (
+    <span className="flex items-center gap-1.5">
+      <span className="h-1.5 w-1.5 animate-[softpulse_2.4s_infinite] rounded-full bg-positive motion-reduce:animate-none" />6 min ago
+    </span>
+  ),
+  ml: "Next 12 weeks",
+  warehouse: "Defined once",
+};
 
 const DRAWINGS: Record<HomeHeroModuleKind, () => ReactNode> = {
   "master-data": MasterDataTeaser,
