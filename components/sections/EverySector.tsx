@@ -7,10 +7,19 @@ import Image from "next/image";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import ScrollRevealRail from "@/components/ui/ScrollRevealRail";
 import SectionHeader from "@/components/ui/SectionHeader";
+import useOnScreen from "@/hooks/useOnScreen";
 import usePrefersReducedMotion from "@/hooks/usePrefersReducedMotion";
 import type { HomeSectors } from "@/content/pages/home";
 
 const TRANSITION = { duration: 0.5, ease: [0.2, 0.8, 0.2, 1] as const };
+
+/* The sectors rotate on their own, like [02]'s modules (user, 22 Oct 2026):
+   the selected tab's line fills blue and the next sector takes over as it
+   lands. The fill's own animationend advances the tab, so the line and the
+   switch share one clock. It holds off screen and while keyboard focus is
+   inside the block, and does not run under reduced motion (Rule 6a).
+   Choosing a sector restarts the line from that sector. */
+const ROTATE_MS = 7000;
 
 function Arrow({ className = "" }: { className?: string }) {
   return (
@@ -25,8 +34,17 @@ export default function EverySector({ content: HOME_INDUSTRIES }: { content: Hom
   const [activeIndex, setActiveIndex] = useState(0);
   const [vertical, setVertical] = useState(false);
   const buttons = useRef<(HTMLButtonElement | null)[]>([]);
+  const rootRef = useRef<HTMLDivElement>(null);
+  const inView = useOnScreen(rootRef);
   const reduced = usePrefersReducedMotion();
+  // Bumped when a sector is chosen, so choosing the current one restarts its line.
+  const [run, setRun] = useState(0);
   const sector = SECTORS[activeIndex];
+
+  function choose(index: number) {
+    setActiveIndex(index);
+    setRun((r) => r + 1);
+  }
 
   useEffect(() => {
     const media = window.matchMedia("(min-width: 1024px)");
@@ -56,7 +74,7 @@ export default function EverySector({ content: HOME_INDUSTRIES }: { content: Hom
     else if (event.key === (vertical ? "ArrowUp" : "ArrowLeft")) next = (index + SECTORS.length - 1) % SECTORS.length;
     else return;
     event.preventDefault();
-    setActiveIndex(next);
+    choose(next);
     buttons.current[next]?.focus();
   }
 
@@ -77,7 +95,7 @@ export default function EverySector({ content: HOME_INDUSTRIES }: { content: Hom
         />
 
         <ScrollReveal delay={140} className="mt-12 lg:mt-14">
-          <div className="grid min-w-0 grid-cols-1 gap-y-6 lg:grid-cols-[240px_minmax(0,1fr)] lg:gap-x-10 xl:grid-cols-[260px_minmax(0,1fr)] xl:gap-x-12">
+          <div ref={rootRef} className="group/sectors grid min-w-0 grid-cols-1 gap-y-6 lg:grid-cols-[240px_minmax(0,1fr)] lg:gap-x-10 xl:grid-cols-[260px_minmax(0,1fr)] xl:gap-x-12">
             <div className="min-w-0 lg:col-start-1 lg:row-start-1">
               <p className="mb-4 font-mono text-[10px] uppercase tracking-eyebrow text-inkSoft">{HOME_INDUSTRIES.selectorLabel}</p>
               <div role="tablist" aria-label={HOME_INDUSTRIES.tablistLabel} aria-orientation={vertical ? "vertical" : "horizontal"} className="grid grid-cols-2 gap-x-3 sm:grid-cols-3 lg:grid-cols-1 lg:gap-0">
@@ -93,7 +111,7 @@ export default function EverySector({ content: HOME_INDUSTRIES }: { content: Hom
                       aria-controls="sector-panel"
                       aria-selected={selected}
                       tabIndex={selected ? 0 : -1}
-                      onClick={() => setActiveIndex(index)}
+                      onClick={() => choose(index)}
                       onKeyDown={(event) => handleKey(event, index)}
                       className={`group relative flex min-h-[56px] items-center gap-2.5 border-b px-1.5 py-2.5 text-left transition-colors duration-250 motion-reduce:transition-none lg:min-h-[65px] lg:gap-3 lg:px-3 ${selected ? "border-blue bg-primary-bg text-ink" : "border-lineSoft text-inkSoft hover:bg-primary-bg hover:text-ink"}`}
                     >
@@ -102,6 +120,19 @@ export default function EverySector({ content: HOME_INDUSTRIES }: { content: Hom
                       </span>
                       <span className="min-w-0 text-[13px] font-medium tracking-tight sm:text-[15px] lg:text-[17px]">{item.name}</span>
                       <Arrow className={`ml-auto hidden transition-opacity duration-250 motion-reduce:transition-none lg:block ${selected ? "text-blue opacity-100" : "opacity-0 group-hover:opacity-60"}`} />
+                      {/* The loader: a light blue track over the tab's line, filled blue
+                          over ROTATE_MS. Play state stays in classes (the style sets
+                          longhands only) so off screen and keyboard focus can hold it. */}
+                      {selected && !reduced && (
+                        <span aria-hidden="true" className="absolute inset-x-0 -bottom-px h-[2px] overflow-hidden bg-blue-border">
+                          <span
+                            key={run}
+                            onAnimationEnd={() => setActiveIndex((i) => (i + 1) % SECTORS.length)}
+                            className={`block size-full origin-left bg-blue group-has-[:focus-visible]/sectors:[animation-play-state:paused] ${inView ? "" : "[animation-play-state:paused]"}`}
+                            style={{ animationName: "progressFill", animationDuration: `${ROTATE_MS}ms`, animationTimingFunction: "linear", animationFillMode: "both" }}
+                          />
+                        </span>
+                      )}
                     </button>
                   );
                 })}

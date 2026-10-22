@@ -4,8 +4,12 @@ import { useEffect, useRef, useState } from "react";
 import useOnScreen from "@/hooks/useOnScreen";
 import usePrefersReducedMotion from "@/hooks/usePrefersReducedMotion";
 
-/** Shared hero cadence, with reserved width and a stable accessible headline. */
-export default function RotatingPhrase({ phrases, suffix = "" }: { phrases: readonly string[]; suffix?: string }) {
+/** Shared hero cadence, with reserved width and a stable accessible headline.
+    The box is as wide as the longest phrase. `align="center"` centres each
+    phrase inside it, for a phrase that opens its own centred line (homepage
+    hero); left alignment, the default, keeps a phrase snug against the words
+    before it on the same line (/akashic "behind every …"). */
+export default function RotatingPhrase({ phrases, suffix = "", align = "start" }: { phrases: readonly string[]; suffix?: string; align?: "start" | "center" }) {
   const ref = useRef<HTMLSpanElement>(null);
   const onScreen = useOnScreen(ref);
   const reduced = usePrefersReducedMotion();
@@ -19,7 +23,7 @@ export default function RotatingPhrase({ phrases, suffix = "" }: { phrases: read
 
   const active = reduced ? 0 : index;
   return (
-    <span ref={ref} className="relative inline-grid text-left align-baseline" data-rotating-phrase>
+    <span ref={ref} className={`relative inline-grid align-baseline ${align === "center" ? "text-center" : "text-left"}`} data-rotating-phrase>
       <span className="sr-only">{phrases[0]}{suffix}</span>
       {phrases.map((phrase, i) => (
         <span key={phrase} aria-hidden="true" data-active={i === active}

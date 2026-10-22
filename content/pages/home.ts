@@ -34,6 +34,15 @@ import { solutionModules, type AkashicSolution } from "./akashic";
 
 /* ---------------- Types: the CMS contract for this page ---------------- */
 
+export type HomeHeroModuleKind = "pipelines" | "master-data" | "warehouse" | "ml" | "ask" | "bi" | "governance";
+
+export interface HomeHeroModule {
+  kind: HomeHeroModuleKind;
+  module: string;
+  title: string;
+  description: string;
+}
+
 export interface HomeHero {
   badge: { lead: string; product: string; claim: string; href: string };
   title: {
@@ -47,6 +56,12 @@ export interface HomeHero {
   lede: [string, string];
   primary: Cta;
   secondary: Cta;
+  illustrations: {
+    label: string;
+    note: string;
+    scrollHint: string;
+    modules: HomeHeroModule[];
+  };
 }
 
 export interface ProblemFact {
@@ -288,6 +303,20 @@ export const home: HomePage = {
     ],
     primary: { label: "See Akashic in action", href: "#platform" },
     secondary: { label: "Talk to our team", href: "#talk-to-our-team" },
+    illustrations: {
+      label: "Explore the Akashic modules",
+      note: "Illustrative business views",
+      scrollHint: "Scroll to explore the modules",
+      modules: [
+        { kind: "master-data", module: "Master Data", title: "Your business hierarchy", description: "See the relationships between your group, regions and locations." },
+        { kind: "bi", module: "Business Intelligence", title: "Revenue by channel", description: "See revenue and channel contribution at a glance." },
+        { kind: "governance", module: "Governance", title: "The right view for every role", description: "Share business information with clear ownership and access for each role." },
+        { kind: "ask", module: "Ask Akashic", title: "Answers with evidence", description: "Ask a business question in plain language and trace the answer to its source." },
+        { kind: "pipelines", module: "Data Pipelines", title: "Your teams, connected", description: "Bring sales, finance and operations into one connected business view." },
+        { kind: "ml", module: "Machine Learning", title: "Plan for demand ahead", description: "See expected demand alongside past performance to plan ahead." },
+        { kind: "warehouse", module: "Warehouse", title: "One agreed set of figures", description: "Give every team the same agreed figures for reporting and decisions." },
+      ],
+    },
   },
 
   problem: {

@@ -243,7 +243,20 @@ Everything in `demos/mockups/` is fake software (`*Mockup`, banner comment
 `SIMULATED PRODUCT UI`). Rules:
 
 - **Tease, never reveal** (founder, 15 and 20 Oct 2026). A reader needs proof
-  the product exists and has taste, not its layout. Two approved forms:
+  the product exists and has taste, not its layout. Three approved forms:
+  - **Business snapshots** (`HomeHeroTeasersMockup`, homepage hero only;
+    22 Oct 2026): compact executive-facing illustrations surround the centred
+    headline, inspired by Vistiq's placement and Ramp's cropped product
+    details. Render native-size React fragments, never scale an entire SVG
+    dashboard down to unreadable type. Use one focal result, readable labels,
+    entity cards, source chips and varied surfaces. Master Data shows a
+    business hierarchy; Business Intelligence shows channel contribution;
+    Machine Learning shows a demand outlook. Motion entrances and chart
+    growth play once in view and respect reduced motion. No application
+    chrome or engineering canvases. Smaller
+    screens place the same seven drawings in a scrollable strip below the
+    copy. Example figures are labelled illustrative. This treatment does
+    not replace the /akashic hero outcome cards or context tentacles.
   - **Moments** (`AkashicModuleMomentsMockup`; homepage [02] beside the
     module rail via `ModuleMomentStage`, and /akashic/1-0 [01]): one drawing
     per module playing its verb, no app chrome, native small type, lines
@@ -253,11 +266,21 @@ Everything in `demos/mockups/` is fake software (`*Mockup`, banner comment
     `.archive/removed-2026-10-21/`). If particles return, keep its refined
     settings: fine single-ink atoms, a smooth flow field, no check marks or
     sparkles.
-  - **Small screens** (`AkashicModuleScreensMockup`, /akashic hero): the real
-    module screens at about 0.56 scale so shapes read and product text does
-    not, each fading out over its lower third, neighbours paler, nothing
-    clickable inside, a legible caption under the stage, and the context
-    tentacles beneath as the index.
+  - **Outcome cards** (`AkashicOutcomeCardsMockup`, /akashic hero; founder,
+    22 Oct 2026: the module screens "show too much", make them end-user and
+    executive friendly). Taken from how ThoughtSpot, Hex and Cube show
+    product to business readers. One card per module in the fan, context
+    tentacles beneath as the index. Each card: a role and the plain question
+    that role asks (typed in), one legible answer with its outcome phrase in
+    blue, one hairline drawing proving it (sources enter from beyond the
+    card's edge, colour = source system), and a mono provenance line. No app
+    chrome, no builder canvases. Neighbour cards keep opaque shells and fade
+    their contents, so no card shows through another. Each drawing is a
+    picture a business reader already uses (user, 22 Oct 2026: "more
+    intuitive and creative"): Master Data a customer family tree rolling up,
+    Warehouse a metric tree, Business Intelligence a gap-to-plan chart with
+    its alert, Governance one report seen by two roles. Never a mechanism
+    only engineers recognise (deduplication, join canvases).
 - One demo world in USD (see `AkashicScreenKitMockup`). Figures in a mockup
   are lifted from that world, never new.
 - The homepage is already screen-heavy: prefer line drawings over another
