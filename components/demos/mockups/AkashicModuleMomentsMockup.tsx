@@ -21,7 +21,7 @@
  * white card template with key/value rows, seven times over. Each moment is
  * now its own drawing of the module's VERB, played in time:
  *   Data Pipelines    three record streams pass a join gate and fill one table
- *   Master Data  three spellings, match evidence, a golden record assembled
+ *   Master Data  three records, match evidence, a golden record assembled
  *                field by field with each field's provenance
  *   Warehouse    the star schema, and one metric that BI, Ask and ML read
  *   ML           runs compete on the holdout; the winner opens the forecast
@@ -206,13 +206,15 @@ function PipelinesMoment() {
 }
 
 /* ---------------------------------------------------------------- */
-/* 02 Master Data: three spellings resolve to one golden record      */
+/* 02 Master Data: three records resolve to one golden record        */
 /* ---------------------------------------------------------------- */
+/* No invented company name (user, 22 Oct 2026): each system's record is
+   named the way that system names it, and the evidence does the matching. */
 function MasterDataMoment() {
   const recs = [
-    { y: 62, src: "Salesforce · #4471", name: "Whitmore Retail", attrs: "tax_id 94-2404110 · Harbor Blvd", c: C.sf, match: "tax_id · exact" },
-    { y: 134, src: "NetSuite · #4471-B", name: "Whitmore Retail Pvt", attrs: "tax_id 94-2404110 · Ste 2 · net-45", c: C.ns, match: "tax_id · exact" },
-    { y: 206, src: "Invoice PDF · bill-to", name: "WHITMORE RETAIL", attrs: "no tax_id", c: C.plan, match: "fuzzy · 0.97" },
+    { y: 62, src: "Salesforce · account", name: "Account #4471", attrs: "tax_id 94-2404110 · Harbor Blvd", c: C.sf, match: "tax_id · exact" },
+    { y: 134, src: "NetSuite · customer", name: "Customer 4471-B", attrs: "tax_id 94-2404110 · Ste 2 · net-45", c: C.ns, match: "tax_id · exact" },
+    { y: 206, src: "Invoice PDF · bill-to", name: "Bill-to on invoice", attrs: "no tax_id · 500 Harbor Blvd", c: C.plan, match: "address · fuzzy 0.97" },
   ];
   const fields = [
     { k: "tax_id", v: <span className="font-mono text-[11px]">94-2404110</span>, why: "exact match" },
@@ -277,7 +279,7 @@ function MasterDataMoment() {
           <span className={eyebrow + " text-blue"}>Golden record</span>
           <span className="font-mono text-[9.5px] text-tertiary-text">CU-9042</span>
         </div>
-        <div className="px-4 pb-2.5 pt-1 text-[16px] font-semibold tracking-tight text-primary-text">Whitmore Retail</div>
+        <div className="px-4 pb-2.5 pt-1 text-[16px] font-semibold tracking-tight text-primary-text">Largest retail customer</div>
         {fields.map((f, i) => (
           <div key={f.k} className="grid grid-cols-[58px_1fr_auto] items-baseline gap-x-3 border-t border-card-line px-4 py-[7px]" style={play("mm-slide", 2150 + i * 220, 460)}>
             <span className="font-mono text-[9.5px] text-tertiary-text">{f.k}</span>
@@ -622,12 +624,12 @@ function GovernanceMoment() {
         </div>
         <div className={row} style={play("mm-slide", 700, 420)}>
           <span className="w-fit rounded bg-tertiary-bg px-1.5 py-0.5 text-[10px] text-secondary-text">Finance</span>
-          <span className="truncate text-[12px] text-primary-text">Whitmore Retail</span>
+          <span className="truncate text-[12px] text-primary-text">Account #4471</span>
           <span className="font-mono text-[11px] text-primary-text">94-2404110</span>
         </div>
         <div className={row} style={play("mm-slide", 900, 420)}>
           <span className="w-fit rounded bg-tertiary-bg px-1.5 py-0.5 text-[10px] text-secondary-text">Analyst</span>
-          <span className="truncate text-[12px] text-primary-text">Whitmore Retail</span>
+          <span className="truncate text-[12px] text-primary-text">Account #4471</span>
           <span className="relative flex items-center gap-2 font-mono text-[11px]">
             <span className="relative">
               <span className="text-primary-text" style={play("mm-out", 1900, 300)}>94-2404110</span>
@@ -667,7 +669,7 @@ type Moment = {
 
 const MOMENTS: Moment[] = [
   { module: "Data Pipelines", caption: "Three sources join into one governed table. Nothing rejected.", focus: 700, Draw: PipelinesMoment },
-  { module: "Master Data", caption: "Three spellings, one record. Every field keeps its source.", focus: 754, Draw: MasterDataMoment },
+  { module: "Master Data", caption: "Three records, one customer. Every field keeps its source.", focus: 754, Draw: MasterDataMoment },
   { module: "Warehouse", caption: "A metric defined once. Dashboards, answers and forecasts all read the same one.", focus: 640, Draw: WarehouseMoment },
   { module: "Machine Learning", caption: "Models are tested on past data. The most accurate one makes the forecast.", focus: 600, Draw: MlMoment },
   { module: "Ask Akashic", caption: "Plain questions, answered from governed metrics, every figure cited.", focus: 416, Draw: AskMoment },

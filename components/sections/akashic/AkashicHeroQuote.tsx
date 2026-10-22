@@ -125,7 +125,7 @@ export default function AkashicHeroQuote({ quote, hero }: { quote: AkashicPage["
         className="absolute inset-x-0 top-0 z-10 flex w-full flex-col border-b border-card-line bg-background"
       >
         <AkashicHero content={hero} />
-        <AkashicShowcase />
+        <AkashicShowcase content={hero.showcase} />
       </div>
     </div>
   );

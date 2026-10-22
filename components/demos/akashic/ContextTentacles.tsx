@@ -11,8 +11,8 @@
  * brings its screen to the front, and the front screen's lines turn blue and
  * run (`dashmove`, held off screen by OffscreenAnimationGate).
  *
- * md and up only. Below md the seven nodes would sit 50px apart, so phones
- * get the same index as one scrolling row of module names.
+ * lg and up only. Below lg the seven nodes would sit under 120px apart, so phones
+ * and tablets get the same index as one scrolling row of module names.
  */
 
 import { useEffect, useRef, useState } from "react";
@@ -72,8 +72,8 @@ export default function ContextTentacles({
 
   return (
     <>
-      {/* md and up: the drawing, with the nodes as its controls. */}
-      <div ref={ref} className="relative mx-auto mt-6 hidden h-[262px] w-full select-none md:block">
+      {/* lg and up: the drawing, with the nodes as its controls. */}
+      <div ref={ref} className="relative mx-auto mt-6 hidden h-[262px] w-full select-none lg:block">
         <svg aria-hidden className="absolute inset-0 h-full w-full overflow-visible">
           {nodes.map((node, i) => {
             const x = spacing * (i + 1);
@@ -109,13 +109,14 @@ export default function ContextTentacles({
               type="button"
               onClick={() => onSelect(i)}
               aria-pressed={on}
-              className="group absolute top-0 flex w-[128px] -translate-x-1/2 flex-col items-center pb-2 text-center"
+              className="group absolute top-0 flex w-[160px] -translate-x-1/2 flex-col items-center pb-2 text-center"
               style={{ left: spacing * (i + 1) }}
             >
-              <span className={`font-mono text-[10px] uppercase tracking-[0.08em] transition-colors duration-200 ${on ? "text-blue" : "text-tertiary-text group-hover:text-secondary-text"}`}>
+              {/* Full module names ("Business Intelligence") hold one line. */}
+              <span className={`font-mono text-[10px] uppercase tracking-[0.08em] transition-colors duration-200 whitespace-nowrap ${on ? "text-blue" : "text-tertiary-text group-hover:text-secondary-text"}`}>
                 {node.module}
               </span>
-              <span className={`mt-1 whitespace-nowrap text-[13px] leading-snug transition-colors duration-200 ${on ? "font-semibold text-primary-text" : "text-secondary-text group-hover:text-primary-text"}`}>
+              <span className={`mt-1 whitespace-nowrap text-[12px] leading-snug transition-colors duration-200 xl:text-[13px] ${on ? "font-semibold text-primary-text" : "text-secondary-text group-hover:text-primary-text"}`}>
                 {node.adds}
               </span>
               <span aria-hidden className="absolute bottom-0 left-1/2 h-px w-10 -translate-x-1/2 overflow-hidden">
@@ -135,8 +136,8 @@ export default function ContextTentacles({
         </div>
       </div>
 
-      {/* Phones and small tablets: the same index, one scrolling row. */}
-      <div className="mx-auto mt-5 flex w-fit max-w-full items-center gap-5 overflow-x-auto px-4 [scrollbar-width:none] md:hidden [&::-webkit-scrollbar]:hidden">
+      {/* Phones and tablets: the same index, one scrolling row. */}
+      <div className="mx-auto mt-5 flex w-fit max-w-full items-center gap-5 overflow-x-auto px-4 [scrollbar-width:none] lg:hidden [&::-webkit-scrollbar]:hidden">
         {nodes.map((node, i) => {
           const on = i === active;
           return (

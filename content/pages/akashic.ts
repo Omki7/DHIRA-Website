@@ -211,6 +211,15 @@ export interface AkashicPage {
     lede: string;
     primary: Cta;
     secondary: Cta;
+    /** The outcome cards under the hero (AkashicModuleScreensMockup). */
+    showcase: {
+      /** Accessible name of the stage. */
+      label: string;
+      link: Cta;
+      /** In platform order. `adds` labels the context tentacle; `caption`
+          is the one legible line under the stage. */
+      modules: { module: string; adds: string; caption: string }[];
+    };
   };
   inAction: {
     eyebrow: { number: string; label: string };
@@ -770,6 +779,22 @@ export const akashic: AkashicPage = {
     lede: "Akashic brings your data, analytics and AI onto one governed platform, ready for agents. Every team works from the same figures, each one traced to its source.",
     primary: { label: "Talk to our team", href: "#talk-to-our-team" },
     secondary: { label: "See it answer a question", href: "#akashic-in-action" },
+    /* Founder, 22 Oct 2026: the module screens showed too much. Each module
+       is now one outcome a business reader recognises; the captions say what
+       the organisation gains, the cards show it. */
+    showcase: {
+      label: "What each Akashic module gives your teams",
+      link: { label: "See it with your own data", href: "#talk-to-our-team" },
+      modules: [
+        { module: "Data Pipelines", adds: "Connected sources", caption: "Every system's records land in one view, checked on arrival." },
+        { module: "Master Data", adds: "Entity hierarchies", caption: "Customers mapped into families, so every group total rolls up." },
+        { module: "Warehouse", adds: "Shared definitions", caption: "Metrics defined once, so every driver behind a number reconciles." },
+        { module: "Machine Learning", adds: "Forecasts", caption: "Forecasts trained on governed history, tested on past weeks first." },
+        { module: "Ask Akashic", adds: "Cited answers", caption: "Plain-language questions answered in seconds, with every figure cited." },
+        { module: "Business Intelligence", adds: "Dashboards and alerts", caption: "Live dashboards on governed figures, with alerts the moment plans slip." },
+        { module: "Governance", adds: "Lineage and access", caption: "Every figure traced to its source. Every view shaped by role." },
+      ],
+    },
   },
 
   /* [01] Everything on the right is SIMULATED PRODUCT UI: canned copy and
@@ -805,7 +830,7 @@ export const akashic: AkashicPage = {
           { name: "Answered", line: "One plain answer, with the numbers and the paperwork attached." },
         ],
         answer: "South is 8% behind target because two distributor renewals stalled in July.",
-        answerDetail: "Brennan & Sons is waiting on a board review of the revised pricing. Halvorsen Group’s counter-signature is still outstanding.",
+        answerDetail: "Your largest South distributor is waiting on a board review of the revised pricing. A second distributor’s counter-signature is still outstanding.",
         chart: {
           title: "Revenue vs target · South region",
           rows: [
@@ -819,8 +844,8 @@ export const akashic: AkashicPage = {
         },
         docs: {
           counted: "3 read · 2 cited",
-          excerpt: { icon: "mail", source: "Brennan & Sons · renewal email", date: "2 JUL", pre: "“We ", mark: "can’t commit at the revised pricing", post: " until our board reviews it in August.”" },
-          record: { icon: "doc", name: "Halvorsen Group · renewal contract", sub: "$38,000 · counter-signature pending since 14 June", status: "Unsigned" },
+          excerpt: { icon: "mail", source: "Largest distributor · renewal email", date: "2 JUL", pre: "“We ", mark: "can’t commit at the revised pricing", post: " until our board reviews it in August.”" },
+          record: { icon: "doc", name: "Second distributor · renewal contract", sub: "$38,000 · counter-signature pending since 14 June", status: "Unsigned" },
         },
         chips: [
           { icon: "source", label: "2 systems · 3 documents read" },
