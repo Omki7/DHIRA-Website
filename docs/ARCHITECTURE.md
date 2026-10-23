@@ -57,7 +57,7 @@ app/
   layout.tsx           Root layout. Loads site settings and interface strings and provides them
                        (UiProvider). Organization JSON-LD, theme bootstrap, Google Fonts <link>
                        (Google Sans family, Newsreader, Inter: next/font has no Google Sans Text or
-                       Google Sans Mono), ContactModal, RegionSuggest, OffscreenAnimationGate
+                       Google Sans Mono), ContactModal, RegionSuggest, OffscreenAnimationGate, HashLanding
   page.tsx             Home composer
   globals.css          Tailwind layers, component classes, keyframes, focus ring
   theme.css            Complete light/dark semantic values and illustration palettes on every route.
@@ -137,6 +137,8 @@ components/
     PageMinimap.tsx    Right-edge section rail, driven by the page's `sections`; fades out over the footer
     ThemeSwitch.tsx    Light/dark switch on the routes that support it
     OffscreenAnimationGate.tsx  Pauses infinite CSS and SMIL animation off screen (Rule 6a)
+    HashLanding.tsx    Re-lands a #hash link while the page settles (a pinned section grows
+                       after hydration); lets go on the first scroll, tap or key
     region/            RegionSuggest (the one-time "other version" card) and RegionSwitch
 
   sections/            Page sections, one file per section
@@ -166,10 +168,12 @@ components/
                                    a scrollable strip below it on smaller screens. One focal result
                                    per module, varied surfaces and Motion entrances that play once.
                                    Copy in hero.illustrations
-      AkashicModuleMomentsMockup   One moment per module (tease, do not reveal): homepage [02] drives
-                                   `ModuleMomentStage`; /akashic/1-0 [01] uses the default export
-      AkashicOutcomeCardsMockup    /akashic hero: one outcome card per module (role, typed question,
-                                   answer, drawing, provenance) in the fan. Copy in hero.showcase.
+      AkashicModuleMomentsMockup   One moment per module (tease, do not reveal): /akashic/1-0 [01]
+                                   uses the default export. `ModuleMomentStage` has no caller since
+                                   23 Oct 2026 (the rail that drove it is in .archive/removed-2026-10-23/)
+      AkashicOutcomeCardsMockup    Homepage [02]: one outcome card per module (role, typed question,
+                                   answer, drawing, provenance) in the fan. Copy in platform.showcase
+                                   (type OutcomeShowcase in content/pages/akashic.ts).
                                    Replaced AkashicModuleScreensMockup + AkashicScreenKitMockup +
                                    AkashicBIScreenMockup (22 Oct 2026; unused, to archive)
       AkashicTeardownMockup        /akashic modular teardown stage
@@ -185,9 +189,11 @@ components/
     link), SectionCoda, DrawingSetClose, PreviewTag, RegionLink,
     PageHero (hub and resource hero), PageClose (bg-ink closing card, #talk-to-our-team),
     FaqSection (+ FAQPage JSON-LD), JsonLd, RichText (renders Block[]), ShareLinks, SubscribeForm
-    (SIMULATED)
+    (SIMULATED), RotatingPhrase (the hero phrases), MotionToggle (the pause control for
+    anything that advances by itself)
 
-  icons/               Static SVG components: AkashicLogo, DhiraLogo, DynamicSketchIcon, CloudProviderLogos
+  icons/               Static SVG components: AkashicLogo, DhiraLogo, DynamicSketchIcon, CloudProviderLogos,
+                       ConnectorLogo (the grey connector marks in the /akashic reference)
 
 public/                Static files; every one is referenced (ASSETS.md)
 docs/                  This documentation
@@ -271,7 +277,7 @@ eyebrow rail and header, and no next-section or section-foot buttons (removed
 | — | nav | `layout/Nav.tsx` + `layout/nav/` | `bg-background`, solid | Announcement bar above it scrolls away. Hides on scroll down, shows on up |
 | 00 | hero | `sections/Hero.tsx` + `demos/mockups/HomeHeroTeasersMockup` | `bg-background` | Rotating "Answers are easy" headline, platform badge and the first CTA pair, surrounded by seven executive-facing module illustrations (22 Oct 2026, Vistiq reference). Master Data shows a business hierarchy; Business Intelligence shows performance charts. No app chrome. Desktop places the snapshots around the pitch; smaller screens use a scrollable strip below the copy. Figures are labelled illustrative. The /akashic hero remains unchanged |
 | 01 | problem | `sections/ProblemSection.tsx` + `demos/DivergentAnswers` | `bg-background` | "You asked for one number. / You got three." Header, then one composition under one hairline: the three answers (right, 600px from xl) framed on the left by the industry record (top, level with the question) and the verdict (foot, level with "Which number do you act on?"; the section's last line). No bridge button |
-| 02 | platform | `sections/MeetAkashic.tsx` + `universal-context/` (UCHero, UCFeatureIcon, UCModules) + `demos/mockups/AkashicModuleMomentsMockup` (`ModuleMomentStage`) | `uc-bg` | The orb intro ("Meet Akashic", one CTA) with the five capabilities as a lined strip INSIDE the dome (21 Oct 2026, so the first fold says what Akashic does; a curved arrangement was rejected the same day), then "Seven modules, one platform": the modules as a timed rail on the left, each module's drawing and plain caption on the right, the lead-in to [03]. The particle "Ask why a number moved" demo it replaced is in `.archive/removed-2026-10-21/`. The eyebrow aligns with every other rail; below it the orb and the hairlines are full bleed, while the modules block sits on the five capabilities' centred column (1000px, 1100px from xl), heading on the first capability's line. On desktop a hairline runs from each module's line into the framed drawing; the active module's progress fills blue along its line and connector, reaching the drawing as the next module takes over. "Nothing to rip out" and "Seven modules" removed 20 Oct 2026 (founder); a shorter rebuild was rejected the same day (user): do not cut further without asking |
+| 02 | platform | `sections/MeetAkashic.tsx` + `universal-context/` (UCHero, UCCapabilities, UCFeatureIcon) + `demos/mockups/AkashicOutcomeCardsMockup` + `demos/akashic/ContextTentacles` | `uc-bg` | Since 23 Oct 2026 (user: swapped with the /akashic hero's treatment, content and tagline unchanged): the centred intro ("Meet Akashic", one CTA), then the outcome cards in the fan with the context tentacles as the module index (captions are the section's own module lines, from `platform.showcase`), then the five capabilities as one lined strip. The dome and the module rail with its drawings went to /akashic; the "Seven modules share one platform" heading went with the rail. The eyebrow aligns with every other rail; below it the fan and the strip's hairline run wide. "Nothing to rip out" and "Seven modules" removed 20 Oct 2026 (founder): do not cut further without asking |
 | 03 | solutions | `sections/BuiltOnAkashic.tsx` + `demos/SolutionsOnFoundation` + `demos/SolutionIllustration` | `bg-background` | "Problems we already solve. / Off the shelf, on your data." Three open product columns with content-specific process drawings: invoices, timesheets and opportunities revising a rolling forecast; a tender requirement linked to bid evidence for human review; an offline antenatal visit carried into the same record at the health centre. The generic document/circle/badge illustrations were rejected (user, 21 Oct 2026). Drawings are static, follow both appearances and have accessible summaries in `home.solutions`; quantitative curves and sample tender evidence are labelled illustrative. All three connect to one Akashic base listing all seven modules. All solutions use the complete platform; no module subsets or cycling selection. Tablet rows place drawing beside copy; mobile stacks above the same base. [04] owns bespoke delivery. Module names shared with /akashic |
 | 04 | delivery | `sections/HowWeDeliver.tsx` | Page ground with `anchor` panel | Same delivery composition, using a solid pastel-blue panel in light mode and midnight in dark. Three opaque service cards, crisp borders, no shadow, glow or texture (21 Oct 2026). Header "Need it built for you? / Our engineers plan and build it." under the eyebrow "Our services": the problems only the reader has, with or without Akashic (user, 21 Oct 2026: earlier headers sounded obsessed with Akashic). The three cards are the nav's three service lines (Strategic Advisory, Engineering at Scale, AI Solutions and Accelerators), each linking to its /delivery anchor |
 | 05 | sectors | `sections/EverySector.tsx` | `bg-background` | "Whatever your sector, / we know the work." Six industry tabs with photography that rotate on their own like [02]'s modules (22 Oct 2026): the selected tab's line fills blue and the next sector takes over as it lands; held off screen and under keyboard focus, off under reduced motion; each photo headline fits one line at every width (22 characters or fewer); legacy sector hashes; Public Sector link |
@@ -295,7 +301,7 @@ and the nav breaks silently: update content/navigation.ts in the same change.
 
 | Order | ID | File | Background |
 |---|---|---|---|
-| 00 | hero / platform-screens | `akashic/AkashicHeroQuote.tsx` (`AkashicHero` + `AkashicShowcase`) | `bg-background` / flat `band` sticky quote layer (matches [07]). "The intelligence layer / behind every decision." No figures in the hero. `AkashicShowcase` renders `AkashicOutcomeCardsMockup` from `hero.showcase`: one outcome card per module (a role's question, Akashic's answer, a drawing, the source) in the fan, with the context tentacles beneath as the module index (22 Oct 2026, founder: the module screens showed too much; the moments live on homepage [02]) |
+| 00 | hero | `akashic/AkashicHeroQuote.tsx` (`AkashicHero`) | `bg-background` / flat `band` sticky quote layer (matches [07]). "The intelligence layer / behind every decision." No figures in the hero. The hero fills the first screen under the header and lands straight on the sticky quote (23 Oct 2026, user). The outcome cards that stood under it went to homepage [02]; the dome and module rail tried here the same day were removed (`.archive/removed-2026-10-23/`) |
 | 01 | akashic-in-action | `akashic/AkashicFourMoves.tsx` | `bg-background`. Full-width eyebrow rail over two columns. "Why the number moved, / answered in seconds." From lg the h2 size tracks the column (`clamp`). Its "See what's underneath" button went 20 Oct 2026 (no next-section buttons) |
 | 02 | how-it-works | `akashic/AkashicModular.tsx` | `bg-primary-bg` (exploded platform scroll scene). Headline (in `AkashicTeardownMockup`, eyebrow `bare` over the pinned scene) "Start with one module. / Grow into the platform."; its close lost the button that pointed at [03]. [01] Ask into [02] the modules is the page's opening sequence (user, 14 Oct 2026): do not put another section between them |
 | 03 | architecture | `akashic/AkashicArchitecture.tsx` | `bg-background`; `ui/SectionHeader` with a one-line title, "Deploy where your data has to live." |

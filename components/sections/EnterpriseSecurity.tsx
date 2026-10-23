@@ -17,7 +17,8 @@
  * Content stays company-level (how DHIRA operates with your data); the product
  * policy engine lives on the Akashic page. The compliance frameworks are a
  * flat, integrated certification bar — monochrome marks on thin dividers, in
- * the page's own dashed/hairline language — not floating chips.
+ * the page's own dashed/hairline language — not floating chips. Certifications
+ * and the laws followed are separate groups (UX review, 23 Oct 2026).
  */
 
 "use client";
@@ -163,7 +164,7 @@ function TrustLine({ visible }: { visible: boolean }) {
 
 /* ─── Component ───────────────────────────────────────────────────────────── */
 export default function EnterpriseSecurity({ content }: { content: HomeGovernance }) {
-  const { kpis: KPIS, frameworks: FRAMEWORKS } = content;
+  const { kpis: KPIS, frameworkGroups: GROUPS } = content;
   const sectionRef = useRef<HTMLElement>(null);
   const reduced = usePrefersReducedMotion();
   const [curveSeen, setCurveSeen] = useState(false);
@@ -224,7 +225,7 @@ export default function EnterpriseSecurity({ content }: { content: HomeGovernanc
               <div className="mt-11 grid grid-cols-2 gap-x-10 gap-y-9">
                 {KPIS.map((k) => (
                   <div key={k.label} className="border-l-2 border-blue pl-4">
-                    <div className="text-[30px] font-semibold leading-none tracking-tight text-ink lg:text-[36px]">
+                    <div className="text-[30px] font-semibold leading-none tabular-nums tracking-tight text-ink lg:text-[36px]">
                       {k.figure}
                     </div>
                     <div className="mt-2.5 text-[14px] leading-snug text-inkSoft">
@@ -238,31 +239,35 @@ export default function EnterpriseSecurity({ content }: { content: HomeGovernanc
         </div>
 
         {/* Certification bar — flat, integrated, in the page's own dashed /
-            hairline language. Monochrome marks on thin dividers, not chips. */}
+            hairline language. Monochrome marks on thin dividers, not chips.
+            Certifications and the laws followed are two labelled groups. */}
         <ScrollReveal delay={220}>
-          <div className="border-t border-dashed border-lineSoft pt-9">
-            <div className="flex flex-col gap-7 lg:flex-row lg:items-center lg:gap-10">
-              <p className="shrink-0 text-[14px] font-medium text-inkSoft">
-                {content.frameworksLabel}
-              </p>
-
-              <div className="grid flex-1 grid-cols-2 gap-x-6 gap-y-7 sm:grid-cols-3 lg:grid-cols-5 lg:gap-x-0">
-                {FRAMEWORKS.map((fw, i) => (
-                  <div
-                    key={fw.id}
-                    className={`flex items-center gap-3 lg:justify-center lg:px-5 ${
-                      i > 0 ? "lg:border-l lg:border-lineSoft" : ""
-                    }`}
-                  >
-                    <FrameworkIcon id={fw.id} className="h-7 w-7 shrink-0 text-inkSoft" />
-                    <div className="leading-tight">
-                      <div className="text-[13px] font-semibold text-ink">{fw.label}</div>
-                      <div className="mt-0.5 text-[11.5px] text-overcast">{fw.sub}</div>
+          <div className="flex flex-col gap-9 border-t border-dashed border-lineSoft pt-9 lg:flex-row lg:gap-0">
+            {GROUPS.map((group, g) => (
+              <div
+                key={group.label}
+                style={{ flexGrow: group.items.length, flexBasis: 0 }}
+                className={g > 0 ? "lg:border-l lg:border-dashed lg:border-lineSoft lg:pl-8" : "lg:pr-8"}
+              >
+                <p className="text-[14px] font-medium text-inkSoft">{group.label}</p>
+                <div className="mt-5 grid grid-cols-2 gap-x-6 gap-y-7 sm:grid-cols-3 lg:flex lg:gap-0">
+                  {group.items.map((fw, i) => (
+                    <div
+                      key={fw.id}
+                      className={`flex flex-1 items-center gap-3 lg:pr-5 ${
+                        i > 0 ? "lg:border-l lg:border-lineSoft lg:pl-5" : ""
+                      }`}
+                    >
+                      <FrameworkIcon id={fw.id} className="h-7 w-7 shrink-0 text-inkSoft" />
+                      <div className="leading-tight">
+                        <div className="text-[13px] font-semibold text-ink">{fw.label}</div>
+                        <div className="mt-0.5 text-[11.5px] text-overcast">{fw.sub}</div>
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
-            </div>
+            ))}
           </div>
         </ScrollReveal>
 

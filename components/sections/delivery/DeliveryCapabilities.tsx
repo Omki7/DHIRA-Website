@@ -47,7 +47,7 @@ export default function DeliveryCapabilities({ content }: { content: DeliveryPag
             </p>
             <span className="hidden text-overcast sm:inline">{content.eyebrow.aside}</span>
           </div>
-          <h2 className="mt-5 text-heading-sm font-semibold text-ink md:text-heading-md lg:text-heading-lg">
+          <h2 className="mt-5 text-heading-sm font-medium text-ink md:text-heading-md lg:text-heading-lg">
             {content.title}
           </h2>
           <p className="mt-4 max-w-[42em] text-base leading-relaxed text-secondary-text md:text-lg">
@@ -115,7 +115,7 @@ export default function DeliveryCapabilities({ content }: { content: DeliveryPag
                 className="group relative flex w-[290px] shrink-0 snap-start flex-col cursor-pointer sm:w-[320px] lg:w-[340px]"
               >
                 {/* Visual Image Artwork Box */}
-                <div className="relative aspect-square w-full overflow-hidden rounded-2xl border border-subtle-stroke bg-primary-bg  transition-all duration-300  group-hover:-translate-y-1">
+                <div className="relative aspect-square w-full overflow-hidden rounded-2xl border border-subtle-stroke bg-primary-bg  transition-all duration-200  group-hover:-translate-y-1">
                   <Image
                     src={c.image}
                     alt={c.title}

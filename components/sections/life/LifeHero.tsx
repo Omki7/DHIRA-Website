@@ -64,7 +64,7 @@ export default function LifeHero({ content }: { content: LifePage["hero"] }) {
       <Link
         href="#the-gap"
         aria-label={content.skipLabel}
-        className="absolute bottom-8 left-1/2 hidden -translate-x-1/2 text-inkSoft transition-colors duration-250 ease-settle hover:text-secondary-text lg:block"
+        className="absolute bottom-8 left-1/2 hidden -translate-x-1/2 text-inkSoft transition-colors duration-200 ease-settle hover:text-secondary-text lg:block"
       >
         <svg width="20" height="26" viewBox="0 0 20 26" fill="none" aria-hidden>
           <path

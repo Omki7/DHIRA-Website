@@ -65,7 +65,7 @@ export default function DeliveryModels({ content }: { content: DeliveryPage["mod
             </p>
           </div>
 
-          <h2 className="mt-4 text-center text-3xl font-bold tracking-tight text-ink md:text-4xl lg:text-5xl">
+          <h2 className="mt-4 text-center text-3xl font-medium tracking-tight text-ink md:text-4xl lg:text-5xl">
             {content.title}
           </h2>
           <p className="mt-3 text-center max-w-2xl mx-auto text-base text-inkSoft">

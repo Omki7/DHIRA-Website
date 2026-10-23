@@ -94,7 +94,7 @@ export const glossaryTerms: GlossaryTerm[] = [
     id: "governed-metric",
     term: "Governed metric",
     definition: "A metric defined once, with its calculation and choices written down, and served the same way to every dashboard, model and answer.",
-    inAkashic: "Defined in the semantic layer of Akashic Warehouse.",
+    inAkashic: "Defined in the semantic layer of the Data Warehouse module.",
     href: "/akashic#data-warehousing",
   },
   {
@@ -143,7 +143,7 @@ export const glossaryTerms: GlossaryTerm[] = [
     id: "semantic-layer",
     term: "Semantic layer",
     definition: "Shared definitions of metrics and business terms, so that active customer or margin means the same thing everywhere.",
-    inAkashic: "Part of Akashic Warehouse, read by BI, ML and Ask Akashic.",
+    inAkashic: "Part of the Data Warehouse module, read by Business Intelligence, Machine Learning and Ask Akashic.",
     href: "/akashic#data-warehousing",
   },
   {

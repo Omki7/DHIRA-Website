@@ -2,7 +2,8 @@
 
 /**
  * SIMULATED PRODUCT UI — not real Akashic app code.
- * The /akashic hero stage: one OUTCOME CARD per module, in the fan the
+ * The homepage [02] stage (the /akashic hero's until 23 Oct 2026, when the
+ * user swapped the two): one OUTCOME CARD per module, in the fan the
  * founder approved on 20 Oct 2026, with the context tentacles beneath as the
  * index.
  *
@@ -54,7 +55,9 @@
 import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
 import Link from "next/link";
 import ContextTentacles from "@/components/demos/akashic/ContextTentacles";
-import type { AkashicPage } from "@/content/pages/akashic";
+import { useUi } from "@/components/providers/UiProvider";
+import MotionToggle from "@/components/ui/MotionToggle";
+import type { OutcomeShowcase } from "@/content/pages/akashic";
 import useOnScreen from "@/hooks/useOnScreen";
 import usePrefersReducedMotion from "@/hooks/usePrefersReducedMotion";
 
@@ -723,7 +726,7 @@ function OutcomeCard({ module, outcome, live, fade, runKey, reduced, flow }: { m
   const [before, mark, after] = outcome.answer;
   const { Drawing } = outcome;
   return (
-    <div className="h-full w-full overflow-hidden rounded-[16px] border border-card-line bg-[rgb(var(--screen-surface))]">
+    <div className="h-full w-full overflow-hidden rounded-outer border border-card-line bg-[rgb(var(--screen-surface))]">
       <div className="flex h-full flex-col transition-opacity duration-500 ease-settle motion-reduce:transition-none" style={{ opacity: fade }}>
         <div className="px-6 pt-5">
           <div className="flex items-center justify-between font-mono text-[10px] uppercase tracking-[0.08em] text-tertiary-text">
@@ -794,7 +797,7 @@ function placement(rp: number, n: number, w: number): CSSProperties {
 /* How far a card's contents recede, by distance from the front. */
 const CONTENT_FADE = [1, 0.4, 0.2];
 
-export default function AkashicOutcomeCardsMockup({ content }: { content: AkashicPage["hero"]["showcase"] }) {
+export default function AkashicOutcomeCardsMockup({ content }: { content: OutcomeShowcase }) {
   const rootRef = useRef<HTMLDivElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
   const reduced = usePrefersReducedMotion();
@@ -804,13 +807,18 @@ export default function AkashicOutcomeCardsMockup({ content }: { content: Akashi
   const [resetKey, setResetKey] = useState(0);
   const [width, setWidth] = useState(1152);
   const [held, setHeld] = useState(false);
+  /* A reader who picks a card keeps it: the tour stops until Play (UX
+     review, 23 Oct 2026: let visitors pick, and let them stop motion). */
+  const [paused, setPaused] = useState(false);
+  const { motion } = useUi();
   const modules = content.modules.slice(0, OUTCOMES.length);
   const n = modules.length;
-  const cycling = !reduced && onScreen && !held;
+  const cycling = !reduced && onScreen && !held && !paused;
 
   const select = (i: number) => {
     setActive(i);
     setResetKey((k) => k + 1);
+    setPaused(true);
   };
 
   useEffect(() => {
@@ -895,6 +903,7 @@ export default function AkashicOutcomeCardsMockup({ content }: { content: Akashi
         resetKey={resetKey}
         durationMs={cycling ? DURATION_MS : 0}
         onSelect={select}
+        control={<MotionToggle paused={paused} onToggle={() => setPaused((p) => !p)} controls={motion.tour} />}
       />
     </div>
   );

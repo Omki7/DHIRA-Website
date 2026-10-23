@@ -1,16 +1,15 @@
 "use client";
 
 /*
- * Akashic Hero + Showcase Wireframes with Sticky Quote Backdrop.
- * Lifted and shifted from the homepage hero: the Hero and wireframe showcase
- * ride on top as a curtain; scrolling down slides the curtain away to reveal
- * the sticky quote on the flat rgb(var(--band)) band, with word-by-word ink animation
- * responding to scroll progress.
+ * Akashic Hero with Sticky Quote Backdrop. The hero rides on top as a
+ * curtain; scrolling down slides it away to reveal the sticky quote on the
+ * flat rgb(var(--band)) band, with word-by-word ink animation responding to
+ * scroll progress. The hero lands straight on the quote (23 Oct 2026, user:
+ * the dome and module drawings under it went).
  */
 
 import { useEffect, useRef, useState } from "react";
 import AkashicHero from "@/components/sections/akashic/AkashicHero";
-import AkashicShowcase from "@/components/sections/akashic/AkashicShowcase";
 import usePrefersReducedMotion from "@/hooks/usePrefersReducedMotion";
 import type { AkashicPage } from "@/content/pages/akashic";
 
@@ -55,7 +54,7 @@ export default function AkashicHeroQuote({ quote, hero }: { quote: AkashicPage["
     const handleScroll = () => {
       const scrollPos = window.scrollY;
 
-      // Progress starts once the hero + wireframes curtain has fully risen and finishes
+      // Progress starts once the hero curtain has fully risen and finishes
       // while the quote is still stuck to the viewport — see QUOTE_REVEAL_VH.
       const scrolledPastCurtain = Math.max(0, scrollPos - curtainHeight);
       const revealDistance = (window.innerHeight * QUOTE_REVEAL_VH) / 100;
@@ -125,7 +124,6 @@ export default function AkashicHeroQuote({ quote, hero }: { quote: AkashicPage["
         className="absolute inset-x-0 top-0 z-10 flex w-full flex-col border-b border-card-line bg-background"
       >
         <AkashicHero content={hero} />
-        <AkashicShowcase content={hero.showcase} />
       </div>
     </div>
   );

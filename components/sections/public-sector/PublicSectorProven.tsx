@@ -37,9 +37,9 @@ function BoardSpark({ seed }: { seed: number }) {
 }
 
 function Figure({ figure }: { figure: string }) {
-  const { ref, display } = useCountUp(figure, { duration: 1500 });
+  const { ref, display } = useCountUp(figure);
   return (
-    <div ref={ref} className="whitespace-nowrap text-[32px] font-semibold leading-none tracking-tighter text-ink md:text-[40px]">
+    <div ref={ref} className="whitespace-nowrap text-[32px] font-semibold leading-none tabular-nums tracking-tighter text-ink md:text-[40px]">
       {display}
     </div>
   );
@@ -58,7 +58,7 @@ export default function PublicSectorProven({ content }: { content: PublicSectorP
             </p>
             <span className="hidden text-overcast sm:inline">{content.eyebrow.aside}</span>
           </div>
-          <h2 className="mt-5 text-heading-sm font-semibold text-ink md:text-heading-md lg:text-heading-lg">
+          <h2 className="mt-5 text-heading-sm font-medium text-ink md:text-heading-md lg:text-heading-lg">
             {content.title}
           </h2>
           <p className="mt-5 max-w-[40em] text-lg leading-relaxed text-secondary-text">
@@ -84,7 +84,7 @@ export default function PublicSectorProven({ content }: { content: PublicSectorP
                 {flagships.map((row, idx) => (
                   <div
                     key={row.mission}
-                    className="grid grid-cols-1 gap-3 px-6 py-5 transition-colors duration-250 ease-settle hover:bg-tertiary-bg md:grid-cols-[minmax(200px,1.1fr)_auto_minmax(150px,0.7fr)] md:items-center md:gap-8 md:px-8 md:py-6"
+                    className="grid grid-cols-1 gap-3 px-6 py-5 transition-colors duration-200 ease-settle hover:bg-tertiary-bg md:grid-cols-[minmax(200px,1.1fr)_auto_minmax(150px,0.7fr)] md:items-center md:gap-8 md:px-8 md:py-6"
                   >
                     <div className="min-w-0">
                       <div className="flex items-center gap-2.5">
@@ -124,7 +124,7 @@ export default function PublicSectorProven({ content }: { content: PublicSectorP
         <div>
           {registry.map((row, idx) => (
             <ScrollReveal key={row.platform} delay={180 + idx * 70}>
-              <div className="grid grid-cols-1 gap-1.5 border-b border-subtle-stroke py-4 transition-colors duration-250 ease-settle hover:bg-primary-bg md:grid-cols-[220px_200px_1fr] md:items-baseline md:gap-6">
+              <div className="grid grid-cols-1 gap-1.5 border-b border-subtle-stroke py-4 transition-colors duration-200 ease-settle hover:bg-primary-bg md:grid-cols-[220px_200px_1fr] md:items-baseline md:gap-6">
                 <span className="text-[15px] font-semibold tracking-tight text-ink">{row.platform}</span>
                 <span className="whitespace-nowrap">
                   <span className="font-mono text-[15px] font-bold tracking-tight text-ink">{row.figure}</span>

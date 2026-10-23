@@ -20,7 +20,7 @@ export default function SectorClose({ content, template }: { content: SectorCont
             <div className="absolute inset-x-0 top-0 h-[3px] bg-blue" aria-hidden />
             
             <div className="relative">
-              <h2 className="mx-auto mt-2 max-w-[16em] text-heading-sm font-semibold text-ink md:text-heading-md">
+              <h2 className="mx-auto mt-2 max-w-[16em] text-heading-sm font-medium text-ink md:text-heading-md">
                 {close.title}
               </h2>
               <p className="mx-auto mt-6 max-w-[36em] text-lg leading-relaxed text-secondary-text">

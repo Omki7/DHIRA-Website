@@ -121,7 +121,7 @@ export function LifePill({
   return (
     <Link
       href={href}
-      className={`inline-flex h-[46px] items-center justify-center rounded-full px-7 text-sm font-medium transition-all duration-250 ease-settle hover:-translate-y-0.5 ${skin} ${className}`}
+      className={`inline-flex h-[46px] items-center justify-center rounded-full px-7 text-sm font-medium transition-all duration-200 ease-settle hover:-translate-y-0.5 ${skin} ${className}`}
     >
       {children}
     </Link>

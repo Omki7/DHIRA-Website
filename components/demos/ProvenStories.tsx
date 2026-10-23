@@ -45,6 +45,7 @@ import useOnScreen from "@/hooks/useOnScreen";
 import Image from "next/image";
 import usePrefersReducedMotion from "@/hooks/usePrefersReducedMotion";
 import { useUi } from "@/components/providers/UiProvider";
+import MotionToggle from "@/components/ui/MotionToggle";
 import type { Metric, Story } from "@/content/collections/customer-stories";
 
 const CYCLE_MS = 7000;
@@ -73,7 +74,7 @@ function MetricCell({ metric }: { metric: Metric }) {
           {figure}
         </span>
         {suffix && (
-          <span className="whitespace-pre text-xl font-medium leading-none tracking-tight md:text-[28px]">
+          <span className="whitespace-pre text-xl font-medium leading-none tabular-nums tracking-tight md:text-[28px]">
             {suffix}
           </span>
         )}
@@ -111,19 +112,25 @@ interface ProvenStoriesProps {
 }
 
 export default function ProvenStories({ stories, ariaLabel, itemNoun }: ProvenStoriesProps) {
-  const { carousel } = useUi();
+  const { carousel, motion } = useUi();
   const reduced = usePrefersReducedMotion();
   const [index, setIndex] = useState(0);
   const [hovered, setPaused] = useState(false);
+  /* Picking a story stops the cycle until Play (UX review, 23 Oct 2026). */
+  const [stopped, setStopped] = useState(false);
   const rootRef = useRef<HTMLDivElement>(null);
   const onScreen = useOnScreen(rootRef);
   // Off screen counts as paused: the cycle only runs where it can be seen.
-  const paused = hovered || !onScreen;
+  const paused = hovered || !onScreen || stopped;
 
   const go = useCallback(
     (next: number) => setIndex((next + stories.length) % stories.length),
     [stories]
   );
+  const pick = (next: number) => {
+    setStopped(true);
+    go(next);
+  };
 
   useEffect(() => {
     if (reduced || paused) return;
@@ -143,7 +150,7 @@ export default function ProvenStories({ stories, ariaLabel, itemNoun }: ProvenSt
       onFocusCapture={() => setPaused(true)}
       onBlurCapture={() => setPaused(false)}
     >
-      <div className="relative w-full overflow-hidden rounded-2xl border border-lineSoft bg-background ">
+      <div className="relative w-full overflow-hidden rounded-outer border border-lineSoft bg-background ">
         {stories.map((story, i) => {
           const isActive = i === index;
           return (
@@ -159,7 +166,7 @@ export default function ProvenStories({ stories, ariaLabel, itemNoun }: ProvenSt
               <div className="grid h-full grid-cols-1 lg:grid-cols-2">
                 <div className="flex flex-col p-8 md:p-12 lg:p-14">
                   <div className="mb-7">
-                    <div className="text-[26px] font-semibold leading-none tracking-tight text-ink">
+                    <div className="text-[26px] font-semibold leading-none tabular-nums tracking-tight text-ink">
                       {story.platform}
                     </div>
                     <div className="mt-2.5 font-mono text-[10px] uppercase tracking-eyebrow text-overcast">
@@ -167,7 +174,7 @@ export default function ProvenStories({ stories, ariaLabel, itemNoun }: ProvenSt
                     </div>
                   </div>
 
-                  <h3 className="mb-5 text-2xl font-semibold leading-[1.15] tracking-tight text-ink md:text-3xl lg:text-[34px]">
+                  <h3 className="mb-5 text-2xl font-medium leading-[1.15] tracking-tight text-ink md:text-3xl lg:text-[34px]">
                     {story.title}
                   </h3>
 
@@ -208,17 +215,17 @@ export default function ProvenStories({ stories, ariaLabel, itemNoun }: ProvenSt
           `lg:p-14` inset is narrower than the arrow's own diameter. */}
       <button
         type="button"
-        onClick={() => go(index - 1)}
+        onClick={() => pick(index - 1)}
         aria-label={`${carousel.previous} ${itemNoun}`}
-        className="absolute -left-5 lg:-left-6 top-1/2 z-20 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-lineSoft bg-background text-ink  transition-colors duration-settle ease-settle hover:border-blue/50 hover:text-blue lg:flex"
+        className="absolute -left-5 lg:-left-6 top-1/2 z-20 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-lineSoft bg-background text-ink  transition-colors duration-200 ease-settle hover:border-blue/50 hover:text-blue lg:flex"
       >
         <Chevron dir="left" />
       </button>
       <button
         type="button"
-        onClick={() => go(index + 1)}
+        onClick={() => pick(index + 1)}
         aria-label={`${carousel.next} ${itemNoun}`}
-        className="absolute -right-5 lg:-right-6 top-1/2 z-20 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-lineSoft bg-background text-ink  transition-colors duration-settle ease-settle hover:border-blue/50 hover:text-blue lg:flex"
+        className="absolute -right-5 lg:-right-6 top-1/2 z-20 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-lineSoft bg-background text-ink  transition-colors duration-200 ease-settle hover:border-blue/50 hover:text-blue lg:flex"
       >
         <Chevron dir="right" />
       </button>
@@ -228,7 +235,7 @@ export default function ProvenStories({ stories, ariaLabel, itemNoun }: ProvenSt
           <button
             key={story.id}
             type="button"
-            onClick={() => go(i)}
+            onClick={() => pick(i)}
             aria-label={`${carousel.show} ${story.platform}`}
             aria-current={i === index}
             className="flex items-center justify-center p-2.5"
@@ -239,7 +246,7 @@ export default function ProvenStories({ stories, ariaLabel, itemNoun }: ProvenSt
                   key={index}
                   className="absolute inset-y-0 left-0 block w-full origin-left rounded-full bg-blue"
                   style={
-                    reduced
+                    reduced || stopped
                       ? { width: "100%" }
                       : {
                           animation: `progressFill ${CYCLE_MS}ms linear forwards`,
@@ -249,10 +256,11 @@ export default function ProvenStories({ stories, ariaLabel, itemNoun }: ProvenSt
                 />
               </span>
             ) : (
-              <span className="block h-1.5 w-1.5 rounded-full bg-line transition-colors duration-settle ease-settle hover:bg-inkSoft" />
+              <span className="block h-1.5 w-1.5 rounded-full bg-line transition-colors duration-200 ease-settle hover:bg-inkSoft" />
             )}
           </button>
         ))}
+        <MotionToggle paused={stopped} onToggle={() => setStopped((s) => !s)} controls={motion.stories} className="ml-3" />
       </div>
     </div>
   );

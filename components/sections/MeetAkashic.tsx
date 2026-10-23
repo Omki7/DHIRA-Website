@@ -1,5 +1,6 @@
 import UCHero from "./universal-context/UCHero";
-import UCModules from "./universal-context/UCModules";
+import UCCapabilities from "./universal-context/UCCapabilities";
+import AkashicOutcomeCardsMockup from "@/components/demos/mockups/AkashicOutcomeCardsMockup";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import ScrollRevealRail from "@/components/ui/ScrollRevealRail";
 import FigureEyebrow from "@/components/ui/FigureEyebrow";
@@ -8,26 +9,20 @@ import type { HomePlatform } from "@/content/pages/home";
 // Meet Akashic — the homepage platform section. Parts keep their legacy UC*
 // names; see docs/ARCHITECTURE.md.
 //
-// Two parts, one job each: the intro names the platform and, inside the
-// dome, its five capabilities (what your AI knows); then the seven modules
-// beside their drawings (what it is made of), which sets up [03], where the
-// solutions are these modules switched on. Both changes are 21 Oct 2026
-// (user): the first fold showed nothing that said what Akashic is, and the
-// particle demo ("Ask why a number moved") gave way to the modules.
+// Three parts, one job each (23 Oct 2026, user): the intro names the
+// platform; the outcome cards, with their module index, show what each
+// module gives a team; the five capabilities say what your AI knows. The
+// cards came from the /akashic hero, and this section's dome and module rail
+// went there in exchange (user: the /akashic hero looked better). Content
+// and tagline are unchanged; each module's one line is now its card caption.
 // On 20 Oct 2026 the founder had the "Nothing to rip out" logo strip and the
-// old "Seven modules" tag-list close removed; the modules came back on 21 Oct
-// as the rail beside their drawings, at the user's request. A shorter rebuild
-// (header plus the module moments) was tried the same day and rejected by the
-// user in favour of this original section; do not cut it further without
-// asking.
+// old "Seven modules" tag-list close removed; do not cut this section
+// further without asking.
 //
 // The eyebrow is the site's one rail (ui/FigureEyebrow), aligned with every
-// other section's rail. Below it the section stays full bleed (22 Jul): the
-// orb and the feature grid's hairlines run edge to edge, so do not put the
-// parts back inside the rail. The one exception is the modules block's
-// content (21 Oct 2026, user): its hairlines stay full bleed, but its text
-// and drawing sit on the five capabilities' centred column, the heading on
-// the first capability's line (see UCModules).
+// other section's rail. Below it the section stays full bleed: the cards'
+// fan and the capabilities' hairline run wide, so do not put the parts back
+// inside the rail.
 //
 // TYPE (22 Sep 2026): the site stack only. Do not reintroduce a section-local
 // face.
@@ -40,8 +35,17 @@ export default function MeetAkashic({ content }: { content: HomePlatform }) {
         </ScrollReveal>
       </ScrollRevealRail>
 
-      <UCHero content={content.hero} features={content.features} />
-      <UCModules content={content.modules} />
+      <UCHero content={content.hero} />
+
+      <div className="relative mx-auto mt-12 w-full max-w-[1440px] px-4 sm:px-6 lg:mt-16 lg:px-8">
+        <ScrollReveal delay={120}>
+          <AkashicOutcomeCardsMockup content={content.showcase} />
+        </ScrollReveal>
+      </div>
+
+      <div className="mt-4 lg:mt-20">
+        <UCCapabilities features={content.features} />
+      </div>
     </section>
   );
 }

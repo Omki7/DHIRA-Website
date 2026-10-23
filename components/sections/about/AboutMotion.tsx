@@ -27,7 +27,7 @@ export default function AboutMotion({ children }: { children: ReactNode }) {
       const animation = target.animate([
         { opacity: 0, transform: "translate3d(0,14px,0)" },
         { opacity: 1, transform: "translate3d(0,0,0)" },
-      ], { duration: 850, delay, easing: EASE, fill: "both" });
+      ], { duration: 500, delay, easing: EASE, fill: "both" });
       release(target);
       animations.add(animation);
       animation.finished.then(() => { animation.cancel(); animations.delete(animation); }).catch(() => {});

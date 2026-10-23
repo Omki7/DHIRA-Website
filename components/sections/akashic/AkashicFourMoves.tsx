@@ -424,7 +424,7 @@ export default function AkashicFourMoves({ content }: { content: AkashicPage["in
                 {/* From lg the setup line must hold on one line in the 5-col
                     column, so the size tracks the column width (measured 14 Oct
                     2026: the setup is ~10.7x its font size wide). */}
-                <h2 className="text-balance text-heading-sm font-semibold text-ink md:text-heading-md lg:text-[length:clamp(32px,calc(3.8vw_-_7px),48px)]">
+                <h2 className="text-balance text-heading-sm font-medium text-ink md:text-heading-md lg:text-[length:clamp(32px,calc(3.8vw_-_7px),48px)]">
                   <span className="text-inkSoft lg:whitespace-nowrap">{content.title.setup}</span>
                   <br className="hidden lg:block" /> {content.title.payoff}
                 </h2>
@@ -454,7 +454,7 @@ export default function AkashicFourMoves({ content }: { content: AkashicPage["in
                           setPhase(0);
                         }
                       }}
-                      className={`rounded-full px-4 py-1.5 text-sm font-medium transition-colors duration-250 ease-settle ${
+                      className={`rounded-full px-4 py-1.5 text-sm font-medium transition-colors duration-200 ease-settle ${
                         i === active
                           ? "bg-blue-solid text-on-accent"
                           : "text-inkSoft hover:text-ink"

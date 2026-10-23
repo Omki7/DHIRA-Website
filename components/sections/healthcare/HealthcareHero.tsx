@@ -122,7 +122,7 @@ export default function HealthcareHero({ content, template }: { content: SectorC
               </ScrollReveal>
 
               <ScrollReveal delay={140}>
-                <h1 className="mt-6 max-w-[9.8em] text-[66px] font-semibold leading-[1.02] tracking-tightest text-ink">
+                <h1 className="mt-6 max-w-[9.8em] text-[66px] font-medium leading-[1.02] tracking-tightest text-ink">
                   {content.headlinePlain}{" "}
                   <span className="relative inline-block">
                     {content.headlineMarked}

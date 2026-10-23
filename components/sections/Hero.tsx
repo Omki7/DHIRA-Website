@@ -12,9 +12,9 @@ export default function Hero({ content }: { content: HomeHero }) {
   const { badge, title, lede, primary, secondary } = content;
   return (
     <section id="hero" className="relative overflow-hidden bg-background">
-      <div className="relative mx-auto max-w-[1600px] xl:min-h-[980px]">
+      <div className="relative mx-auto max-w-[1600px]">
       <ScrollRevealRail>
-        <div className="relative z-10 mx-auto flex max-w-[800px] flex-col items-center justify-center px-2 pb-8 pt-10 text-center sm:px-6 md:pb-16 md:pt-24 xl:max-w-[760px] xl:pb-[300px] xl:pt-[230px]">
+        <div className="relative z-10 mx-auto flex max-w-[800px] flex-col items-center justify-center px-2 pb-8 pt-10 text-center sm:px-6 md:pb-16 md:pt-24 xl:max-w-[760px] xl:pb-[256px] xl:pt-[clamp(56px,calc(45svh-285px),230px)]">
           <Link
             href={badge.href}
             className="group relative mb-6 inline-flex items-center justify-center overflow-hidden rounded-full border border-card-line bg-background transition-colors hover:border-blue md:mb-10"
@@ -30,7 +30,10 @@ export default function Hero({ content }: { content: HomeHero }) {
             </span>
           </Link>
 
-          <h1 className="w-full text-[clamp(2rem,10vw,3rem)] font-semibold leading-[1.05] tracking-tightest text-primary-text md:text-6xl xl:text-[64px]">
+          {/* The h1 holds the pause button beside its rotating word, so its name
+              comes from this plain copy of the headline. */}
+          <span id="hero-headline" hidden>{`${title.first} ${title.secondLead} ${title.phrases[0]} ${title.tail}`}</span>
+          <h1 aria-labelledby="hero-headline" className="w-full text-[clamp(2rem,10vw,3rem)] font-medium leading-[1.05] tracking-tightest text-primary-text md:text-6xl xl:text-[64px]">
             {title.first} <br className="hidden md:block" />
             <span className="inline md:block">{title.secondLead} </span>
             <RotatingPhrase phrases={title.phrases} suffix={` ${title.tail}`} align="center" />
@@ -48,7 +51,7 @@ export default function Hero({ content }: { content: HomeHero }) {
               {secondary.label}
             </Link>
           </div>
-          <p className="mt-5 font-mono text-[9px] uppercase tracking-[0.1em] text-tertiary-text md:mt-7">{content.illustrations.note}</p>
+          <p className="mt-5 font-mono text-[12px] uppercase tracking-eyebrow text-tertiary-text md:mt-7">{content.illustrations.note}</p>
         </div>
       </ScrollRevealRail>
       <HomeHeroTeasersMockup content={content.illustrations} />

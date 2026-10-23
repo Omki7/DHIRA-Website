@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 import "./globals.css";
 import "./theme.css";
 import ContactModal from "@/components/layout/ContactModal";
+import HashLanding from "@/components/layout/HashLanding";
 import OffscreenAnimationGate from "@/components/layout/OffscreenAnimationGate";
 import RegionSuggest from "@/components/layout/region/RegionSuggest";
 import UiProvider from "@/components/providers/UiProvider";
@@ -124,6 +125,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
           <RegionSuggest />
         </UiProvider>
         <OffscreenAnimationGate />
+        <HashLanding />
       </body>
     </html>
   );

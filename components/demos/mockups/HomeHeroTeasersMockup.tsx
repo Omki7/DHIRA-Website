@@ -13,13 +13,17 @@ import HomeModuleIllustrationsMockup, { TEASER_META } from "@/components/demos/m
 import usePrefersReducedMotion from "@/hooks/usePrefersReducedMotion";
 
 /* Placement around the centred pitch (xl and up). Columns hold to the frame
-   edges in percent so the headline keeps its air from 1280 to 1600. */
+   edges in percent so the headline keeps its air from 1280 to 1600. The
+   middle pair flanks the lede, so below 1440 it steps out to keep ~40px
+   clear of the lede's longest line. The bottom row anchors to the hero's
+   foot, which ends 256px under the pitch (Hero), so the row stays tight
+   under the buttons at every viewport height. */
 const POSITIONS: Record<HomeHeroModuleKind, string> = {
   "master-data": "left-[3%] top-[56px] w-[236px]",
-  governance: "left-[7.5%] top-[356px] w-[220px]",
+  governance: "left-[min(7.5%,calc(50%-565px))] top-[332px] w-[220px]",
   pipelines: "bottom-[92px] left-[3.5%] w-[240px]",
   bi: "right-[3%] top-[52px] w-[240px]",
-  ask: "right-[7.5%] top-[344px] w-[236px]",
+  ask: "right-[min(7.5%,calc(50%-580px))] top-[312px] w-[236px]",
   warehouse: "bottom-[84px] right-[3.5%] w-[228px]",
   ml: "bottom-[28px] left-1/2 w-[272px] -translate-x-1/2",
 };

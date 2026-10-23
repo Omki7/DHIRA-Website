@@ -37,16 +37,16 @@ const TH = 16; // plate thickness
 const SEAL = 3; // sealed gap between plates
 const OPEN = 88; // exploded gap between plates
 
-const HUD_NAMES = ["DATA PIPELINES", "MASTER DATA", "WAREHOUSE", "ML", "ASK", "BI", "GOVERNANCE"];
+const HUD_NAMES = ["DATA PIPELINES", "MASTER DATA", "DATA WAREHOUSE", "MACHINE LEARNING", "ASK AKASHIC", "BUSINESS INTELLIGENCE", "GOVERNANCE"];
 
 
 const PLATE_TAGS = [
   "A-01 · Data Pipelines · ingest / validate",
-  "A-02 · Master data · entity resolution",
-  "A-03 · Warehouse · modelled storage",
-  "A-04 · ML · train / deploy / monitor",
-  "A-05 · Ask · natural language",
-  "A-06 · BI · decision surface",
+  "A-02 · Master Data · entity resolution",
+  "A-03 · Data Warehouse · modelled storage",
+  "A-04 · Machine Learning · train / deploy / monitor",
+  "A-05 · Ask Akashic · natural language",
+  "A-06 · Business Intelligence · decision surface",
 ];
 
 
@@ -1146,20 +1146,12 @@ export default function AkashicTeardownMockup({ content, trackRef, curtainHeight
               the platform, which is where the walkthrough ends ("run
               Data Pipelines on its own / or the whole platform"). The lede
               keeps how the seven modules come together. */}
-          <h2 className="mt-6 text-[30px] font-semibold leading-[1.06] tracking-tighter text-ink md:text-[44px]">
+          <h2 className="mt-6 text-[30px] font-medium leading-[1.06] tracking-tighter text-ink md:text-[44px]">
             <span className="text-inkSoft">{content.title.setup}</span> <span className="md:block">{content.title.payoff}</span>
           </h2>
           <p className="mt-5 max-w-[430px] text-[15px] leading-relaxed text-inkSoft md:text-[16.5px]">
             {content.lede}
           </p>
-          <div className="mt-8 flex items-center gap-3.5">
-            <span className="relative block h-[26px] w-px overflow-hidden bg-ink/15">
-              <span className="absolute left-0 top-0 h-2 w-px animate-[ak-drop_1.8s_ease-in-out_infinite] bg-blue" />
-            </span>
-            <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.2em] text-secondary-text">
-              {content.scrollHint}
-            </span>
-          </div>
         </div>
       </div>
 
@@ -1182,7 +1174,7 @@ export default function AkashicTeardownMockup({ content, trackRef, curtainHeight
                 {m.kicker}
               </span>
             </p>
-            <h3 className="relative mt-4 text-[27px] font-semibold leading-[1.05] tracking-tighter text-ink md:text-[38px]">{m.name}</h3>
+            <h3 className="relative mt-4 text-[27px] font-medium leading-[1.05] tracking-tighter text-ink md:text-[38px]">{m.name}</h3>
             <p className="relative mt-3 text-[16px] font-medium tracking-tight text-ink md:text-[19px]">{m.lede}</p>
             <ul className="relative mt-4 flex flex-col gap-2 md:gap-2.5">
               {m.points.map((pt) => (
@@ -1212,7 +1204,7 @@ export default function AkashicTeardownMockup({ content, trackRef, curtainHeight
             <span className="block h-px w-8 bg-line" aria-hidden />
             <span className="text-inkSoft">{content.close.kicker[1]}</span>
           </p>
-          <h3 className="mx-auto mt-5 max-w-[16em] text-[28px] font-semibold leading-[1.08] tracking-tighter text-ink md:text-[42px]">
+          <h3 className="mx-auto mt-5 max-w-[16em] text-[28px] font-medium leading-[1.08] tracking-tighter text-ink md:text-[42px]">
             {content.close.title}
           </h3>
           <p className="mx-auto mt-4 max-w-[36em] text-[15px] leading-relaxed text-inkSoft md:text-[16.5px]">
@@ -1247,7 +1239,7 @@ export default function AkashicTeardownMockup({ content, trackRef, curtainHeight
         data-ak="hud"
         className="absolute inset-x-0 bottom-0 flex h-16 items-center justify-between border-t border-lineSoft bg-primary-bg px-[6%] md:px-[7%]"
       >
-        <div className="hidden w-[190px] items-center gap-3 font-mono text-[10px] uppercase tracking-[0.16em] md:flex">
+        <div className="hidden w-[270px] items-center gap-3 font-mono text-[10px] uppercase tracking-[0.16em] md:flex">
           <span className="text-secondary-text">{content.hud.module}</span>
           <span data-ak="hudmod" className="text-ink">{content.hud.sealed}</span>
         </div>

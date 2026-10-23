@@ -203,7 +203,7 @@ export default function PublicSectorGap({ content }: { content: PublicSectorPage
             </p>
             <span className="hidden text-overcast sm:inline">{content.eyebrow.aside}</span>
           </div>
-          <h2 className="mt-5 text-heading-sm font-semibold text-ink md:text-heading-md lg:text-heading-lg">
+          <h2 className="mt-5 text-heading-sm font-medium text-ink md:text-heading-md lg:text-heading-lg">
             {content.title}
           </h2>
           <p className="mt-5 max-w-[34em] text-lg leading-relaxed text-secondary-text">
@@ -216,7 +216,7 @@ export default function PublicSectorGap({ content }: { content: PublicSectorPage
             <ScrollReveal key={gap.title} delay={100 + idx * 100}>
               <div className="grid grid-cols-1 items-center gap-8 border-t border-subtle-stroke py-10 last:border-b lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:gap-14 lg:py-12">
                 <div>
-                  <div className="whitespace-nowrap text-[44px] font-semibold leading-none tracking-tighter text-ink md:text-[52px]">
+                  <div className="whitespace-nowrap text-[44px] font-semibold leading-none tabular-nums tracking-tighter text-ink md:text-[52px]">
                     {gap.figure}
                   </div>
                   <div className="mt-3 font-mono text-[10px] font-semibold uppercase tracking-eyebrow text-blue">

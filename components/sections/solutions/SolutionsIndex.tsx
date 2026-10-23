@@ -32,7 +32,7 @@ function Register({ id, title, rows, links }: { id: string; title: string; rows:
                 className="group inline-flex items-center gap-1.5 self-start text-[16px] font-semibold text-ink transition-colors duration-150 hover:text-blue"
               >
                 {row.label}
-                <span aria-hidden className="text-overcast transition-transform duration-250 ease-settle group-hover:translate-x-0.5 group-hover:text-blue">
+                <span aria-hidden className="text-overcast transition-transform duration-200 ease-settle group-hover:translate-x-0.5 group-hover:text-blue">
                   &rarr;
                 </span>
               </Link>

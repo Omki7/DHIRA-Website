@@ -51,14 +51,14 @@ export default async function PageHero({
           </ScrollReveal>
           {meta && (
             <ScrollReveal delay={160}>
-              <div className="mt-6 font-mono text-[11px] uppercase tracking-eyebrow text-overcast">{meta}</div>
+              <div className="mt-6 font-mono text-[12px] uppercase tracking-eyebrow text-overcast">{meta}</div>
             </ScrollReveal>
           )}
           {index && index.length > 0 && (
             <ScrollReveal delay={180}>
               <nav
                 aria-label={ui.onThisPage}
-                className="mt-10 flex flex-wrap gap-x-7 gap-y-3 border-t border-dashed border-lineSoft pt-5 font-mono text-[11px] uppercase tracking-eyebrow"
+                className="mt-10 flex flex-wrap gap-x-7 gap-y-3 border-t border-dashed border-lineSoft pt-5 font-mono text-[12px] uppercase tracking-eyebrow"
               >
                 {index.map((item, k) => (
                   <a key={item.id} href={`#${item.id}`} className="text-inkSoft transition-colors duration-150 hover:text-ink">

@@ -16,6 +16,8 @@ export default function AkashicLogo({
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       style={{ overflow: "visible" }}
+      aria-hidden="true"
+      focusable="false"
     >
       <line x1="100" y1="50" x2="58" y2="156" stroke={primaryColor} strokeWidth="6" />
       <line x1="100" y1="50" x2="142" y2="156" stroke={primaryColor} strokeWidth="6" />

@@ -166,7 +166,7 @@ export const solutionsLife: LifePage = {
     lede: "Reading risk at the edge is the new part. Carrying a country’s health data without dropping a record is not, and it is the part that is hard.",
     chain: [
       { figure: "2 Billion+", name: "National immunisation registry", body: "The same data backbone reconciled more than 2 billion dose records through a country-scale programme, under load, in public." },
-      { figure: "187M+", name: "National learning platform", body: "Enrolments resolved into one governed model for a national education deployment, on the identical MDM and BI architecture this page has been describing." },
+      { figure: "187M+", name: "National learning platform", body: "Enrolments resolved into one governed model for a national education deployment, on the identical Master Data and Business Intelligence architecture this page has been describing." },
       { figure: "Built on it", name: "Akashic Life", body: "The same foundation, taken to the point of care. The reading happens on a handset, and the record it produces travels the governed path everything above it travels.", live: true },
     ],
   },
@@ -175,9 +175,9 @@ export const solutionsLife: LifePage = {
     eyebrow: { num: "07", label: "What is underneath" },
     title: "Nothing here is bespoke. It is Akashic, pointed at a village.",
     layers: [
-      { module: "Akashic Machine Learning", name: "On-device risk reading", body: "Models tuned small enough to run on the basic Android handsets frontline workers already carry, and to read a full antenatal screen locally with nothing leaving the device." },
-      { module: "Akashic Master Data", name: "One golden record", body: "The same mother is recognised as the same mother whether she is seen by a health worker, a primary health centre or a district hospital. One record, not three." },
-      { module: "Akashic BI and Governance", name: "Audited by design", body: "Aggregated, anonymised risk flows into district and national dashboards with full lineage, audit trails and role-based access, exactly as in every other Akashic deployment." },
+      { module: "Machine Learning", name: "On-device risk reading", body: "Models tuned small enough to run on the basic Android handsets frontline workers already carry, and to read a full antenatal screen locally with nothing leaving the device." },
+      { module: "Master Data", name: "One golden record", body: "The same mother is recognised as the same mother whether she is seen by a health worker, a primary health centre or a district hospital. One record, not three." },
+      { module: "Business Intelligence and Governance", name: "Audited by design", body: "Aggregated, anonymised risk flows into district and national dashboards with full lineage, audit trails and role-based access, exactly as in every other Akashic deployment." },
     ],
   },
 

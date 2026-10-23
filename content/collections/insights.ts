@@ -54,13 +54,13 @@ export const insights: Insight[] = [
       {
         type: "ol",
         items: [
-          "Akashic Data Pipelines: ingest and validate every source, structured, unstructured and streaming.",
-          "Akashic Master Data: entity resolution, with the lineage of every merge kept.",
-          "Akashic Warehouse: dimensional models, and metrics defined once.",
-          "Akashic ML: train, deploy and monitor models, with drift and bias monitoring.",
+          "Data Pipelines: ingest and validate every source, structured, unstructured and streaming.",
+          "Master Data: entity resolution, with the lineage of every merge kept.",
+          "Data Warehouse: dimensional models, and metrics defined once.",
+          "Machine Learning: train, deploy and monitor models, with drift and bias monitoring.",
           "Ask Akashic: plain-language questions, answered with citations, on the model you choose.",
-          "Akashic BI: dashboards, alerts and AI-built charts with row-level security.",
-          "Akashic Governance: permissions, lineage and an append-only audit log.",
+          "Business Intelligence: dashboards, alerts and AI-built charts with row-level security.",
+          "Governance: permissions, lineage and an append-only audit log.",
         ],
       },
       { type: "h2", id: "in-preview", text: "What stays in preview" },
@@ -254,7 +254,7 @@ export const insights: Insight[] = [
       {
         type: "note",
         label: "Where Akashic fits",
-        text: "Akashic Master Data resolves entities, Akashic Warehouse defines metrics once, and Akashic Governance records lineage and access. Ask Akashic answers from that layer and cites its sources. [See how the modules fit together](/akashic#modules).",
+        text: "Master Data resolves entities, Data Warehouse defines metrics once, and Governance records lineage and access. Ask Akashic answers from that layer and cites its sources. [See how the modules fit together](/akashic#modules).",
       },
     ],
   },

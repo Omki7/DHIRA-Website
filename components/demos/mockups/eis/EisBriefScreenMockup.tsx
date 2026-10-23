@@ -314,7 +314,7 @@ export default function EisBriefScreenMockup({ domain }: { domain: Domain }) {
                 <span className="block text-[8.5px] font-bold uppercase tracking-[0.12em] text-tertiary-text">
                   Exposed
                 </span>
-                <span className="mt-0.5 block text-[30px] font-bold leading-none tracking-[-0.03em] text-ink">
+                <span className="mt-0.5 block text-[30px] font-bold leading-none tabular-nums tracking-[-0.03em] text-ink">
                   {domain.exposure}
                 </span>
                 <span className="mt-1 block text-[9.5px] text-secondary-text">
@@ -480,7 +480,7 @@ export default function EisBriefScreenMockup({ domain }: { domain: Domain }) {
               </span>
             ))}
             <span
-              className={`ml-auto flex items-center gap-1.5 rounded-full border px-2 py-[2px] transition-colors duration-250 ${
+              className={`ml-auto flex items-center gap-1.5 rounded-full border px-2 py-[2px] transition-colors duration-200 ${
                 stage === "closed" ? "border-blue-border bg-blue-subtle" : "border-card-line"
               }`}
             >

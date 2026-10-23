@@ -30,7 +30,7 @@
 
 import type { ProvenAtScaleBlock } from "../blocks";
 import type { Cta, Eyebrow, PageSection, TwoTone } from "../types";
-import { solutionModules, type AkashicSolution } from "./akashic";
+import { solutionModules, type AkashicSolution, type OutcomeShowcase } from "./akashic";
 
 /* ---------------- Types: the CMS contract for this page ---------------- */
 
@@ -96,19 +96,20 @@ export interface HomeProblem {
   verdict: TwoTone;
 }
 
-/** [02] Meet Akashic: the intro with the five capabilities inside the dome,
-    then the seven modules beside their drawings. The logo strip was cut on
-    20 Oct 2026 (founder); the particle "signals" demo gave way to the
-    modules on 21 Oct 2026 (user), as the lead-in to [03] Solutions. */
+/** [02] Meet Akashic: the intro, the outcome cards with their module index,
+    then the five capabilities (23 Oct 2026, user: the /akashic hero's cards
+    came here; this section's dome and module rail went to /akashic). The
+    logo strip was cut on 20 Oct 2026 (founder); the particle "signals" demo
+    gave way to the modules on 21 Oct 2026 (user), as the lead-in to [03]
+    Solutions. */
 export interface HomePlatform {
   eyebrow: Eyebrow;
   hero: { kicker: string; title: string; lede: string; cta: Cta };
+  /** In the platform's module order, matched to `solutionModules`. */
+  showcase: OutcomeShowcase;
   /** `term` is the industry name, set small above a plain-language title,
       so a newcomer and a data team both read the line. */
   features: { term: string; title: string; text: string }[];
-  /** In the platform's module order: index-matched to MOMENTS in
-      demos/mockups/AkashicModuleMomentsMockup and to `solutionModules`. */
-  modules: { title: TwoTone; lede: string; items: { name: string; text: string }[] };
 }
 
 export interface HomeSolution {
@@ -137,7 +138,6 @@ export interface HomeSolutions {
 }
 
 export interface HomeService {
-  number: string;
   title: string;
   description: string;
   scope: string;
@@ -192,7 +192,8 @@ export interface HomeProof {
   after: string;
   /** The wordmark printed on the comparison seam. */
   seamLabel: string;
-  instruction: string;
+  /** Screen readers only: the slider demonstrates itself (UX review, 23 Oct
+      2026: a design that needs an instruction line needs simplifying). */
   keyboardInstruction: string;
   viewLabel: string;
   views: { before: string; compare: string; after: string };
@@ -229,9 +230,9 @@ export interface HomeGovernance {
   eyebrow: Eyebrow;
   title: TwoTone;
   kpis: { figure: string; label: string }[];
-  frameworksLabel: string;
-  /** `id` picks the framework's mark (dpdp, iso, soc2, gdpr, certin). */
-  frameworks: { id: string; label: string; sub: string }[];
+  /** Certifications, then the laws followed. `id` picks the framework's mark
+      (dpdp, iso, soc2, gdpr, certin). */
+  frameworkGroups: { label: string; items: { id: string; label: string; sub: string }[] }[];
 }
 
 export interface HomeCareers {
@@ -305,7 +306,7 @@ export const home: HomePage = {
     secondary: { label: "Talk to our team", href: "#talk-to-our-team" },
     illustrations: {
       label: "Explore the Akashic modules",
-      note: "Illustrative business views",
+      note: "Sample business · illustrative",
       scrollHint: "Scroll to explore the modules",
       modules: [
         { kind: "master-data", module: "Master Data", title: "Your business hierarchy", description: "See the relationships between your group, regions and locations." },
@@ -314,7 +315,7 @@ export const home: HomePage = {
         { kind: "ask", module: "Ask Akashic", title: "Answers with evidence", description: "Ask a business question in plain language and trace the answer to its source." },
         { kind: "pipelines", module: "Data Pipelines", title: "Every system, connected", description: "Bring Salesforce, NetSuite and the sales plan into one view of every order." },
         { kind: "ml", module: "Machine Learning", title: "Plan for demand ahead", description: "See expected demand alongside past performance to plan ahead." },
-        { kind: "warehouse", module: "Warehouse", title: "One agreed set of figures", description: "Give every team the same agreed figures for reporting and decisions." },
+        { kind: "warehouse", module: "Data Warehouse", title: "One agreed set of figures", description: "Give every team the same agreed figures for reporting and decisions." },
       ],
     },
   },
@@ -349,8 +350,9 @@ export const home: HomePage = {
   },
 
   /* [02] answers [01] in the platform's own vocabulary, neither simplified
-     nor spec sheet. Each part has one job: the intro names it, the features
-     are what your AI knows, the signals what it does. No claim is made twice.
+     nor spec sheet. Each part has one job: the intro names it, the cards
+     show what each module gives a team, the features are what your AI
+     knows. No claim is made twice.
      "Nothing to rip out" (the logo strip) and "Seven modules" (the close)
      were removed on 20 Oct 2026 at the founder's request: /akashic owns the
      systems it connects to and the module list. */
@@ -362,10 +364,27 @@ export const home: HomePage = {
       lede: "Akashic connects the systems you already run, makes their data agree, and puts AI to work on it.",
       cta: { label: "Explore Akashic", href: "/akashic" },
     },
-    /* Shown inside the dome, in the first fold, so the reader learns what
-       Akashic does before anything else (user, 21 Oct 2026). The industry
-       term (22 Sep 2026 direction) rides above a plain title. Captions stay
-       around 60 characters so the five set to two lines each. */
+    /* The outcome cards (23 Oct 2026, user, from the /akashic hero), one per
+       module, named as the [03] slab names them. The captions are this
+       section's own module lines; the cards' figures are the demo world the
+       hero's note already labels. DO NOT OVERSELL: nothing here may promise
+       that AI decides or acts on its own, and nothing may claim write-back. */
+    showcase: {
+      label: "What each Akashic module gives your teams",
+      link: { label: "See it with your own data", href: "#talk-to-our-team" },
+      modules: [
+        { module: "Data Pipelines", adds: "Connected sources", caption: "Brings in data from every system you run, checked as it arrives." },
+        { module: "Master Data", adds: "Entity hierarchies", caption: "Matches customers, citizens and assets into one record each." },
+        { module: "Data Warehouse", adds: "Shared definitions", caption: "Stores the data and defines every figure once." },
+        { module: "Machine Learning", adds: "Forecasts", caption: "Builds forecasts from the same governed data." },
+        { module: "Ask Akashic", adds: "Cited answers", caption: "Answers plain questions, with every figure cited." },
+        { module: "Business Intelligence", adds: "Dashboards and alerts", caption: "Dashboards and alerts built on the same definitions." },
+        { module: "Governance", adds: "Lineage and access", caption: "Access rules, lineage and audit across every module." },
+      ],
+    },
+    /* Under the cards, so the reader learns what the platform knows. The
+       industry term (22 Sep 2026 direction) rides above a plain title.
+       Captions stay around 60 characters so the five set to two lines each. */
     features: [
       { term: "Entity resolution", title: "One record each", text: "Customers, citizens and assets matched across all your systems." },
       { term: "Semantic layer", title: "Terms defined once", text: "Revenue means the same thing in every report and every answer." },
@@ -373,23 +392,6 @@ export const home: HomePage = {
       { term: "Knowledge layer", title: "Context your AI can use", text: "The relationships and rules that explain how your organisation works." },
       { term: "Data lineage", title: "Every figure traced", text: "Any number followed back to its source, as it stood on any date." },
     ],
-    /* The seven modules, named as the [03] slab names them, each with what it
-       does in plain words; the drawing beside each shows it at work. DO NOT
-       OVERSELL: nothing here may promise that AI decides or acts on its own,
-       and nothing may claim write-back. */
-    modules: {
-      title: { setup: "Seven modules, one platform.", payoff: "Start with the one you need." },
-      lede: "Each module does one job and shares the same data, definitions and access rules with the others. Use one, or switch on several together.",
-      items: [
-        { name: "Data Pipelines", text: "Brings in data from every system you run, checked as it arrives." },
-        { name: "Master Data", text: "Matches customers, citizens and assets into one record each." },
-        { name: "Warehouse", text: "Stores the data and defines every figure once." },
-        { name: "Machine Learning", text: "Builds forecasts from the same governed data." },
-        { name: "Ask Akashic", text: "Answers plain questions, with every figure cited." },
-        { name: "Business Intelligence", text: "Dashboards and alerts built on the same definitions." },
-        { name: "Governance", text: "Access rules, lineage and audit across every module." },
-      ],
-    },
   },
 
   /* [03] The solutions are the point (user, 21 Oct 2026: "the MVP is the
@@ -401,7 +403,7 @@ export const home: HomePage = {
   solutions: {
     eyebrow: { number: "03", label: "Solutions" },
     /* Headline: two lines, each on one line from 1024px. Lede: two lines. */
-    title: { setup: "Problems we already solve.", payoff: "Off the shelf, on your data." },
+    title: { setup: "Our solutions arrive ready-made", payoff: "and run on your own data." },
     description: "Purpose-built for business planning, public procurement and maternal care. Every solution runs on the complete Akashic platform.",
     modules: solutionModules,
     items: [
@@ -453,21 +455,18 @@ export const home: HomePage = {
     cta: { label: "Explore our services", href: "/delivery" },
     services: [
       {
-        number: "01",
         title: "Plan what to build",
         description: "Find where data and AI will pay off, and map the route there.",
         scope: "Strategic Advisory",
         href: "/delivery#advisory",
       },
       {
-        number: "02",
         title: "Build what you need",
         description: "Software, data platforms and data pipelines, on the stack you choose.",
         scope: "Engineering at Scale",
         href: "/delivery#engineering",
       },
       {
-        number: "03",
         title: "Bring AI into your work",
         description: "Assistants and governed workflows, taken from pilot to production.",
         scope: "AI Solutions and Accelerators",
@@ -479,7 +478,7 @@ export const home: HomePage = {
   sectors: {
     eyebrow: { number: "05", label: "Every sector" },
     title: { setup: "Whatever your sector,", payoff: "we know the work." },
-    introduction: "Six industries we serve, each with its own systems, records and questions.",
+    introduction: "The industries we serve, each with its own systems, records and questions.",
     selectorLabel: "Find your industry",
     tablistLabel: "Industries",
     explore: "Explore",
@@ -540,12 +539,11 @@ export const home: HomePage = {
      seam. Do not cut it without asking. */
   proof: {
     eyebrow: { number: "06", label: "The difference" },
-    title: { setup: "Same team. Same data.", payoff: "Less reconciling, more deciding." },
+    title: { setup: "Share one set of data,", payoff: "and teams stop reconciling." },
     description: "One organisation, before DHIRA and after. The hours spent reconciling figures go back into decisions.",
     before: "Before DHIRA",
     after: "After DHIRA",
     seamLabel: "DHIRA",
-    instruction: "Drag the divider. See what changes.",
     keyboardInstruction: "Use the arrow keys to move the divider. Home shows after; End shows before.",
     viewLabel: "Comparison view",
     views: { before: "Before", compare: "Compare", after: "After" },
@@ -568,8 +566,8 @@ export const home: HomePage = {
   scale: {
     number: "07",
     eyebrow: "In production",
-    title: { setup: "Proven at national scale.", payoff: "Ready for your organisation." },
-    description: "Not pilots. National systems in production, on the public record.",
+    title: { setup: "The platform behind national programmes", payoff: "is ready for your organisation." },
+    description: "Not pilots. National systems in production, at population scale.",
     storiesLabel: "Akashic deployments in production",
     storyNoun: "deployment",
   },
@@ -616,22 +614,35 @@ export const home: HomePage = {
      executives at hand-off. */
   governance: {
     eyebrow: { number: "09", label: "Governance" },
-    title: { setup: "Your data stays yours.", payoff: "Governed inside your walls." },
+    title: { setup: "Your data stays yours,", payoff: "wherever Akashic runs." },
+    /* True for every deployment (UX review, 23 Oct 2026): the cloud option
+       means no blanket "100% in your own infrastructure"; key custody is
+       stated for self-hosted only. */
     kpis: [
-      { figure: "Zero", label: "keys or data we hold" },
-      { figure: "100%", label: "in your own infrastructure" },
+      { figure: "3", label: "ways to run it: cloud, on premises or hybrid" },
+      { figure: "Zero", label: "keys or data we hold when you host it" },
       { figure: "In-region", label: "storage and processing" },
       { figure: "Never", label: "used to train models" },
     ],
-    frameworksLabel: "Independently certified",
-    /* Full names, no acronyms (user, 21 Oct 2026). ISO 27001 and SOC 2 are
-       the standards' own names. */
-    frameworks: [
-      { id: "dpdp", label: "Digital Personal Data Protection Act", sub: "India" },
-      { id: "iso", label: "ISO 27001", sub: "Information security management" },
-      { id: "soc2", label: "SOC 2 Type II", sub: "Security and availability controls" },
-      { id: "gdpr", label: "General Data Protection Regulation", sub: "European Union" },
-      { id: "certin", label: "Indian Computer Emergency Response Team", sub: "Cyber security directions" },
+    /* Certifications and laws are different claims, so they sit in separate
+       groups (UX review, 23 Oct 2026). Full names, no acronyms (user, 21 Oct
+       2026). ISO 27001 and SOC 2 are the standards' own names. */
+    frameworkGroups: [
+      {
+        label: "Certified",
+        items: [
+          { id: "iso", label: "ISO 27001", sub: "Information security management" },
+          { id: "soc2", label: "SOC 2 Type II", sub: "Security and availability controls" },
+        ],
+      },
+      {
+        label: "Complies with",
+        items: [
+          { id: "dpdp", label: "Digital Personal Data Protection Act", sub: "India" },
+          { id: "gdpr", label: "General Data Protection Regulation", sub: "European Union" },
+          { id: "certin", label: "Indian Computer Emergency Response Team", sub: "Cyber security directions" },
+        ],
+      },
     ],
   },
 

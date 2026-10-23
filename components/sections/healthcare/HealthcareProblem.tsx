@@ -104,7 +104,7 @@ export default function HealthcareProblem({ content, template }: { content: Sect
           </ScrollReveal>
 
           <ScrollReveal delay={80}>
-            <h2 className="text-heading-sm font-semibold text-ink md:text-heading-md lg:text-heading-lg">
+            <h2 className="text-heading-sm font-medium text-ink md:text-heading-md lg:text-heading-lg">
               {problem.title}
             </h2>
           </ScrollReveal>
@@ -125,7 +125,7 @@ export default function HealthcareProblem({ content, template }: { content: Sect
             {problem.fractures.map((fracture, idx) => (
               <ScrollReveal key={fracture.title} delay={idx * 90}>
                 <div className={idx > 0 ? "md:border-l md:border-dashed md:border-lineSoft md:pl-10" : ""}>
-                  <p className="text-[44px] font-semibold leading-none tracking-tighter text-overcast">
+                  <p className="text-[44px] font-semibold leading-none tabular-nums tracking-tighter text-overcast">
                     {idx + 1}
                   </p>
                   <h3 className="mt-4 text-[19px] font-semibold leading-snug tracking-tight text-ink md:text-[20px]">
@@ -160,7 +160,7 @@ export default function HealthcareProblem({ content, template }: { content: Sect
           </ScrollReveal>
 
           <ScrollReveal delay={80}>
-            <h2 className="max-w-[13em] text-heading-lg font-semibold text-ink">
+            <h2 className="max-w-[13em] text-heading-lg font-medium text-ink">
               {problem.title}
             </h2>
           </ScrollReveal>
@@ -179,7 +179,7 @@ export default function HealthcareProblem({ content, template }: { content: Sect
             {problem.fractures.map((fracture, idx) => (
               <ScrollReveal key={fracture.title} delay={idx * 90}>
                 <div className={idx > 0 ? "border-l border-dashed border-lineSoft pl-10" : ""}>
-                  <p className="text-[44px] font-semibold leading-none tracking-tighter text-overcast">
+                  <p className="text-[44px] font-semibold leading-none tabular-nums tracking-tighter text-overcast">
                     {idx + 1}
                   </p>
                   <h3 className="mt-4 text-[20px] font-semibold leading-snug tracking-tight text-ink">

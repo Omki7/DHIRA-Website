@@ -11,7 +11,7 @@ import useCountUp from "@/hooks/useCountUp";
 import usePrefersReducedMotion from "@/hooks/usePrefersReducedMotion";
 
 function EvidenceFigure({ figure }: { figure: string }) {
-  const { ref, display } = useCountUp(figure, { duration: 1800, startAtZero: true });
+  const { ref, display } = useCountUp(figure, { startAtZero: true });
   return (
     <div ref={ref} data-problem-counter className="font-sans text-[40px] font-semibold leading-none tracking-tightest text-red-deep tabular-nums sm:text-[46px] xl:text-[52px]">
       <span className="sr-only">{figure}</span>
@@ -78,7 +78,7 @@ export default function ProblemSection({ content }: { content: HomeProblem }) {
                           href={fact.sourceUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="mt-3 inline-flex items-center gap-1 font-mono text-[9px] uppercase tracking-[0.04em] sm:text-[10px] text-blue underline decoration-blue/40 underline-offset-4 transition-colors duration-250 ease-settle hover:text-blue-hover hover:decoration-blue-hover"
+                          className="mt-3 inline-flex items-center gap-1 font-mono text-[9px] uppercase tracking-[0.04em] sm:text-[10px] text-blue underline decoration-blue/40 underline-offset-4 transition-colors duration-200 ease-settle hover:text-blue-hover hover:decoration-blue-hover"
                         >
                           {fact.source}
                           <svg

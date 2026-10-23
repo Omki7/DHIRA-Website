@@ -89,10 +89,10 @@ export function PricingBuy({ content }: { content: PricingPage["howToBuy"] }) {
                 {route.href && route.cta && (
                   <Link
                     href={route.href}
-                    className="group mt-4 inline-flex min-h-11 items-center gap-2 self-start text-[15px] font-medium text-ink underline decoration-line underline-offset-[6px] transition-colors duration-250 ease-settle hover:text-blue hover:decoration-current"
+                    className="group mt-4 inline-flex min-h-11 items-center gap-2 self-start text-[15px] font-medium text-ink underline decoration-line underline-offset-[6px] transition-colors duration-200 ease-settle hover:text-blue hover:decoration-current"
                   >
                     {route.cta}
-                    <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.4" className="h-4 w-4 transition-transform duration-250 group-hover:translate-x-1 motion-reduce:transform-none" aria-hidden>
+                    <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.4" className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1 motion-reduce:transform-none" aria-hidden>
                       <path d="M3 10h13m-5-5 5 5-5 5" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
                   </Link>

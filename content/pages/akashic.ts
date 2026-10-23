@@ -29,7 +29,7 @@ export interface StoryHeading {
    Every solution uses all seven modules (user correction, 21 Oct 2026).
    Keep one shared list so the homepage and platform matrix agree.
    Enterprise Intelligence IS /solutions/eis (user, 14 Oct 2026). */
-export const solutionModules = ["Data Pipelines", "Master Data", "Warehouse", "Machine Learning", "Ask Akashic", "Business Intelligence", "Governance"];
+export const solutionModules = ["Data Pipelines", "Master Data", "Data Warehouse", "Machine Learning", "Ask Akashic", "Business Intelligence", "Governance"];
 
 export type AkashicModuleName = string;
 
@@ -57,8 +57,8 @@ export interface AkashicSolutions {
 }
 
 export const akashicSolutions: AkashicSolutions = {
-  setup: "Ready-made for one process.",
-  title: "Live on the foundation you already run.",
+  setup: "Each solution is ready-made for one process",
+  title: "and runs on the foundation you already have.",
   intro: "Enterprise Intelligence, Intelligent Procurement Management System and Akashic Life each use all seven Akashic modules, with shared data, intelligence and governance.",
   items: [
     {
@@ -125,8 +125,8 @@ export interface AkashicSecurity {
 }
 
 const akashicSecurity: AkashicSecurity = {
-  setup: "Put AI to work.",
-  title: "Keep control of your data.",
+  setup: "Put AI to work",
+  title: "without losing control of your data.",
   intro: "Use your data with confidence. Akashic applies permissions, policy and privacy controls from ingestion to the final answer.",
   badges: ["Role-based access", "Private deployment", "Auditable answers"],
   cards: [
@@ -190,6 +190,17 @@ export interface AkashicAdvantage extends StoryHeading {
   measure: string;
 }
 
+/** The outcome-card stage (demos/mockups/AkashicOutcomeCardsMockup), shown
+    in homepage [02] since 23 Oct 2026. Lives here with the cards' figures. */
+export interface OutcomeShowcase {
+  /** Accessible name of the stage. */
+  label: string;
+  link: Cta;
+  /** In platform order. `adds` labels the context tentacle; `caption` is
+      the one legible line under the stage. */
+  modules: { module: string; adds: string; caption: string }[];
+}
+
 /* ---------------- The page document ---------------- */
 
 export interface AkashicPage {
@@ -211,15 +222,6 @@ export interface AkashicPage {
     lede: string;
     primary: Cta;
     secondary: Cta;
-    /** The outcome cards under the hero (AkashicModuleScreensMockup). */
-    showcase: {
-      /** Accessible name of the stage. */
-      label: string;
-      link: Cta;
-      /** In platform order. `adds` labels the context tentacle; `caption`
-          is the one legible line under the stage. */
-      modules: { module: string; adds: string; caption: string }[];
-    };
   };
   inAction: {
     eyebrow: { number: string; label: string };
@@ -234,7 +236,6 @@ export interface AkashicPage {
     eyebrow: { number: string; label: string };
     title: TwoTone;
     lede: string;
-    scrollHint: string;
     /** One chapter per module, in walkthrough order. `icon` picks the point's glyph. */
     modules: { kicker: string; name: string; lede: string; points: { icon: string; text: string; preview?: boolean }[] }[];
     /** The question typed on the Ask plate. */
@@ -272,7 +273,7 @@ export interface AkashicPage {
   agents: AkashicAgents;
   trust: StoryHeading & AkashicSecurity;
   open: StoryHeading & {
-    principles: { eyebrow: string; title: string; desc: string; detail: string }[];
+    principles: { title: string; desc: string; detail: string }[];
     productName: string;
     close: string;
   };
@@ -339,7 +340,7 @@ export const dataLayerModules: LayerModule[] = [
   {
     id: "modules-data-pipelines",
     icon: "Akashic Data Pipelines",
-    name: "Akashic Data Pipelines",
+    name: "Data Pipelines",
     sub: "Ingest and validate every source",
     caps: ["Ready-made connectors", "Streaming · batch · CDC", "PDF, email & OCR intake", "Schema validation"],
     agent: "Pipeline agents",
@@ -347,7 +348,7 @@ export const dataLayerModules: LayerModule[] = [
   {
     id: "modules-master-data",
     icon: "Akashic Master Data",
-    name: "Akashic Master Data",
+    name: "Master Data",
     sub: "Resolve every entity to one golden record",
     caps: ["Exact + fuzzy matching", "Survivorship rules", "Steward review queue", "Hierarchy management"],
     agent: "Matching agents",
@@ -355,7 +356,7 @@ export const dataLayerModules: LayerModule[] = [
   {
     id: "modules-data-warehousing",
     icon: "Akashic Data Warehouse",
-    name: "Akashic Warehouse",
+    name: "Data Warehouse",
     sub: "Model data and define metrics once",
     caps: ["Dimensional models", "Governed metric layer", "Your warehouse or ours", "Sub-second queries"],
   },
@@ -365,7 +366,7 @@ export const intelligenceLayerModules: LayerModule[] = [
   {
     id: "modules-machine-learning",
     icon: "Akashic Machine Learning",
-    name: "Akashic ML",
+    name: "Machine Learning",
     sub: "Train, deploy and monitor models",
     caps: ["Notebooks & experiments", "Feature store", "Staged deployment", "Drift & bias monitoring"],
   },
@@ -379,13 +380,20 @@ export const intelligenceLayerModules: LayerModule[] = [
   {
     id: "modules-business-intelligence",
     icon: "Akashic BI",
-    name: "Akashic BI",
+    name: "Business Intelligence",
     sub: "Serve metrics to every surface",
     caps: ["AI-built charts", "Dashboards & alerts", "Row-level security", "Embedded analytics"],
   },
 ];
 
-export type Conn = { mono: string; name: string; color: string };
+/** The marks icons/ConnectorLogo can draw, a fixed list an editor picks from.
+    "generic" is the neutral glyph for systems with no licensed mark. */
+export type ConnectorLogoId =
+  | "salesforce" | "sap" | "oracle" | "hubspot" | "zendesk" | "postgresql" | "mysql"
+  | "mongodb" | "snowflake" | "kafka" | "s3" | "sheets" | "bigquery" | "databricks"
+  | "redshift" | "anthropic" | "openai" | "meta" | "mistral" | "azure" | "akashic" | "generic";
+/** A connector: its name and its grey mark. */
+export type Conn = { name: string; logo: ConnectorLogoId };
 export type Cap = { icon: string; term: string; sub?: string };
 export type Group =
   | { label: string; kind: "conn"; items: Conn[] }
@@ -408,7 +416,7 @@ export const akashicModules: ModuleDef[] = [
   {
     id: "pipelines",
     icon: "Akashic Data Pipelines",
-    name: "Akashic Data Pipelines",
+    name: "Data Pipelines",
     tagline: "Ingestion",
     desc: "Every source, ingested and validated the moment it arrives. Structured, unstructured, or streaming: one entry point into the platform, or a standalone ingestion layer.",
     groups: [
@@ -416,20 +424,20 @@ export const akashicModules: ModuleDef[] = [
         label: "Source connectors",
         kind: "conn",
         items: [
-          { mono: "SF", name: "Salesforce", color: "#2E9BD6" },
-          { mono: "SAP", name: "SAP", color: "#1170B5" },
-          { mono: "NS", name: "NetSuite", color: "#1F2A44" },
-          { mono: "HS", name: "HubSpot", color: "#EA5A2E" },
-          { mono: "WD", name: "Workday", color: "#0875E1" },
-          { mono: "ZD", name: "Zendesk", color: "#03363D" },
-          { mono: "PG", name: "Postgres", color: "#336791" },
-          { mono: "My", name: "MySQL", color: "#00758F" },
-          { mono: "Mo", name: "MongoDB", color: "#00894F" },
-          { mono: "❄", name: "Snowflake", color: "#1D9BD1" },
-          { mono: "Ka", name: "Kafka", color: "#231F20" },
-          { mono: "S3", name: "Amazon S3", color: "#C9412C" },
-          { mono: "GS", name: "Sheets", color: "#0F9D58" },
-          { mono: "{}", name: "REST / Webhook", color: "#3E63DD" },
+          { name: "Salesforce", logo: "salesforce" },
+          { name: "SAP", logo: "sap" },
+          { name: "Oracle NetSuite", logo: "oracle" },
+          { name: "HubSpot", logo: "hubspot" },
+          { name: "Workday", logo: "generic" },
+          { name: "Zendesk", logo: "zendesk" },
+          { name: "PostgreSQL", logo: "postgresql" },
+          { name: "MySQL", logo: "mysql" },
+          { name: "MongoDB", logo: "mongodb" },
+          { name: "Snowflake", logo: "snowflake" },
+          { name: "Apache Kafka", logo: "kafka" },
+          { name: "Amazon S3", logo: "s3" },
+          { name: "Google Sheets", logo: "sheets" },
+          { name: "REST and webhooks", logo: "generic" },
         ],
       },
       {
@@ -474,7 +482,7 @@ export const akashicModules: ModuleDef[] = [
   {
     id: "master-data",
     icon: "Akashic Master Data",
-    name: "Akashic Master Data",
+    name: "Master Data",
     tagline: "Entity resolution",
     desc: "Every version of an entity resolves into one golden record, with the lineage of everything merged kept intact. Those records and the links between them are what the governed knowledge layer is built from.",
     groups: [
@@ -535,7 +543,7 @@ export const akashicModules: ModuleDef[] = [
   {
     id: "warehouse",
     icon: "Akashic Data Warehouse",
-    name: "Akashic Warehouse",
+    name: "Data Warehouse",
     tagline: "Modelled storage",
     desc: "Mastered records become models built for fast, reliable queries. Bring your own warehouse or run Akashic-managed storage.",
     groups: [
@@ -543,12 +551,12 @@ export const akashicModules: ModuleDef[] = [
         label: "Warehouse connectors",
         kind: "conn",
         items: [
-          { mono: "❄", name: "Snowflake", color: "#1D9BD1" },
-          { mono: "BQ", name: "BigQuery", color: "#3B78E7" },
-          { mono: "DB", name: "Databricks", color: "#E8432A" },
-          { mono: "RS", name: "Redshift", color: "#205B99" },
-          { mono: "Sy", name: "Synapse", color: "#0F6CBD" },
-          { mono: "PG", name: "Postgres", color: "#336791" },
+          { name: "Snowflake", logo: "snowflake" },
+          { name: "BigQuery", logo: "bigquery" },
+          { name: "Databricks", logo: "databricks" },
+          { name: "Amazon Redshift", logo: "redshift" },
+          { name: "Azure Synapse", logo: "azure" },
+          { name: "PostgreSQL", logo: "postgresql" },
         ],
       },
       {
@@ -576,7 +584,7 @@ export const akashicModules: ModuleDef[] = [
   {
     id: "ml",
     icon: "Akashic Machine Learning",
-    name: "Akashic ML",
+    name: "Machine Learning",
     tagline: "Prediction",
     desc: "Build, train, deploy, and monitor models directly on governed data. No exports, no separate environment.",
     groups: [
@@ -622,11 +630,12 @@ export const akashicModules: ModuleDef[] = [
         label: "Model providers · bring your own key",
         kind: "conn",
         items: [
-          { mono: "A", name: "Anthropic Claude", color: "#C9633B" },
-          { mono: "O", name: "OpenAI", color: "#0A8A6F" },
-          { mono: "Az", name: "Azure OpenAI", color: "#0089D6" },
-          { mono: "Ll", name: "Llama / Mistral", color: "#3E63DD" },
-          { mono: "ak", name: "Akashic-hosted", color: "#1A1C1D" },
+          { name: "Anthropic Claude", logo: "anthropic" },
+          { name: "OpenAI", logo: "openai" },
+          { name: "Azure OpenAI", logo: "azure" },
+          { name: "Llama", logo: "meta" },
+          { name: "Mistral", logo: "mistral" },
+          { name: "Akashic-hosted", logo: "akashic" },
         ],
       },
       {
@@ -655,7 +664,7 @@ export const akashicModules: ModuleDef[] = [
   {
     id: "bi",
     icon: "Akashic BI",
-    name: "Akashic BI",
+    name: "Business Intelligence",
     tagline: "Decision surface",
     desc: "Dashboards and metrics defined once, consistent on every surface they appear.",
     groups: [
@@ -687,7 +696,7 @@ export const akashicModules: ModuleDef[] = [
   {
     id: "governance",
     icon: "Akashic Data Governance",
-    name: "Akashic Governance",
+    name: "Governance",
     tagline: "Always on",
     desc: "Access control, lineage, and audit under every module, from the first byte to the final answer.",
     groups: [
@@ -731,7 +740,7 @@ export const akashicModules: ModuleDef[] = [
           { icon: "shield", term: "Customer-held keys", sub: "no DHIRA key custody" },
         ],
       },
-      { label: "Compliance", kind: "badges", items: ["DPDP Act", "ISO 27001", "SOC 2 Type II", "GDPR", "CERT-In"] },
+      { label: "Compliance", kind: "badges", items: ["ISO 27001", "SOC 2 Type II", "DPDP Act", "GDPR", "CERT-In"] },
     ],
   },
 ];
@@ -742,7 +751,7 @@ export const akashic: AkashicPage = {
   seo: {
     title: "Akashic: Data and AI Platform",
     description:
-      "Akashic is the governed data and AI platform. Data Pipelines, master data, warehouse, ML, AI answers and BI on one foundation, ready for agents, with lineage, access control and audit under every layer.",
+      "Akashic is the governed data and AI platform. Data Pipelines, Master Data, Data Warehouse, Machine Learning, Ask Akashic and Business Intelligence on one foundation, ready for agents, with lineage, access control and audit under every layer.",
     path: "/akashic",
   },
   sections: [
@@ -751,7 +760,7 @@ export const akashic: AkashicPage = {
     { id: "how-it-works", label: "How it works", eyebrow: "[02]" },
     { id: "architecture", label: "Where it runs", eyebrow: "[03]" },
     { id: "modules", label: "The architecture", eyebrow: "[04]" },
-    { id: "agents", label: "Akashic Agents", eyebrow: "[05]" },
+    { id: "agents", label: "AI agents", eyebrow: "[05]" },
     { id: "trust", label: "Enterprise trust", eyebrow: "[06]" },
     { id: "open", label: "Open architecture", eyebrow: "[07]" },
     { id: "build-vs-buy", label: "The Akashic advantage", eyebrow: "[08]" },
@@ -779,22 +788,9 @@ export const akashic: AkashicPage = {
     lede: "Akashic brings your data, analytics and AI onto one governed platform, ready for agents. Every team works from the same figures, each one traced to its source.",
     primary: { label: "Talk to our team", href: "#talk-to-our-team" },
     secondary: { label: "See it answer a question", href: "#akashic-in-action" },
-    /* Founder, 22 Oct 2026: the module screens showed too much. Each module
-       is now one outcome a business reader recognises; the captions say what
-       the organisation gains, the cards show it. */
-    showcase: {
-      label: "What each Akashic module gives your teams",
-      link: { label: "See it with your own data", href: "#talk-to-our-team" },
-      modules: [
-        { module: "Data Pipelines", adds: "Connected sources", caption: "Every system's records land in one view, checked on arrival." },
-        { module: "Master Data", adds: "Entity hierarchies", caption: "Customers mapped into families, so every group total rolls up." },
-        { module: "Warehouse", adds: "Shared definitions", caption: "Metrics defined once, so every driver behind a number reconciles." },
-        { module: "Machine Learning", adds: "Forecasts", caption: "Forecasts trained on governed history, tested on past weeks first." },
-        { module: "Ask Akashic", adds: "Cited answers", caption: "Plain-language questions answered in seconds, with every figure cited." },
-        { module: "Business Intelligence", adds: "Dashboards and alerts", caption: "Live dashboards on governed figures, with alerts the moment plans slip." },
-        { module: "Governance", adds: "Lineage and access", caption: "Every figure traced to its source. Every view shaped by role." },
-      ],
-    },
+    /* 23 Oct 2026 (user): the hero lands straight on the quote. The outcome
+       cards that stood under it went to homepage [02]; the dome and module
+       rail tried here the same day were removed. */
   },
 
   /* [01] Everything on the right is SIMULATED PRODUCT UI: canned copy and
@@ -898,12 +894,11 @@ export const akashic: AkashicPage = {
     eyebrow: { number: "02", label: "How it works · the walkthrough" },
     /* Gain-led headline (14 Oct 2026): adopt one module, grow into the platform. */
     title: { setup: "Start with one module.", payoff: "Grow into the platform." },
-    lede: "Each module does one job and hands its output to the next, on one governed foundation. Scroll to open the platform and walk through them, one at a time.",
-    scrollHint: "Scroll · open the platform",
+    lede: "Each module does one job and hands its output to the next, on one governed foundation.",
     modules: [
       {
         kicker: "Ingestion",
-        name: "Akashic Data Pipelines",
+        name: "Data Pipelines",
         lede: "Every source, ingested and validated.",
         points: [
           { icon: "database", text: "CRMs, ERPs, PDFs, live feeds: streaming, batch, CDC" },
@@ -913,7 +908,7 @@ export const akashic: AkashicPage = {
       },
       {
         kicker: "Entity resolution",
-        name: "Akashic Master Data",
+        name: "Master Data",
         lede: "One golden record. No duplicates.",
         points: [
           { icon: "merge", text: "One golden record, settled by survivorship rules" },
@@ -923,7 +918,7 @@ export const akashic: AkashicPage = {
       },
       {
         kicker: "Modelled storage",
-        name: "Akashic Warehouse",
+        name: "Data Warehouse",
         lede: "Structured, modelled, ready to query.",
         points: [
           { icon: "cube", text: "Dimensional models, built for sub-second queries" },
@@ -933,7 +928,7 @@ export const akashic: AkashicPage = {
       },
       {
         kicker: "Prediction",
-        name: "Akashic ML",
+        name: "Machine Learning",
         lede: "Forecasts, trained on governed data.",
         points: [
           { icon: "cpu", text: "Train and deploy where the data lives: no exports" },
@@ -953,7 +948,7 @@ export const akashic: AkashicPage = {
       },
       {
         kicker: "Decision surface",
-        name: "Akashic BI",
+        name: "Business Intelligence",
         lede: "The same number, on every surface.",
         points: [
           { icon: "sparkle", text: "Describe a chart in plain language: AI builds it on governed data" },
@@ -963,12 +958,12 @@ export const akashic: AkashicPage = {
       },
       {
         kicker: "Always on",
-        name: "Akashic Governance",
+        name: "Governance",
         lede: "It’s been running the whole time.",
         points: [
           { icon: "shield", text: "Access, lineage, and audit under every module" },
-          { icon: "key", text: "Deployed in-region, with keys only you hold" },
-          { icon: "badge", text: "DPDP · ISO 27001 · SOC 2 · GDPR · CERT-In" },
+          { icon: "key", text: "Deployed in-region, with your own keys when self-hosted" },
+          { icon: "badge", text: "ISO 27001 and SOC 2 certified · DPDP, GDPR, CERT-In compliant" },
         ],
       },
     ],
@@ -1019,8 +1014,8 @@ export const akashic: AkashicPage = {
   architecture: {
     number: "04",
     label: "The architecture",
-    setup: "Seven modules.",
-    title: "Nothing to stitch together.",
+    setup: "You get seven modules",
+    title: "and nothing to stitch together.",
     intro: "Data, context and AI share one foundation, so the seven modules arrive already joined. Governance carries through every layer.",
     sourcesLabel: "Your sources",
     sources: ["Business systems", "Databases", "Documents", "Event streams"],
@@ -1031,7 +1026,7 @@ export const akashic: AkashicPage = {
     ],
     context: ["Entities", "Relationships", "Definitions", "History"],
     explore: "Explore capabilities",
-    governanceLabel: "07 / Akashic Governance",
+    governanceLabel: "Every layer / Governance",
     governance: "Governance runs through every layer.",
     controls: "Access control · Lineage · Audit · Residency",
     exploreGovernance: "Explore governance",
@@ -1044,16 +1039,16 @@ export const akashic: AkashicPage = {
   agents: {
     preview: true,
     number: "05",
-    label: "Akashic Agents",
+    label: "AI agents",
     setup: "Agents do the legwork.",
     title: "People make the call.",
     intro: "Agents read the documents, pull the figures and check the rules. Your teams review the evidence instead of assembling it. Nothing consequential moves without a person’s approval.",
     figureCaption:
-      "One agent run in six steps. Agents handle ask, plan, retrieve and verify: a BI concierge, an orchestrator, SQL, document and hybrid agents, and a metadata agent. A person approves, with maker-checker sign-off, and no agent signs off. The run is recorded on an append-only audit trail with the model and prompt version. A golden-record steward and a pipeline monitor run under every run.",
+      "One agent run in six steps. Agents handle ask, plan, retrieve and verify: a Business Intelligence concierge, an orchestrator, SQL, document and hybrid agents, and a metadata agent. A person approves, with maker-checker sign-off, and no agent signs off. The run is recorded on an append-only audit trail with the model and prompt version. A golden-record steward and a pipeline monitor run under every run.",
     previewNote: "Agents are in preview.",
     lanes: { agent: "Agents do the legwork", person: "A person decides", record: "Kept on record" },
     steps: [
-      { kind: "agent", name: "Ask", detail: "Question · alert · schedule", agents: [{ code: "BI", name: "BI concierge", line: "Finds or builds the right view" }] },
+      { kind: "agent", name: "Ask", detail: "Question · alert · schedule", agents: [{ code: "BI", name: "Business Intelligence concierge", line: "Finds or builds the right view" }] },
       { kind: "agent", name: "Plan", detail: "Steps planned, work routed", agents: [{ code: "A1", name: "Orchestrator", line: "Plans work across agents" }] },
       {
         kind: "agent",
@@ -1080,18 +1075,18 @@ export const akashic: AkashicPage = {
     coda: "Model-neutral by design. Each task runs on a named model, including models hosted inside your boundary.",
   },
 
-  trust: { number: "06", label: "Data privacy & security", ...akashicSecurity },
+  trust: { number: "06", label: "Data privacy and security", ...akashicSecurity },
 
   open: {
     number: "07",
     label: "Open architecture",
-    setup: "No lock-in.",
-    title: "Your data, your formats, your call.",
+    setup: "No lock-in, by design:",
+    title: "your data, your formats, your call.",
     principles: [
-      { eyebrow: "Principle 01", title: "Modular by design", desc: "Start with the modules you need. Expand on the same foundation as your priorities grow.", detail: "Adopt at your pace" },
-      { eyebrow: "Principle 02", title: "Open to inspect", desc: "Read the tables, transforms and metric definitions with tools your team already uses.", detail: "See how the answer was made" },
-      { eyebrow: "Principle 03", title: "Yours to extend", desc: "Use open interfaces to connect existing systems and build for your organisation.", detail: "Keep your engineering freedom" },
-      { eyebrow: "Principle 04", title: "Yours to keep", desc: "Keep your data and your work in open formats. Carry both forward as your needs change.", detail: "Stay by choice" },
+      { title: "Modular by design", desc: "Start with the modules you need. Expand on the same foundation as your priorities grow.", detail: "Adopt at your pace" },
+      { title: "Open to inspect", desc: "Read the tables, transforms and metric definitions with tools your team already uses.", detail: "See how the answer was made" },
+      { title: "Yours to extend", desc: "Use open interfaces to connect existing systems and build for your organisation.", detail: "Keep your engineering freedom" },
+      { title: "Yours to keep", desc: "Keep your data and your work in open formats. Carry both forward as your needs change.", detail: "Stay by choice" },
     ],
     productName: "Akashic",
     close: "Own your data. Own your standards. Keep your freedom to choose.",
@@ -1105,8 +1100,8 @@ export const akashic: AkashicPage = {
   advantage: {
     number: "08",
     label: "Why Akashic",
-    setup: "Lay the groundwork once.",
-    title: "Build every use case on top.",
+    setup: "Lay the groundwork once,",
+    title: "then build every use case on top.",
     intro: "Connections, records and definitions carry forward. Each new dashboard, model or AI use case starts where the last one finished.",
     figureCaption:
       "Four use cases, dashboards, forecasts, AI answers and AI agents, built two ways. Project by project, each use case rebuilds its own connect, unify and define groundwork. With Akashic, the groundwork is laid once and every use case builds only its own work on top. AI agents are in preview.",
@@ -1138,8 +1133,8 @@ export const akashic: AkashicPage = {
   scale: {
     number: "09",
     eyebrow: "In production",
-    title: { setup: "Proven at national scale.", payoff: "Ready for your organisation." },
-    description: "Not pilots. National systems in production, on the public record.",
+    title: { setup: "The platform behind national programmes", payoff: "is ready for your organisation." },
+    description: "Not pilots. National systems in production, at population scale.",
     storiesLabel: "Akashic deployments in production",
     storyNoun: "deployment",
   },
@@ -1151,8 +1146,8 @@ export const akashic: AkashicPage = {
   reference: {
     number: "10",
     label: "Capabilities & connections",
-    setup: "Look beneath the promise.",
-    title: "Inspect the capabilities.",
+    setup: "Look beneath the promise",
+    title: "and inspect every capability.",
     intro: "An open reference for your technical team. Explore each module, its connections and its controls.",
     note: "Discuss connector compatibility, model hosting and deployment requirements with our team.",
     chartTypes: "Bars · Lines · Areas · Metrics · Tables · Heatmaps · Scatter · Pie",
@@ -1176,12 +1171,12 @@ export const akashic: AkashicPage = {
   faq: {
     number: "12",
     label: "Questions",
-    setup: "Questions leaders ask.",
-    title: "Answered plainly.",
+    setup: "The questions leaders ask,",
+    title: "answered plainly.",
     items: [
       {
         question: "What is Akashic?",
-        answer: "The governed data and AI platform. Seven modules cover data pipelines, master data, warehouse, machine learning, AI answers, BI and governance on one foundation. Akashic 1.0 is generally available on 1 November 2026.",
+        answer: "The governed data and AI platform. Seven modules cover Data Pipelines, Master Data, Data Warehouse, Machine Learning, Ask Akashic, Business Intelligence and Governance on one foundation. Akashic 1.0 is generally available on 1 November 2026.",
       },
       {
         question: "Do we have to replace the systems we run today?",

@@ -42,7 +42,7 @@ export default function DeliveryFAQ({ content }: { content: DeliveryPage["faq"] 
             </p>
             <span className="hidden text-overcast sm:inline">{content.eyebrow.aside}</span>
           </div>
-          <h2 className="mt-5 text-heading-sm font-semibold text-ink md:text-heading-md lg:text-heading-lg">
+          <h2 className="mt-5 text-heading-sm font-medium text-ink md:text-heading-md lg:text-heading-lg">
             {content.title}
           </h2>
           <p className="mt-5 max-w-[44em] text-lg leading-relaxed text-secondary-text">
@@ -145,7 +145,7 @@ export default function DeliveryFAQ({ content }: { content: DeliveryPage["faq"] 
             return (
               <ScrollReveal key={faq.question} delay={80 + idx * 50}>
                 <div
-                  className={`relative border-t border-subtle-stroke transition-colors duration-250 ease-settle last:border-b ${
+                  className={`relative border-t border-subtle-stroke transition-colors duration-200 ease-settle last:border-b ${
                     open ? "bg-primary-bg" : ""
                   }`}
                 >

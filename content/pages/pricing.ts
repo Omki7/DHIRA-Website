@@ -214,7 +214,7 @@ const compare: CompareGroup[] = [
     rows: [{ label: "Master records", cells: [{ text: "100,000" }, { text: "1 million" }, { text: "5 million" }] }],
   },
   {
-    heading: "Warehouse",
+    heading: "Data Warehouse",
     enterprise: SIZED,
     rows: [{ label: "Storage, with 12 months of history", cells: [{ text: "0.5 TB" }, { text: "2 TB" }, { text: "8 TB" }] }],
   },
@@ -542,7 +542,7 @@ export const pricing: PricingPage = {
     ctaHref: "#talk-to-our-team",
     foundation: {
       label: "In every plan",
-      modules: ["Data Pipelines and data lake", "Master Data", "Warehouse", "Business Intelligence", "Governance"],
+      modules: ["Data Pipelines and data lake", "Master Data", "Data Warehouse", "Business Intelligence", "Governance"],
       controls: "Every security control",
       controlsHref: "#included",
     },

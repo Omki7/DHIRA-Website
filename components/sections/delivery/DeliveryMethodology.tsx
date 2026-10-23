@@ -33,7 +33,7 @@ export default function DeliveryMethodology({ content }: { content: DeliveryPage
 
           <div className="mt-5 flex flex-col justify-between gap-4 md:flex-row md:items-end">
             <div>
-              <h2 className="text-3xl font-bold tracking-tight text-ink md:text-4xl lg:text-4xl">
+              <h2 className="text-3xl font-medium tracking-tight text-ink md:text-4xl lg:text-4xl">
                 {content.title}
               </h2>
               <p className="mt-3 max-w-[36em] text-base leading-relaxed text-secondary-text">
@@ -79,7 +79,7 @@ export default function DeliveryMethodology({ content }: { content: DeliveryPage
                 <div>
                   {/* Top Visual Graphic Container */}
                   <div
-                    className={`relative aspect-[1.1] w-full overflow-hidden rounded-2xl border border-subtle-stroke bg-primary-bg p-4  transition-all duration-300 group-hover:border-blue-border  flex items-center justify-center`}
+                    className={`relative aspect-[1.1] w-full overflow-hidden rounded-2xl border border-subtle-stroke bg-primary-bg p-4  transition-all duration-200 group-hover:border-blue-border  flex items-center justify-center`}
                   >
                     {/* Visual Graphic Type 1: IDE Code Window */}
                     {stage.type === "code" && (

@@ -38,7 +38,7 @@ export default function DeliveryClose({ content }: { content: DeliveryPage["clos
                 </span>
               </div>
 
-              <h2 className="mx-auto mt-6 max-w-[16em] text-heading-sm font-semibold text-ink md:text-heading-md lg:text-heading-lg">
+              <h2 className="mx-auto mt-6 max-w-[16em] text-heading-sm font-medium text-ink md:text-heading-md lg:text-heading-lg">
                 {content.title[0]}
                 <br />
                 {content.title[1]}

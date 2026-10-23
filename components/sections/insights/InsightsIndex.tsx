@@ -44,7 +44,7 @@ export function InsightsLatest({ insights, content, minRead }: { insights: Insig
           <article className="grid gap-8 border-b border-lineSoft pb-12 lg:grid-cols-12 lg:gap-10 lg:pb-16">
             <div className="lg:col-span-8">
               <Meta insight={lead} minRead={minRead} />
-              <h2 className="mt-5 text-balance text-[32px] font-semibold leading-[1.1] tracking-[-0.03em] text-ink lg:text-[44px]">
+              <h2 className="mt-5 text-balance text-[32px] font-medium leading-[1.1] tracking-[-0.03em] text-ink lg:text-[44px]">
                 <Link href={`/insights/${lead.slug}`} className="transition-colors duration-150 hover:text-blue">
                   {lead.title}
                 </Link>
@@ -58,7 +58,7 @@ export function InsightsLatest({ insights, content, minRead }: { insights: Insig
                 className="group mt-3 inline-flex items-center gap-1.5 text-[15px] font-medium text-blue transition-colors duration-150 hover:text-blue-hover"
               >
                 {content.readArticle}
-                <span aria-hidden className="transition-transform duration-250 ease-settle group-hover:translate-x-0.5">
+                <span aria-hidden className="transition-transform duration-200 ease-settle group-hover:translate-x-0.5">
                   &rarr;
                 </span>
               </Link>
@@ -84,7 +84,7 @@ export function InsightsLatest({ insights, content, minRead }: { insights: Insig
                     </span>
                     <span className="mt-2 block max-w-[44em] text-pretty text-[15px] leading-relaxed text-secondary-text">{insight.dek}</span>
                   </span>
-                  <span aria-hidden className="hidden text-right text-overcast transition-transform duration-250 ease-settle group-hover:translate-x-0.5 group-hover:text-blue lg:col-span-1 lg:block">
+                  <span aria-hidden className="hidden text-right text-overcast transition-transform duration-200 ease-settle group-hover:translate-x-0.5 group-hover:text-blue lg:col-span-1 lg:block">
                     &rarr;
                   </span>
                 </Link>

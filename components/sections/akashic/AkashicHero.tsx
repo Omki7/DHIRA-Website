@@ -13,11 +13,12 @@ export default function AkashicHero({ content }: { content: AkashicPage["hero"] 
   const { badge, kicker, title, lede, primary, secondary } = content;
   return (
     <section id="hero" className="relative overflow-hidden bg-background">
-      
-      
-
+      {/* One full screen under the header (the 110px launch bar and nav), so
+          the page opens on the hero alone and the quote waits below (user,
+          23 Oct 2026). Drop the offset to the nav's 73px when the launch bar
+          goes. */}
       <ScrollRevealRail>
-        <div className="flex flex-col items-center justify-center min-h-[50vh] pt-24 pb-12 text-center lg:pt-28 lg:pb-14">
+        <div className="flex min-h-[calc(100svh-110px)] flex-col items-center justify-center py-16 text-center">
           <ScrollReveal>
             <figure className="group relative mb-8 inline-flex items-center justify-center overflow-hidden rounded-full border border-card-line bg-background">
               <span className="relative flex items-center gap-2 rounded-full bg-background px-3.5 py-1.5 text-xs sm:text-sm">
@@ -40,7 +41,10 @@ export default function AkashicHero({ content }: { content: AkashicPage["hero"] 
           </ScrollReveal>
 
           <ScrollReveal delay={140} className="w-full min-w-0 px-4 sm:px-6">
-            <h1 className="mx-auto mt-6 max-w-[24em] text-balance text-[38px] font-semibold leading-[1.1] tracking-tightest text-primary-text sm:text-5xl md:text-6xl lg:text-7xl">
+            {/* The h1 holds the pause button beside its rotating word, so its
+                name comes from this plain copy of the headline. */}
+            <span id="akashic-headline" hidden>{`${title.lead} ${title.tail} ${title.phrases[0]}`}</span>
+            <h1 aria-labelledby="akashic-headline" className="mx-auto mt-6 max-w-[24em] text-balance text-[38px] font-medium leading-[1.1] tracking-tightest text-primary-text sm:text-5xl md:text-6xl lg:text-[64px]">
               {title.lead}{" "}
               <span className="sm:block">
                 {title.tail}{" "}

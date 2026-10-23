@@ -40,7 +40,7 @@ export default function TwoToneTitle({
 }) {
   const t = TONES[tone];
   return (
-    <Tag id={id} className={`text-[34px] font-semibold leading-[1.08] tracking-tighter sm:text-heading-md lg:text-[52px] ${className}`}>
+    <Tag id={id} className={`text-[34px] font-medium leading-[1.08] tracking-tighter sm:text-heading-md lg:text-[52px] ${className}`}>
       {setup && <span className={`block text-balance ${t.setup}`}>{setup}</span>}
       <span className={`block text-balance ${t.payoff}`}>{payoff}</span>
     </Tag>

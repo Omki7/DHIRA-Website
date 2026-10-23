@@ -23,7 +23,7 @@ export default function PublicSectorWhy({ content }: { content: PublicSectorPage
             </p>
             <span className="hidden text-overcast sm:inline">{content.eyebrow.aside}</span>
           </div>
-          <h2 className="mt-5 text-heading-sm font-semibold text-ink md:text-heading-md lg:text-heading-lg">
+          <h2 className="mt-5 text-heading-sm font-medium text-ink md:text-heading-md lg:text-heading-lg">
             {content.title}
           </h2>
         </ScrollReveal>
@@ -39,7 +39,7 @@ export default function PublicSectorWhy({ content }: { content: PublicSectorPage
           </ScrollReveal>
           {requirements.map((req, idx) => (
             <ScrollReveal key={req.num} delay={100 + idx * 70}>
-              <div className="grid grid-cols-1 gap-2 border-b border-subtle-stroke py-5 transition-opacity duration-300 ease-settle hover:!opacity-100 group-hover/reqs:opacity-50 lg:grid-cols-[90px_260px_1fr_180px] lg:items-baseline lg:gap-6 lg:py-6">
+              <div className="grid grid-cols-1 gap-2 border-b border-subtle-stroke py-5 transition-opacity duration-200 ease-settle hover:!opacity-100 group-hover/reqs:opacity-50 lg:grid-cols-[90px_260px_1fr_180px] lg:items-baseline lg:gap-6 lg:py-6">
                 <span className="whitespace-nowrap font-mono text-[10px] font-semibold uppercase tracking-[0.08em] text-blue">
                   {req.num}
                 </span>

@@ -15,7 +15,6 @@ export default function AkashicOpenFoundations({ content }: { content: AkashicPa
           <div className="ak-principles">
             {content.principles.map((principle, i) => (
               <article key={principle.title}>
-                <span className="ak-small-label">{principle.eyebrow}</span>
                 <svg viewBox="0 0 120 48" className="ak-principle-mark" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
                   {i === 0 && <><rect x="2" y="12" width="24" height="24" rx="3" /><rect x="34" y="12" width="24" height="24" rx="3" /><rect x="66" y="12" width="24" height="24" rx="3" strokeDasharray="3 3" /><path d="M102 24h16M110 16v16" /></>}
                   {i === 1 && <><path d="M3 7h77v34H3zM13 17h39M13 25h58M13 33h24" /><path d="M93 15l-7 9 7 9M108 15l7 9-7 9" /></>}

@@ -28,8 +28,8 @@ import { nameOrWordmark } from "@/components/icons/AkashicWordmark";
    16px row, so the Akashic wordmark's taller logo cannot push its column
    below the others. */
 const headingClass = "font-mono text-[11px] font-medium uppercase tracking-eyebrow text-inkSoft mb-5 flex h-4 items-center";
-const linkClass = "text-inkSoft text-sm hover:text-ink transition-colors duration-250 ease-settle";
-const ribbonLinkClass = "hover:text-secondary-text transition-colors duration-250 ease-settle";
+const linkClass = "text-inkSoft text-sm hover:text-ink transition-colors duration-200 ease-settle";
+const ribbonLinkClass = "hover:text-secondary-text transition-colors duration-200 ease-settle";
 
 function LinkList({ links }: { links: FooterLink[] }) {
   return (

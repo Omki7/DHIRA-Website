@@ -26,9 +26,8 @@ export default function CareersStrip({ content, roles }: { content: HomeCareers;
                 {[35, 105, 175, 245].map((y, i) => <path key={y} d={`M0 140 C${20 + i * 5} 140, 30 ${y}, 96 ${y}`} stroke="currentColor" strokeOpacity={0.25 + i * 0.16} strokeWidth="1" vectorEffect="non-scaling-stroke" />)}
                 <circle cx="3" cy="140" r="3" fill="currentColor" />
               </svg>
-              {roles.map((role, index) => (
+              {roles.map((role) => (
                 <Link key={role.dept} href={content.rolesHref} className="group flex min-h-[70px] items-center gap-4 border-b border-lineSoft last:border-b-0">
-                  <span className="font-mono text-[10px] text-overcast">0{index + 1}</span>
                   <span className="text-[19px] font-medium tracking-tight text-ink transition-colors group-hover:text-blue motion-reduce:transition-none sm:text-[22px]">{role.seat}</span>
                   <span aria-hidden="true" className="ml-auto flex h-8 w-8 items-center justify-center rounded-full text-inkSoft transition-colors group-hover:bg-blue-subtle group-hover:text-blue motion-reduce:transition-none">↗</span>
                 </Link>

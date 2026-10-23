@@ -36,7 +36,7 @@ export default function SectorHero({ content, template }: { content: SectorConte
             </ScrollReveal>
 
             <ScrollReveal delay={140}>
-              <h1 className="mt-6 text-5xl font-semibold leading-[1.05] tracking-tightest text-primary-text md:text-6xl lg:text-[64px]">
+              <h1 className="mt-6 text-5xl font-medium leading-[1.05] tracking-tightest text-primary-text md:text-6xl lg:text-[64px]">
                 {content.headlinePlain}{" "}
                 <span className="relative inline-block">
                   {content.headlineMarked}

@@ -33,7 +33,7 @@ export default function CareersHero({ content, roles }: { content: CareersPage["
 
         <div className="mt-8 max-w-[46rem]">
           <ScrollReveal delay={80}>
-            <h1 className="text-[38px] font-semibold leading-[1.04] tracking-tightest min-[400px]:text-[42px] sm:text-6xl lg:text-[64px]">
+            <h1 className="text-[38px] font-medium leading-[1.04] tracking-tightest min-[400px]:text-[42px] sm:text-6xl lg:text-[64px]">
               <span className="block text-balance text-inkSoft">{content.title.setup}</span>
               <span className="block text-balance text-ink">{content.title.payoff}</span>
             </h1>

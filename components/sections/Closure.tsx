@@ -48,7 +48,7 @@ export default function Closure({ content }: { content: HomeClose }) {
 
               <h2
                 id="get-started-h"
-                className="text-balance  pb-1 text-[44px] font-semibold leading-[1.03] tracking-tighter text-ink sm:text-[60px] md:text-[80px] lg:text-[96px]"
+                className="text-balance  pb-1 text-[44px] font-medium leading-[1.03] tracking-tighter text-ink sm:text-[60px] md:text-[80px] lg:text-[96px]"
               >
                 {content.title}
               </h2>
@@ -85,7 +85,7 @@ export default function Closure({ content }: { content: HomeClose }) {
               <div className="mt-12 flex w-full flex-col items-center justify-center gap-4 sm:w-auto sm:flex-row">
                 <Link
                   href={content.primary.href}
-                  className="btn-primary btn-lg transition-transform duration-250 ease-settle hover:-translate-y-0.5"
+                  className="btn-primary btn-lg transition-transform duration-200 ease-settle hover:-translate-y-0.5"
                 >
                   {content.primary.label}
                 </Link>
@@ -95,7 +95,7 @@ export default function Closure({ content }: { content: HomeClose }) {
                     platform page. */}
                 <Link
                   href={content.secondary.href}
-                  className="btn-secondary btn-lg transition-transform duration-250 ease-settle hover:-translate-y-0.5"
+                  className="btn-secondary btn-lg transition-transform duration-200 ease-settle hover:-translate-y-0.5"
                 >
                   {content.secondary.label}
                 </Link>

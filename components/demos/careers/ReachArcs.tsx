@@ -110,7 +110,7 @@ export default function ReachArcs({ content }: { content: Work }) {
             <div className="ad-fade" style={{ ["--ad-delay" as string]: `${1.4 + k * 0.15}s` }}>
               <p className="font-mono text-[11px] uppercase tracking-[0.08em] text-inkSoft">{d.name}</p>
               <p className="mt-1.5 flex items-baseline gap-2">
-                <span className="text-[30px] font-semibold leading-none tracking-tighter text-ink">{d.figure}</span>
+                <span className="text-[30px] font-semibold leading-none tabular-nums tracking-tighter text-ink">{d.figure}</span>
                 <span className="text-[13px] leading-snug text-inkSoft">{d.label}</span>
               </p>
             </div>
@@ -150,7 +150,7 @@ export default function ReachArcs({ content }: { content: Work }) {
             <li key={d.name} className="border-b border-lineSoft py-4">
               <p className="font-mono text-[11px] uppercase tracking-[0.08em] text-inkSoft">{d.name}</p>
               <p className="mt-1.5 flex items-baseline gap-2">
-                <span className="text-[26px] font-semibold leading-none tracking-tighter text-ink">{d.figure}</span>
+                <span className="text-[26px] font-semibold leading-none tabular-nums tracking-tighter text-ink">{d.figure}</span>
                 <span className="text-[13px] leading-snug text-inkSoft">{d.label}</span>
               </p>
             </li>

@@ -36,7 +36,7 @@ export default function useCountUp(
   figure: string,
   options: { duration?: number; delay?: number; startAtZero?: boolean } = {}
 ) {
-  const { duration = 1200, delay = 0, startAtZero = false } = options;
+  const { duration = 900, delay = 0, startAtZero = false } = options;
   const ref = useRef<HTMLDivElement>(null);
   const reduced = usePrefersReducedMotion();
   const { prefix, numeric, suffix, decimals } = parseFigure(figure);

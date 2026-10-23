@@ -116,7 +116,7 @@ const menus: NavMenu[] = [
         links: [
           { label: "Data Pipelines", href: "/akashic#data-pipelines" },
           { label: "Master Data", href: "/akashic#master-data" },
-          { label: "Warehouse", href: "/akashic#data-warehousing" },
+          { label: "Data Warehouse", href: "/akashic#data-warehousing" },
         ],
       },
       {
@@ -182,11 +182,11 @@ const menus: NavMenu[] = [
         heading: "By industry",
         span: 2.25,
         links: [
+          { label: "Public sector", href: "/sectors/public-sector" },
           { label: "Banking, financial services and insurance", href: "/sectors/finance" },
           { label: "Healthcare", href: "/sectors/healthcare" },
           { label: "Retail and consumer goods", href: "/sectors/retail" },
           { label: "Manufacturing", href: "/sectors/manufacturing" },
-          { label: "Public sector", href: "/sectors/public-sector" },
           { label: "Education", href: "/sectors/education" },
           { label: "Energy and utilities", href: "/sectors/energy" },
         ],
@@ -208,7 +208,7 @@ const menus: NavMenu[] = [
     feature: {
       eyebrow: "Built on Akashic",
       title: "Not separate products.\nAkashic, configured.",
-      caption: "Each solution switches on the modules its process needs.",
+      caption: "Every solution runs on all seven modules.",
       href: "/akashic#solutions",
       cta: "See how they are built",
       drawing: "foundation",

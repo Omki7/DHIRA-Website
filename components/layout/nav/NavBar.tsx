@@ -1,6 +1,6 @@
 "use client";
 
-import type { FocusEvent, KeyboardEvent as ReactKeyboardEvent, PointerEvent } from "react";
+import type { FocusEvent, KeyboardEvent as ReactKeyboardEvent, MouseEvent, PointerEvent } from "react";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import RegionLink from "@/components/ui/RegionLink";
 import { usePathname } from "next/navigation";
@@ -11,9 +11,10 @@ import MegaSheet, { type SheetMotion } from "@/components/layout/nav/MegaSheet";
 import MobileNav from "@/components/layout/nav/MobileNav";
 import { Chevron, MenuIcon } from "@/components/layout/nav/NavIcons";
 import useMenuIntent from "@/hooks/useMenuIntent";
+import usePrefersReducedMotion from "@/hooks/usePrefersReducedMotion";
 import { useUi } from "@/components/providers/UiProvider";
 import type { Navigation } from "@/content/navigation";
-import { isCurrentSection } from "@/lib/navigation";
+import { isCurrentPage, isCurrentSection } from "@/lib/navigation";
 import { basePath } from "@/lib/region";
 
 /* ------------------------------------------------------------------ */
@@ -28,7 +29,9 @@ import { basePath } from "@/lib/region";
    Desktop: one shared sheet attached to the header (nav/MegaSheet), hover
    intent and close grace (hooks/useMenuIntent), a blue-black scrim over the
    page, an ink underline that slides to the open trigger, and a blue bar
-   that stays under the section being viewed.
+   that stays under the section being viewed. Each label is a link to its
+   menu lead's page, so one click lands on that page's hero (23 Oct 2026,
+   user); the chevron beside it is the disclosure button.
    Mobile: a drill-down drawer (nav/MobileNav).
    Two things hold the rest of the site up, keep them: the root is a
    `<header data-scrolled>` (about-page.css styles `.about-page > header`), and
@@ -38,12 +41,13 @@ import { basePath } from "@/lib/region";
 
 const isMouse = (event: PointerEvent) => event.pointerType === "mouse";
 
-/* The current section rests in ink with a 2px blue bar on the header's
-   bottom edge, under its label: inset by the 12px side padding on the left
-   and by padding + chevron + gap (32px) on the right. The open menu's ink
+/* One menu item: the label link, then the chevron button. The current
+   section rests in ink with a 2px blue bar on the header's bottom edge,
+   under its label: inset by the link's 12px left padding on the left and by
+   gap + chevron + padding (32px) on the right. The open menu's ink
    underline slides over it. */
-const triggerClass = (open: boolean, current: boolean) =>
-  `relative inline-flex h-10 items-center gap-1.5 rounded-btn px-3 text-[15px] font-medium transition-colors duration-150 ${
+const itemClass = (open: boolean, current: boolean) =>
+  `relative flex h-10 items-center text-[15px] font-medium transition-colors duration-150 ${
     open || current ? "text-ink" : "text-secondary-text hover:text-ink"
   } ${current ? "after:absolute after:-bottom-4 after:left-3 after:right-8 after:h-[2px] after:rounded-full after:bg-blue" : ""}`;
 
@@ -81,6 +85,7 @@ export default function NavBar({ navigation, brand }: { navigation: Navigation; 
   const ORDER = menus.map((menu) => menu.id);
   /* Without the region prefix, so /in/pricing marks the same menu items as /pricing. */
   const pathname = basePath(usePathname() ?? "/");
+  const reducedMotion = usePrefersReducedMotion();
   const { openId, hoverTrigger, leaveTrigger, enterRegion, leaveRegion, toggle, close } = useMenuIntent();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [visible, setVisible] = useState(true);
@@ -208,6 +213,17 @@ export default function NavBar({ navigation, brand }: { navigation: Navigation; 
     if (isMouse(event)) leaveRegion();
   };
 
+  /* A label goes straight to its menu lead's page. Already on it, the label
+     scrolls back up to the hero: the router does not scroll for a link to
+     the URL being viewed. New-tab clicks keep the browser's default. */
+  const onLabelClick = (href: string) => (event: MouseEvent<HTMLAnchorElement>) => {
+    if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+    close();
+    if (!isCurrentPage(href, pathname)) return;
+    event.preventDefault();
+    window.scrollTo({ top: 0, behavior: reducedMotion ? "instant" : "smooth" });
+  };
+
   /* Focus leaving the header (keyboard) closes the menu. */
   const onHeaderBlur = (event: FocusEvent<HTMLElement>) => {
     const next = event.relatedTarget;
@@ -283,20 +299,17 @@ export default function NavBar({ navigation, brand }: { navigation: Navigation; 
                   const open = openId === item.id;
                   const current = isCurrentSection(item, pathname);
                   return (
-                    <li key={item.id}>
-                      <button
-                        ref={(node) => {
-                          triggers.current[item.id] = node;
-                        }}
-                        type="button"
-                        aria-expanded={open}
-                        aria-controls={`nav-panel-${item.id}`}
+                    <li
+                      key={item.id}
+                      className={itemClass(open, current)}
+                      onPointerEnter={(event) => isMouse(event) && hoverTrigger(item.id)}
+                      onPointerLeave={(event) => isMouse(event) && leaveTrigger()}
+                    >
+                      <RegionLink
+                        href={item.lead.href}
                         aria-current={current ? "true" : undefined}
-                        className={triggerClass(open, current)}
-                        onPointerEnter={(event) => isMouse(event) && hoverTrigger(item.id)}
-                        onPointerLeave={(event) => isMouse(event) && leaveTrigger()}
-                        onClick={(event) => toggle(item.id, event.detail > 0)}
-                        onKeyDown={onTriggerKeyDown(item.id)}
+                        className="flex h-full items-center rounded-btn pl-3 pr-1.5"
+                        onClick={onLabelClick(item.lead.href)}
                       >
                         <span
                           ref={(node) => {
@@ -305,6 +318,19 @@ export default function NavBar({ navigation, brand }: { navigation: Navigation; 
                         >
                           {item.label}
                         </span>
+                      </RegionLink>
+                      <button
+                        ref={(node) => {
+                          triggers.current[item.id] = node;
+                        }}
+                        type="button"
+                        aria-label={`${ui.nav.menuFor} ${item.label}`}
+                        aria-expanded={open}
+                        aria-controls={`nav-panel-${item.id}`}
+                        className="flex h-full items-center rounded-btn pr-3"
+                        onClick={(event) => toggle(item.id, event.detail > 0)}
+                        onKeyDown={onTriggerKeyDown(item.id)}
+                      >
                         <Chevron open={open} className="text-overcast" />
                       </button>
                     </li>

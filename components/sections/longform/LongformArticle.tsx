@@ -54,7 +54,7 @@ export default async function LongformArticle({
               ))}
             </ol>
           </nav>
-          <h1 className="mt-8 max-w-[22em] text-balance text-[36px] font-semibold leading-[1.08] tracking-[-0.035em] text-ink sm:text-[44px] lg:text-[52px]">
+          <h1 className="mt-8 max-w-[22em] text-balance text-[36px] font-medium leading-[1.08] tracking-[-0.035em] text-ink sm:text-[44px] lg:text-[52px]">
             {title}
           </h1>
           <p className="mt-6 max-w-[38em] text-pretty text-lg leading-relaxed text-secondary-text sm:text-xl">{dek}</p>

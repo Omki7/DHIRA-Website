@@ -32,7 +32,7 @@ export default function SolutionsOnFoundation({ blocks, modules, foundation }: P
                 <p className="mt-4 max-w-[20em] text-pretty text-[16px] leading-relaxed text-secondary-text">{block.benefit}</p>
                 <span className="mt-auto inline-flex min-h-11 items-center gap-2 self-start pt-5 text-[14px] font-medium text-ink group-hover:text-blue group-focus-visible:text-blue lg:pt-6">
                   <span className="underline decoration-line underline-offset-[5px] group-hover:decoration-blue">{block.linkLabel}</span>
-                  <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.4" className="h-4 w-4 transition-transform duration-250 group-hover:translate-x-1 motion-reduce:!transform-none motion-reduce:transition-none" aria-hidden="true">
+                  <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.4" className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1 motion-reduce:!transform-none motion-reduce:transition-none" aria-hidden="true">
                     <path d="M3 10h13m-5-5 5 5-5 5" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
                 </span>

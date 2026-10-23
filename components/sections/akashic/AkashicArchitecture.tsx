@@ -23,7 +23,7 @@ import type { AkashicPage } from "@/content/pages/akashic";
 type Deployment = AkashicPage["deployment"];
 
 const PLATE =
-  "flex h-full flex-col overflow-hidden rounded-outer border transition-all duration-250 ease-settle hover:-translate-y-1 ";
+  "flex h-full flex-col overflow-hidden rounded-outer border transition-all duration-200 ease-settle hover:-translate-y-1 ";
 
 function PlateHeader({
   name,

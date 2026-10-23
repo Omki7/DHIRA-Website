@@ -20,6 +20,8 @@ export interface UiStrings {
     closeMenu: string;
     siteMenu: string;
     allMenus: string;
+    /** Accessible name for a header menu's chevron; the menu label follows. */
+    menuFor: string;
   };
   footer: {
     rights: string;
@@ -50,6 +52,9 @@ export interface UiStrings {
   /** Appended, visually hidden, to links that open a new tab. */
   opensInNewTab: string;
   carousel: { roleDescription: string; previous: string; next: string; show: string };
+  /** ui/MotionToggle: the pause control for content that moves by itself.
+      `headline` and `tour` complete its accessible name ("Pause the rotating headline"). */
+  motion: { pause: string; play: string; headline: string; tour: string; stories: string };
   onThisPage: string;
   pageSections: string;
   longform: { breadcrumb: string; contents: string; keepReading: string; minRead: string };
@@ -107,6 +112,7 @@ export const ui: UiStrings = {
     closeMenu: "Close menu",
     siteMenu: "Site menu",
     allMenus: "All menus",
+    menuFor: "Menu for",
   },
   footer: {
     rights: "All rights reserved.",
@@ -136,6 +142,7 @@ export const ui: UiStrings = {
   preview: "Preview",
   opensInNewTab: "(opens in a new tab)",
   carousel: { roleDescription: "carousel", previous: "Previous", next: "Next", show: "Show" },
+  motion: { pause: "Pause", play: "Play", headline: "the rotating headline", tour: "the module tour", stories: "the stories" },
   onThisPage: "On this page",
   pageSections: "Page sections",
   longform: { breadcrumb: "Breadcrumb", contents: "Contents", keepReading: "Keep reading", minRead: "min read" },

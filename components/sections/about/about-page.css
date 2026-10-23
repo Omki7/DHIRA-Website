@@ -45,7 +45,7 @@
   @apply py-16 lg:py-24;
 }
 .about-page .about-title {
-  @apply mt-10 max-w-[850px] lg:mt-12 font-heading text-[34px] font-semibold leading-[1.08] tracking-tighter sm:text-[44px] xl:text-[52px];
+  @apply mt-10 max-w-[850px] lg:mt-12 font-heading text-[34px] font-medium leading-[1.08] tracking-tighter sm:text-[44px] xl:text-[52px];
   text-wrap: balance;
 }
 .about-page .about-intro {
@@ -63,8 +63,8 @@
   html:has(.about-page) { scroll-behavior:smooth; }
   .about-page main a > span[aria-hidden='true'] { display:inline-block; transition:transform 300ms cubic-bezier(.22,1,.36,1); }
   .about-page main a:focus-visible > span[aria-hidden='true'] { transform:translateX(3px); }
-  .about-page .about-portrait { transition:border-color 600ms ease,box-shadow 600ms ease; }
-  .about-page .about-portrait-photo img { transition:transform 850ms cubic-bezier(.22,1,.36,1),filter 850ms ease; }
+  .about-page .about-portrait { transition:border-color 200ms ease; }
+  .about-page .about-portrait-photo img { transition:transform 300ms cubic-bezier(.22,1,.36,1),filter 300ms ease; }
 }
 @media (hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference) {
   .about-page main a:hover > span[aria-hidden='true'] { transform:translateX(3px); }

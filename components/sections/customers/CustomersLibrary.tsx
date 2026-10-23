@@ -21,7 +21,7 @@ export function MetricPair({ metrics }: { metrics: Metric[] }) {
         <div key={metric.label} className={`py-5 ${index > 0 ? "border-l border-lineSoft pl-6" : "pr-6"}`}>
           <dt className="sr-only">{metric.label}</dt>
           <dd>
-            <span className="block text-[34px] font-semibold leading-none tracking-[-0.035em] text-ink lg:text-[40px]">{metric.value}</span>
+            <span className="block text-[34px] font-semibold leading-none tabular-nums tracking-[-0.035em] text-ink lg:text-[40px]">{metric.value}</span>
             <span className="mt-2.5 block font-mono text-[11px] uppercase tracking-eyebrow text-overcast">{metric.label}</span>
           </dd>
         </div>
@@ -60,7 +60,7 @@ export default function CustomersLibrary({ content, stories: STORIES }: { conten
                     <span className="text-ink">{story.platform}</span>
                     <span className="text-overcast">&nbsp;&nbsp;·&nbsp;&nbsp;{story.authority}</span>
                   </p>
-                  <h2 className="mt-4 text-balance text-[28px] font-semibold leading-[1.15] tracking-[-0.02em] text-ink lg:text-[32px]">
+                  <h2 className="mt-4 text-balance text-[28px] font-medium leading-[1.15] tracking-[-0.02em] text-ink lg:text-[32px]">
                     <Link href={`/customers/${story.id}`} className="transition-colors duration-150 hover:text-blue">
                       {story.title}
                     </Link>
@@ -74,7 +74,7 @@ export default function CustomersLibrary({ content, stories: STORIES }: { conten
                     className="group mt-6 inline-flex items-center gap-1.5 self-start text-[15px] font-medium text-blue transition-colors duration-150 hover:text-blue-hover"
                   >
                     {content.readStory}
-                    <span aria-hidden className="transition-transform duration-250 ease-settle group-hover:translate-x-0.5">
+                    <span aria-hidden className="transition-transform duration-200 ease-settle group-hover:translate-x-0.5">
                       &rarr;
                     </span>
                   </Link>

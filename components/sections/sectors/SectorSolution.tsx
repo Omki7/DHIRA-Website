@@ -26,7 +26,7 @@ export default function SectorSolution({ content, template }: { content: SectorC
         </ScrollReveal>
 
         <ScrollReveal delay={80}>
-          <h2 className="text-heading-sm font-semibold text-ink md:text-heading-md lg:text-heading-lg">
+          <h2 className="text-heading-sm font-medium text-ink md:text-heading-md lg:text-heading-lg">
             {solution.title}
           </h2>
         </ScrollReveal>
@@ -63,7 +63,7 @@ export default function SectorSolution({ content, template }: { content: SectorC
                       <Link
                         key={module.label}
                         href={module.href}
-                        className="rounded-full border border-subtle-stroke px-2.5 py-1 font-mono text-[9.5px] uppercase tracking-[0.08em] text-inkSoft transition-colors duration-250 ease-settle hover:border-blue-border hover:bg-blue-subtle hover:text-blue"
+                        className="rounded-full border border-subtle-stroke px-2.5 py-1 font-mono text-[9.5px] uppercase tracking-[0.08em] text-inkSoft transition-colors duration-200 ease-settle hover:border-blue-border hover:bg-blue-subtle hover:text-blue"
                       >
                         {module.label}
                       </Link>
@@ -102,7 +102,7 @@ export default function SectorSolution({ content, template }: { content: SectorC
                       <Link
                         key={module.label}
                         href={module.href}
-                        className="rounded-full border border-subtle-stroke px-2.5 py-1 font-mono text-[9.5px] uppercase tracking-[0.08em] text-inkSoft transition-colors duration-250 ease-settle hover:border-blue-border hover:bg-blue-subtle hover:text-blue"
+                        className="rounded-full border border-subtle-stroke px-2.5 py-1 font-mono text-[9.5px] uppercase tracking-[0.08em] text-inkSoft transition-colors duration-200 ease-settle hover:border-blue-border hover:bg-blue-subtle hover:text-blue"
                       >
                         {module.label}
                       </Link>

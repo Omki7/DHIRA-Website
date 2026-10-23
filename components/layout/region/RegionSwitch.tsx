@@ -32,7 +32,7 @@ export default function RegionSwitch() {
             type="button"
             aria-pressed={region === option}
             onClick={() => pick(option)}
-            className="text-inkSoft transition-colors duration-250 ease-settle hover:text-secondary-text aria-pressed:text-ink"
+            className="text-inkSoft transition-colors duration-200 ease-settle hover:text-secondary-text aria-pressed:text-ink"
           >
             {copy.names[option]}
           </button>

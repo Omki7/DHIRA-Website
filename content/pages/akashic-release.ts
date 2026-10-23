@@ -124,7 +124,7 @@ export const akashicRelease: AkashicReleasePage = {
         href: `/akashic#${anchors[module.id] ?? "modules"}`,
       })),
       {
-        name: "Akashic Governance",
+        name: "Governance",
         sub: "Permissions, lineage and audit under every module",
         caps: ["Row and column access", "Column-level lineage", "Append-only audit log", "PII classification"],
         href: "/akashic#governance",

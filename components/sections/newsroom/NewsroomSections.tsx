@@ -46,7 +46,7 @@ export function NewsroomAnnouncements({ content, releases }: { content: Newsroom
                     </span>
                     <span className="mt-2 block max-w-[44em] text-pretty text-[15px] leading-relaxed text-secondary-text">{release.dek}</span>
                   </span>
-                  <span aria-hidden className="hidden text-right text-overcast transition-transform duration-250 ease-settle group-hover:translate-x-0.5 group-hover:text-blue lg:col-span-1 lg:block">
+                  <span aria-hidden className="hidden text-right text-overcast transition-transform duration-200 ease-settle group-hover:translate-x-0.5 group-hover:text-blue lg:col-span-1 lg:block">
                     &rarr;
                   </span>
                 </Link>
@@ -110,7 +110,7 @@ export function NewsroomMediaKit({
                 <p className="mt-0.5 text-[13px] text-secondary-text">{logo.note}</p>
                 <a href={logo.file} download className={`${download} mt-2`}>
                   {MEDIA_KIT.labels.download}
-                  <span aria-hidden className="transition-transform duration-250 ease-settle group-hover:translate-y-0.5">
+                  <span aria-hidden className="transition-transform duration-200 ease-settle group-hover:translate-y-0.5">
                     &darr;
                   </span>
                 </a>
@@ -157,7 +157,7 @@ export function NewsroomMediaKit({
                 <p className="mt-0.5 text-[13px] text-secondary-text">{leader.role}</p>
                 <a href={leader.image} download className={`${download} mt-2`}>
                   {MEDIA_KIT.labels.portrait}
-                  <span aria-hidden className="transition-transform duration-250 ease-settle group-hover:translate-y-0.5">
+                  <span aria-hidden className="transition-transform duration-200 ease-settle group-hover:translate-y-0.5">
                     &darr;
                   </span>
                 </a>

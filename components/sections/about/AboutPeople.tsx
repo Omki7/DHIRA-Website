@@ -15,7 +15,7 @@ export default function AboutPeople({ content, leaders: ABOUT_LEADERS }: { conte
           {ABOUT_LEADERS.map((leader, index) => (
             <article key={leader.id} data-about-reveal={index * 65} className={`about-leader ${index === 0 ? "col-span-2 grid grid-cols-[112px_1fr] items-center gap-5 pb-4 sm:grid-cols-[160px_1fr] lg:col-span-1 lg:block lg:pb-0" : ""} ${PLACEMENT[index]}`}>
               <div className={`about-portrait relative mx-auto bg-panel ${index === 0 ? "h-[140px] w-[112px] sm:h-[200px] sm:w-[160px] lg:h-[280px] lg:w-full lg:max-w-[224px]" : "aspect-[4/5] w-full max-w-[184px]"}`}>
-                <div className="about-portrait-photo"><Image src={leader.image} alt={leader.name} fill sizes={index === 0 ? "(min-width: 1024px) 224px, (min-width: 640px) 160px, 112px" : "(min-width: 640px) 184px, 45vw"} className={`object-cover grayscale ${leader.imageClass}`} /></div>
+                <div className="about-portrait-photo"><Image src={leader.image} alt="" fill sizes={index === 0 ? "(min-width: 1024px) 224px, (min-width: 640px) 160px, 112px" : "(min-width: 640px) 184px, 45vw"} className={`object-cover grayscale ${leader.imageClass}`} /></div>
               </div>
               <div className={index === 0 ? "lg:mt-6 lg:text-center" : "mt-5 text-center"}>
                 <h3 className="text-[19px] font-medium leading-tight tracking-tight text-ink sm:text-[21px]">{leader.name}</h3>

@@ -28,7 +28,7 @@ export default function SectorOutcomes({ content, template }: { content: SectorC
         </ScrollReveal>
 
         <ScrollReveal delay={80}>
-          <h2 className="text-heading-sm font-semibold text-ink md:text-heading-md lg:text-heading-lg">
+          <h2 className="text-heading-sm font-medium text-ink md:text-heading-md lg:text-heading-lg">
             {outcomes.title}
           </h2>
         </ScrollReveal>

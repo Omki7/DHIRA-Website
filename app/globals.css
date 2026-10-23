@@ -52,6 +52,12 @@ h1, h2, h3, h4, h5, h6 {
   outline-offset: 2px;
 }
 
+/* Every section anchor lands clear of the sticky header (UX review, 23 Oct
+   2026: /#scale landed under it). Zero specificity, so a section's own
+   `scroll-mt-*` still wins. */
+:where(section[id]) {
+  scroll-margin-top: 6rem;
+}
 
 ::-webkit-scrollbar {
   width: 6px;
@@ -331,7 +337,6 @@ h1, h2, h3, h4, h5, h6 {
 @keyframes uc-route-head { from { offset-distance: 0%; } to { offset-distance: 100%; } }
 @keyframes sa-info { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
 .sa-info-in { animation: sa-info 0.4s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
-@keyframes ak-drop { 0% { transform: translateY(-4px); opacity: 0; } 25% { opacity: 1; } 100% { transform: translateY(24px); opacity: 0; } }
 
 /* Platform Section Animations */
 @keyframes ps-pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }

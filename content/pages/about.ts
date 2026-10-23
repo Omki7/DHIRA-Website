@@ -178,8 +178,8 @@ export const about: AboutPage = {
   journey: {
     number: "02",
     label: "Our journey",
-    setup: "Building since 2018.",
-    title: "Live since 2020.",
+    setup: "Building since 2018,",
+    title: "and live at national scale since 2020.",
     intro: "Above the line, each release, still running today. Below the line, the national programmes we deliver.",
     timeline: {
       today,
@@ -187,8 +187,8 @@ export const about: AboutPage = {
       built: [
         { id: "founding", kind: "foundation", year: "2018", from: 2018.06, to: 2018.7, title: "DHIRA founded", detail: "Data engineering", description: "Founded on data engineering, with dependable data as the starting point." },
         { id: "akashic", kind: "platform", year: "2019", from: 2019.14, to: 2019.86, title: "Akashic research", detail: "Data to insight", description: "Research and engineering begin on a platform connecting data to insight." },
-        { id: "machine-learning", kind: "platform", year: "2023", from: 2023.14, to: 2023.86, title: "Machine learning", detail: "Akashic Machine Learning", description: "The Akashic Machine Learning module launches, taking the platform from analysis to prediction." },
-        { id: "artificial-intelligence", kind: "platform", year: "2024", from: 2024.14, to: 2024.86, title: "Artificial intelligence", detail: "Akashic AI", description: "The Akashic AI module launches, building on the platform's data foundation." },
+        { id: "machine-learning", kind: "platform", year: "2023", from: 2023.14, to: 2023.86, title: "Machine learning", detail: "Machine Learning", description: "The Machine Learning module launches, taking the platform from analysis to prediction." },
+        { id: "artificial-intelligence", kind: "platform", year: "2024", from: 2024.14, to: 2024.86, title: "Artificial intelligence", detail: "AI on the platform", description: "AI arrives on Akashic, building on the platform's data foundation." },
         { id: "master-data", kind: "platform", year: "2025", from: 2025.14, to: 2025.86, title: "Master data", detail: "Records and identities", description: "Akashic launches the module for consistent records and identities." },
         { id: "governance", kind: "platform", year: "2025", from: 2025.14, to: 2025.86, title: "Governance and meaning", detail: "Knowledge · semantic layers", description: "Data governance launches alongside knowledge and semantic layers." },
         { id: "documents", kind: "platform", year: "2026", from: 2026.08, to: 2026.62, title: "Documents", detail: "Unstructured data", description: "Akashic adds unstructured data processing, bringing documents into the data journey." },
@@ -219,7 +219,7 @@ export const about: AboutPage = {
       horizon: { label: "Our direction", title: "AI with accountability.", status: "Ambition · No release date" },
       reading: {
         horizon: "The horizon",
-        scroll: "Scroll to add each year. Every layer stays.",
+        scroll: "Each year adds a layer. Every layer stays.",
         end: "The foundation carries forward. Keep scrolling to continue.",
         overview: "The complete journey, from foundation to ambition.",
         showAll: "Show all years",
@@ -231,7 +231,7 @@ export const about: AboutPage = {
         { year: "2020", title: "Put it to work at national scale.", description: "Our first national scale system goes live at year end." },
         { year: "2022", title: "Bring the platform together.", description: "Akashic launches with data pipelines, warehousing and Business Intelligence." },
         { year: "2023", title: "Add prediction. Extend the reach.", description: "Machine learning launches. Akashic serves a national learning programme." },
-        { year: "2024", title: "Build AI on the data foundation.", description: "The AI module launches. Akashic serves a national employment programme." },
+        { year: "2024", title: "Build AI on the data foundation.", description: "AI arrives on the platform. Akashic serves a national employment programme." },
         { year: "2025", title: "Give intelligence shared meaning.", description: "Master data, governance, knowledge and semantic layers join the platform." },
         { year: "2026", title: "Bring the full context into view.", description: "Documents join structured records. Hybrid answers bring them together." },
         { year: "Ahead", title: "From answers to accountable action.", description: "Connected agents, built on this foundation. Our ambition, with people in control." },
@@ -263,9 +263,10 @@ export const about: AboutPage = {
   vision: {
     number: "03",
     label: "Our ambition",
-    setup: "Public systems, working as one.",
-    title: "Citizens tell their story once.",
-    intro: "Our ambition: one governed foundation beneath every public system, in any country. Three national programmes in India are the proof.",
+    setup: "When public systems work as one,",
+    title: "citizens tell their story once.",
+    /* The bridge to the homepage's business story (UX review, 23 Oct 2026). */
+    intro: "Our ambition: one governed foundation beneath every public system, in any country. Three national programmes in India are the proof. Businesses get the same foundation.",
     systems: ["Tax", "Treasury", "Education", "Benefits", "Licensing", "Land", "Justice", "Health", "Census", "Transport", "Energy", "Labour", "Water", "Housing"],
     deployments: [
       { name: "National Learning Platform", figure: "187 million+ enrolments resolved" },

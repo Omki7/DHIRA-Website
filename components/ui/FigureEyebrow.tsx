@@ -36,7 +36,7 @@ export default function FigureEyebrow({
     ? ""
     : `border-y border-dashed px-[2px] py-[17px] ${dark ? "border-line" : "border-lineSoft"}`;
   return (
-    <div className={`flex items-center justify-between gap-6 font-mono text-[11px] uppercase tracking-eyebrow ${rail}`}>
+    <div className={`flex items-center justify-between gap-6 font-mono text-[12px] uppercase tracking-eyebrow ${rail}`}>
       <p className="flex items-center gap-3">
         <span>
           {num && <span className={dark ? "text-uc-dim" : "text-overcast"}>[{num}]&nbsp;&nbsp;</span>}

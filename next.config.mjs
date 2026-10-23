@@ -36,7 +36,17 @@ const nextConfig = {
     formats: ["image/avif", "image/webp"],
   },
   async headers() {
-    return [{ source: "/:path*", headers: securityHeaders }];
+    return [
+      { source: "/:path*", headers: securityHeaders },
+      /* Preview and test deployments on *.vercel.app stay out of search
+         results (UX review, 23 Oct 2026). A header, not a robots.txt
+         disallow: crawlers must fetch a page to see its noindex. */
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: ".*\\.vercel\\.app" }],
+        headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow" }],
+      },
+    ];
   },
 };
 

@@ -22,7 +22,7 @@ export default function AnnouncementBar({ announcement }: { announcement: NavAnn
         <span className="text-secondary-text">{text}</span>
         <span className="hidden items-center gap-1 font-medium text-ink transition-colors duration-150 group-hover:text-blue sm:inline-flex">
           {cta}
-          <Arrow className="transition-transform duration-250 ease-settle group-hover:translate-x-0.5" />
+          <Arrow className="transition-transform duration-200 ease-settle group-hover:translate-x-0.5" />
         </span>
         <Arrow className="text-ink sm:hidden" />
       </RegionLink>

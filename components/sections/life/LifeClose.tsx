@@ -52,7 +52,7 @@ export default function LifeClose({ content }: { content: LifePage["close"] }) {
                 heavier texture that measured ~5 L* of lift on the slab. */}
             
             <div className="relative">
-              <h2 className="mx-auto mt-2 max-w-[18em] text-balance text-heading-sm font-semibold text-ink md:text-heading-md">
+              <h2 className="mx-auto mt-2 max-w-[18em] text-balance text-heading-sm font-medium text-ink md:text-heading-md">
                 {content.title}
               </h2>
               <p className="mx-auto mt-8 max-w-[36em] text-base leading-relaxed text-secondary-text md:text-lg">

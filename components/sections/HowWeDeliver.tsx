@@ -31,12 +31,11 @@ export default function HowWeDeliver({ content: HOME_DELIVERY }: { content: Home
             <div className="relative z-10 mt-10 grid grid-cols-1 gap-4 md:grid-cols-3 lg:mt-12 lg:gap-6">
               {HOME_DELIVERY.services.map((service) => (
                 <Link
-                  key={service.number}
+                  key={service.href}
                   href={service.href}
-                  className="group flex flex-col rounded-inner border border-card-line bg-background p-6 text-ink transition-colors duration-300 ease-settle hover:border-blue-border hover:bg-background focus-visible:bg-background lg:p-7"
+                  className="group flex flex-col rounded-inner border border-card-line bg-background p-6 text-ink transition-colors duration-200 ease-settle hover:border-blue-border hover:bg-background focus-visible:bg-background lg:p-7"
                 >
-                  <div className="flex items-center justify-between font-mono text-[11px] tracking-eyebrow text-overcast group-hover:text-blue group-focus-visible:text-blue">
-                    <span>{service.number}</span>
+                  <div className="flex items-center justify-end text-overcast group-hover:text-blue group-focus-visible:text-blue">
                     <svg viewBox="0 0 20 20" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.4" aria-hidden="true">
                       <path d="M4 10h12m-5-5 5 5-5 5" />
                     </svg>

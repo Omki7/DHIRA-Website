@@ -137,7 +137,7 @@ export default function NavFeatured({
   return (
     <RegionLink
       href={feature.href}
-      className={`group flex flex-col rounded-outer border border-subtle-stroke bg-primary-bg p-5 transition-colors duration-250 ease-settle hover:border-blue-border ${className}`}
+      className={`group flex flex-col rounded-outer border border-subtle-stroke bg-primary-bg p-5 transition-colors duration-200 ease-settle hover:border-blue-border ${className}`}
     >
       <span data-drawn={drawn} className="block">
         <svg viewBox="0 0 240 72" fill="none" aria-hidden className="h-[72px] w-full">
@@ -153,7 +153,7 @@ export default function NavFeatured({
       <span className="mt-1.5 text-balance text-[13px] leading-snug text-secondary-text">{feature.caption}</span>
       <span className="mt-4 inline-flex items-center gap-1.5 text-[13px] font-medium text-blue transition-colors duration-150 group-hover:text-blue-hover">
         {feature.cta}
-        <Arrow className="transition-transform duration-250 ease-settle group-hover:translate-x-0.5" />
+        <Arrow className="transition-transform duration-200 ease-settle group-hover:translate-x-0.5" />
       </span>
     </RegionLink>
   );

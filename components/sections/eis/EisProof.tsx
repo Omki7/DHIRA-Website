@@ -27,7 +27,7 @@ export default function EisProof({ content }: { content: EisPage["proof"] }) {
         <div className="mt-12 grid gap-6 sm:mt-14 sm:grid-cols-2 lg:grid-cols-3">
           {DEPLOYMENTS.map((d, i) => (
             <ScrollReveal key={d.key} delay={i * 80}>
-              <div className="flex h-full flex-col overflow-hidden rounded-outer border border-lineSoft bg-background transition-all duration-250 hover:border-line">
+              <div className="flex h-full flex-col overflow-hidden rounded-outer border border-lineSoft bg-background transition-all duration-200 hover:border-line">
                 <div className="relative h-[112px] w-full bg-primary-bg">
                   <Image
                     src={d.image}

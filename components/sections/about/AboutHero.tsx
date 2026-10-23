@@ -9,7 +9,7 @@ export default function AboutHero({ content: ABOUT_HERO }: { content: AboutHeroC
         <div className="mx-auto max-w-[1200px] pb-16 pt-20 text-center sm:pb-20 sm:pt-24 lg:pb-24 lg:pt-28">
           <div>
             <p data-about-enter="0" className="font-mono text-[11px] font-medium uppercase tracking-eyebrow text-secondary-text">{ABOUT_HERO.label}</p>
-            <h1 id="about-mission" className="mt-7 font-heading text-[clamp(28px,8.7vw,40px)] font-semibold leading-[1.08] tracking-tighter sm:text-[48px] lg:text-[64px] xl:text-[72px]">
+            <h1 id="about-mission" className="mt-7 font-heading text-[clamp(28px,8.7vw,40px)] font-medium leading-[1.08] tracking-tighter sm:text-[48px] lg:text-[64px]">
               <span data-about-enter="90" className="block text-inkSoft">{ABOUT_HERO.setup}</span>
               <span data-about-enter="180" className="block text-ink">{ABOUT_HERO.headline}</span>
             </h1>
@@ -28,7 +28,7 @@ export default function AboutHero({ content: ABOUT_HERO }: { content: AboutHeroC
           {ABOUT_HERO.proof.map((proof, index) => (
             <div key={proof.label} data-about-reveal={index * 70} className={`flex items-center justify-center gap-5 py-5 sm:flex-col sm:gap-3 sm:py-8 ${index > 0 ? "border-t border-ink/10 sm:border-t-0" : ""}`}>
               <dt className="order-2 max-w-[12rem] text-[13px] leading-relaxed text-secondary-text">{proof.label}</dt>
-              <dd className="min-w-[7.5rem] whitespace-nowrap font-heading text-[28px] font-medium leading-none tracking-tighter text-ink sm:min-w-0">{proof.value}</dd>
+              <dd className="min-w-[7.5rem] whitespace-nowrap font-heading text-[28px] font-medium leading-none tabular-nums tracking-tighter text-ink sm:min-w-0">{proof.value}</dd>
             </div>
           ))}
         </dl>

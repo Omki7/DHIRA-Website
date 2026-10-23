@@ -65,7 +65,7 @@ export function ContactRoutes({ content: c }: { content: ContactPage["routes"] }
                   className="group inline-flex items-center gap-1.5 text-[15px] font-medium text-blue transition-colors duration-150 hover:text-blue-hover"
                 >
                   {route.cta.label}
-                  <span aria-hidden className="transition-transform duration-250 ease-settle group-hover:translate-x-0.5">
+                  <span aria-hidden className="transition-transform duration-200 ease-settle group-hover:translate-x-0.5">
                     &rarr;
                   </span>
                 </Link>

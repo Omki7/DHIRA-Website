@@ -670,7 +670,7 @@ type Moment = {
 const MOMENTS: Moment[] = [
   { module: "Data Pipelines", caption: "Three sources join into one governed table. Nothing rejected.", focus: 700, Draw: PipelinesMoment },
   { module: "Master Data", caption: "Three records, one customer. Every field keeps its source.", focus: 754, Draw: MasterDataMoment },
-  { module: "Warehouse", caption: "A metric defined once. Dashboards, answers and forecasts all read the same one.", focus: 640, Draw: WarehouseMoment },
+  { module: "Data Warehouse", caption: "A metric defined once. Dashboards, answers and forecasts all read the same one.", focus: 640, Draw: WarehouseMoment },
   { module: "Machine Learning", caption: "Models are tested on past data. The most accurate one makes the forecast.", focus: 600, Draw: MlMoment },
   { module: "Ask Akashic", caption: "Plain questions, answered from governed metrics, every figure cited.", focus: 416, Draw: AskMoment },
   { module: "Business Intelligence", caption: "Ask for a chart. It is built on the agreed figures and lands on the dashboard.", focus: 508, Draw: BiMoment },

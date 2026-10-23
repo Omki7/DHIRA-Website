@@ -25,7 +25,7 @@ export default async function LegalDocument({ doc, others }: { doc: LegalDoc; ot
               {legal.crumb}
             </Link>
           </p>
-          <h1 className="mt-8 text-balance text-[36px] font-semibold leading-[1.08] tracking-[-0.035em] text-ink sm:text-[44px] lg:text-[52px]">
+          <h1 className="mt-8 text-balance text-[36px] font-medium leading-[1.08] tracking-[-0.035em] text-ink sm:text-[44px] lg:text-[52px]">
             {doc.title}
           </h1>
           <p className="mt-6 max-w-[38em] text-pretty text-lg leading-relaxed text-secondary-text">{doc.summary}</p>

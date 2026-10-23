@@ -63,7 +63,7 @@ export default function MenuPanel({ menu, drawn, pathname }: { menu: NavMenu; dr
           className="group mt-5 inline-flex items-center gap-1.5 text-[14px] font-medium text-blue transition-colors duration-150 hover:text-blue-hover"
         >
           {lead.cta}
-          <Arrow className="transition-transform duration-250 ease-settle group-hover:translate-x-0.5" />
+          <Arrow className="transition-transform duration-200 ease-settle group-hover:translate-x-0.5" />
         </RegionLink>
       </div>
 

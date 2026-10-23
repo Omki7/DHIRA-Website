@@ -19,7 +19,7 @@ function SecurityIllustration({ index }: { index: number }) {
         </svg>
       </span>
       {index === 1 && <><span className="ak-security-field">Visible</span><span className="ak-security-field">••••••</span></>}
-      {index === 2 && <><span className="ak-security-field">BI</span><span className="ak-security-field">AI</span></>}
+      {index === 2 && <><span className="ak-security-field">Reports</span><span className="ak-security-field">Answers</span></>}
       {index === 3 && <><span className="ak-security-field">Data</span><span className="ak-security-field">Models</span></>}
     </div>
   );

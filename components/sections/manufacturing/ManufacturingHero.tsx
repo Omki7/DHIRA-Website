@@ -214,7 +214,7 @@ export default function ManufacturingHero({ content, template }: { content: Sect
             </ScrollReveal>
 
             <ScrollReveal delay={140}>
-              <h1 className="mt-6 max-w-[9.5em] text-5xl font-semibold leading-[1.02] tracking-tightest text-ink md:text-6xl lg:text-[66px]">
+              <h1 className="mt-6 max-w-[9.5em] text-5xl font-medium leading-[1.02] tracking-tightest text-ink md:text-6xl lg:text-[66px]">
                 {content.headlinePlain}{" "}
                 <span className="relative inline-block">
                   {content.headlineMarked}

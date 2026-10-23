@@ -132,13 +132,11 @@ export default function TheProof({ content: HOME_PROOF }: { content: HomeProof }
 
         <ScrollReveal delay={80}>
           <div className="mx-auto mt-12 max-w-[1100px] lg:mt-14">
-            <div className="mb-4 flex flex-col items-start justify-between gap-3 sm:flex-row sm:items-center">
-              <p id="proof-instructions" className="text-[13px] text-inkSoft">
-                {HOME_PROOF.instruction}<span className="sr-only"> {HOME_PROOF.keyboardInstruction}</span>
-              </p>
+            <div className="mb-4 flex justify-start sm:justify-end">
+              <p id="proof-instructions" className="sr-only">{HOME_PROOF.keyboardInstruction}</p>
               <div role="group" aria-label={HOME_PROOF.viewLabel} className="inline-flex rounded-btn border border-default-stroke bg-primary-bg p-1">
                 {([{ id: "before", label: HOME_PROOF.views.before, target: BEFORE_END }, { id: "compare", label: HOME_PROOF.views.compare, target: 50 }, { id: "after", label: HOME_PROOF.views.after, target: AFTER_END }] as const).map((item) => (
-                  <button key={item.id} type="button" aria-pressed={mode === item.id} onClick={() => showSide(item.target)} className={`min-h-10 rounded-chip px-4 text-[13px] font-medium transition-colors duration-250 motion-reduce:transition-none sm:px-5 ${mode === item.id ? "bg-ink text-on-action " : "text-inkSoft hover:bg-tertiary-bg hover:text-ink"}`}>
+                  <button key={item.id} type="button" aria-pressed={mode === item.id} onClick={() => showSide(item.target)} className={`min-h-10 rounded-chip px-4 text-[13px] font-medium transition-colors duration-200 motion-reduce:transition-none sm:px-5 ${mode === item.id ? "bg-ink text-on-action " : "text-inkSoft hover:bg-tertiary-bg hover:text-ink"}`}>
                     {item.label}
                   </button>
                 ))}

@@ -29,7 +29,7 @@ export default function DeliveryServices({ content }: { content: DeliveryPage["s
             </p>
             <span className="hidden text-overcast sm:inline">{content.eyebrow.aside}</span>
           </div>
-          <h2 className="mt-5 text-heading-sm font-semibold text-ink md:text-heading-md lg:text-heading-lg">
+          <h2 className="mt-5 text-heading-sm font-medium text-ink md:text-heading-md lg:text-heading-lg">
             {content.title}
           </h2>
           <p className="mt-4 max-w-[42em] text-base leading-relaxed text-secondary-text md:text-lg">

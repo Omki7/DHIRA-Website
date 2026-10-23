@@ -7,8 +7,9 @@ import { useCallback, useEffect, useRef, useState } from "react";
    - a mouse resting on a trigger opens its menu after MENU_OPEN_DELAY;
    - once any menu is open, moving to another trigger switches at once;
    - leaving the header and sheet closes after MENU_CLOSE_DELAY;
-   - a click pins a hover-opened menu (it does not toggle it shut under the
-     cursor); a second click, Escape, the scrim or focus leaving closes it.
+   - a click on a trigger (the chevron; the label beside it is a link) pins
+     a hover-opened menu (it does not toggle it shut under the cursor); a
+     second click, Escape, the scrim or focus leaving closes it.
    Keyboard activation (click with detail 0) and touch always toggle. */
 const MENU_OPEN_DELAY = 120;
 const MENU_CLOSE_DELAY = 300;

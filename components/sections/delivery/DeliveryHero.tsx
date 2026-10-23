@@ -36,7 +36,7 @@ export default function DeliveryHero({ content }: { content: DeliveryPage["hero"
 
           {/* Main Headline */}
           <ScrollReveal delay={100}>
-            <h1 className="mt-2 max-w-4xl text-4xl font-bold leading-[1.08] tracking-tight text-ink sm:text-5xl md:text-6xl lg:text-7xl">
+            <h1 className="mt-2 max-w-4xl text-4xl font-medium leading-[1.08] tracking-tight text-ink sm:text-5xl md:text-6xl lg:text-7xl">
               {content.title.lead}{" "}
               <span className="relative inline-block text-blue">
                 {content.title.accent}

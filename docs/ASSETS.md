@@ -13,6 +13,9 @@ non-photographic ones came from.
   Never point at a path that is absent from `public/` (Design Rule 7).
 - **Formats.**
   - Photographs are WebP or JPEG, sized for their largest rendered width.
+    JPEGs over 350KB were re-encoded on 23 Oct 2026 (UX review: oversized
+    originals): mozjpeg quality 82, at most 2400px wide, the voices avatars
+    640px. Same paths, so no code changed; the originals are in git history.
   - Logos and drawings are SVG.
   - `next/image` serves AVIF or WebP to browsers that accept them
     (`next.config.mjs`).
@@ -43,7 +46,20 @@ non-photographic ones came from.
 ## Provenance
 
 These images are generated or AI-edited, not camera photographs of DHIRA
-people or places. Say so if anyone asks.
+people or places. Say so if anyone asks. The connector marks below are the
+exception: published brand marks.
+
+### Connector marks (`components/icons/ConnectorLogo.tsx`)
+
+- Added 23 Oct 2026 (UX review: real logos in one grey, no monograms or
+  emoji) for the /akashic technical reference.
+- Paths are from [Simple Icons](https://simpleicons.org) (CC0): v13.21.0 for
+  most marks, v16.35.0 for Mistral AI. The Azure path is the one
+  `CloudProviderLogos.tsx` already ships.
+- Simple Icons has no Workday mark and no generic REST mark, so those two use
+  one neutral connector glyph. Oracle NetSuite carries the Oracle mark.
+- Every mark renders in the text colour (`text-overcast`), never in brand
+  colours, beside the system's name, only to say Akashic connects to it.
 
 ### Leadership portraits (`public/avatars/*-executive-v1.webp`)
 

@@ -28,7 +28,7 @@ export default function EisClose({ content }: { content: EisPage["close"] }) {
             </div>
 
             {/* Master Headline */}
-            <h2 className="font-heading text-4xl font-semibold leading-[1.05] tracking-tightest text-ink sm:text-5xl md:text-6xl lg:text-7xl">
+            <h2 className="font-heading text-4xl font-medium leading-[1.05] tracking-tightest text-ink sm:text-5xl md:text-6xl lg:text-7xl">
               {content.title[0]}{" "}
               <span className="text-inkSoft">{content.title[1]}</span>
             </h2>

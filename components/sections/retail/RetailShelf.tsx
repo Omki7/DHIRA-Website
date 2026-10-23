@@ -87,7 +87,7 @@ export default function RetailShelf({ content, template }: { content: SectorCont
         </ScrollReveal>
 
         <ScrollReveal delay={80}>
-          <h2 className="text-heading-sm font-semibold text-ink md:text-heading-md lg:text-heading-lg">
+          <h2 className="text-heading-sm font-medium text-ink md:text-heading-md lg:text-heading-lg">
             {story.title}
           </h2>
         </ScrollReveal>
@@ -145,7 +145,7 @@ export default function RetailShelf({ content, template }: { content: SectorCont
               <p className="font-mono text-[10px] font-semibold uppercase tracking-eyebrow text-overcast">
                 {story.right.label}
               </p>
-              <p className="mt-5 text-[34px] font-semibold leading-none tracking-tighter text-ink md:text-[40px]">
+              <p className="mt-5 text-[34px] font-semibold leading-none tabular-nums tracking-tighter text-ink md:text-[40px]">
                 {story.right.figure}
               </p>
               <p className="mt-4 font-mono text-[9.5px] uppercase tracking-[0.1em] text-overcast">
@@ -173,7 +173,7 @@ export default function RetailShelf({ content, template }: { content: SectorCont
           {content.problem.fractures.map((fracture, idx) => (
             <ScrollReveal key={fracture.title} delay={idx * 90}>
               <div className={idx > 0 ? "md:border-l md:border-dashed md:border-lineSoft md:pl-10" : ""}>
-                <p className="text-[44px] font-semibold leading-none tracking-tighter text-overcast">
+                <p className="text-[44px] font-semibold leading-none tabular-nums tracking-tighter text-overcast">
                   {idx + 1}
                 </p>
                 <h3 className="mt-4 text-[19px] font-semibold leading-snug tracking-tight text-ink md:text-[20px]">

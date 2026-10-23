@@ -1,7 +1,8 @@
 "use client";
 
 /*
- * The context tentacles under the /akashic hero stage (restored 20 Oct 2026
+ * The context tentacles under the outcome-card stage, homepage [02] since
+ * 23 Oct 2026 (built for the /akashic hero; restored 20 Oct 2026
  * from HexConnectionsMockup, git 3b9d8c4, on the founder's request).
  *
  * One node per module screen above it, in the SAME order: the module's name,
@@ -13,9 +14,12 @@
  *
  * lg and up only. Below lg the seven nodes would sit under 120px apart, so phones
  * and tablets get the same index as one scrolling row of module names.
+ *
+ * `control` (the tour's pause icon) ends the index: on the dot line past the
+ * last node, or after the scrolling row.
  */
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import AkashicWordmark from "@/components/icons/AkashicWordmark";
 
 type Node = { module: string; adds: string };
@@ -36,6 +40,7 @@ export default function ContextTentacles({
   resetKey,
   durationMs,
   onSelect,
+  control,
 }: {
   nodes: Node[];
   active: number;
@@ -43,6 +48,7 @@ export default function ContextTentacles({
   /** 0 under reduced motion: no progress fill. */
   durationMs: number;
   onSelect: (index: number) => void;
+  control?: ReactNode;
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const [width, setWidth] = useState(1000);
@@ -126,6 +132,12 @@ export default function ContextTentacles({
           );
         })}
 
+        {control && (
+          <div className="absolute flex -translate-x-1/2 -translate-y-1/2" style={{ left: width - spacing / 2, top: ROW_Y }}>
+            {control}
+          </div>
+        )}
+
         {/* Where the lines unite: what the seven modules add up to. */}
         <div
           className="absolute -translate-x-1/2 border border-line bg-background px-7 py-3.5 text-center"
@@ -137,7 +149,8 @@ export default function ContextTentacles({
       </div>
 
       {/* Phones and tablets: the same index, one scrolling row. */}
-      <div className="mx-auto mt-5 flex w-fit max-w-full items-center gap-5 overflow-x-auto px-4 [scrollbar-width:none] lg:hidden [&::-webkit-scrollbar]:hidden">
+      <div className="mx-auto mt-5 flex w-fit max-w-full items-center gap-3 px-4 lg:hidden">
+      <div className="flex min-w-0 items-center gap-5 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         {nodes.map((node, i) => {
           const on = i === active;
           return (
@@ -156,6 +169,8 @@ export default function ContextTentacles({
             </button>
           );
         })}
+      </div>
+      {control}
       </div>
     </>
   );

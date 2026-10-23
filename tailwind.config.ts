@@ -148,7 +148,7 @@ const config: Config = {
         },
       },
       animation: {
-        "fade-in": "fade-in 0.65s cubic-bezier(0.2,0.8,0.2,1) forwards",
+        "fade-in": "fade-in 0.5s cubic-bezier(0.2,0.8,0.2,1) forwards",
       },
     },
   },

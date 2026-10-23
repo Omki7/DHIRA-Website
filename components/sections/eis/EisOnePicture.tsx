@@ -72,7 +72,7 @@ export default function EisOnePicture({ content, domains: DOMAINS }: { content: 
                       type="button"
                       onClick={() => setDomainKey(d.key)}
                       aria-pressed={d.key === domainKey}
-                      className={`rounded-full px-3.5 py-2 text-[13px] font-medium transition-colors duration-250 sm:px-4 ${
+                      className={`rounded-full px-3.5 py-2 text-[13px] font-medium transition-colors duration-200 sm:px-4 ${
                         d.key === domainKey
                           ? "bg-background text-eis-ink"
                           : "text-secondary-text hover:text-ink"

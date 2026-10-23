@@ -182,7 +182,7 @@ export default function EisCapabilities({ content }: { content: EisPage["capabil
                             </h4>
                           </div>
                           <div className="text-left sm:text-right">
-                            <span className="font-heading text-[26px] font-bold text-ink leading-none">
+                            <span className="font-heading text-[26px] font-bold text-ink leading-none tabular-nums">
                               $180,000
                             </span>
                             <span className="block font-mono text-[10px] text-positive font-medium mt-0.5">

@@ -132,7 +132,7 @@ const more: MoreSolution[] = [
     id: "claims-fraud",
     area: "Insurance",
     name: "Claims and fraud",
-    text: "AI-assisted claims processing, ML risk scoring for prioritisation, fraud detection and medical sufficiency reporting.",
+    text: "AI-assisted claims processing, machine learning risk scoring for prioritisation, fraud detection and medical sufficiency reporting.",
   },
   {
     id: "cancer-care",

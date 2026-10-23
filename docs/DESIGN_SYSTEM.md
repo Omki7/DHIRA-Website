@@ -59,8 +59,12 @@ to every page you touch.
   goes live faster" states the benefit. Name AI as the mechanism, not the
   point. Never oversell: transparency and control (citations, shows its
   working, access rules, audit) over autonomy.
-- **Headline:** two short lines, setup then payoff, each a complete phrase and
-  each two lines or fewer at 1440.
+- **Headline:** two tones, setup then payoff, each two lines or fewer at
+  1440. Write most headlines as one sentence running across the two tones
+  ("Share one set of data, / and teams stop reconciling."). Keep the
+  fragment pair ("X. Y.") for a few signature lines only: homepage [01],
+  /about [01] and [05], the /akashic agents and walkthrough headers (UX
+  review, 23 Oct 2026: the repeated pattern read machine-written).
 - **Lede:** one or two sentences, roughly fifteen to thirty words.
 - **No back-pointing pronouns** ("it", "that", "they" referring to an earlier
   line) and no relative "that" clauses. Name the noun again.
@@ -81,6 +85,19 @@ to every page you touch.
   figures in words ("1.19 million", "282,000+", "$581 billion"), "and" not
   "&" or "@". Kept: "AI", the brand full form, and names that are themselves
   the proper name (ISO 27001, SOC 2 Type II, S&P Global).
+- **One name per module, everywhere** (UX review, 23 Oct 2026): Data
+  Pipelines, Master Data, Data Warehouse, Business Intelligence, Ask Akashic,
+  Machine Learning, Governance, and AI agents (preview). No "Akashic" prefix
+  ("Akashic BI", "Akashic Warehouse"), and never "Akashic Insights", "Akashic
+  AI" or "AI module". The `icon:` fields that pick a sketch icon are lookup
+  keys, not copy.
+- **No instruction lines** ("Drag the divider", "Scroll to …"). A design that
+  needs one gets simpler. Keyboard help stays, for screen readers only.
+- **Claims hold for every deployment option.** Cloud, on premises and hybrid
+  differ, so key custody is claimed for self-hosted only. Certifications
+  (ISO 27001, SOC 2) and the laws followed are separate, labelled groups.
+- **The demo world is a sample business**, unnamed, and said once where its
+  figures first appear ("Sample business · illustrative").
 - **The homepage tells one story** a newcomer can follow by reading only the
   eyebrows and headlines; each section answers the question the previous one
   raises. The spine is written at the top of `content/pages/home.ts`; keep a
@@ -92,13 +109,13 @@ Every numbered section on every page is built the same way. Use the shared
 components; do not hand-roll an eyebrow or a header.
 
 1. **Eyebrow: one format.** `ui/FigureEyebrow`: a dashed hairline above and
-   below, `[NN]  LABEL` in 11px uppercase mono, number `overcast`, label
+   below, `[NN]  LABEL` in 12px uppercase mono, number `overcast`, label
    `inkSoft`. Always **left-aligned**, full width of the section's column,
    never centred, never coloured, no dots, no second line. A required status
    mark (`PreviewTag` on agents) goes in its `tag` slot. Inside a closing card,
    or over a pinned scene, it drops the rail (`bare`) but keeps the format.
 2. **Header: one stack.** `ui/SectionHeader`: eyebrow, then `ui/TwoToneTitle`
-   (34 / 48 / 52px, soft setup over ink payoff), then the lede **under** the
+   (34 / 48 / 52px, weight 500, soft setup over ink payoff), then the lede **under** the
    headline, all in the left column (max 46rem). Never a lede or a button in a
    right-hand column. Sections whose title must sit inside a drawing compose
    the same parts (`FigureEyebrow` + `TwoToneTitle`); /akashic uses
@@ -123,6 +140,10 @@ components; do not hand-roll an eyebrow or a header.
    number. Everything else is left-aligned.
 7. **Unnumbered strips** (the homepage careers strip) use the same eyebrow
    without a number.
+8. **Numbers mark order only.** The `[NN]` eyebrows stay. Inside a section,
+   number items only when the order is real: steps, a timeline, a list keyed
+   to a drawing. No decorative 01/02/03 on cards or lists (UX review, 23 Oct
+   2026).
 
 ## 4. Tokens
 
@@ -137,11 +158,11 @@ token, and hex inside `style={}` or SVG attributes is the Rule 8 exception.
 |---|---|
 | Grounds | `background` (page), `band` (the soft blue band), `primary-bg` / `tertiary-bg` (insets, hover fills), `panel` (simulated-UI header surface) |
 | Feature surfaces | `depth`, `depth-raised`, `vault`, `anchor`: pastel blue in light, layered midnight in dark. Applies to every section, footer and closing card, including homepage [04]. No permanently dark layout panels |
-| Text | `ink` = `primary-text` (headings, body), `secondary-text` (ledes, captions), `inkSoft` (two-tone setup lines, section body), `overcast` (eyebrow numbers, labels), `tertiary-text` (readable mockup chrome). All are paired with the selected appearance |
+| Text | `ink` = `primary-text` (headings, body; blue-black since 23 Oct 2026, for contrast), `secondary-text` (ledes, captions), `inkSoft` (two-tone setup lines, section body), `overcast` (eyebrow numbers, labels), `tertiary-text` (readable mockup chrome). All are paired with the selected appearance |
 | Actions | `action` / `action-hover`: the primary button fill, **ink like the text** (navy-black in light, near-white in dark), never blue (user, 21 Oct 2026: blue read vague, ink reads premium). `on-action` is its lettering. `on-accent` is white lettering on the fixed cobalt `blue-solid` |
 | Accent | `blue` (links, live data, focus), `blue-hover`, `blue-subtle`, `blue-border`, `blue-300/400/500` (the accent lifted for deep grounds) |
 | Status | `red` (cost, not error; problem section only), `red-deep` (its large figures), `positive` family (live) |
-| Lines | `subtle-stroke` (card edges), `default-stroke` (control edges), `lineSoft` (section dividers, eyebrow rails), `line` (stronger dividers), `card-line` / `card-divide` (simulated UI) |
+| Lines | `subtle-stroke` (card edges), `default-stroke` (control edges), `lineSoft` (section dividers, eyebrow rails), `line` (stronger dividers), `card-line` / `card-divide` (simulated UI). In light, `subtle-stroke`, `lineSoft`, `card-line` and `uc-stroke` share one hairline value (UX review, 23 Oct 2026); keep using each name for its role |
 | Photography | `on-photo`, `scrim` |
 | Legacy `uc-*` | `uc-bg`, `uc-surface`, `uc-stroke`, `uc-line`, `uc-vertex`, `uc-dim`, `uc-mute`, `uc-text`: the deep-ground text ramp used by `tone="depth"` headers. Do not grow it |
 
@@ -193,11 +214,17 @@ colours, terrace fills) stay local to their drawings in theme.css.
 
 | Scale | Size | Weight | Tracking |
 |---|---|---|---|
-| Hero headline | 56 to 72px | 600 | `tracking-tightest` |
-| Section headline (`TwoToneTitle`) | 34 / 48 / 52px | 600 | `tracking-tighter` |
-| Subsection | 20 to 28px | 600 | tight |
-| Body / lede | 16 to 18px | 400 | default |
-| Eyebrow | 11px | 400 to 500 | `tracking-eyebrow` (0.14em), uppercase mono |
+| Hero headline | 56 to 64px | 500 | `tracking-tightest` |
+| Section headline (`TwoToneTitle`) | 34 / 48 / 52px | 500 | `tracking-tighter` |
+| Subsection | 20 to 28px | 500 to 600 | tight |
+| Body / lede | 16 to 18px, about 65 characters a line | 400 | default |
+| Large figure | as the section needs | 600, `tabular-nums` | `tracking-tighter` |
+| Eyebrow and mono labels | 12px | 400 to 500 | `tracking-eyebrow` (0.14em), uppercase mono |
+
+**Headlines are medium, never bold** (UX review, 23 Oct 2026): every
+headline-size heading is 500. Large figures stay 600, so a section's number
+is its heaviest element, and use tabular digits so columns line up and a
+count-up holds its width.
 
 **Two-tone headlines** are always soft setup (`inkSoft`) over ink payoff,
 never the reverse and never a third grey.
@@ -210,7 +237,10 @@ never the reverse and never a third grey.
 - Shadows: `card` (resting), `frame` (floating), `deep` (modal),
   `float-dark`.
 - Timing: `ease-settle` for UI transitions, `ease-smooth` for continuous
-  motion; durations `duration-250`, `duration-400`, `duration-650`.
+  motion. Hover, tab and menu feedback 200ms or less (`duration-150`,
+  `duration-200`); `duration-250` and up are for state changes, never hover.
+  Scroll reveals 500ms, once, a 16px rise, no scale or blur. Count-ups 900ms,
+  starting when half the figure is in view (UX review, 23 Oct 2026).
 
 ## 7. Components (globals.css and ui/)
 
@@ -223,13 +253,14 @@ never the reverse and never a third grey.
 | `ui/SectionCoda` | A mono sign-off line: two fragments, one new idea |
 | `ui/PageHero`, `ui/PageClose` | Resource-page hero and closing card |
 | `ui/PreviewTag` | The dashed preview mark on anything agentic |
+| `ui/MotionToggle` | The pause control for anything that advances by itself. A small round pause/play icon placed right beside what it stops, never in a row of its own (user, 23 Oct 2026): after the rotating hero word (`RotatingPhrase` renders it; the hero h1 takes its name from a hidden plain copy via `aria-labelledby`), at the end of the homepage [02] module index (`ContextTentacles` `control`), beside the stories' dots. Picking a card or story stops its cycle too. Tooltip names the action, the accessible name adds what it stops. Hidden under reduced motion (Rule 6b) |
 | `.dot-grid` | 1px dot ground at 10px pitch |
 | `.rail-container` / `ui/ScrollRevealRail` | The centred 1440px column with side gutters; no edge lines |
 | `.ad-draw` / `.ad-fade` / `.ad-strike` / `.ad-ping` | The drawing kit: paths draw once when the wrapper flips `data-drawn` (`hooks/useDrawn`); final state under reduced motion |
 
 **Stat bands** (any band of figures) use one recipe: `rounded-frame` outer on
 `subtle-stroke`, dashed cell dividers, mono uppercase labels, figures
-`font-semibold tracking-tighter` with `useCountUp`.
+`font-semibold tracking-tighter tabular-nums` with `useCountUp`.
 
 **Onboarding a non-obvious control** (the homepage before/after slider): play
 the demonstration once per mount on first view, stop it on any interaction,
@@ -256,9 +287,8 @@ Everything in `demos/mockups/` is fake software (`*Mockup`, banner comment
     chrome or engineering canvases. Smaller
     screens place the same seven drawings in a scrollable strip below the
     copy. Example figures are labelled illustrative. This treatment does
-    not replace the /akashic hero outcome cards or context tentacles.
-  - **Moments** (`AkashicModuleMomentsMockup`; homepage [02] beside the
-    module rail via `ModuleMomentStage`, and /akashic/1-0 [01]): one drawing
+    not replace the homepage [02] outcome cards or context tentacles.
+  - **Moments** (`AkashicModuleMomentsMockup`; /akashic/1-0 [01]): one drawing
     per module playing its verb, no app chrome, native small type, lines
     leaving the frame. The homepage's no-short-forms rule reaches inside
     the drawings too ("Business Intelligence", "82,400 orders", "Week 1").
@@ -266,7 +296,8 @@ Everything in `demos/mockups/` is fake software (`*Mockup`, banner comment
     `.archive/removed-2026-10-21/`). If particles return, keep its refined
     settings: fine single-ink atoms, a smooth flow field, no check marks or
     sparkles.
-  - **Outcome cards** (`AkashicOutcomeCardsMockup`, /akashic hero; founder,
+  - **Outcome cards** (`AkashicOutcomeCardsMockup`, homepage [02] since 23
+    Oct 2026, swapped with the /akashic hero's moments by the user; founder,
     22 Oct 2026: the module screens "show too much", make them end-user and
     executive friendly). Taken from how ThoughtSpot, Hex and Cube show
     product to business readers. One card per module in the fan, context
@@ -296,12 +327,16 @@ Everything in `demos/mockups/` is fake software (`*Mockup`, banner comment
   drawing. Type leads, no icons. Full labels, never abbreviations. Agents only
   inside Platform, with `PreviewTag`.
 - **Timing.** 120ms hover intent, instant switching once open, 300ms close
-  grace, click pins, Escape closes and returns focus. Scrim `bg-depth/20` with
-  a light blur only while open.
+  grace, a chevron click pins, Escape closes and returns focus. Scrim
+  `bg-depth/20` with a light blur only while open.
+- **Labels are links.** A click on a menu's label goes straight to its lead's
+  page (the hero); on that page already, it scrolls back to the top. The
+  chevron beside it opens the menu.
 - **Current section** rests in ink with a 2px `blue` bar under its label.
 - **Mobile.** Full-screen drill-down drawer, 44px targets, focus trap.
-- **Accessibility.** Disclosure pattern (buttons with `aria-expanded`), no
-  `role=menu`; every panel is server-rendered.
+- **Accessibility.** Disclosure pattern with top-level links: each label is
+  a link, its chevron a button with `aria-expanded`; no `role=menu`; every
+  panel is server-rendered.
 - **Section index** (`layout/PageMinimap`): right-edge dots, the line runs
   only from the first dot to the current one, labels unfold on hover or focus
   onto a docked sheet. Driven by each page's `sections` list; hidden below lg.
@@ -325,7 +360,9 @@ Everything in `demos/mockups/` is fake software (`*Mockup`, banner comment
    **6a:** animate only `transform` and `opacity`; anything that loops stops
    off screen (`layout/OffscreenAnimationGate` for CSS and SMIL,
    `hooks/useOnScreen` for timers and rAF); no `backdrop-filter` on sticky
-   chrome.
+   chrome. **6b** (WCAG 2.2.2, UX review 23 Oct 2026): anything that
+   advances by itself carries `ui/MotionToggle`, and a reader's pick (a
+   card, a story) stops the cycle until Play.
 7. **Images are real files** in `public/`, licensed, and show the right
    subject at the right scale. Provenance in ASSETS.md.
 8. **Tailwind over inline styles.** Inline `style` only for computed geometry,

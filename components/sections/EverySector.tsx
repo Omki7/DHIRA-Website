@@ -113,7 +113,7 @@ export default function EverySector({ content: HOME_INDUSTRIES }: { content: Hom
                       tabIndex={selected ? 0 : -1}
                       onClick={() => choose(index)}
                       onKeyDown={(event) => handleKey(event, index)}
-                      className={`group relative flex min-h-[56px] items-center gap-2.5 border-b px-1.5 py-2.5 text-left transition-colors duration-250 motion-reduce:transition-none lg:min-h-[65px] lg:gap-3 lg:px-3 ${selected ? "border-blue bg-primary-bg text-ink" : "border-lineSoft text-inkSoft hover:bg-primary-bg hover:text-ink"}`}
+                      className={`group relative flex min-h-[56px] items-center gap-2.5 border-b px-1.5 py-2.5 text-left transition-colors duration-200 motion-reduce:transition-none lg:min-h-[65px] lg:gap-3 lg:px-3 ${selected ? "border-blue bg-primary-bg text-ink" : "border-lineSoft text-inkSoft hover:bg-primary-bg hover:text-ink"}`}
                     >
                       <span className={`relative h-8 w-8 shrink-0 overflow-hidden rounded-micro transition-[filter] duration-400 motion-reduce:transition-none lg:h-9 lg:w-9 ${selected ? "grayscale-0" : "grayscale group-hover:grayscale-0 group-focus-visible:grayscale-0"}`}>
                         <Image src={item.image} alt="" fill sizes="36px" className="object-cover" />
@@ -167,9 +167,9 @@ export default function EverySector({ content: HOME_INDUSTRIES }: { content: Hom
               <div className="pt-5 sm:pt-6">
                 <div className="flex flex-col items-start justify-between gap-4 xl:flex-row xl:gap-8">
                   <p className="max-w-[39em] text-[15px] leading-relaxed text-inkSoft sm:text-[16px]">{sector.description}</p>
-                  <Link href={sector.href} className="group inline-flex min-h-11 shrink-0 items-center gap-3 text-[14px] font-medium text-ink underline decoration-line underline-offset-[6px] transition-colors duration-250 hover:text-blue motion-reduce:transition-none">
+                  <Link href={sector.href} className="group inline-flex min-h-11 shrink-0 items-center gap-3 text-[14px] font-medium text-ink underline decoration-line underline-offset-[6px] transition-colors duration-200 hover:text-blue motion-reduce:transition-none">
                     {HOME_INDUSTRIES.explore} {sector.name.toLowerCase()}
-                    <Arrow className="transition-transform duration-250 group-hover:translate-x-1 motion-reduce:transform-none motion-reduce:transition-none" />
+                    <Arrow className="transition-transform duration-200 group-hover:translate-x-1 motion-reduce:transform-none motion-reduce:transition-none" />
                   </Link>
                 </div>
                 <ul aria-label={`${sector.name} focus areas`} className="mt-5 flex flex-wrap gap-x-5 gap-y-2 border-t border-lineSoft pt-4">
@@ -180,8 +180,8 @@ export default function EverySector({ content: HOME_INDUSTRIES }: { content: Hom
 
             <div className="flex flex-col items-start justify-end border-t border-dashed border-lineSoft pt-5 lg:col-start-1 lg:row-start-2 lg:mt-2">
               <p className="text-[14px] leading-relaxed text-inkSoft">{HOME_INDUSTRIES.publicSector.label}</p>
-              <Link href={HOME_INDUSTRIES.publicSector.link.href} className="group mt-1 inline-flex min-h-11 items-center gap-2 text-[14px] font-medium text-ink transition-colors duration-250 hover:text-blue motion-reduce:transition-none">
-                {HOME_INDUSTRIES.publicSector.link.label}<Arrow className="transition-transform duration-250 group-hover:translate-x-1 motion-reduce:transform-none motion-reduce:transition-none" />
+              <Link href={HOME_INDUSTRIES.publicSector.link.href} className="group mt-1 inline-flex min-h-11 items-center gap-2 text-[14px] font-medium text-ink transition-colors duration-200 hover:text-blue motion-reduce:transition-none">
+                {HOME_INDUSTRIES.publicSector.link.label}<Arrow className="transition-transform duration-200 group-hover:translate-x-1 motion-reduce:transform-none motion-reduce:transition-none" />
               </Link>
             </div>
           </div>

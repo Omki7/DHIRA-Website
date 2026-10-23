@@ -80,7 +80,7 @@ export default function SectorMap({ scene, touchline, template }: { scene: MapSc
             </div>
           </ScrollReveal>
           <ScrollReveal delay={80}>
-            <h2 className="text-heading-sm font-semibold text-ink md:text-heading-md">
+            <h2 className="text-heading-sm font-medium text-ink md:text-heading-md">
               {touchline}
             </h2>
           </ScrollReveal>

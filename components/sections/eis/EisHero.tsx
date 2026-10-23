@@ -77,7 +77,7 @@ export default function EisHero({
 
           {/* High-tech Interactive Command / Ask Bar */}
           <div className="mt-10 w-full sm:mt-12">
-            <div className="relative mx-auto flex w-full max-w-[740px] items-center gap-3 overflow-hidden rounded-full border border-line bg-background p-2 pl-4 shadow-sm transition-all duration-250 hover:border-blue sm:pl-5">
+            <div className="relative mx-auto flex w-full max-w-[740px] items-center gap-3 overflow-hidden rounded-full border border-line bg-background p-2 pl-4 shadow-sm transition-all duration-200 hover:border-blue sm:pl-5">
               <span className="flex-shrink-0 rounded-[5px] border border-blue-border bg-blue-subtle px-2 py-0.5 font-mono text-[10px] font-bold uppercase tracking-wider text-blue">
                 {CATEGORIES[index % CATEGORIES.length]}
               </span>
