@@ -9,7 +9,7 @@
 import type { Cta } from "./types";
 
 /** "Proven at national scale": the deployment carousel band
-    (sections/ProvenAtScale). Home, /akashic and /delivery each hold one. */
+    (sections/ProvenAtScale). Home, /akashic and /services each hold one. */
 export interface ProvenAtScaleBlock {
   number: string;
   eyebrow: string;

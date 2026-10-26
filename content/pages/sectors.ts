@@ -255,7 +255,7 @@ export const sectorPages: Record<SectorSlug, SectorContent> = {
           title: "One traceable genealogy",
           body: "The warehouse keeps raw sensor history and certified quality records apart but linked. Every batch carries its full lineage: machine, shift, inputs, and inspection results.",
           modules: [
-            { label: "Data Warehouse", href: "/akashic#data-warehousing" },
+            { label: "Data Warehouse", href: "/akashic#data-warehouse" },
             { label: "Data Governance", href: "/akashic#governance" },
           ],
         },
@@ -270,7 +270,7 @@ export const sectorPages: Record<SectorSlug, SectorContent> = {
           title: "Ask the line anything",
           body: "Supervisors ask in plain language and get answers grounded in the batch, machine, and shift they came from. Plant leadership watches live line health, not last month's OEE.",
           modules: [
-            { label: "Ask Akashic", href: "/akashic#ask-ai" },
+            { label: "Ask Akashic", href: "/akashic#ask-akashic" },
             { label: "Business Intelligence", href: "/akashic#business-intelligence" },
           ],
         },
@@ -378,7 +378,7 @@ export const sectorPages: Record<SectorSlug, SectorContent> = {
           body: "Role-based access, PII masking, and consent rules execute at the graph layer. Every access is stamped and traceable, so the audit trail writes itself.",
           modules: [
             { label: "Data Governance", href: "/akashic#governance" },
-            { label: "Data Warehouse", href: "/akashic#data-warehousing" },
+            { label: "Data Warehouse", href: "/akashic#data-warehouse" },
           ],
         },
         {
@@ -392,7 +392,7 @@ export const sectorPages: Record<SectorSlug, SectorContent> = {
           title: "Answers at the point of care",
           body: "Clinicians ask in plain language and get the full history with sources. Administrators watch live occupancy and flow instead of last week's census.",
           modules: [
-            { label: "Ask Akashic", href: "/akashic#ask-ai" },
+            { label: "Ask Akashic", href: "/akashic#ask-akashic" },
             { label: "Business Intelligence", href: "/akashic#business-intelligence" },
           ],
         },
@@ -531,7 +531,7 @@ export const sectorPages: Record<SectorSlug, SectorContent> = {
           body: "Access rules, masking, and retention execute at the platform layer. Every query and every model decision is stamped, so the audit trail exists before anyone asks for it.",
           modules: [
             { label: "Data Governance", href: "/akashic#governance" },
-            { label: "Data Warehouse", href: "/akashic#data-warehousing" },
+            { label: "Data Warehouse", href: "/akashic#data-warehouse" },
           ],
         },
         {
@@ -545,7 +545,7 @@ export const sectorPages: Record<SectorSlug, SectorContent> = {
           title: "Alerts that carry their evidence",
           body: "Risk teams ask in plain language and get the chain, the entities, and the source records in one answer. Every escalation is audit-ready the moment it's raised.",
           modules: [
-            { label: "Ask Akashic", href: "/akashic#ask-ai" },
+            { label: "Ask Akashic", href: "/akashic#ask-akashic" },
             { label: "Business Intelligence", href: "/akashic#business-intelligence" },
           ],
         },
@@ -682,7 +682,7 @@ export const sectorPages: Record<SectorSlug, SectorContent> = {
           title: "One version of stock",
           body: "The warehouse holds sales, inventory, and movement history in governed layers. When merchandising and finance pull a number, it's the same number.",
           modules: [
-            { label: "Data Warehouse", href: "/akashic#data-warehousing" },
+            { label: "Data Warehouse", href: "/akashic#data-warehouse" },
             { label: "Data Governance", href: "/akashic#governance" },
           ],
         },
@@ -697,7 +697,7 @@ export const sectorPages: Record<SectorSlug, SectorContent> = {
           title: "Replenishment answers, not reports",
           body: "Planners ask which stores run out this week and get an answer with the stock, the trend, and the source attached. Merchandising watches live sell-through, not the Monday export.",
           modules: [
-            { label: "Ask Akashic", href: "/akashic#ask-ai" },
+            { label: "Ask Akashic", href: "/akashic#ask-akashic" },
             { label: "Business Intelligence", href: "/akashic#business-intelligence" },
           ],
         },
@@ -836,7 +836,7 @@ export const sectorPages: Record<SectorSlug, SectorContent> = {
           body: "Access rules and masking execute at the platform layer, so counsellors, faculty, and administrators each see exactly what their role permits, with every access stamped.",
           modules: [
             { label: "Data Governance", href: "/akashic#governance" },
-            { label: "Data Warehouse", href: "/akashic#data-warehousing" },
+            { label: "Data Warehouse", href: "/akashic#data-warehouse" },
           ],
         },
         {
@@ -850,7 +850,7 @@ export const sectorPages: Record<SectorSlug, SectorContent> = {
           title: "Questions answered with evidence",
           body: "Which cohorts are struggling, which courses lead to placements, which interventions worked: asked in plain language, answered with the source data attached.",
           modules: [
-            { label: "Ask Akashic", href: "/akashic#ask-ai" },
+            { label: "Ask Akashic", href: "/akashic#ask-akashic" },
             { label: "Business Intelligence", href: "/akashic#business-intelligence" },
           ],
         },
@@ -988,7 +988,7 @@ export const sectorPages: Record<SectorSlug, SectorContent> = {
           title: "An asset record you can audit",
           body: "The warehouse links live telemetry to inspection history and asset lineage. Regulatory reporting draws from the same governed record operations run on.",
           modules: [
-            { label: "Data Warehouse", href: "/akashic#data-warehousing" },
+            { label: "Data Warehouse", href: "/akashic#data-warehouse" },
             { label: "Data Governance", href: "/akashic#governance" },
           ],
         },
@@ -1003,7 +1003,7 @@ export const sectorPages: Record<SectorSlug, SectorContent> = {
           title: "The control room asks, the grid answers",
           body: "Operators ask which assets are trending toward failure and get an answer with the telemetry, the history, and the location attached. Leadership sees grid health live.",
           modules: [
-            { label: "Ask Akashic", href: "/akashic#ask-ai" },
+            { label: "Ask Akashic", href: "/akashic#ask-akashic" },
             { label: "Business Intelligence", href: "/akashic#business-intelligence" },
           ],
         },

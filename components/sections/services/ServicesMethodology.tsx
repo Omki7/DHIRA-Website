@@ -20,7 +20,7 @@ import ScrollReveal from "@/components/ui/ScrollReveal";
 import ScrollRevealRail from "@/components/ui/ScrollRevealRail";
 import SectionHeader from "@/components/ui/SectionHeader";
 import useDrawn from "@/hooks/useDrawn";
-import type { DeliveryPage } from "@/content/pages/delivery";
+import type { ServicesPage } from "@/content/pages/services";
 
 const delay = (s: number) => ({ "--ad-delay": `${s}s` }) as CSSProperties;
 const COLS = "xl:grid-cols-[repeat(4,minmax(0,1fr))_minmax(0,0.72fr)]";
@@ -39,7 +39,7 @@ function Gate() {
   return <span aria-hidden className="block h-2 w-2 shrink-0 rotate-45 bg-ink" />;
 }
 
-export default function DeliveryMethodology({ content: c }: { content: DeliveryPage["methodology"] }) {
+export default function ServicesMethodology({ content: c }: { content: ServicesPage["methodology"] }) {
   const [ref, drawn] = useDrawn<HTMLDivElement>(0.3);
   const last = c.stages.length - 1;
 

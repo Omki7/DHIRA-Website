@@ -4,10 +4,10 @@
    pipeline uses the sample business's systems in their homepage colours;
    the cited answer is lifted from the /akashic [01] renewal story. */
 
-import { SOURCE_COLOUR } from "@/components/demos/delivery/sources";
-import type { DeliveryPage } from "@/content/pages/delivery";
+import { SOURCE_COLOUR } from "@/components/demos/services/sources";
+import type { ServicesPage } from "@/content/pages/services";
 
-type Kind = DeliveryPage["services"]["lines"][number]["drawing"];
+type Kind = ServicesPage["services"]["lines"][number]["drawing"];
 
 function Label({ children }: { children: string }) {
   return <text x="24" y="31" className="fill-secondary-text font-mono text-[11px] uppercase tracking-[1.2px]">{children}</text>;

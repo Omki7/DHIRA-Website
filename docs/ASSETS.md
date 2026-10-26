@@ -40,7 +40,7 @@ non-photographic ones came from.
 | `delivery/` (retired) | The old Services photographs moved to `.archive/services-redesign/public/delivery/` on 26 Oct 2026. Services now uses code-native concept drawings and the shared proof imagery |
 | `sectors/` | Sector page photographs |
 | `proof/` | Homepage proof imagery |
-| `universal-context/` | System logos (SAP, Salesforce, Oracle, PostgreSQL) on the /solutions/eis hero. The other eight went to `.archive/removed-2026-10-20/` with the homepage logo strip |
+| `universal-context/` | System logos (SAP, Salesforce, Oracle, PostgreSQL) on the /solutions/enterprise-intelligence hero. The other eight went to `.archive/removed-2026-10-20/` with the homepage logo strip |
 | `.well-known/security.txt` | Security contact, linked from the terms of use |
 
 ## Provenance

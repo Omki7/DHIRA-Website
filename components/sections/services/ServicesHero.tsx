@@ -7,13 +7,13 @@
    language as homepage [02]: named systems, colour = source system. */
 
 import Link from "next/link";
-import DeliveryRoute from "@/components/demos/delivery/DeliveryRoute";
+import DeliveryRoute from "@/components/demos/services/DeliveryRoute";
 import RotatingPhrase from "@/components/ui/RotatingPhrase";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import ScrollRevealRail from "@/components/ui/ScrollRevealRail";
-import type { DeliveryPage } from "@/content/pages/delivery";
+import type { ServicesPage } from "@/content/pages/services";
 
-export default function DeliveryHero({ content: c }: { content: DeliveryPage["hero"] }) {
+export default function ServicesHero({ content: c }: { content: ServicesPage["hero"] }) {
   return (
     <section id="hero" className="relative overflow-hidden bg-background pb-12 lg:pb-20">
       <ScrollRevealRail>

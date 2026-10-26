@@ -38,9 +38,9 @@ import SectionLink from "@/components/ui/SectionLink";
 import useMinWidth from "@/hooks/useMinWidth";
 import usePrefersReducedMotion from "@/hooks/usePrefersReducedMotion";
 import useTour from "@/hooks/useTour";
-import type { DeliveryPage } from "@/content/pages/delivery";
+import type { ServicesPage } from "@/content/pages/services";
 
-type Capabilities = DeliveryPage["capabilities"];
+type Capabilities = ServicesPage["capabilities"];
 type Layer = Capabilities["layers"][number];
 type Item = Layer["items"][number];
 
@@ -209,7 +209,7 @@ function LayerRow({
   );
 }
 
-export default function DeliveryCapabilities({ content: c }: { content: Capabilities }) {
+export default function ServicesCapabilities({ content: c }: { content: Capabilities }) {
   const items = useMemo(
     () => c.layers.flatMap((layer) => layer.items.map((item) => ({ item, layer }))),
     [c.layers],

@@ -14,12 +14,12 @@ import { getPage } from "@/lib/content";
 import { pageMetadata } from "@/lib/metadata";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const { seo } = await getPage("solutions/eis");
+  const { seo } = await getPage("solutions/enterprise-intelligence");
   return pageMetadata(seo);
 }
 
 export default async function EisPage() {
-  const page = await getPage("solutions/eis");
+  const page = await getPage("solutions/enterprise-intelligence");
   return (
     <>
       <Nav />

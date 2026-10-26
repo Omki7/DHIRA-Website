@@ -1,4 +1,4 @@
-/* Services (/delivery). Rebuilt 26 Oct 2026 so the page reads as the same
+/* Services (/services). Rebuilt 26 Oct 2026 so the page reads as the same
    site as home and /akashic: the shared hero cadence (rotating phrase, blue
    underline), drawings that carry real words (named systems, the sample
    business, cited answers), figure frames with a legend foot, and the
@@ -32,18 +32,18 @@ interface DeliverySection {
 }
 
 /** Source systems keep the colours they carry on the homepage cards. */
-export type DeliverySource = "salesforce" | "netsuite" | "plan" | "documents";
+export type ServiceSource = "salesforce" | "netsuite" | "plan" | "documents";
 
 /** Who does a part of the work: DHIRA, your team, or both together. */
-export type DeliveryParty = "dhira" | "you" | "together";
+export type ServiceParty = "dhira" | "you" | "together";
 
-export interface DeliveryModel {
+export interface ServiceModel {
   id: string;
   title: string;
   /** What the reader gets, as a noun phrase. */
   need: string;
-  builds: DeliveryParty;
-  runs: DeliveryParty;
+  builds: ServiceParty;
+  runs: ServiceParty;
   /** The detail panel: how the engagement works, then who does what. */
   description: string;
   delivery: string[];
@@ -52,7 +52,7 @@ export interface DeliveryModel {
   legacyAnchor?: string;
 }
 
-export interface DeliveryPage {
+export interface ServicesPage {
   seo: Seo;
   sections: PageSection[];
   sectionsLabel: string;
@@ -66,7 +66,7 @@ export interface DeliveryPage {
     route: {
       caption: string;
       lanes: { systems: string; team: string; production: string };
-      sources: { name: string; what: string; source: DeliverySource }[];
+      sources: { name: string; what: string; source: ServiceSource }[];
       stages: string[];
       outcomes: { kind: string; title: string; who: string }[];
       live: string;
@@ -95,9 +95,9 @@ export interface DeliveryPage {
     /** What the pause control stops, for its accessible name. */
     tour: string;
     /** The two branches, in tree order; their models are the leaves. */
-    groups: { id: "akashic" | "stack"; label: string; title: string; items: DeliveryModel[] }[];
+    groups: { id: "akashic" | "stack"; label: string; title: string; items: ServiceModel[] }[];
     keys: { builds: string; runs: string };
-    parties: Record<DeliveryParty, string>;
+    parties: Record<ServiceParty, string>;
     detail: { delivery: string; customer: string };
     spectrum: { dhira: string; you: string };
     coda: string;
@@ -152,11 +152,11 @@ export interface DeliveryPage {
   };
 }
 
-export const delivery: DeliveryPage = {
+export const services: ServicesPage = {
   seo: {
     title: "Services | Data, AI and Product Engineering",
     description: "From data and AI strategy to production delivery. DHIRA brings advisory, platform implementation, custom engineering and embedded teams to your business.",
-    path: "/delivery",
+    path: "/services",
   },
   sections: [
     { id: "hero", label: "Introduction" },

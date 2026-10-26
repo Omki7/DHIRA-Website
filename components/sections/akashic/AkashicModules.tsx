@@ -3,11 +3,13 @@ import DynamicSketchIcon from "@/components/icons/DynamicSketchIcon";
 import type { AkashicPage, LayerModule } from "@/content/pages/akashic";
 import { StoryLabel, StoryTitle, PreviewTag } from "@/components/sections/akashic/AkashicStory";
 const referenceIds = ["pipelines", "master-data", "warehouse", "ml", "ask", "bi"];
+/* Anchors renamed to the modules' one names on 26 Oct 2026; the old ones still land. */
+const LEGACY_ANCHORS: Record<string, string> = { "modules-data-warehouse": "data-warehousing", "modules-ask-akashic": "ask-ai" };
 /* Modules with AI agents in preview carry one dashed line under their
    capabilities; the section coda names what the tag means. */
 function ModuleRow({ modules, offset, explore }: { modules: LayerModule[]; offset: number; explore: string }) {
   return <div className="ak-module-row">{modules.map((m, i) => <div key={m.id} id={m.id} className="ak-module-entry">
-    <span id={m.id.replace("modules-", "")} className="scroll-mt-28" />
+    <span id={m.id.replace("modules-", "")} className="scroll-mt-28" />{LEGACY_ANCHORS[m.id] && <span id={LEGACY_ANCHORS[m.id]} className="scroll-mt-28" />}
     <div className="ak-module-name"><DynamicSketchIcon text={m.icon} className="h-5 w-5" /><h4>{m.name}</h4></div>
     <p>{m.sub}</p>
     <ul className="ak-module-capabilities">{m.caps.slice(0, 2).map(cap => <li key={cap}>{cap}</li>)}</ul>

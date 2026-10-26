@@ -1,5 +1,5 @@
 /*
- * EisPill — the one button shape on /solutions/eis.
+ * EisPill — the one button shape on /solutions/enterprise-intelligence.
  *
  * The reference styling this page follows uses a single 44px rounded-full
  * control at 14px/500 everywhere: hero CTAs, panel CTAs, tab switchers, the

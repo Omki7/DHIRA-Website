@@ -14,7 +14,7 @@ import { akashicRelease } from "@/content/pages/akashic-release";
 import { careers } from "@/content/pages/careers";
 import { contactPage } from "@/content/pages/contact";
 import { customersPage } from "@/content/pages/customers";
-import { delivery } from "@/content/pages/delivery";
+import { services } from "@/content/pages/services";
 import { glossaryPage } from "@/content/pages/glossary";
 import { home } from "@/content/pages/home";
 import { newsroomPage } from "@/content/pages/newsroom";
@@ -70,9 +70,9 @@ const pages = {
   akashic,
   "akashic/1-0": akashicRelease,
   careers,
-  delivery,
+  services,
   solutions,
-  "solutions/eis": solutionsEis,
+  "solutions/enterprise-intelligence": solutionsEis,
   "solutions/life": solutionsLife,
   "sectors/public-sector": sectorsPublicSector,
   pricing,

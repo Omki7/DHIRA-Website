@@ -258,7 +258,7 @@ export const careers: CareersPage = {
     payoff: "Let’s talk.",
     body: "Share shipped work and the role you want. Every note gets an answer.",
     primary: { label: "Talk to our team", href: "/#get-started" },
-    secondary: { label: "Meet the team", href: "/about#people" },
+    secondary: { label: "Meet the team", href: "/about#leadership" },
     cells: {
       company: { label: "Company", value: "DHIRA" },
       seats: "Seats open",

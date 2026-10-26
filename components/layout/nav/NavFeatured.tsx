@@ -50,7 +50,7 @@ function FoundationFigure() {
   );
 }
 
-/* Services: one line through the four stages of the /delivery method. */
+/* Services: one line through the four stages of the /services method. */
 function MethodFigure() {
   const stations = [30, 90, 150, 210];
   return (

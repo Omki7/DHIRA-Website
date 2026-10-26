@@ -3,7 +3,7 @@
 /* ------------------------------------------------------------------ */
 /* The partner programme, in the shape 22 of 26 reference sites run
    (Databricks, Vercel, Anthropic, OpenAI, Ramp partner pages, measured
-   15 Oct 2026). White Label is already a /delivery engagement model, so
+   15 Oct 2026). White Label is already a /services engagement model, so
    the white-label line restates it rather than inventing a new offer.
    Composer: app/partners/page.tsx.
    DRAFT: no partner is named (none is confirmed); the benefits and the
@@ -109,6 +109,6 @@ export const partnersPage: PartnersPage = {
     payoff: "Start with one conversation.",
     body: "Tell us about your practice and the clients you serve. A partner manager replies with next steps.",
     primary: { label: "Apply to partner", href: mailto("Partnership application") },
-    secondary: { label: "See how we deliver", href: "/delivery" },
+    secondary: { label: "See how we deliver", href: "/services" },
   },
 };

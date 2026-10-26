@@ -58,7 +58,7 @@ export const siteMap: SiteMapContent = {
       heading: "Solutions",
       routes: [
         { path: "/solutions", title: "Solutions", description: "Business problems solved on Akashic, by solution, industry and function." },
-        { path: "/solutions/eis", title: "Enterprise Intelligence", description: "Agentic FP&A and MIS on the ERP as the system of record." },
+        { path: "/solutions/enterprise-intelligence", title: "Enterprise Intelligence", description: "Agentic FP&A and MIS on the ERP as the system of record." },
         { path: "/solutions/life", title: "Akashic Life", description: "Frontline maternal care, built on Akashic." },
         { path: "/sectors/public-sector", title: "Public sector", description: "Governed data and AI for government programmes at national scale." },
         { path: "/sectors/finance", title: "BFSI", description: "Akashic for banking, financial services and insurance." },
@@ -72,7 +72,7 @@ export const siteMap: SiteMapContent = {
     {
       heading: "Services",
       routes: [
-        { path: "/delivery", title: "Services", description: "Strategic Advisory, Engineering at Scale and AI Solutions and Accelerators, from one accountable partner." },
+        { path: "/services", title: "Services", description: "Strategic Advisory, Engineering at Scale and AI Solutions and Accelerators, from one accountable partner." },
       ],
     },
     {

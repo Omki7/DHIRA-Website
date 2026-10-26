@@ -5,7 +5,7 @@ import { useCallback, useSyncExternalStore } from "react";
 /* Which of `ids` the URL hash points at, or -1. `aliases` maps older anchors
    onto an id. Next's same-page links change the hash with pushState, which
    fires no hashchange, so same-page anchor clicks are watched too. Used to
-   mark the row a nav link lands on (/delivery [02]). */
+   mark the row a nav link lands on (/services [02]). */
 export default function useHashTarget(ids: string[], aliases?: Record<string, string>) {
   const subscribe = useCallback((notify: () => void) => {
     const onClick = (event: MouseEvent) => {

@@ -37,7 +37,7 @@ export default async function Home() {
             page where the reader moves the seam and proves the thesis to
             themselves. Do not cut it again without asking. */}
         <TheProof content={page.proof} />
-        <ProvenAtScale content={page.scale} stories={stories} />
+        <ProvenAtScale id="impact" aliases={["scale"]} content={page.scale} stories={stories} />
         <Voices content={page.voices} />
         <EnterpriseSecurity content={page.governance} />
         <Closure content={page.close} />

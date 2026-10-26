@@ -1,7 +1,7 @@
 /* ------------------------------------------------------------------------
  * SIMULATED PRODUCT UI — not real Akashic app code.
  *
- * Shared light-theme chrome for every /solutions/eis wireframe, so the six
+ * Shared light-theme chrome for every /solutions/enterprise-intelligence wireframe, so the six
  * screens on that page read as one product rather than six illustrations.
  * Deliberately on the same token system as the /akashic module screens:
  *

@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 /* A link with a #hash lands on its target even when the page grows after
    the browser's first jump (UX review, 23 Oct 2026: menu links "jump to the
    wrong place"). /about's journey pins after hydration and adds about
-   1,150px of travel above #people, so the browser's anchor scroll landed a
+   1,150px of travel above #leadership, so the browser's anchor scroll landed a
    screen short. For a few seconds after each page load this re-lands the
    target whenever the page's height changes, and lets go the moment the
    reader scrolls, taps or presses a key. The target's scroll-margin keeps it

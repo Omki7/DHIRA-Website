@@ -48,7 +48,7 @@ export default function LifeClose({ content }: { content: LifePage["close"] }) {
             {/* `dot-grid-dark`, not `dot-grid ... invert`. The site has a
                 purpose-made grid for dark grounds (rgba white dots) and every
                 other dark closing slab uses it — homepage Closure, AkashicStack,
-                DeliveryModels. Inverting the LIGHT grid instead produced a
+                ServicesModels. Inverting the LIGHT grid instead produced a
                 heavier texture that measured ~5 L* of lift on the slab. */}
             
             <div className="relative">

@@ -9,7 +9,9 @@ import type { HomeDelivery } from "@/content/pages/home";
 
 export default function HowWeDeliver({ content: HOME_DELIVERY }: { content: HomeDelivery }) {
   return (
-    <section id="delivery" aria-labelledby="delivery-heading" className="overflow-hidden delivery-band pt-12 pb-16 lg:pt-16 lg:pb-24">
+    <section id="services" aria-labelledby="delivery-heading" className="relative overflow-hidden delivery-band pt-12 pb-16 lg:pt-16 lg:pb-24">
+      {/* The section was #delivery until 26 Oct 2026; old links still land here. */}
+      <span id="delivery" aria-hidden="true" className="absolute top-0 scroll-mt-24" />
       <ScrollRevealRail>
         <ScrollReveal>
           <FigureEyebrow num={HOME_DELIVERY.eyebrow.number} label={HOME_DELIVERY.eyebrow.label} />

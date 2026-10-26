@@ -30,7 +30,7 @@
  * number-free; the two KPIs underneath carry the figures.
  *
  * SOURCES for the second KPI on each card (added 22 Jul 2026, Rule 4):
- *   187M+ enrolments  — same figure DeliveryProven already carries.
+ *   187M+ enrolments  — same figure the /services proof section carries.
  *   282K+ employer profiles — same figure FieldLedger already carries.
  *   26M+ vaccination sessions — public record. At the 200 crore dose milestone
  *     (17 Jul 2022) the programme reported 2,00,00,15,631 doses administered

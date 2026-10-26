@@ -18,7 +18,7 @@ import Link from "next/link";
 /*  This used to lead with a thin cross glyph instead of a number. The */
 /*  cross was coherent within the page, but `[NN]  SECTION NAME` is    */
 /*  the site's single strongest structural signature — it runs down    */
-/*  the homepage, /akashic and /delivery — and a reader arriving here  */
+/*  the homepage, /akashic and /services — and a reader arriving here  */
 /*  from any of them met nine section labels in a different notation.  */
 /*  A distinct palette is this page's character; a distinct way of     */
 /*  numbering the document is a different design philosophy.           */

@@ -9,10 +9,10 @@ import Tag from "@/components/ui/Tag";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import ScrollRevealRail from "@/components/ui/ScrollRevealRail";
 import SectionHeader from "@/components/ui/SectionHeader";
-import ServiceDrawing from "@/components/demos/delivery/ServiceDrawing";
-import type { DeliveryPage } from "@/content/pages/delivery";
+import ServiceDrawing from "@/components/demos/services/ServiceDrawing";
+import type { ServicesPage } from "@/content/pages/services";
 
-export default function DeliveryServices({ content: c }: { content: DeliveryPage["services"] }) {
+export default function ServicesLines({ content: c }: { content: ServicesPage["services"] }) {
   return (
     <section id="services" className="scroll-mt-28 bg-background pb-16 pt-12 lg:pb-24 lg:pt-16">
       <ScrollRevealRail>

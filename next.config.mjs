@@ -35,6 +35,16 @@ const nextConfig = {
   images: {
     formats: ["image/avif", "image/webp"],
   },
+  /* Every URL names its page as the menu does (26 Oct 2026, user: "when we
+     click services, URL shows delivery"). Old paths redirect for good;
+     browsers keep the #fragment across a redirect, so deep links such as
+     /delivery#model-saas still land on their section. */
+  async redirects() {
+    return [
+      { source: "/delivery", destination: "/services", permanent: true },
+      { source: "/solutions/eis", destination: "/solutions/enterprise-intelligence", permanent: true },
+    ];
+  },
   async headers() {
     return [
       { source: "/:path*", headers: securityHeaders },

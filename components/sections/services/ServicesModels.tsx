@@ -39,7 +39,7 @@ import useHashTarget from "@/hooks/useHashTarget";
 import useMinWidth from "@/hooks/useMinWidth";
 import usePrefersReducedMotion from "@/hooks/usePrefersReducedMotion";
 import useTour from "@/hooks/useTour";
-import type { DeliveryPage, DeliveryParty } from "@/content/pages/delivery";
+import type { ServicesPage, ServiceParty } from "@/content/pages/services";
 
 const EASE = [0.2, 0.8, 0.2, 1] as const;
 const SPRING = { type: "spring", stiffness: 380, damping: 36 } as const;
@@ -94,7 +94,7 @@ function route(width: number, branch: number, col: number) {
    party under its key, hairline rows read across in pairs (DHIRA integrates
    the sources, your team gives the data access). Below sm the parties
    stack, each with its own rows. */
-type Side = { label: string; party: DeliveryParty; rows: string[] };
+type Side = { label: string; party: ServiceParty; rows: string[] };
 function PartyHead({ side }: { side: Side }) {
   return (
     <p className={`flex items-center gap-2 pb-2.5 font-mono text-[11px] font-medium uppercase tracking-[0.08em] ${side.party === "dhira" ? "text-blue" : "text-ink"}`}>
@@ -124,7 +124,7 @@ function Ledger({ sides, className = "" }: { sides: Side[]; className?: string }
   );
 }
 
-function Party({ party, label }: { party: DeliveryParty; label: string }) {
+function Party({ party, label }: { party: ServiceParty; label: string }) {
   return (
     <span className={`inline-flex items-center gap-1.5 text-[12.5px] font-medium ${party === "dhira" ? "text-blue" : "text-ink"}`}>
       <span aria-hidden className="flex gap-0.5">
@@ -136,7 +136,7 @@ function Party({ party, label }: { party: DeliveryParty; label: string }) {
   );
 }
 
-export default function DeliveryModels({ content: c }: { content: DeliveryPage["models"] }) {
+export default function ServicesModels({ content: c }: { content: ServicesPage["models"] }) {
   const leaves = useMemo(
     () => c.groups.flatMap((group, gi) => group.items.map((m) => ({ m, group, gi }))).map((leaf, col) => ({ ...leaf, col })),
     [c.groups],

@@ -568,7 +568,7 @@ export const pricing: PricingPage = {
   },
   everyPlan,
   deployment,
-  services: { ...services, cta: { label: "See how we work", href: "/delivery" } },
+  services: { ...services, cta: { label: "See how we work", href: "/services" } },
   howToBuy,
   faq,
   close: {

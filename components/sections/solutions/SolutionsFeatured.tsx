@@ -3,7 +3,8 @@
  * editorial rows (user-approved register, 14 Oct 2026), never cards. Left:
  * the name, the claim, one paragraph and the way in. Right: the working
  * points, numbered rather than ticked (Rule 2). Agent lines carry Preview.
- * Each row's id is an anchor: the nav links #ipms here, since IPMS has no
+ * Each row's id is an anchor: the nav links #intelligent-procurement here
+ * (#ipms until 26 Oct 2026, still aliased), since the procurement system has no
  * page of its own yet.
  */
 
@@ -36,6 +37,7 @@ export default function SolutionsFeatured({ content }: { content: SolutionsPage[
               id={solution.id}
               className="grid scroll-mt-28 gap-8 border-b border-lineSoft py-10 lg:grid-cols-12 lg:gap-10 lg:py-14"
             >
+              {solution.id === "intelligent-procurement" && <span id="ipms" aria-hidden="true" className="absolute scroll-mt-28" />}
               <ScrollReveal className="lg:col-span-5">
                 <p className="font-mono text-[11px] uppercase tracking-eyebrow">
                   <span className="text-ink">{solution.name}</span>

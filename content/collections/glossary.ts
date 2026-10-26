@@ -46,7 +46,7 @@ export const glossaryTerms: GlossaryTerm[] = [
     term: "Citation",
     definition: "A pointer from an answer to the records, documents or pages it was drawn from, so anyone can check it.",
     inAkashic: "Ask Akashic cites its sources on every answer.",
-    href: "/akashic#ask-ai",
+    href: "/akashic#ask-akashic",
   },
   {
     id: "column-level-lineage",
@@ -95,14 +95,14 @@ export const glossaryTerms: GlossaryTerm[] = [
     term: "Governed metric",
     definition: "A metric defined once, with its calculation and choices written down, and served the same way to every dashboard, model and answer.",
     inAkashic: "Defined in the semantic layer of the Data Warehouse module.",
-    href: "/akashic#data-warehousing",
+    href: "/akashic#data-warehouse",
   },
   {
     id: "grounding",
     term: "Grounding",
     definition: "Making an AI answer draw on specific, governed sources rather than on what a model remembers, so the answer can cite them.",
     inAkashic: "Ask Akashic grounds every answer in the governed foundation.",
-    href: "/akashic#ask-ai",
+    href: "/akashic#ask-akashic",
   },
   {
     id: "knowledge-layer",
@@ -123,7 +123,7 @@ export const glossaryTerms: GlossaryTerm[] = [
     term: "Bring your own model",
     definition: "Running each AI task on a model you choose: a commercial provider with your own key, an open model, or one hosted inside your boundary.",
     inAkashic: "Ask Akashic works with the model providers you enable.",
-    href: "/akashic#ask-ai",
+    href: "/akashic#ask-akashic",
   },
   {
     id: "pii-masking",
@@ -144,7 +144,7 @@ export const glossaryTerms: GlossaryTerm[] = [
     term: "Semantic layer",
     definition: "Shared definitions of metrics and business terms, so that active customer or margin means the same thing everywhere.",
     inAkashic: "Part of the Data Warehouse module, read by Business Intelligence, Machine Learning and Ask Akashic.",
-    href: "/akashic#data-warehousing",
+    href: "/akashic#data-warehouse",
   },
   {
     id: "sovereign-ai",
@@ -165,6 +165,6 @@ export const glossaryTerms: GlossaryTerm[] = [
     term: "Text to SQL",
     definition: "Turning a plain-language question into a database query.",
     inAkashic: "Ask Akashic shows the answer with its sources alongside.",
-    href: "/akashic#ask-ai",
+    href: "/akashic#ask-akashic",
   },
 ];

@@ -7,9 +7,9 @@ import Link from "next/link";
 import FigureEyebrow from "@/components/ui/FigureEyebrow";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import ScrollRevealRail from "@/components/ui/ScrollRevealRail";
-import type { DeliveryPage } from "@/content/pages/delivery";
+import type { ServicesPage } from "@/content/pages/services";
 
-export default function DeliveryClose({ content: c }: { content: DeliveryPage["close"] }) {
+export default function ServicesClose({ content: c }: { content: ServicesPage["close"] }) {
   return (
     <section id="talk-to-our-team" className="scroll-mt-28 bg-background py-10 lg:py-16">
       <span id="login" />

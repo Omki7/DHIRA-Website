@@ -21,8 +21,8 @@
 
 import type { CSSProperties } from "react";
 import useDrawn from "@/hooks/useDrawn";
-import { SOURCE_COLOUR } from "@/components/demos/delivery/sources";
-import type { DeliveryPage } from "@/content/pages/delivery";
+import { SOURCE_COLOUR } from "@/components/demos/services/sources";
+import type { ServicesPage } from "@/content/pages/services";
 
 const delay = (s: number) => ({ "--ad-delay": `${s}s` }) as CSSProperties;
 
@@ -41,7 +41,7 @@ function Lane({ x0, x1, label, tone }: { x0: number; x1: number; label: string; 
   );
 }
 
-export default function DeliveryRoute({ content: c }: { content: DeliveryPage["hero"]["route"] }) {
+export default function DeliveryRoute({ content: c }: { content: ServicesPage["hero"]["route"] }) {
   const [ref, drawn] = useDrawn<HTMLElement>(0.25);
   const last = c.stages.length - 1;
 

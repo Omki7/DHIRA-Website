@@ -28,7 +28,7 @@ export interface StoryHeading {
    matrix: the same seven modules under every solution.
    Every solution uses all seven modules (user correction, 21 Oct 2026).
    Keep one shared list so the homepage and platform matrix agree.
-   Enterprise Intelligence IS /solutions/eis (user, 14 Oct 2026). */
+   Enterprise Intelligence IS /solutions/enterprise-intelligence (user, 14 Oct 2026). */
 export const solutionModules = ["Data Pipelines", "Master Data", "Data Warehouse", "Machine Learning", "Ask Akashic", "Business Intelligence", "Governance"];
 
 export type AkashicModuleName = string;
@@ -75,16 +75,16 @@ export const akashicSolutions: AkashicSolutions = {
       ],
       note: "Read-only ingestion. Write-back only through approved, scoped actions.",
       modules: solutionModules,
-      href: "/solutions/eis",
+      href: "/solutions/enterprise-intelligence",
       cta: "Explore Enterprise Intelligence",
     },
     {
       id: "ipms",
-      name: "IPMS",
+      name: "Intelligent Procurement Management System",
       category: "Intelligent procurement",
       audience: "For public procurement teams",
       headline: "From indent to secured contract, with evidence.",
-      description: "IPMS runs public procurement end to end. AI drafts and reads, the rules engine decides, people approve, and every step lands in the audit trail.",
+      description: "The Intelligent Procurement Management System runs public procurement end to end. AI drafts and reads, the rules engine decides, people approve, and every step lands in the audit trail.",
       stages: [
         { title: "Read every bid", detail: "Cited to the page" },
         { title: "Check the rules", detail: "Versioned, linked to evidence" },
@@ -92,8 +92,8 @@ export const akashicSolutions: AkashicSolutions = {
       ],
       note: "Rules decide, people approve, and every step lands in the audit trail.",
       modules: solutionModules,
-      href: "/solutions#ipms",
-      cta: "See IPMS",
+      href: "/solutions#intelligent-procurement",
+      cta: "See the procurement system",
     },
     {
       id: "life",
@@ -354,7 +354,7 @@ export const dataLayerModules: LayerModule[] = [
     agent: "Matching agents",
   },
   {
-    id: "modules-data-warehousing",
+    id: "modules-data-warehouse",
     icon: "Akashic Data Warehouse",
     name: "Data Warehouse",
     sub: "Model data and define metrics once",
@@ -371,7 +371,7 @@ export const intelligenceLayerModules: LayerModule[] = [
     caps: ["Notebooks & experiments", "Feature store", "Staged deployment", "Drift & bias monitoring"],
   },
   {
-    id: "modules-ask-ai",
+    id: "modules-ask-akashic",
     icon: "Akashic Insights",
     name: "Ask Akashic",
     sub: "Answer questions in plain language",
@@ -1195,7 +1195,7 @@ export const akashic: AkashicPage = {
         answer: "In the cloud, on-premises or hybrid. On-premises installs run on Docker and Kubernetes in your data centre. The modules, governance and answers are the same in all three.",
       },
       {
-        question: "How do Enterprise Intelligence and IPMS relate to Akashic?",
+        question: "How do Enterprise Intelligence and the Intelligent Procurement Management System relate to Akashic?",
         answer: "They are Akashic, configured around one process. Each solution switches on the modules its process needs, so the next one starts on data, definitions and governance already in place.",
       },
     ],
@@ -1213,7 +1213,7 @@ export const akashic: AkashicPage = {
       { label: "The first step", text: "Where should we begin?" },
     ],
     primary: { label: "Talk through your use case", href: "#get-started" },
-    secondary: { label: "Explore delivery", href: "/delivery" },
+    secondary: { label: "Explore delivery", href: "/services" },
     footer: "Akashic, the platform. DHIRA, your delivery partner.",
     flow: "Source → Context → Answer",
   },

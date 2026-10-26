@@ -166,7 +166,7 @@ token, and hex inside `style={}` or SVG attributes is the Rule 8 exception.
 | Photography | `on-photo`, `scrim` |
 | Legacy `uc-*` | `uc-bg`, `uc-surface`, `uc-stroke`, `uc-line`, `uc-vertex`, `uc-dim`, `uc-mute`, `uc-text`: the deep-ground text ramp used by `tone="depth"` headers. Do not grow it |
 
-**Page-scoped families.** `eis-*` is `/solutions/eis` only (pastel blue
+**Page-scoped families.** `eis-*` is `/solutions/enterprise-intelligence` only (pastel blue
 atmosphere in light, twilight in dark); `life-*` is `/solutions/life` only
 (pale ice blue in light, deep ocean in dark). Never use them elsewhere.
 
@@ -254,7 +254,7 @@ never the reverse and never a third grey.
 | `ui/PageHero`, `ui/PageClose` | Resource-page hero and closing card |
 | `ui/PreviewTag` | The dashed preview mark on anything agentic |
 | `ui/Tag` | A short name read as part of a set: scope, deliverables, modules, systems. Rounded, hairline, three words or fewer. Tone is meaning: `akashic` (blue) for an Akashic module, `custom` (ink) for work on your own stack, `muted` for a name at rest in a figure, `neutral` otherwise; `preview` dashes it and adds the PreviewTag. See Lists |
-| `ui/MotionToggle` | The pause control for anything that advances by itself. A small round pause/play icon placed right beside what it stops, never in a row of its own (user, 23 Oct 2026): after the rotating hero word (`RotatingPhrase` renders it; the hero h1 takes its name from a hidden plain copy via `aria-labelledby`), at the end of the homepage [02] module index (`ContextTentacles` `control`), beside the stories' dots, just past the /delivery [02] question and at the end of the /delivery [03] head row (both on `hooks/useTour`). Picking a card or story stops its cycle too. Tooltip names the action, the accessible name adds what it stops. Hidden under reduced motion (Rule 6b) |
+| `ui/MotionToggle` | The pause control for anything that advances by itself. A small round pause/play icon placed right beside what it stops, never in a row of its own (user, 23 Oct 2026): after the rotating hero word (`RotatingPhrase` renders it; the hero h1 takes its name from a hidden plain copy via `aria-labelledby`), at the end of the homepage [02] module index (`ContextTentacles` `control`), beside the stories' dots, just past the /services [02] question and at the end of the /services [03] head row (both on `hooks/useTour`). Picking a card or story stops its cycle too. Tooltip names the action, the accessible name adds what it stops. Hidden under reduced motion (Rule 6b) |
 | `.dot-grid` | 1px dot ground at 10px pitch |
 | `.rail-container` / `ui/ScrollRevealRail` | The centred 1440px column with side gutters; no edge lines |
 | `.ad-draw` / `.ad-fade` / `.ad-strike` / `.ad-ping` | The drawing kit: paths draw once when the wrapper flips `data-drawn` (`hooks/useDrawn`); final state under reduced motion |
@@ -268,7 +268,7 @@ what the items are:
   spec rows, text only, a divider above each; a column carries one key at
   its head (a mono label, with a dot only when the dot is a colour key).
   When two parties share the work, pair their rows side by side as a ledger
-  (/delivery [02] detail).
+  (/services [02] detail).
 - **Ordered steps**: numbered nodes on a rail, only when the order is real
   (§3.8).
 - **One outcome**: a mono label over one sentence.
@@ -348,6 +348,14 @@ Everything in `demos/mockups/` is fake software (`*Mockup`, banner comment
   page (the hero); on that page already, it scrolls back to the top. The
   chevron beside it opens the menu.
 - **Current section** rests in ink with a 2px `blue` bar under its label.
+- **URLs say what the menu says** (user, 26 Oct 2026: "when we click
+  services, URL shows delivery"). A page's path and a section's anchor use
+  the label's own words, in full, never a short form: Services is
+  `/services`, Enterprise Intelligence `/solutions/enterprise-intelligence`,
+  `#intelligent-procurement`, `#leadership`, `#ask-akashic`. A renamed path
+  redirects permanently (`next.config.mjs`); a renamed anchor keeps its old
+  id as an alias. Product names are the deliberate exception: Platform
+  leads to `/akashic`, the product's own page.
 - **Mobile.** Full-screen drill-down drawer, 44px targets, focus trap.
 - **Accessibility.** Disclosure pattern with top-level links: each label is
   a link, its chevron a button with `aria-expanded`; no `role=menu`; every
@@ -371,7 +379,7 @@ Everything in `demos/mockups/` is fake software (`*Mockup`, banner comment
    Grounds come from tokens. One soft blue band per page (`band`) on the
    page's breather section; homepage [08] Voices and the /akashic sticky quote
    are the approved flat seconds. Any dark value is blue-black, never neutral
-   black. `/solutions/eis` and `/solutions/life` run their own scoped grounds.
+   black. `/solutions/enterprise-intelligence` and `/solutions/life` run their own scoped grounds.
 6. **Reduced motion.** Every animation degrades to its final state.
    **6a:** animate only `transform` and `opacity`; anything that loops stops
    off screen (`layout/OffscreenAnimationGate` for CSS and SMIL,

@@ -1,7 +1,7 @@
 import type { Cta, Faq, PageSection, Seo } from "../types";
 
 /*
- * The industry model behind every wireframe on /solutions/eis (the hero's
+ * The industry model behind every wireframe on /solutions/enterprise-intelligence (the hero's
  * and the estate's industry switchers, and the schema matrix).
  *
  * WHY THIS FILE EXISTS. The page used to run a single hard-coded demo: an IT
@@ -280,8 +280,8 @@ const domains: Domain[] = [
 /* ------------------------------------------------------------------ */
 /*  The page document                                                  */
 /* ------------------------------------------------------------------ */
-/* Every word on /solutions/eis, in section order. Composer:
-   app/solutions/eis/page.tsx. Two-tone headlines throughout (soft setup,
+/* Every word on /solutions/enterprise-intelligence, in section order. Composer:
+   app/solutions/enterprise-intelligence/page.tsx. Two-tone headlines throughout (soft setup,
    ink payoff). Every wireframe is the EVIDENCE for the caption beside it:
    change a claim here and its wireframe must change too. */
 
@@ -351,7 +351,7 @@ export const solutionsEis: EisPage = {
     title: "Enterprise Intelligence",
     description:
       "The executive layer of the Akashic platform. It reads the systems you already run, shows the working behind every figure, and turns an approved decision into an action your systems receive.",
-    path: "/solutions/eis",
+    path: "/solutions/enterprise-intelligence",
   },
   sections: [
     { id: "hero", label: "Enterprise Intelligence" },
@@ -386,7 +386,7 @@ export const solutionsEis: EisPage = {
     ],
     primary: { label: "See it with your own data", href: "#talk-to-our-team" },
     secondary: { label: "How the loop closes", href: "#the-loop" },
-    screenUrl: "akashic.dhira.ai/eis",
+    screenUrl: "akashic.dhira.ai/enterprise-intelligence",
   },
 
   gap: {
@@ -451,7 +451,7 @@ export const solutionsEis: EisPage = {
     payoff: "Not just the numbers.",
     lede: "Every organisation runs on people and money. What changes is the unit you operate and the thing it produces. Two pillars are the same in every industry, and two of them are the industry.",
     estateLede: "Your whole estate, ranked by what needs you. Pick a row and it resolves across all four pillars at once.",
-    screenUrl: "akashic.dhira.ai/eis/estate",
+    screenUrl: "akashic.dhira.ai/enterprise-intelligence/estate",
   },
 
   loop: {

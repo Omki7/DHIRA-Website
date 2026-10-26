@@ -116,7 +116,7 @@ const menus: NavMenu[] = [
         links: [
           { label: "Data Pipelines", href: "/akashic#data-pipelines" },
           { label: "Master Data", href: "/akashic#master-data" },
-          { label: "Data Warehouse", href: "/akashic#data-warehousing" },
+          { label: "Data Warehouse", href: "/akashic#data-warehouse" },
         ],
       },
       {
@@ -124,7 +124,7 @@ const menus: NavMenu[] = [
         span: 1.75,
         links: [
           { label: "Business Intelligence", href: "/akashic#business-intelligence" },
-          { label: "Ask Akashic", href: "/akashic#ask-ai" },
+          { label: "Ask Akashic", href: "/akashic#ask-akashic" },
           { label: "Machine Learning", href: "/akashic#machine-learning" },
           { label: "AI agents", href: "/akashic#agents", preview: true },
         ],
@@ -173,8 +173,8 @@ const menus: NavMenu[] = [
         heading: "Built on Akashic",
         span: 2.75,
         links: [
-          { label: "Enterprise Intelligence", href: "/solutions/eis", caption: "Agentic financial planning and reporting" },
-          { label: "Intelligent Procurement Management System", href: "/solutions#ipms", caption: "Indent to secured contract" },
+          { label: "Enterprise Intelligence", href: "/solutions/enterprise-intelligence", caption: "Agentic financial planning and reporting" },
+          { label: "Intelligent Procurement Management System", href: "/solutions#intelligent-procurement", caption: "Indent to secured contract" },
           { label: "Akashic Life", href: "/solutions/life", caption: "Frontline maternal care" },
         ],
       },
@@ -218,11 +218,11 @@ const menus: NavMenu[] = [
   {
     id: "services",
     label: "Services",
-    match: ["/delivery"],
+    match: ["/services"],
     lead: {
       title: "Services",
       text: "Advise. Engineer. Deploy. One partner, accountable for outcomes.",
-      href: "/delivery",
+      href: "/services",
       cta: "How we work with you",
       span: 3,
     },
@@ -231,20 +231,20 @@ const menus: NavMenu[] = [
         heading: "What we do",
         span: 3,
         links: [
-          { label: "Strategic Advisory", href: "/delivery#advisory", caption: "Readiness, use cases and a roadmap" },
-          { label: "Engineering at Scale", href: "/delivery#engineering", caption: "Data and AI systems, built and run" },
-          { label: "AI Solutions and Accelerators", href: "/delivery#ai-solutions", caption: "Knowledge assistants, governed workflows" },
+          { label: "Strategic Advisory", href: "/services#advisory", caption: "Readiness, use cases and a roadmap" },
+          { label: "Engineering at Scale", href: "/services#engineering", caption: "Data and AI systems, built and run" },
+          { label: "AI Solutions and Accelerators", href: "/services#ai-solutions", caption: "Knowledge assistants, governed workflows" },
         ],
       },
       {
         heading: "Ways to engage",
         span: 3,
         links: [
-          { label: "Managed Akashic", href: "/delivery#model-saas" },
-          { label: "White label", href: "/delivery#model-whitelabel" },
-          { label: "Custom technology and AI", href: "/delivery#model-customai" },
-          { label: "Product engineering", href: "/delivery#model-engineering" },
-          { label: "Embedded engineers", href: "/delivery#model-augmentation" },
+          { label: "Managed Akashic", href: "/services#model-saas" },
+          { label: "White label", href: "/services#model-whitelabel" },
+          { label: "Custom technology and AI", href: "/services#model-customai" },
+          { label: "Product engineering", href: "/services#model-engineering" },
+          { label: "Embedded engineers", href: "/services#model-augmentation" },
         ],
       },
     ],
@@ -252,7 +252,7 @@ const menus: NavMenu[] = [
       eyebrow: "How we deliver",
       title: "Define. Design. Build. Launch.",
       caption: "Four stages, one accountable team.",
-      href: "/delivery#methodology",
+      href: "/services#methodology",
       cta: "See the method",
       drawing: "method",
       span: 3,
@@ -315,8 +315,8 @@ const menus: NavMenu[] = [
         heading: "Who we are",
         span: 3,
         links: [
-          { label: "Leadership", href: "/about#people", caption: "Founder and leadership team" },
-          { label: "Impact", href: "/#scale", caption: "Proven at national scale" },
+          { label: "Leadership", href: "/about#leadership", caption: "Founder and leadership team" },
+          { label: "Impact", href: "/#impact", caption: "Proven at national scale" },
           { label: "Newsroom", href: "/newsroom", caption: "News, recognition, media kit" },
         ],
       },
@@ -398,8 +398,8 @@ const footerColumns: FooterColumn[] = [
   {
     heading: "Solutions",
     links: [
-      { label: "Enterprise Intelligence", href: "/solutions/eis" },
-      { label: "Intelligent Procurement Management System", href: "/solutions#ipms" },
+      { label: "Enterprise Intelligence", href: "/solutions/enterprise-intelligence" },
+      { label: "Intelligent Procurement Management System", href: "/solutions#intelligent-procurement" },
       { label: "Akashic Life", href: "/solutions/life" },
       { label: "All solutions", href: "/solutions" },
     ],
@@ -417,9 +417,9 @@ const footerColumns: FooterColumn[] = [
   {
     heading: "Services",
     links: [
-      { label: "Strategic Advisory", href: "/delivery#advisory" },
-      { label: "Engineering at Scale", href: "/delivery#engineering" },
-      { label: "AI Solutions and Accelerators", href: "/delivery#ai-solutions" },
+      { label: "Strategic Advisory", href: "/services#advisory" },
+      { label: "Engineering at Scale", href: "/services#engineering" },
+      { label: "AI Solutions and Accelerators", href: "/services#ai-solutions" },
     ],
   },
   {

@@ -353,9 +353,9 @@ const HASH_MODULE_MAP: Record<string, number> = {
 const MODULE_HASHES = [
   "#data-pipelines",
   "#master-data",
-  "#data-warehousing",
+  "#data-warehouse",
   "#machine-learning",
-  "#ask-ai",
+  "#ask-akashic",
   "#business-intelligence",
   "#governance",
 ];

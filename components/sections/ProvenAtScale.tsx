@@ -1,6 +1,6 @@
 /**
  * DESIGN INTENT:
- * Shared deployment evidence section (home, /akashic, /delivery).
+ * Shared deployment evidence section (home, /akashic, /services).
  * The site's one section header (eyebrow rail, two-tone headline, lede, all
  * on the left) beside the brand chakra ornament, over the deployment
  * carousel: one deployment at a time, story left, photography right.
@@ -23,17 +23,20 @@ interface ProvenAtScaleProps {
   content: ProvenAtScaleBlock;
   /** The deployments the carousel walks through (customer stories collection). */
   stories: Story[];
-  /** The section's one onward link, under the lede (/delivery: the stories). */
+  /** The section's one onward link, under the lede (/services: the stories). */
   link?: Cta;
+  /** Former ids that must still land here (home was #scale until 26 Oct 2026). */
+  aliases?: string[];
 }
 
 /* Shared by home and /akashic (14 Oct 2026): the gain-led headline written
    for /akashic replaced "Real platform. Real citizens." on both, so the two
-   pages make the claim in the same words. /delivery passes its own. */
-export default function ProvenAtScale({ id = "scale", content, stories, link }: ProvenAtScaleProps) {
+   pages make the claim in the same words. /services passes its own. */
+export default function ProvenAtScale({ id = "scale", content, stories, link, aliases = [] }: ProvenAtScaleProps) {
   const { number, eyebrow, title, description } = content;
   return (
     <section id={id} className="relative overflow-hidden bg-background pt-12 pb-16 text-ink lg:pt-16 lg:pb-24">
+      {aliases.map((alias) => <span key={alias} id={alias} aria-hidden="true" className="absolute top-0 scroll-mt-24" />)}
       
 
       <ScrollRevealRail className="relative z-10">

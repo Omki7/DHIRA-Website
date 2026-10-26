@@ -7,7 +7,9 @@ const PLACEMENT = ["lg:order-3", "lg:order-1 lg:pt-14", "lg:order-2 lg:pt-24", "
 
 export default function AboutPeople({ content, leaders: ABOUT_LEADERS }: { content: AboutHeadingContent; leaders: Leader[] }) {
   return (
-    <AboutSection id="people">
+    <AboutSection id="leadership">
+      {/* The section was #people until 26 Oct 2026; older links still land. */}
+      <span id="people" aria-hidden="true" className="block scroll-mt-20" />
       <AboutHeading number={content.number} label={content.label} setup={content.setup} title={content.title} intro={content.intro} />
       <div className="about-content relative">
         <svg viewBox="0 0 1200 240" preserveAspectRatio="none" className="pointer-events-none absolute left-0 top-20 hidden h-60 w-full lg:block" aria-hidden="true"><path d="M26 140C186 220 234 178 365 100S550 30 600 30S744 36 835 100S1014 220 1174 140" fill="none" stroke="rgb(var(--lineSoft))" strokeWidth="1" /></svg>

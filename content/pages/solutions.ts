@@ -5,7 +5,7 @@ import type { Cta, PageSection, Seo } from "../types";
 /* ------------------------------------------------------------------ */
 /* Ported from the founder's Solutions section (DHIRA_ai_Website_v2,
    12 Oct 2026) as an editorial register (user-approved over his card
-   gallery). The nav links into this page: "All solutions", #ipms and
+   gallery). The nav links into this page: "All solutions", #intelligent-procurement and
    #function-<slug>, so keep those ids.
    Copy is DRAFT: the founder's words, with the site's claims rules applied.
    - No week figures. "Working solution in weeks" and the four-week proof of
@@ -14,7 +14,7 @@ import type { Cta, PageSection, Seo } from "../types";
      framed as explanation with people deciding, never autonomy.
    - "Golden record" and "Knowledge Graph" are out (legacy term; the site
      says knowledge layer).
-   - Enterprise Intelligence IS /solutions/eis (user, 14 Oct 2026), so the
+   - Enterprise Intelligence IS /solutions/enterprise-intelligence (user, 14 Oct 2026), so the
      founder's separate "Enterprise Intelligence System" card is dropped.
    The industry and function mappings are drafted from his copy and need
    his review. Composer: app/solutions/page.tsx. */
@@ -66,16 +66,16 @@ const featured: FeaturedSolution[] = [
       { text: "Agents explain what changed, with sources. People decide what happens next.", preview: true },
       { text: "Role-based views for the CEO, finance, sales, delivery, HR, legal and IT. Every number traces to its ERP record." },
     ],
-    href: "/solutions/eis",
+    href: "/solutions/enterprise-intelligence",
     cta: "Explore Enterprise Intelligence",
   },
   {
-    id: "ipms",
-    name: "IPMS",
-    tagline: "Intelligent Procurement Management System",
+    id: "intelligent-procurement",
+    name: "Intelligent Procurement Management System",
+    tagline: "Public procurement, indent to contract",
     headline: "From indent to secured contract, with evidence at every step.",
     description:
-      "IPMS runs public procurement end to end. AI drafts and reads, the rules engine decides, people approve, and every step lands in the audit trail.",
+      "The Intelligent Procurement Management System runs public procurement end to end. AI drafts and reads, the rules engine decides, people approve, and every step lands in the audit trail.",
     points: [
       { text: "A 12-stage lifecycle: indent, estimate, qualification criteria, tender, pre-bid, corrigendum, bid opening, evaluation, comparative, award, contract and bank guarantee." },
       { text: "Agents draft tenders from clause and specification libraries, cluster pre-bid queries with cited replies, and read every bid document.", preview: true },
@@ -168,7 +168,7 @@ const industries: IndexRow[] = [
   { label: "Healthcare", href: "/sectors/healthcare", solutions: ["akashic-life", "cancer-care"] },
   { label: "Retail and CPG", href: "/sectors/retail", solutions: ["demand-sensing", "churn-pricing"] },
   { label: "Manufacturing", href: "/sectors/manufacturing", solutions: ["direct-materials", "demand-sensing", "churn-pricing"] },
-  { label: "Public sector", href: "/sectors/public-sector", solutions: ["ipms", "citizen-services"] },
+  { label: "Public sector", href: "/sectors/public-sector", solutions: ["intelligent-procurement", "citizen-services"] },
   { label: "Education", href: "/sectors/education", solutions: ["learning-outcomes"] },
   { label: "Energy and utilities", href: "/sectors/energy", solutions: ["enterprise-intelligence"] },
 ];
@@ -176,7 +176,7 @@ const industries: IndexRow[] = [
 /* Ids match the nav's "By function" links (content/navigation.ts). */
 const functions: IndexRow[] = [
   { id: "function-finance", label: "Finance and FP&A", solutions: ["enterprise-intelligence"] },
-  { id: "function-procurement", label: "Procurement", solutions: ["ipms", "direct-materials"] },
+  { id: "function-procurement", label: "Procurement", solutions: ["intelligent-procurement", "direct-materials"] },
   { id: "function-supply-chain", label: "Supply chain", solutions: ["demand-sensing", "direct-materials"] },
   { id: "function-operations", label: "Operations", solutions: ["enterprise-intelligence", "demand-sensing"] },
   { id: "function-sales-marketing", label: "Sales and marketing", solutions: ["churn-pricing"] },
@@ -244,7 +244,7 @@ export const solutions: SolutionsPage = {
     label: "Talk to our team",
     setup: "Bring one priority use case.",
     payoff: "See what your data can decide.",
-    body: "A 30-minute walkthrough of Akashic, Enterprise Intelligence or IPMS, built around a problem you already have.",
+    body: "A 30-minute walkthrough of Akashic, Enterprise Intelligence or the Intelligent Procurement Management System, built around a problem you already have.",
     primary: { label: "Talk to our team", href: "#talk-to-our-team" },
     secondary: { label: "Explore Akashic", href: "/akashic" },
   },

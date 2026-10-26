@@ -67,9 +67,9 @@ export interface AkashicReleasePage {
 const anchors: Record<string, string> = {
   "modules-data-pipelines": "data-pipelines",
   "modules-master-data": "master-data",
-  "modules-data-warehousing": "data-warehousing",
+  "modules-data-warehouse": "data-warehouse",
   "modules-machine-learning": "machine-learning",
-  "modules-ask-ai": "ask-ai",
+  "modules-ask-akashic": "ask-akashic",
   "modules-business-intelligence": "business-intelligence",
 };
 

@@ -7,7 +7,7 @@
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import ScrollRevealRail from "@/components/ui/ScrollRevealRail";
 import SectionHeader from "@/components/ui/SectionHeader";
-import type { DeliveryPage } from "@/content/pages/delivery";
+import type { ServicesPage } from "@/content/pages/services";
 
 function DocGlyph() {
   return (
@@ -17,7 +17,7 @@ function DocGlyph() {
   );
 }
 
-export default function DeliveryFit({ content: c }: { content: DeliveryPage["fit"] }) {
+export default function ServicesFit({ content: c }: { content: ServicesPage["fit"] }) {
   return (
     <section id="partnership-fit" className="scroll-mt-28 bg-band pb-16 pt-12 lg:pb-24 lg:pt-16">
       <ScrollRevealRail>

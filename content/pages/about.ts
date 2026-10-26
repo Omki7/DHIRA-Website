@@ -133,7 +133,7 @@ export const about: AboutPage = {
     { id: "why-we-exist", label: "Why we exist" },
     { id: "journey", label: "Journey" },
     { id: "vision", label: "Vision" },
-    { id: "people", label: "People" },
+    { id: "leadership", label: "Leadership" },
     { id: "culture", label: "Culture" },
     { id: "talk-to-our-team", label: "Join us" },
   ],
@@ -147,7 +147,7 @@ export const about: AboutPage = {
     description:
       "DHIRA is a data and AI company for governments and enterprises. We build Akashic, the platform that makes all your data agree.",
     primary: { label: "Talk to our team", href: "#talk-to-our-team" },
-    secondary: { label: "Meet the leaders", href: "#people" },
+    secondary: { label: "Meet the leaders", href: "#leadership" },
     proof: [
       { value: "2018", label: "Founded as a data company" },
       { value: "3", label: "National programmes live" },

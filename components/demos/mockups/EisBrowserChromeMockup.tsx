@@ -1,7 +1,7 @@
 /* ------------------------------------------------------------------------
  * SIMULATED PRODUCT UI — not a real browser, not a live window.
  * A macOS-style browser chrome that frames the Akashic EIS screenshots on
- * /solutions/eis, so a product still reads as a product when it is floating
+ * /solutions/enterprise-intelligence, so a product still reads as a product when it is floating
  * on a photographic ground rather than sitting in a bordered card.
  * The URL shown is decorative. Nothing here is interactive.
  * --------------------------------------------------------------------- */
