@@ -389,7 +389,7 @@ export const solutionsEis: EisPage = {
   gap: {
     setup: "Monthly packs arrive weeks late.",
     payoff: "Operational risks compound in silence.",
-    lede: "When contracts, engineering delivery, hiring pipelines, and invoices sit in disconnected departmental tools, leadership spots revenue leakage only after margins have already eroded. Akashic EIS correlates pipeline health, project delivery, and cash flow into one continuous decision runway before irreversible deadlines expire.",
+    lede: "Disconnected departmental tools hide margin slip until month-end. Akashic EIS correlates delivery, pipeline, and cash flow into a continuous runway before deadlines expire.",
     conclusion: "The true cost to an enterprise is the latency between an operational shift and leadership having the verified context to intervene.",
     note: "Enterprise decision latency benchmark.",
   },
@@ -397,7 +397,7 @@ export const solutionsEis: EisPage = {
   capabilities: {
     setup: "A figure you can defend.",
     payoff: "An action you can reverse.",
-    lede: "Ungoverned chatbots hallucinate raw SQL, while static reports deliver yesterday's news. Akashic EIS operates on three non-negotiable governance guarantees: deterministic metric definitions, continuous risk correlation, and dual-key human sign-off.",
+    lede: "Deterministic metric definitions, continuous risk correlation, and dual-key human sign-off ensure every figure is verified and every operational action is audited.",
     pillars: [
       {
         tag: "Foundation",
@@ -454,7 +454,7 @@ export const solutionsEis: EisPage = {
   loop: {
     setup: "Observation alone",
     payoff: "solves nothing.",
-    lede: "Traditional business intelligence tools stop at passive charts, leaving leadership to chase department heads over email to confirm facts and trigger actions. Akashic EIS closes the operating loop: continuously detecting enterprise risks, presenting verified interventions for executive approval, and executing updates directly back to your core systems.",
+    lede: "Passive dashboards leave teams chasing updates over email. Akashic EIS closes the loop by detecting risks, staging verified interventions, and updating systems upon approval.",
     cta: { label: "Bring us a decision you cannot close", href: "#talk-to-our-team" },
   },
 
@@ -505,7 +505,7 @@ export const solutionsEis: EisPage = {
   lenses: {
     setup: "Five executive roles.",
     payoff: "One ground truth.",
-    lede: "Executive leadership teams waste weeks debating conflicting spreadsheets across departments. Akashic EIS delivers role-tailored operational cockpits for the CEO, Finance, Delivery, Sales, and People leadership, all anchored to the same live, governed numbers. When every leader works from identical ground truth, decisions happen in minutes instead of end-of-quarter reviews.",
+    lede: "Role-tailored cockpits give the CEO, Finance, Delivery, Sales, and People leaders the same live, governed numbers. Decisions move in minutes instead of quarterly reviews.",
     cta: { label: "Talk to our team", href: "#talk-to-our-team" },
   },
 
@@ -513,7 +513,7 @@ export const solutionsEis: EisPage = {
   proof: {
     setup: "Proven at sovereign scale.",
     payoff: "Ready for enterprise complexity.",
-    lede: "These are not laboratory proofs-of-concept. The underlying Akashic architecture powers live national registries handling billions of transactions across millions of distributed records.",
+    lede: "The underlying Akashic architecture powers live national registries handling billions of transactions across millions of verified records.",
     deployments: [
       {
         key: "education",
@@ -549,7 +549,7 @@ export const solutionsEis: EisPage = {
         ],
       },
     ],
-    closing: "Akashic EIS is the executive intelligence layer built on that same mission-critical foundation. Reconciling billions of national data points and reconciling multi-entity global enterprises require the exact same standard of zero-defect governance.",
+    closing: "Reconciling billions of national records and managing multi-entity global enterprises require the same standard: deterministic, zero-defect governance.",
   },
 
   faq: {
