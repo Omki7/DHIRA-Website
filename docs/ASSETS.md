@@ -37,7 +37,7 @@ non-photographic ones came from.
 | `og-image.png` | Default social card (`content/site.ts` `seo.ogImage`) |
 | `brand/` | Logo files for press and partners |
 | `avatars/` | Leadership portraits (`*-executive-v1.webp`, provenance below) and the homepage voices portraits |
-| `delivery/` | /delivery engagement-model and capability photographs |
+| `delivery/` (retired) | The old Services photographs moved to `.archive/services-redesign/public/delivery/` on 26 Oct 2026. Services now uses code-native concept drawings and the shared proof imagery |
 | `sectors/` | Sector page photographs |
 | `proof/` | Homepage proof imagery |
 | `universal-context/` | System logos (SAP, Salesforce, Oracle, PostgreSQL) on the /solutions/eis hero. The other eight went to `.archive/removed-2026-10-20/` with the homepage logo strip |
@@ -92,3 +92,12 @@ Shared prompt (each edit added a per-person identity constraint):
 > visible with 10–12% headroom. Subject must remain the same person. No colour,
 > text, logo, frame, watermark, other people, plastic skin, new hairstyle or
 > glamour styling.
+
+### Insights editorial covers (26 October 2026)
+
+`components/sections/insights/InsightCover.tsx` contains twelve original
+code-native SVG compositions, selected by each article's typed `cover` key.
+The geometry illustrates concepts such as handover, ownership, access and
+shared foundations. No stock artwork, model-generated bitmap, product screen
+or measured business figure is used. Covers inherit the shared theme tokens
+in both appearances and are decorative beside the linked article title.

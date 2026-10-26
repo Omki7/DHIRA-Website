@@ -118,6 +118,12 @@ hooks/
   useMenuIntent.ts     The nav's hover intent: 120ms open, 300ms close grace, click to pin
   useRegion.ts         The visitor's region: the page's own, else the stored choice, else a time-zone
                        guess. chooseRegion() records a choice
+  useTour.ts           A figure that walks its items on its own (/delivery [02], [03]): a dwell clock
+                       as a framer-motion `progress` value that fills 0 → 1, frozen off screen and
+                       while pointer or focus is inside, stopped by a pick or a link until Play
+                       (Rules 6a, 6b); never runs under reduced motion
+  useHashTarget.ts     Which of a list of ids the URL hash points at (also same-page link clicks)
+  useMinWidth.ts       Viewport at least N px wide, as an external store (true on the server)
 
 components/
   providers/
@@ -158,6 +164,8 @@ components/
   demos/               Animated or interactive pieces used inside sections
     about/ careers/    The drawing-page figures (see the About and Careers maps)
     pricing/           CapacityLine, the stepped line across the /pricing plan frame
+    delivery/          DeliveryRoute (Services hero: your systems, one team, in production), ServiceDrawing
+                       (the three service-line drawings in the homepage [03] idiom), sources.ts (source colours)
     akashic/           AgentRunDrawing, GroundworkDrawing, SolutionWorkflow, ContextTentacles (the
                        /akashic hero's tentacles and module index)
     ProvenStories, DivergentAnswers, AshokaChakra, AkashicFlowConnectors, VoicesDispatches,
@@ -178,7 +186,6 @@ components/
                                    AkashicBIScreenMockup (22 Oct 2026; unused, to archive)
       AkashicTeardownMockup        /akashic modular teardown stage
       ProofComparisonMockup        TheProof before/after slider (role="slider", keyboard operable)
-      DeliveryFitPreviewMockup     The three small previews under /delivery [06]
       EisBrowserChromeMockup + eis/*   /solutions/eis screens. Each is the evidence for the
                                    caption beside it; change the claim, change the screen
       life/*                       /solutions/life handset and record anatomy
@@ -326,22 +333,40 @@ badges and the unconfirmed six-week closing promise are not rendered.
 Shared: `demos/AkashicFlowConnectors.tsx` (FlowPath/FanIn/MergeDown/SplitDown/
 MobileConn), `akashic/AkashicCardChrome.tsx` (simulated-UI chrome + MiniStack).
 
-### Delivery (`app/delivery/page.tsx`)
+### Services (`app/delivery/page.tsx`, rebuilt 26 Oct 2026)
+
+Rebuilt the same afternoon as the morning redesign because the page still read
+as a different website from home and /akashic. It now speaks their grammar:
+the shared hero cadence, drawings that carry real words (the sample business's
+systems in their homepage colours, a cited answer lifted from /akashic [01]),
+figure frames with mono column heads and a legend foot, the /akashic close, and
+the service lines named exactly as the nav and homepage [04] name them. The
+story spine and claim owners sit at the top of `content/pages/delivery.ts`.
+One line motif runs through the page: blue while DHIRA builds, ink once your
+team runs it (hero, [02], [04], [06]). On [03] colour encodes the platform
+split instead: blue = Akashic, ink = your stack.
 
 | Order | ID | File | Background |
 |---|---|---|---|
-| 00 | hero | `delivery/DeliveryHero.tsx` | `bg-background` |
-| 01 | services | `delivery/DeliveryServices.tsx` | `bg-background`; the founder's Advise / Engineer / Deploy service lines (added 14 Oct 2026) as hairline-ruled columns with ids `#advisory`, `#engineering`, `#ai-solutions` (the nav's "What we do" targets). No week figures; "Agentic workflows" carries Preview |
-| 02 | engagement-models | `delivery/DeliveryModels.tsx` | `bg-white`; each model is addressable as `#model-<id>` (saas, whitelabel, customai, engineering, augmentation) and opens its own tab, from the hash on arrival or a same-page link click |
-| 03 | capabilities | `delivery/DeliveryCapabilities.tsx` | `bg-white` |
-| 04 | methodology | `delivery/DeliveryMethodology.tsx` | `bg-white` |
-| 05 | proven-at-scale | `delivery/DeliveryProven.tsx` | `bg-white` |
-| 06 | partnership-fit | `delivery/DeliveryFit.tsx` | soft blue band (Rule 5a) |
-| 07 | faq | `delivery/DeliveryFAQ.tsx` | `bg-white` |
-| 08 | talk-to-our-team | `delivery/DeliveryClose.tsx` | `bg-white` (dark card; `#talk-to-our-team`) |
+| 00 | hero | `delivery/DeliveryHero.tsx` + `demos/delivery/DeliveryRoute` | `bg-background`; the home/akashic hero: pill ("Services \| With Akashic or on your stack" → #engagement-models), single-ink h1 "Data and AI systems / your teams can run on." with the shared `RotatingPhrase`, CTA pair. Drawing: four source systems enter from beyond the frame (colour = source system), one DHIRA team's four stages on a blue rail, three outcomes live in production, then the line turns ink and leaves the frame (handover). SVG from lg; the same parts stack as HTML below lg |
+| 01 | services | `delivery/DeliveryServices.tsx` + `demos/delivery/ServiceDrawing` | `bg-background`; three open columns, all visible, built like homepage [03]: drawing on the pale panel (use cases on value against readiness; three systems through one tested pipeline; a cited answer a person reviews), the nav's name as the mono label, homepage [04]'s card title and description, scope as `ui/Tag`s, "You leave with". Columns carry `#advisory`, `#engineering`, `#ai-solutions`; AI agent workflows carry Preview |
+| 02 | engagement-models | `delivery/DeliveryModels.tsx` | `bg-background`; one decision the figure tours (rebuilt three times on 26 Oct 2026: the responsibility table read "odd and hard to interpret", the static tree was asked to feel 2026, then to load like the homepage sections). "What do you need?" is the root of a tree splitting into two branch pills, A platform, ready to run (On Akashic) and Something built for you (On your stack); the five models are the leaves, left to right from DHIRA doing the most to your team doing the most, each showing only Builds and Runs (blue = DHIRA, ink = your team). `hooks/useTour` walks the five every 7s: the chosen model's route fills blue from the question with a disc at its head (one continuous path, so the fill stays on one clock) and its card's top line fills in step; the branch pill lights, the selection bar (layoutId) and the axis marker glide on springs, the detail cross-fades (description, then a ledger: DHIRA delivers beside Your team leads on paired hairline rows). A pick, or a link to `#model-<id>` or an older anchor (akashic-deployment, product-engineering, advisory-co-engineering), stops the tour; `ui/MotionToggle` sits just past the question. Hover or focus holds the clock and previews a route dashed. Routes are measured with a ResizeObserver and drawn in px on exact fifths. Tree from xl; below xl each branch is a labelled list on a rail and the detail opens under the chosen card's row. Reduced motion: no tour, final states |
+| 03 | capabilities | `delivery/DeliveryCapabilities.tsx` | `bg-background`; the /akashic [04] layer frame made to work like [02] (user, 26 Oct 2026: "the same way"). Applications, Intelligence, Data, Infrastructure, with a blue bar where Akashic covers the layer and ink where the work is custom. Each of the six discipline tiles is wired to what covers it on the right: Akashic modules by their one name (agents dashed + Preview), where Akashic runs, or "Custom, on your stack". `hooks/useTour` walks the six: the chosen tile's wires fill blue with a disc at each head, its covering nodes light, its top line fills in step, and the detail band under the layers cross-fades (scope, then typical delivery and where Akashic fits as `ui/Tag`s). A pick stops the tour; `ui/MotionToggle` ends the head row. Wires are measured per row with a ResizeObserver. From xl the figure fits one viewport (855px at 1440); below xl each layer lists its tiles, then its nodes as chips, and the detail opens under the chosen tile. One onward link to /akashic under the lede |
+| 04 | methodology | `delivery/DeliveryMethodology.tsx` | `bg-background`; the /akashic agents rail: lane brackets, four numbered stages each closing on an ink sign-off diamond, working output and sign-off under each, then the rail turns ink into "Your team". Across from xl, down the left below. Coda: the next stage waits for your sign-off |
+| 05 | proven-at-scale | `sections/ProvenAtScale.tsx` (shared) | `bg-background`; the same carousel and chakra as home [07] and /akashic [09], with the services headline and a `link` to /customers (the optional prop added for this page) |
+| 06 | partnership-fit | `delivery/DeliveryFit.tsx` | The one `bg-band` section. The operating pack as a flat sheet (four documents, no tilt or backing card) closed by the blue-to-ink handover line, beside ownership, security and support terms. Preserves the anchor |
+| 07 | faq | `delivery/DeliveryFAQ.tsx` | `bg-background`; shared `FaqSection`, two groups with every answer visible and matching structured data |
+| 08 | talk-to-our-team | `delivery/DeliveryClose.tsx` | `bg-background`; the /akashic closing card recipe (`bg-depth` card, numbered questions on a dotted rail, footer with the stage flow in blue mono). Headline in homepage [04]'s words: "Bring us the problem / only you have." |
 
-The nav labels this page **Services** (the founder's term); the route stays `/delivery` and
-the page is already titled "Delivery & Services".
+The nav labels this page **Services**; the route stays `/delivery`. Copy uses the
+typed document in `content/pages/delivery.ts`. No unverified availability,
+latency, throughput, sprint or universal ownership guarantees; commercial
+terms are agreed per engagement. Drawing figures and names come from the
+sample business on home and /akashic, never new. The morning's drawing kit
+(DeliveryAssembly, DeliveryDrawings, EngagementDrawing, ServiceWork,
+DeliveryFitPreviewMockup, DeliveryProven, useSectionChoice) is in
+`.archive/removed-2026-10-26/`; the old stock photographs are under
+`.archive/services-redesign/public/delivery/`.
 
 ### About (`app/about/page.tsx`)
 
@@ -429,11 +454,13 @@ his copy and need his review. Akashic Life's lines are read from
 
 The pages an enterprise site of DHIRA's calibre carries and this one lacked (gap
 list measured against 26 competitor and leading sites, 15 Oct 2026). They share
-ONE grammar, the /solutions hub's user-approved editorial register: `ui/PageHero`
+ONE section grammar, originally the /solutions hub's editorial register: `ui/PageHero`
 (text-only, on-page index), `ui/SectionHeader` sections on hairline registers
 and ruled columns (no cards on grey, no checkmarks, no carousels), one soft blue
 band per page (Rule 5a), and `ui/PageClose` (Rule 5b). Long-form pages (articles,
-stories, press releases) share `sections/longform/LongformArticle`; policy pages
+stories, press releases) use `sections/longform/LongformArticle`; Insights now uses
+`sections/insights/InsightArticle` with original cover geometry, a decision
+summary, responsive contents navigation, sources and illustrated related reading. Policy pages
 share `sections/legal/LegalDocument`. Copy is typed content in `content/`, much of it
 DRAFT for the founder (each file's header lists what is his, what is drafted,
 and what needs confirming). No prices, counts or customer names are invented
@@ -442,7 +469,8 @@ and what needs confirming). No prices, counts or customer names are invented
 | Route | Sections (ids) | Blue band | Notes |
 |---|---|---|---|
 | `/pricing` | plans · compare · included · deployment · services · how-to-buy · faq · talk-to-our-team | deployment | Redesigned 21 Oct 2026, US dollars only. No hero: [01] Plans carries the h1 and the term switch, then one plan frame: `demos/pricing/CapacityLine` across the top, four columns (price on the term, struck list price and yearly saving, action, four limits), the five modules as a foundation along the bottom; Enterprise is the tinted column with the filled button (no "most popular" mark, Rule 4). [02] pins its plan row under the header from lg and prices it on the same term (`sections/pricing/PricingTerm`); Enterprise says "Sized to your estate" once per group. [03] the eight controls as one layer under all four plans. [04] three footprint boundaries. [05] rate card, [06] four doors, [07] FaqSection split with grouped questions. PLACEHOLDER prices in content/pages/pricing.ts |
-| `/insights`, `/insights/[slug]` | hero · latest · subscribe · close | subscribe | Six DRAFT articles in `content/collections/insights.ts`, team bylines (no executive quoted). RSS at `/insights/rss.xml`; BlogPosting + BreadcrumbList JSON-LD |
+| `/insights` | hero · latest · subscribe · talk-to-our-team | subscribe | Redesigned 26 Oct 2026. Featured perspective, searchable library with five topic filters and twelve original cover drawings, working article feed, closing card. `InsightsLibrary` receives summaries through `lib/insights.ts`, not full bodies. Hub order lives in `content/pages/insights.ts:sections`. |
+| `/insights/[slug]` | article header · article-body (heading anchors) · sources · related · subscribe · talk-to-our-team | subscribe | Twelve original articles in `content/collections/insights.ts`, DHIRA Editorial bylines, inline research citations and explicitly illustrative scenarios. Six earlier slugs retained. Agent capabilities carry PreviewTag. BlogPosting + BreadcrumbList JSON-LD, per-article metadata, generated RSS at `/insights/rss.xml`. |
 | `/customers`, `/customers/[slug]` | hero · stories · close | none | The three ProvenStories deployments, now read from `content/collections/customer-stories.ts` by the carousel too. Naming and analytical-claims rules unchanged |
 | `/newsroom`, `/newsroom/[slug]` | hero · announcements · recognition · media-kit · talk-to-our-team | media-kit | Akashic 1.0 release (founder's own quote), the three real recognitions, marks in `public/brand/`, leadership portraits from `ABOUT_LEADERS` |
 | `/glossary` | hero (A to Z index) · terms · close | none | Term ids are linkable anchors (`/glossary#entity-resolution`); DefinedTermSet JSON-LD |

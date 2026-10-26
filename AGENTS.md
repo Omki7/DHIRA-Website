@@ -37,7 +37,8 @@ typed data in `content/`. Alias `@/*` → repo root.
   (both appearances). Raw `[#hex]` only for per-section semantic colours with
   no token; inline `style`/SVG hex is the Rule 8 exception.
 - **Logo full form:** initials bold, never coloured.
-- **No checkmark characters** in the shipped UI (Rule 2).
+- **No checkmark characters and no bullet lists** in the shipped UI (Rule 2):
+  `ui/Tag`s for short names, hairline spec rows for items read one by one.
 - **`font-display` (Newsreader) = pull-quotes only** (Voices; Rule 3).
 - **Any dark value is blue-black**, never neutral black. One soft blue band per
   page (Rule 5).

@@ -10,10 +10,12 @@
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import ScrollRevealRail from "@/components/ui/ScrollRevealRail";
 import SectionHeader from "@/components/ui/SectionHeader";
+import SectionLink from "@/components/ui/SectionLink";
 import ProvenStories from "@/components/demos/ProvenStories";
 import AshokaChakra from "@/components/demos/AshokaChakra";
 import type { ProvenAtScaleBlock } from "@/content/blocks";
 import type { Story } from "@/content/collections/customer-stories";
+import type { Cta } from "@/content/types";
 
 interface ProvenAtScaleProps {
   id?: string;
@@ -21,12 +23,14 @@ interface ProvenAtScaleProps {
   content: ProvenAtScaleBlock;
   /** The deployments the carousel walks through (customer stories collection). */
   stories: Story[];
+  /** The section's one onward link, under the lede (/delivery: the stories). */
+  link?: Cta;
 }
 
 /* Shared by home and /akashic (14 Oct 2026): the gain-led headline written
    for /akashic replaced "Real platform. Real citizens." on both, so the two
    pages make the claim in the same words. /delivery passes its own. */
-export default function ProvenAtScale({ id = "scale", content, stories }: ProvenAtScaleProps) {
+export default function ProvenAtScale({ id = "scale", content, stories, link }: ProvenAtScaleProps) {
   const { number, eyebrow, title, description } = content;
   return (
     <section id={id} className="relative overflow-hidden bg-background pt-12 pb-16 text-ink lg:pt-16 lg:pb-24">
@@ -34,7 +38,9 @@ export default function ProvenAtScale({ id = "scale", content, stories }: Proven
 
       <ScrollRevealRail className="relative z-10">
         <div className="relative">
-          <SectionHeader num={number} label={eyebrow} setup={title.setup} payoff={title.payoff} lede={description} />
+          <SectionHeader num={number} label={eyebrow} setup={title.setup} payoff={title.payoff} lede={description}>
+            {link && <SectionLink href={link.href}>{link.label}</SectionLink>}
+          </SectionHeader>
           {/* The ornament sits beside the headline, under the eyebrow rail. */}
           <div aria-hidden className="absolute right-0 top-[88px] hidden w-[170px] lg:block xl:w-[190px]">
             <AshokaChakra className="w-full" />

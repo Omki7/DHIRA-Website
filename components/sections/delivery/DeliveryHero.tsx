@@ -1,90 +1,66 @@
-/*
- * [00] Delivery Hero — Platform & Custom Engineering for Data and AI Products
- * Clean, bold, and focused hero with Ashoka Chakra background motif and perfect alignment.
- */
+"use client";
+
+/* The services hero in the cadence home and /akashic share: a pill with one
+   claim, a single-ink headline whose last phrase rotates under the blue
+   rule, the lede, the CTA pair, then one drawing. The drawing is the route
+   from the reader's systems to production (DeliveryRoute), in the same line
+   language as homepage [02]: named systems, colour = source system. */
 
 import Link from "next/link";
+import DeliveryRoute from "@/components/demos/delivery/DeliveryRoute";
+import RotatingPhrase from "@/components/ui/RotatingPhrase";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import ScrollRevealRail from "@/components/ui/ScrollRevealRail";
 import type { DeliveryPage } from "@/content/pages/delivery";
 
-
-export default function DeliveryHero({ content }: { content: DeliveryPage["hero"] }) {
-  const metrics = content.metrics;
+export default function DeliveryHero({ content: c }: { content: DeliveryPage["hero"] }) {
   return (
-    <section id="hero" className="relative overflow-hidden bg-background">
-      {/* Subtle ambient light wash */}
-      
-      
-
-      
-
+    <section id="hero" className="relative overflow-hidden bg-background pb-12 lg:pb-20">
       <ScrollRevealRail>
-        <div className="relative z-10 flex flex-col items-center justify-center pt-20 pb-16 text-center lg:pt-28 lg:pb-20">
-          
-          {/* Top Pill Badge */}
+        <div className="mx-auto flex max-w-[880px] flex-col items-center px-2 pb-10 pt-12 text-center sm:px-6 md:pt-20 lg:pb-14">
           <ScrollReveal>
-            <figure className="mb-4 inline-flex items-center gap-2 rounded-full border border-subtle-stroke bg-background px-3.5 py-1.5 text-xs ">
-              <span className="flex h-2 w-2 rounded-full bg-blue animate-[ps-pulse_2s_infinite]" aria-hidden />
-              <span className="font-semibold text-ink font-mono text-[11px] uppercase tracking-eyebrow">
-                {content.badge.label}
+            <Link
+              href={c.badge.href}
+              className="group relative mb-6 inline-flex items-center justify-center overflow-hidden rounded-full border border-card-line bg-background transition-colors hover:border-blue md:mb-10"
+            >
+              <span className="relative flex items-center gap-2 rounded-full bg-background px-3.5 py-1.5 text-xs sm:text-sm">
+                <span className="font-semibold text-primary-text">{c.badge.product}</span>
+                <span className="mx-1 h-3.5 w-px bg-default-stroke" />
+                <span className="font-medium text-primary-text">{c.badge.claim}</span>
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" className="ml-0.5 text-secondary-text transition-transform ease-settle group-hover:translate-x-0.5" aria-hidden>
+                  <path d="M2.5 6H9.5M9.5 6L6 2.5M9.5 6L6 9.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
               </span>
-              <span className="h-3 w-px bg-default-stroke" aria-hidden />
-              <span className="font-medium text-secondary-text text-xs">{content.badge.aside}</span>
-            </figure>
+            </Link>
           </ScrollReveal>
 
-          {/* Main Headline */}
-          <ScrollReveal delay={100}>
-            <h1 className="mt-2 max-w-4xl text-4xl font-medium leading-[1.08] tracking-tight text-ink sm:text-5xl md:text-6xl lg:text-7xl">
-              {content.title.lead}{" "}
-              <span className="relative inline-block text-blue">
-                {content.title.accent}
-                <span
-                  className="absolute -bottom-[0.04em] left-0 h-[0.08em] w-full rounded-full bg-blue-subtle"
-                  aria-hidden
-                />
+          <ScrollReveal delay={80} className="w-full min-w-0">
+            {/* The h1 holds the pause button beside its rotating phrase, so
+                its name comes from this plain copy of the headline. */}
+            <span id="services-headline" hidden>{`${c.title.lead} ${c.title.tail} ${c.title.phrases[0]}`}</span>
+            <h1 aria-labelledby="services-headline" className="mx-auto text-balance text-[clamp(2rem,9vw,3rem)] font-medium leading-[1.08] tracking-tightest text-primary-text md:text-6xl xl:text-[64px]">
+              {c.title.lead}{" "}
+              <span className="sm:block">
+                {c.title.tail}{" "}
+                <RotatingPhrase phrases={c.title.phrases} />
               </span>
             </h1>
           </ScrollReveal>
 
-          {/* Subheadline Paragraph */}
-          <ScrollReveal delay={180}>
-            <p className="mt-5 max-w-2xl text-base text-secondary-text leading-relaxed sm:text-lg">
-              {content.lede}
-            </p>
+          <ScrollReveal delay={160}>
+            <p className="mt-6 max-w-[36em] text-pretty text-base font-normal leading-relaxed text-secondary-text sm:text-lg md:mt-8">{c.lede}</p>
           </ScrollReveal>
 
-          {/* Action CTAs */}
           <ScrollReveal delay={240}>
-            <div className="mt-8 flex flex-wrap items-center justify-center gap-3.5">
-              <Link href={content.primary.href} className="btn-primary rounded-full px-6 py-2.5 text-xs">
-                {content.primary.label}
-              </Link>
-              <Link href={content.secondary.href} className="btn-secondary rounded-full px-6 py-2.5 text-xs">
-                {content.secondary.label}
-              </Link>
-            </div>
-          </ScrollReveal>
-
-          {/* Enterprise Metrics Bar */}
-          <ScrollReveal delay={300}>
-            <div className="mt-10 inline-grid grid-cols-3 divide-x divide-subtle-stroke rounded-2xl border border-subtle-stroke bg-primary-bg p-2.5 ">
-              {metrics.map((m) => (
-                <div key={m.label} className="px-5 py-1.5 text-center sm:px-8">
-                  <p className="font-mono text-[14px] font-bold text-ink sm:text-[16px]">{m.value}</p>
-                  <p className="font-mono text-[9px] uppercase tracking-eyebrow text-inkSoft mt-0.5 sm:text-[9.5px]">
-                    {m.label}
-                  </p>
-                </div>
-              ))}
+            <div className="mt-8 flex flex-wrap items-center justify-center gap-4 md:mt-10">
+              <Link href={c.primary.href} className="btn-primary">{c.primary.label}</Link>
+              <Link href={c.secondary.href} className="btn-secondary">{c.secondary.label}</Link>
             </div>
           </ScrollReveal>
         </div>
+
+        <DeliveryRoute content={c.route} />
       </ScrollRevealRail>
     </section>
   );
 }
-
-
-
