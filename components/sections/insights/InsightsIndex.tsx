@@ -1,124 +1,66 @@
-/*
- * The Insights hub below its hero: the newest article as a full-width lead,
- * then every article as a register row (date, category, title and dek,
- * reading time), the solutions-hub row grammar. Then the subscribe band, the
- * page's one soft blue band (Rule 5a). No thumbnails: the site's resource
- * pages are typographic, and stock imagery would read as filler.
- */
-
 import Link from "next/link";
+import FigureEyebrow from "@/components/ui/FigureEyebrow";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import ScrollRevealRail from "@/components/ui/ScrollRevealRail";
 import SectionHeader from "@/components/ui/SectionHeader";
-import SubscribeForm from "@/components/ui/SubscribeForm";
+import SectionLink from "@/components/ui/SectionLink";
+import TwoToneTitle from "@/components/ui/TwoToneTitle";
+import InsightCover from "./InsightCover";
+import InsightsLibrary from "./InsightsLibrary";
 import type { Insight } from "@/content/collections/insights";
 import type { InsightsPage } from "@/content/pages/insights";
+import { insightCardData } from "@/lib/insights";
 import { formatDate, readingMinutes } from "@/lib/richText";
 
-/* One line in the lead; stacked in a register row's narrow left column so
-   the date never wraps mid-phrase. */
-function Meta({ insight, minRead, stacked = false }: { insight: Insight; minRead: string; stacked?: boolean }) {
-  const when = `${formatDate(insight.date)}  ·  ${readingMinutes(insight.blocks)} ${minRead}`;
-  if (stacked) {
-    return (
-      <span className="block font-mono text-[11px] uppercase leading-[1.8] tracking-eyebrow text-overcast">
-        <span className="block text-blue">{insight.category}</span>
-        <span className="block">{when}</span>
-      </span>
-    );
-  }
+export function InsightsHero({ content, insight, minRead }: { content: InsightsPage["hero"]; insight: Insight; minRead: string }) {
   return (
-    <p className="font-mono text-[11px] uppercase tracking-eyebrow text-overcast">
-      <span className="text-blue">{insight.category}</span>&nbsp;&nbsp;·&nbsp;&nbsp;{when}
-    </p>
-  );
-}
-
-/** `insights` newest first. */
-export function InsightsLatest({ insights, content, minRead }: { insights: Insight[]; content: InsightsPage["latest"]; minRead: string }) {
-  const [lead, ...rest] = insights;
-  return (
-    <section id="latest" className="scroll-mt-24 bg-background pb-20 pt-14 lg:pb-28 lg:pt-16">
+    <section id="hero" className="bg-background pb-12 pt-12 lg:pb-16 lg:pt-20">
       <ScrollRevealRail>
         <ScrollReveal>
-          <article className="grid gap-8 border-b border-lineSoft pb-12 lg:grid-cols-12 lg:gap-10 lg:pb-16">
-            <div className="lg:col-span-8">
-              <Meta insight={lead} minRead={minRead} />
-              <h2 className="mt-5 text-balance text-[32px] font-medium leading-[1.1] tracking-[-0.03em] text-ink lg:text-[44px]">
-                <Link href={`/insights/${lead.slug}`} className="transition-colors duration-150 hover:text-blue">
-                  {lead.title}
-                </Link>
-              </h2>
-              <p className="mt-5 max-w-[40em] text-pretty text-lg leading-relaxed text-secondary-text">{lead.dek}</p>
-            </div>
-            <div className="flex flex-col justify-end lg:col-span-4 lg:items-end">
-              <p className="text-[14px] text-secondary-text">{lead.author.name}</p>
-              <Link
-                href={`/insights/${lead.slug}`}
-                className="group mt-3 inline-flex items-center gap-1.5 text-[15px] font-medium text-blue transition-colors duration-150 hover:text-blue-hover"
-              >
-                {content.readArticle}
-                <span aria-hidden className="transition-transform duration-200 ease-settle group-hover:translate-x-0.5">
-                  &rarr;
-                </span>
-              </Link>
-            </div>
-          </article>
+          <FigureEyebrow bare label={content.label} />
+          <div className="mt-8 max-w-[52rem]">
+            <TwoToneTitle as="h1" setup={content.setup} payoff={content.payoff} className="sm:!text-[56px] lg:!text-[64px]" />
+            <p className="mt-6 max-w-[38rem] text-pretty text-lg leading-relaxed text-inkSoft">{content.lede}</p>
+          </div>
         </ScrollReveal>
-
-        <ScrollReveal delay={80}>
-          <h2 className="mt-14 font-mono text-[11px] uppercase tracking-eyebrow text-overcast lg:mt-16">{content.allLabel}</h2>
-          <ul className="mt-4 border-t border-lineSoft">
-            {rest.map((insight) => (
-              <li key={insight.slug}>
-                <Link
-                  href={`/insights/${insight.slug}`}
-                  className="group grid gap-3 border-b border-lineSoft py-7 transition-colors duration-150 lg:grid-cols-12 lg:gap-10"
-                >
-                  <span className="lg:col-span-3">
-                    <Meta insight={insight} minRead={minRead} stacked />
-                  </span>
-                  <span className="lg:col-span-8">
-                    <span className="block text-balance text-[22px] font-semibold leading-snug tracking-[-0.02em] text-ink transition-colors duration-150 group-hover:text-blue">
-                      {insight.title}
-                    </span>
-                    <span className="mt-2 block max-w-[44em] text-pretty text-[15px] leading-relaxed text-secondary-text">{insight.dek}</span>
-                  </span>
-                  <span aria-hidden className="hidden text-right text-overcast transition-transform duration-200 ease-settle group-hover:translate-x-0.5 group-hover:text-blue lg:col-span-1 lg:block">
-                    &rarr;
-                  </span>
-                </Link>
-              </li>
-            ))}
-          </ul>
+        <ScrollReveal delay={120}>
+          <article className="mt-12 overflow-hidden rounded-outer border border-subtle-stroke bg-primary-bg lg:mt-14">
+            <Link href={`/insights/${insight.slug}`} aria-labelledby="featured-title" className="group grid md:grid-cols-2">
+              <InsightCover kind={insight.cover} className="aspect-[8/5] border-b border-subtle-stroke md:aspect-auto md:min-h-[440px] md:border-b-0 md:border-r" />
+              <div className="flex flex-col items-start justify-center px-6 py-8 sm:px-9 lg:px-12 lg:py-12">
+                <p className="font-mono text-[11px] uppercase tracking-eyebrow text-overcast">{content.featuredLabel}</p>
+                <h2 id="featured-title" className="mt-5 max-w-[17em] text-balance text-[30px] font-medium leading-[1.13] tracking-tighter text-ink transition-colors duration-150 group-hover:text-blue lg:text-[40px]">{insight.title}</h2>
+                <p className="mt-5 max-w-[34em] text-pretty text-base leading-relaxed text-secondary-text">{insight.dek}</p>
+                <p className="mt-6 text-xs text-inkSoft"><time dateTime={insight.date}>{formatDate(insight.date)}</time><span aria-hidden="true"> · </span>{readingMinutes(insight.blocks)} {minRead}</p>
+                <span className="mt-7 inline-flex items-center gap-3 text-[15px] font-medium text-ink">{content.readArticle}<span aria-hidden="true" className="transition-transform duration-150 motion-safe:group-hover:translate-x-1">→</span></span>
+              </div>
+            </Link>
+          </article>
         </ScrollReveal>
       </ScrollRevealRail>
     </section>
   );
 }
 
-export function InsightsSubscribe({ content: INSIGHTS_SUBSCRIBE, num = "01" }: { content: InsightsPage["subscribe"]; num?: string }) {
+export function InsightsLatest({ insights, content, minRead }: { insights: Insight[]; content: InsightsPage["latest"]; minRead: string }) {
   return (
-    <section
-      id="subscribe"
-      className="scroll-mt-24 bg-band pb-20 pt-16 lg:pb-28 lg:pt-20"
-    >
+    <section id="latest" className="scroll-mt-24 bg-background pb-16 pt-12 lg:pb-24 lg:pt-16">
       <ScrollRevealRail>
-        <SectionHeader
-          num={num}
-          label={INSIGHTS_SUBSCRIBE.label}
-          setup={INSIGHTS_SUBSCRIBE.setup}
-          payoff={INSIGHTS_SUBSCRIBE.payoff}
-          lede={INSIGHTS_SUBSCRIBE.lede}
-        >
-          <SubscribeForm id="insights-subscribe" />
-          <p className="mt-4 font-mono text-[11px] uppercase tracking-eyebrow text-overcast">
-            {INSIGHTS_SUBSCRIBE.rss.lead}{" "}
-            <a href={INSIGHTS_SUBSCRIBE.rss.href} className="text-inkSoft underline decoration-line underline-offset-4 hover:text-blue">
-              {INSIGHTS_SUBSCRIBE.rss.link}
-            </a>
-          </p>
+        <SectionHeader num="01" label={content.label} setup={content.setup} payoff={content.payoff} lede={content.lede} />
+        <InsightsLibrary insights={insights.map(insightCardData)} content={content} minRead={minRead} />
+      </ScrollRevealRail>
+    </section>
+  );
+}
+
+export function InsightsSubscribe({ content, num = "02" }: { content: InsightsPage["subscribe"]; num?: string }) {
+  return (
+    <section id="subscribe" className="scroll-mt-24 bg-band pb-16 pt-12 lg:pb-24 lg:pt-16">
+      <ScrollRevealRail>
+        <SectionHeader num={num} label={content.label} setup={content.setup} payoff={content.payoff} lede={content.lede}>
+          <SectionLink href={content.rss.href}>{content.rss.link}</SectionLink>
         </SectionHeader>
+        <p className="mt-8 text-sm text-inkSoft">{content.note}</p>
       </ScrollRevealRail>
     </section>
   );

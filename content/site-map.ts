@@ -78,7 +78,7 @@ export const siteMap: SiteMapContent = {
     {
       heading: "Resources",
       routes: [
-        { path: "/insights", title: "Insights", description: "Perspectives from the team building Akashic." },
+        { path: "/insights", title: "Insights", description: "Practical perspectives on data, AI and business decisions." },
         { path: "/customers", title: "Customer stories", description: "Country-scale programmes where Akashic is the intelligence layer." },
         { path: "/glossary", title: "Glossary", description: "The data and AI terms used on this site, defined once." },
       ],

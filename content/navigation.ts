@@ -291,9 +291,9 @@ const menus: NavMenu[] = [
     ],
     feature: {
       eyebrow: "Insights",
-      title: "Agents do the legwork.\nPeople make the call.",
-      caption: "How Akashic's agents are designed.",
-      href: "/insights/agents-do-the-legwork",
+      title: "Your AI pilot worked.\nWho owns Monday morning?",
+      caption: "From a useful demo to an operating service.",
+      href: "/insights/why-ai-pilots-stall",
       cta: "Read the article",
       drawing: "library",
       span: 3,

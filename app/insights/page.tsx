@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
 import Footer from "@/components/layout/Footer";
 import Nav from "@/components/layout/Nav";
-import { InsightsLatest, InsightsSubscribe } from "@/components/sections/insights/InsightsIndex";
+import { InsightsHero, InsightsLatest, InsightsSubscribe } from "@/components/sections/insights/InsightsIndex";
 import PageClose from "@/components/ui/PageClose";
-import PageHero from "@/components/ui/PageHero";
 import { getInsights, getPage, getUiStrings } from "@/lib/content";
 import { pageMetadata } from "@/lib/metadata";
 
@@ -25,13 +24,7 @@ export default async function InsightsPage() {
     <>
       <Nav />
       <main id="main" className="bg-background">
-        <PageHero
-          label={hero.label}
-          setup={hero.setup}
-          payoff={hero.payoff}
-          lede={hero.lede}
-          meta={`${insights.length} ${hero.metaSuffix} · ${hero.metaTopics}`}
-        />
+        <InsightsHero content={hero} insight={insights.find(item => item.slug === hero.featuredSlug) ?? insights[0]} minRead={ui.longform.minRead} />
         <InsightsLatest insights={insights} content={page.latest} minRead={ui.longform.minRead} />
         <InsightsSubscribe content={page.subscribe} />
         <PageClose {...page.close} />

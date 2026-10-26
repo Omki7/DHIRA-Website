@@ -3,13 +3,11 @@ import { notFound } from "next/navigation";
 import Footer from "@/components/layout/Footer";
 import Nav from "@/components/layout/Nav";
 import { InsightsSubscribe } from "@/components/sections/insights/InsightsIndex";
-import LongformArticle from "@/components/sections/longform/LongformArticle";
-import RelatedList from "@/components/sections/longform/RelatedList";
+import InsightArticle, { RelatedInsights } from "@/components/sections/insights/InsightArticle";
 import JsonLd from "@/components/ui/JsonLd";
 import PageClose from "@/components/ui/PageClose";
 import { getInsight, getInsights, getPage, getRelatedInsights, getSiteSettings, getUiStrings } from "@/lib/content";
 import { pageMetadata } from "@/lib/metadata";
-import { formatDate, readingMinutes } from "@/lib/richText";
 import { absoluteUrl } from "@/lib/site";
 
 type Params = { params: Promise<{ slug: string }> };
@@ -23,7 +21,8 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const { slug } = await params;
   const insight = await getInsight(slug);
   if (!insight) return {};
-  return pageMetadata({ title: insight.title, description: insight.dek, path: `/insights/${slug}`, type: "article" });
+  const metadata = await pageMetadata({ title: insight.title, description: insight.dek, path: `/insights/${slug}`, type: "article" });
+  return { ...metadata, openGraph: { ...metadata.openGraph, type: "article", publishedTime: insight.date, authors: [insight.author.name], section: insight.category } };
 }
 
 export default async function InsightArticlePage({ params }: Params) {
@@ -33,12 +32,6 @@ export default async function InsightArticlePage({ params }: Params) {
 
   const [page, site, ui, relatedInsights] = await Promise.all([getPage("insights"), getSiteSettings(), getUiStrings(), getRelatedInsights(slug, 3)]);
   const url = absoluteUrl(`/insights/${insight.slug}`);
-  const related = relatedInsights.map((item) => ({
-    href: `/insights/${item.slug}`,
-    eyebrow: `${item.category} · ${formatDate(item.date)}`,
-    title: item.title,
-    dek: item.dek,
-  }));
 
   return (
     <>
@@ -50,7 +43,10 @@ export default async function InsightArticlePage({ params }: Params) {
             headline: insight.title,
             description: insight.dek,
             datePublished: insight.date,
-            author: { "@type": "Organization", name: `${insight.author.name}, ${site.name}` },
+            dateModified: insight.date,
+            inLanguage: "en-GB",
+            citation: insight.sources.map(source => source.href.startsWith("/") ? absoluteUrl(source.href) : source.href),
+            author: { "@type": "Organization", name: insight.author.name },
             publisher: { "@type": "Organization", name: site.name, url: absoluteUrl("/") },
             mainEntityOfPage: url,
             articleSection: insight.category,
@@ -65,24 +61,9 @@ export default async function InsightArticlePage({ params }: Params) {
             ],
           }}
         />
-        <LongformArticle
-          crumbs={[
-            { label: page.article.crumb, href: "/insights" },
-            { label: insight.category, href: "/insights#latest" },
-          ]}
-          title={insight.title}
-          dek={insight.dek}
-          meta={
-            <>
-              <span className="text-inkSoft">{insight.author.name}</span>&nbsp;&nbsp;·&nbsp;&nbsp;{formatDate(insight.date)}
-              &nbsp;&nbsp;·&nbsp;&nbsp;{readingMinutes(insight.blocks)} {ui.longform.minRead}
-            </>
-          }
-          blocks={insight.blocks}
-          url={url}
-        />
-        <RelatedList items={related} />
-        <InsightsSubscribe content={page.subscribe} num="01" />
+        <InsightArticle insight={insight} content={page.article} url={url} />
+        <RelatedInsights insights={relatedInsights} content={page.article} minRead={ui.longform.minRead} />
+        <InsightsSubscribe content={page.subscribe} />
         <PageClose {...page.article.close} />
       </main>
       <Footer />
