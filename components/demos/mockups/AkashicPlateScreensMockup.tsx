@@ -18,16 +18,21 @@
  *      hairline) on the screen surface. No source colours, no accent; the
  *      selected or focal element is the darkest thing on the screen.
  *   3. The canvas is the module's verb: Data Pipelines a run graph, Master
- *      Data a match review, Data Warehouse a schema diagram, Machine
+ *      Data its hierarchy and stewardship (user, 26 Oct 2026: show
+ *      hierarchies and data management, not deduplication), Data Warehouse
+ *      a schema diagram, Machine
  *      Learning a forecast, Ask Akashic a cited answer, Business
  *      Intelligence dashboard tiles.
  *   4. Product type: Inter (loaded for simulated UI only), tabular figures.
  *   5. One demo world (AkashicScreenKitMockup's header, USD). Parties named
  *      by role or record id, systems by their real names. No check marks.
+ *   6. Akashic appears only as the designed mark (icons/AkashicLogo), never
+ *      a letter or a redrawn logo (user, 26 Oct 2026).
  * Inline styles and SVG attributes are the Rule 8 mockup exception.
  */
 
 import type { ReactNode } from "react";
+import AkashicLogo from "@/components/icons/AkashicLogo";
 
 export const FACE_W = 536;
 export const FACE_H = 376;
@@ -56,7 +61,7 @@ function Panel({ icon, crumbs, tabs, status, bar, children }: { icon: string; cr
   return (
     <div className="flex flex-col overflow-hidden rounded-[12px] border border-card-line bg-[rgb(var(--screen-surface))] text-ink" style={{ width: FACE_W, height: FACE_H, fontFamily: UI }}>
       <div className="flex h-[44px] shrink-0 items-center justify-between border-b border-card-line px-4">
-        <span className="flex items-center gap-2 text-[12px]">
+        <span className="flex items-center gap-2 whitespace-nowrap text-[12px]">
           <Icon d={icon} />
           <span className="text-secondary-text">{crumbs[0]}</span>
           <span className="text-tertiary-text">/</span>
@@ -131,41 +136,63 @@ function Pipelines() {
   );
 }
 
-/* 1 · Master Data: one match under review, three records into one. */
+/* 1 · Master Data: the customer hierarchy and how it is managed. The
+   group rolls up from three companies, each held in its own system (the
+   homepage outcome card's family, same figures), and the selected record
+   carries its stewardship: owner, sources, completeness, last change. */
 function MasterData() {
-  const cols = ["Salesforce", "NetSuite", "Invoice PDF", "Golden record"];
-  const ids = ["Account #4471", "Customer 4471-B", "Bill-to", "CU-9042"];
-  const rows = [
-    { k: "Tax ID", v: ["94-2404110", "94-2404110", "—", "94-2404110"] },
-    { k: "Address", v: ["500 Harbor Blvd", "500 Harbor Blvd, Ste 2", "500 HARBOR BLVD STE 2", "500 Harbor Blvd, Ste 2"] },
-    { k: "Terms", v: ["—", "net-45", "Net 45", "net-45"] },
-    { k: "Segment", v: ["Retail · key account", "Retail", "—", "Retail · key account"] },
+  const root = { x: 178, y: 14, w: 180 };
+  const kids = [
+    { cx: 96, name: "US retail arm", meta: "Salesforce · $2.1M", sites: "18 stores" },
+    { cx: 268, name: "India subsidiary", meta: "NetSuite · $1.4M", sites: "9 stores" },
+    { cx: 440, name: "Online business", meta: "Shopify · $0.7M", sites: "1 website" },
+  ];
+  const kidW = 156;
+  const kidY = 100;
+  const siteY = 178;
+  const cells = [
+    ["Owner", "Finance data team"],
+    ["Sources", "3 systems"],
+    ["Completeness", "98%"],
+    ["Last change", "Steward · 2h ago"],
   ];
   return (
-    <Panel icon="M8 7a3 3 0 1 0 0 .01M16 17a3 3 0 1 0 0 .01M10.5 9.5l3 5" crumbs={["Customers", "Match review"]} tabs={["Review", "Rules", "History"]} status="Score 0.98" bar={["Matched on tax ID exact · address fuzzy 0.97", "3 records → 1"]}>
-      <div className="px-4 pt-3 text-[11px]">
-        <div className="grid grid-cols-[70px_1fr_1fr_1fr_1.15fr] items-end gap-x-2 border-b border-card-line pb-2">
-          <span />
-          {cols.map((c, i) => (
-            <span key={c} className={i === 3 ? "rounded-t-[6px] bg-[rgb(var(--screen-raised))] px-2 pt-1.5" : "px-1"}>
-              <span className={`block text-[10px] uppercase tracking-[0.06em] ${i === 3 ? "text-ink font-semibold" : "text-tertiary-text"}`}>{c}</span>
-              <span className={`block text-[11.5px] ${i === 3 ? "font-semibold text-ink" : "font-medium text-secondary-text"}`}>{ids[i]}</span>
-            </span>
-          ))}
-        </div>
-        {rows.map((r) => (
-          <div key={r.k} className="grid grid-cols-[70px_1fr_1fr_1fr_1.15fr] gap-x-2 border-b border-card-line">
-            <span className="py-2.5 text-tertiary-text">{r.k}</span>
-            {r.v.map((v, i) => (
-              <span key={i} className={`py-2.5 leading-snug ${i === 3 ? "bg-[rgb(var(--screen-raised))] px-2 font-semibold text-ink" : "px-1 text-secondary-text"}`}>{v}</span>
-            ))}
-          </div>
+    <Panel icon="M12 3v6M12 9H5v6M12 9h7v6M3 15h4v4H3zM10 15h4v4h-4zM17 15h4v4h-4z" crumbs={["Master Data", "Customers"]} tabs={["Hierarchy", "Records", "Rules"]} status="Governed" bar={["3 companies · 28 locations · 3 systems", "Rolls up to $4.2M"]}>
+      <svg width={CW} height={CH} viewBox={`0 0 ${CW} ${CH}`} fill="none" style={{ fontFamily: UI }}>
+        <g stroke={SOFT} strokeWidth="1.2">
+          <path d={`M268 ${root.y + 48}V80M${kids[0].cx} 80H${kids[2].cx}`} />
+          {kids.map((k) => <path key={k.name} d={`M${k.cx} 80V${kidY}M${k.cx} ${kidY + 48}V${siteY}`} />)}
+        </g>
+        <rect x={root.x + 0.5} y={root.y + 0.5} width={root.w - 1} height="47" rx="8" fill={SURFACE} stroke={INK} strokeWidth="1.5" />
+        <text x={root.x + 12} y={root.y + 20} fontSize="12" fontWeight="600" fill={INK}>Largest customer group</text>
+        <text x={root.x + 12} y={root.y + 36} fontSize="10.5" fill={MID}>Group · $4.2M rolled up</text>
+        {kids.map((k) => (
+          <g key={k.name}>
+            <rect x={k.cx - kidW / 2 + 0.5} y={kidY + 0.5} width={kidW - 1} height="47" rx="8" fill={SURFACE} stroke={LINE} />
+            <text x={k.cx - kidW / 2 + 12} y={kidY + 20} fontSize="12" fontWeight="600" fill={INK}>{k.name}</text>
+            <text x={k.cx - kidW / 2 + 12} y={kidY + 36} fontSize="10.5" fill={MID}>{k.meta}</text>
+            <rect x={k.cx - 42.5} y={siteY + 0.5} width="85" height="23" rx="11.5" fill={RAISED} stroke={LINE} />
+            <text x={k.cx} y={siteY + 16} fontSize="10.5" fill={MID} textAnchor="middle">{k.sites}</text>
+          </g>
         ))}
-        <div className="mt-3 flex items-center justify-between">
-          <span className="text-[11px] text-secondary-text">Survivorship: tax ID from Salesforce · address and terms from ERP</span>
-          <span className="rounded-[6px] bg-ink px-2.5 py-1 text-[11px] font-medium text-on-action">Merged</span>
-        </div>
-      </div>
+        <rect x="16.5" y="220.5" width={CW - 33} height="66" rx="8" fill={RAISED} stroke={LINE} />
+        {cells.map(([k, v], i) => {
+          const x = 30 + i * ((CW - 60) / 4);
+          return (
+            <g key={k}>
+              {i > 0 && <path d={`M${x - 12} 232V276`} stroke={LINE} />}
+              <text x={x} y="244" fontSize="9.5" fill={SOFT} letterSpacing="0.6">{k.toUpperCase()}</text>
+              <text x={x} y="264" fontSize="12" fontWeight="600" fill={INK}>{v}</text>
+              {k === "Completeness" && (
+                <>
+                  <rect x={x + 34} y="257" width="64" height="5" rx="2.5" fill={LINE} />
+                  <rect x={x + 34} y="257" width={64 * 0.98} height="5" rx="2.5" fill={INK} />
+                </>
+              )}
+            </g>
+          );
+        })}
+      </svg>
     </Panel>
   );
 }
@@ -271,7 +298,7 @@ function Ask() {
       <div className="flex h-full flex-col px-4 pb-3 pt-3">
         <div className="ml-auto max-w-[78%] rounded-[12px] rounded-br-[4px] bg-[rgb(var(--screen-raised))] px-3 py-2 text-[12.5px]">Which channel is growing fastest this quarter?</div>
         <div className="mt-3 flex gap-2.5">
-          <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-[6px] bg-ink text-[10px] font-semibold text-on-action">A</span>
+          <AkashicLogo className="mt-0.5 h-5 w-5 shrink-0" primaryColor="rgb(var(--ink))" />
           <div className="min-w-0 flex-1">
             <p className="text-[13px] leading-[1.45]">
               Online is your fastest-growing channel, up <span className="font-semibold">18% quarter on quarter</span>, and now 22% of revenue.

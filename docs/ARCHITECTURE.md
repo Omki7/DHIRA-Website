@@ -189,7 +189,7 @@ components/
                                    scroll code drives
       AkashicPlateScreensMockup    The teardown plate faces: one monotone crop of the product per module
                                    at plate size (536 × 376): panel header with breadcrumb and view tabs,
-                                   one canvas (run graph, match review, schema diagram, forecast, cited
+                                   one canvas (run graph, customer hierarchy with stewardship, schema diagram, forecast, cited
                                    answer, dashboard tiles), status bar. No app chrome, no colour
       ProofComparisonMockup        TheProof before/after slider (role="slider", keyboard operable)
       EisBrowserChromeMockup + eis/*   /solutions/eis screens. Each is the evidence for the

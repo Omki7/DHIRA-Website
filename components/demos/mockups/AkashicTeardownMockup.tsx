@@ -20,7 +20,7 @@
  */
 
 import { useEffect, useRef } from "react";
-import AkashicLogo from "@/components/icons/AkashicLogo";
+import AkashicWordmark from "@/components/icons/AkashicWordmark";
 import AkashicPlateScreensMockup, { FACE_H, FACE_W } from "@/components/demos/mockups/AkashicPlateScreensMockup";
 import FigureEyebrow from "@/components/ui/FigureEyebrow";
 import PreviewTag from "@/components/ui/PreviewTag";
@@ -45,7 +45,7 @@ const HUD_NAMES = ["DATA PIPELINES", "MASTER DATA", "DATA WAREHOUSE", "MACHINE L
 
 const PLATE_TAGS = [
   "A-01 · Data Pipelines · ingest / validate",
-  "A-02 · Master Data · entity resolution",
+  "A-02 · Master Data · hierarchies / stewardship",
   "A-03 · Data Warehouse · modelled storage",
   "A-04 · Machine Learning · train / deploy / monitor",
   "A-05 · Ask Akashic · natural language",
@@ -1104,11 +1104,8 @@ export default function AkashicTeardownMockup({ content, trackRef, curtainHeight
                 
                 <div style={{ position: "absolute", left: 12, top: 12, bottom: 12, width: 3, borderRadius: 2, background: ACC }} />
                 <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 13 }}>
-                  {/* The wordmark: the logo is the A (21 Oct 2026). */}
-                  <div style={{ display: "flex", alignItems: "center" }}>
-                    <AkashicLogo className="h-11 w-11" primaryColor="rgb(var(--ink))" />
-                    <span aria-hidden style={{ marginLeft: -4, fontSize: 30, fontWeight: 600, letterSpacing: "0.32em", color: inkA(0.82), fontFamily: "var(--font-heading)" }}>KASHIC</span>
-                  </div>
+                  {/* The designed wordmark, nothing redrawn (user, 26 Oct 2026). */}
+                  <AkashicWordmark className="text-[34px] font-semibold tracking-tight text-ink" primaryColor="rgb(var(--ink))" />
                   <div style={{ ...mono, fontSize: 10.5, letterSpacing: "0.22em", color: "rgb(var(--secondary-text))" }}>UNIFIED DATA &amp; AI PLATFORM</div>
                 </div>
                 <div style={{ position: "absolute", left: 26, top: 22, ...mono, fontSize: 10, letterSpacing: "0.16em", color: 'rgb(var(--secondary-text))' }}>DHIRA · DATA SYSTEMS</div>
