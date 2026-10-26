@@ -155,7 +155,7 @@ export default function EisCommandCentreMockup() {
       <div className="flex flex-wrap items-center justify-between gap-3 border-b border-lineSoft pb-3">
         <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
           <span className="mr-1 font-mono text-[11px] uppercase tracking-wider text-tertiary-text font-semibold">
-            Lens:
+            Executives:
           </span>
           {ROLES.map((r) => {
             const isActive = r.id === selectedRole;
@@ -164,19 +164,12 @@ export default function EisCommandCentreMockup() {
                 key={r.id}
                 type="button"
                 onClick={() => setSelectedRole(r.id)}
-                className={`flex items-center gap-1.5 rounded-chip border px-3 py-1.5 text-[12px] font-medium transition-all ${
+                className={`flex items-center rounded-chip border px-3 py-1.5 text-[12px] font-medium transition-all ${
                   isActive
                     ? "border-blue bg-blue text-white shadow-sm font-semibold"
                     : "border-lineSoft bg-background text-secondary-text hover:border-line hover:bg-primary-bg hover:text-ink"
                 }`}
               >
-                <span
-                  className={`flex h-4 w-4 items-center justify-center rounded-[3px] text-[8.5px] font-bold ${
-                    isActive ? "bg-white text-blue" : "bg-ink text-on-action"
-                  }`}
-                >
-                  {r.initials}
-                </span>
                 <span>{r.label}</span>
               </button>
             );
