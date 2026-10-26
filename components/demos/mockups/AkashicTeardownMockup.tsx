@@ -10,15 +10,17 @@
  * by native scroll; AkashicModular owns the tall track + curtain, this
  * component reads track position per frame, smooths it, and writes
  * transforms/opacities imperatively (no per-frame React renders).
- * Plate faces stay abstract sketches (user direction, Jul 2026): no named
- * entities or invented figures here — [01] and the showcase own the worked
- * examples. Source-dot colours from AkashicModules.
+ * Plate faces carry each module's detailed wireframe (ModuleScreen from
+ * AkashicModuleScreensMockup, user, 26 Oct 2026), drawn over the abstract
+ * sketches that stood alone from Jul 2026; the screens' figures are the one
+ * demo world (AkashicScreenKitMockup). Source-dot colours from AkashicModules.
  * Inline styles here are computed 3D geometry — the Rule 8 mockup
  * exception, same as HeroProductsMockup / AkashicModuleScreensMockup.
  */
 
 import { useEffect, useRef } from "react";
 import AkashicLogo from "@/components/icons/AkashicLogo";
+import { ModuleScreen, NATIVE_H, NATIVE_W } from "@/components/demos/mockups/AkashicModuleScreensMockup";
 import FigureEyebrow from "@/components/ui/FigureEyebrow";
 import PreviewTag from "@/components/ui/PreviewTag";
 import type { AkashicPage } from "@/content/pages/akashic";
@@ -109,6 +111,26 @@ const accA = (a: number) => `rgb(var(--blue) / ${a})`;
 /*  Plate shell                                                      */
 /* ---------------------------------------------------------------- */
 
+/* Each module's detailed wireframe (AkashicModuleScreensMockup), laid on its
+   plate inside the inner border (inset 12) and scaled from its native
+   920×600 to the plate's width. It sits in the face layer, so it fades in
+   with the plate as that module opens. The abstract sketch the scroll code
+   still drives stays mounted underneath but hidden, so none of it peeks
+   past the screen's edges (user, 26 Oct 2026: "use the detailed wireframes
+   on top of those blocks"). */
+const SCREEN_SCALE = (W - 24) / NATIVE_W;
+const SCREEN_TOP = 12 + (H - 24 - NATIVE_H * SCREEN_SCALE) / 2;
+
+function PlateScreen({ i }: { i: number }) {
+  return (
+    <div
+      style={{ position: "absolute", left: 12, top: SCREEN_TOP, width: NATIVE_W, height: NATIVE_H, transform: `scale(${SCREEN_SCALE})`, transformOrigin: "0 0", borderRadius: 14, overflow: "hidden", border: "1px solid rgb(var(--card-line))", background: "rgb(var(--screen-raised))" }}
+    >
+      <ModuleScreen index={i} />
+    </div>
+  );
+}
+
 function PlateShell({ i, extra, children }: { i: number; extra?: React.ReactNode; children: React.ReactNode }) {
   const side = (key: string, st: React.CSSProperties, child?: React.ReactNode) => (
     <div key={key} data-ak-side={i} style={{ position: "absolute", transformOrigin: "0 0", ...st }}>
@@ -156,7 +178,9 @@ function PlateShell({ i, extra, children }: { i: number; extra?: React.ReactNode
         ))}
         {extra}
         <div data-ak={`sch-${i}`} style={{ position: "absolute", inset: 0, opacity: 0 }}>
-          {children}
+          {/* The sketch stays mounted for the scroll code, out of sight. */}
+          <div style={{ position: "absolute", inset: 0, visibility: "hidden" }}>{children}</div>
+          <PlateScreen i={i} />
         </div>
       </div>
       <div
