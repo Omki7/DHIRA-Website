@@ -801,21 +801,8 @@ const SCREENS: Screen[] = [
 
 const N = SCREENS.length;
 const SCREEN_DURATION_MS = 8500;
-export const NATIVE_W = 920;
-export const NATIVE_H = 600;
-
-/* One module's screen at its native 920×600, nothing interactive. Since
-   26 Oct 2026 the /akashic [02] teardown lays these on its plates, one per
-   module in the platform's order (0 Data Pipelines … 5 Business
-   Intelligence, 6 Governance). */
-export function ModuleScreen({ index }: { index: number }) {
-  const screen = SCREENS[index];
-  return (
-    <div className="pointer-events-none h-full w-full select-none" aria-hidden="true" inert>
-      {screen.html ? <div className="h-full w-full" dangerouslySetInnerHTML={{ __html: screen.html }} /> : <AkashicBIScreenMockup />}
-    </div>
-  );
-}
+const NATIVE_W = 920;
+const NATIVE_H = 600;
 /* The front screen's scale: small enough that the product text stops reading. */
 const FRONT_SCALE = 0.56;
 

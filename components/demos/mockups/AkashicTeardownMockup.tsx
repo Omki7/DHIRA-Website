@@ -10,17 +10,18 @@
  * by native scroll; AkashicModular owns the tall track + curtain, this
  * component reads track position per frame, smooths it, and writes
  * transforms/opacities imperatively (no per-frame React renders).
- * Plate faces carry each module's detailed wireframe (ModuleScreen from
- * AkashicModuleScreensMockup, user, 26 Oct 2026), drawn over the abstract
- * sketches that stood alone from Jul 2026; the screens' figures are the one
- * demo world (AkashicScreenKitMockup). Source-dot colours from AkashicModules.
+ * Plate faces carry each module's focused screen (AkashicPlateScreensMockup,
+ * user, 26 Oct 2026): no app chrome, one core view per module, drawn at
+ * plate size over the abstract sketches that stood alone from Jul 2026. The
+ * screens' figures are the one demo world (AkashicScreenKitMockup).
+ * Source-dot colours from AkashicModules.
  * Inline styles here are computed 3D geometry — the Rule 8 mockup
  * exception, same as HeroProductsMockup / AkashicModuleScreensMockup.
  */
 
 import { useEffect, useRef } from "react";
 import AkashicLogo from "@/components/icons/AkashicLogo";
-import { ModuleScreen, NATIVE_H, NATIVE_W } from "@/components/demos/mockups/AkashicModuleScreensMockup";
+import AkashicPlateScreensMockup, { FACE_H, FACE_W } from "@/components/demos/mockups/AkashicPlateScreensMockup";
 import FigureEyebrow from "@/components/ui/FigureEyebrow";
 import PreviewTag from "@/components/ui/PreviewTag";
 import type { AkashicPage } from "@/content/pages/akashic";
@@ -111,22 +112,17 @@ const accA = (a: number) => `rgb(var(--blue) / ${a})`;
 /*  Plate shell                                                      */
 /* ---------------------------------------------------------------- */
 
-/* Each module's detailed wireframe (AkashicModuleScreensMockup), laid on its
-   plate inside the inner border (inset 12) and scaled from its native
-   920×600 to the plate's width. It sits in the face layer, so it fades in
-   with the plate as that module opens. The abstract sketch the scroll code
-   still drives stays mounted underneath but hidden, so none of it peeks
-   past the screen's edges (user, 26 Oct 2026: "use the detailed wireframes
-   on top of those blocks"). */
-const SCREEN_SCALE = (W - 24) / NATIVE_W;
-const SCREEN_TOP = 12 + (H - 24 - NATIVE_H * SCREEN_SCALE) / 2;
-
+/* Each module's focused screen (AkashicPlateScreensMockup), drawn at the
+   plate's own size inside its inner border (inset 12), so the content reads
+   instead of shrinking with a whole app window. It sits in the face layer,
+   so it fades in with the plate as that module opens. The abstract sketch
+   the scroll code still drives stays mounted underneath but hidden (user,
+   26 Oct 2026: wireframes on the plates, then "remove the top and left bar
+   ... the focus should be on the things we want to show"). */
 function PlateScreen({ i }: { i: number }) {
   return (
-    <div
-      style={{ position: "absolute", left: 12, top: SCREEN_TOP, width: NATIVE_W, height: NATIVE_H, transform: `scale(${SCREEN_SCALE})`, transformOrigin: "0 0", borderRadius: 14, overflow: "hidden", border: "1px solid rgb(var(--card-line))", background: "rgb(var(--screen-raised))" }}
-    >
-      <ModuleScreen index={i} />
+    <div style={{ position: "absolute", left: (W - FACE_W) / 2, top: (H - FACE_H) / 2 }}>
+      <AkashicPlateScreensMockup index={i} />
     </div>
   );
 }

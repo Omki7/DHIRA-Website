@@ -182,12 +182,15 @@ components/
       AkashicOutcomeCardsMockup    Homepage [02]: one outcome card per module (role, typed question,
                                    answer, drawing, provenance) in the fan. Copy in platform.showcase
                                    (type OutcomeShowcase in content/pages/akashic.ts).
-                                   Replaced AkashicModuleScreensMockup's fan (22 Oct 2026); its screens
-                                   (with AkashicScreenKitMockup + AkashicBIScreenMockup) live on as
-                                   `ModuleScreen`, laid on the /akashic [02] teardown plates
+                                   Replaced AkashicModuleScreensMockup + AkashicScreenKitMockup +
+                                   AkashicBIScreenMockup (22 Oct 2026; unused, to archive)
       AkashicTeardownMockup        /akashic modular teardown stage. Since 26 Oct 2026 each module's plate
-                                   carries that module's detailed screen (ModuleScreen, 920×600 scaled
-                                   to the plate) over the hidden abstract sketch the scroll code drives
+                                   carries AkashicPlateScreensMockup over the hidden abstract sketch the
+                                   scroll code drives
+      AkashicPlateScreensMockup    The teardown plate faces: one monotone crop of the product per module
+                                   at plate size (536 × 376): panel header with breadcrumb and view tabs,
+                                   one canvas (run graph, match review, schema diagram, forecast, cited
+                                   answer, dashboard tiles), status bar. No app chrome, no colour
       ProofComparisonMockup        TheProof before/after slider (role="slider", keyboard operable)
       EisBrowserChromeMockup + eis/*   /solutions/eis screens. Each is the evidence for the
                                    caption beside it; change the claim, change the screen
