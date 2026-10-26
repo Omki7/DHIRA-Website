@@ -64,7 +64,7 @@ export default function EisHero({
           <div className="mb-8 inline-flex items-center gap-2 rounded-full border border-lineSoft bg-background/90 px-4 py-1.5 shadow-sm backdrop-blur-md">
             <span className="flex h-2 w-2 rounded-full bg-positive animate-pulse" aria-hidden="true" />
             <span className="font-mono text-[11px] font-semibold uppercase tracking-wider text-ink">
-              Akashic EIS · Executive Information System
+              {content.badge}
             </span>
           </div>
 

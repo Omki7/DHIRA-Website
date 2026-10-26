@@ -300,6 +300,8 @@ export interface EisPage {
   sectionsLabel: string;
   domains: Domain[];
   hero: {
+    /** The product's name over the headline: "Executive Intelligence", nothing more. */
+    badge: string;
     title: [string, string];
     /** Typed one after another into the ask bar; one per industry. */
     prompts: string[];
@@ -346,13 +348,13 @@ export interface EisPage {
 
 export const solutionsEis: EisPage = {
   seo: {
-    title: "Akashic EIS Solution",
+    title: "Executive Intelligence",
     description:
       "The executive layer of the Akashic platform. It reads the systems you already run, shows the working behind every figure, and turns an approved decision into an action your systems receive.",
     path: "/solutions/eis",
   },
   sections: [
-    { id: "hero", label: "Akashic EIS" },
+    { id: "hero", label: "Executive Intelligence" },
     { id: "your-lens", label: "Your lens" },
     { id: "the-gap", label: "The gap" },
     { id: "capabilities", label: "Capabilities" },
@@ -365,6 +367,7 @@ export const solutionsEis: EisPage = {
   domains,
 
   hero: {
+    badge: "Executive Intelligence",
     title: ["Your whole business.", "Answering for itself."],
     /* Grounded in the four core questions from the executive wireframe */
     prompts: [
