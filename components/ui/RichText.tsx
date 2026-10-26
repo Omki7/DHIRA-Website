@@ -4,8 +4,10 @@
  * hairline rules instead of boxes. Lists are numbered in mono or marked with
  * a small square, never ticked (Rule 2).
  *
- * `size` sets the reading scale: `article` for Insights and the newsroom,
- * `legal` for policy pages, which run a step smaller and denser.
+ * `size` sets the reading scale: `essay` for Insights (26 Oct 2026: a
+ * long-form blog scale, larger ink text with room between paragraphs and a
+ * framed closing note), `article` for the newsroom, `legal` for policy
+ * pages, which run a step smaller and denser.
  */
 
 import type { ReactNode } from "react";
@@ -46,16 +48,21 @@ function inline(text: string): ReactNode[] {
 
 const pad = (n: number) => String(n).padStart(2, "0");
 
-export default function RichText({ blocks, size = "article" }: { blocks: Block[]; size?: "article" | "legal" }) {
-  const body = size === "article" ? "text-[17px] leading-[1.75]" : "text-[15.5px] leading-[1.7]";
+export default function RichText({ blocks, size = "article" }: { blocks: Block[]; size?: "essay" | "article" | "legal" }) {
+  const essay = size === "essay";
+  const body = {
+    essay: "text-ink/[0.86] text-[18px] leading-[1.75] sm:text-[19px] sm:leading-[1.72]",
+    article: "text-secondary-text text-[17px] leading-[1.75]",
+    legal: "text-secondary-text text-[15.5px] leading-[1.7]",
+  }[size];
   return (
-    <div className={`text-secondary-text ${body}`}>
+    <div className={body}>
       {blocks.map((block, index) => {
         const key = `${block.type}-${index}`;
         switch (block.type) {
           case "p":
             return (
-              <p key={key} className="mt-5 text-pretty first:mt-0">
+              <p key={key} className={`text-pretty first:mt-0 ${essay ? "mt-7" : "mt-5"}`}>
                 {inline(block.text)}
               </p>
             );
@@ -65,7 +72,7 @@ export default function RichText({ blocks, size = "article" }: { blocks: Block[]
                 key={key}
                 id={block.id}
                 className={`scroll-mt-28 text-balance font-heading font-semibold tracking-[-0.02em] text-ink first:mt-0 ${
-                  size === "article" ? "mt-14 text-[26px] leading-[1.2] lg:text-[28px]" : "mt-12 text-[22px] leading-[1.25]"
+                  essay ? "mt-16 text-[26px] leading-[1.2] lg:text-[30px]" : size === "article" ? "mt-14 text-[26px] leading-[1.2] lg:text-[28px]" : "mt-12 text-[22px] leading-[1.25]"
                 }`}
               >
                 {block.text}
@@ -101,8 +108,8 @@ export default function RichText({ blocks, size = "article" }: { blocks: Block[]
             );
           case "quote":
             return (
-              <figure key={key} className="mt-10 border-l-2 border-blue pl-6">
-                <blockquote className="text-balance font-display text-[24px] leading-[1.35] text-ink lg:text-[26px]">
+              <figure key={key} className={essay ? "my-14 border-y border-lineSoft py-10" : "mt-10 border-l-2 border-blue pl-6"}>
+                <blockquote className={`text-balance font-display text-ink ${essay ? "text-[28px] leading-[1.28] lg:text-[34px]" : "text-[24px] leading-[1.35] lg:text-[26px]"}`}>
                   {block.text}
                 </blockquote>
                 {block.cite && (
@@ -112,9 +119,9 @@ export default function RichText({ blocks, size = "article" }: { blocks: Block[]
             );
           case "note":
             return (
-              <aside key={key} className="mt-8 border-y border-lineSoft py-5">
+              <aside key={key} className={essay ? "mt-10 rounded-outer border border-subtle-stroke bg-primary-bg p-6 sm:p-8" : "mt-8 border-y border-lineSoft py-5"}>
                 <p className="font-mono text-[11px] uppercase tracking-eyebrow text-overcast">{block.label}</p>
-                <p className="mt-2 text-pretty text-[15px] leading-relaxed text-ink">{inline(block.text)}</p>
+                <p className={`text-pretty text-ink ${essay ? "mt-3 text-[17px] leading-[1.65]" : "mt-2 text-[15px] leading-relaxed"}`}>{inline(block.text)}</p>
               </aside>
             );
         }

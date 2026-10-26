@@ -18,8 +18,19 @@ export function readingMinutes(blocks: Block[]) {
 
 const dateFormat = new Intl.DateTimeFormat("en-GB", { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" });
 
-/** Format an ISO date (2026-11-01) the British way: 1 November 2026. */
-export function formatDate(iso: string) {
+/* Three-letter months: en-GB's Intl short month writes "Sept". */
+const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+const utc = (iso: string) => {
   const [year, month, day] = iso.split("-").map(Number);
-  return dateFormat.format(new Date(Date.UTC(year, month - 1, day)));
+  return new Date(Date.UTC(year, month - 1, day));
+};
+
+/** Format an ISO date (2026-11-01) the British way: 1 November 2026. */
+export const formatDate = (iso: string) => dateFormat.format(utc(iso));
+
+/** The compact form for cards and archive rows: 1 Nov 2026. */
+export function formatShortDate(iso: string) {
+  const [year, month, day] = iso.split("-").map(Number);
+  return `${day} ${MONTHS[month - 1]} ${year}`;
 }

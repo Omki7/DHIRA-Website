@@ -19,12 +19,11 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function InsightsPage() {
   const [page, insights, ui] = await Promise.all([getPage("insights"), getInsights(), getUiStrings()]);
-  const { hero } = page;
   return (
     <>
       <Nav />
       <main id="main" className="bg-background">
-        <InsightsHero content={hero} insight={insights.find(item => item.slug === hero.featuredSlug) ?? insights[0]} minRead={ui.longform.minRead} />
+        <InsightsHero content={page.hero} insights={insights} minRead={ui.longform.minRead} />
         <InsightsLatest insights={insights} content={page.latest} minRead={ui.longform.minRead} />
         <InsightsSubscribe content={page.subscribe} />
         <PageClose {...page.close} />

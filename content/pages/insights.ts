@@ -4,20 +4,25 @@ import type { PageSection, Seo } from "../types";
 export interface InsightsPage {
   seo: Seo;
   sections: PageSection[];
-  hero: { label: string; setup: string; payoff: string; lede: string; featuredLabel: string; featuredSlug: string; readArticle: string };
+  hero: { label: string; setup: string; payoff: string; lede: string; featuredLabel: string; featuredSlug: string; latestLabel: string; updatedLabel: string; moreLabel: string };
   latest: {
     label: string; setup: string; payoff: string; lede: string;
     allLabel: string; searchLabel: string; searchPlaceholder: string; clearSearch: string;
     topicsLabel: string; resultsLabel: string; resultSingular: string; resultPlural: string;
-    emptyTitle: string; emptyBody: string; resetLabel: string; readArticle: string;
+    emptyTitle: string; emptyBody: string; resetLabel: string;
+    viewLabel: string; galleryLabel: string; indexLabel: string;
   };
-  subscribe: { label: string; setup: string; payoff: string; lede: string; rss: { link: string; href: string }; note: string };
+  subscribe: {
+    label: string; setup: string; payoff: string; lede: string;
+    rss: { link: string; href: string }; note: string;
+    feed: { label: string; copy: string; copied: string; error: string };
+  };
   close: PageCloseBlock;
   rss: { title: string; description: string; language: string };
   article: {
     crumb: string; takeawayLabel: string; sourcesLabel: string; sourcesNote: string;
     agentLabel: string; relatedLabel: string; relatedSetup: string; relatedPayoff: string;
-    backLabel: string; close: PageCloseBlock;
+    backLabel: string; writtenBy: string; close: PageCloseBlock;
   };
 }
 
@@ -28,8 +33,8 @@ export const insightsPage: InsightsPage = {
     path: "/insights",
   },
   sections: [
-    { id: "hero", label: "Featured perspective" },
-    { id: "latest", label: "Explore the library" },
+    { id: "hero", label: "Latest essays" },
+    { id: "latest", label: "The library" },
     { id: "subscribe", label: "Follow Insights" },
     { id: "talk-to-our-team", label: "Talk to our team" },
   ],
@@ -37,28 +42,32 @@ export const insightsPage: InsightsPage = {
     label: "Insights",
     setup: "See the decision",
     payoff: "behind the technology.",
-    lede: "Perspectives for leaders turning data and AI into useful work. The costs, choices and operating realities behind the promise.",
-    featuredLabel: "Featured perspective",
+    lede: "Essays for leaders turning data and AI into useful work, written by the teams who build it. The costs, choices and operating realities behind the promise.",
+    featuredLabel: "Featured",
     featuredSlug: "why-ai-pilots-stall",
-    readArticle: "Read the perspective",
+    latestLabel: "Latest essays",
+    updatedLabel: "Updated",
+    moreLabel: "More new essays",
   },
   latest: {
     label: "The library",
     setup: "Make your next decision",
     payoff: "with a clearer view.",
-    lede: "Explore the questions behind AI investment, trusted data and accountable delivery. Each article connects evidence with a practical business decision.",
-    allLabel: "All perspectives",
+    lede: "Browse every essay by topic, or search for the question on your desk. Each one ends with something you can take into your next meeting.",
+    allLabel: "All",
     searchLabel: "Search insights",
     searchPlaceholder: "Search a question or topic",
     clearSearch: "Clear search",
     topicsLabel: "Filter insights by topic",
     resultsLabel: "Matching insights",
-    resultSingular: "perspective",
-    resultPlural: "perspectives",
-    emptyTitle: "No perspectives match this search.",
+    resultSingular: "essay",
+    resultPlural: "essays",
+    emptyTitle: "No essays match this search.",
     emptyBody: "Try a broader term or choose another topic.",
     resetLabel: "Reset filters",
-    readArticle: "Read the article",
+    viewLabel: "Choose a view",
+    galleryLabel: "Gallery",
+    indexLabel: "Index",
   },
   subscribe: {
     label: "Keep a clear view",
@@ -67,6 +76,12 @@ export const insightsPage: InsightsPage = {
     lede: "Follow new perspectives on the business of data and AI. Read every article in full, without an account.",
     rss: { link: "Follow the article feed", href: "/insights/rss.xml" },
     note: "An open feed for your preferred reader.",
+    feed: {
+      label: "Article feed address",
+      copy: "Copy feed address",
+      copied: "Feed address copied.",
+      error: "Copy the selected address into your feed reader.",
+    },
   },
   close: {
     label: "From perspective to practice",
@@ -87,13 +102,14 @@ export const insightsPage: InsightsPage = {
     relatedSetup: "Follow the question",
     relatedPayoff: "a little further.",
     backLabel: "All insights",
+    writtenBy: "Written by",
     close: {
       label: "Put the perspective to work",
       setup: "Start with the question",
       payoff: "your business needs answered.",
       body: "Explore the data foundation, platform choices and delivery responsibilities with the DHIRA team.",
       primary: { label: "Talk to our team", href: "#talk-to-our-team" },
-      secondary: { label: "Explore our services", href: "/delivery" },
+      secondary: { label: "Explore our services", href: "/services" },
     },
   },
 };

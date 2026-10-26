@@ -34,12 +34,12 @@ components/sections/*        templates: render props, never fetch
 components/demos/*
 ```
 
-1. **The route loads.** `app/delivery/page.tsx` calls `await getPage("delivery")`,
+1. **The route loads.** `app/services/page.tsx` calls `await getPage("services")`,
    plus any collection it needs (`getCustomerStories()`), and uses `seo` for
    `generateMetadata`.
 2. **The route passes slices.** Each section gets exactly its part:
-   `<DeliveryFAQ content={page.faq} />`. The section's prop type is a slice of the
-   document type (`DeliveryPage["faq"]`), so a field change shows up as a type
+   `<ServicesFAQ content={page.faq} />`. The section's prop type is a slice of the
+   document type (`ServicesPage["faq"]`), so a field change shows up as a type
    error everywhere it matters.
 3. **Interface microcopy** (aria labels, "Previous", "Read more", form labels) is
    one document, `content/ui.ts`:
@@ -154,7 +154,12 @@ visible text). Change it there. Never edit the component.
 
 **Add an article.** Add an entry to `content/collections/insights.ts`. The
 article page, the hub row, the RSS item, the sitemap entry and the llms.txt line
-all follow. Do the same for press releases and customer stories.
+all follow. Insights essays are written like a good long-form blog: open on a
+scene, plain sentences of mixed length, a point of view, one pull quote
+(`quote`), a closing `note` the reader can take into a meeting, no bullet
+lists. Byline a DHIRA team from `TEAM`, never a person. A new essay needs a
+cover plate: add its key to `InsightCover` and draw it in
+`sections/insights/InsightCover.tsx` (hairlines, one blue accent, no data). Do the same for press releases and customer stories.
 
 **Add a section to a page.**
 
@@ -195,7 +200,7 @@ nothing else. Routes, components and types stay as they are.
    boundary: parse the response with a schema (for example Zod) generated from,
    or checked against, the interfaces. A CMS typo must fail loudly at build or
    in preview, not render `undefined`.
-4. **Revalidate.** Tag each fetch (`next: { tags: ["page:delivery"] }`), add a
+4. **Revalidate.** Tag each fetch (`next: { tags: ["page:services"] }`), add a
    route handler the CMS webhook calls with `revalidateTag`, and keep pages
    static.
 5. **Preview.** Enable Next.js Draft Mode in a route handler. In draft mode the
