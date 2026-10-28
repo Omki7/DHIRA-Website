@@ -21,19 +21,27 @@ import { nameOrWordmark } from "@/components/icons/AkashicWordmark";
    Audited 21 Oct 2026: what qualifies for a footer link is set out above
    the columns in content/navigation.ts. The hand-kept "Last updated" date
    went: it had already gone stale, and none of the reference footers
-   carries one. */
+   carries one.
+   Resized 28 Oct 2026 (user: too big), 826px to about 450px at 1440,
+   measured against Linear (494px, 37 links), Notion (396px), OpenAI and
+   Vercel: no column past 7 links, a 28px link pitch (Vercel and
+   Databricks use 28), 64/32px padding, and the company line and policy
+   row share one row from xl. */
 
 /* inkSoft on vault measures 4.8:1 in light and 7.8:1 in dark, over the
    4.5:1 AA floor at these 11 to 14px sizes. Every heading is one fixed
    16px row, so the Akashic wordmark's taller logo cannot push its column
    below the others. */
-const headingClass = "font-mono text-[11px] font-medium uppercase tracking-eyebrow text-inkSoft mb-5 flex h-4 items-center";
+const headingClass = "font-mono text-[11px] font-medium uppercase tracking-eyebrow text-inkSoft mb-4 flex h-4 items-center";
 const linkClass = "text-inkSoft text-sm hover:text-ink transition-colors duration-200 ease-settle";
 const ribbonLinkClass = "hover:text-secondary-text transition-colors duration-200 ease-settle";
 
+/* leading-5 on the list, not only the links: each item's line box takes
+   the list's line height, and the inherited body leading made the pitch
+   36px. */
 function LinkList({ links }: { links: FooterLink[] }) {
   return (
-    <ul className="space-y-3">
+    <ul className="space-y-2 text-sm leading-5">
       {links.map((link) => (
         <li key={link.label}>
           <RegionLink href={link.href} className={`${linkClass} ${link.external ? "inline-flex items-center gap-1" : ""}`}>
@@ -53,19 +61,21 @@ export default async function Footer() {
     site.cin && `${ui.footer.cin} ${site.cin}`,
   ].filter(Boolean);
   return (
-    <footer className="border-t border-lineSoft bg-vault text-ink pt-20 pb-10">
+    <footer className="border-t border-lineSoft bg-vault text-ink pt-16 pb-8">
       <ScrollRevealRail>
-        {/* 7 columns on lg: brand spans 2, then Akashic / Solutions /
-            Services / Resources / Company. */}
-        <div className="mb-20 grid grid-cols-2 gap-x-8 gap-y-12 sm:grid-cols-3 lg:grid-cols-7 lg:gap-10">
+        {/* xl: brand on a wider track, then Akashic / Solutions /
+            Industries / Services / Resources / Company. Below xl the brand
+            takes its own row, so six link columns keep room on a 1024px
+            screen. */}
+        <div className="mb-12 grid grid-cols-2 gap-x-8 gap-y-10 sm:grid-cols-3 lg:grid-cols-6 xl:grid-cols-[minmax(0,1.5fr)_repeat(6,minmax(0,1fr))]">
           {/* Brand column */}
-          <div className="col-span-2 flex flex-col sm:col-span-3 lg:col-span-2">
-            <RegionLink href="/" aria-label={ui.homeLink} className="mb-6 flex items-center gap-1.5 text-ink">
-              <DhiraLogo className="h-10 w-10 text-ink" />
-              <span className="text-[22px] font-semibold tracking-tight">{site.name}</span>
+          <div className="col-span-2 flex flex-col sm:col-span-3 lg:col-span-6 xl:col-span-1">
+            <RegionLink href="/" aria-label={ui.homeLink} className="mb-5 flex items-center gap-1.5 text-ink">
+              <DhiraLogo className="h-8 w-8 text-ink" />
+              <span className="text-xl font-semibold tracking-tight">{site.name}</span>
             </RegionLink>
             <p className="max-w-[240px] text-sm leading-relaxed text-inkSoft">{site.tagline}</p>
-            <p className="mt-8 text-xs tracking-wide text-inkSoft">{site.offices.map((office) => office.city).join(" · ")}</p>
+            <p className="mt-6 text-xs tracking-wide text-inkSoft">{site.offices.map((office) => office.city).join(" · ")}</p>
             <a href={footer.contact.href} className={`mt-2 text-xs tracking-wide text-inkSoft ${ribbonLinkClass}`}>
               {footer.contact.label}
             </a>
@@ -77,25 +87,21 @@ export default async function Footer() {
             <div key={col.heading} className="col-span-1">
               <h2 className={headingClass}>{nameOrWordmark(col.heading)}</h2>
               <LinkList links={col.links} />
-              {col.subHeading && col.subLinks && (
-                <div className="mt-8">
-                  <h2 className={headingClass}>{col.subHeading}</h2>
-                  <LinkList links={col.subLinks} />
-                </div>
-              )}
             </div>
           ))}
         </div>
 
-        {/* Ribbon: the company line and the legal row on the left; the
-            region switch and LinkedIn on the right.
-            Left-aligned on mobile to match the columns above. */}
-        <div className="flex flex-col items-start gap-6 border-t border-line pt-8 lg:flex-row lg:items-end lg:justify-between">
-          <div className="space-y-3 text-xs text-inkSoft">
+        {/* Ribbon: the company line on the left; the legal row, region
+            switch and LinkedIn on the right, one row from xl. Stacked and
+            left-aligned below that, to match the columns above. */}
+        <div className="flex flex-col items-start gap-4 border-t border-line pt-6 text-xs text-inkSoft xl:flex-row xl:items-center xl:justify-between">
+          <div className="space-y-1">
             <p>
               &copy; {new Date().getFullYear()} {site.name}. {ui.footer.rights} {site.productLine}
             </p>
             {disclosure.length > 0 && <p>{disclosure.join(" · ")}</p>}
+          </div>
+          <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
             <nav aria-label={ui.footer.policies}>
               <ul className="flex flex-wrap items-center gap-x-5 gap-y-2">
                 {footer.legal.map((link) => (
@@ -107,8 +113,6 @@ export default async function Footer() {
                 ))}
               </ul>
             </nav>
-          </div>
-          <div className="flex items-center gap-6 text-inkSoft">
             {REGIONAL_PATHS.length > 0 && <RegionSwitch />}
             {site.social.map((profile) => (
               <Link

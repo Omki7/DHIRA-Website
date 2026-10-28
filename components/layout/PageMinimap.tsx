@@ -5,7 +5,7 @@ import { useUi } from "@/components/providers/UiProvider";
 import type { PageSection } from "@/content/types";
 import { usePageScrollSpy } from "@/hooks/usePageScrollSpy";
 
-const CLOSE_DELAY_MS = 160;
+const CLOSE_DELAY_MS = 600;
 
 interface PageMinimapProps {
   sections: PageSection[];
@@ -59,7 +59,10 @@ export default function PageMinimap({
   }, [sections]);
 
   // The rail maps the page's sections, not the site footer: it steps aside
-  // once the footer's top passes the middle of the screen, where it sits.
+  // once the footer's top is 120px into the screen, where the tallest rail
+  // ends (globals.css caps it at 100dvh - 240px, centred). The line used to
+  // be the middle of the screen; the footer, cut to about 450px on 28 Oct
+  // 2026, never rises that far, so the rail stayed over it.
   useEffect(() => {
     const footer = document.querySelector("footer");
     if (!footer) return;
@@ -68,7 +71,7 @@ export default function PageMinimap({
         setAtFooter(entry.isIntersecting);
         if (entry.isIntersecting) setExpanded(false);
       },
-      { rootMargin: "0px 0px -50% 0px" },
+      { rootMargin: "0px 0px -120px 0px" },
     );
     observer.observe(footer);
     return () => observer.disconnect();

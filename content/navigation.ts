@@ -364,7 +364,8 @@ const cta: Link = { label: "Talk to our team", href: "#talk-to-our-team" };
 /*  Footer: the same IA, one source with the header (15 Oct 2026)      */
 /* ------------------------------------------------------------------ */
 /* Mirrors the header menus (Akashic · Solutions · Services · Resources ·
-   Company). The legal row is the founder's policy row (his footer:
+   Company), with the Solutions menu's industries as a column of their
+   own. The legal row is the founder's policy row (his footer:
    privacy, terms, accessibility, copyright and hyperlinking policies,
    sitemap).
 
@@ -381,10 +382,16 @@ const cta: Link = { label: "Talk to our team", href: "#talk-to-our-team" };
    - not dated: nothing that goes stale on its own (Events went, its one
      dated event was the 1 November launch).
    The same day the user removed Documentation, Events, Integrations and
-   Trust Centre from the whole site. */
+   Trust Centre from the whole site.
+
+   Resized 28 Oct 2026 (user: the footer felt too big). Industries used to
+   sit under Solutions, making that one column 11 links deep while the rest
+   stopped at 3 to 5; it set an 826px footer. Industries is now its own
+   column, so no column runs past 7 links. Keep it that way: a long column
+   sets the whole footer's height. */
 export type FooterLink = { label: string; href: string; external?: boolean };
 
-export type FooterColumn = { heading: string; links: FooterLink[]; subHeading?: string; subLinks?: FooterLink[] };
+export type FooterColumn = { heading: string; links: FooterLink[] };
 
 const footerColumns: FooterColumn[] = [
   {
@@ -403,8 +410,10 @@ const footerColumns: FooterColumn[] = [
       { label: "Akashic Life", href: "/solutions/life" },
       { label: "All solutions", href: "/solutions" },
     ],
-    subHeading: "Industries",
-    subLinks: [
+  },
+  {
+    heading: "Industries",
+    links: [
       { label: "Public sector", href: "/sectors/public-sector" },
       { label: "Banking, financial services and insurance", href: "/sectors/finance" },
       { label: "Healthcare", href: "/sectors/healthcare" },
