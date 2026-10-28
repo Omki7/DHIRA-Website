@@ -37,6 +37,7 @@ non-photographic ones came from.
 | `og-image.png` | Default social card (`content/site.ts` `seo.ogImage`) |
 | `brand/` | Logo files for press and partners |
 | `avatars/` | Leadership portraits (`*-executive-v1.webp`, provenance below) and the homepage voices portraits |
+| `about/` | One explicitly illustrative remote-review placeholder; `about/team/` contains nine employee photographs sourced from dhira.io |
 | `delivery/` (retired) | The old Services photographs moved to `.archive/services-redesign/public/delivery/` on 26 Oct 2026. Services now uses code-native concept drawings and the shared proof imagery |
 | `sectors/` | Sector page photographs |
 | `proof/` | Homepage proof imagery |
@@ -45,9 +46,11 @@ non-photographic ones came from.
 
 ## Provenance
 
-These images are generated or AI-edited, not camera photographs of DHIRA
-people or places. Say so if anyone asks. The connector marks below are the
-exception: published brand marks.
+The older lifestyle imagery is generated or AI-edited, not camera photographs
+of DHIRA people or places. Leadership portraits are enhanced versions of real
+photographs. The About team photographs added on 28 October 2026 are actual
+images from dhira.io; their sources are recorded below. Connector marks are
+published brand marks. The two new home-workspace scenes are AI placeholders.
 
 ### Connector marks (`components/icons/ConnectorLogo.tsx`)
 
@@ -101,3 +104,43 @@ The geometry illustrates concepts such as handover, ownership, access and
 shared foundations. No stock artwork, model-generated bitmap, product screen
 or measured business figure is used. Covers inherit the shared theme tokens
 in both appearances and are decorative beside the linked article title.
+
+### About: remote work and team (28 October 2026)
+
+The user authorised generated workspace placeholders and reuse of employee
+photographs from [the public DHIRA About page](https://dhira.io/aboutus/), and
+confirmed that DHIRA mainly works from home. Team names, roles and interests are
+transcribed or briefly paraphrased from the same source. These are selected
+people from that page, not a statement of total headcount.
+
+**Generated placeholder:** `public/about/remote-review-illustrative.webp`
+(1536 × 1024), a monochrome engineering review over a video call from home.
+Generated with the built-in image tool, then encoded as WebP at quality 86.
+The people, room and notebook are illustrative, not real DHIRA material.
+The visible caption and alt text identify the placeholder. The two previous
+desk studies were retired to `.archive/about-inspiration-2026-10-28/retired-assets/`.
+
+Exact prompts and developer replacement instructions: [ABOUT_IMAGE_PROMPTS.md](ABOUT_IMAGE_PROMPTS.md).
+To replace, edit `culture.workspace` and `culture.imageNote`
+in `content/pages/about.ts`. Record the new photographer/source here.
+
+**Nine real employee photographs:** original files served by dhira.io,
+downloaded at the user's direction. Optimised to at most 600px per edge
+without enlargement, WebP quality 88. No image-generation edits, retouching
+or background replacement. All people photographs render monochrome through
+CSS, including on hover, per the user's direction. Original files retain their
+colour. Focal positions are typed per person in the page content. Chiransh,
+Subhamoy and Diksha were removed at the user's request; their photographs are
+in the same local archive, outside `public/`.
+
+| Local file under `public/about/team/` | Original source |
+|---|---|
+| `monica-kishor.webp` | [Original](https://dhira.io/wp-content/uploads/2022/12/MicrosoftTeams-image-2.jpg) |
+| `bhaskar-sarkar.webp` | [Original](https://dhira.io/wp-content/uploads/2022/12/IMG-20211211-WA0014-1.jpg) |
+| `yash-kanvinde.webp` | [Original](https://dhira.io/wp-content/uploads/2022/12/WhatsApp-Image-2022-12-26-at-12.45.27-PM-1.jpeg) |
+| `vinay-kulkarni.webp` | [Original](https://dhira.io/wp-content/uploads/2022/12/MicrosoftTeams-image-1.jpg) |
+| `jitendra-billava.webp` | [Original](https://dhira.io/wp-content/uploads/2022/12/MicrosoftTeams-image.jpg) |
+| `vishwanandan-ka.webp` | [Original](https://dhira.io/wp-content/uploads/2023/07/MicrosoftTeams-image-22-1.jpg) |
+| `vipul-gabhane.webp` | [Original](https://dhira.io/wp-content/uploads/2022/12/MicrosoftTeams-image-30.jpg) |
+| `vipul-madan.webp` | [Original](https://dhira.io/wp-content/uploads/2022/12/MicrosoftTeams-image-32.jpg) |
+| `naved-ansari.webp` | [Original](https://dhira.io/wp-content/uploads/2023/07/MicrosoftTeams-image-24.jpg) |

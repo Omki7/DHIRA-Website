@@ -20,7 +20,7 @@ export default function AboutConviction({ content }: { content: AboutPage["convi
             ))}
           </ol>
         </div>
-        <div data-about-reveal="120" className="mx-auto w-full max-w-[470px] px-7 py-7 sm:px-9">
+        <div data-about-reveal="120" className="mx-auto w-full max-w-[520px] px-5 py-3 sm:px-6">
           <ThreadConvergence labels={content.threads} />
         </div>
       </div>

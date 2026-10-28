@@ -1,28 +1,48 @@
 ﻿import Image from "next/image";
 import AboutSection, { AboutHeading } from "@/components/sections/about/AboutSection";
+import SectionLink from "@/components/ui/SectionLink";
 import type { Leader } from "@/content/collections/leaders";
-import type { AboutHeadingContent } from "@/content/pages/about";
+import type { AboutPage } from "@/content/pages/about";
 
-const PLACEMENT = ["lg:order-3", "lg:order-1 lg:pt-14", "lg:order-2 lg:pt-24", "lg:order-4 lg:pt-24", "lg:order-5 lg:pt-14"];
-
-export default function AboutPeople({ content, leaders: ABOUT_LEADERS }: { content: AboutHeadingContent; leaders: Leader[] }) {
+export default function AboutPeople({ content, leaders }: { content: AboutPage["people"]; leaders: Leader[] }) {
+  const [founder, ...team] = leaders;
   return (
     <AboutSection id="leadership">
-      {/* The section was #people until 26 Oct 2026; older links still land. */}
       <span id="people" aria-hidden="true" className="block scroll-mt-20" />
       <AboutHeading number={content.number} label={content.label} setup={content.setup} title={content.title} intro={content.intro} />
-      <div className="about-content relative">
-        <svg viewBox="0 0 1200 240" preserveAspectRatio="none" className="pointer-events-none absolute left-0 top-20 hidden h-60 w-full lg:block" aria-hidden="true"><path d="M26 140C186 220 234 178 365 100S550 30 600 30S744 36 835 100S1014 220 1174 140" fill="none" stroke="rgb(var(--lineSoft))" strokeWidth="1" /></svg>
-        <div className="relative grid grid-cols-2 gap-x-5 gap-y-9 lg:grid-cols-5 lg:gap-x-7">
-          {ABOUT_LEADERS.map((leader, index) => (
-            <article key={leader.id} data-about-reveal={index * 65} className={`about-leader ${index === 0 ? "col-span-2 grid grid-cols-[112px_1fr] items-center gap-5 pb-4 sm:grid-cols-[160px_1fr] lg:col-span-1 lg:block lg:pb-0" : ""} ${PLACEMENT[index]}`}>
-              <div className={`about-portrait relative mx-auto bg-panel ${index === 0 ? "h-[140px] w-[112px] sm:h-[200px] sm:w-[160px] lg:h-[280px] lg:w-full lg:max-w-[224px]" : "aspect-[4/5] w-full max-w-[184px]"}`}>
-                <div className="about-portrait-photo"><Image src={leader.image} alt="" fill sizes={index === 0 ? "(min-width: 1024px) 224px, (min-width: 640px) 160px, 112px" : "(min-width: 640px) 184px, 45vw"} className={`object-cover grayscale ${leader.imageClass}`} /></div>
+      <SectionLink href={content.link.href}>{content.link.label}</SectionLink>
+      <div className="about-content">
+        <div className="about-founder grid gap-8 border-y border-lineSoft py-8 md:grid-cols-[1.3fr_1fr] md:gap-12 lg:grid-cols-[1fr_360px] lg:gap-20 lg:py-10">
+          <div data-about-reveal="0" className="flex flex-col justify-center">
+            <p className="font-mono text-xs uppercase tracking-eyebrow text-secondary-text">{content.perspective.label}</p>
+            <h3 className="mt-5 font-heading text-[30px] font-medium leading-[1.15] tracking-tighter text-ink sm:text-[40px]">{content.perspective.title}</h3>
+            <div className="mt-5 max-w-[36rem] space-y-4 text-base leading-[1.75] text-secondary-text">
+              {content.perspective.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+            </div>
+          </div>
+          {founder && (
+            <figure data-about-reveal="80" className="grid grid-cols-[112px_1fr] items-center gap-5 md:block">
+              <div className="relative aspect-square overflow-hidden rounded-micro bg-panel md:aspect-[4/3]">
+                <Image src={founder.image} alt={founder.name} fill sizes="(min-width: 1024px) 360px, (min-width: 768px) 38vw, 112px" className="object-cover object-[center_18%] grayscale" />
               </div>
-              <div className={index === 0 ? "lg:mt-6 lg:text-center" : "mt-5 text-center"}>
-                <h3 className="text-[19px] font-medium leading-tight tracking-tight text-ink sm:text-[21px]">{leader.name}</h3>
-                <p className="mt-2 min-h-[38px] text-[12px] leading-relaxed text-secondary-text sm:text-[13px]">{leader.role}</p>
-                <p className="mx-auto mt-2 max-w-[210px] text-[13px] leading-relaxed text-secondary-text">{leader.focus}</p>
+              <figcaption className="md:mt-4">
+                <p className="font-heading text-xl font-medium tracking-tight text-ink">{founder.name}</p>
+                <p className="mt-1 text-[13px] leading-relaxed text-secondary-text">{founder.role}</p>
+              </figcaption>
+            </figure>
+          )}
+        </div>
+        <p className="mt-8 font-mono text-xs uppercase tracking-eyebrow text-secondary-text">{content.leadersLabel}</p>
+        <div className="mt-6 grid gap-x-10 gap-y-6 md:grid-cols-2 xl:gap-x-16">
+          {team.map((leader, index) => (
+            <article key={leader.id} data-about-reveal={index * 50} className="grid grid-cols-[88px_1fr] gap-5 border-b border-lineSoft pb-6 sm:grid-cols-[104px_1fr]">
+              <div className="relative aspect-[4/5] self-start overflow-hidden rounded-micro bg-panel">
+                <Image src={leader.image} alt={leader.name} fill sizes="(min-width: 640px) 104px, 88px" className="object-cover object-[center_12%] grayscale" />
+              </div>
+              <div className="self-center">
+                <h3 className="font-heading text-xl font-medium leading-tight tracking-tight text-ink">{leader.name}</h3>
+                <p className="mt-1.5 text-[13px] leading-relaxed text-secondary-text">{leader.role}</p>
+                <p className="mt-3 text-sm leading-relaxed text-secondary-text">{leader.focus}</p>
               </div>
             </article>
           ))}

@@ -13,13 +13,13 @@
      [01]      why data comes first: AI is only as good as the records beneath
      [02]      the record: building since 2018, in production since 2020
      [03]      the ambition: public systems working as one
-     [04]      who answers for the work: one head for each part
-     [05]      what working here is like: three kolam rules
+     [04]      one team accountable for the platform and its implementation
+     [05]      the disciplines and people behind a distributed company
      [06]      the next step: talk to us, or join us
    NO SHORT FORMS: "Business Intelligence", "machine learning", figures in
    words ("187 million+"). "AI" is the one exception. */
 
-import type { PageSection, Seo } from "../types";
+import type { ImageAsset, PageSection, Seo } from "../types";
 
 /* ---------------- Types ---------------- */
 
@@ -39,6 +39,7 @@ export interface AboutHeroContent {
   description: string;
   primary: { label: string; href: string };
   secondary: { label: string; href: string };
+  peoplePreview: ImageAsset[];
   proof: { value: string; label: string }[];
 }
 
@@ -95,24 +96,33 @@ export interface AboutPage {
   };
   journey: AboutHeadingContent & { timeline: JourneyTimeline };
   vision: AboutHeadingContent & {
+    link: { label: string; href: string };
     /** Public functions drawn as silos, left to right. */
     systems: string[];
     deployments: { name: string; figure: string }[];
     legend: { title: string; caption: string }[];
     key: { solid: string; dashed: string; dashedShort: string; layer: string };
   };
-  people: AboutHeadingContent;
+  people: AboutHeadingContent & {
+    link: { label: string; href: string };
+    perspective: { label: string; title: string; paragraphs: string[] };
+    leadersLabel: string;
+  };
   culture: AboutHeadingContent & {
-    ruleLabel: string;
-    rules: { rule: string; title: string; body: string }[];
-    welcome: { label: string; title: string; body: string; link: { label: string; href: string } };
-    teams: { group: string; items: string[] }[];
-    redraw: string;
-    redrawNote: string;
+    link: { label: string; href: string };
+    workspace: ImageAsset;
+    imageNote: string;
+    working: { label: string; title: string; body: string; principles: { title: string; body: string }[] };
+    team: {
+      label: string;
+      title: string;
+      members: { name: string; role: string; interest: string; image: ImageAsset; position: string }[];
+    };
   };
   close: AboutHeadingContent & {
     primary: { label: string; href: string };
     careers: { title: string; body: string; link: { label: string; href: string } };
+    locationLabel: string;
     offices: string[];
   };
 }
@@ -134,7 +144,7 @@ export const about: AboutPage = {
     { id: "journey", label: "Journey" },
     { id: "vision", label: "Vision" },
     { id: "leadership", label: "Leadership" },
-    { id: "culture", label: "Culture" },
+    { id: "culture", label: "Life at DHIRA" },
     { id: "talk-to-our-team", label: "Join us" },
   ],
   sectionsLabel: "About page sections",
@@ -146,8 +156,13 @@ export const about: AboutPage = {
     /* One sentence per line on desktop: what DHIRA is, then what it builds. */
     description:
       "DHIRA is a data and AI company for governments and enterprises. We build Akashic, the platform that makes all your data agree.",
-    primary: { label: "Talk to our team", href: "#talk-to-our-team" },
-    secondary: { label: "Meet the leaders", href: "#leadership" },
+    primary: { label: "Talk to our team", href: "#get-started" },
+    secondary: { label: "Meet the team", href: "#leadership" },
+    peoplePreview: [
+      { src: "/about/team/monica-kishor.webp", alt: "" },
+      { src: "/avatars/sirish-executive-v1.webp", alt: "" },
+      { src: "/about/team/yash-kanvinde.webp", alt: "" },
+    ],
     proof: [
       { value: "2018", label: "Founded as a data company" },
       { value: "3", label: "National programmes live" },
@@ -266,7 +281,8 @@ export const about: AboutPage = {
     setup: "When public systems work as one,",
     title: "citizens tell their story once.",
     /* The bridge to the homepage's business story (UX review, 23 Oct 2026). */
-    intro: "Our ambition: one governed foundation beneath every public system, in any country. Three national programmes in India are the proof. Businesses get the same foundation.",
+    intro: "Our ambition is one governed foundation beneath public systems, in any country. The same engineering connects an enterprise’s customer records, operations and decisions.",
+    link: { label: "Explore the national programmes", href: "/customers" },
     systems: ["Tax", "Treasury", "Education", "Benefits", "Licensing", "Land", "Justice", "Health", "Census", "Transport", "Energy", "Labour", "Water", "Housing"],
     deployments: [
       { name: "National Learning Platform", figure: "187 million+ enrolments resolved" },
@@ -288,58 +304,79 @@ export const about: AboutPage = {
 
   people: {
     number: "04",
-    label: "Leadership",
-    setup: "One accountable head",
-    title: "for every part of the work.",
-    intro: "From platform engineering to partnerships, each part of DHIRA has one named leader. The founder sets the direction and the architecture.",
+    label: "The people behind DHIRA",
+    setup: "Build with the people",
+    title: "behind the platform.",
+    intro: "One team develops Akashic, implements your systems and takes responsibility for the result.",
+    link: { label: "How we take a system into production", href: "/services" },
+    perspective: {
+      label: "Our point of view",
+      title: "Build for the person on the other side.",
+      paragraphs: [
+        "A learner finding a course. A citizen accessing a service. A team making a difficult decision. These are the people our work needs to serve.",
+        "The technology underneath can be complex. The experience should be clear.",
+      ],
+    },
+    leadersLabel: "The leadership team",
   },
 
-  /* DRAFT for review (7 Oct 2026). Rules are the three real sikku kolam
-     rules; each pairs with how the team works. No location or work mode
-     claims, no national systems (owned by journey and vision), and no count
-     of open roles: the invitation names teams people join. */
+  /* Work mode confirmed by the user, 28 Oct 2026. Team names, photographs
+     and interests are from https://dhira.io/aboutus/ (accessed the same day).
+     Workspace images are explicitly illustrative, user-authorised AI
+     placeholders. Replacement instructions and prompts: docs/ASSETS.md. */
   culture: {
     number: "05",
-    label: "Our culture",
-    setup: "A kolam has three rules.",
-    title: "So do we.",
-    intro: "Every morning, South Indian homes draw a kolam at the doorstep: one line around every dot.",
-    ruleLabel: "Kolam rule",
-    rules: [
-      { rule: "Loop every dot.", title: "Everyone is looped in.", body: "Plans and numbers reach everyone. Credit does too, fresher to founder." },
-      { rule: "Never lift the hand.", title: "Learning never stops.", body: "AI changes faster than any syllabus. Seniors and freshers learn together." },
-      { rule: "End where you began.", title: "We close the loop.", body: "First look to last fix, one owner. Then teach the next person." },
-    ],
-    /* The invitation, not a fourth rule. The link text differs from the
-       close's "Explore careers". */
-    welcome: {
-      label: "At the doorstep",
-      title: "Find your seat.",
-      body: "Every team here is a way in, from internships to applied research.",
-      link: { label: "See where you fit", href: "/careers" },
+    label: "Life at DHIRA",
+    setup: "Different places to work.",
+    title: "A shared body of work.",
+    intro: "Cloud developers, data engineers and software builders. We work mainly from home, bringing different disciplines to the same systems.",
+    link: { label: "Explore working at DHIRA", href: "/careers" },
+    workspace: {
+      src: "/about/remote-review-illustrative.webp",
+      alt: "Illustrative remote engineering review: an engineer discussing system sketches with two colleagues on a video call. AI-generated placeholder, not DHIRA employees.",
+      width: 1536,
+      height: 1024,
     },
-    teams: [
-      { group: "Build", items: ["Product engineering", "AI and machine learning"] },
-      { group: "Discover", items: ["Data science", "Applied research"] },
-      { group: "Foundations", items: ["Data engineering", "Distributed systems"] },
-      { group: "Ways in", items: ["Freshers", "Internships"] },
-    ],
-    redraw: "Draw another",
-    redrawNote: "Same rules, any shape.",
+    imageNote: "Remote review study · AI-generated placeholder",
+    working: {
+      label: "Working across distance",
+      title: "Make the reasoning travel with the work.",
+      body: "Remote work needs shared context. These are the habits we want to build around it.",
+      principles: [
+        { title: "Leave a clear trail.", body: "Write down the decision, the reason and the next step." },
+        { title: "Bring another discipline in.", body: "A data model, an application and a deployment need to work together." },
+      ],
+    },
+    team: {
+      label: "Meet some of our colleagues",
+      title: "The work has many authors.",
+      members: [
+        { name: "Monica Kishor", role: "Senior Cloud Developer", interest: "Gardening and painting", image: { src: "/about/team/monica-kishor.webp", alt: "Monica Kishor" }, position: "50% 30%" },
+        { name: "Bhaskar Sarkar", role: "Senior Data Engineer", interest: "Games and films", image: { src: "/about/team/bhaskar-sarkar.webp", alt: "Bhaskar Sarkar" }, position: "50% 35%" },
+        { name: "Yash Kanvinde", role: "Senior Full Stack Business Intelligence Developer", interest: "Guitar and exploring", image: { src: "/about/team/yash-kanvinde.webp", alt: "Yash Kanvinde" }, position: "50% 30%" },
+        { name: "Vinay Kulkarni", role: "Data Engineer", interest: "Table tennis and music", image: { src: "/about/team/vinay-kulkarni.webp", alt: "Vinay Kulkarni" }, position: "50% 35%" },
+        { name: "Jitendra Billava", role: "Cloud Developer", interest: "Cricket and travel", image: { src: "/about/team/jitendra-billava.webp", alt: "Jitendra Billava" }, position: "50% 20%" },
+        { name: "Vishwanandan K A", role: "Data Engineer", interest: "Films and travelling", image: { src: "/about/team/vishwanandan-ka.webp", alt: "Vishwanandan K A" }, position: "45% 35%" },
+        { name: "Vipul Gabhane", role: "Data Engineer", interest: "Family, music and cricket", image: { src: "/about/team/vipul-gabhane.webp", alt: "Vipul Gabhane" }, position: "50% 25%" },
+        { name: "Vipul Madan", role: "Business Intelligence Developer", interest: "Badminton and cricket", image: { src: "/about/team/vipul-madan.webp", alt: "Vipul Madan" }, position: "50% 30%" },
+        { name: "Naved Ansari", role: "Software Engineer", interest: "Cycling and trekking", image: { src: "/about/team/naved-ansari.webp", alt: "Naved Ansari" }, position: "50% 25%" },
+      ],
+    },
   },
 
   close: {
     number: "06",
     label: "What comes next",
-    setup: "Build something",
-    title: "people rely on.",
-    intro: "Tell us what needs to work better. We will start with the data, the people and the decision.",
+    setup: "Bring the problem.",
+    title: "Build with us.",
+    intro: "Tell us where your systems stop connecting. We can work through the data, the architecture and the next step together.",
     primary: { label: "Talk to our team", href: "#get-started" },
     careers: {
-      title: "Make your next chapter count.",
-      body: "Explore opportunities to build data and AI systems with DHIRA.",
+      title: "Join the team behind the work.",
+      body: "Explore roles in engineering, data and delivery.",
       link: { label: "Explore careers", href: "/careers" },
     },
-    offices: ["New York", "Hyderabad", "Bangalore"],
+    locationLabel: "Connected across",
+    offices: ["Hyderabad", "Bangalore", "New York"],
   },
 };

@@ -23,6 +23,7 @@
 import SiloLayer from "@/components/demos/about/SiloLayer";
 import { AboutHeading } from "@/components/sections/about/AboutSection";
 import SectionCoda from "@/components/ui/SectionCoda";
+import SectionLink from "@/components/ui/SectionLink";
 import type { AboutPage } from "@/content/pages/about";
 
 /* Each legend entry's mark, index-matched to content vision.legend: the
@@ -56,6 +57,7 @@ export default function AboutVision({ content }: { content: AboutPage["vision"] 
     <section id="vision" className="scroll-mt-24 bg-depth pt-12 pb-20 text-uc-text lg:pt-16 lg:pb-24">
       <div className="about-shell">
         <AboutHeading number={content.number} label={content.label} setup={content.setup} title={content.title} intro={content.intro} dark />
+        <SectionLink href={content.link.href} tone="depth">{content.link.label}</SectionLink>
 
         <div data-about-reveal="100">
           <div className="mt-12 lg:mt-14">
@@ -64,11 +66,10 @@ export default function AboutVision({ content }: { content: AboutPage["vision"] 
 
           {/* Below xl: the three built drops, listed (the labels under the
               ground collide below 1280px once figures are in words) */}
-          <ul className="mt-6 space-y-3 xl:hidden">
+          <ul className="mt-6 divide-y divide-line border-y border-line xl:hidden">
             {content.deployments.map((d) => (
-              <li key={d.name} className="flex gap-3">
-                <span className="mt-[5px] h-2 w-2 shrink-0 rounded-full bg-blue-400" aria-hidden />
-                <span className="font-mono text-[11px] uppercase leading-[1.6] tracking-[0.08em] text-uc-text">
+              <li key={d.name} className="py-4">
+                <span className="font-mono text-[11px] uppercase leading-[1.7] tracking-[0.06em] text-uc-text">
                   {d.name}
                   <span className="block text-blue-300">{d.figure}</span>
                 </span>

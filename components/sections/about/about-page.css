@@ -20,12 +20,9 @@
   @apply py-16 lg:py-24;
 }
 .about-page #culture {
-  @apply lg:py-20;
+  @apply pt-12 lg:pt-16;
 }
-/* [05] subheader on one line wherever the width allows */
-@media (min-width: 1024px) {
-  .about-page #culture .about-intro { max-width: none; }
-}
+.about-page :is(#leadership, #culture, #talk-to-our-team) p { text-wrap: pretty; }
 @media (max-width: 639px) {
   .about-page .about-hero { padding-bottom: 40px; }
 }
@@ -34,15 +31,14 @@
 }
 @media (max-width: 359px) {
   .about-page #vision h2 { font-size: 26px; }
-  .about-page #people h3 { font-size: 16px; }
-  .about-page #people article p:last-child { font-size: 12px; }
+  .about-page #leadership article h3 { font-size: 17px; }
 }
 
 .about-page .about-shell {
   @apply mx-auto w-full max-w-[1440px] px-5 sm:px-8 lg:px-12;
 }
 .about-page .about-section {
-  @apply py-16 lg:py-24;
+  @apply pt-12 pb-16 lg:pt-16 lg:pb-24;
 }
 .about-page .about-title {
   @apply mt-10 max-w-[850px] lg:mt-12 font-heading text-[34px] font-medium leading-[1.08] tracking-tighter sm:text-[44px] xl:text-[52px];
@@ -56,20 +52,13 @@
   @apply mt-10 lg:mt-14;
 }
 
-.about-page .about-portrait { border:1px solid theme('colors.lineSoft'); border-radius:6px; background:theme('colors.background'); box-shadow:none; }
-.about-page .about-portrait-photo { position:absolute; inset:5px; overflow:hidden; border-radius:2px; background:theme('colors.panel'); }
-.about-page .about-portrait-photo img { filter:grayscale(1); }
 @media (prefers-reduced-motion:no-preference) {
   html:has(.about-page) { scroll-behavior:smooth; }
   .about-page main a > span[aria-hidden='true'] { display:inline-block; transition:transform 300ms cubic-bezier(.22,1,.36,1); }
   .about-page main a:focus-visible > span[aria-hidden='true'] { transform:translateX(3px); }
-  .about-page .about-portrait { transition:border-color 200ms ease; }
-  .about-page .about-portrait-photo img { transition:transform 300ms cubic-bezier(.22,1,.36,1),filter 300ms ease; }
 }
 @media (hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference) {
   .about-page main a:hover > span[aria-hidden='true'] { transform:translateX(3px); }
-  .about-page .about-leader:hover .about-portrait { border-color:theme('colors.line'); box-shadow:none; }
-  .about-page .about-leader:hover img { transform:scale(1.018); filter:grayscale(1) contrast(1.025); }
 }
 @media (prefers-reduced-motion:reduce) {
   .about-page :is([data-about-enter],[data-about-reveal]) { opacity:1 !important; transform:none !important; }
@@ -89,7 +78,6 @@
 .about-page #journey .about-intro { line-height: 1.65; }
 .about-page .jl-title { @apply font-heading text-[17px] font-medium leading-6 tracking-[-0.01em] text-ink; }
 .about-page .jl-date { @apply font-mono text-[13px] leading-6 tabular-nums tracking-normal text-secondary-text; }
-.about-page .jl-coda { color: theme('colors.secondary-text'); letter-spacing: .06em; }
 .about-page .jl-principles > li:not(:last-child)::before { content: ''; position: absolute; left: -15px; top: 11px; bottom: -27px; border-left: 1px dashed theme('colors.blue.DEFAULT / 25%'); }
 .about-page .jl-layer, .about-page .jl-label, .about-page .jl-ahead { transition: opacity 360ms ease, clip-path 550ms cubic-bezier(.22,1,.36,1); }
 .about-page .jl-layer { clip-path: inset(-2px -2px -2px -2px); }
@@ -112,14 +100,4 @@
 @media (scripting: none) {
   .about-page .jl-figure { display: none !important; }
   .about-page .jl-ledger { position: static !important; width: auto !important; height: auto !important; margin: 2rem 0 0 !important; overflow: visible !important; clip: auto !important; white-space: normal !important; }
-}
-
-/* [05] kolam replays: the line keeps moving (rule 02), once round and home (rule 03). */
-@keyframes kolam-march { to { stroke-dashoffset: -56; } }
-@keyframes kolam-lap { from { stroke-dashoffset: 0.07; } to { stroke-dashoffset: -0.93; } }
-.about-page .kolam-march { animation: kolam-march 1.2s linear infinite; }
-.about-page .kolam-lap { stroke-dasharray: 0.07 0.93; animation: kolam-lap 2.6s cubic-bezier(0.45, 0, 0.25, 1) both; }
-@media (prefers-reduced-motion: reduce) {
-  .about-page .kolam-march, .about-page .kolam-lap { animation: none; }
-  .about-page .kolam-lap { stroke-dasharray: none; }
 }

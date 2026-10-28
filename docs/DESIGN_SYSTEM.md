@@ -185,6 +185,38 @@ an overlay. Never mix `ink` into a surface to make another shade.
 Use `blue-subtle` and `blue-border` together for highlighted records, not an
 arbitrary accent opacity that compromises the caption contrast.
 
+**Palette and surfaces stay as specified** (user, 28 Oct 2026). On the
+homepage the following were all tried the same day and rejected in favour of
+the original flat light tokens:
+- textures on the pastel surfaces (a cotton weave with grain, and a pastel
+  raw silk);
+- a pure-white page with a blue-50 ramp;
+- a warm-paper page with a sky ramp ("Akasha").
+
+Do not re-tune the surface colours or add texture without a new brief.
+
+**Identity hue: 258, the /akashic quote blue** (user, 28 Oct 2026). The `band`
+behind the /akashic hero quote (237 243 252; OKLCH L .962, C .014, h 258) is
+the reference blue. Every light surface, line and accent tint sits on its hue.
+Only the lightness (the shade) changes:
+- **Surfaces** (`background`, `primary-bg`, `screen-raised`, `uc-bg`,
+  `vault`, `panel`, `depth`, `anchor`, `band`, `tertiary-bg`,
+  `depth-raised`): chroma grows with depth in band's ratio,
+  C ≈ 0.36 × (1 − L). Each reads as the same pastel at a different strength.
+- **Lines and tints keep their strength on the same hue:** `lineSoft` and
+  its kin, `line`, `uc-line`, `default-stroke`, `grid-dot`, `card-divide`,
+  the highlight pair `blue-subtle` and `blue-border`, and the teardown
+  `plate-*` greys.
+- **Outside the rule:**
+  - the cobalt `blue` accent family (hue 266; the brand);
+  - text greys and status colours;
+  - the page-scoped `eis-*` and `life-*` families;
+  - diagram category colours and real logos.
+- **Dark mode** already sits at hue 255 to 259 and is unchanged.
+
+A new light token takes hue 258. Check it in OKLCH, not by eye. Before this
+alignment the light surfaces ran from hue 248 (near grey) to 267 (periwinkle).
+
 Readable copy never uses surface tokens (`text-blue-subtle`, `text-lineSoft`)
 or opacity to look quiet. Use a text token at full opacity. Reserve
 `default-stroke` for control boundaries and `subtle-stroke` for decorative
@@ -415,5 +447,9 @@ readable ledger; without JS the ledger shows at every width. Content in
 `content/pages/about.ts` (`journey`).
 
 **About motion (`sections/about/AboutMotion`).** Page-scoped reveals via
-`data-about-reveal`: 14px rise over 850ms, once, visible without JS.
-Portraits stay monochrome.
+`data-about-reveal`: 14px rise over 500ms, once, visible without JS.
+All About people photographs stay monochrome, including on hover (user,
+28 Oct 2026). This includes the small hero portraits and the real employee
+photographs in [05]. The generated remote-review scene is labelled as an
+illustrative placeholder. The old kolam animation is retired. The closing
+drawing is a static reprise of [01]: separate sources meet one foundation.
