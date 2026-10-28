@@ -1,10 +1,15 @@
 /* Porcelain + pastel blue by day; layered midnight by night.
-   Every route, panel and illustration inherits the selected appearance. */
+   Every route, panel and illustration inherits the selected appearance.
+   Identity hue (28 Oct 2026, user): every light surface, line and accent
+   tint sits on OKLCH hue 258, the /akashic quote's `band`. Surfaces vary
+   only in lightness, with chroma about 0.36 x (1 - L); lines and tints
+   keep their strength. The cobalt accent (266), text greys, status colours
+   and the eis-/life- families are outside it (DESIGN_SYSTEM §4). */
 :root {
   color-scheme: light;
-  --background: 252 253 254;
-  --primary-bg: 244 247 250;
-  --tertiary-bg: 234 240 246;
+  --background: 252 253 255;
+  --primary-bg: 243 247 253;
+  --tertiary-bg: 232 240 251;
   /* Blue-black ink for headlines, body and the primary button (UX review,
      23 Oct 2026: more contrast; never neutral black). */
   --ink: 17 24 39;
@@ -14,8 +19,8 @@
   --on-action: 255 255 255;
   --blue: 54 93 206;
   --blue-hover: 41 76 182;
-  --blue-subtle: 235 241 255;
-  --blue-border: 201 215 247;
+  --blue-subtle: 233 242 255;
+  --blue-border: 197 217 247;
   --red: 196 66 80;
   --red-deep: 166 49 66;
   --positive: 37 130 92;
@@ -24,36 +29,36 @@
   --positive-border: 197 226 210;
   /* One hairline colour (UX review, 23 Oct 2026): card edges, section
      dividers, eyebrow rails and simulated-UI cards share it. */
-  --subtle-stroke: 221 229 239;
-  --default-stroke: 126 146 173;
+  --subtle-stroke: 222 229 239;
+  --default-stroke: 127 146 173;
   --inkSoft: 91 109 132;
   --overcast: 84 103 128;
-  --lineSoft: 221 229 239;
-  --line: 198 210 225;
-  --card-line: 221 229 239;
+  --lineSoft: 222 229 239;
+  --line: 199 210 225;
+  --card-line: 222 229 239;
   --card-divide: 231 237 245;
-  --panel: 240 244 249;
+  --panel: 239 244 252;
   --band: 237 243 252;
-  --anchor: 237 243 251;
-  --vault: 241 245 250;
-  --uc-bg: 243 247 252;
-  --uc-surface: 252 253 254;
-  --uc-stroke: 221 229 239;
-  --uc-line: 201 214 231;
-  --uc-vertex: 138 155 179;
+  --anchor: 237 243 252;
+  --vault: 240 245 253;
+  --uc-bg: 243 247 253;
+  --uc-surface: 252 253 255;
+  --uc-stroke: 222 229 239;
+  --uc-line: 202 214 231;
+  --uc-vertex: 139 155 179;
   --uc-dim: 91 109 132;
-  --grid-dot: 220 229 240;
+  --grid-dot: 221 229 240;
   --screen-surface: 255 255 255;
   /* Fixed paper for previews of downloadable, dark-ink brand artwork. */
   --logo-paper: 255 255 255;
-  --screen-raised: 244 247 251;
+  --screen-raised: 243 247 253;
   --plate-top: 253 253 254;
   --plate-bottom: 238 240 243;
-  --plate-north: 215 218 224;
-  --plate-south: 210 213 220;
-  --plate-edge: 193 197 205;
+  --plate-north: 214 218 224;
+  --plate-south: 209 213 220;
+  --plate-edge: 192 197 205;
   --plate-west: 205 209 216;
-  --plate-east: 199 203 211;
+  --plate-east: 198 203 211;
   --diagram-gold: 139 100 14;
   --diagram-purple: 110 86 207;
   --diagram-purple-line: 201 191 243;
@@ -76,8 +81,8 @@
   --blue-300: 54 93 206;
   --blue-400: 58 97 197;
   --blue-500: 65 104 206;
-  --depth: 239 244 251;
-  --depth-raised: 228 237 248;
+  --depth: 238 244 252;
+  --depth-raised: 228 237 250;
   --uc-mute: 86 106 132;
   --uc-text: 17 24 39;
   --eis-ink: 35 50 71;
