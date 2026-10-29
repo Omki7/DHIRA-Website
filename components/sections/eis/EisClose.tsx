@@ -44,6 +44,32 @@ export default function EisClose({ content }: { content: EisPage["close"] }) {
                 {content.primary.label}
               </Link>
             </div>
+
+            {/* CEO Demo Timeline Spec Rows */}
+            {content.timeline && (
+              <div className="mx-auto mt-10 max-w-lg border-t border-lineSoft pt-6 text-left">
+                <div className="flex flex-col gap-3">
+                  {content.timeline.map((item) => (
+                    <div
+                      key={item.duration}
+                      className="flex items-baseline gap-3 text-sm text-secondary-text"
+                    >
+                      <span className="flex-none font-mono text-xs font-bold tracking-wider text-ink">
+                        {item.duration}
+                      </span>
+                      <span>{item.label}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Disclaimer & Citation Footnote */}
+            {content.footnote && (
+              <p className="mx-auto mt-8 max-w-xl text-xs leading-relaxed text-tertiary-text">
+                {content.footnote}
+              </p>
+            )}
           </div>
         </ScrollReveal>
       </ScrollRevealRail>

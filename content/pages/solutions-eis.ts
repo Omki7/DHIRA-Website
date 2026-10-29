@@ -294,6 +294,18 @@ export interface EisHeading {
 /** Which evidence panel illustrates a capability (demos/mockups/eis/EisCapabilityEvidence). */
 export type EisEvidence = "definition" | "entity" | "permissions" | "action" | "planes" | "record";
 
+export interface EisTeaserItem {
+  id: string;
+  number: string;
+  meta: string;
+  duration: string;
+  title: string;
+  description: string;
+  videoSrc: string;
+  posterSrc: string;
+  label: string;
+}
+
 export interface EisPage {
   seo: Seo;
   sections: PageSection[];
@@ -313,7 +325,24 @@ export interface EisPage {
     secondary: Cta;
     screenUrl: string;
   };
-  gap: EisHeading & { conclusion: string; note: string };
+  gap: EisHeading & {
+    conclusion: string;
+    note: string;
+    departments?: {
+      system: string;
+      dept: string;
+      breach: string | null;
+      hit: boolean;
+    }[];
+    stats?: {
+      value: string;
+      label: string;
+      citation: string;
+    }[];
+  };
+  teasers?: EisHeading & {
+    items: EisTeaserItem[];
+  };
   capabilities: EisHeading & {
     bands: { label: string; note: string; items: { lead: string; body: string; evidence: EisEvidence }[] }[];
     pillars?: { tag: string; title: string; body: string; metrics: string[]; evidence: EisEvidence }[];
@@ -343,6 +372,11 @@ export interface EisPage {
     prompt: string;
     primary: Cta;
     secondary: Cta;
+    timeline?: {
+      duration: string;
+      label: string;
+    }[];
+    footnote?: string;
   };
 }
 
@@ -357,6 +391,7 @@ export const solutionsEis: EisPage = {
     { id: "hero", label: "Enterprise Intelligence" },
     { id: "your-lens", label: "Your lens" },
     { id: "the-gap", label: "The gap" },
+    { id: "use-cases", label: "Four stories" },
     { id: "capabilities", label: "Capabilities" },
     { id: "the-loop", label: "The loop" },
     { id: "proof", label: "Proof" },
@@ -368,15 +403,15 @@ export const solutionsEis: EisPage = {
 
   hero: {
     badge: "Enterprise Intelligence",
-    title: ["Your whole business.", "Answering for itself."],
+    title: ["See where your business will land.", "Every hour."],
     /* Grounded in the four core questions from the executive wireframe */
     prompts: [
-      "Will we hit the FY revenue plan, and where is the gap?",
-      "Which fixed-price project is slipping into margin compression?",
-      "Which customer has overdue receivables and a sponsor change?",
-      "How many engineers are on the bench before next month's kickoff?",
+      "Someone asks for five days off. Who checks what it breaks?",
+      "A GPU node requested on Friday. Who knows what it will cost?",
+      "What if your biggest deal slips a quarter and a key client doesn't renew?",
+      "Monday, 8 a.m. 2,418 changes since Friday: which 3 need you?",
     ],
-    lede: { lead: "Real-time operating truth and verified leadership decisions,", tail: "connected directly to" },
+    lede: { lead: "Every decision touches customers, projects, people and cash.", tail: "AEI connects live to" },
     readsLabel: "Reads",
     sources: [
       { label: "ERPNext", src: "/universal-context/postgresql.svg" },
@@ -385,16 +420,101 @@ export const solutionsEis: EisPage = {
       { label: "Oracle", src: "/universal-context/oracle.svg" },
     ],
     primary: { label: "See it with your own data", href: "#talk-to-our-team" },
-    secondary: { label: "How the loop closes", href: "#the-loop" },
+    secondary: { label: "Watch four 30-second stories", href: "#use-cases" },
     screenUrl: "akashic.dhira.ai/enterprise-intelligence",
   },
 
   gap: {
-    setup: "Monthly packs arrive weeks late.",
-    payoff: "Operational risks compound in silence.",
+    setup: "Your company runs as lifecycles.",
+    payoff: "Your systems run as departments.",
     lede: "Disconnected departmental tools hide margin slip until month-end. Akashic EIS correlates delivery, pipeline, and cash flow into a continuous runway before deadlines expire.",
     conclusion: "The true cost to an enterprise is the latency between an operational shift and leadership having the verified context to intervene.",
     note: "Enterprise decision latency benchmark.",
+    departments: [
+      { system: "CRM", dept: "Sales", breach: null, hit: false },
+      { system: "JIRA", dept: "Delivery", breach: "A milestone slips", hit: true },
+      { system: "HRMS", dept: "HR", breach: "A leave is approved", hit: true },
+      { system: "ERP", dept: "Finance", breach: "An invoice moves", hit: true },
+      { system: "Cloud", dept: "IT", breach: null, hit: false },
+    ],
+    stats: [
+      {
+        value: "46%",
+        label: "of FP&A time goes to collecting and validating data, not analysis.",
+        citation: "FP&A Trends Survey 2025",
+      },
+      {
+        value: "45%",
+        label: "of organisations still plan mainly in spreadsheets.",
+        citation: "FP&A Trends Survey 2025",
+      },
+      {
+        value: "29%",
+        label: "of teams take more than 10 days to produce a forecast.",
+        citation: "FP&A Trends Survey 2025",
+      },
+      {
+        value: "~15%",
+        label: "of chargeable consulting work is never billed to clients.",
+        citation: "TIQ and London Business School, 2016",
+      },
+    ],
+  },
+
+  teasers: {
+    setup: "See the impact",
+    payoff: "before anyone commits.",
+    lede: "Four everyday decisions, each one quietly touching the rest of the business.",
+    items: [
+      {
+        id: "leave",
+        number: "01",
+        meta: "01 · People, projects, revenue",
+        duration: "0:29 · voice-over",
+        title: "One leave. Four lifecycles.",
+        description:
+          "Someone asks for five days off. What does it quietly put at risk, and who finds out before it is approved?",
+        videoSrc: "/solutions/enterprise-intelligence/aei-teaser-leave-720.mp4",
+        posterSrc: "/solutions/enterprise-intelligence/poster-leave.webp",
+        label: "Teaser video: one leave touching four lifecycles",
+      },
+      {
+        id: "cloud",
+        number: "02",
+        meta: "02 · Cloud Ops and FinOps",
+        duration: "0:30 · voice-over",
+        title: "Know the cost before anyone creates it.",
+        description:
+          "A GPU node, requested on a Friday. What will it cost, which budget does it hit, and can the client be billed?",
+        videoSrc: "/solutions/enterprise-intelligence/aei-teaser-cloud-720.mp4",
+        posterSrc: "/solutions/enterprise-intelligence/poster-cloud.webp",
+        label: "Teaser video: Cloud Ops and FinOps idle resource detection",
+      },
+      {
+        id: "whatif",
+        number: "03",
+        meta: "03 · What-if",
+        duration: "0:29 · voice-over",
+        title: "What if your biggest deal slips a quarter?",
+        description:
+          "And a key client does not renew? See the year move before it happens, not in a spreadsheet over the weekend.",
+        videoSrc: "/solutions/enterprise-intelligence/aei-teaser-whatif-720.mp4",
+        posterSrc: "/solutions/enterprise-intelligence/poster-whatif.webp",
+        label: "Teaser video: interactive what-if modeling on rolling 12-month forecast",
+      },
+      {
+        id: "actions",
+        number: "04",
+        meta: "04 · Today and this week",
+        duration: "0:29 · voice-over",
+        title: "Monday, 8 a.m. What needs you?",
+        description:
+          "Thousands of changes since Friday. A handful need a decision from you. AEI knows which ones, and why.",
+        videoSrc: "/solutions/enterprise-intelligence/aei-teaser-actions-720.mp4",
+        posterSrc: "/solutions/enterprise-intelligence/poster-actions.webp",
+        label: "Teaser video: prioritized morning action list ranked by exposure",
+      },
+    ],
   },
 
   capabilities: {
@@ -656,5 +776,17 @@ export const solutionsEis: EisPage = {
     prompt: "Bring the question you currently cannot get answered by Friday.",
     primary: { label: "Talk to our team", href: "#talk-to-our-team" },
     secondary: { label: "See the Akashic platform", href: "/akashic" },
+    timeline: [
+      {
+        duration: "30 MIN",
+        label: "A live demo, built around the decisions you make every week",
+      },
+      {
+        duration: "3 WEEKS",
+        label: "If it fits, a diagnostic on your own data, read-only",
+      },
+    ],
+    footnote:
+      "Product footage uses illustrative data; names and figures are fictional. Industry figures: FP&A Trends Survey 2025; TIQ and London Business School study, 2016.",
   },
 };

@@ -8,7 +8,7 @@ import EisAtmosphere from "@/components/ui/eis/EisAtmosphere";
 import type { EisPage } from "@/content/pages/solutions-eis";
 
 /* The core executive questions from the CEO wireframe */
-const CATEGORIES = ["FINANCE", "DELIVERY", "CUSTOMERS", "TALENT"];
+const CATEGORIES = ["PEOPLE & MARGIN", "CLOUD & FINOPS", "WHAT-IF FORECAST", "DECISION RUNWAY"];
 
 const ART: Record<string, { inset: string; tilt: string }> = {
   "/universal-context/sap.svg": { inset: "inset-[34%_10%]", tilt: "-4deg" },
@@ -104,7 +104,7 @@ export default function EisHero({
               </a>
             </div>
             <p className="mt-3 font-mono text-[11px] text-tertiary-text">
-              Grounds every answer in ERPNext, Salesforce &amp; SAP · Zero hallucinated SQL
+              Grounds every answer in ERPNext, Salesforce &amp; SAP · ERPNext live today · More connectors on roadmap
             </p>
           </div>
 
@@ -136,13 +136,13 @@ export default function EisHero({
               {content.primary.label}
             </Link>
             <a
-              href="#your-lens"
+              href={content.secondary.href}
               className="inline-flex items-center gap-2 rounded-btn border border-default-stroke bg-background px-5 py-3 text-sm font-semibold text-ink transition-colors hover:border-ink hover:bg-primary-bg"
             >
-              <span>Explore the 5-role cockpit</span>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-                <path d="M12 5v14M19 12l-7 7-7-7" />
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M8 5.5v13l11-6.5z" />
               </svg>
+              <span>{content.secondary.label}</span>
             </a>
           </div>
 
