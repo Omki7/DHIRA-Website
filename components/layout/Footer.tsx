@@ -1,13 +1,14 @@
 import Link from "next/link";
+import AssistantLogo from "@/components/icons/AssistantLogo";
 import DhiraLogo from "@/components/icons/DhiraLogo";
+import FooterSubscribe from "@/components/layout/FooterSubscribe";
 import { ArrowUpRight } from "@/components/layout/nav/NavIcons";
 import RegionSwitch from "@/components/layout/region/RegionSwitch";
 import RegionLink from "@/components/ui/RegionLink";
 import ScrollRevealRail from "@/components/ui/ScrollRevealRail";
-import type { FooterLink } from "@/content/navigation";
+import type { FooterColumn, FooterLink } from "@/content/navigation";
 import { getNavigation, getSiteSettings, getUiStrings } from "@/lib/content";
 import { REGIONAL_PATHS } from "@/lib/region";
-import { nameOrWordmark } from "@/components/icons/AkashicWordmark";
 
 /* Rebuilt 15 Oct 2026 on the header's IA: the columns live in the
    Navigation document (content/navigation.ts) beside the header menus, so
@@ -22,26 +23,32 @@ import { nameOrWordmark } from "@/components/icons/AkashicWordmark";
    the columns in content/navigation.ts. The hand-kept "Last updated" date
    went: it had already gone stale, and none of the reference footers
    carries one.
-   Resized 28 Oct 2026 (user: too big), 826px to about 450px at 1440,
-   measured against Linear (494px, 37 links), Notion (396px), OpenAI and
-   Vercel: no column past 7 links, a 28px link pitch (Vercel and
-   Databricks use 28), 64/32px padding, and the company line and policy
-   row share one row from xl. */
+   Regrouped 2 Nov 2026 on ThoughtSpot's footer (user): the brand block on
+   the left, then four columns with short groups stacked, so no column
+   stands alone with two links and none runs to 11. The brand block carries
+   ThoughtSpot's two extras: "Ask AI for a summary" (assistant marks that
+   open with the prompt asked) and "Stay in touch", a business email
+   sign-up, simulated until the backend is built (layout/FooterSubscribe,
+   lib/subscribe.ts). Together they fill the brand track to about the
+   height of the longest link column: 672px at 1440, up from 448px after
+   the 28 Oct resize. Headings carry the hierarchy: ink mono
+   capitals over quiet grey links, the way ThoughtSpot's accent headings
+   do, without colour (blue stays for links and live data, DESIGN_SYSTEM
+   §4). Flat vault ground, not ThoughtSpot's dark field and spheres
+   (§4: no permanently dark layout panels, no decorative gradients). */
 
 /* inkSoft on vault measures 4.8:1 in light and 7.8:1 in dark, over the
-   4.5:1 AA floor at these 11 to 14px sizes. Every heading is one fixed
-   16px row, so the Akashic wordmark's taller logo cannot push its column
-   below the others. */
-const headingClass = "font-mono text-[11px] font-medium uppercase tracking-eyebrow text-inkSoft mb-4 flex h-4 items-center";
+   4.5:1 AA floor at these 12 to 14px sizes. */
+const headingType = "font-mono text-xs font-medium uppercase leading-4 tracking-eyebrow text-ink";
+const headingClass = `mb-5 ${headingType}`;
 const linkClass = "text-inkSoft text-sm hover:text-ink transition-colors duration-200 ease-settle";
-const ribbonLinkClass = "hover:text-secondary-text transition-colors duration-200 ease-settle";
+const ribbonLinkClass = "hover:text-ink transition-colors duration-200 ease-settle";
 
 /* leading-5 on the list, not only the links: each item's line box takes
-   the list's line height, and the inherited body leading made the pitch
-   36px. */
+   the list's line height. 20px lines 12px apart: a 32px pitch. */
 function LinkList({ links }: { links: FooterLink[] }) {
   return (
-    <ul className="space-y-2 text-sm leading-5">
+    <ul className="space-y-3 text-sm leading-5">
       {links.map((link) => (
         <li key={link.label}>
           <RegionLink href={link.href} className={`${linkClass} ${link.external ? "inline-flex items-center gap-1" : ""}`}>
@@ -56,44 +63,81 @@ function LinkList({ links }: { links: FooterLink[] }) {
 
 export default async function Footer() {
   const [{ footer }, site, ui] = await Promise.all([getNavigation(), getSiteSettings(), getUiStrings()]);
+  const { askAi } = footer;
   const disclosure = [
     site.registeredOffice && `${ui.footer.registeredOffice} ${site.registeredOffice}`,
     site.cin && `${ui.footer.cin} ${site.cin}`,
   ].filter(Boolean);
+  const linkCount = (col: FooterColumn) => col.groups.reduce((sum, group) => sum + group.links.length, 0);
+  const longest = footer.columns.reduce((a, b) => (linkCount(b) > linkCount(a) ? b : a));
   return (
-    <footer className="border-t border-lineSoft bg-vault text-ink pt-16 pb-8">
+    <footer className="border-t border-lineSoft bg-vault text-ink pt-16 pb-8 lg:pt-20">
       <ScrollRevealRail>
-        {/* xl: brand on a wider track, then Akashic / Solutions /
-            Industries / Services / Resources / Company. Below xl the brand
-            takes its own row, so six link columns keep room on a 1024px
-            screen. */}
-        <div className="mb-12 grid grid-cols-2 gap-x-8 gap-y-10 sm:grid-cols-3 lg:grid-cols-6 xl:grid-cols-[minmax(0,1.5fr)_repeat(6,minmax(0,1fr))]">
-          {/* Brand column */}
-          <div className="col-span-2 flex flex-col sm:col-span-3 lg:col-span-6 xl:col-span-1">
+        {/* xl: the brand block on a quarter of the width, the link grid on
+            the rest. Below xl the brand block takes its own row above the
+            grid; on phones the four columns pair up. */}
+        <div className="mb-14 grid grid-cols-1 gap-y-12 xl:grid-cols-[minmax(0,1fr)_minmax(0,3fr)] xl:gap-x-16">
+          <div className="flex flex-col items-start">
             <RegionLink href="/" aria-label={ui.homeLink} className="mb-5 flex items-center gap-1.5 text-ink">
               <DhiraLogo className="h-8 w-8 text-ink" />
               <span className="text-xl font-semibold tracking-tight">{site.name}</span>
             </RegionLink>
-            <p className="max-w-[240px] text-sm leading-relaxed text-inkSoft">{site.tagline}</p>
-            <p className="mt-6 text-xs tracking-wide text-inkSoft">{site.offices.map((office) => office.city).join(" · ")}</p>
+            <p className="max-w-[260px] text-sm leading-relaxed text-inkSoft">{site.tagline}</p>
+            <p className="mt-5 text-xs tracking-wide text-inkSoft">{site.offices.map((office) => office.city).join(" · ")}</p>
             <a href={footer.contact.href} className={`mt-2 text-xs tracking-wide text-inkSoft ${ribbonLinkClass}`}>
               {footer.contact.label}
             </a>
+
+            {/* Ask AI for a summary: each mark opens its assistant with the
+                prompt already asked (content/navigation.ts `askAi`). */}
+            <p className="mt-8 text-sm text-inkSoft">{askAi.label}</p>
+            <ul className="-ml-2.5 mt-2 flex items-center gap-1">
+              {askAi.assistants.map((assistant) => (
+                <li key={assistant.id}>
+                  <a
+                    href={`${assistant.href}${encodeURIComponent(askAi.prompt.replace("{url}", askAi.url))}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    title={assistant.name}
+                    className="flex h-10 w-10 items-center justify-center rounded-btn text-inkSoft transition-colors duration-200 ease-settle hover:bg-primary-bg hover:text-ink"
+                  >
+                    <AssistantLogo id={assistant.id} className="h-5 w-5" />
+                    <span className="sr-only">
+                      {ui.askAssistant.before} {assistant.name} {ui.askAssistant.after} {ui.opensInNewTab}
+                    </span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+
+            <h2 className={`mt-7 ${headingType}`}>{ui.subscribe.heading}</h2>
+            <p className="mb-3 mt-2 text-sm text-inkSoft">{ui.subscribe.lede}</p>
+            <FooterSubscribe />
           </div>
 
           {/* Link columns. h2, not h4: the footer starts a new top-level
-              region, so h4 skipped two levels in the heading outline. */}
-          {footer.columns.map((col) => (
-            <div key={col.heading} className="col-span-1">
-              <h2 className={headingClass}>{nameOrWordmark(col.heading)}</h2>
-              <LinkList links={col.links} />
-            </div>
-          ))}
+              region, so h4 skipped two levels in the heading outline.
+              On phones the longest column (Solutions with its industries)
+              runs down the right beside the other three, stacked on the
+              left, so neither side leaves a hole. Reading order stays the
+              header's. */}
+          <div className="grid grid-cols-2 gap-x-8 gap-y-12 md:grid-cols-4">
+            {footer.columns.map((col) => (
+              <div key={col.groups[0].heading} className={`flex flex-col gap-10 ${col === longest ? "row-span-3 md:row-span-1" : ""}`}>
+                {col.groups.map((group) => (
+                  <div key={group.heading}>
+                    <h2 className={headingClass}>{group.heading}</h2>
+                    <LinkList links={group.links} />
+                  </div>
+                ))}
+              </div>
+            ))}
+          </div>
         </div>
 
-        {/* Ribbon: the company line on the left; the legal row, region
-            switch and LinkedIn on the right, one row from xl. Stacked and
-            left-aligned below that, to match the columns above. */}
+        {/* Ribbon: the company line on the left; the policy row, region
+            switch and LinkedIn on the right, one row from xl. Stacked and left-aligned
+            below that, to match the columns above. */}
         <div className="flex flex-col items-start gap-4 border-t border-line pt-6 text-xs text-inkSoft xl:flex-row xl:items-center xl:justify-between">
           <div className="space-y-1">
             <p>

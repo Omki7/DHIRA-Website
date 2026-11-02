@@ -94,12 +94,21 @@ export interface UiStrings {
     sendAnother: string;
     close: string;
   };
+  /** The footer's business email sign-up (layout/FooterSubscribe). */
   subscribe: {
+    heading: string;
+    lede: string;
     label: string;
     placeholder: string;
     submit: string;
-    thanks: string;
+    submitting: string;
+    /** Shown in place of the form; the address follows. */
+    done: string;
+    errors: { invalid: string; personal: string; failed: string };
+    consent: { before: string; link: { label: string; href: string }; after: string };
   };
+  /** Accessible name before an assistant's name: "Ask ChatGPT about DHIRA". */
+  askAssistant: { before: string; after: string };
 }
 
 export const ui: UiStrings = {
@@ -194,10 +203,27 @@ export const ui: UiStrings = {
     sendAnother: "Send another message",
     close: "Close",
   },
+  /* No newsletter yet (2 Nov 2026, user): the copy promises news, not a
+     schedule, and no confirmation email is sent. */
   subscribe: {
-    label: "Work email",
-    placeholder: "name@organisation.com",
+    heading: "Stay in touch",
+    lede: "Get the latest from DHIRA.",
+    label: "Business email",
+    /* The field's only visible label: the footer has no room for one above. */
+    placeholder: "Business email",
     submit: "Subscribe",
-    thanks: "Thank you. Look for a confirmation email at",
+    submitting: "Subscribing…",
+    done: "Thank you. We’ll keep you posted at",
+    errors: {
+      invalid: "Enter a valid email address.",
+      personal: "Please use your business email address.",
+      failed: "We couldn’t sign you up just now. Please try again, or write to info@dhira.ai.",
+    },
+    consent: {
+      before: "We’ll only email you news from DHIRA. See our",
+      link: { label: "privacy policy", href: "/privacy" },
+      after: ".",
+    },
   },
+  askAssistant: { before: "Ask", after: "about DHIRA" },
 };

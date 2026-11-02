@@ -398,7 +398,7 @@ export const solutionsEis: EisPage = {
     { id: "questions", label: "Questions" },
     { id: "talk-to-our-team", label: "Talk to our team" },
   ],
-  sectionsLabel: "EIS page sections",
+  sectionsLabel: "Enterprise Intelligence page sections",
   domains,
 
   hero: {

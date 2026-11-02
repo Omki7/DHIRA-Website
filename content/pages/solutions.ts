@@ -163,24 +163,25 @@ export interface IndexRow {
   solutions: string[];
 }
 
+/* Labels and order match the nav's "By industry" links (content/navigation.ts). */
 const industries: IndexRow[] = [
-  { label: "BFSI", href: "/sectors/finance", solutions: ["claims-fraud"] },
-  { label: "Healthcare", href: "/sectors/healthcare", solutions: ["akashic-life", "cancer-care"] },
-  { label: "Retail and CPG", href: "/sectors/retail", solutions: ["demand-sensing", "churn-pricing"] },
-  { label: "Manufacturing", href: "/sectors/manufacturing", solutions: ["direct-materials", "demand-sensing", "churn-pricing"] },
   { label: "Public sector", href: "/sectors/public-sector", solutions: ["intelligent-procurement", "citizen-services"] },
+  { label: "Financial services", href: "/sectors/finance", solutions: ["claims-fraud"] },
+  { label: "Healthcare", href: "/sectors/healthcare", solutions: ["akashic-life", "cancer-care"] },
+  { label: "Retail and consumer goods", href: "/sectors/retail", solutions: ["demand-sensing", "churn-pricing"] },
+  { label: "Manufacturing", href: "/sectors/manufacturing", solutions: ["direct-materials", "demand-sensing", "churn-pricing"] },
   { label: "Education", href: "/sectors/education", solutions: ["learning-outcomes"] },
   { label: "Energy and utilities", href: "/sectors/energy", solutions: ["enterprise-intelligence"] },
 ];
 
-/* Ids match the nav's "By function" links (content/navigation.ts). */
+/* Ids and labels match the nav's "By function" links (content/navigation.ts). */
 const functions: IndexRow[] = [
-  { id: "function-finance", label: "Finance and FP&A", solutions: ["enterprise-intelligence"] },
+  { id: "function-finance", label: "Finance, planning and analysis", solutions: ["enterprise-intelligence"] },
   { id: "function-procurement", label: "Procurement", solutions: ["intelligent-procurement", "direct-materials"] },
   { id: "function-supply-chain", label: "Supply chain", solutions: ["demand-sensing", "direct-materials"] },
   { id: "function-operations", label: "Operations", solutions: ["enterprise-intelligence", "demand-sensing"] },
   { id: "function-sales-marketing", label: "Sales and marketing", solutions: ["churn-pricing"] },
-  { id: "function-hr", label: "HR and corporate", solutions: ["enterprise-intelligence"] },
+  { id: "function-hr", label: "Human resources and corporate", solutions: ["enterprise-intelligence"] },
   { id: "function-customer-service", label: "Customer service", solutions: ["citizen-services", "claims-fraud"] },
 ];
 

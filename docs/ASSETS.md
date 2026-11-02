@@ -49,8 +49,9 @@ non-photographic ones came from.
 The older lifestyle imagery is generated or AI-edited, not camera photographs
 of DHIRA people or places. Leadership portraits are enhanced versions of real
 photographs. The About team photographs added on 28 October 2026 are actual
-images from dhira.io; their sources are recorded below. Connector marks are
-published brand marks. The two new home-workspace scenes are AI placeholders.
+images from dhira.io; their sources are recorded below. Connector and AI
+assistant marks are published brand marks. The two new home-workspace scenes
+are AI placeholders.
 
 ### Connector marks (`components/icons/ConnectorLogo.tsx`)
 
@@ -63,6 +64,20 @@ published brand marks. The two new home-workspace scenes are AI placeholders.
   one neutral connector glyph. Oracle NetSuite carries the Oracle mark.
 - Every mark renders in the text colour (`text-overcast`), never in brand
   colours, beside the system's name, only to say Akashic connects to it.
+
+### AI assistant marks (`components/icons/AssistantLogo.tsx`)
+
+- Added 2 Nov 2026 for the footer's "Ask AI for a summary" row (user,
+  after ThoughtSpot's footer). Each mark links to that assistant with a
+  prompt about DHIRA already asked.
+- Paths are from [Simple Icons](https://simpleicons.org) (CC0): Claude,
+  Perplexity and Google Gemini from v16.30.0; OpenAI from v15.15.0, the
+  last release that carries it. Google AI Mode uses the Gemini mark.
+- Grok is left out: Simple Icons publishes no mark for it.
+- Every mark renders in the text colour (`text-inkSoft`, `text-ink` on
+  hover), never in brand colours. The marks are their owners' trademarks,
+  used only to name the assistant a link opens; each link's accessible
+  name says it in words ("Ask ChatGPT about DHIRA").
 
 ### Leadership portraits (`public/avatars/*-executive-v1.webp`)
 

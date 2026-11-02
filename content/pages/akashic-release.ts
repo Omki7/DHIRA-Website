@@ -160,7 +160,7 @@ export const akashicRelease: AkashicReleasePage = {
     setup: "Start with one use case.",
     payoff: "Grow on the same foundation.",
     body: "Bring the question that matters most, on your own data. Move up a plan as use grows, with no data migration and no metrics to redefine.",
-    primary: { label: "See plans and pricing", href: "/pricing" },
+    primary: { label: "See pricing", href: "/pricing" },
     secondary: { label: "Talk to our team", href: "#talk-to-our-team" },
   },
 };

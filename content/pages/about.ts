@@ -133,7 +133,7 @@ const today = 2026.76;
 
 export const about: AboutPage = {
   seo: {
-    title: "About Us",
+    title: "About DHIRA",
     description:
       "Data you can trust. Decisions you can stand behind. DHIRA is a data and AI company for governments and enterprises, and builds Akashic, the platform that makes all your data agree.",
     path: "/about",

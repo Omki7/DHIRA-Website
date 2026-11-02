@@ -125,7 +125,7 @@ export interface SectorContent {
   headlineMarked: string;
   intro: string;
   heroFootnote: string;
-  /** Minimap accessible name ("Finance page sections"). */
+  /** Minimap accessible name ("Financial services page sections"). */
   sectionsLabel: string;
   problem: {
     label: string;
@@ -162,7 +162,7 @@ export const sectorPages: Record<SectorSlug, SectorContent> = {
   manufacturing: {
     slug: "manufacturing",
     name: "Manufacturing",
-    seo: { title: "Manufacturing Sector", description: "Akashic connects the shop floor to the enterprise: MES, SCADA, and ERP unified into one governed record, so drift is caught while the shift can still act.", path: "/sectors/manufacturing" },
+    seo: { title: "Manufacturing", description: "Akashic connects the shop floor to the enterprise: MES, SCADA, and ERP unified into one governed record, so drift is caught while the shift can still act.", path: "/sectors/manufacturing" },
     sectionsLabel: "Manufacturing page sections",
     image: { src: "/sectors/manufacturing-hq.jpg", alt: "Wide manufacturing bay with overhead cranes, steel columns, and marked production lanes" },
     story: {
@@ -310,7 +310,7 @@ export const sectorPages: Record<SectorSlug, SectorContent> = {
   healthcare: {
     slug: "healthcare",
     name: "Healthcare",
-    seo: { title: "Healthcare Sector", description: "Akashic resolves fragmented hospital systems into one governed longitudinal patient record, with consent and audit built into the platform itself.", path: "/sectors/healthcare" },
+    seo: { title: "Healthcare", description: "Akashic resolves fragmented hospital systems into one governed longitudinal patient record, with consent and audit built into the platform itself.", path: "/sectors/healthcare" },
     sectionsLabel: "Healthcare page sections",
     image: { src: "/sectors/healthcare-hq.jpg", alt: "Modern clinical procedure room with surgical lights, monitors, and medical equipment" },
     eyebrow: "Akashic for healthcare · Hospitals & health systems",
@@ -431,9 +431,9 @@ export const sectorPages: Record<SectorSlug, SectorContent> = {
 
   finance: {
     slug: "finance",
-    name: "Finance",
-    seo: { title: "Finance & Banking", description: "Akashic watches every transaction against the whole graph: one resolved customer across products, real-time pattern recognition, and lineage on every alert.", path: "/sectors/finance" },
-    sectionsLabel: "Finance page sections",
+    name: "Financial services",
+    seo: { title: "Financial services", description: "Akashic watches every transaction against the whole graph: one resolved customer across products, real-time pattern recognition, and lineage on every alert.", path: "/sectors/finance" },
+    sectionsLabel: "Financial services page sections",
     image: { src: "/sectors/finance-hq.jpg", alt: "Financial-district towers at dusk, glass facades and trading-floor skyline" },
     story: {
       aside: "/ THE CHAIN",
@@ -483,7 +483,7 @@ export const sectorPages: Record<SectorSlug, SectorContent> = {
         ],
       },
     },
-    eyebrow: "Akashic for finance · Banks, NBFCs & insurers",
+    eyebrow: "Akashic for financial services · Banks, NBFCs & insurers",
     headlinePlain: "Catch risk",
     headlineMarked: "before it clears.",
     intro:
@@ -583,9 +583,9 @@ export const sectorPages: Record<SectorSlug, SectorContent> = {
 
   retail: {
     slug: "retail",
-    name: "Retail",
-    seo: { title: "Retail & Supply Chain", description: "Akashic connects POS, ERP, warehouse, and supplier feeds into one live picture, so the demand forecast runs on today's signal, not last month's export.", path: "/sectors/retail" },
-    sectionsLabel: "Retail page sections",
+    name: "Retail and consumer goods",
+    seo: { title: "Retail and consumer goods", description: "Akashic connects POS, ERP, warehouse, and supplier feeds into one live picture, so the demand forecast runs on today's signal, not last month's export.", path: "/sectors/retail" },
+    sectionsLabel: "Retail and consumer goods page sections",
     image: { src: "/sectors/retail-hq.jpg", alt: "Bright retail store aisle with stocked shelves receding into the distance" },
     story: {
       aside: "/ SHELF & WAREHOUSE",
@@ -635,7 +635,7 @@ export const sectorPages: Record<SectorSlug, SectorContent> = {
         ],
       },
     },
-    eyebrow: "Akashic for retail · Chains, brands & marketplaces",
+    eyebrow: "Akashic for retail and consumer goods · Chains, brands & marketplaces",
     headlinePlain: "Know what sells.",
     headlineMarked: "Before it ships.",
     intro:
@@ -737,7 +737,7 @@ export const sectorPages: Record<SectorSlug, SectorContent> = {
   education: {
     slug: "education",
     name: "Education",
-    seo: { title: "Education Sector", description: "The intelligence layer inside national learning platforms, deployed for institutions: one governed learner record from enrolment to placement.", path: "/sectors/education" },
+    seo: { title: "Education", description: "The intelligence layer inside national learning platforms, deployed for institutions: one governed learner record from enrolment to placement.", path: "/sectors/education" },
     sectionsLabel: "Education page sections",
     image: { src: "/sectors/education-hq.jpg", alt: "University campus with students and academic buildings" },
     story: {
@@ -889,9 +889,9 @@ export const sectorPages: Record<SectorSlug, SectorContent> = {
 
   energy: {
     slug: "energy",
-    name: "Energy",
-    seo: { title: "Energy & Utilities", description: "Akashic unifies SCADA, metering, and asset data into one governed live picture, so the grid is maintained on condition, not on the calendar.", path: "/sectors/energy" },
-    sectionsLabel: "Energy page sections",
+    name: "Energy and utilities",
+    seo: { title: "Energy and utilities", description: "Akashic unifies SCADA, metering, and asset data into one governed live picture, so the grid is maintained on condition, not on the calendar.", path: "/sectors/energy" },
+    sectionsLabel: "Energy and utilities page sections",
     image: { src: "/sectors/energy-hq.jpg", alt: "High-voltage transmission towers and lines against a dusk sky" },
     story: {
       aside: "/ THE UNREAD SIGNAL",
@@ -941,7 +941,7 @@ export const sectorPages: Record<SectorSlug, SectorContent> = {
         ],
       },
     },
-    eyebrow: "Akashic for energy · Utilities & grid operators",
+    eyebrow: "Akashic for energy and utilities · Utilities & grid operators",
     headlinePlain: "See the grid",
     headlineMarked: "before it fails.",
     intro:

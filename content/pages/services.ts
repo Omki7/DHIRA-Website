@@ -154,7 +154,7 @@ export interface ServicesPage {
 
 export const services: ServicesPage = {
   seo: {
-    title: "Services | Data, AI and Product Engineering",
+    title: "Services",
     description: "From data and AI strategy to production delivery. DHIRA brings advisory, platform implementation, custom engineering and embedded teams to your business.",
     path: "/services",
   },

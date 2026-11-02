@@ -36,7 +36,7 @@ export interface SiteMapContent {
     /** Follows the page count: "48 pages". */
     countSuffix: string;
     regionalHeading: string;
-    /** Appended to a page title in the regional list: "Plans and pricing, India". */
+    /** Appended to a page title in the regional list: "Pricing, India". */
     regionalSuffix: string;
   };
   /** The /llms.txt preamble (llmstxt.org). */
@@ -46,12 +46,12 @@ export interface SiteMapContent {
 export const siteMap: SiteMapContent = {
   groups: [
     {
-      heading: "Akashic",
+      heading: "Platform",
       routes: [
         { path: "/", title: "Home", description: "DHIRA and Akashic, the governed data and AI platform: the intelligence layer behind every decision." },
         { path: "/akashic", title: "Akashic", description: "The governed data and AI platform: seven modules on one foundation, from data pipelines to AI answers with citations." },
         { path: "/akashic/1-0", title: "Akashic 1.0", description: "What is generally available on 1 November 2026, what stays in preview, and where it runs." },
-        { path: "/pricing", title: "Plans and pricing", description: "Four plans with every data module in each, sized by capacity, priced in US dollars: limits per plan, terms, deployment, services and how to buy." },
+        { path: "/pricing", title: "Pricing", description: "Four plans with every data module in each, sized by capacity, priced in US dollars: limits per plan, terms, deployment, services and how to buy." },
       ],
     },
     {
@@ -61,9 +61,9 @@ export const siteMap: SiteMapContent = {
         { path: "/solutions/enterprise-intelligence", title: "Enterprise Intelligence", description: "Agentic FP&A and MIS on the ERP as the system of record." },
         { path: "/solutions/life", title: "Akashic Life", description: "Frontline maternal care, built on Akashic." },
         { path: "/sectors/public-sector", title: "Public sector", description: "Governed data and AI for government programmes at national scale." },
-        { path: "/sectors/finance", title: "BFSI", description: "Akashic for banking, financial services and insurance." },
+        { path: "/sectors/finance", title: "Financial services", description: "Akashic for banking, financial services and insurance." },
         { path: "/sectors/healthcare", title: "Healthcare", description: "Akashic for healthcare providers and programmes." },
-        { path: "/sectors/retail", title: "Retail and CPG", description: "Akashic for retail and consumer goods." },
+        { path: "/sectors/retail", title: "Retail and consumer goods", description: "Akashic for retail and consumer goods." },
         { path: "/sectors/manufacturing", title: "Manufacturing", description: "Akashic for manufacturing and specialty chemicals." },
         { path: "/sectors/education", title: "Education", description: "Akashic for education systems and institutions." },
         { path: "/sectors/energy", title: "Energy and utilities", description: "Akashic for energy and utilities." },
@@ -79,16 +79,16 @@ export const siteMap: SiteMapContent = {
       heading: "Resources",
       routes: [
         { path: "/insights", title: "Insights", description: "Practical perspectives on data, AI and business decisions." },
-        { path: "/customers", title: "Customer stories", description: "Country-scale programmes where Akashic is the intelligence layer." },
         { path: "/glossary", title: "Glossary", description: "The data and AI terms used on this site, defined once." },
+        { path: "/customers", title: "Customer stories", description: "Country-scale programmes where Akashic is the intelligence layer." },
       ],
     },
     {
-      heading: "Company",
+      heading: "About",
       routes: [
         { path: "/about", title: "About DHIRA", description: "A data company since 2018, offices in New York, Hyderabad and Bangalore." },
-        { path: "/careers", title: "Careers", description: "Open roles and how DHIRA hires." },
         { path: "/newsroom", title: "Newsroom", description: "Announcements, recognition and the media kit." },
+        { path: "/careers", title: "Careers", description: "Open roles and how DHIRA hires." },
         { path: "/partners", title: "Partners", description: "Delivery, technology, white label and reseller partnerships." },
         { path: "/contact", title: "Contact", description: "Sales, partnerships, press, security, support and offices." },
       ],

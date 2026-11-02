@@ -65,7 +65,7 @@ export interface LifePage {
 
 export const solutionsLife: LifePage = {
   seo: {
-    title: "Akashic Life Solution",
+    title: "Akashic Life",
     description:
       "The intelligence layer for care that cannot wait: specialist-grade risk detection on a frontline worker's handset, offline, carried all the way to a national dashboard.",
     path: "/solutions/life",
@@ -82,7 +82,7 @@ export const solutionsLife: LifePage = {
     { id: "the-stake", label: "The stake" },
     { id: "talk-to-our-team", label: "Get started" },
   ],
-  sectionsLabel: "Life page sections",
+  sectionsLabel: "Akashic Life page sections",
 
   hero: {
     badge: { product: "Akashic Life", platform: "Built on Akashic" },

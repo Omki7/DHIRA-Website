@@ -388,6 +388,18 @@ Everything in `demos/mockups/` is fake software (`*Mockup`, banner comment
   redirects permanently (`next.config.mjs`); a renamed anchor keeps its old
   id as an alias. Product names are the deliberate exception: Platform
   leads to `/akashic`, the product's own page.
+- **One name per page, everywhere** (user, 2 Nov 2026: "in headers we call
+  platform, in footer we call akashic"). The header menus are the source
+  of names. The footer, site map, page titles (`seo.title`), index rows,
+  tabs, badges and minimap labels use the same words. The footer heads each
+  group with the menu's label (Platform, Solutions, Services, Resources,
+  About) or the menu's own group heading (By industry), its links in the
+  menu's order. Industries are Public
+  sector, Financial services, Healthcare, Retail and consumer goods,
+  Manufacturing, Education, Energy and utilities: never BFSI, CPG, Finance
+  or "Healthcare Sector". A page title is the name alone; the description
+  carries the keywords. Rename a page in `content/navigation.ts` first,
+  then search for the old name.
 - **Mobile.** Full-screen drill-down drawer, 44px targets, focus trap.
 - **Accessibility.** Disclosure pattern with top-level links: each label is
   a link, its chevron a button with `aria-expanded`; no `role=menu`; every

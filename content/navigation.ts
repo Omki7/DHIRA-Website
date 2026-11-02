@@ -183,7 +183,7 @@ const menus: NavMenu[] = [
         span: 2.25,
         links: [
           { label: "Public sector", href: "/sectors/public-sector" },
-          { label: "Banking, financial services and insurance", href: "/sectors/finance" },
+          { label: "Financial services", href: "/sectors/finance" },
           { label: "Healthcare", href: "/sectors/healthcare" },
           { label: "Retail and consumer goods", href: "/sectors/retail" },
           { label: "Manufacturing", href: "/sectors/manufacturing" },
@@ -363,16 +363,19 @@ const cta: Link = { label: "Talk to our team", href: "#talk-to-our-team" };
 /* ------------------------------------------------------------------ */
 /*  Footer: the same IA, one source with the header (15 Oct 2026)      */
 /* ------------------------------------------------------------------ */
-/* Mirrors the header menus (Akashic · Solutions · Services · Resources ·
-   Company), with the Solutions menu's industries as a column of their
-   own. The legal row is the founder's policy row (his footer:
+/* Mirrors the header menus, each under the menu's own label: Platform ·
+   Solutions · Services · Resources · About (2 Nov 2026, user: the footer
+   said Akashic and Company while the header says Platform and About).
+   Links keep the header's labels and order. The legal row is the founder's policy row (his footer:
    privacy, terms, accessibility, copyright and hyperlinking policies,
    sitemap).
 
    Audited 21 Oct 2026 (user: keep only what is used, made and worth its
    upkeep) against Linear, Scale, C3 AI, Anthropic, Palantir, Stripe and
    Vercel, whose footers run 32 to 45 links with no newsletter field and
-   no "last updated" line. A footer link must be:
+   no "last updated" line. (A business email sign-up returned on 2 Nov
+   2026, user: no newsletter yet, but capture the addresses; see
+   lib/subscribe.ts.) A footer link must be:
    - a page, not an in-page anchor to a page already listed (Modules,
      Leadership, Ways to engage and How we deliver went);
    - live: no placeholder hosts (Documentation went, docs.dhira.ai does
@@ -384,78 +387,138 @@ const cta: Link = { label: "Talk to our team", href: "#talk-to-our-team" };
    The same day the user removed Documentation, Events, Integrations and
    Trust Centre from the whole site.
 
-   Resized 28 Oct 2026 (user: the footer felt too big). Industries used to
-   sit under Solutions, making that one column 11 links deep while the rest
-   stopped at 3 to 5; it set an 826px footer. Industries is now its own
-   column, so no column runs past 7 links. Keep it that way: a long column
-   sets the whole footer's height. */
+   Resized 28 Oct 2026 (user: the footer felt too big): 826px, set by one
+   Solutions column 11 links deep beside columns of 3 to 5.
+
+   Regrouped 2 Nov 2026 on ThoughtSpot's footer (user: "logical and
+   attractive"; measured headless: brand block, then four columns, short
+   groups stacked in a column, Industry under Solutions). Four columns,
+   each read top to bottom, keep the header's order: Platform | Solutions,
+   By industry | Services, Resources | About. "By industry" is the header's
+   own group heading inside Solutions, so it stacks under Solutions rather
+   than standing as a column of its own. */
 export type FooterLink = { label: string; href: string; external?: boolean };
 
-export type FooterColumn = { heading: string; links: FooterLink[] };
+/** A titled list: one header menu under its label, word for word, or one
+    of the menu's groups under the group's heading. */
+export type FooterGroup = { heading: string; links: FooterLink[] };
+
+/** One column of the link grid, its groups stacked top to bottom. */
+export type FooterColumn = { groups: FooterGroup[] };
 
 const footerColumns: FooterColumn[] = [
   {
-    heading: "Akashic",
-    links: [
-      { label: "Platform overview", href: "/akashic" },
-      { label: "Akashic 1.0", href: "/akashic/1-0" },
-      { label: "Pricing", href: "/pricing" },
+    groups: [
+      {
+        heading: "Platform",
+        links: [
+          { label: "Platform overview", href: "/akashic" },
+          { label: "Akashic 1.0", href: "/akashic/1-0" },
+          { label: "Pricing", href: "/pricing" },
+        ],
+      },
     ],
   },
   {
-    heading: "Solutions",
-    links: [
-      { label: "Enterprise Intelligence", href: "/solutions/enterprise-intelligence" },
-      { label: "Intelligent Procurement Management System", href: "/solutions#intelligent-procurement" },
-      { label: "Akashic Life", href: "/solutions/life" },
-      { label: "All solutions", href: "/solutions" },
+    groups: [
+      {
+        heading: "Solutions",
+        links: [
+          { label: "Enterprise Intelligence", href: "/solutions/enterprise-intelligence" },
+          { label: "Intelligent Procurement Management System", href: "/solutions#intelligent-procurement" },
+          { label: "Akashic Life", href: "/solutions/life" },
+          { label: "All solutions", href: "/solutions" },
+        ],
+      },
+      {
+        heading: "By industry",
+        links: [
+          { label: "Public sector", href: "/sectors/public-sector" },
+          { label: "Financial services", href: "/sectors/finance" },
+          { label: "Healthcare", href: "/sectors/healthcare" },
+          { label: "Retail and consumer goods", href: "/sectors/retail" },
+          { label: "Manufacturing", href: "/sectors/manufacturing" },
+          { label: "Education", href: "/sectors/education" },
+          { label: "Energy and utilities", href: "/sectors/energy" },
+        ],
+      },
     ],
   },
   {
-    heading: "Industries",
-    links: [
-      { label: "Public sector", href: "/sectors/public-sector" },
-      { label: "Banking, financial services and insurance", href: "/sectors/finance" },
-      { label: "Healthcare", href: "/sectors/healthcare" },
-      { label: "Retail and consumer goods", href: "/sectors/retail" },
-      { label: "Manufacturing", href: "/sectors/manufacturing" },
-      { label: "Education", href: "/sectors/education" },
-      { label: "Energy and utilities", href: "/sectors/energy" },
+    groups: [
+      {
+        heading: "Services",
+        links: [
+          { label: "Strategic Advisory", href: "/services#advisory" },
+          { label: "Engineering at Scale", href: "/services#engineering" },
+          { label: "AI Solutions and Accelerators", href: "/services#ai-solutions" },
+        ],
+      },
+      {
+        heading: "Resources",
+        links: [
+          { label: "Insights", href: "/insights" },
+          { label: "Glossary", href: "/glossary" },
+          { label: "Customer stories", href: "/customers" },
+        ],
+      },
     ],
   },
   {
-    heading: "Services",
-    links: [
-      { label: "Strategic Advisory", href: "/services#advisory" },
-      { label: "Engineering at Scale", href: "/services#engineering" },
-      { label: "AI Solutions and Accelerators", href: "/services#ai-solutions" },
-    ],
-  },
-  {
-    heading: "Resources",
-    links: [
-      { label: "Insights", href: "/insights" },
-      { label: "Customer stories", href: "/customers" },
-      { label: "Glossary", href: "/glossary" },
-    ],
-  },
-  {
-    heading: "Company",
-    links: [
-      { label: "About DHIRA", href: "/about" },
-      { label: "Newsroom", href: "/newsroom" },
-      { label: "Careers", href: "/careers" },
-      { label: "Partners", href: "/partners" },
-      { label: "Contact", href: "/contact" },
+    groups: [
+      {
+        heading: "About",
+        links: [
+          { label: "About DHIRA", href: "/about" },
+          { label: "Newsroom", href: "/newsroom" },
+          { label: "Careers", href: "/careers" },
+          { label: "Partners", href: "/partners" },
+          { label: "Contact", href: "/contact" },
+        ],
+      },
     ],
   },
 ];
 
+/* Ask AI for a summary (2 Nov 2026, user; ThoughtSpot's footer does the
+   same): each assistant opens with the prompt already asked, so a visitor
+   gets a summary of the site in the assistant they already use. `href` is
+   the assistant's address up to its query parameter; the prompt, with
+   {url} filled in, is appended URL-encoded. Grok is left out: there is no
+   published mark for it in Simple Icons (components/icons/AssistantLogo). */
+export type AssistantId = "chatgpt" | "claude" | "perplexity" | "google";
+
+export type AskAi = {
+  label: string;
+  /** The site the assistants are asked to read. */
+  url: string;
+  /** "{url}" is replaced by `url`. No em dashes: the assistant quotes it back. */
+  prompt: string;
+  /** `name` completes each icon's accessible name ("Ask ChatGPT about DHIRA"). */
+  assistants: { id: AssistantId; name: string; href: string }[];
+};
+
+const askAi: AskAi = {
+  label: "Ask AI for a summary about DHIRA",
+  /* TEMPORARY: the Vercel deployment, so assistants read this build. Switch
+     to https://www.dhira.ai when the site goes live there. */
+  url: "https://dhira-website-ve4y.vercel.app",
+  prompt:
+    "I want to understand what DHIRA does. Read {url} and summarise DHIRA and Akashic, its governed data and AI platform: what Akashic does, the solutions and services built on it, and the organisations it serves.",
+  assistants: [
+    { id: "chatgpt", name: "ChatGPT", href: "https://chatgpt.com/?q=" },
+    { id: "claude", name: "Claude", href: "https://claude.ai/new?q=" },
+    { id: "perplexity", name: "Perplexity", href: "https://www.perplexity.ai/search?q=" },
+    { id: "google", name: "Google AI Mode", href: "https://www.google.com/search?udm=50&q=" },
+  ],
+};
+
+/* Each label is the policy page's own title. */
 const legalLinks: FooterLink[] = [
   { label: "Privacy policy", href: "/privacy" },
   { label: "Terms of use", href: "/terms" },
   { label: "Cookie policy", href: "/cookies" },
-  { label: "Accessibility", href: "/accessibility" },
+  { label: "Accessibility statement", href: "/accessibility" },
   { label: "Website policies", href: "/legal" },
   { label: "Site map", href: "/site-map" },
 ];
@@ -466,12 +529,12 @@ export interface Navigation {
   announcement: NavAnnouncement | null;
   cta: Link;
   /** `contact` is the brand column's inbox link (label: the address). */
-  footer: { columns: FooterColumn[]; legal: FooterLink[]; contact: Link };
+  footer: { columns: FooterColumn[]; legal: FooterLink[]; contact: Link; askAi: AskAi };
 }
 
 export const navigation: Navigation = {
   menus,
   announcement,
   cta,
-  footer: { columns: footerColumns, legal: legalLinks, contact: { label: site.email, href: mailto("General enquiry") } },
+  footer: { columns: footerColumns, legal: legalLinks, contact: { label: site.email, href: mailto("General enquiry") }, askAi },
 };

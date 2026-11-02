@@ -55,7 +55,7 @@ const sections: PageSection[] = [
 /* The page opens on [01] Plans, which carries the h1 (user, 15 Oct 2026:
    no hero, the page should be crisp). */
 const intro = {
-  label: "Plans and pricing",
+  label: "Pricing",
   setup: "Every module in every plan.",
   payoff: "Pay for the capacity you need.",
   lede: "Data Pipelines, Master Data, Warehouse, Business Intelligence and Governance come with every plan, under the same controls. Plans differ only in how much each module carries.",
@@ -517,7 +517,7 @@ export interface PricingPage {
 
 export const pricing: PricingPage = {
   seo: {
-    title: "Plans and pricing",
+    title: "Pricing",
     description: `${intro.setup} ${intro.payoff} ${intro.lede} Prices in US dollars.`,
     path: "/pricing",
   },

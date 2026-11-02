@@ -95,7 +95,7 @@ export interface PublicSectorPage {
 
 export const sectorsPublicSector: PublicSectorPage = {
   seo: {
-    title: "Public Sector",
+    title: "Public sector",
     description: "Akashic powers national-scale public digital infrastructure with real citizens, real scale, and audited public records.",
     path: "/sectors/public-sector",
   },
@@ -109,10 +109,10 @@ export const sectorsPublicSector: PublicSectorPage = {
     { id: "deployment", label: "Deployment" },
     { id: "talk-to-our-team", label: "Get Started" },
   ],
-  sectionsLabel: "Public Sector page sections",
+  sectionsLabel: "Public sector page sections",
 
   hero: {
-    badge: { name: "Public Sector", kicker: "Akashic by sector" },
+    badge: { name: "Public sector", kicker: "Akashic by sector" },
     eyebrow: { lead: "Akashic for public sector", tail: "Government" },
     title: { plain: "We don’t pitch government.", marked: "We’ve already built for it." },
     lede: "From vaccination drives to national education platforms, Akashic already powers some of India’s largest public digital infrastructure. Real citizens. Real scale. Real outcomes, not a sandbox demo.",

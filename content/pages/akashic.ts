@@ -749,7 +749,7 @@ export const akashicModules: ModuleDef[] = [
 
 export const akashic: AkashicPage = {
   seo: {
-    title: "Akashic: Data and AI Platform",
+    title: "Akashic",
     description:
       "Akashic is the governed data and AI platform. Data Pipelines, Master Data, Data Warehouse, Machine Learning, Ask Akashic and Business Intelligence on one foundation, ready for agents, with lineage, access control and audit under every layer.",
     path: "/akashic",

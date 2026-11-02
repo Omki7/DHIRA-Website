@@ -500,14 +500,14 @@ export const home: HomePage = {
         topics: ["Patient records", "Clinical signals", "Privacy"],
       },
       {
-        id: "finance", name: "Finance", image: "/sectors/finance-hq.jpg", href: "/sectors/finance",
+        id: "finance", name: "Financial services", image: "/sectors/finance-hq.jpg", href: "/sectors/finance",
         alt: "Glass office towers viewed from street level in a financial district",
         headline: "Every alert, traced.",
         description: "Connect transactions, customer records and risk signals. Trace each alert back to its source.",
         topics: ["Risk", "Customer records", "Audit trails"],
       },
       {
-        id: "retail", name: "Retail", image: "/sectors/retail-hq.jpg", href: "/sectors/retail",
+        id: "retail", name: "Retail and consumer goods", image: "/sectors/retail-hq.jpg", href: "/sectors/retail",
         alt: "Clothing, bags and accessories displayed in a retail shop",
         headline: "Stock where it sells.",
         description: "Bring demand, stock and store activity into one view. Plan replenishment with the full picture.",
@@ -521,7 +521,7 @@ export const home: HomePage = {
         topics: ["Enrolment", "Student support", "Learning outcomes"],
       },
       {
-        id: "energy", name: "Energy", image: "/sectors/energy-hq.jpg", href: "/sectors/energy",
+        id: "energy", name: "Energy and utilities", image: "/sectors/energy-hq.jpg", href: "/sectors/energy",
         alt: "Wind turbines across an open field at sunset",
         headline: "Repairs planned ahead.",
         description: "Connect sensor readings, maintenance history and grid operations. Plan each repair with the full context.",

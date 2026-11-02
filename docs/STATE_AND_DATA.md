@@ -81,10 +81,20 @@ Local overrides go in `.env.local`, which git ignores (`.env*` except
 
 ## Forms
 
-The contact form (`layout/ContactForm`, used by ContactModal and /contact) and
-the sign-up form (`ui/SubscribeForm`) are **simulated**: they validate, then
-show their success state without sending anything. The site is the final
-high-fidelity build. Developers wire both at hand-off:
+The contact form (`layout/ContactForm`, used by ContactModal and /contact) is
+**simulated**: it validates, then shows its success state without sending
+anything. The site is the final high-fidelity build. `ui/SubscribeForm` on
+/insights only copies the feed address, so it needs no backend.
+
+The footer's "Stay in touch" sign-up (`layout/FooterSubscribe`) is
+**simulated** too, but already submits through a Server Action,
+`lib/subscribe.ts`. The action checks the address, turns away personal
+mailboxes (gmail.com, outlook.com and the like) with a request for a
+business email, drops honeypot submissions, then reports success without
+saving. Connecting a mailing list or CRM is the one marked `HAND-OFF` line
+in that action. Its error state (`failed`) and copy are already in place.
+
+Developers wire both forms at hand-off:
 
 - Submit through a Server Action or a route handler.
 - Validate on the server with a schema, and return field errors to the form.

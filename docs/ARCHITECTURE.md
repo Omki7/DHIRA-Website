@@ -98,6 +98,8 @@ lib/
   routes.ts            The full route list: site-map groups plus every collection entry. Feeds
                        sitemap.xml, /site-map and llms.txt
   env.ts               The one reader of process.env (NEXT_PUBLIC_SITE_URL), with defaults
+  subscribe.ts         Server Action for the footer sign-up: checks the address, turns away personal
+                       mailboxes, then reports success. SIMULATED: the save is the hand-off point
   site.ts              SITE_URL and absoluteUrl()
   metadata.ts          pageMetadata(seo): title, description, canonical, hreflang, Open Graph, Twitter
   region.ts            Regions: REGIONAL_PATHS, basePath, regionPath, regionHref, regionAlternates
@@ -135,10 +137,17 @@ components/
     nav/               NavBar (client: hide-on-scroll, menus, drawer), MegaSheet (the one shared
                        desktop sheet), MenuPanel, NavFeatured, MobileNav (dialog drawer),
                        AnnouncementBar, NavIcons
-    Footer.tsx         Footer (bg-vault): columns and legal row from navigation, company line
-                       from site settings, RegionSwitch in the ribbon while a page has an India
-                       version (none today). What earns a footer link:
-                       the audit note above the footer columns in content/navigation.ts
+    Footer.tsx         Footer (bg-vault), on ThoughtSpot's footer: brand block (tagline, offices,
+                       email, "Ask AI for a summary" assistant marks, "Stay in touch" sign-up),
+                       then four columns of stacked groups in the header's order:
+                       Platform | Solutions, By industry | Services, Resources | About.
+                       Groups, the legal row and the Ask AI prompt come from navigation;
+                       the ribbon holds the company line from site settings, the policy row,
+                       LinkedIn, and RegionSwitch while a page has an India version (none
+                       today). What earns a footer link: the audit note above the footer
+                       columns in content/navigation.ts
+    FooterSubscribe.tsx  The footer's business email sign-up (client). Posts to lib/subscribe.ts.
+                       SIMULATED save
     ContactForm.tsx    The "Talk to our team" form (ContactModal and /contact). SIMULATED submit
     ContactModal.tsx   Opens for links to #talk-to-our-team (and #get-started, #briefing-form)
     PageMinimap.tsx    Right-edge section rail, driven by the page's `sections`; fades out over the footer
@@ -203,11 +212,12 @@ components/
     link), SectionCoda, DrawingSetClose, PreviewTag, RegionLink,
     PageHero (hub and resource hero), PageClose (bg-ink closing card, #talk-to-our-team),
     FaqSection (+ FAQPage JSON-LD), JsonLd, RichText (renders Block[]), ShareLinks, SubscribeForm
-    (SIMULATED), RotatingPhrase (the hero phrases), MotionToggle (the pause control for
+    (copies the /insights feed address), RotatingPhrase (the hero phrases), MotionToggle (the pause control for
     anything that advances by itself)
 
   icons/               Static SVG components: AkashicLogo, DhiraLogo, DynamicSketchIcon, CloudProviderLogos,
-                       ConnectorLogo (the grey connector marks in the /akashic reference)
+                       ConnectorLogo (the grey connector marks in the /akashic reference),
+                       AssistantLogo (the AI assistant marks in the footer's Ask AI row)
 
 public/                Static files; every one is referenced (ASSETS.md)
 docs/                  This documentation
@@ -304,7 +314,7 @@ eyebrow rail and header, and no next-section or section-foot buttons (removed
 | 09 | governance | `sections/EnterpriseSecurity.tsx` | `bg-background` | "Your data stays yours. / Governed inside your walls." Rising curve, four figures, certification bar |
 | 10 | get-started | `sections/Closure.tsx` | closing card | Centred close with the page's second CTA pair |
 | — | careers | `sections/CareersStrip.tsx` | `bg-background` | Unnumbered eyebrow "Careers"; roles from the collection; not in the minimap |
-| — | footer | `layout/Footer.tsx` | `vault` | Link columns |
+| — | footer | `layout/Footer.tsx` | `vault` | Brand block, then four columns of link groups headed by the header's menu labels |
 
 ### Akashic (`app/akashic/page.tsx`)
 
