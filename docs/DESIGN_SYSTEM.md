@@ -359,7 +359,7 @@ Everything in `demos/mockups/` is fake software (`*Mockup`, banner comment
     Warehouse a metric tree, Business Intelligence a gap-to-plan chart with
     its alert, Governance one report seen by two roles. Never a mechanism
     only engineers recognise (deduplication, join canvases).
-- One demo world in USD (see `AkashicScreenKitMockup`). Figures in a mockup
+- One demo world in USD (see `AkashicPlateScreensMockup`). Figures in a mockup
   are lifted from that world, never new.
 - The homepage is already screen-heavy: prefer line drawings over another
   screen. Product UI is never the answer to a copy problem.

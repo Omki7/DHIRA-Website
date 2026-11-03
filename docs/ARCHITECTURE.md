@@ -187,13 +187,10 @@ components/
                                    per module, varied surfaces and Motion entrances that play once.
                                    Copy in hero.illustrations
       AkashicModuleMomentsMockup   One moment per module (tease, do not reveal): /akashic/1-0 [01]
-                                   uses the default export. `ModuleMomentStage` has no caller since
-                                   23 Oct 2026 (the rail that drove it is in .archive/removed-2026-10-23/)
       AkashicOutcomeCardsMockup    Homepage [02]: one outcome card per module (role, typed question,
                                    answer, drawing, provenance) in the fan. Copy in platform.showcase
                                    (type OutcomeShowcase in content/pages/akashic.ts).
-                                   Replaced AkashicModuleScreensMockup + AkashicScreenKitMockup +
-                                   AkashicBIScreenMockup (22 Oct 2026; unused, to archive)
+                                   Replaced the 21 Oct module screens (22 Oct 2026; deleted 3 Nov)
       AkashicTeardownMockup        /akashic modular teardown stage. Since 26 Oct 2026 each module's plate
                                    carries AkashicPlateScreensMockup over the hidden abstract sketch the
                                    scroll code drives
@@ -202,7 +199,7 @@ components/
                                    one canvas (run graph, customer hierarchy with stewardship, schema diagram, forecast, cited
                                    answer, dashboard tiles), status bar. No app chrome, no colour
       ProofComparisonMockup        TheProof before/after slider (role="slider", keyboard operable)
-      EisBrowserChromeMockup + eis/*   /solutions/enterprise-intelligence screens. Each is the evidence for the
+      eis/*                        /solutions/enterprise-intelligence screens. Each is the evidence for the
                                    caption beside it; change the claim, change the screen
       life/*                       /solutions/life handset and record anatomy
 
@@ -605,9 +602,9 @@ sections used to carry a second full headline inside a `dusk` panel further
 down ([one-picture], [the-loop]); both were removed, because a section with two
 headlines has not decided what it is about.
 
-Page-scoped primitives live in `components/ui/eis/`: `EisAtmosphere` (the
-CSS/SVG sky that replaces photography) and `EisPill` (the page's one button
-shape). Its palette is the `eis-*` token block in `tailwind.config.ts`.
+The page-scoped primitive lives in `components/ui/eis/`: `EisAtmosphere` (the
+CSS/SVG sky that replaces photography). Its palette is the `eis-*` token block
+in `tailwind.config.ts`.
 
 Every wireframe on the page is **live React**, not a screenshot, and each one
 is the evidence for the claim beside it — see §8a.

@@ -2,11 +2,10 @@
 
 /**
  * SIMULATED PRODUCT UI — not real Akashic app code.
- * One MOMENT per module, not one screen. Two hosts: homepage [02], where the
- * seven-module rail drives `ModuleMomentStage` (21 Oct 2026, user: the
- * modules on the left, these drawings on the right, as the lead-in to the
- * solutions), and /akashic/1-0 "Generally available", which uses the default
- * export with its own index.
+ * One MOMENT per module, not one screen. Hosted by /akashic/1-0 "Generally
+ * available" with its own module index. Homepage [02] drove a separate
+ * `ModuleMomentStage` export from 21 to 23 Oct 2026; it had no caller after
+ * that and was deleted on 3 Nov 2026.
  * Built 15 Oct 2026 for the /akashic hero. On 20 Oct 2026 the founder asked
  * for the module screens back there (AkashicModuleScreensMockup) and for
  * this work to be reused, not discarded; homepage [02] hosted it briefly the
@@ -679,59 +678,6 @@ const MOMENTS: Moment[] = [
 
 const N = MOMENTS.length;
 const MOMENT_DURATION_MS = 8500;
-
-/**
- * One module's moment, by its index in MOMENTS (the platform's module order:
- * a page that drives the stage lists its own copy in the same order), fitted
- * to its container and replayed from the start
- * whenever `index` or `playKey` changes. Decorative (aria-hidden): the page
- * around it says what the module does. Wide containers show the whole
- * drawing scaled down; narrow ones crop around the moment's focus at 0.82,
- * so the small type stays legible.
- */
-export function ModuleMomentStage({ index, playKey = 0, caption = false }: { index: number; playKey?: number; caption?: boolean }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const [width, setWidth] = useState(960);
-
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    setWidth(el.offsetWidth);
-    const observer = new ResizeObserver(([entry]) => setWidth(entry.contentRect.width));
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
-
-  const m = MOMENTS[index];
-  const Draw = m.Draw;
-  const narrow = width < 600;
-  const scale = narrow ? 0.82 : Math.min(1, width / 960);
-  const fx = narrow ? m.focus : 480;
-
-  return (
-    <figure className="w-full">
-      <div
-        ref={ref}
-        aria-hidden
-        className="relative w-full overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_5%,black_95%,transparent)]"
-        style={{ height: Math.round(330 * scale) }}
-      >
-        <div
-          key={`${index}-${playKey}`}
-          className="absolute left-1/2 top-1/2 h-[320px] w-[960px]"
-          style={{ transform: `translate(${-fx}px, -50%) scale(${scale})`, transformOrigin: `${fx}px 50%` }}
-        >
-          <Draw />
-        </div>
-      </div>
-      {caption && (
-        <figcaption key={`${index}-${playKey}`} className="mt-4 animate-[ps-rise_420ms_cubic-bezier(0.2,0.8,0.2,1)_both] px-4 text-center text-[13.5px] leading-relaxed text-uc-mute">
-          {m.caption}
-        </figcaption>
-      )}
-    </figure>
-  );
-}
 
 export default function AkashicModuleMomentsMockup() {
   const rootRef = useRef<HTMLDivElement>(null);
