@@ -584,14 +584,14 @@ no chain rail, no `ProvenAtScale`. Do not "restore consistency" with
 
 | # | `id` | Component | Ground |
 |---|---|---|---|
-| 1 | hero | `eis/EisHero.tsx` (executive command bar & connectors) | atmosphere (`hero`) |
-| 2 | your-lens | `eis/EisLenses.tsx` (5-role command centre) | white |
-| 3 | the-gap | `eis/EisGap.tsx` (decision timeline) | `eis-band` #F4F5F0 |
-| 4 | capabilities | `eis/EisCapabilities.tsx` (3 governed pillars) | white |
-| 5 | the-loop | `eis/EisLoop.tsx` (5-station circuit) | white |
-| 6 | proof | `eis/EisProof.tsx` (3 sovereign deployments) | white |
-| 7 | questions | `eis/EisFaq.tsx` (5 executive questions) | white |
-| 8 | talk-to-our-team | `eis/EisClose.tsx` | atmosphere (`dusk`) |
+| 00 | hero | `eis/EisHero.tsx` (executive command bar & connectors) | atmosphere (`hero`) |
+| 01 | your-lens | `eis/EisLenses.tsx` (5-role command centre) | white |
+| 02 | the-gap | `eis/EisGap.tsx` (decision timeline & benchmark stats) | `eis-band` #F4F5F0 |
+| 03 | use-cases | `eis/EisTeasers.tsx` (four 30-second teaser stories) | card |
+| 04 | capabilities | `eis/EisCapabilities.tsx` (3 architectural guarantees) | white |
+| 05 | the-loop | `eis/EisLoop.tsx` (5-station action loop) | white |
+| 06 | questions | `eis/EisFaq.tsx` (split 2-column FaqSection) | white |
+| 07 | talk-to-our-team | `eis/EisClose.tsx` | atmosphere (`dusk`) |
 
 **Section [03]'s id is `capabilities`, not `the-brief`**: `content/pages/solutions-eis.ts`
 drives the minimap from these ids and they must match the `id` attributes.

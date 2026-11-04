@@ -193,7 +193,7 @@ export default function EisCommandCentreMockup() {
             <span className="flex h-5 w-5 items-center justify-center rounded bg-ink font-mono text-[10px] font-bold text-on-action">
               A
             </span>
-            <span className="text-[12px] font-bold text-ink">Akashic EIS</span>
+            <span className="text-[12px] font-bold text-ink">Enterprise Intelligence</span>
             <span className="h-3 w-px bg-lineSoft" />
             <span className="font-mono text-[11px] text-secondary-text">{role.title}</span>
           </div>

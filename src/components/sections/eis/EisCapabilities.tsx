@@ -6,9 +6,9 @@ import { ScrollRevealRail } from "@/shared/components/ui";
 import { SectionHeader } from "@/shared/components/ui";
 import type { EisPage } from "@/content/pages/solutions-eis";
 
-/* [capabilities] — Section [03]: Enterprise Governance
+/* [capabilities] — Section [04]: Enterprise Governance
  * Rebuilt from generic card grid to an interactive Executive Governance Studio.
- * Adheres strictly to Section Grammar: FigureEyebrow [03] ENTERPRISE GOVERNANCE,
+ * Adheres strictly to Section Grammar: FigureEyebrow [04] ENTERPRISE GOVERNANCE,
  * two-tone headline, lede directly below, ScrollRevealRail layout.
  */
 
@@ -68,7 +68,7 @@ export default function EisCapabilities({ content }: { content: EisPage["capabil
     >
       <ScrollRevealRail>
         <SectionHeader
-          num="03"
+          num="04"
           label="ENTERPRISE GOVERNANCE"
           setup={content.setup}
           payoff={content.payoff}

@@ -45,12 +45,16 @@ export default function EisGap({ content }: { content: EisPage["gap"] }) {
                     key={dept.system}
                     className={`flex min-h-[110px] flex-col justify-between rounded-xl p-3.5 sm:p-4 border transition-colors ${
                       dept.hit
-                        ? "border-[#F08A24] bg-gradient-to-t from-[#FDEBD8] to-card dark:from-[#3A2614] dark:to-card shadow-sm"
+                        ? "border-blue-border bg-blue-subtle text-ink shadow-xs"
                         : "border-lineSoft bg-card"
                     }`}
                   >
                     <div>
-                      <span className="block font-mono text-[10px] font-semibold uppercase tracking-wider text-secondary-text">
+                      <span
+                        className={`block font-mono text-[10px] font-semibold uppercase tracking-wider ${
+                          dept.hit ? "text-blue" : "text-secondary-text"
+                        }`}
+                      >
                         {dept.system}
                       </span>
                       <strong className="mt-1 block font-heading text-lg font-bold tracking-tight text-ink">
@@ -59,7 +63,7 @@ export default function EisGap({ content }: { content: EisPage["gap"] }) {
                     </div>
 
                     {dept.breach && (
-                      <p className="mt-2 text-xs font-medium leading-snug text-[#A65A0B] dark:text-[#F7B26A]">
+                      <p className="mt-2 text-xs font-medium leading-snug text-blue">
                         {dept.breach}
                       </p>
                     )}
@@ -80,7 +84,7 @@ export default function EisGap({ content }: { content: EisPage["gap"] }) {
                   className="flex flex-col justify-between rounded-xl border border-lineSoft bg-card p-5"
                 >
                   <div>
-                    <div className="font-heading text-3xl sm:text-4xl font-bold tracking-tight text-[#1100CC] dark:text-[#A49DFF] tabular-nums">
+                    <div className="font-heading text-3xl sm:text-4xl font-bold tracking-tight text-blue tabular-nums">
                       {item.value}
                     </div>
                     <p className="mt-2 text-xs sm:text-sm leading-relaxed text-secondary-text">
