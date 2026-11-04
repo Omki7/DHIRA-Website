@@ -92,10 +92,9 @@
   }
 }
 
+// The two beats keep their own lines at every width.
 .titleBreak {
-  @include respond-to(sm) {
-    display: block;
-  }
+  display: block;
 }
 
 // text-base, then leading-relaxed; text-lg from sm sets the line-height too.
@@ -114,36 +113,6 @@
   @include respond-to(md) {
     margin-top: space(8);
   }
-}
-
-.sources {
-  display: inline-flex;
-  transform: translateY(-1px);
-  align-items: center;
-  gap: space(1.5);
-  vertical-align: middle;
-}
-
-.source {
-  display: inline-flex;
-  height: space(7);
-  width: space(7);
-  align-items: center;
-  justify-content: center;
-  border-radius: $radius-tile;
-  border: 1px solid c(card-line);
-  background-color: c(background);
-}
-
-.sourceLogo {
-  position: relative;
-  display: block;
-  height: space(4);
-  width: space(4);
-}
-
-.sourceImage {
-  object-fit: contain;
 }
 
 .actions {
@@ -181,14 +150,22 @@
 
 .askBar {
   display: flex;
+  text-decoration: none;
+  color: inherit;
+  @include transition-colors($duration-200);
+  @include focus-ring;
   min-width: 0;
   flex: 1 1 0%;
   align-items: center;
   gap: space(3);
-  border-radius: 9999px;
+  border-radius: 24px;
   border: 1px solid c(card-line);
   background-color: c(primary-bg);
   padding: space(1.5) space(1.5) space(1.5) space(4);
+
+  @include respond-to(sm) {
+    border-radius: 9999px;
+  }
 }
 
 .askIcon {
@@ -219,6 +196,7 @@
 .askText {
   display: flex;
   min-width: 0;
+  min-height: 2.5rem;
   flex: 1 1 0%;
   align-items: center;
   text-align: left;
@@ -226,12 +204,21 @@
   color: c(ink);
 
   @include respond-to(sm) {
+    min-height: 0;
     font-size: 15px;
   }
 }
 
+// The whole question always shows: one line from sm, up to two on a phone
+// (5 Nov 2026: the old questions were cut off with an ellipsis). The bar
+// keeps two lines' height on a phone, so typing never moves the page.
 .askTyped {
-  @include truncate;
+  overflow-wrap: anywhere;
+  text-wrap: balance;
+
+  @include respond-to(sm) {
+    @include truncate;
+  }
 }
 
 .caret {
@@ -243,6 +230,8 @@
   background-color: c(blue);
 }
 
+// The bar is a link into its story; the arrow is its quiet affordance, not
+// a second primary button (critique, 5 Nov 2026).
 .askGo {
   display: flex;
   height: space(9);
@@ -251,18 +240,71 @@
   align-items: center;
   justify-content: center;
   border-radius: 9999px;
-  background-color: c(action);
-  color: c(on-action);
+  border: 1px solid c(card-line);
+  background-color: c(background);
+  color: c(ink);
   @include transition-colors($duration-200);
-  @include focus-ring;
+}
 
-  &:hover {
-    background-color: c(action-hover);
+@media (hover: hover) and (pointer: fine) {
+  .askBar:hover {
+    border-color: c(default-stroke);
+
+    .askGo {
+      border-color: c(action);
+      background-color: c(action);
+      color: c(on-action);
+    }
   }
 }
 
+// The answer lands under the bar once the question is whole. Its height is
+// held, so the page never moves as answers come and go.
+.answer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: center;
+  gap: space(1) space(3);
+  min-height: 2.75rem;
+  margin: space(3) auto 0;
+  max-width: 680px;
+  opacity: 0;
+  transform: translateY(4px);
+  transition:
+    opacity $duration-250 $ease-settle,
+    transform $duration-250 $ease-settle;
+
+  &[data-landed="true"] {
+    opacity: 1;
+    transform: none;
+  }
+
+  @include respond-to(sm) {
+    min-height: 1.5rem;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}
+
+.answerOutcome {
+  text-wrap: balance;
+  font-size: 14px;
+  font-weight: $weight-medium;
+  color: c(blue);
+}
+
+.answerSource {
+  font-family: $font-mono;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: c(tertiary-text);
+}
+
 .connectors {
-  margin-top: space(3);
+  margin-top: space(2);
   font-family: $font-mono;
   font-size: 11px;
   color: c(tertiary-text);

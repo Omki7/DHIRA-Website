@@ -5,7 +5,7 @@ export interface EisFaqProps {
   content: EisPage["faq"];
 }
 
-/* [questions] Section [06]: the site's FAQ section, the questions grouped
+/* [questions] Section [07]: the site's FAQ section, the questions grouped
    by what the reader is deciding. */
 export function EisFaq({ content }: EisFaqProps) {
   const groups = content.bands.map((band) => ({ heading: band.label, items: band.items }));
@@ -13,7 +13,7 @@ export function EisFaq({ content }: EisFaqProps) {
   return (
     <FaqSection
       id="questions"
-      num="06"
+      num="07"
       label="FREQUENT QUESTIONS"
       setup={content.setup}
       payoff={content.payoff}

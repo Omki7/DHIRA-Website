@@ -9,7 +9,7 @@ export interface EisGapProps {
 }
 
 /*
- * [the-gap] Section [02]: The decision gap. The page's one soft band.
+ * [the-gap] Section [01]: The decision gap. The page's one soft band.
  * One drawing carries the argument (GapBoard): the pieces of one client's
  * trouble exist on day 0 in three departments' systems, and the question
  * is when leadership sees them together. The real industry figures follow
@@ -23,7 +23,7 @@ export function EisGap({ content }: EisGapProps) {
     <section id="the-gap" className={styles.section}>
       <ScrollRevealRail>
         <SectionHeader
-          num="02"
+          num="01"
           label="THE DECISION GAP"
           setup={content.setup}
           payoff={content.payoff}

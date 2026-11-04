@@ -88,7 +88,7 @@ export function EisTeaserCard({ item, playLabel, replayLabel }: EisTeaserCardPro
   };
 
   return (
-    <article className={styles.card}>
+    <article id={`story-${item.id}`} className={styles.card}>
       {/* The footage's own ground fills the frame, so a letterboxed video
           never shows a second colour. */}
       <div className={styles.frame}>

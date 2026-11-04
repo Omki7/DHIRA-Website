@@ -1,10 +1,9 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import type { EisPage } from "@/content/pages/solutions-eis";
-import { MotionToggle, ScrollRevealRail } from "@/shared/components/ui";
+import { MotionToggle, PreviewTag, ScrollRevealRail } from "@/shared/components/ui";
 import useOnScreen from "@/shared/hooks/useOnScreen";
 import usePrefersReducedMotion from "@/shared/hooks/usePrefersReducedMotion";
 import { scrollToHashTarget } from "@/shared/utils/navigation";
@@ -53,6 +52,9 @@ export function EisHero({ content }: EisHeroProps) {
   /* Paused mid-word, the bar shows the whole question it was typing. */
   const prompt = still ? prompts[0] : prompts[index];
   const shown = still || paused ? prompt.question : typed;
+  /* The answer lands once the question is whole (critique, 5 Nov 2026: the
+     bar asked but never answered). */
+  const landed = still || paused || (!deleting && typed === prompt.question);
 
   return (
     <section id="hero" className={styles.hero}>
@@ -67,21 +69,7 @@ export function EisHero({ content }: EisHeroProps) {
             {content.title[0]} <span className={styles.titleBreak}>{content.title[1]}</span>
           </h1>
 
-          <p className={styles.lede}>
-            {content.lede.lead} {content.lede.tail}{" "}
-            <span
-              className={styles.sources}
-              aria-label={`${content.readsLabel} ${content.sources.map((s) => s.label).join(", ")}`}
-            >
-              {content.sources.map((s) => (
-                <span key={s.label} title={s.label} className={styles.source}>
-                  <span className={styles.sourceLogo}>
-                    <Image src={s.src} alt="" fill sizes="16px" className={styles.sourceImage} />
-                  </span>
-                </span>
-              ))}
-            </span>
-          </p>
+          <p className={styles.lede}>{content.lede}</p>
 
           <div className={styles.actions}>
             <Link
@@ -108,7 +96,12 @@ export function EisHero({ content }: EisHeroProps) {
               Ask Akashic card types its question. */}
           <div ref={askRef} className={styles.ask}>
             <div className={styles.askRow}>
-              <div className={styles.askBar}>
+              {/* The whole bar is the way into the matching story in [03]. */}
+              <a
+                href={`#story-${prompt.story}`}
+                className={styles.askBar}
+                aria-label={`${content.askLabel}: ${prompt.question}`}
+              >
                 <svg
                   aria-hidden
                   viewBox="0 0 16 16"
@@ -121,13 +114,16 @@ export function EisHero({ content }: EisHeroProps) {
                   <circle cx="7" cy="7" r="4.5" />
                   <path d="m10.5 10.5 3 3" />
                 </svg>
-                <span className={styles.askTag}>{prompt.tag}</span>
-                <span className={styles.askText}>
-                  <span className={styles.askTyped}>{shown}</span>
-                  {running && <span aria-hidden className={styles.caret} />}
+                <span className={styles.askTag} aria-hidden="true">{prompt.tag}</span>
+                {prompt.preview && <PreviewTag />}
+                <span className={styles.askText} aria-hidden="true">
+                  <span className={styles.askTyped}>
+                    {shown}
+                    {running && <span className={styles.caret} />}
+                  </span>
                 </span>
-                <a href="#your-lens" className={styles.askGo} aria-label={content.askLabel}>
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden>
+                <span className={styles.askGo} aria-hidden="true">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
                     <path
                       d="M5 12h14M12 5l7 7-7 7"
                       stroke="currentColor"
@@ -136,10 +132,14 @@ export function EisHero({ content }: EisHeroProps) {
                       strokeLinejoin="round"
                     />
                   </svg>
-                </a>
-              </div>
+                </span>
+              </a>
               <MotionToggle paused={paused} onToggle={() => setPaused((p) => !p)} controls={content.motionLabel} />
             </div>
+            <p className={styles.answer} data-landed={landed} aria-live="off">
+              <span className={styles.answerOutcome}>{prompt.answer.outcome}</span>
+              <span className={styles.answerSource}>{prompt.answer.source}</span>
+            </p>
             <p className={styles.connectors}>{content.connectorsNote}</p>
           </div>
 

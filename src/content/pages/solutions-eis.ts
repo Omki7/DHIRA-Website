@@ -291,10 +291,7 @@ export interface EisHeading {
   lede: string;
 }
 
-/** Which evidence a capability band item points at (kept from the earlier capability panels). */
-export type EisEvidence = "definition" | "entity" | "permissions" | "action" | "planes" | "record";
-
-/** [02] The decision gap, drawn as swimlanes over one month
+/** [01] The decision gap, drawn as swimlanes over one month
     (features/solutions/EisGap). One client's lifecycle crosses three
     department systems; each holds one piece. Department reporting brings
     the pieces together at month-end; Enterprise Intelligence on day 0.
@@ -321,19 +318,96 @@ export interface EisGapBoard {
   runway: { label: string; act: string; late: string };
 }
 
-/** [04]'s three guarantees; each one picks its panel in the governance
-    inspector (features/solutions EisGovernanceInspectorMockup). */
-export type EisGuaranteeId = "metric" | "correlation" | "execution";
+/** [02] One picture (features/solutions/EisOnePicture): one client at the
+    centre, the records that touch it around it, one family per department.
+    The sample client continues [01]'s story; every record is from the
+    sample business in the teaser videos and the role cockpits. */
+export interface EisOnePictureFigure {
+  question: string;
+  centre: { name: string; note: string };
+  answer: string;
+  /** The one chain drawn across departments, and the key to the two kinds of line. */
+  chain: string;
+  legend: { chain: string; client: string };
+  families: {
+    key: "sales" | "work" | "people" | "money";
+    name: string;
+    source: string;
+    /** The first record sits nearest the client; the second, one link further out. */
+    records: [{ title: string; detail: string }, { title: string; detail: string }];
+  }[];
+}
 
-export interface EisGuarantee {
-  id: EisGuaranteeId;
-  tag: string;
-  title: string;
-  headline: string;
-  /** Read as a set of tags: three words or fewer each. */
-  proofs: string[];
-  /** Agents do this work, so it carries the preview mark (DESIGN_SYSTEM §1). */
-  preview?: boolean;
+/** [04] Your Monday (features/solutions/EisMonday): every change since
+    Friday as a field of dots, three of them flowing into the three
+    decisions that need a leader, ranked by money at stake. Agentic, so the
+    section carries PreviewTag. Figures are the sample business's, as in the
+    "Monday, 8 a.m." teaser video. */
+export interface EisMonday {
+  /** The field: one dot per change since Friday, in one band per live
+      system. `rows` of 62 dots each; the rows add up to 39 (2,418 dots). */
+  field: { legend: string; bands: { system: string; rows: number }[] };
+  inboxLabel: string;
+  columns: { rank: string; due: string };
+  decisions: {
+    /** The systems this decision's facts come from, as band indexes. */
+    bands: [number, number, number];
+    path: string[];
+    title: string;
+    stake: string;
+    /** Money at stake in dollars, for the bar beside it. */
+    amount: number;
+    due: string;
+  }[];
+  /** The first decision, opened. */
+  open: {
+    factsLabel: string;
+    found: string;
+    facts: string[];
+    actionLabel: string;
+    action: string;
+    impact: string;
+    actions: { primary: string; others: string[] };
+  };
+  coda: { lead: string; payoff: string };
+}
+
+/** [05] Every leader (features/solutions/EisLeaders): five seats, one per
+    role, in the homepage's outcome-card form: the role, the plain question
+    it brings, one legible answer with its outcome in blue, a hairline
+    drawing and a mono source line. All five hang from one spine: the same
+    records. Figures are the sample business's (the role cockpits and the
+    Monday story). */
+export interface EisLeaderSeat {
+  role: string;
+  question: string;
+  answer: string;
+  outcome: string;
+  source: string;
+  drawing: "forecast" | "ageing" | "renewals" | "projects" | "seats";
+}
+
+/** [06] Trust (features/solutions/EisTrust): the headline's two halves as
+    two drawings. Left, one figure from [02] opened like a receipt: its
+    definition, its source records, how fresh it is, the checks it passed.
+    Right, the route a proposal takes before anything changes. Then three
+    promises. Every claim is one the FAQ already makes. */
+export interface EisTrust {
+  receipt: {
+    label: string;
+    value: string;
+    subject: string;
+    rows: { key: string; value: string }[];
+    /** Where the figure's value comes from, and the signals that made it a risk. */
+    valueLabel: string;
+    valueFrom: { system: string; record: string };
+    signalsLabel: string;
+    signals: { system: string; record: string }[];
+    footnote: string;
+  };
+  /** Agentic end to end, so the label carries PreviewTag. */
+  route: { label: string; steps: { title: string; detail: string }[] };
+  link: Cta;
 }
 
 export interface EisTeaserItem {
@@ -357,20 +431,20 @@ export interface EisPage {
     /** The product's name over the headline, as the Solutions menu names it: "Enterprise Intelligence", nothing more. */
     badge: string;
     title: [string, string];
-    /** Typed one after another into the ask bar, each under its topic tag. */
-    prompts: { tag: string; question: string }[];
+    /** Typed one after another into the ask bar, each under its topic tag.
+        `story` is the id of its story in [03]; the bar links there.
+        `answer` lands under the bar once the question is typed: one sample
+        figure from that story's footage. `preview` marks agentic work. */
+    prompts: { tag: string; question: string; story: string; answer: { outcome: string; source: string }; preview?: boolean }[];
     /** What the ask bar's pause control stops, for its accessible name ("Pause the example questions"). */
     motionLabel: string;
-    /** The ask bar's arrow, which jumps to the role cockpits in [01]. */
+    /** The ask bar's accessible name, before the question: it opens that story in [03]. */
     askLabel: string;
-    /** Under the ask bar: which connectors are live today. */
+    /** Under the ask bar: what every answer rests on, and which connector is live. */
     connectorsNote: string;
     /** Under the hero: one outcome each, a mono label over one sentence. */
     outcomes: { label: string; body: string }[];
-    lede: { lead: string; tail: string };
-    /** "Reads" + the source names, for assistive technology. */
-    readsLabel: string;
-    sources: { label: string; src: string }[];
+    lede: string;
     primary: Cta;
     secondary: Cta;
     screenUrl: string;
@@ -390,21 +464,10 @@ export interface EisPage {
     replayLabel: string;
     items: EisTeaserItem[];
   };
-  capabilities: EisHeading & {
-    guarantees: EisGuarantee[];
-    bands: { label: string; note: string; items: { lead: string; body: string; evidence: EisEvidence }[] }[];
-    pillars?: { tag: string; title: string; body: string; metrics: string[]; evidence: EisEvidence }[];
-  };
-  onePicture: EisHeading & { estateLede: string; screenUrl: string };
-  loop: EisHeading & { cta: Cta };
-  pipeline: EisHeading & {
-    steps: { number: string; title: string; body: string; modules: string[] }[];
-  };
-  lenses: EisHeading & { cta: Cta };
-  proof: EisHeading & {
-    deployments: { key: string; name: string; image: string; line: string; body: string; figures: { value: string; unit: string; label: string }[] }[];
-    closing: string;
-  };
+  onePicture: EisHeading & { figure: EisOnePictureFigure; views: { label: string; items: string[] }; note: string };
+  monday: EisHeading & EisMonday;
+  leaders: EisHeading & { seats: EisLeaderSeat[]; spine: string };
+  trust: EisHeading & EisTrust;
   faq: {
     title: string;
     /** The two-tone headline of the shared FAQ section. */
@@ -442,11 +505,12 @@ export const solutionsEis: EisPage = {
   },
   sections: [
     { id: "hero", label: "Enterprise Intelligence" },
-    { id: "your-lens", label: "Your lens" },
     { id: "the-gap", label: "The gap" },
+    { id: "one-picture", label: "One picture" },
     { id: "use-cases", label: "Four stories" },
-    { id: "capabilities", label: "Capabilities" },
-    { id: "the-loop", label: "The loop" },
+    { id: "your-monday", label: "Your Monday" },
+    { id: "every-leader", label: "Every leader" },
+    { id: "trust", label: "Trust" },
     { id: "questions", label: "Questions" },
     { id: "talk-to-our-team", label: "Talk to our team" },
   ],
@@ -456,33 +520,52 @@ export const solutionsEis: EisPage = {
   hero: {
     badge: "Enterprise Intelligence",
     title: ["See where your business will land.", "Every hour."],
-    /* Grounded in the four core questions from the executive wireframe */
+    /* The four questions are the four stories in [03], in the same order,
+       short enough to sit whole in the ask bar (5 Nov 2026: the old ones
+       were cut off). Tags are the stories' own topics. */
     prompts: [
-      { tag: "People and margin", question: "Someone asks for five days off. Who checks what it breaks?" },
-      { tag: "Cloud and FinOps", question: "A GPU node requested on Friday. Who knows what it will cost?" },
-      { tag: "What-if forecast", question: "What if your biggest deal slips a quarter and a key client doesn't renew?" },
-      { tag: "Decision runway", question: "Monday, 8 a.m. 2,418 changes since Friday: which 3 need you?" },
+      {
+        tag: "People and projects",
+        question: "Someone asks for five days off. What breaks?",
+        story: "leave",
+        answer: { outcome: "A client milestone slips. $84,000 of October revenue at risk.", source: "ERPNext Projects and Accounts" },
+      },
+      {
+        tag: "Cloud costs",
+        question: "A GPU node, requested on Friday. What will it cost?",
+        story: "cloud",
+        answer: { outcome: "$734 over 30 days, absorbed by a fixed-price project.", source: "Cloud billing and ERPNext Projects" },
+      },
+      {
+        tag: "What-if",
+        question: "What if our biggest deal slips a quarter?",
+        story: "whatif",
+        answer: { outcome: "Next 12 months: revenue down $98,300, EBITDA down $96,600.", source: "Rolling 12-month forecast" },
+      },
+      {
+        tag: "Monday morning",
+        question: "Monday, 8 a.m. What needs me?",
+        story: "actions",
+        answer: { outcome: "Three decisions this week, ranked by money at stake.", source: "Agents, reading every change" },
+        preview: true,
+      },
     ],
     motionLabel: "the example questions",
-    askLabel: "View live role cockpit",
-    connectorsNote:
-      "Grounds every answer in ERPNext, Salesforce and SAP · ERPNext live today · More connectors on roadmap",
-    lede: { lead: "Every decision touches customers, projects, people and cash.", tail: "Enterprise Intelligence connects live to" },
-    readsLabel: "Reads",
-    sources: [
-      { label: "ERPNext", src: "/universal-context/postgresql.svg" },
-      { label: "Salesforce", src: "/universal-context/salesforce.svg" },
-      { label: "SAP", src: "/universal-context/sap.svg" },
-      { label: "Oracle", src: "/universal-context/oracle.svg" },
-    ],
+    askLabel: "Watch the story",
+    /* True as of 5 Nov 2026: ERPNext is the live connector. The old lede
+       listed Salesforce, SAP and Oracle as live (and showed the PostgreSQL
+       mark for ERPNext); they are not claimed here. */
+    connectorsNote: "Every answer traces to its record · Live on ERPNext today · More systems on the roadmap",
+    lede: "Every decision touches customers, projects, people and cash. Enterprise Intelligence reads your ERP as it changes, so every leader works from the same live figures.",
     primary: { label: "See it with your own data", href: "#talk-to-our-team" },
     secondary: { label: "Watch four 30-second stories", href: "#use-cases" },
     screenUrl: "akashic.dhira.ai/enterprise-intelligence",
+    /* Plain promises the page itself goes on to show: [01], [05], [03], [06]. */
     outcomes: [
-      { label: "Zero reporting lag", body: "Live operating reality without 3-week reporting cycles" },
-      { label: "Unified ground truth", body: "CEO, CFO, and COO aligned on identical numbers" },
-      { label: "Early risk warning", body: "Margin and contract slippage detected 30 days early" },
-      { label: "Governed execution", body: "Human-authorised actions with immutable audit" },
+      { label: "No month-end wait", body: "The picture moves with your ERP, not with the monthly pack." },
+      { label: "No two versions", body: "Every leader reads the same figures, traced to the record." },
+      { label: "Impact before approval", body: "See what a leave, a deal or a cloud request will move." },
+      { label: "Your ERP stays the record", body: "Nothing changes in your ERP without approval." },
     ],
   },
 
@@ -511,7 +594,7 @@ export const solutionsEis: EisPage = {
       ],
       columns: { department: "Department", piece: "What its system shows" },
       lanes: [
-        { department: "Sales", system: "Salesforce", signal: "The renewal's sponsor resigns", seenBy: "Seen by the account manager" },
+        { department: "Sales", system: "ERPNext CRM", signal: "The renewal's sponsor resigns", seenBy: "Seen by the account manager" },
         { department: "Delivery", system: "ERPNext Projects", signal: "Claims Engine three weeks late", seenBy: "Seen by the project lead" },
         { department: "Finance", system: "ERPNext Accounts", signal: "An invoice 74 days overdue", seenBy: "Seen by collections" },
       ],
@@ -611,275 +694,271 @@ export const solutionsEis: EisPage = {
     ],
   },
 
-  capabilities: {
-    setup: "A figure you can defend.",
-    payoff: "An action you can reverse.",
-    lede: "Deterministic metric definitions, continuous risk correlation, and dual-key human sign-off ensure every figure is verified and every operational action is audited.",
-    guarantees: [
-      {
-        id: "metric",
-        tag: "Ground truth",
-        title: "Governed metric layer",
-        headline: "Every figure shows its mathematical working. Zero hallucinated SQL.",
-        proofs: ["100% deterministic logic", "Row-level security", "Complete data lineage"],
-      },
-      {
-        id: "correlation",
-        tag: "Early warning",
-        title: "Continuous risk correlation",
-        headline: "Cross-department risks detected 30 days before month-end.",
-        proofs: ["Continuous scanning", "Cross-silo triangulation", "Zero polling required"],
-        preview: true,
-      },
-      {
-        id: "execution",
-        tag: "Policy control",
-        title: "Dual-key human execution",
-        headline: "Strict segregation of composition and executive authorisation.",
-        proofs: ["Segregation of duties", "Dual-key sign-off", "Cryptographic audit trail"],
-      },
-    ],
-    pillars: [
-      {
-        tag: "Foundation",
-        title: "One Governed Golden Record",
-        body: "Master data continuously reconciles customers, workforce, and multi-entity projects across ERPNext, Salesforce, and Workday with strict row-level security before computation.",
-        metrics: ["Single Golden Record", "Row-Level Governance", "Full Data Lineage"],
-        evidence: "entity",
-      },
-      {
-        tag: "Intelligence",
-        title: "Continuous Predictive Signals",
-        body: "Autonomous background agents monitor delivery milestones, payment ageing, and bench allocation, surfacing margin compression risks 30 days before month-end.",
-        metrics: ["Rolling 12M Forecast", "Early Margin Detection", "Cross-Silo Alerts"],
-        evidence: "definition",
-      },
-      {
-        tag: "Execution",
-        title: "Governed Human-in-the-Loop Action",
-        body: "Decisions are structured, policy-checked interventions with segregated duties. Once approved by the designated executive, verified updates commit directly to systems of record with a complete audit trail.",
-        metrics: ["Human Authorisation", "Zero Hallucinated SQL", "Defensible Audit Trail"],
-        evidence: "record",
-      },
-    ],
-    bands: [
-      {
-        label: "Before you believe the figure",
-        note: "Everything that has to hold before a figure is worth acting on.",
-        items: [
-          { lead: "Arguments end at the definition.", body: "When two teams produce two revenue numbers, the dispute is never the query. It is whether deferred revenue is recognised, and which entities were consolidated.", evidence: "definition" },
-          { lead: "One golden record across ERPNext.", body: "Master data resolves customers, people, and projects across Selling, Projects, HRMS, and Accounts into one verified entity with zero manual crosswalking.", evidence: "entity" },
-          { lead: "Permissions enforced before computation.", body: "Row-level security ensures leaders see only what they are accountable for. The CEO sees the full company; Delivery leads see their projects; HR sees people; Finance sees P&L.", evidence: "permissions" },
-        ],
-      },
-      {
-        label: "After you decide",
-        note: "Everything that has to hold once a decision leaves the screen.",
-        items: [
-          { lead: "A decision is a typed, scoped action.", body: "Not an email. A concrete action with a named owner and quantified impact, written by a scoped service principal into ERPNext.", evidence: "action" },
-          { lead: "Autonomous signals, human sign-off.", body: "Agents watch the knowledge graph for margin compression, overdue AR, and bench build-up, proposing interventions for human approval before execution.", evidence: "planes" },
-          { lead: "Immutable four-stage audit trail.", body: "Every action follows consent check, live ERPNext re-read, human approval, and an immutable log written back through the ERPNext REST API.", evidence: "record" },
-        ],
-      },
-    ],
-  },
-
+  /* [02] Written 5 Nov 2026 (docs/EIS_PAGE_SCRIPT.md): the page never said
+     what Enterprise Intelligence is. This section does, in the hub's own
+     words, and shows the one client from [01] whole. */
   onePicture: {
-    setup: "The columns rebuild.",
-    payoff: "Not just the numbers.",
-    lede: "Every organisation runs on people and money. What changes is the unit you operate and the thing it produces. Two pillars are the same in every industry, and two of them are the industry.",
-    estateLede: "Your whole estate, ranked by what needs you. Pick a row and it resolves across all four pillars at once.",
-    screenUrl: "akashic.dhira.ai/enterprise-intelligence/estate",
+    setup: "Ask about one client.",
+    payoff: "See everything it touches.",
+    lede: "Enterprise Intelligence does the work of financial planning and management reporting. It reads your ERP as records change and follows every link across people, work and money.",
+    figure: {
+      question: "How exposed are we to Northwind Insurance?",
+      centre: { name: "Northwind Insurance", note: "Client · claims programme" },
+      answer: "$180,000 renewal · $118,000 overdue · $84,000 of forecast",
+      chain: "One leave delays a milestone, the milestone moves the forecast, and the forecast puts a renewal at risk: four departments, one chain.",
+      legend: { chain: "One chain across departments", client: "Linked to the client" },
+      /* Families in the order of the chain (people, delivery, finance,
+         sales); each family's first record is a link in it. Sources are
+         the live ERPNext modules (5 Nov 2026 critique: Salesforce is on
+         the roadmap, and HR is Frappe HR). */
+      families: [
+        {
+          key: "people",
+          name: "People",
+          source: "Frappe HR",
+          records: [
+            { title: "Karthik Iyer on leave", detail: "Lead engineer, 26 to 30 October" },
+            { title: "Five engineers free", detail: "On the bench from 20 October" },
+          ],
+        },
+        {
+          key: "work",
+          name: "Delivery",
+          source: "ERPNext Projects",
+          records: [
+            { title: "Claims Engine slips", detail: "Project P-104, three weeks late" },
+            { title: "Change request 07", detail: "Scope in dispute" },
+          ],
+        },
+        {
+          key: "money",
+          name: "Finance",
+          source: "ERPNext Accounts",
+          records: [
+            { title: "Forecast down $84,000", detail: "October milestone not invoiced" },
+            { title: "Invoice 74 days overdue", detail: "$118,000, invoice 8942" },
+          ],
+        },
+        {
+          key: "sales",
+          name: "Sales",
+          source: "ERPNext CRM",
+          records: [
+            { title: "Renewal notice in 9 days", detail: "$180,000 a year" },
+            { title: "Sponsor resigned", detail: "Head of claims, on Monday" },
+          ],
+        },
+      ],
+    },
+    views: {
+      label: "Five ready-made views",
+      items: ["Customer 360", "Project 360", "Employee 360", "Finance", "Rolling 12-month forecast"],
+    },
+    note: "Read-only. Every answer traces back to the record it came from.",
   },
 
-  loop: {
-    setup: "Observation alone",
-    payoff: "solves nothing.",
-    lede: "Passive dashboards leave teams chasing updates over email. Enterprise Intelligence closes the loop by detecting risks, staging verified interventions, and updating systems upon approval.",
-    cta: { label: "Bring us a decision you cannot close", href: "#talk-to-our-team" },
-  },
-
-  pipeline: {
-    setup: "One save in your ERP.",
-    payoff: "A decision in minutes.",
-    lede: "Most intelligence platforms snap a photo of your data and let it age. Enterprise Intelligence reads every committed change as it happens, resolves it against one governed record, and keeps the executive picture current without a refresh.",
-    steps: [
+  /* [04] Written 5 Nov 2026 (docs/EIS_PAGE_SCRIPT.md). Replaces the loop:
+     the same idea told as the leader's week, with the teaser video's own
+     sample figures. Agents are in preview (PreviewTag on the eyebrow). */
+  monday: {
+    setup: "2,418 changes since Friday.",
+    payoff: "Three need you first.",
+    lede: "Agents read every change and bring you only what needs a decision, ranked by the money at stake: the facts, what it is worth and a proposed action for you to approve.",
+    field: {
+      legend: "One dot per change since Friday",
+      bands: [
+        { system: "ERPNext Projects", rows: 13 },
+        { system: "Frappe HR", rows: 7 },
+        { system: "ERPNext CRM", rows: 9 },
+        { system: "ERPNext Accounts", rows: 10 },
+      ],
+    },
+    inboxLabel: "Sample decisions inbox, ranked by money at stake",
+    columns: { rank: "Ranked by money at stake", due: "Decide in" },
+    decisions: [
       {
-        number: "System of record",
-        title: "ERPNext",
-        body: "Selling, Projects, HRMS and Accounts stay the system of record. Nothing is ripped or replaced.",
-        modules: ["ERPNext"],
+        bands: [1, 0, 2],
+        path: ["People", "Project", "Customer"],
+        title: "Civic Digital kickoff needs 8 engineers in 9 days",
+        stake: "$660,000 contract",
+        amount: 660000,
+        due: "7 days",
       },
       {
-        number: "Step 01",
-        title: "Capture",
-        body: "Debezium reads every committed change the moment it is written. Nothing is keyed in twice.",
-        modules: ["Data Pipelines"],
+        bands: [2, 0, 3],
+        path: ["Customer", "Project", "Revenue"],
+        title: "Northwind Insurance renewal at risk",
+        stake: "$180,000 renewal",
+        amount: 180000,
+        due: "7 days",
       },
       {
-        number: "Step 02",
-        title: "Resolve",
-        body: "One golden record per customer, person and project, with a crosswalk to every source system ID.",
-        modules: ["Master Data"],
-      },
-      {
-        number: "Step 03",
-        title: "Connect",
-        body: "The knowledge layer links people, tasks, milestones, invoices and contracts into one navigable graph.",
-        modules: ["Knowledge layer"],
-      },
-      {
-        number: "Step 04",
-        title: "Forecast",
-        body: "Warehouse facts feed the rolling 12-month model and every 360 view. Assumptions are adjustable.",
-        modules: ["Data Warehouse", "Business Intelligence"],
-      },
-      {
-        number: "Step 05",
-        title: "Act",
-        body: "Agents explain what changed and propose scoped actions. People approve them. The record never goes dark.",
-        modules: ["AI agents", "Workflow management"],
+        bands: [1, 0, 3],
+        path: ["People", "Project", "Revenue"],
+        title: "Leave overlaps the Claims Engine critical path",
+        stake: "$84,000 invoice",
+        amount: 84000,
+        due: "6 days",
       },
     ],
+    open: {
+      factsLabel: "What the agents found",
+      found: "2 minutes ago",
+      facts: [
+        "Project P-109 starts in 10 days",
+        "5 engineers on the bench match the skills",
+        "3 new joiners start before the kickoff",
+      ],
+      actionLabel: "Proposed action",
+      action: "Allocate the 5 bench engineers and the 3 joiners to P-109.",
+      impact: "Bench cost falls by about $19,000 a month, and the $660,000 contract starts on time.",
+      actions: { primary: "Approve", others: ["Approve with changes", "Dismiss"] },
+    },
+    coda: { lead: "Ranked by the money at stake.", payoff: "Your weekly review starts with three." },
   },
 
-  lenses: {
-    setup: "Five executive roles.",
-    payoff: "One ground truth.",
-    lede: "Role-tailored cockpits give the CEO, Finance, Delivery, Sales, and People leaders the same live, governed numbers. Decisions move in minutes instead of quarterly reviews.",
-    cta: { label: "Talk to our team", href: "#talk-to-our-team" },
-  },
-
-  /* Figures as on the public record (Rule 4); see the customer stories collection. */
-  proof: {
-    setup: "Proven at sovereign scale.",
-    payoff: "Ready for enterprise complexity.",
-    lede: "The underlying Akashic architecture powers live national registries handling billions of transactions across millions of verified records.",
-    deployments: [
+  /* [05] Written 5 Nov 2026 (docs/EIS_PAGE_SCRIPT.md). Replaces the role
+     cockpit: the same five roles, each reduced to the one question it
+     brings to the weekly review and the one answer it gets. */
+  leaders: {
+    setup: "Five leaders, five questions.",
+    payoff: "One set of numbers.",
+    lede: "The chief executive, finance, sales, delivery and people leaders each open their own view, and every view reads the same records underneath. One client shows up in three of them.",
+    seats: [
       {
-        key: "education",
-        name: "National Learning Platform",
-        image: "/proof/learning.jpg",
-        line: "Every state's learning data, read as one picture.",
-        body: "Transaction logs from every state resolve into one governed model, so programme owners can read curriculum efficacy and where resources are going.",
-        figures: [
-          { value: "5.75", unit: "B+", label: "Learning interactions unified" },
-          { value: "187", unit: "M+", label: "Enrolments resolved" },
-        ],
+        role: "Chief executive",
+        question: "Where are we heading?",
+        answer: "$11.4 million",
+        outcome: "Next 12 months, $600,000 ahead of plan",
+        source: "Rolling 12-month forecast",
+        drawing: "forecast",
       },
       {
-        key: "mobility",
-        name: "Overseas Employment Registry",
-        image: "/proof/mobility.jpg",
-        line: "Every clearance and recruiter in one auditable view.",
-        body: "Visa clearances, immigration logs and overseas employer records resolve into one governed view, with the figures as they stood on any given day.",
-        figures: [
-          { value: "4", unit: "M+", label: "Worker clearances reconciled" },
-          { value: "282", unit: "K+", label: "Employer profiles resolved" },
-        ],
+        role: "Finance",
+        question: "What cash is stuck?",
+        answer: "$392,000",
+        outcome: "Overdue, oldest is Northwind's $118,000",
+        source: "ERPNext Accounts",
+        drawing: "ageing",
       },
       {
-        key: "health",
-        name: "National Immunisation Registry",
-        image: "/proof/vaccination.jpg",
-        line: "Every dose reconciled into one public figure.",
-        body: "Doses, sessions and coverage reconcile into the figures health authorities publish, each one traceable back to the system it came from.",
-        figures: [
-          { value: "2", unit: "B+", label: "Dose records reconciled" },
-          { value: "26", unit: "M+", label: "Vaccination sessions reconciled" },
-        ],
+        role: "Sales",
+        question: "Which renewals are at risk?",
+        answer: "$240,000",
+        outcome: "2 accounts, Northwind first",
+        source: "ERPNext CRM",
+        drawing: "renewals",
+      },
+      {
+        role: "Delivery",
+        question: "Which projects are slipping?",
+        answer: "2 of 14",
+        outcome: "Claims Engine three weeks late",
+        source: "ERPNext Projects",
+        drawing: "projects",
+      },
+      {
+        role: "People",
+        question: "Who covers the next kickoff?",
+        answer: "8 of 8 seats",
+        outcome: "Civic Digital: 5 from the bench, 3 joiners",
+        source: "Frappe HR",
+        drawing: "seats",
       },
     ],
-    closing: "Reconciling billions of national records and managing multi-entity global enterprises require the same standard: deterministic, zero-defect governance.",
+    spine: "Read live from ERPNext and Frappe HR",
   },
 
+  /* [06] Written 5 Nov 2026 (docs/EIS_PAGE_SCRIPT.md). Replaces the
+     capabilities section's engineering terms ("deterministic", "dual-key",
+     "cryptographic") with what a leader can check for themselves. */
+  trust: {
+    setup: "Every figure shows its working.",
+    payoff: "Every action waits for you.",
+    lede: "Click any number to see how it was defined, which records it came from and how fresh it is. Nothing changes in your systems until a named person approves it.",
+    receipt: {
+      label: "Renewal at risk",
+      value: "$180,000",
+      subject: "Northwind Insurance",
+      rows: [
+        { key: "Defined as", value: "Annual value of a renewal showing two or more risk signals" },
+        { key: "Owned by", value: "The finance team, who signed off the definition" },
+        { key: "As at", value: "Read from ERPNext at 09:30, two minutes ago" },
+        { key: "Checks", value: "Passed the checks finance set" },
+      ],
+      valueLabel: "Value from",
+      valueFrom: { system: "ERPNext CRM", record: "Opportunity 4012 · $180,000 a year" },
+      signalsLabel: "Risk signals",
+      signals: [
+        { system: "ERPNext Accounts", record: "Invoice 8942 · 74 days overdue" },
+        { system: "ERPNext Projects", record: "Project P-104 · three weeks late" },
+      ],
+      footnote: "If a figure has no definition, Enterprise Intelligence says so instead of guessing.",
+    },
+    route: {
+      label: "Before anything changes",
+      steps: [
+        { title: "Proposed", detail: "An agent drafts the action, with the facts and the money at stake." },
+        { title: "Checked", detail: "Your rules decide who must approve." },
+        { title: "Approved", detail: "A named person with authority signs off. Proposing and approving are held apart." },
+        { title: "Carried out and recorded", detail: "One field on one record, by a narrowly scoped account. If it fails, it is held and the owner is told." },
+      ],
+    },
+    link: { label: "How Akashic governs every figure", href: "/akashic#governance" },
+  },
+
+  /* [07] Rewritten 5 Nov 2026 (docs/EIS_PAGE_SCRIPT.md): eight questions
+     in plain words, two groups. "How do I know a figure is right?" moved
+     to its own section ([06] Trust), so it is not answered twice. */
   faq: {
-    title: "Frequently asked questions.",
-    setup: "Frequently asked",
-    payoff: "questions.",
+    title: "Questions, plainly answered.",
+    setup: "Questions,",
+    payoff: "plainly answered.",
     link: { label: "Talk to our team", href: "#talk-to-our-team" },
-    lede: "Direct answers to the architectural, security, and operational questions executive leadership asks before deployment.",
-    /* Opened by default: the page makes both claims and they sound
-       contradictory until the two planes are separated. */
+    lede: "What chief executives, finance and IT leaders ask before the first demo.",
     openByDefault: "Does Enterprise Intelligence replace my ERP?",
-    items: [
-      {
-        question: "Does Enterprise Intelligence replace my ERP?",
-        answer: "No. Enterprise Intelligence sits on top of the systems you already run. It reads ERPNext, Salesforce, SAP, and Workday, connects what they each hold about the same account, and surfaces what matters. No rip and replace, no migration, no downtime.",
-      },
-      {
-        question: "You say read-only, then you say it writes to my ERP. Which is it?",
-        answer: "Both, on two separate paths. Ingestion is strictly read-only across every connected system and never mutates a source record. Write-back is a deliberately short list of named actions you define during implementation: a specific field on a specific object, executed by a scoped service principal behind explicit human approval with an idempotency key. Without that approval, the system stays 100% read-only.",
-      },
-      {
-        question: "How is your answer engine different from asking an AI chatbot?",
-        answer: "It does not write SQL against your raw tables. Questions resolve against the governed metric layer, so a question can only be answered in terms that have already been defined, tested and given permissions. If a metric does not exist, Enterprise Intelligence says so rather than inventing a plausible number. Every answer shows its working.",
-      },
-      {
-        question: "Who can see what, and who can approve what?",
-        answer: "Akashic Governance decides. Access control, lineage, audit trail, and data residency sit under every screen. Approval rights are held separately from composition rights, so the person who composes an action cannot be the person who approves it. That segregation of duties is what makes the audit trail defensible.",
-      },
-      {
-        question: "What do you need from us to get started?",
-        answer: "Two things, and it is fair to know them up front. Someone has to own the metric definitions, because a governed number is an organisational decision, not an engineering assumption. And for each write-back action you want, someone with authority over that system has to approve the scope.",
-      },
-    ],
     bands: [
       {
         label: "What it is",
-        note: "Where Enterprise Intelligence sits, and what it needs from you.",
+        note: "Where it sits, and what it needs from you.",
         items: [
           {
             question: "Does Enterprise Intelligence replace my ERP?",
-            answer: "No. Enterprise Intelligence sits on top of the systems you already run. It reads them, connects what they each hold about the same account, and surfaces what matters. No rip and replace, no migration, no downtime.",
+            answer: "No. Enterprise Intelligence sits on top of the systems you already run. It reads them, joins what each one holds about the same client, project or person, and shows what matters. Nothing is migrated and nothing is switched off.",
           },
           {
-            question: "What is Enterprise Intelligence built on?",
-            answer: "Akashic. The connectors that read your systems, the master data that resolves them into one record, the metric layer that makes revenue mean one thing in every region, the answer engine that cites its sources, and the governance layer that keeps the record of what was done. If Akashic is already in place, Enterprise Intelligence is the layer above it, not a second platform.",
+            question: "Which systems does it read today?",
+            answer: "ERPNext is live today: its CRM, projects, accounts and Frappe HR modules. More systems are on the roadmap. If you run something else, bring it to the first conversation and we will tell you plainly what connects now and what does not.",
           },
           {
-            /* Executives ask this before anything else, and every vendor dodges. */
             question: "What do you need from us?",
-            answer: "Two things, and it is fair to know them up front. Someone has to own the metric definitions, because a governed number is a decision your organisation makes, not one we can make for you. And for each write-back action you want, someone with authority over that system has to agree to the scope. Read-only reporting can start well before either is finished. Write-back should not.",
-          },
-        ],
-      },
-      {
-        label: "Whether you can trust a figure",
-        note: "What is under the number when somebody disputes it.",
-        items: [
-          {
-            question: "How do I know a figure is right?",
-            answer: "Click it. What opens is not a query string, because the query is never what people argue about. It is the metric definition, which entities are consolidated, whether intercompany is eliminated, the FX rate date, the as-at timestamp, which data quality tests passed, and the underlying records. When three teams produce three different revenue numbers, one of those lines is the reason, and this is where you find it.",
+            answer: "Two things, and it is fair to know them up front. Someone has to own the definitions of your figures, because what counts as revenue is a decision your organisation makes, not one we can make for you. And for each action you want Enterprise Intelligence to carry out, someone with authority over that system has to agree to it. Read-only reporting can start well before either is settled.",
           },
           {
-            /* The distinction that stops us being the villain from [the-gap]. */
-            question: "How is your answer engine different from asking an AI chatbot?",
-            answer: "It does not write SQL against your raw tables. Questions resolve against the governed metric layer, so a question can only be answered in terms that have already been defined, tested and given permissions. If a metric does not exist, Enterprise Intelligence says so rather than inventing a plausible number. And because every answer is assembled from defined metrics, every answer can show its working. An ungoverned chatbot cannot do that, which is why it is fast and untrustworthy at the same time.",
-          },
-          {
-            question: "Who can see what, and who can approve what?",
-            answer: "Akashic Governance decides. Access control, lineage, audit trail, and data residency sit under every screen. Approval rights are held separately from composition rights, so the person who composes an action cannot be the person who approves it. That segregation of duties is what makes the audit trail worth having.",
+            question: "How is it different from asking an AI chatbot?",
+            answer: "A chatbot writes a query against your raw tables and returns something plausible. Enterprise Intelligence answers only in terms your organisation has defined and given access to. If a figure has no definition, it says so rather than inventing one, and every answer shows where it came from.",
           },
         ],
       },
       {
         label: "What it does to your systems",
-        note: "The part your CIO will want in writing.",
+        note: "The part your IT leaders will want in writing.",
         items: [
           {
-            /* Opened by default: the page makes both claims and they sound
-               contradictory until the two planes are separated. */
-            question: "You say read-only, then you say it writes to my ERP. Which is it?",
-            answer: "Both, on two separate paths. Ingestion is read-only across every connected system and never mutates a source record, which is the part that carries risk at scale. Write-back is a deliberately short list of named actions you define during implementation: a specific field on a specific object, executed by a scoped service principal with least privilege, behind an approval, with an idempotency key so approving twice cannot write twice. A system with no write actions configured stays read-only in every sense. You choose which systems leave that state.",
+            question: "You say read-only, then you say it acts. Which is it?",
+            answer: "Both, on two separate paths. Reading is read-only across every connected system and never changes a source record. Acting is a short list of named actions you agree during set-up: one field on one record, carried out by a narrowly scoped account, only after a named person approves, and safe to approve twice. A system with no actions agreed stays read-only.",
           },
           {
-            question: "What happens when a write-back fails?",
-            answer: "It is recorded as a failure with the reason and the target system, the decision is held rather than silently retried, and the owner of the blocking system is notified. Nothing disappears. An action that was rejected is a finding about your permissions model, and you want to see it, not have it quietly repeated until it succeeds.",
+            question: "Who can see what, and who can approve what?",
+            answer: "Akashic Governance decides. Access rules, lineage, the audit trail and data residency sit under every screen. The right to approve is held apart from the right to propose, so the person who proposes an action cannot be the person who approves it.",
           },
           {
-            question: "Where does my data live, and where does it compute?",
-            answer: "Your records stay in the systems that own them. Where you already run a warehouse, we push computation down to it rather than copying data out. Deploy on cloud, on premises, or hybrid, wherever your architecture already lives, including data residency boundaries you have to honour by law.",
+            question: "What happens if an action fails?",
+            answer: "It is recorded as a failure with the reason and the system that refused it. The decision is held rather than retried in the background, and the owner of that system is told. Nothing disappears.",
+          },
+          {
+            question: "Where does my data live?",
+            answer: "Your records stay in the systems that own them. Where you already run a warehouse, the work runs there rather than copying data out. Deploy on cloud, on premises or both, inside the data residency boundaries you have to honour by law.",
           },
         ],
       },
@@ -894,20 +973,20 @@ export const solutionsEis: EisPage = {
       "One high-stakes operational decision your team cannot currently close, traced from signal to verified action.",
       "Security, access boundaries, and human sign-off policies required by your leadership.",
     ],
-    prompt: "Bring the question you currently cannot get answered by Friday.",
+    prompt: "Bring one decision you cannot close by Friday.",
     primary: { label: "Talk to our team", href: "#talk-to-our-team" },
     secondary: { label: "See the Akashic platform", href: "/akashic" },
     timeline: [
       {
-        duration: "30 MIN",
+        duration: "30 minutes",
         label: "A live demo, built around the decisions you make every week",
       },
       {
-        duration: "3 WEEKS",
-        label: "If it fits, a diagnostic on your own data, read-only",
+        duration: "3 weeks",
+        label: "If it fits, a read-only diagnostic on your own data",
       },
     ],
     footnote:
-      "Product footage uses illustrative data; names and figures are fictional. Industry figures: FP&A Trends Survey 2025; TIQ and London Business School study, 2016.",
+      "Product screens, drawings and footage use illustrative data for a sample business; its names and figures are fictional. Industry figures: FP&A Trends Survey 2025; TIQ and London Business School study, 2016.",
   },
 };

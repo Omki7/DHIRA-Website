@@ -614,34 +614,37 @@ It still has no chain rail and no `ProvenAtScale`.
 
 The whole page lives in `features/solutions` as SCSS Modules: the route
 renders `pages/EnterpriseIntelligencePage`, sections are in `components/`,
-simulated screens in `mockups/` (`EisCommandCentreMockup` with its sample
-data in `roles.ts`, `EisGovernanceInspectorMockup`, `EisLoopCircuitMockup`).
-Page copy, including the hero's question tags and outcome notes and [04]'s
-guarantees, is in `content/pages/solutions-eis.ts`; mockup sample data stays
-beside its mockup.
+simulated screens in `mockups/` (`MondayInboxMockup`). Page copy, including
+every drawing's labels and sample figures, is in
+`content/pages/solutions-eis.ts`. Rebuilt 5 Nov 2026 from a written script
+and flow (docs/EIS_PAGE_SCRIPT.md): problem first, then what it is, the
+stories, the week, every leader, trust, questions. Each new section was
+critiqued (Impeccable: an independent review plus its detector) and fixed
+before the next was built. One sample business runs through every section
+(Northwind Insurance's renewal, the Claims Engine project, Civic Digital's
+kickoff); keep its figures in agreement.
 
-| # | `id` | Component | Ground |
+| # | `id` (aliases) | Component | Ground |
 |---|---|---|---|
-| 00 | hero | `EisHero` (pill, headline, lede, buttons, typed ask bar with pause control) | white |
-| 01 | your-lens | `EisLenses` + `EisCommandCentreMockup` (five role cockpits) | white |
-| 02 | the-gap | `EisGap` ( a swimlane board, one client across three departments' systems over one month, with the decision runway; industry stat band; coda) | `eis-band` |
-| 03 | use-cases | `EisTeasers` (four 30-second teaser stories) | white |
-| 04 | capabilities | `EisCapabilities` + `EisGovernanceInspectorMockup` (three guarantees, the evidence for the picked one) | white |
-| 05 | the-loop | `EisLoop` + `EisLoopCircuitMockup` (5-station action loop) | white |
-| 06 | questions | `EisFaq` (split 2-column FaqSection) | white |
-| 07 | talk-to-our-team | `EisClose` (homepage closing card on `vault`) | white |
+| 00 | hero | `EisHero` (pill, headline, lede, buttons; typed ask bar: each question links to its story in [03] and lands an answer; pause control) | white |
+| 01 | the-gap | `EisGap` (swimlane board: one client across three departments' systems over one month, with the decision runway; industry stat band; coda) | `eis-band` |
+| 02 | one-picture | `EisOnePicture` (constellation: one client, eight linked records in four departments, the solid chain across departments in causal order; below xl a numbered list) | white |
+| 03 | use-cases | `EisTeasers` (four 30-second teaser videos; posters are frames of the videos; colour-matrix filter matches the footage ground to the page) | white |
+| 04 | your-monday (`the-loop`) | `EisMonday` + `MondayInboxMockup` (2,418 changes as banded dots, one band per live system; three changes per decision flow into the ranked inbox, measured by `MondayWires`; PreviewTag) | white |
+| 05 | every-leader (`your-lens`) | `EisLeaders` (five seats in the homepage outcome-card grammar; stems into one root) | white |
+| 06 | trust (`capabilities`) | `EisTrust` (one figure as a receipt: value from, risk signals; the route a proposal takes, PreviewTag) | white |
+| 07 | questions | `EisFaq` (shared FaqSection, two groups) | white |
+| 08 | talk-to-our-team | `EisClose` (homepage closing card on `vault`) | white |
 
-**Section [03]'s id is `capabilities`, not `the-brief`**: `content/pages/solutions-eis.ts`
-drives the minimap from these ids and they must match the `id` attributes.
+The section ids drive the minimap through `sections` in
+`content/pages/solutions-eis.ts`; they must match the `id` attributes, and a
+renamed section keeps its old id as an alias.
 
-**Every section is left-aligned at `max-w-[1180px]` with a two-tone headline**
-(soft setup line, ink payoff line, per DESIGN_SYSTEM's two-tone rule). Two
-sections used to carry a second full headline inside a `dusk` panel further
-down ([one-picture], [the-loop]); both were removed, because a section with two
-headlines has not decided what it is about.
+**Every section opens with the shared `SectionHeader`** (two-tone headline,
+lede under it). A section never carries a second full headline further down.
 
-The page-scoped palette is the `eis-*` token block in `tailwind.config.ts`;
-today [02]'s `eis-band` ground and the [05] loop drawing use it.
+The page-scoped palette is the `eis-*` token block; today only [01]'s
+`eis-band` ground uses it.
 
 Every wireframe on the page is **live React**, not a screenshot, and each one
 is the evidence for the claim beside it — see §8a.

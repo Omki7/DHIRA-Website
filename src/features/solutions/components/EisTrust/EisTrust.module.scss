@@ -1,0 +1,295 @@
+@use "assets/styles" as *;
+
+// =============================================================================
+// [06] Trust (EisTrust)
+// =============================================================================
+
+$can-draw: "(scripting: enabled) and (prefers-reduced-motion: no-preference)";
+
+@mixin mono($size: 11px) {
+  font-family: $font-mono;
+  font-size: $size;
+  font-weight: $weight-normal;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.section {
+  position: relative;
+  width: 100%;
+  scroll-margin-top: space(24);
+  overflow: clip;
+  background-color: c(background);
+  padding-top: space(12);
+  padding-bottom: space(16);
+
+  @include respond-to(lg) {
+    padding-top: space(16);
+    padding-bottom: space(24);
+  }
+}
+
+.alias {
+  position: absolute;
+  top: 0;
+  scroll-margin-top: space(24);
+}
+
+// The two halves of the headline, side by side from lg.
+.board {
+  display: grid;
+  gap: space(10);
+  margin-top: space(12);
+
+  @include respond-to(lg) {
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    gap: space(12);
+    margin-top: space(14);
+  }
+}
+
+// --- Every figure shows its working: the receipt ----------------------------------------
+.receipt {
+  border: 1px solid c(card-line);
+  border-radius: $radius-outer;
+  background-color: c(background);
+  padding: space(6);
+
+  @include respond-to(sm) {
+    padding: space(8);
+  }
+}
+
+.figure {
+  border-bottom: 1px dashed c(line);
+  padding-bottom: space(5);
+}
+
+.figureLabel {
+  @include mono;
+  margin: 0;
+  color: c(overcast);
+}
+
+.figureValue {
+  margin: space(2) 0 0;
+  font-family: $font-heading;
+  font-size: 44px;
+  font-weight: $weight-semibold;
+  line-height: 1;
+  letter-spacing: $tracking-tighter;
+  font-variant-numeric: tabular-nums;
+  color: c(ink);
+
+  @include respond-to(sm) {
+    font-size: 56px;
+  }
+}
+
+// The working: hairline spec rows, a key at each row's head.
+.rows {
+  margin: space(2) 0 0;
+}
+
+.row {
+  display: grid;
+  gap: space(1);
+  border-bottom: 1px solid c(card-divide);
+  padding: space(3) 0;
+
+  @include respond-to(sm) {
+    grid-template-columns: 128px minmax(0, 1fr);
+    gap: space(4);
+  }
+
+  dt {
+    @include mono(10.5px);
+    letter-spacing: 0.06em;
+    color: c(tertiary-text);
+    padding-top: 2px;
+  }
+
+  dd {
+    margin: 0;
+    text-wrap: balance;
+    font-size: 14.5px;
+    line-height: 1.45;
+    color: c(ink);
+  }
+}
+
+.sourcesLabel {
+  @include mono(10.5px);
+  margin: space(5) 0 0;
+  letter-spacing: 0.06em;
+  color: c(tertiary-text);
+}
+
+// Each source on its own line out of the figure.
+.sources {
+  display: grid;
+  gap: space(2);
+  margin: space(3) 0 0;
+  padding: 0 0 0 space(5);
+  list-style: none;
+  border-left: 1.5px solid c(blue);
+}
+
+.source {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: space(1) space(3);
+  border: 1px solid c(blue-border);
+  border-radius: $radius-inner;
+  background-color: c(blue-subtle);
+  padding: space(2.5) space(3.5);
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: calc(-1 * #{space(5)} - 1px);
+    width: space(5);
+    border-top: 1.5px solid c(blue);
+  }
+}
+
+.sourceSystem {
+  @include mono(10.5px);
+  letter-spacing: 0.06em;
+  color: c(blue);
+}
+
+.sourceRecord {
+  font-size: 13.5px;
+  font-weight: $weight-medium;
+  color: c(ink);
+}
+
+// Where the value comes from: the one source the figure adds up from.
+.sourceValue {
+  border-color: c(blue);
+  background-color: c(background);
+}
+
+.footnote {
+  margin: space(5) 0 0;
+  border-top: 1px dashed c(line);
+  padding-top: space(4);
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: c(secondary-text);
+}
+
+// --- Every action waits for you: the route -----------------------------------------------
+.route {
+  align-self: start;
+
+  @include respond-to(lg) {
+    padding-top: space(8);
+  }
+}
+
+.routeLabel {
+  @include mono;
+  display: flex;
+  align-items: center;
+  gap: space(3);
+  margin: 0;
+  letter-spacing: $tracking-eyebrow;
+  color: c(overcast);
+}
+
+// A real sequence, so numbered nodes on a rail (DESIGN_SYSTEM §7).
+.steps {
+  position: relative;
+  display: grid;
+  gap: space(7);
+  margin: space(6) 0 0;
+  padding: 0;
+  list-style: none;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 14px;
+    bottom: 14px;
+    left: 13px;
+    border-left: 1.5px dashed c(line);
+  }
+}
+
+.step {
+  position: relative;
+  padding-left: space(12);
+}
+
+.stepNode {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: grid;
+  width: 28px;
+  height: 28px;
+  place-items: center;
+  border: 1px solid c(blue-border);
+  border-radius: 50%;
+  background-color: c(background);
+  font-family: $font-mono;
+  font-size: 12px;
+  color: c(blue);
+}
+
+// The step that belongs to a person: the one the page is about.
+.stepYou .stepNode {
+  border-color: c(action);
+  background-color: c(action);
+  color: c(on-action);
+}
+
+.stepTitle {
+  display: flex;
+  align-items: center;
+  gap: space(2);
+  margin: 0;
+  padding-top: 3px;
+  font-family: $font-heading;
+  font-size: 19px;
+  font-weight: $weight-medium;
+  line-height: 1.25;
+  letter-spacing: $tracking-tight;
+  color: c(ink);
+}
+
+.stepDetail {
+  margin: space(1.5) 0 0;
+  text-wrap: balance;
+  max-width: 26rem;
+  font-size: 14.5px;
+  line-height: 1.5;
+  color: c(secondary-text);
+}
+
+// --- Drawing in: the working row by row, then the route step by step, once -------------
+@media #{$can-draw} {
+  .row,
+  .source,
+  .step {
+    opacity: 0;
+    transform: translateY(6px);
+    transition:
+      opacity 0.5s $ease-settle var(--d, 0s),
+      transform 0.5s $ease-settle var(--d, 0s);
+  }
+
+  .board[data-drawn="true"] {
+    .row,
+    .source,
+    .step {
+      opacity: 1;
+      transform: none;
+    }
+  }
+}

@@ -1,0 +1,477 @@
+@use "assets/styles" as *;
+
+// =============================================================================
+// [02] One picture (EisOnePicture, OnePictureField)
+// =============================================================================
+
+$can-draw: "(scripting: enabled) and (prefers-reduced-motion: no-preference)";
+$label-w: 236px;
+$label-gap: 26px;
+
+@mixin mono($size: 11px) {
+  font-family: $font-mono;
+  font-size: $size;
+  font-weight: $weight-normal;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.section {
+  position: relative;
+  width: 100%;
+  scroll-margin-top: space(24);
+  overflow: clip;
+  background-color: c(background);
+  padding-top: space(12);
+  padding-bottom: space(16);
+
+  @include respond-to(lg) {
+    padding-top: space(16);
+    padding-bottom: space(24);
+  }
+}
+
+.figure {
+  margin-top: space(12);
+
+  @include respond-to(lg) {
+    margin-top: space(14);
+  }
+
+  @include respond-to(xl) {
+    text-align: center;
+  }
+}
+
+// The question, as the hero's ask bar at the size of a label.
+.ask {
+  display: inline-flex;
+  max-width: 100%;
+  align-items: center;
+  gap: space(2);
+  border: 1px solid c(card-line);
+  border-radius: 20px;
+  background-color: c(primary-bg);
+  padding: space(2) space(4);
+  font-size: 14px;
+  color: c(ink);
+  text-align: left;
+
+  @include respond-to(lg) {
+    border-radius: 9999px;
+    font-size: 15px;
+  }
+}
+
+.askIcon {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  fill: none;
+  stroke: c(tertiary-text);
+  stroke-width: 1.6;
+  stroke-linecap: round;
+}
+
+// --- From lg: the constellation -------------------------------------------------
+.stage {
+  display: none;
+
+  @include respond-to(xl) {
+    position: relative;
+    display: block;
+    width: 100%;
+    max-width: 1180px;
+    margin: space(4) auto 0;
+    aspect-ratio: 1000 / 540;
+    text-align: left;
+  }
+}
+
+.svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.fieldDot {
+  fill: c(line);
+}
+
+.fieldLink {
+  stroke: c(lineSoft);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+
+// Linked to the client: quiet, so the chain carries the picture.
+.spoke {
+  fill: none;
+  stroke: c(blue-border);
+  stroke-width: 1.2;
+}
+
+// Each family's second record, one link out.
+.farLink {
+  fill: none;
+  stroke: c(blue);
+  stroke-width: 1.1;
+  stroke-dasharray: 3 4;
+}
+
+// The chain across departments: the line only Enterprise Intelligence draws.
+.chainLink {
+  fill: none;
+  stroke: c(blue);
+  stroke-width: 2.2;
+  stroke-linecap: round;
+}
+
+.nodeNear {
+  fill: c(blue);
+  stroke: c(background);
+  stroke-width: 3;
+}
+
+.nodeFar {
+  fill: c(background);
+  stroke: c(blue);
+  stroke-width: 1.5;
+}
+
+.centreHalo {
+  fill: c(blue-subtle);
+  stroke: c(blue-border);
+  stroke-width: 1;
+}
+
+.centreNode {
+  fill: c(blue);
+}
+
+.centre {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  transform: translateX(-50%);
+  text-align: center;
+  background-color: c(background);
+  padding: space(1) space(3);
+}
+
+.centreName {
+  margin: 0;
+  font-family: $font-heading;
+  font-size: 22px;
+  font-weight: $weight-medium;
+  line-height: 1.2;
+  letter-spacing: $tracking-tight;
+  color: c(ink);
+}
+
+.centreNote {
+  @include mono;
+  margin: space(1) 0 0;
+  color: c(tertiary-text);
+}
+
+// The answer, in money.
+.answer {
+  max-width: 19rem;
+  margin: space(2) auto 0;
+  text-wrap: balance;
+  font-size: 13.5px;
+  line-height: 1.45;
+  font-weight: $weight-medium;
+  font-variant-numeric: tabular-nums;
+  color: c(blue);
+}
+
+.answerPart {
+  white-space: nowrap;
+}
+
+// A record beside its node; the label opens away from the client.
+.record {
+  position: absolute;
+  top: var(--y);
+  width: $label-w;
+  background-color: c(background);
+  padding: space(1) 0;
+}
+
+.recordLeft {
+  left: var(--x);
+  transform: translate(calc(-100% - #{$label-gap}), -50%);
+  text-align: right;
+}
+
+.recordRight {
+  left: var(--x);
+  transform: translate($label-gap, -50%);
+}
+
+.family {
+  @include mono;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: space(2);
+  margin: 0 0 space(1);
+  color: c(overcast);
+
+  .recordLeft & {
+    justify-content: flex-end;
+  }
+}
+
+// The link's place in the chain: the order is real (DESIGN_SYSTEM §3.8).
+.step {
+  display: inline-grid;
+  width: 18px;
+  height: 18px;
+  place-items: center;
+  border-radius: 50%;
+  background-color: c(blue);
+  font-size: 10.5px;
+  letter-spacing: 0;
+  color: c(on-accent);
+}
+
+.recordTitle {
+  margin: 0;
+  font-size: 14.5px;
+  font-weight: $weight-medium;
+  line-height: 1.35;
+  color: c(ink);
+}
+
+.recordDetail {
+  margin: 2px 0 0;
+  font-size: 12.5px;
+  line-height: 1.4;
+  color: c(secondary-text);
+}
+
+.recordFar .recordTitle {
+  font-size: 13.5px;
+}
+
+// --- Below lg: the chain in order, then the other linked records ----------------------
+.list {
+  @include respond-to(xl) {
+    display: none;
+  }
+}
+
+.listCentre {
+  margin-top: space(5);
+
+  .answer {
+    max-width: none;
+    margin-left: 0;
+  }
+}
+
+.listChain {
+  display: grid;
+  gap: space(5);
+  margin: space(6) 0 0;
+  padding: 0 0 0 space(6);
+  list-style: none;
+  border-left: 2px solid c(blue);
+}
+
+.listLink {
+  position: relative;
+
+  .step {
+    position: absolute;
+    left: calc(-1 * #{space(6)} - 10px);
+    top: -1px;
+  }
+
+  .family {
+    margin-left: 0;
+  }
+}
+
+.listOthersLabel {
+  @include mono;
+  margin: space(8) 0 0;
+  color: c(overcast);
+}
+
+.listOthers {
+  display: grid;
+  gap: space(3);
+  margin: space(3) 0 0;
+  padding: 0;
+  list-style: none;
+
+  @include respond-to(sm) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  li {
+    border-top: 1px dashed c(card-line);
+    padding-top: space(2);
+  }
+}
+
+// --- The key and the one sentence that names the chain --------------------------------
+.caption {
+  display: flex;
+  flex-direction: column;
+  gap: space(3);
+  margin-top: space(8);
+  text-align: left;
+
+  @include respond-to(xl) {
+    align-items: center;
+    margin-top: space(4);
+    text-align: center;
+  }
+}
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: space(2) space(6);
+  margin: 0;
+  font-size: 12.5px;
+  color: c(secondary-text);
+}
+
+.key {
+  display: inline-flex;
+  align-items: center;
+  gap: space(2);
+}
+
+.swatch {
+  width: 22px;
+  border-top: 2px solid;
+}
+
+.swatchChain {
+  border-top-width: 2.5px;
+  border-color: c(blue);
+}
+
+.swatchClient {
+  border-color: c(blue-border);
+}
+
+.chainNote {
+  margin: 0;
+  max-width: 44rem;
+  text-wrap: balance;
+  font-size: 15px;
+  line-height: 1.55;
+  color: c(ink);
+}
+
+// --- Under the figure: the five views and the promise ---------------------------------
+.foot {
+  display: flex;
+  flex-direction: column;
+  gap: space(5);
+  margin-top: space(12);
+  border-top: 1px dashed c(lineSoft);
+  padding-top: space(6);
+
+  @include respond-to(lg) {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: space(8);
+  }
+}
+
+.views {
+  display: flex;
+  flex-direction: column;
+  gap: space(3);
+
+  @include respond-to(md) {
+    flex-direction: row;
+    align-items: center;
+    gap: space(4);
+  }
+}
+
+.viewsLabel {
+  @include mono;
+  margin: 0;
+  flex-shrink: 0;
+  letter-spacing: $tracking-eyebrow;
+  color: c(overcast);
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: space(2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.note {
+  margin: 0;
+  max-width: 34rem;
+  font-size: 14px;
+  line-height: 1.5;
+  color: c(secondary-text);
+
+  @include respond-to(lg) {
+    text-align: right;
+  }
+}
+
+// --- Drawing in: the field, the spokes, then the chain link by link, once -------------
+@media #{$can-draw} {
+  .field {
+    opacity: 0;
+    transition: opacity 0.9s $ease-settle;
+  }
+
+  .spoke,
+  .chainLink {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    transition: stroke-dashoffset 0.6s $ease-smooth var(--d, 0s);
+  }
+
+  .farLink,
+  .nodeNear,
+  .nodeFar,
+  .record,
+  .centre {
+    opacity: 0;
+    transition: opacity 0.5s $ease-settle var(--d, 0s);
+  }
+
+  .centre {
+    --d: 0.15s;
+  }
+
+  .stage[data-drawn="true"] {
+    .field,
+    .farLink,
+    .nodeNear,
+    .nodeFar,
+    .record,
+    .centre {
+      opacity: 1;
+    }
+
+    .spoke,
+    .chainLink {
+      stroke-dashoffset: 0;
+    }
+  }
+}
