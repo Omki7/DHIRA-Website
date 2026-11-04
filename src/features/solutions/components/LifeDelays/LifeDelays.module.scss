@@ -1,0 +1,487 @@
+@use "assets/styles" as *;
+
+// =============================================================================
+// [01] The three delays (LifeDelays, LongRoad, LifeStat)
+// =============================================================================
+
+$can-draw: "(scripting: enabled) and (prefers-reduced-motion: no-preference)";
+$delay-label-w: 288px;
+
+@mixin mono($size: 11px) {
+  font-family: $font-mono;
+  font-size: $size;
+  font-weight: $weight-normal;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.section {
+  position: relative;
+  width: 100%;
+  scroll-margin-top: space(24);
+  overflow: clip;
+  background-color: c(background);
+  padding-top: space(12);
+  padding-bottom: space(16);
+
+  @include respond-to(lg) {
+    padding-top: space(16);
+    padding-bottom: space(24);
+  }
+}
+
+.srOnly {
+  @include visually-hidden;
+}
+
+.figure {
+  margin-top: space(12);
+
+  @include respond-to(lg) {
+    margin-top: space(14);
+  }
+}
+
+// --- From xl: the road across the land ----------------------------------------
+.stage {
+  display: none;
+
+  @include respond-to(xl) {
+    position: relative;
+    display: block;
+    width: 100%;
+    aspect-ratio: 1200 / 360;
+  }
+}
+
+.svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.contour {
+  fill: none;
+  stroke: c(lineSoft);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+
+// The journey where it moves forward.
+.road {
+  fill: none;
+  stroke: c(inkSoft);
+  stroke-width: 1.6;
+  stroke-linecap: round;
+}
+
+// The hospital grounds: the third delay happens inside the building.
+.grounds {
+  fill: none;
+  stroke: c(line);
+  stroke-width: 1;
+  stroke-dasharray: 3 4;
+  vector-effect: non-scaling-stroke;
+}
+
+.delay {
+  fill: none;
+  stroke: c(red);
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-dasharray: 5 6;
+}
+
+.place {
+  fill: c(background);
+  stroke: c(inkSoft);
+  stroke-width: 1.6;
+}
+
+.placeEnd {
+  fill: c(ink);
+  stroke: c(background);
+  stroke-width: 3;
+}
+
+// The delay's number: the order is real (DESIGN_SYSTEM §3.8).
+.mark {
+  fill: c(background);
+  stroke: c(red);
+  stroke-width: 1.4;
+}
+
+.markText {
+  font-family: $font-mono;
+  font-size: 11px;
+  font-weight: $weight-medium;
+  fill: c(red-deep);
+}
+
+// --- Labels on the stage ------------------------------------------------------
+.placeLabel {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  white-space: nowrap;
+}
+
+.alignStart {
+  transform: none;
+  text-align: left;
+}
+
+.alignCentre {
+  transform: translateX(-50%);
+  text-align: center;
+}
+
+.alignEnd {
+  transform: translateX(-100%);
+  text-align: right;
+}
+
+.sideAbove.alignStart {
+  transform: translateY(-100%);
+}
+
+.sideAbove.alignCentre {
+  transform: translate(-50%, -100%);
+}
+
+.sideAbove.alignEnd {
+  transform: translate(-100%, -100%);
+}
+
+.placeName {
+  margin: 0;
+  font-family: $font-heading;
+  font-size: 15px;
+  font-weight: $weight-medium;
+  line-height: 1.3;
+  letter-spacing: $tracking-tight;
+  color: c(ink);
+}
+
+.placeNote {
+  @include mono(10.5px);
+  margin: space(1) 0 0;
+  color: c(tertiary-text);
+}
+
+.delayLabel {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  width: $delay-label-w;
+  text-align: center;
+}
+
+.delayLabel.sideAbove {
+  transform: translate(-50%, -100%);
+}
+
+.delayLabel.sideBelow {
+  transform: translateX(-50%);
+}
+
+.delayName {
+  margin: 0;
+  font-size: 14.5px;
+  font-weight: $weight-medium;
+  line-height: 1.35;
+  color: c(red-deep);
+}
+
+.delayDetail {
+  margin: space(1) 0 0;
+  text-wrap: pretty;
+  font-size: 13.5px;
+  line-height: 1.45;
+  color: c(secondary-text);
+}
+
+// --- Below xl: the journey in order -------------------------------------------
+.list {
+  position: relative;
+  display: grid;
+  max-width: 34rem;
+  margin: 0;
+  padding: 0 0 0 space(9);
+  list-style: none;
+
+  // The road, down the left.
+  &::before {
+    content: "";
+    position: absolute;
+    top: 10px;
+    bottom: 10px;
+    left: 11px;
+    border-left: 1.6px solid c(inkSoft);
+  }
+
+  @include respond-to(xl) {
+    display: none;
+  }
+}
+
+.listPlace,
+.listDelay {
+  position: relative;
+  padding: space(3) 0;
+}
+
+// A place: a hollow node on the road.
+.listPlace::before,
+.listPlaceInline::before {
+  content: "";
+  position: absolute;
+  top: 18px;
+  left: calc(-1 * #{space(9)} + 6px);
+  width: 12px;
+  height: 12px;
+  border: 1.6px solid c(inkSoft);
+  border-radius: 50%;
+  background-color: c(background);
+}
+
+// Where the road ends: treatment begins.
+.listEnd::before {
+  border-color: c(ink);
+  background-color: c(ink);
+}
+
+// A delay: the road turns red and dashed alongside it.
+.listDelay {
+  padding-top: space(4);
+  padding-bottom: space(4);
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: calc(-1 * #{space(9)} + 10px);
+    width: 4px;
+    border-left: 2.2px dashed c(red);
+    background-color: c(background);
+  }
+}
+
+.listMark {
+  position: absolute;
+  top: space(4);
+  left: calc(-1 * #{space(9)} + 1px);
+  z-index: 1;
+  display: grid;
+  width: 21px;
+  height: 21px;
+  place-items: center;
+  border: 1.4px solid c(red);
+  border-radius: 50%;
+  background-color: c(background);
+  font-family: $font-mono;
+  font-size: 11px;
+  font-weight: $weight-medium;
+  color: c(red-deep);
+}
+
+.listDelay .delayName,
+.listDelay .delayDetail {
+  max-width: 30rem;
+}
+
+.listPlaceInline {
+  position: relative;
+  margin-top: space(5);
+}
+
+// --- Caption ---------------------------------------------------------------------
+.caption {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: space(3) space(8);
+  margin-top: space(8);
+  border-top: 1px dashed c(lineSoft);
+  padding-top: space(4);
+
+  @include respond-to(xl) {
+    margin-top: space(6);
+  }
+}
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: space(2) space(5);
+  margin: 0;
+  font-size: 12.5px;
+  color: c(secondary-text);
+}
+
+.key {
+  display: inline-flex;
+  align-items: center;
+  gap: space(2);
+}
+
+.swatch {
+  width: 20px;
+  border-top: 2px solid;
+}
+
+.swatchRoad {
+  border-color: c(inkSoft);
+}
+
+.swatchDelay {
+  border-top-style: dashed;
+  border-color: c(red);
+}
+
+.swatchEnd {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background-color: c(ink);
+}
+
+.source {
+  @include mono(10.5px);
+  margin: 0;
+  letter-spacing: 0.04em;
+  color: c(tertiary-text);
+}
+
+// --- The stat band (DESIGN_SYSTEM §7) ---------------------------------------
+.research {
+  margin-top: space(16);
+
+  @include respond-to(lg) {
+    margin-top: space(20);
+  }
+}
+
+.researchTitle {
+  max-width: 46rem;
+  margin: 0;
+  font-family: $font-heading;
+  font-size: 22px;
+  font-weight: $weight-medium;
+  line-height: 1.25;
+  letter-spacing: $tracking-tight;
+  color: c(ink);
+
+  @include respond-to(lg) {
+    font-size: 26px;
+  }
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  margin: space(6) 0 0;
+  padding: 0;
+  list-style: none;
+  border: 1px solid c(subtle-stroke);
+  border-radius: $radius-frame;
+  background-color: c(background);
+
+  @include respond-to(md) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: space(4);
+  border: 0 dashed c(subtle-stroke);
+  padding: space(5);
+
+  @include respond-to(sm) {
+    padding: space(6);
+  }
+
+  & + & {
+    border-top-width: 1px;
+
+    @include respond-to(md) {
+      border-top-width: 0;
+      border-left-width: 1px;
+    }
+  }
+}
+
+.statFigure {
+  font-size: 40px;
+  font-weight: $weight-semibold;
+  line-height: 1;
+  letter-spacing: $tracking-tighter;
+  font-variant-numeric: tabular-nums;
+  color: c(red-deep);
+
+  @include respond-to(sm) {
+    font-size: 44px;
+  }
+}
+
+.statLabel {
+  margin: space(3) 0 0;
+  text-wrap: pretty;
+  font-size: 14.5px;
+  font-weight: $weight-medium;
+  line-height: $leading-snug;
+  color: c(ink);
+
+  @include respond-to(sm) {
+    font-size: 15px;
+  }
+}
+
+.statCitation {
+  @include mono(10.5px);
+  display: block;
+  font-style: normal;
+  letter-spacing: 0.04em;
+  color: c(tertiary-text);
+}
+
+// --- Drawing in, once (final state under reduced motion and without JS) --------
+// One pen at one pace: each piece starts as the last ends (--d) and runs for
+// its own length (--t), linear, so the coils linger. The red stretches are
+// revealed through masks that draw the same way.
+@media #{$can-draw} {
+  .land {
+    opacity: 0;
+    transition: opacity 1.1s $ease-settle;
+  }
+
+  .pen {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    transition: stroke-dashoffset var(--t, 0.6s) linear var(--d, 0s);
+  }
+
+  .arrive {
+    opacity: 0;
+    transition: opacity 0.4s $ease-settle var(--d, 0s);
+  }
+
+  .stage[data-drawn="true"] {
+    .land,
+    .arrive {
+      opacity: 1;
+    }
+
+    .pen {
+      stroke-dashoffset: 0;
+    }
+  }
+}

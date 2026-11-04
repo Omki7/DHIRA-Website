@@ -1,0 +1,152 @@
+@use "assets/styles" as *;
+
+// =============================================================================
+// SIMULATED PRODUCT UI: the handset at the end of one visit (LifeVisitMockup)
+// =============================================================================
+
+@mixin mono($size: 10px) {
+  font-family: $font-mono;
+  font-size: $size;
+  font-weight: $weight-normal;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.srOnly {
+  @include visually-hidden;
+}
+
+.phone {
+  width: 100%;
+  max-width: 300px;
+  margin: 0;
+  overflow: hidden;
+  border: 1px solid c(card-line);
+  border-radius: 28px;
+  background-color: c(background);
+  font-family: $font-sans;
+}
+
+.status {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid c(card-divide);
+  background-color: c(panel);
+  padding: space(2.5) space(5);
+}
+
+.signal {
+  @include mono(9.5px);
+  display: inline-flex;
+  align-items: center;
+  gap: space(1.5);
+  color: c(secondary-text);
+}
+
+// Every bar empty: no signal.
+.bars {
+  width: 14px;
+  height: 10px;
+  fill: c(card-line);
+}
+
+.battery {
+  width: 18px;
+  height: 9px;
+  border: 1px solid c(default-stroke);
+  border-radius: 2px;
+}
+
+.body {
+  padding: space(5);
+}
+
+.kicker {
+  @include mono;
+  margin: 0;
+  color: c(tertiary-text);
+}
+
+.name {
+  margin: space(2) 0 0;
+  font-size: 19px;
+  font-weight: $weight-semibold;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  color: c(ink);
+}
+
+.detail {
+  margin: space(1) 0 0;
+  font-size: 12.5px;
+  line-height: 1.4;
+  color: c(secondary-text);
+}
+
+.readings {
+  margin: space(4) 0 0;
+  border-top: 1px solid c(card-divide);
+}
+
+.reading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: space(3);
+  border-bottom: 1px solid c(card-divide);
+  padding: space(2) 0;
+}
+
+.readingLabel {
+  font-size: 12.5px;
+  line-height: 1.35;
+  color: c(secondary-text);
+}
+
+// Each reading's value in ink: the red belongs to the one result below.
+.readingValue {
+  margin: 0;
+  flex-shrink: 0;
+  font-size: 12.5px;
+  font-weight: $weight-semibold;
+  color: c(ink);
+}
+
+// The one thing the health worker reads first.
+.result {
+  margin-top: space(4);
+  border: 1px solid c(red);
+  border-radius: $radius-inner;
+  padding: space(3) space(3.5);
+}
+
+.resultLabel {
+  margin: 0;
+  font-size: 20px;
+  font-weight: $weight-semibold;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  color: c(red-deep);
+}
+
+.resultAction {
+  @include mono(10.5px);
+  margin: space(1) 0 0;
+  font-weight: $weight-medium;
+  color: c(ink);
+}
+
+.resultReason {
+  margin: space(2) 0 0;
+  font-size: 12.5px;
+  line-height: 1.4;
+  color: c(secondary-text);
+}
+
+.saved {
+  margin: space(3) 0 0;
+  font-size: 11.5px;
+  line-height: 1.45;
+  color: c(tertiary-text);
+}

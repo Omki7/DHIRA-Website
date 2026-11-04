@@ -159,9 +159,9 @@ components/
 
   sections/            Page sections, one file per section
     <page>/            about, akashic, careers, contact, customers, services, eis, glossary,
-                       insights, legal, life, longform (shared article layout),
+                       insights, legal, longform (shared article layout),
                        newsroom, partners, pricing, public-sector, release, sectors (shared sector
-                       template), solutions, universal-context (the parts of homepage
+                       template), universal-context (the parts of homepage
                        [02] MeetAkashic), and the six bespoke sector families (education,
                        energy, finance, healthcare, manufacturing, retail)
     *.tsx              The homepage sections (Hero, ProblemSection, MeetAkashic, BuiltOnAkashic,
@@ -199,9 +199,9 @@ components/
                                    one canvas (run graph, customer hierarchy with stewardship, schema diagram, forecast, cited
                                    answer, dashboard tiles), status bar. No app chrome, no colour
       ProofComparisonMockup        TheProof before/after slider (role="slider", keyboard operable)
-      (eis/* moved to features/solutions/mockups, 4 Nov 2026; each screen is still the evidence
+      (eis/* moved to features/solutions/mockups, 4 Nov 2026, and life/* was replaced there by
+                                   LifeVisitMockup, 5 Nov 2026; each screen is still the evidence
                                    for the caption beside it: change the claim, change the screen)
-      life/*                       /solutions/life handset and record anatomy
 
   ui/                  Generic building blocks
     ScrollReveal, ScrollRevealRail (the centred 1440px column), FigureEyebrow (THE eyebrow),
@@ -458,28 +458,32 @@ role there and every surface follows.
 `demos/LineArtBust.tsx` (the old hiring scenes) was retired on 16 Oct 2026
 with the unrendered About sections that imported it.
 
-### Solutions hub (`app/solutions/page.tsx`, added 14 Oct 2026)
+### Solutions hub (`app/solutions/page.tsx`, added 14 Oct 2026, rebuilt 5 Nov 2026)
 
 The founder's Solutions section (DHIRA_ai_Website_v2, 12 Oct 2026) as an
-**editorial register** (user-approved over his card gallery): hairline-ruled
-rows, numbered points, no cards, no checkmarks, no simulated screens. It exists
-so every nav link has a destination: "All solutions", `#ipms` (IPMS has no page
-yet) and `#function-<slug>`. Copy is DRAFT in `content/pages/solutions.ts`, the
-founder's words with the claims rules applied (no week figures until he
-confirms them; agent lines carry `PreviewTag` and stay on explanation, never
-autonomy; no "golden record" or "Knowledge Graph"). Enterprise Intelligence IS
-`/solutions/enterprise-intelligence` (user, 14 Oct 2026), so his separate "Enterprise Intelligence
-System" card was dropped. The industry and function mappings are drafted from
-his copy and need his review. Akashic Life's lines are read from
-`AKASHIC_SOLUTIONS`, not copied.
+editorial hub. It exists so every nav link has a destination: "All
+solutions", `#intelligent-procurement` (the procurement system has no page
+yet) and `#function-<slug>`. On 5 Nov 2026 [01] was rebuilt from a written
+script (docs/SOLUTIONS_PAGE_SCRIPT.md) and the whole page moved into
+`features/solutions` as SCSS Modules: the route renders
+`pages/SolutionsPage`. The hero, [02] and [03] are the user's picks, ported
+without visual change. Copy is in `content/pages/solutions.ts`; claims
+rules unchanged (no week figures until confirmed; agent work carries
+`PreviewTag`; no "golden record" or "Knowledge Graph"). The industry and
+function mappings are drafted from the founder's copy and need his review.
 
-| Order | ID | File | Background |
+| Order | ID | Component | Background |
 |---|---|---|---|
-| 00 | hero | `solutions/SolutionsHero.tsx` | `bg-background`; text only, on-page index under the lede |
-| 01 | built-on-akashic | `solutions/SolutionsFeatured.tsx` | White; three rows with ids `#enterprise-intelligence`, `#ipms`, `#akashic-life` |
-| 02 | more-solutions | `solutions/SolutionsMore.tsx` | White; seven register rows, each an anchor |
-| 03 | industries (+ `#functions`) | `solutions/SolutionsIndex.tsx` | The page's one soft blue band (Rule 5a); two registers, function rows carry `#function-<slug>` |
-| 04 | talk-to-our-team | `solutions/SolutionsClose.tsx` | White + `bg-ink` closing card (Rule 5b) |
+| 00 | hero | `SolutionsHero` | white; text only, on-page index under the lede |
+| 01 | built-on-akashic | `SolutionsFeatured` (+ `ForecastMoment`, `LifecycleMoment`, `VisitsMoment`) | white; three chapters with ids `#enterprise-intelligence`, `#intelligent-procurement`, `#akashic-life`: audience, name, gain, how, tags, one link, and a moment on an inset panel that answers the reader's question; a thread runs down the chapters into the foundation strip (all seven modules, `solutionModules`) |
+| 02 | more-solutions | `SolutionsMore` | white; seven register rows, each an anchor |
+| 03 | industries (+ `#functions`) | `SolutionsIndex` | the page's one soft blue band (Rule 5a); two registers, function rows carry `#function-<slug>` |
+| 04 | talk-to-our-team | `ClosingCard` (shared with /solutions/life) | white + the homepage closing card on `vault` |
+
+Moments use each solution's own sample world: Enterprise Intelligence's
+($11.4 million, $600,000 ahead of plan, Northwind's $180,000 renewal), the
+procurement system's twelve stages and prior-delivery evidence, and Akashic
+Life's sample visit (no numbers on that screen).
 
 ### Resource pages (added 15 Oct 2026)
 
@@ -531,77 +535,63 @@ consistency" across the three without checking first.
 | Page | Status |
 |---|---|
 | `/solutions/enterprise-intelligence` | own system, `eis-*` tokens — see below |
-| `/solutions/life` | own system, `life-*` tokens — see below |
+| `/solutions/life` | shared system since 5 Nov 2026; `life-*` grounds only — see below |
 
-#### `/solutions/life` — the ocean system (rebuilt 23 Jul 2026)
+#### `/solutions/life` (rebuilt 23 Jul 2026, rewritten 5 Nov 2026)
 
-Rebuilt against a healthcare reference the user supplied (vitaspan.ai) on the
-instruction to take its flow and skin and carry DHIRA's content. Runs the
-page-scoped `life-*` navy→cyan ramp, headings at **weight 500 on near-normal
-tracking** rather than the site's `font-semibold tracking-tighter`, and a
-`+ LABEL` eyebrow instead of the `[NN]` rail. Shared marks live in
-`components/ui/life/LifeChrome.tsx` (eyebrow, square glyph, capsule CTA,
-corner arc).
+Rewritten on 5 Nov 2026 from a written script and flow
+(docs/LIFE_PAGE_SCRIPT.md), with /solutions/enterprise-intelligence as the
+model: the shared `SectionHeader` on every numbered section, porcelain
+grounds, hairline drawings with mono labels, blue for the live answer, the
+homepage closing card. The user kept the hero, [02] and [03]; everything
+else was replaced. The whole page lives in `features/solutions` as SCSS
+Modules: the route renders `pages/LifePage`; copy, including every
+drawing's labels, is in `content/pages/solutions-life.ts`. Each section was
+critiqued by an independent Impeccable design review plus its detector and
+fixed before the next was built.
+
+The story: the problem in the reader's own framework (the three delays,
+Thaddeus and Maine 1994), how it works, what changes, one sample visit,
+every level that acts on it, the proof underneath, questions. One sample
+mother (Meena, third trimester) runs through [04] and [05], and one road
+runs through [01] and [04]. The drawings share one pen: paths draw at one
+pace by length (`utils/land.ts`: `measurePath`, `PEN_PACE`), dashed
+stretches are revealed through masks, labels land as the pen reaches them,
+and the final state shows under reduced motion and without JS.
 
 **The hero photograph.** `public/proof/point-of-care.jpg`, stock under a
-free commercial licence (Pexels, equivalent footing to the Unsplash shots
-already in that folder). Three drawn subjects were tried and rejected first —
-a contour profile ("disturbing"), the handset mockup ("generic"), two
-silhouettes (a pictogram). A page about people needs a photograph of people.
-The treatment in `demos/life/LifeVisitPhoto.tsx` is a **weak** duotone plus an
-edge mask; the first pass screened cyan at 70% and the photograph disappeared.
-
-**Family ties, added 23 Jul 2026** after the page was compared side by side
-with home and `/akashic`, which it had drifted away from. Four small anchors,
-none of which touch the reference's structure: the hero opens with the Akashic
-badge every other DHIRA hero opens with; `life-abyss` is now the same value as
-`depth`, so the five dark sections are the site's black and not a second,
-bluer one; the eyebrow and both capsules set in `font-mono` like every other
-section label on the site; and the hero and the closing card each carry a CTA
-**pair**, since a lone button appears nowhere else. Deliberately left alone:
-the weight-500 headings, the cyan accent, the `+` cross, the circles and the
-dark-forward ground rhythm. Those are the commissioned skin.
+free commercial licence (Pexels). A page about people needs a photograph of
+people; it keeps its natural colour. From lg it sits beside the headline;
+below lg it follows the buttons.
 
 **Claims rules specific to this page.** Akashic Life is not sold, so it
-carries **no figures of its own** anywhere: no parameter count, no risk score,
-no case volume, no elapsed-time claim. Its evidence is what it is built on.
-Figures for the traditional referral pathway ([02]'s 4 days / 0 bars / 7
-steps) are fine — those describe the problem, not the product. And the
-national programmes are **never named**: home and `/akashic` call them
-"National Immunisation Registry", "National Learning Platform" and carry the
-figures underneath. Only `/sectors/public-sector` names them. Match home.
+carries **no figures of its own** anywhere: no accuracy, parameter count,
+risk score, case volume or elapsed time, and **no number on any Akashic
+Life screen** (user direction, 23 Jul 2026: readings are named in words).
+Figures appear only in [01], about the problem, each sourced (World Health
+Organization 2025; Sample Registration System 2020 to 2022), and in [06],
+the national programmes' (customer stories), cited in the close's footnote.
+National programmes are never named beyond "National Immunisation Registry"
+and "National Learning Platform". A trained clinician makes every clinical
+decision; the product never "diagnoses". No ranking or count stands in for
+an answer in [05]. A quote band was removed 23 Jul 2026 (unnamed source);
+do not reinstate it without a named, printable source.
 
-Ground rhythm is deliberate and alternates in pairs — dark, light, dark, dark,
-light, light, dark, dark, light, light, dark — so no two adjacent movements
-share a register.
-
-| # | `id` | Component | Ground |
+| # | `id` (aliases) | Component | Ground |
 |---|---|---|---|
-| 1 | hero | `life/LifeHero.tsx` + `demos/life/LifeVisitPhoto.tsx` | `life-abyss` |
-| 2 | the-gap | `life/LifeGap.tsx` (pinned headline, ghost figures) | white |
-| 3 | the-solution | `life/LifeSolution.tsx` (pinned 3-circle track) | navy ramp |
-| 4 | what-changes | `life/LifeBenefits.tsx` (zig-zag) | navy ramp |
-| 5 | the-record | `life/LifeRecord.tsx` + `demos/mockups/life/LifeRecordAnatomyMockup.tsx` | `life-ice`→`life-cream` |
-| 6 | altitude | `life/LifeAltitude.tsx` (two-tone statement) | `life-cream` |
-| 7 | record-of-work | `life/LifeRecordOfWork.tsx` (vertical circle chain) | navy ramp |
-| 8 | how-its-built | `life/LifeBuilt.tsx` (3 Akashic layers) | `life-cream` |
-| 9 | the-stake | `life/LifeStake.tsx` (two-tone + kicker) | white |
-| 10 | talk-to-our-team | `life/LifeClose.tsx` — the SHARED closure recipe, same as `Closure.tsx` and `AkashicClose.tsx` | white + `bg-ink` card |
+| 00 | hero | `LifeHero` (pill badge, headline, lede, site buttons, photograph) | `life-abyss` |
+| 01 | the-gap | `LifeDelays` + `LongRoad` (the three delays as one road over contour land: coils where time is lost, the referral leg round the hill, the third inside the hospital grounds; sourced stat band; coda) | white |
+| 02 | the-solution | `LifeHowItWorks` (three circles pinned while the reader scrolls; all three at once below lg and under reduced motion) | `life-abyss` |
+| 03 | what-changes | `LifeChanges` (four claims on a centre rule, each with a node) | `life-abyss` |
+| 04 | at-the-visit (`the-record`) | `LifeVisit` + `VisitRoad` + `mockups/LifeVisitMockup` (the handset after one visit; the road dashed until a bar appears, then blue to the referral unit) | white |
+| 05 | every-level (`altitude`) | `LifeLevels` + `Watershed` (brooks to centres to district to state; Meena's reading named, then anonymised past a marked boundary; four outcome cards) | white |
+| 06 | built-on-akashic (`record-of-work`, `how-its-built`, `the-stake`) | `LifeFoundation` + `OneGround` (the programmes' tall growths with their figures, Akashic Life young and blue; one root system: Master Data and Governance shared, Machine Learning new) | white |
+| 07 | questions | `LifeFaq` (shared FaqSection, two groups) | white |
+| 08 | talk-to-our-team | `ClosingCard` (shared with the hub) | white + `vault` card |
 
-An eleventh section, a `LifeVoice` quote band, sat between [06] and [07] and
-was **removed 23 Jul 2026**. Its only attribution was "from a customer
-platform review" — an unnamed testimonial, which this page cannot carry for a
-product that is not sold. Stripping the attribution and keeping the quote
-would have been worse (an unsourced claim). Do not reinstate without a named,
-printable source.
-
-**Two traps, both already paid for.** (1) `the-gap` and `the-solution` pin a
-column with `position: sticky`; an `overflow-hidden` ancestor silently turns
-sticky back into static, so those two sections must never carry it and
-`LifeCornerArc` sits flush rather than bleeding off the corner. (2) Widths in
-`em` must live on the element that owns the type size — `max-w` in `em`
-resolves against the element's **own** `font-size`, so putting it on a wrapper
-measures in 16px units.
+**One trap, already paid for.** [02] pins its circles with
+`position: sticky`; an `overflow` ancestor silently turns sticky back into
+static, so `LifeHowItWorks` must never carry `overflow`.
 
 #### `/solutions/enterprise-intelligence` (rebuilt Jul 2026, realigned 4 Nov 2026)
 

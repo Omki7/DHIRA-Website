@@ -1,0 +1,224 @@
+@use "assets/styles" as *;
+
+// =============================================================================
+// [02] How it works (LifeHowItWorks): three moves, pinned
+// =============================================================================
+
+@include keyframes(spin);
+
+$circle: 286px;
+$circle-gap: 34px;
+
+// No overflow on this section: it would turn the sticky pin static.
+.section {
+  position: relative;
+  width: 100%;
+  scroll-margin-top: space(24);
+  background-color: c(life-abyss);
+  padding-top: space(12);
+  padding-bottom: space(16);
+
+  @include respond-to(lg) {
+    padding-top: space(16);
+    padding-bottom: space(8);
+  }
+}
+
+// --- One circle ------------------------------------------------------------------
+.circle {
+  position: relative;
+  display: flex;
+  width: 236px;
+  flex-shrink: 0;
+  aspect-ratio: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid c(line);
+  border-radius: 50%;
+  text-align: center;
+  transition: border-color $duration-650 $ease-settle;
+
+  @include respond-to(sm) {
+    width: 252px;
+  }
+
+  @include respond-to(lg) {
+    width: $circle;
+  }
+}
+
+.circleActive {
+  border-color: c(blue-border);
+}
+
+// Two markers riding the rim of the live circle: the only motion here, and
+// the only thing that says which move is live.
+.orbit {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+
+  @include motion-safe {
+    animation: spin 14s linear infinite;
+  }
+}
+
+.orbitReverse {
+  @include motion-safe {
+    animation-direction: reverse;
+  }
+}
+
+.orbitDot,
+.orbitDotSmall {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.orbitDot {
+  width: 7px;
+  height: 7px;
+  background-color: c(blue);
+}
+
+.orbitDotSmall {
+  width: 5px;
+  height: 5px;
+  background-color: c(blue-border);
+}
+
+// The page's square marker: an instrument reticle, not a bullet.
+.glyph {
+  display: block;
+  width: 16px;
+  height: 16px;
+  border: 1.5px solid c(line);
+  transition: border-color $duration-650 $ease-settle;
+
+  .circleActive & {
+    border-color: c(blue);
+  }
+}
+
+.label {
+  margin: space(6) 0 0;
+  padding: 0 space(8);
+  font-family: $font-heading;
+  font-size: 18px;
+  font-weight: $weight-medium;
+  line-height: 1.35;
+  letter-spacing: $tracking-tight;
+  color: c(inkSoft);
+  transition: color $duration-650 $ease-settle;
+
+  @include respond-to(lg) {
+    font-size: 20px;
+  }
+
+  .circleActive & {
+    color: c(ink);
+  }
+}
+
+.body {
+  margin: 0;
+  max-width: 26em;
+  text-wrap: pretty;
+  font-size: 16.5px;
+  line-height: $leading-relaxed;
+  color: c(ink);
+
+  @include respond-to(lg) {
+    font-size: 17px;
+  }
+}
+
+// --- Every move at once (below lg; everywhere under reduced motion) --------------
+.stack {
+  display: grid;
+  gap: space(14);
+  margin: space(12) 0 0;
+  padding: 0;
+  list-style: none;
+
+  @include respond-to(md) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: space(8);
+  }
+
+  @include respond-to(lg) {
+    margin-top: space(16);
+  }
+}
+
+.stackNarrowOnly {
+  @include respond-to(lg) {
+    display: none;
+  }
+}
+
+.stackItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: space(8);
+
+  .body {
+    width: 100%;
+  }
+}
+
+// --- The pinned track (from lg) ----------------------------------------------------
+.track {
+  position: relative;
+  display: none;
+  height: 300vh;
+
+  @include respond-to(lg) {
+    display: block;
+  }
+}
+
+.pin {
+  position: sticky;
+  top: 0;
+  display: flex;
+  height: 100vh;
+  flex-direction: column;
+  justify-content: center;
+  padding-bottom: space(10);
+}
+
+.row,
+.bodies {
+  display: grid;
+  grid-template-columns: repeat(3, $circle);
+  justify-content: center;
+  column-gap: $circle-gap;
+}
+
+.bodies {
+  margin-top: space(14);
+}
+
+// Every paragraph sits under its own circle; only the live one shows.
+.bodyPinned {
+  grid-row: 1;
+  justify-self: center;
+  width: 380px;
+  max-width: none;
+  opacity: 0;
+  transform: translateY(8px);
+  transition:
+    opacity $duration-400 $ease-settle,
+    transform $duration-400 $ease-settle;
+}
+
+.bodyLive {
+  opacity: 1;
+  transform: none;
+}

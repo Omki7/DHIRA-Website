@@ -1,0 +1,154 @@
+@use "assets/styles" as *;
+
+// =============================================================================
+// [03] What changes (LifeChanges): four claims on a centre rule
+// =============================================================================
+
+.section {
+  position: relative;
+  width: 100%;
+  scroll-margin-top: space(24);
+  background-color: c(life-abyss);
+  padding-top: space(12);
+  padding-bottom: space(16);
+
+  @include respond-to(lg) {
+    padding-top: space(16);
+    padding-bottom: space(24);
+  }
+}
+
+.zigzag {
+  position: relative;
+  display: grid;
+  gap: space(12);
+  margin: space(12) 0 0;
+  padding: 0;
+  list-style: none;
+
+  @include respond-to(lg) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0;
+    margin-top: space(16);
+
+    // The centre rule the claims hang off.
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 50%;
+      border-left: 1px solid c(life-line);
+    }
+  }
+}
+
+// From lg each claim takes its own row, alternating sides, so the reader's
+// eye walks down the rule one claim at a time.
+.item {
+  @include respond-to(lg) {
+    position: relative;
+    grid-row: var(--row);
+    padding-top: space(14);
+    padding-bottom: space(14);
+
+    // Each claim hangs off the rule: a node on the rule at the icon's
+    // height and a short hairline out to the claim.
+    &::before,
+    &::after {
+      content: "";
+      position: absolute;
+      top: calc(#{space(14)} + 22px);
+    }
+
+    &::before {
+      width: space(10);
+      border-top: 1px solid c(life-line);
+    }
+
+    &::after {
+      width: 7px;
+      height: 7px;
+      margin-top: -3px;
+      border-radius: 50%;
+      background-color: c(blue);
+    }
+  }
+}
+
+.right {
+  @include respond-to(lg) {
+    grid-column: 2;
+    padding-left: space(16);
+
+    &::before {
+      left: 0;
+    }
+
+    &::after {
+      left: -4px;
+    }
+  }
+
+  @include respond-to(xl) {
+    padding-left: space(24);
+  }
+}
+
+.left {
+  @include respond-to(lg) {
+    grid-column: 1;
+    padding-right: space(16);
+    justify-self: end;
+
+    &::before {
+      right: 0;
+    }
+
+    &::after {
+      right: -4px;
+    }
+  }
+}
+
+.claim {
+  max-width: 27rem;
+}
+
+.icon {
+  width: 44px;
+  height: 44px;
+  stroke: c(blue);
+}
+
+.iconFill {
+  fill: c(blue);
+  stroke: none;
+}
+
+.head {
+  margin: space(6) 0 0;
+  text-wrap: balance;
+  font-family: $font-heading;
+  font-size: 21px;
+  font-weight: $weight-medium;
+  line-height: 1.25;
+  letter-spacing: $tracking-tight;
+  color: c(ink);
+
+  @include respond-to(lg) {
+    font-size: 24px;
+  }
+}
+
+.body {
+  margin: space(3) 0 0;
+  text-wrap: pretty;
+  font-size: 16px;
+  line-height: $leading-relaxed;
+  color: c(secondary-text);
+
+  @include respond-to(sm) {
+    font-size: 17px;
+  }
+}

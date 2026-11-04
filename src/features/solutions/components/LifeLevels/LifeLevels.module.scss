@@ -1,0 +1,345 @@
+@use "assets/styles" as *;
+
+// =============================================================================
+// [05] Every level (LifeLevels, Watershed)
+// =============================================================================
+
+$can-draw: "(scripting: enabled) and (prefers-reduced-motion: no-preference)";
+
+@mixin mono($size: 11px) {
+  font-family: $font-mono;
+  font-size: $size;
+  font-weight: $weight-normal;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.section {
+  position: relative;
+  width: 100%;
+  scroll-margin-top: space(24);
+  overflow: clip;
+  background-color: c(background);
+  padding-top: space(12);
+  padding-bottom: space(16);
+
+  @include respond-to(lg) {
+    padding-top: space(16);
+    padding-bottom: space(24);
+  }
+}
+
+.alias {
+  position: absolute;
+  top: 0;
+  scroll-margin-top: space(24);
+}
+
+.board {
+  margin-top: space(12);
+
+  @include respond-to(lg) {
+    margin-top: space(14);
+  }
+}
+
+// --- The watershed (from xl) -----------------------------------------------------
+.watershed {
+  position: relative;
+  display: none;
+
+  @include respond-to(xl) {
+    display: block;
+    aspect-ratio: 1200 / 300;
+    margin-bottom: space(12);
+  }
+}
+
+.svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+// One visit's brook, a centre's river, a district's wider river.
+.brook {
+  fill: none;
+  stroke: c(lineSoft);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+
+.river {
+  fill: none;
+  stroke: c(line);
+  stroke-width: 1.6;
+}
+
+.riverWide {
+  fill: none;
+  stroke: c(line);
+  stroke-width: 2.6;
+  stroke-linecap: round;
+}
+
+.home {
+  fill: c(default-stroke);
+}
+
+// Where names stop.
+.boundary {
+  stroke: c(line);
+  stroke-width: 1;
+  stroke-dasharray: 2 4;
+  vector-effect: non-scaling-stroke;
+}
+
+.boundaryLabel {
+  @include mono(10.5px);
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  margin: 0;
+  white-space: nowrap;
+  color: c(overcast);
+}
+
+.boundaryNamed {
+  transform: translateX(-100%);
+  padding-right: space(3);
+}
+
+.boundaryAnonymised {
+  padding-left: space(3);
+}
+
+// Meena's reading: solid while it carries her name, dashed once anonymised.
+.channel,
+.channelAnonymised {
+  fill: none;
+  stroke: c(blue);
+  stroke-width: 2.2;
+  stroke-linecap: round;
+}
+
+.channelAnonymised {
+  stroke-dasharray: 6 6;
+}
+
+.node {
+  fill: c(background);
+  stroke: c(default-stroke);
+  stroke-width: 1.5;
+}
+
+.nodeLit {
+  fill: c(blue);
+  stroke: c(background);
+  stroke-width: 3;
+}
+
+// Past the boundary her reading is a count among counts: a ring, not a dot.
+.nodeRing {
+  fill: c(background);
+  stroke: c(blue);
+  stroke-width: 2;
+}
+
+// The tier under each node, over its seat column.
+.tier {
+  @include mono(10.5px);
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  margin: space(2) 0 0;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  color: c(overcast);
+}
+
+// --- The seats -------------------------------------------------------------------
+// Below sm the seats hang off a rail with a node each; from sm two by two;
+// from xl a row under the tiers of the drawing.
+.seats {
+  display: grid;
+  gap: space(4);
+  margin: 0;
+  padding: 0 0 0 space(5);
+  list-style: none;
+  border-left: 1.5px solid c(blue-border);
+
+  @include respond-to(sm) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    padding-left: 0;
+    border-left: 0;
+  }
+
+  @include respond-to(xl) {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-rows: repeat(5, auto);
+    gap: space(5);
+  }
+}
+
+// The homepage's outcome card: a role, its question, one answer, the source.
+.seat {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid c(card-line);
+  border-radius: $radius-outer;
+  background-color: c(background);
+  padding: space(5);
+
+  // Its node on the rail (below sm only).
+  &::before {
+    content: "";
+    position: absolute;
+    top: space(6);
+    left: calc(-1 * #{space(5)} - 5px);
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: c(blue);
+
+    @include respond-to(sm) {
+      display: none;
+    }
+  }
+
+  // From xl the four share their rows (subgrid), so every question,
+  // answer, outcome and source lines up across the row.
+  @include respond-to(xl) {
+    display: grid;
+    grid-row: span 5;
+    grid-template-rows: subgrid;
+    row-gap: 0;
+    align-items: start;
+  }
+}
+
+.role {
+  @include mono;
+  margin: 0;
+  color: c(overcast);
+}
+
+// The tier, in text: shown until the drawing carries it (xl), and always
+// read by screen readers.
+.seatTier {
+  color: c(blue);
+
+  @include respond-to(xl) {
+    @include visually-hidden;
+  }
+}
+
+.question {
+  align-self: flex-start;
+  margin: space(3) 0 0;
+  border: 1px solid c(card-line);
+  border-radius: 14px;
+  background-color: c(primary-bg);
+  padding: space(1.5) space(3);
+  font-size: 13.5px;
+  line-height: 1.35;
+  color: c(ink);
+
+  @include respond-to(xl) {
+    justify-self: start;
+  }
+}
+
+.answer {
+  margin: space(5) 0 0;
+  font-family: $font-heading;
+  font-size: 22px;
+  font-weight: $weight-semibold;
+  line-height: 1.15;
+  letter-spacing: $tracking-tight;
+  color: c(ink);
+}
+
+.outcome {
+  margin: space(1.5) 0 0;
+  font-size: 13.5px;
+  font-weight: $weight-medium;
+  line-height: 1.3;
+  color: c(blue);
+}
+
+.source {
+  @include mono(10.5px);
+  margin: space(5) 0 0;
+  border-top: 1px solid c(card-divide);
+  padding-top: space(3);
+  letter-spacing: 0.06em;
+  color: c(tertiary-text);
+
+  @include respond-to(xl) {
+    align-self: start;
+  }
+}
+
+// --- Drawing in, once (final state under reduced motion and without JS) --------
+// The same pen as [01] and [04]; the seats rise in turn, and from xl they
+// wait for the drawing above them.
+@media #{$can-draw} {
+  .streams,
+  .boundary,
+  .boundaryLabel,
+  .tier {
+    opacity: 0;
+    transition: opacity 0.9s $ease-settle;
+  }
+
+  .boundary,
+  .boundaryLabel {
+    transition-delay: 0.3s;
+  }
+
+  .pen {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    transition: stroke-dashoffset var(--t, 1s) linear var(--d, 0s);
+  }
+
+  .lights {
+    opacity: 0;
+    transition: opacity 0.35s $ease-settle var(--d, 0s);
+  }
+
+  .seat {
+    opacity: 0;
+    transform: translateY(16px);
+    transition:
+      opacity 0.5s $ease-settle,
+      transform 0.5s $ease-settle;
+    transition-delay: calc(var(--i, 0) * 60ms);
+
+    @include respond-to(xl) {
+      transition-delay: calc(1.6s + var(--i, 0) * 0.12s);
+    }
+  }
+
+  .board[data-drawn="true"] {
+    .streams,
+    .boundary,
+    .boundaryLabel,
+    .tier,
+    .lights,
+    .seat {
+      opacity: 1;
+    }
+
+    .seat {
+      transform: none;
+    }
+
+    .pen {
+      stroke-dashoffset: 0;
+    }
+  }
+}

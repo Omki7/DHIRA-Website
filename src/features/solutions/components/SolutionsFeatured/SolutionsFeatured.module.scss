@@ -1,0 +1,674 @@
+@use "assets/styles" as *;
+
+// =============================================================================
+// /solutions [01] Built on Akashic (SolutionsFeatured and its moments)
+// =============================================================================
+
+$can-draw: "(scripting: enabled) and (prefers-reduced-motion: no-preference)";
+$thread-x: 7px;
+
+@mixin mono($size: 11px) {
+  font-family: $font-mono;
+  font-size: $size;
+  font-weight: $weight-normal;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.section {
+  position: relative;
+  width: 100%;
+  scroll-margin-top: space(24);
+  overflow: clip;
+  background-color: c(background);
+  padding-top: space(12);
+  padding-bottom: space(16);
+
+  @include respond-to(lg) {
+    padding-top: space(16);
+    padding-bottom: space(24);
+  }
+}
+
+// --- The chapters, on one thread -----------------------------------------------
+.chapters {
+  position: relative;
+  margin-top: space(12);
+
+  @include respond-to(lg) {
+    margin-top: space(14);
+  }
+
+  // The thread: from the first chapter down into the foundation strip.
+  @include respond-to(xl) {
+    padding-left: space(10);
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: space(12);
+      bottom: calc(-1 * #{space(14)});
+      left: $thread-x;
+      border-left: 1.5px solid c(blue-border);
+    }
+  }
+}
+
+.chapter {
+  position: relative;
+  display: grid;
+  gap: space(8);
+  scroll-margin-top: space(28);
+  border-top: 1px solid c(lineSoft);
+  padding: space(10) 0;
+
+  @include respond-to(xl) {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    align-items: center;
+    gap: space(14);
+    padding: space(12) 0;
+
+    // Each chapter's knot on the thread, level with its name.
+    &::before {
+      content: "";
+      position: absolute;
+      top: calc(#{space(12)} + 38px);
+      left: calc(-1 * #{space(10)} + #{$thread-x} - 4px);
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background-color: c(blue);
+    }
+  }
+}
+
+.copy {
+  max-width: 34rem;
+}
+
+.audience {
+  @include mono;
+  margin: 0;
+  color: c(overcast);
+}
+
+.name {
+  margin: space(3) 0 0;
+  text-wrap: balance;
+  font-family: $font-heading;
+  font-size: 26px;
+  font-weight: $weight-medium;
+  line-height: 1.15;
+  letter-spacing: $tracking-tight;
+  color: c(ink);
+
+  @include respond-to(lg) {
+    font-size: 30px;
+  }
+}
+
+.headline {
+  margin: space(4) 0 0;
+  text-wrap: balance;
+  font-size: 18px;
+  line-height: 1.45;
+  color: c(ink);
+
+  @include respond-to(lg) {
+    font-size: 19px;
+  }
+}
+
+.description {
+  margin: space(3) 0 0;
+  text-wrap: pretty;
+  font-size: 15.5px;
+  line-height: $leading-relaxed;
+  color: c(secondary-text);
+}
+
+.includes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: space(2);
+  margin: space(6) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.link {
+  display: inline-flex;
+  align-items: center;
+  gap: space(1.5);
+  margin-top: space(6);
+  font-size: 15px;
+  font-weight: $weight-medium;
+  color: c(blue);
+  text-decoration: none;
+  @include transition-colors($duration-150);
+  @include focus-ring(3px);
+
+  &:hover {
+    color: c(blue-hover);
+  }
+}
+
+.arrow {
+  transition: transform $duration-200 $ease-settle;
+
+  .link:hover & {
+    transform: translateX(3px);
+  }
+}
+
+// --- The moment: one answer at native size, on an inset panel --------------------
+.stage {
+  min-width: 0;
+}
+
+.moment {
+  border: 1px solid c(subtle-stroke);
+  border-radius: $radius-outer;
+  background-color: c(primary-bg);
+  padding: space(5);
+
+  @include respond-to(sm) {
+    padding: space(7) space(8);
+  }
+}
+
+// The question, as the Enterprise Intelligence ask chip.
+.ask {
+  display: inline-flex;
+  max-width: 100%;
+  align-items: center;
+  gap: space(2);
+  margin: 0;
+  border: 1px solid c(card-line);
+  border-radius: 9999px;
+  background-color: c(background);
+  padding: space(1.5) space(4);
+  font-size: 14px;
+  line-height: 1.35;
+  color: c(ink);
+}
+
+.askIcon {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  fill: none;
+  stroke: c(tertiary-text);
+  stroke-width: 1.6;
+  stroke-linecap: round;
+}
+
+// --- Enterprise Intelligence: the forecast ---------------------------------------
+.answer {
+  margin-top: space(5);
+}
+
+.figure {
+  margin: 0;
+  font-size: 30px;
+  font-weight: $weight-semibold;
+  line-height: 1;
+  letter-spacing: $tracking-tighter;
+  font-variant-numeric: tabular-nums;
+  color: c(ink);
+}
+
+.figureNote {
+  margin: space(2) 0 0;
+  font-size: 14px;
+  font-weight: $weight-medium;
+  color: c(blue);
+}
+
+.chart {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin-top: space(4);
+  overflow: visible;
+}
+
+.axis {
+  stroke: c(line);
+  stroke-width: 1;
+}
+
+.tick {
+  stroke: c(line);
+  stroke-width: 1;
+}
+
+.today {
+  stroke: c(default-stroke);
+  stroke-width: 1;
+  stroke-dasharray: 3 4;
+}
+
+.plan {
+  fill: none;
+  stroke: c(default-stroke);
+  stroke-width: 1.5;
+  stroke-dasharray: 5 5;
+}
+
+.actual {
+  fill: none;
+  stroke: c(inkSoft);
+  stroke-width: 1.8;
+  stroke-linecap: round;
+}
+
+.forecastLine {
+  fill: none;
+  stroke: c(blue);
+  stroke-width: 2.4;
+  stroke-linecap: round;
+}
+
+.marker {
+  fill: c(primary-bg);
+  stroke: c(blue);
+  stroke-width: 1.6;
+}
+
+.landing {
+  fill: c(blue);
+  stroke: c(primary-bg);
+  stroke-width: 3;
+}
+
+.axisLabels {
+  position: relative;
+  height: 16px;
+  margin-top: space(1);
+  @include mono(10px);
+  letter-spacing: 0.06em;
+  color: c(tertiary-text);
+}
+
+.axisToday {
+  position: absolute;
+  top: 0;
+  transform: translateX(-50%);
+}
+
+.axisEnd {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: space(2) space(5);
+  margin: space(5) 0 0;
+  font-size: 12.5px;
+  color: c(secondary-text);
+}
+
+.key {
+  display: inline-flex;
+  align-items: center;
+  gap: space(2);
+}
+
+.swatchActual,
+.swatchForecast,
+.swatchPlan {
+  width: 18px;
+  border-top: 2px solid;
+}
+
+.swatchActual {
+  border-color: c(inkSoft);
+}
+
+.swatchForecast {
+  border-color: c(blue);
+}
+
+.swatchPlan {
+  border-top-style: dashed;
+  border-color: c(default-stroke);
+}
+
+.swatchMarker {
+  width: 10px;
+  height: 10px;
+  border: 1.6px solid c(blue);
+  border-radius: 50%;
+}
+
+// --- The procurement system: the lifecycle ---------------------------------------
+.rail {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin-top: space(6);
+  overflow: visible;
+}
+
+.railLine {
+  fill: none;
+  stroke: c(default-stroke);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.stageDone {
+  fill: c(inkSoft);
+}
+
+.stageLit {
+  fill: c(blue);
+  stroke: c(primary-bg);
+  stroke-width: 3;
+}
+
+.stageAhead {
+  fill: c(primary-bg);
+  stroke: c(default-stroke);
+  stroke-width: 1.4;
+}
+
+.hanger {
+  stroke: c(blue-border);
+  stroke-width: 1;
+}
+
+// The evidence under the lit stage: the highlighted record recipe.
+.evidence {
+  width: 250px;
+  max-width: 100%;
+  margin-left: clamp(0px, calc(var(--x) - 125px), calc(100% - 250px));
+  border: 1px solid c(blue-border);
+  border-radius: $radius-inner;
+  background-color: c(blue-subtle);
+  padding: space(3) space(4);
+}
+
+.evidenceLabel {
+  @include mono(10.5px);
+  margin: 0;
+  letter-spacing: 0.06em;
+  color: c(blue);
+}
+
+.evidenceResult {
+  margin: space(1.5) 0 0;
+  font-family: $font-heading;
+  font-size: 18px;
+  font-weight: $weight-medium;
+  line-height: 1.2;
+  color: c(ink);
+}
+
+.evidenceSource {
+  margin: space(1) 0 0;
+  font-size: 13.5px;
+  line-height: 1.4;
+  color: c(secondary-text);
+}
+
+.stageNames {
+  display: flex;
+  flex-wrap: wrap;
+  gap: space(1.5) space(4);
+  margin: space(6) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.stageName {
+  @include mono(10.5px);
+  letter-spacing: 0.06em;
+  color: c(tertiary-text);
+}
+
+.stageNameLit {
+  color: c(blue);
+}
+
+// --- Akashic Life: the health worker's week ---------------------------------------
+.visits {
+  max-width: 380px;
+  margin-top: space(5);
+  overflow: hidden;
+  border: 1px solid c(card-line);
+  border-radius: 18px;
+  background-color: c(background);
+}
+
+.visitsBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: space(3);
+  border-bottom: 1px solid c(card-divide);
+  background-color: c(panel);
+  padding: space(2.5) space(4);
+}
+
+.visitsTitle {
+  @include mono(10px);
+  color: c(secondary-text);
+}
+
+.visitsSignal {
+  @include mono(9.5px);
+  display: inline-flex;
+  align-items: center;
+  gap: space(1.5);
+  color: c(tertiary-text);
+}
+
+.bars {
+  width: 14px;
+  height: 10px;
+  fill: c(card-line);
+}
+
+.visitsList {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.visit {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: space(4);
+  padding: space(3) space(4);
+
+  & + & {
+    border-top: 1px solid c(card-divide);
+  }
+}
+
+.visitWho {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.visitName {
+  font-size: 14.5px;
+  font-weight: $weight-semibold;
+  color: c(ink);
+}
+
+.visitDetail {
+  font-size: 12.5px;
+  color: c(secondary-text);
+}
+
+.visitStatus {
+  flex-shrink: 0;
+  font-size: 12.5px;
+  font-weight: $weight-medium;
+  color: c(secondary-text);
+}
+
+// The one visit that cannot wait: the only red in the moment.
+.visitUrgent .visitStatus {
+  font-weight: $weight-semibold;
+  color: c(red-deep);
+}
+
+// --- The foundation strip: every solution, all seven modules -------------------------
+.foundation {
+  position: relative;
+  margin-top: space(14);
+  border: 1px solid c(card-line);
+  border-radius: $radius-outer;
+  background-color: c(primary-bg);
+  padding: space(6);
+
+  @include respond-to(md) {
+    padding: space(7) space(8);
+  }
+}
+
+.foundationHead {
+  display: grid;
+  gap: space(3);
+
+  @include respond-to(md) {
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: center;
+    gap: space(8);
+  }
+}
+
+.foundationName {
+  margin: 0;
+  font-family: $font-heading;
+  font-size: 30px;
+  font-weight: $weight-medium;
+  color: c(ink);
+
+  @include respond-to(md) {
+    border-right: 1px solid c(card-line);
+    padding-right: space(8);
+  }
+}
+
+.foundationCaption {
+  margin: 0;
+  font-size: 16px;
+  font-weight: $weight-medium;
+  color: c(ink);
+}
+
+.foundationText {
+  margin: space(1) 0 0;
+  font-size: 14.5px;
+  line-height: 1.45;
+  color: c(secondary-text);
+}
+
+.modules {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin: space(6) 0 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid c(card-line);
+
+  @include respond-to(md) {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  @include respond-to(lg) {
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+  }
+}
+
+.module {
+  padding: space(4) space(2) 0;
+  text-align: center;
+  font-size: 14px;
+  font-weight: $weight-medium;
+  color: c(ink);
+
+  @include respond-to(lg) {
+    & + & {
+      border-left: 1px dashed c(card-line);
+    }
+  }
+}
+
+// --- Drawing in, once (final state under reduced motion and without JS) --------
+@media #{$can-draw} {
+  .actual,
+  .forecastLine,
+  .railLine {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+  }
+
+  .actual {
+    transition: stroke-dashoffset 0.7s linear 0.2s;
+  }
+
+  .forecastLine {
+    transition: stroke-dashoffset 0.9s $ease-smooth 0.9s;
+  }
+
+  .railLine {
+    transition: stroke-dashoffset 1.2s linear 0.2s;
+  }
+
+  .marker,
+  .landing,
+  .stageDone,
+  .stageLit,
+  .stageAhead,
+  .evidence {
+    opacity: 0;
+    transition: opacity 0.4s $ease-settle;
+  }
+
+  .marker {
+    transition-delay: 1.3s;
+  }
+
+  .landing,
+  .stageLit {
+    transition-delay: 1.6s;
+  }
+
+  .stageDone,
+  .stageAhead {
+    transition-delay: 0.6s;
+  }
+
+  .evidence {
+    transition-delay: 1.8s;
+  }
+
+  .moment[data-drawn="true"] {
+    .actual,
+    .forecastLine,
+    .railLine {
+      stroke-dashoffset: 0;
+    }
+
+    .marker,
+    .landing,
+    .stageDone,
+    .stageLit,
+    .stageAhead,
+    .evidence {
+      opacity: 1;
+    }
+  }
+}

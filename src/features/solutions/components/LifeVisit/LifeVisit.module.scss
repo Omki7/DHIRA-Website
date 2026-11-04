@@ -1,0 +1,334 @@
+@use "assets/styles" as *;
+
+// =============================================================================
+// [04] At the visit (LifeVisit, VisitRoad)
+// =============================================================================
+
+$can-draw: "(scripting: enabled) and (prefers-reduced-motion: no-preference)";
+$beat-w: 236px;
+
+@mixin mono($size: 11px) {
+  font-family: $font-mono;
+  font-size: $size;
+  font-weight: $weight-normal;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.section {
+  position: relative;
+  width: 100%;
+  scroll-margin-top: space(24);
+  overflow: clip;
+  background-color: c(background);
+  padding-top: space(12);
+  padding-bottom: space(16);
+
+  @include respond-to(lg) {
+    padding-top: space(16);
+    padding-bottom: space(24);
+  }
+}
+
+// The old #the-record anchor still lands here.
+.alias {
+  position: absolute;
+  top: 0;
+  scroll-margin-top: space(24);
+}
+
+// --- The stage: the handset, then the road (side by side from xl) -------------
+.stage {
+  display: grid;
+  gap: space(10);
+  margin-top: space(12);
+
+  @include respond-to(lg) {
+    margin-top: space(14);
+  }
+
+  @include respond-to(xl) {
+    grid-template-columns: 300px minmax(0, 1fr);
+    align-items: center;
+    gap: space(6);
+  }
+}
+
+.handset {
+  display: flex;
+  justify-content: flex-start;
+}
+
+// --- The road (from xl) ---------------------------------------------------------
+.road {
+  position: relative;
+  display: none;
+
+  @include respond-to(xl) {
+    display: block;
+    aspect-ratio: 860 / 440;
+  }
+}
+
+.svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.contour {
+  fill: none;
+  stroke: c(lineSoft);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+
+// No signal: the record waits, so the road is dashed and quiet.
+.offline {
+  fill: none;
+  stroke: c(default-stroke);
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-dasharray: 4 6;
+}
+
+// Signal: the record travels, solid blue.
+.online {
+  fill: none;
+  stroke: c(blue);
+  stroke-width: 2.2;
+  stroke-linecap: round;
+}
+
+.signalRing {
+  fill: c(background);
+  stroke: c(blue-border);
+  stroke-width: 1;
+}
+
+.barLit {
+  fill: c(blue);
+}
+
+.barDim {
+  fill: c(card-line);
+}
+
+.unitNode {
+  fill: c(blue);
+  stroke: c(background);
+  stroke-width: 3;
+}
+
+// From the referral unit down to the card hung off it.
+.hanger {
+  stroke: c(blue-border);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+
+.beats {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.roadTag {
+  @include mono(10.5px);
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  margin: 0;
+  transform: translateX(-50%);
+  color: c(tertiary-text);
+}
+
+.roadTagOnline {
+  color: c(blue);
+}
+
+// A beat: numbered, because the order is real (DESIGN_SYSTEM §3.8).
+.beat {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  width: $beat-w;
+  text-align: center;
+}
+
+.beatAbove {
+  transform: translate(-50%, -100%);
+}
+
+.beatBelow {
+  transform: translateX(-50%);
+}
+
+.beatAbove.beatEnd {
+  transform: translate(-100%, -100%);
+  text-align: right;
+}
+
+.beatTitle {
+  display: inline-flex;
+  align-items: center;
+  gap: space(2);
+  margin: 0;
+  font-family: $font-heading;
+  font-size: 15px;
+  font-weight: $weight-medium;
+  line-height: 1.3;
+  letter-spacing: $tracking-tight;
+  color: c(ink);
+}
+
+// A hollow ring, as [01]'s delay marks: legible in both appearances.
+.step {
+  display: inline-grid;
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  place-items: center;
+  border: 1.4px solid c(blue);
+  border-radius: 50%;
+  background-color: c(background);
+  font-family: $font-mono;
+  font-size: 10.5px;
+  font-weight: $weight-medium;
+  color: c(blue);
+}
+
+.beatDetail {
+  margin: space(1) 0 0;
+  text-wrap: pretty;
+  font-size: 13.5px;
+  line-height: 1.45;
+  color: c(secondary-text);
+}
+
+// What the health centre sees: the highlighted record recipe.
+.arrival {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  width: 260px;
+  transform: translateX(-100%);
+}
+
+.arrival,
+.arrivalInline {
+  border: 1px solid c(blue-border);
+  border-radius: $radius-inner;
+  background-color: c(blue-subtle);
+  padding: space(3) space(4);
+}
+
+.arrivalLabel {
+  @include mono(10.5px);
+  margin: 0;
+  color: c(blue);
+}
+
+.arrivalName {
+  margin: space(1.5) 0 0;
+  font-family: $font-heading;
+  font-size: 17px;
+  font-weight: $weight-medium;
+  line-height: 1.25;
+  letter-spacing: $tracking-tight;
+  color: c(ink);
+}
+
+.arrivalDetail {
+  margin: space(1) 0 0;
+  font-size: 13.5px;
+  line-height: 1.4;
+  color: c(secondary-text);
+}
+
+// --- Below xl: the beats in order, then the arrival ----------------------------
+.sequence {
+  display: grid;
+  gap: space(6);
+  max-width: 34rem;
+  margin: 0 auto;
+  width: 100%;
+
+  @include respond-to(xl) {
+    display: none;
+  }
+}
+
+.beatList {
+  position: relative;
+  display: grid;
+  gap: space(5);
+  margin: 0;
+  padding: 0 0 0 space(8);
+  list-style: none;
+}
+
+// The road down the left: dashed until the bar appears, then blue.
+.beatItem {
+  position: relative;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 9px;
+    bottom: calc(-1 * #{space(5)} - 9px);
+    left: calc(-1 * #{space(8)} + 8px);
+    border-left: 2px solid c(blue);
+  }
+
+  &:first-child::before {
+    border-left: 2px dashed c(default-stroke);
+  }
+
+  &:last-child::before {
+    display: none;
+  }
+
+  .beatTitle {
+    display: block;
+  }
+
+  .step {
+    position: absolute;
+    top: 0;
+    left: calc(-1 * #{space(8)});
+  }
+}
+
+// --- Drawing in, once (final state under reduced motion and without JS) --------
+// The same pen as [01]: --d is when a piece starts, --t how long it runs.
+@media #{$can-draw} {
+  .land {
+    opacity: 0;
+    transition: opacity 1.1s $ease-settle;
+  }
+
+  .pen {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    transition: stroke-dashoffset var(--t, 0.6s) linear var(--d, 0s);
+  }
+
+  .lands {
+    opacity: 0;
+    transition: opacity 0.4s $ease-settle var(--d, 0s);
+  }
+
+  .stage[data-drawn="true"] {
+    .land,
+    .lands {
+      opacity: 1;
+    }
+
+    .pen {
+      stroke-dashoffset: 0;
+    }
+  }
+}

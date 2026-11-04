@@ -1,4 +1,5 @@
 import type { Cta, PageSection, Seo } from "../types";
+import { solutionModules } from "./akashic";
 
 /* ------------------------------------------------------------------ */
 /*  /solutions hub (added 14 Oct 2026)                                 */
@@ -35,67 +36,145 @@ const hero = {
   lede: "Each solution is Akashic, configured around one business process on the same modules, data and governance. We assemble rather than build from scratch.",
 };
 
-export interface SolutionPoint {
-  text: string;
+/** A short name read as part of a set (ui/Tag); `preview` marks agent work. */
+export interface SolutionInclude {
+  label: string;
   preview?: boolean;
+}
+
+/** [01]'s Enterprise Intelligence moment: the rolling forecast, in the
+    Enterprise Intelligence page's sample world. */
+export interface ForecastMoment {
+  kind: "forecast";
+  figure: string;
+  figureNote: string;
+  marker: string;
+  today: string;
+  horizon: string;
+  legend: { actual: string; forecast: string; plan: string };
+}
+
+/** [01]'s procurement moment: the twelve stages, one lit, its evidence. */
+export interface LifecycleMoment {
+  kind: "lifecycle";
+  stages: string[];
+  lit: string;
+  evidence: { criterion: string; result: string; source: string };
+}
+
+/** [01]'s Akashic Life moment: the health worker's week. No numbers on any
+    Akashic Life screen (docs/LIFE_PAGE_SCRIPT.md §2). */
+export interface VisitsMoment {
+  kind: "visits";
+  title: string;
+  signal: string;
+  rows: { name: string; detail: string; status: string; urgent?: boolean }[];
 }
 
 export interface FeaturedSolution {
   /** Anchor id on this page. */
   id: string;
+  /** Who it is for, in the reader's words. */
+  audience: string;
   name: string;
-  tagline: string;
+  /** The question its reader already asks; the moment answers it. */
+  question: string;
   headline: string;
   description: string;
-  points: SolutionPoint[];
+  includes: SolutionInclude[];
+  moment: ForecastMoment | LifecycleMoment | VisitsMoment;
   href: string;
   cta: string;
 }
 
+/* Rebuilt 5 Nov 2026 (docs/SOLUTIONS_PAGE_SCRIPT.md): each flagship is a
+   chapter around the question its reader asks, answered by one moment at
+   native size. Sample figures come from each solution's own sample world. */
 const featured: FeaturedSolution[] = [
   {
     id: "enterprise-intelligence",
+    audience: "For chief executives and finance leaders",
     name: "Enterprise Intelligence",
-    tagline: "Agentic FP&A and MIS",
+    question: "Where will we land this year?",
     headline: "Know where the business will land, long before the month-end pack arrives.",
     description:
-      "Enterprise Intelligence does the work of FP&A and MIS. It reads your ERP as the system of record and gives every leader one window into the business.",
-    points: [
-      { text: "Five views on one data foundation: Customer 360, Project 360, Employee 360, Finance and a rolling 12-month forecast." },
-      { text: "The forecast recomputes as invoices, timesheets and opportunities land in the ERP." },
-      { text: "Agents explain what changed, with sources. People decide what happens next.", preview: true },
-      { text: "Role-based views for the CEO, finance, sales, delivery, HR, legal and IT. Every number traces to its ERP record." },
+      "Enterprise Intelligence does the work of financial planning and management reporting. It reads your ERP as the system of record and gives every leader one window into the business.",
+    includes: [
+      { label: "Customer 360" },
+      { label: "Project 360" },
+      { label: "Employee 360" },
+      { label: "Finance" },
+      { label: "Rolling forecast" },
+      { label: "Agents", preview: true },
     ],
+    moment: {
+      kind: "forecast",
+      figure: "$11.4 million",
+      figureNote: "Next 12 months · $600,000 ahead of plan",
+      marker: "Northwind renewal at risk · $180,000",
+      today: "Today",
+      horizon: "12 months ahead",
+      legend: { actual: "Actual", forecast: "Forecast", plan: "Plan" },
+    },
     href: "/solutions/enterprise-intelligence",
     cta: "Explore Enterprise Intelligence",
   },
   {
     id: "intelligent-procurement",
+    audience: "For public procurement teams",
     name: "Intelligent Procurement Management System",
-    tagline: "Public procurement, indent to contract",
+    question: "Can we defend this award?",
     headline: "From indent to secured contract, with evidence at every step.",
     description:
       "The Intelligent Procurement Management System runs public procurement end to end. AI drafts and reads, the rules engine decides, people approve, and every step lands in the audit trail.",
-    points: [
-      { text: "A 12-stage lifecycle: indent, estimate, qualification criteria, tender, pre-bid, corrigendum, bid opening, evaluation, comparative, award, contract and bank guarantee." },
-      { text: "Agents draft tenders from clause and specification libraries, cluster pre-bid queries with cited replies, and read every bid document.", preview: true },
-      { text: "Qualification and bank-guarantee checks run as versioned rules, each result linked to the document, page and model version behind it." },
-      { text: "Sealed bids stay sealed until approval. Role-based workspaces cover 12 user types. Sovereign AI runs on models hosted inside your boundary." },
+    includes: [
+      { label: "Versioned rules" },
+      { label: "Sealed bids" },
+      { label: "Audit trail" },
+      { label: "Models in your boundary" },
+      { label: "Tender drafting", preview: true },
     ],
+    moment: {
+      kind: "lifecycle",
+      stages: [
+        "Indent",
+        "Estimate",
+        "Qualification",
+        "Tender",
+        "Pre-bid",
+        "Corrigendum",
+        "Bid opening",
+        "Evaluation",
+        "Comparative",
+        "Award",
+        "Contract",
+        "Bank guarantee",
+      ],
+      lit: "Evaluation",
+      evidence: { criterion: "Prior delivery", result: "Met", source: "Completion certificate, linked" },
+    },
     href: "#talk-to-our-team",
     cta: "Request a walkthrough",
   },
   {
     id: "akashic-life",
+    audience: "For health programmes and districts",
     name: "Akashic Life",
-    tagline: "Frontline maternal care",
-    headline: "Read the risk. Carry the record into care.",
-    description: "Designed for maternal care at the remote edge: offline risk screening, a continuous patient record and visibility for district teams.",
-    points: [
-      { text: "Screen at the visit: on the phone, offline." },
-      { text: "Carry the record: sync when connected." },
-      { text: "Coordinate care: from frontline to district." },
-    ],
+    question: "Which mother needs care first?",
+    headline: "Read the risk at the visit. Carry the record into care.",
+    description:
+      "Designed for maternal care at the remote edge: offline risk screening, a continuous patient record and visibility for district teams.",
+    includes: [{ label: "Works offline" }, { label: "One record per mother" }, { label: "District view" }],
+    moment: {
+      kind: "visits",
+      title: "Visits this week",
+      signal: "No signal",
+      rows: [
+        { name: "Meena", detail: "Third trimester", status: "High risk · refer now", urgent: true },
+        { name: "Lata", detail: "Second trimester", status: "Routine" },
+        { name: "Rekha", detail: "First trimester", status: "Routine" },
+      ],
+    },
     href: "/solutions/life",
     cta: "Explore Akashic Life",
   },
@@ -199,10 +278,13 @@ export interface SolutionsPage {
   sections: PageSection[];
   sectionsLabel: string;
   hero: { label: string; setup: string; payoff: string; lede: string };
-  featured: SolutionsHeader & { items: FeaturedSolution[] };
+  featured: SolutionsHeader & {
+    items: FeaturedSolution[];
+    foundation: { name: string; caption: string; description: string; modules: string[] };
+  };
   more: SolutionsHeader & { items: MoreSolution[] };
   index: SolutionsHeader & { industryTitle: string; functionTitle: string; industries: IndexRow[]; functions: IndexRow[] };
-  close: { label: string; setup: string; payoff: string; body: string; primary: Cta; secondary: Cta };
+  close: { kicker: string; title: [string, string]; prompt: string; primary: Cta; secondary: Cta };
 }
 
 export const solutions: SolutionsPage = {
@@ -217,10 +299,16 @@ export const solutions: SolutionsPage = {
   featured: {
     num: "01",
     label: "Built on Akashic",
-    setup: "The platform, at work.",
-    payoff: "Three solutions, one foundation.",
-    lede: "Executive finance, public procurement and frontline care, each using all seven Akashic modules with shared data, intelligence and governance.",
+    setup: "Start from a solution",
+    payoff: "that already does the whole job.",
+    lede: "Enterprise Intelligence for business planning, the Intelligent Procurement Management System for public tenders and Akashic Life for maternal care. Each one runs on all seven Akashic modules.",
     items: featured,
+    foundation: {
+      name: "Akashic",
+      caption: "Every solution. All seven modules.",
+      description: "Shared data, intelligence and governance, from the first record to the final decision.",
+      modules: solutionModules,
+    },
   },
   more: {
     num: "02",
@@ -242,10 +330,9 @@ export const solutions: SolutionsPage = {
     functions,
   },
   close: {
-    label: "Talk to our team",
-    setup: "Bring one priority use case.",
-    payoff: "See what your data can decide.",
-    body: "A 30-minute walkthrough of Akashic, Enterprise Intelligence or the Intelligent Procurement Management System, built around a problem you already have.",
+    kicker: "Thirty minutes with our team",
+    title: ["Bring one priority use case.", "See what your data can decide."],
+    prompt: "A walkthrough of Akashic or any of its solutions, built around a problem you already have.",
     primary: { label: "Talk to our team", href: "#talk-to-our-team" },
     secondary: { label: "Explore Akashic", href: "/akashic" },
   },

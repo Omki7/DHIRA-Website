@@ -1,0 +1,88 @@
+@use "assets/styles" as *;
+
+// /solutions [02] More solutions: ported from Tailwind without visual change.
+
+.section {
+  scroll-margin-top: space(24);
+  border-top: 1px solid c(lineSoft);
+  background-color: c(background);
+  padding-top: space(16);
+  padding-bottom: space(20);
+
+  @include respond-to(lg) {
+    padding-top: space(20);
+    padding-bottom: space(28);
+  }
+}
+
+.register {
+  margin: space(12) 0 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid c(lineSoft);
+
+  @include respond-to(lg) {
+    margin-top: space(16);
+  }
+}
+
+.row {
+  scroll-margin-top: space(28);
+  border-bottom: 1px solid c(lineSoft);
+}
+
+.rowInner {
+  display: grid;
+  gap: space(2);
+  padding: space(6) 0;
+
+  @include respond-to(lg) {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: space(10);
+    padding: space(7) 0;
+  }
+}
+
+.area {
+  margin: 0;
+  font-family: $font-mono;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: $tracking-eyebrow;
+  color: c(overcast);
+
+  @include respond-to(lg) {
+    grid-column: span 3;
+    padding-top: space(2);
+  }
+}
+
+.name {
+  margin: 0;
+  font-size: 20px;
+  font-weight: $weight-semibold;
+  line-height: $leading-snug;
+  letter-spacing: -0.01em;
+  color: c(ink);
+
+  @include respond-to(lg) {
+    grid-column: span 4;
+  }
+}
+
+.preview {
+  margin-left: space(2);
+  vertical-align: 3px;
+}
+
+.text {
+  margin: 0;
+  text-wrap: pretty;
+  font-size: 15px;
+  line-height: $leading-relaxed;
+  color: c(secondary-text);
+
+  @include respond-to(lg) {
+    grid-column: span 5;
+  }
+}

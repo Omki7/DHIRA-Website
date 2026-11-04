@@ -8,21 +8,39 @@ function parseFigure(figure: string): {
   numeric: number;
   suffix: string;
   decimals: number;
+  grouped: boolean;
 } {
-  const match = figure.match(/^([^0-9.-]*)([0-9.]+)([^0-9.]*)$/);
+  /* Digits may carry thousands separators ("260,000", "7,476"). */
+  const match = figure.match(/^([^0-9.-]*)([0-9][0-9,]*(?:\.[0-9]+)?)([^0-9.]*)$/);
   if (!match) {
-    return { prefix: figure, numeric: 0, suffix: "", decimals: 0 };
+    return { prefix: figure, numeric: 0, suffix: "", decimals: 0, grouped: false };
   }
 
-  const numeric = parseFloat(match[2]);
-  const decimals = match[2].includes(".") ? match[2].split(".")[1].length : 0;
+  const digits = match[2];
+  const grouped = digits.includes(",");
+  const numeric = parseFloat(digits.replace(/,/g, ""));
+  const decimals = digits.includes(".") ? digits.split(".")[1].length : 0;
 
   return {
     prefix: match[1],
     numeric: Number.isNaN(numeric) ? 0 : numeric,
     suffix: match[3],
     decimals,
+    grouped,
   };
+}
+
+/* A running value written the way the figure is: grouped figures keep
+   their commas in international grouping (en-GB, so 260,000 never reads
+   as the Indian 2,60,000). */
+function formatValue(value: number, decimals: number, grouped: boolean) {
+  if (grouped) {
+    return new Intl.NumberFormat("en-GB", {
+      minimumFractionDigits: decimals,
+      maximumFractionDigits: decimals,
+    }).format(value);
+  }
+  return value.toFixed(decimals).replace(/\.0+$/, "");
 }
 
 const noSubscribe = () => () => {};
@@ -39,7 +57,7 @@ export default function useCountUp(
   const { duration = 900, delay = 0, startAtZero = false } = options;
   const ref = useRef<HTMLDivElement>(null);
   const reduced = usePrefersReducedMotion();
-  const { prefix, numeric, suffix, decimals } = parseFigure(figure);
+  const { prefix, numeric, suffix, decimals, grouped } = parseFigure(figure);
   const still = reduced || numeric === 0;
   /* The running value; null until the count starts. */
   const [counted, setCounted] = useState<string | null>(null);
@@ -72,7 +90,7 @@ export default function useCountUp(
             const progress = Math.min(elapsed / duration, 1);
             const current = numeric * easeOutCubic(progress);
 
-            setCounted(`${prefix}${current.toFixed(decimals).replace(/\.0+$/, "")}${suffix}`);
+            setCounted(`${prefix}${formatValue(current, decimals, grouped)}${suffix}`);
 
             if (progress < 1) {
               frame = requestAnimationFrame(step);
@@ -90,7 +108,7 @@ export default function useCountUp(
       observer.disconnect();
       cancelAnimationFrame(frame);
     };
-  }, [still, numeric, prefix, suffix, decimals, duration, delay]);
+  }, [still, numeric, prefix, suffix, decimals, grouped, duration, delay]);
 
   const display = still ? figure : (counted ?? (startAtZero && hydrated ? `${prefix}${(0).toFixed(decimals)}${suffix}` : figure));
   return { ref, display };

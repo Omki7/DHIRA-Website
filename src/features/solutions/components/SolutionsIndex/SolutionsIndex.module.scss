@@ -1,0 +1,116 @@
+@use "assets/styles" as *;
+
+// /solutions [03] By industry and function: ported from Tailwind without
+// visual change. The page's one soft blue band (Rule 5a).
+
+.section {
+  scroll-margin-top: space(24);
+  background-color: c(band);
+  padding-top: space(16);
+  padding-bottom: space(20);
+
+  @include respond-to(lg) {
+    padding-top: space(20);
+    padding-bottom: space(28);
+  }
+}
+
+.registers {
+  display: grid;
+  gap: space(12);
+  margin-top: space(12);
+
+  @include respond-to(lg) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: space(16);
+    margin-top: space(16);
+  }
+}
+
+.register {
+  scroll-margin-top: space(24);
+}
+
+.registerTitle {
+  margin: 0;
+  border-bottom: 1px solid c(lineSoft);
+  padding-bottom: space(3);
+  font-family: $font-mono;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: $tracking-eyebrow;
+  color: c(overcast);
+}
+
+.rows {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.row {
+  display: grid;
+  gap: space(1.5);
+  scroll-margin-top: space(28);
+  border-bottom: 1px solid c(lineSoft);
+  padding: space(4) 0;
+
+  @include respond-to(sm) {
+    grid-template-columns: minmax(0, 13rem) 1fr;
+    gap: space(6);
+  }
+}
+
+.rowLink,
+.rowLabel {
+  font-size: 16px;
+  font-weight: $weight-semibold;
+  color: c(ink);
+}
+
+.rowLink {
+  display: inline-flex;
+  align-items: center;
+  gap: space(1.5);
+  align-self: start;
+  text-decoration: none;
+  @include transition-colors($duration-150);
+  @include focus-ring(3px);
+
+  &:hover {
+    color: c(blue);
+  }
+}
+
+.rowArrow {
+  color: c(overcast);
+  transition:
+    transform $duration-200 $ease-settle,
+    color $duration-200 $ease-settle;
+
+  .rowLink:hover & {
+    transform: translateX(2px);
+    color: c(blue);
+  }
+}
+
+.fits {
+  display: flex;
+  flex-wrap: wrap;
+  gap: space(1.5) space(5);
+}
+
+.fit {
+  font-size: 15px;
+  color: c(secondary-text);
+  text-decoration: underline;
+  text-decoration-color: c(line);
+  text-underline-offset: 4px;
+  @include transition-colors($duration-150);
+  @include focus-ring(3px);
+
+  &:hover {
+    color: c(blue);
+    text-decoration-color: c(blue);
+  }
+}

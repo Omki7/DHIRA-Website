@@ -1,0 +1,185 @@
+@use "assets/styles" as *;
+
+// =============================================================================
+// [hero] Akashic Life
+// =============================================================================
+
+@include keyframes(spin);
+
+.hero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background-color: c(life-abyss);
+}
+
+// One column below lg; from lg the copy and the photograph share the height
+// of the first screen, as on the 23 Jul page.
+.inner {
+  display: grid;
+  gap: space(12);
+  padding-top: space(16);
+  padding-bottom: space(16);
+
+  @include respond-to(lg) {
+    min-height: calc(100svh - 110px);
+    grid-template-columns: minmax(0, 1.12fr) minmax(0, 0.88fr);
+    align-items: center;
+    gap: space(14);
+    padding-top: space(20);
+    padding-bottom: space(24);
+  }
+
+  @include respond-to(xl) {
+    gap: space(20);
+  }
+}
+
+.copy {
+  max-width: 40rem;
+}
+
+// --- The pill: the homepage badge, in two parts ----------------------------
+.badge {
+  position: relative;
+  display: inline-flex;
+  max-width: 100%;
+  overflow: hidden;
+  border-radius: 9999px;
+  padding: 1px;
+  background-color: c(card-line);
+}
+
+.badgeArc {
+  @include travelling-arc;
+}
+
+.badgeInner {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: space(2.5);
+  border-radius: 9999px;
+  background-color: c(background);
+  padding: space(1.5) space(3.5);
+  @include text(xs);
+
+  @include respond-to(sm) {
+    @include text(sm);
+  }
+}
+
+.badgeProduct {
+  font-weight: $weight-semibold;
+  color: c(ink);
+}
+
+.badgeDivider {
+  width: 1px;
+  height: 14px;
+  background-color: c(card-line);
+}
+
+.badgePlatform {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3em;
+  font-weight: $weight-medium;
+  color: c(secondary-text);
+}
+
+// --- Headline and lede: the site's hero scale ------------------------------
+.title {
+  margin-top: space(8);
+  text-wrap: balance;
+  font-family: $font-heading;
+  font-size: 38px;
+  font-weight: $weight-medium;
+  line-height: 1.08;
+  letter-spacing: $tracking-tighter;
+  color: c(ink);
+
+  @include respond-to(sm) {
+    font-size: 48px;
+  }
+
+  @include respond-to(lg) {
+    font-size: 56px;
+    line-height: 1.04;
+  }
+
+  @include respond-to(xl) {
+    font-size: 60px;
+  }
+}
+
+.lede {
+  margin-top: space(6);
+  max-width: 34em;
+  text-wrap: pretty;
+  @include text(base);
+  line-height: $leading-relaxed;
+  color: c(secondary-text);
+
+  @include respond-to(sm) {
+    @include text(lg);
+    line-height: $leading-relaxed;
+  }
+
+  @include respond-to(md) {
+    margin-top: space(8);
+  }
+}
+
+.actions {
+  margin-top: space(8);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: space(4);
+
+  @include respond-to(md) {
+    margin-top: space(10);
+  }
+}
+
+// --- The photograph: natural colour, framed flat ---------------------------
+.photo {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+  border: 1px solid c(life-line);
+  border-radius: $radius-frame;
+  background-color: c(life-ice);
+
+  @include respond-to(lg) {
+    aspect-ratio: 6 / 7;
+    max-height: 680px;
+  }
+}
+
+.image {
+  object-fit: cover;
+  object-position: center;
+}
+
+// The way down, as on the 23 Jul page: from lg only, centred under both.
+.skip {
+  position: absolute;
+  bottom: space(8);
+  left: 50%;
+  display: none;
+  transform: translateX(-50%);
+  color: c(inkSoft);
+  @include transition-colors($duration-200, $ease-settle);
+  @include focus-ring(4px);
+
+  &:hover {
+    color: c(secondary-text);
+  }
+
+  @include respond-to(lg) {
+    display: block;
+  }
+}

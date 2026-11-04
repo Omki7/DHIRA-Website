@@ -1,0 +1,313 @@
+@use "assets/styles" as *;
+
+// =============================================================================
+// [06] Built on Akashic (LifeFoundation, OneGround)
+// =============================================================================
+
+$can-draw: "(scripting: enabled) and (prefers-reduced-motion: no-preference)";
+
+@mixin mono($size: 11px) {
+  font-family: $font-mono;
+  font-size: $size;
+  font-weight: $weight-normal;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.section {
+  position: relative;
+  width: 100%;
+  scroll-margin-top: space(24);
+  overflow: clip;
+  background-color: c(background);
+  padding-top: space(12);
+  padding-bottom: space(16);
+
+  @include respond-to(lg) {
+    padding-top: space(16);
+    padding-bottom: space(24);
+  }
+}
+
+.alias {
+  position: absolute;
+  top: 0;
+  scroll-margin-top: space(24);
+}
+
+.board {
+  margin-top: space(12);
+
+  @include respond-to(lg) {
+    margin-top: space(14);
+  }
+}
+
+// --- The ground (from xl) --------------------------------------------------------
+.ground {
+  position: relative;
+  display: none;
+
+  @include respond-to(xl) {
+    display: block;
+    aspect-ratio: 1200 / 500;
+  }
+}
+
+.svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.groundLine {
+  stroke: c(ink);
+  stroke-width: 1.5;
+}
+
+// The programmes' growths: ink hairlines. Akashic Life's: blue.
+.trunk {
+  fill: none;
+  stroke: c(inkSoft);
+  stroke-width: 1.6;
+  stroke-linecap: round;
+}
+
+.branch {
+  fill: none;
+  stroke: c(default-stroke);
+  stroke-width: 1.2;
+  stroke-linecap: round;
+}
+
+.bud {
+  fill: c(default-stroke);
+}
+
+.crown {
+  fill: c(inkSoft);
+  stroke: c(background);
+  stroke-width: 3;
+}
+
+.treeLife {
+  .trunk,
+  .branch {
+    stroke: c(blue);
+  }
+
+  .trunk {
+    stroke-width: 2.2;
+  }
+
+  .bud,
+  .crown {
+    fill: c(blue);
+  }
+}
+
+.rootQuiet {
+  fill: none;
+  stroke: c(lineSoft);
+  stroke-width: 1.2;
+}
+
+.rootLife {
+  fill: none;
+  stroke: c(blue);
+  stroke-width: 1.6;
+  stroke-linecap: round;
+}
+
+.rootTip {
+  fill: c(background);
+  stroke: c(blue);
+  stroke-width: 1.5;
+}
+
+// --- Labels on the ground ----------------------------------------------------------
+.crownLabel {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  width: 260px;
+  transform: translate(-50%, -100%);
+  text-align: center;
+}
+
+.figure {
+  margin: 0;
+  font-size: 40px;
+  font-weight: $weight-semibold;
+  line-height: 1;
+  letter-spacing: $tracking-tighter;
+  font-variant-numeric: tabular-nums;
+  color: c(ink);
+}
+
+.figureLabel {
+  margin: space(2) 0 0;
+  font-size: 14.5px;
+  font-weight: $weight-medium;
+  line-height: 1.3;
+  color: c(ink);
+}
+
+.programme {
+  @include mono(10.5px);
+  margin: space(1.5) 0 0;
+  letter-spacing: 0.06em;
+  color: c(tertiary-text);
+}
+
+.lifeName {
+  margin: 0;
+  font-family: $font-heading;
+  font-size: 26px;
+  font-weight: $weight-medium;
+  line-height: 1.1;
+  letter-spacing: $tracking-tight;
+  color: c(blue);
+}
+
+.lifeLabel {
+  margin: space(2) 0 0;
+  text-wrap: balance;
+  font-size: 14.5px;
+  font-weight: $weight-medium;
+  line-height: 1.3;
+  color: c(ink);
+}
+
+// Two lines, so it stays clear of the first growth's roots.
+.groundLabel {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: space(1);
+  margin: 0;
+  font-family: $font-heading;
+  font-size: 18px;
+  font-weight: $weight-medium;
+  color: c(ink);
+}
+
+.groundNote {
+  @include mono(10.5px);
+  letter-spacing: 0.06em;
+  color: c(tertiary-text);
+}
+
+.rootLabel {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  width: 188px;
+  transform: translateX(-50%);
+  text-align: center;
+}
+
+.module {
+  @include mono(10.5px);
+  margin: 0;
+  letter-spacing: 0.06em;
+  color: c(blue);
+}
+
+.moduleName {
+  margin: space(1) 0 0;
+  font-size: 14.5px;
+  font-weight: $weight-medium;
+  line-height: 1.3;
+  color: c(ink);
+}
+
+// --- Below xl: the same facts, ruled ------------------------------------------------
+.rows {
+  display: grid;
+  gap: space(6);
+
+  @include respond-to(xl) {
+    display: none;
+  }
+}
+
+.programmes,
+.moduleList {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.programmes {
+  @include respond-to(md) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: space(6);
+  }
+}
+
+.programmeRow,
+.moduleRow {
+  border-top: 1px solid c(lineSoft);
+  padding: space(4) 0;
+}
+
+.rowsGround {
+  display: flex;
+  align-items: center;
+  gap: space(3);
+  margin: 0;
+  border-top: 1.5px solid c(ink);
+  padding-top: space(3);
+  font-family: $font-heading;
+  font-size: 18px;
+  font-weight: $weight-medium;
+  color: c(ink);
+}
+
+// Akashic Life heads the modules it runs on, on a blue rail.
+.modules {
+  border-left: 1.5px solid c(blue-border);
+  padding-left: space(5);
+}
+
+.moduleList {
+  margin-top: space(4);
+
+  @include respond-to(md) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: space(6);
+  }
+}
+
+// --- Drawing in, once (final state under reduced motion and without JS) --------
+// The same pen as the rest of the page: --d is when a stroke starts, --t
+// how long it runs at the page's pace.
+@media #{$can-draw} {
+  .pen {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    transition: stroke-dashoffset var(--t, 0.6s) linear var(--d, 0s);
+  }
+
+  .lands {
+    opacity: 0;
+    transition: opacity 0.4s $ease-settle var(--d, 0s);
+  }
+
+  .board[data-drawn="true"] {
+    .pen {
+      stroke-dashoffset: 0;
+    }
+
+    .lands {
+      opacity: 1;
+    }
+  }
+}

@@ -1,0 +1,63 @@
+@use "assets/styles" as *;
+
+// /solutions [hero]: ported from Tailwind without visual change.
+
+.hero {
+  position: relative;
+  border-bottom: 1px solid c(lineSoft);
+  background-color: c(background);
+  padding-top: space(16);
+  padding-bottom: space(14);
+
+  @include respond-to(lg) {
+    padding-top: space(24);
+    padding-bottom: space(20);
+  }
+}
+
+.body {
+  margin-top: space(8);
+  max-width: 52rem;
+}
+
+.lede {
+  margin-top: space(6);
+  max-width: 38em;
+  text-wrap: pretty;
+  @include text(base);
+  line-height: $leading-relaxed;
+  color: c(secondary-text);
+
+  @include respond-to(sm) {
+    @include text(lg);
+    line-height: $leading-relaxed;
+  }
+}
+
+.index {
+  margin-top: space(10);
+  display: flex;
+  flex-wrap: wrap;
+  gap: space(3) space(7);
+  border-top: 1px dashed c(lineSoft);
+  padding-top: space(5);
+  font-family: $font-mono;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: $tracking-eyebrow;
+}
+
+.indexLink {
+  color: c(inkSoft);
+  text-decoration: none;
+  @include transition-colors($duration-150);
+  @include focus-ring(3px);
+
+  &:hover {
+    color: c(ink);
+  }
+}
+
+.indexNum {
+  color: c(overcast);
+}

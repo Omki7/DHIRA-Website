@@ -1,32 +1,23 @@
 import type { Metadata } from "next";
 import { Footer } from "@/app/_components/Footer";
 import { Nav } from "@/app/_components/Nav";
-import { PageMinimap } from "@/shared/components/navigation";
-import SolutionsClose from "@/components/sections/solutions/SolutionsClose";
-import SolutionsFeatured from "@/components/sections/solutions/SolutionsFeatured";
-import SolutionsHero from "@/components/sections/solutions/SolutionsHero";
-import SolutionsIndex from "@/components/sections/solutions/SolutionsIndex";
-import SolutionsMore from "@/components/sections/solutions/SolutionsMore";
-import { getPage } from "@/services/content/content";
 import { pageMetadata } from "@/app/_lib/metadata";
+import { SolutionsPage } from "@/features/solutions";
+import { getPage, getUiStrings } from "@/services/content/content";
+import { PageMinimap } from "@/shared/components/navigation";
 
 export async function generateMetadata(): Promise<Metadata> {
   const { seo } = await getPage("solutions");
   return pageMetadata(seo);
 }
 
-export default async function SolutionsPage() {
-  const page = await getPage("solutions");
+/* The body is features/solutions (SolutionsPage). */
+export default async function Page() {
+  const [page, ui] = await Promise.all([getPage("solutions"), getUiStrings()]);
   return (
     <>
       <Nav />
-      <main id="main" className="bg-background">
-        <SolutionsHero content={page.hero} sections={page.sections} />
-        <SolutionsFeatured content={page.featured} />
-        <SolutionsMore content={page.more} />
-        <SolutionsIndex content={page.index} featured={page.featured.items} more={page.more.items} />
-        <SolutionsClose content={page.close} />
-      </main>
+      <SolutionsPage page={page} indexLabel={ui.onThisPage} />
       <Footer />
       <PageMinimap sections={page.sections} aria-label={page.sectionsLabel} />
     </>
