@@ -3,6 +3,7 @@ import { Footer } from "@/app/_components/Footer";
 import { Nav } from "@/app/_components/Nav";
 import { ContactOffices, ContactRoutes, ContactWriteToUs } from "@/components/sections/contact/ContactSections";
 import { PageHero } from "@/shared/components/ui";
+import { PageMinimap } from "@/shared/components/navigation";
 import { getPage, getSiteSettings, getUiStrings } from "@/services/content/content";
 import { pageMetadata } from "@/app/_lib/metadata";
 
@@ -26,6 +27,7 @@ export default async function ContactPage() {
         <ContactOffices content={page.offices} offices={site.offices} email={site.email} />
       </main>
       <Footer />
+      <PageMinimap sections={page.sections} aria-label={page.sectionsLabel} />
     </>
   );
 }

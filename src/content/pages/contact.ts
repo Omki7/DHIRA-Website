@@ -29,6 +29,7 @@ interface ContactSectionHead {
 export interface ContactPage {
   seo: Seo;
   sections: PageSection[];
+  sectionsLabel?: string;
   hero: { label: string; setup: string; payoff: string; lede: string };
   writeToUs: ContactSectionHead & { lede: string; steps: string[] };
   routes: ContactSectionHead & { items: ContactRoute[] };
@@ -48,6 +49,7 @@ export const contactPage: ContactPage = {
     { id: "routes", label: "Other enquiries" },
     { id: "offices", label: "Offices" },
   ],
+  sectionsLabel: "Contact page sections",
   hero: {
     label: "Contact",
     setup: "Contact.",

@@ -45,17 +45,11 @@
   right: 21.5px;
   width: 1px;
   transform-origin: top;
+  z-index: 1;
 }
 
 .marker {
-  pointer-events: none;
-  position: absolute;
-  right: 18px;
-  top: 0;
-  z-index: 10;
-  height: space(2);
-  width: space(2);
-  border-radius: 9999px;
+  display: none;
 }
 
 .link {
@@ -81,23 +75,16 @@
   position: absolute;
   right: space(11);
   display: flex;
-  align-items: baseline;
-  gap: space(3);
+  align-items: center;
   white-space: nowrap;
   font-size: 13px;
   line-height: space(5);
-}
-
-.number {
-  width: space(4);
-  text-align: right;
-  font-family: $font-mono;
-  font-size: 10px;
-  font-weight: $weight-normal;
-  font-variant-numeric: tabular-nums;
+  padding-right: space(2);
 }
 
 .dotSlot {
+  position: relative;
+  z-index: 2;
   display: flex;
   height: 100%;
   width: space(11);
@@ -107,7 +94,24 @@
 }
 
 .dot {
-  height: space(1);
-  width: space(1);
   border-radius: 9999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  flex-shrink: 0;
+  user-select: none;
+  position: relative;
+}
+
+.num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: $font-mono;
+  font-size: 9.5px;
+  font-weight: $weight-medium;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  letter-spacing: -0.02em;
 }

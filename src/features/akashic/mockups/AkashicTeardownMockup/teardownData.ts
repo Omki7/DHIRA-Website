@@ -91,11 +91,19 @@ export const COMBO_SETS: [number, number][][] = [
 ];
 
 export const HASH_MODULE_MAP: Record<string, number> = {
+  "#data-pipelines": 0,
   "#pipelines": 0,
+  "#master-data": 1,
+  "#master": 1,
+  "#data-warehouse": 2,
   "#warehouse": 2,
+  "#machine-learning": 3,
   "#ml": 3,
+  "#ask-akashic": 4,
   "#ask": 4,
+  "#business-intelligence": 5,
   "#bi": 5,
+  "#governance": 6,
 };
 
 export const MODULE_HASHES = [
@@ -106,6 +114,16 @@ export const MODULE_HASHES = [
   "#ask-akashic",
   "#business-intelligence",
   "#governance",
+];
+
+export const MODULE_ANCHOR_ALIASES: string[][] = [
+  ["data-pipelines", "pipelines"],
+  ["master-data", "master"],
+  ["data-warehouse", "warehouse"],
+  ["machine-learning", "ml"],
+  ["ask-akashic", "ask"],
+  ["business-intelligence", "bi"],
+  ["governance"],
 ];
 
 export const ss = (x: number, a: number, b: number) => {

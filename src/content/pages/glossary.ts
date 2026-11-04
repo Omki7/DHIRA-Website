@@ -6,10 +6,12 @@
    app/glossary/page.tsx. */
 
 import type { PageCloseBlock } from "../blocks";
-import type { Seo } from "../types";
+import type { PageSection, Seo } from "../types";
 
 export interface GlossaryPage {
   seo: Seo;
+  sections: PageSection[];
+  sectionsLabel?: string;
   hero: {
     label: string;
     setup: string;
@@ -33,6 +35,12 @@ export const glossaryPage: GlossaryPage = {
       "The terms we use, defined once. Data and AI vocabulary moves fast. These are the terms used across this site, what each one means, and where Akashic puts it to work.",
     path: "/glossary",
   },
+  sections: [
+    { id: "hero", label: "Glossary" },
+    { id: "terms", label: "The terms", eyebrow: "[01]" },
+    { id: "talk-to-our-team", label: "Talk to our team", eyebrow: "[02]" },
+  ],
+  sectionsLabel: "Glossary page sections",
   hero: {
     label: "Glossary",
     setup: "Glossary.",

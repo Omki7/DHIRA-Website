@@ -125,7 +125,7 @@ export function PageMinimap({
     "--minimap-count": sections.length,
     "--minimap-active": activeIndex,
     "--minimap-progress": sections.length > 1 ? activeIndex / (sections.length - 1) : 0,
-    ...(labelWidth ? { "--minimap-open-w": `${labelWidth + 44 + 8}px` } : {}),
+    ...(labelWidth ? { "--minimap-open-w": `${labelWidth + 44 + 16}px` } : {}),
   } as CSSProperties;
 
   return (
@@ -147,6 +147,7 @@ export function PageMinimap({
         style={railStyle}
         onPointerEnter={(event) => { if (event.pointerType !== "touch") open(); }}
         onPointerLeave={close}
+        onClick={open}
         onFocus={(event) => {
           open();
           if (event.target instanceof HTMLAnchorElement) keepLinkVisible(event.target);
@@ -182,10 +183,11 @@ export function PageMinimap({
                   >
                     <span className={`page-minimap-label ${styles.label}`}>
                       <span>{section.label}</span>
-                      <span className={`page-minimap-number ${styles.number}`}>{number}</span>
                     </span>
                     <span aria-hidden="true" className={styles.dotSlot}>
-                      <span className={`page-minimap-dot ${styles.dot}`} />
+                      <span className={`page-minimap-dot ${styles.dot}`}>
+                        <span className={`page-minimap-num ${styles.num}`}>{number}</span>
+                      </span>
                     </span>
                   </a>
                 </li>;

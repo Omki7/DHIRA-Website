@@ -19,7 +19,7 @@ export default function LifeStake({ content }: { content: LifePage["stake"] }) {
       />
       
 
-      <div className="relative mx-auto w-full max-w-[1440px] px-6 py-28 text-center sm:px-10 lg:px-14 lg:py-44">
+      <div className="relative mx-auto w-full max-w-[1440px] px-6 py-28 text-center sm:px-10 lg:pl-14 lg:pr-[84px] min-[1600px]:pr-14 lg:py-44">
         <ScrollReveal>
           <p className="mx-auto max-w-[17em] text-[28px] font-medium leading-[1.32] tracking-[-0.005em] sm:text-[38px] lg:text-[50px]">
             <span className="text-life-navy">{content.lead} </span>

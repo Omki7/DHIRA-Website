@@ -5,7 +5,7 @@ import { NavFeatured } from "@/shared/components/navigation/NavFeatured";
 import { RegionLink } from "@/shared/components/navigation/RegionLink";
 import { PreviewTag } from "@/shared/components/ui/PreviewTag";
 import { cx } from "@/shared/utils/cx";
-import { isCurrentPage } from "@/shared/utils/navigation";
+import { isCurrentPage, scrollToHashTarget } from "@/shared/utils/navigation";
 import styles from "./MenuPanel.module.scss";
 
 /* One menu's contents inside the desktop sheet, the same grammar for every
@@ -23,13 +23,27 @@ import styles from "./MenuPanel.module.scss";
 export interface MenuRowProps {
   link: NavLink;
   pathname: string;
+  currentHash?: string;
 }
 
-export function MenuRow({ link, pathname }: MenuRowProps) {
+export function MenuRow({ link, pathname, currentHash }: MenuRowProps) {
+  const handleClick = () => {
+    if (link.href.includes("#") && typeof window !== "undefined") {
+      const [page, hash] = link.href.split("#");
+      const targetHash = `#${hash}`;
+      const targetPage = page || "/";
+      if (pathname === targetPage) {
+        window.dispatchEvent(new CustomEvent("akashic-navigate", { detail: targetHash }));
+        scrollToHashTarget(link.href);
+      }
+    }
+  };
+
   return (
     <RegionLink
       href={link.href}
-      aria-current={isCurrentPage(link.href, pathname) ? "page" : undefined}
+      onClick={handleClick}
+      aria-current={isCurrentPage(link.href, pathname, currentHash) ? "page" : undefined}
       className={cx(styles.row, link.caption ? styles.rowCaptioned : undefined)}
     >
       {/* Every row has the same top padding, so a captioned list's first
@@ -55,13 +69,25 @@ export interface MenuPanelProps {
   menu: NavMenu;
   drawn: boolean;
   pathname: string;
+  currentHash?: string;
 }
 
-export function MenuPanel({ menu, drawn, pathname }: MenuPanelProps) {
+export function MenuPanel({ menu, drawn, pathname, currentHash }: MenuPanelProps) {
   const { lead, groups, feature } = menu;
   const columns = [lead.span, ...groups.map((group) => group.span), feature.span]
     .map((span) => `minmax(0, ${span}fr)`)
     .join(" ");
+
+  const handleLeadClick = () => {
+    if (typeof window !== "undefined" && pathname === lead.href) {
+      if (window.location.hash) {
+        window.history.replaceState(null, "", pathname);
+        window.dispatchEvent(new CustomEvent("akashic-hashchange", { detail: "" }));
+      }
+      const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      window.scrollTo({ top: 0, behavior: prefersReduced ? "instant" : "smooth" });
+    }
+  };
 
   return (
     <div className={styles.root} style={{ gridTemplateColumns: columns }}>
@@ -70,7 +96,8 @@ export function MenuPanel({ menu, drawn, pathname }: MenuPanelProps) {
         <p className={styles.leadText}>{lead.text}</p>
         <RegionLink
           href={lead.href}
-          aria-current={isCurrentPage(lead.href, pathname) ? "page" : undefined}
+          onClick={handleLeadClick}
+          aria-current={isCurrentPage(lead.href, pathname, currentHash) ? "page" : undefined}
           className={styles.leadLink}
         >
           {lead.cta}
@@ -88,7 +115,7 @@ export function MenuPanel({ menu, drawn, pathname }: MenuPanelProps) {
             <ul aria-labelledby={headingId} className={group.twoColumn ? styles.listTwoColumn : styles.list}>
               {group.links.map((link) => (
                 <li key={`${link.label}-${link.href}`}>
-                  <MenuRow link={link} pathname={pathname} />
+                  <MenuRow link={link} pathname={pathname} currentHash={currentHash} />
                 </li>
               ))}
             </ul>

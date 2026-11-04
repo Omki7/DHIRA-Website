@@ -30,7 +30,7 @@ export default function LifeHero({ content }: { content: LifePage["hero"] }) {
       
       
 
-      <div className="relative mx-auto flex min-h-[calc(100vh-65px)] w-full max-w-[1440px] flex-col justify-center px-6 py-24 sm:px-10 lg:px-14 lg:py-28">
+      <div className="relative mx-auto flex min-h-[calc(100vh-65px)] w-full max-w-[1440px] flex-col justify-center px-6 py-24 sm:px-10 lg:pl-14 lg:pr-[84px] min-[1600px]:pr-14 lg:py-28">
         <div className="max-w-[36rem] lg:max-w-[51%]">
           
           <figure className="inline-flex items-center gap-2.5 rounded-full border border-line bg-tertiary-bg px-3.5 py-1.5 text-xs  sm:text-[13px]">

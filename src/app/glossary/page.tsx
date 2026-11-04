@@ -5,6 +5,7 @@ import { GlossaryLetters, GlossaryTerms } from "@/components/sections/glossary/G
 import { JsonLd } from "@/shared/components/data-display";
 import { PageClose } from "@/shared/components/ui";
 import { PageHero } from "@/shared/components/ui";
+import { PageMinimap } from "@/shared/components/navigation";
 import { getGlossary, getPage, getUiStrings } from "@/services/content/content";
 import { groupByLetter } from "@/shared/utils/glossary";
 import { pageMetadata } from "@/app/_lib/metadata";
@@ -46,6 +47,7 @@ export default async function GlossaryPage() {
         <PageClose {...page.close} />
       </main>
       <Footer />
+      <PageMinimap sections={page.sections} aria-label={page.sectionsLabel} />
     </>
   );
 }

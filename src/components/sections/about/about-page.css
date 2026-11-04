@@ -35,7 +35,7 @@
 }
 
 .about-page .about-shell {
-  @apply mx-auto w-full max-w-[1440px] px-5 sm:px-8 lg:px-12;
+  @apply mx-auto w-full max-w-[1440px] px-5 sm:px-8 lg:pl-12 lg:pr-[72px] xl:pr-[84px] min-[1600px]:pr-12;
 }
 .about-page .about-section {
   @apply pt-12 pb-16 lg:pt-16 lg:pb-24;

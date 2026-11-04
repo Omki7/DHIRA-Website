@@ -33,7 +33,6 @@ function ModuleRow({
     <div className={styles.moduleRow}>
       {modules.map((m, i) => (
         <div key={m.id} id={m.id} className={styles.moduleEntry}>
-          <span id={m.id.replace("modules-", "")} />
           {LEGACY_ANCHORS[m.id] && (
             <span id={LEGACY_ANCHORS[m.id]} />
           )}

@@ -8,10 +8,12 @@
    app/customers/[slug]/page.tsx. */
 
 import type { PageCloseBlock } from "../blocks";
-import type { Seo } from "../types";
+import type { PageSection, Seo } from "../types";
 
 export interface CustomersPage {
   seo: Seo;
+  sections: PageSection[];
+  sectionsLabel?: string;
   hero: { label: string; setup: string; payoff: string; lede: string; metaSuffix: string; note: string };
   library: { num: string; label: string; setup: string; payoff: string; lede: string; readStory: string };
   close: PageCloseBlock;
@@ -31,6 +33,12 @@ export const customersPage: CustomersPage = {
       "Intelligence layers, in production. Country-scale programmes where Akashic is the intelligence layer: records from every state, district and system, resolved into figures an authority can publish and defend.",
     path: "/customers",
   },
+  sections: [
+    { id: "hero", label: "Customer stories" },
+    { id: "stories", label: "In production", eyebrow: "[01]" },
+    { id: "talk-to-our-team", label: "Talk to our team", eyebrow: "[02]" },
+  ],
+  sectionsLabel: "Customer stories sections",
   hero: {
     label: "Customer stories",
     setup: "Customer stories.",

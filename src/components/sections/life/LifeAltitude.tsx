@@ -25,7 +25,7 @@ export default function LifeAltitude({ content }: { content: LifePage["altitude"
       {/* Faint rays from the top: the aggregation the sentence is describing. */}
       
 
-      <div className="relative mx-auto w-full max-w-[1440px] px-6 py-28 text-center sm:px-10 lg:px-14 lg:py-40">
+      <div className="relative mx-auto w-full max-w-[1440px] px-6 py-28 text-center sm:px-10 lg:pl-14 lg:pr-[84px] min-[1600px]:pr-14 lg:py-40">
         <ScrollReveal>
           <p className="mx-auto max-w-[15em] text-[30px] font-medium leading-[1.32] tracking-[-0.005em] sm:text-[40px] lg:text-[52px]">
             <span className="text-life-navy">{content.lead} </span>

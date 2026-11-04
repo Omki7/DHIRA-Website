@@ -313,11 +313,6 @@
   position: absolute;
   inset-inline: 0;
   top: 0;
-  display: flex;
-  height: 54px;
-  align-items: center;
-  justify-content: space-between;
-  border-bottom: 1px solid c(line-soft);
   padding-inline: 6%;
 
   @include respond-to(md) {

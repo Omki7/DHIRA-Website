@@ -26,6 +26,7 @@ export interface MegaSheetProps {
   threadX: number;
   drawn: ReadonlySet<string>;
   pathname: string;
+  currentHash?: string;
   onNavigate: () => void;
   /** Tab past the last link (or Shift+Tab before the first) of a panel. */
   onTabOut: (id: string, backwards: boolean) => void;
@@ -33,7 +34,7 @@ export interface MegaSheetProps {
 
 const FOCUSABLE = "a[href], button:not([disabled])";
 
-export function MegaSheet({ menus, openId, motion, threadX, drawn, pathname, onNavigate, onTabOut }: MegaSheetProps) {
+export function MegaSheet({ menus, openId, motion, threadX, drawn, pathname, currentHash, onNavigate, onTabOut }: MegaSheetProps) {
   /* The last opened menu stays shown while the sheet closes, so the close
      reads as the sheet folding up rather than its contents vanishing. */
   const [shownId, setShownId] = useState<string | null>(null);
@@ -100,7 +101,7 @@ export function MegaSheet({ menus, openId, motion, threadX, drawn, pathname, onN
               onKeyDown={handleKeyDown(menu.id)}
               onClick={handleClick}
             >
-              <MenuPanel menu={menu} drawn={drawn.has(menu.id)} pathname={pathname} />
+              <MenuPanel menu={menu} drawn={drawn.has(menu.id)} pathname={pathname} currentHash={currentHash} />
             </div>
           ))}
         </div>

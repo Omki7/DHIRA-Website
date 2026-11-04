@@ -3,6 +3,7 @@ import { Footer } from "@/app/_components/Footer";
 import { Nav } from "@/app/_components/Nav";
 import { InsightsHero, InsightsLatest, InsightsSubscribe } from "@/components/sections/insights/InsightsIndex";
 import { PageClose } from "@/shared/components/ui";
+import { PageMinimap } from "@/shared/components/navigation";
 import { getInsights, getPage, getUiStrings } from "@/services/content/content";
 import { pageMetadata } from "@/app/_lib/metadata";
 
@@ -29,6 +30,7 @@ export default async function InsightsPage() {
         <PageClose {...page.close} />
       </main>
       <Footer />
+      <PageMinimap sections={page.sections} aria-label={page.sectionsLabel} />
     </>
   );
 }

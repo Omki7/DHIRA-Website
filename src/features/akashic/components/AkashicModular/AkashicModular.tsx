@@ -16,7 +16,11 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import type { AkashicPage } from "@/content/pages/akashic";
 import usePrefersReducedMotion from "@/shared/hooks/usePrefersReducedMotion";
-import { AkashicTeardownMockup, TEARDOWN_TRACK_VH } from "../../mockups/AkashicTeardownMockup";
+import {
+  AkashicTeardownMockup,
+  MODULE_ANCHOR_ALIASES,
+  TEARDOWN_TRACK_VH,
+} from "../../mockups/AkashicTeardownMockup";
 import styles from "./AkashicModular.module.scss";
 
 export interface AkashicModularProps {
@@ -120,9 +124,33 @@ export function AkashicModular({ content, curtainContent }: AkashicModularProps)
       <div
         ref={trackRef}
         style={{
+          position: "relative",
           height: `calc(${TEARDOWN_TRACK_VH}vh${curtainHeight > 0 ? ` + ${curtainHeight}px` : ""})`,
         }}
       >
+        {MODULE_ANCHOR_ALIASES.map((aliases, i) => {
+          let acc = 60;
+          for (let s = 0; s < i; s++) acc += 90;
+          const topVh = acc + 45;
+          return (
+            <span
+              key={aliases[0]}
+              style={{
+                position: "absolute",
+                top: `${topVh}vh`,
+                left: 0,
+                width: 0,
+                height: 0,
+                pointerEvents: "none",
+                visibility: "hidden",
+              }}
+            >
+              {aliases.map((alias) => (
+                <span key={alias} id={alias} />
+              ))}
+            </span>
+          );
+        })}
         <div className={styles.stickyFrame}>
           <AkashicTeardownMockup
             content={content}

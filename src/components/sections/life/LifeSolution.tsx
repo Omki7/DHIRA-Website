@@ -114,7 +114,7 @@ export default function LifeSolution({ content }: { content: LifePage["solution"
       />
       <LifeCornerArc />
 
-      <div className="relative mx-auto w-full max-w-[1440px] px-6 sm:px-10 lg:px-14">
+      <div className="relative mx-auto w-full max-w-[1440px] px-6 sm:px-10 lg:pl-14 lg:pr-[84px] min-[1600px]:pr-14">
         {/* Opening statement */}
         <div className="max-w-[46rem] pb-24 pt-28 lg:pb-32 lg:pt-40">
           <LifeEyebrow num={content.eyebrow.num}>{content.eyebrow.label}</LifeEyebrow>

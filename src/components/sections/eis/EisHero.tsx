@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import usePrefersReducedMotion from "@/shared/hooks/usePrefersReducedMotion";
+import { scrollToHashTarget } from "@/shared/utils/navigation";
 import EisAtmosphere from "@/components/ui/eis/EisAtmosphere";
 import type { EisPage } from "@/content/pages/solutions-eis";
 
@@ -58,7 +59,7 @@ export default function EisHero({
     <section id="hero" className="relative overflow-hidden pb-16 pt-6 sm:pb-20 lg:pb-24">
       <EisAtmosphere variant="hero" />
 
-      <div className="relative z-10 mx-auto max-w-[1440px] px-4 sm:px-6 lg:px-8">
+      <div className="relative z-10 mx-auto max-w-[1440px] px-4 sm:px-6 lg:pl-8 lg:pr-[72px] xl:pr-[84px] min-[1600px]:pr-8">
         <div className="mx-auto max-w-4xl pt-16 text-center sm:pt-24 lg:pt-28">
           {/* Status Badge */}
           <div className="mb-8 inline-flex items-center gap-2 rounded-full border border-lineSoft bg-background/90 px-4 py-1.5 shadow-sm backdrop-blur-md">
@@ -132,7 +133,14 @@ export default function EisHero({
 
           {/* Call to action buttons */}
           <div className="mt-9 flex flex-wrap items-center justify-center gap-3">
-            <Link href="#talk-to-our-team" className="btn-primary">
+            <Link
+              href="#talk-to-our-team"
+              className="btn-primary"
+              onClick={(e) => {
+                e.preventDefault();
+                scrollToHashTarget("#talk-to-our-team");
+              }}
+            >
               {content.primary.label}
             </Link>
             <a

@@ -33,7 +33,7 @@ export default function LifeRecordOfWork({ content }: { content: LifePage["recor
       />
       <LifeCornerArc />
 
-      <div className="relative mx-auto w-full max-w-[1440px] px-6 pt-28 sm:px-10 lg:px-14 lg:pt-40">
+      <div className="relative mx-auto w-full max-w-[1440px] px-6 pt-28 sm:px-10 lg:pl-14 lg:pr-[84px] min-[1600px]:pr-14 lg:pt-40">
         <ScrollReveal className="flex flex-col items-center text-center">
           <LifeEyebrow num={content.eyebrow.num}>{content.eyebrow.label}</LifeEyebrow>
           <p className="mt-9 max-w-[19em] text-[24px] font-normal leading-[1.34] text-ink sm:text-[28px] lg:text-[32px]">

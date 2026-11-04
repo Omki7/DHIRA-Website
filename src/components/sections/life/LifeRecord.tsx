@@ -28,7 +28,7 @@ export default function LifeRecord({ content }: { content: LifePage["record"] })
       
       <LifeCornerArc tone="light" />
 
-      <div className="relative mx-auto w-full max-w-[1440px] px-6 pb-28 pt-28 sm:px-10 lg:px-14 lg:pb-40 lg:pt-40">
+      <div className="relative mx-auto w-full max-w-[1440px] px-6 pb-28 pt-28 sm:px-10 lg:pl-14 lg:pr-[84px] min-[1600px]:pr-14 lg:pb-40 lg:pt-40">
         <ScrollReveal className="flex flex-col items-center text-center">
           <LifeEyebrow num={content.eyebrow.num} tone="light">{content.eyebrow.label}</LifeEyebrow>
           <h2 className="mt-9 max-w-[17em] text-[30px] font-medium leading-[1.28] tracking-[-0.005em] text-life-navy sm:text-[38px] lg:text-[46px]">

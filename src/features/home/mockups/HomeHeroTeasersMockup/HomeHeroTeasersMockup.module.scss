@@ -63,7 +63,7 @@
 }
 
 .masterData {
-  left: 3%;
+  left: max(3%, 84px);
   top: 56px;
   width: 236px;
 }
@@ -76,25 +76,25 @@
 
 .pipelines {
   bottom: 92px;
-  left: 3.5%;
+  left: max(3.5%, 84px);
   width: 240px;
 }
 
 .bi {
-  right: 3%;
+  right: max(3.5%, 84px);
   top: 52px;
   width: 240px;
 }
 
 .ask {
-  right: min(7.5%, calc(50% - 580px));
+  right: max(84px, min(7.5%, calc(50% - 580px)));
   top: 312px;
   width: 236px;
 }
 
 .warehouse {
   bottom: 84px;
-  right: 3.5%;
+  right: max(3.5%, 84px);
   width: 228px;
 }
 

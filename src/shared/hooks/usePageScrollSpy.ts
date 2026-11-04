@@ -18,6 +18,8 @@ export function usePageScrollSpy(sections: PageSection[]) {
   const destination = useRef<ScrollDestination | null>(null);
   const settleTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const finishScroll = useRef<() => void>(() => {});
+  const isInitialMount = useRef(true);
+  const lastDispatchedHash = useRef<string | null>(null);
 
   useEffect(() => {
     const items = sections.flatMap((section) => {
@@ -38,7 +40,34 @@ export function usePageScrollSpy(sections: PageSection[]) {
       if (window.scrollY > 0 && window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 2) {
         next = items[items.length - 1].id;
       }
-      setActiveId((current) => current === next ? current : next);
+      setActiveId(next);
+
+      if (isInitialMount.current) {
+        isInitialMount.current = false;
+        return;
+      }
+
+      if (typeof window !== "undefined") {
+        const isFirst = next === sections[0]?.id;
+        const currentCleanHash = window.location.hash.replace(/^#/, "");
+        const currentTargetElem = currentCleanHash ? document.getElementById(currentCleanHash) : null;
+        const activeSectionElem = document.getElementById(next);
+        const isSubAnchorOfActive = Boolean(
+          currentTargetElem &&
+          activeSectionElem &&
+          (activeSectionElem === currentTargetElem || activeSectionElem.contains(currentTargetElem))
+        );
+
+        const targetHash = isFirst ? "" : isSubAnchorOfActive ? `#${currentCleanHash}` : `#${next}`;
+        if (lastDispatchedHash.current !== targetHash) {
+          lastDispatchedHash.current = targetHash;
+          if (window.location.hash !== targetHash) {
+            const cleanUrl = isFirst ? window.location.pathname + window.location.search : targetHash;
+            window.history.replaceState(window.history.state, "", cleanUrl);
+          }
+          window.dispatchEvent(new CustomEvent("akashic-hashchange", { detail: targetHash }));
+        }
+      }
     };
 
     const scheduleUpdate = () => {
@@ -124,8 +153,14 @@ export function usePageScrollSpy(sections: PageSection[]) {
     if (settleTimer.current) clearTimeout(settleTimer.current);
     destination.current = { id, focus };
     setActiveId(id);
-    const hash = `#${encodeURIComponent(id)}`;
-    if (window.location.hash !== hash) window.history.pushState(window.history.state, "", hash);
+    const isFirst = id === sections[0]?.id;
+    const hash = isFirst ? "" : `#${encodeURIComponent(id)}`;
+    lastDispatchedHash.current = hash;
+    if (typeof window !== "undefined") {
+      const cleanUrl = isFirst ? window.location.pathname + window.location.search : hash;
+      if (window.location.hash !== hash) window.history.pushState(window.history.state, "", cleanUrl);
+      window.dispatchEvent(new CustomEvent("akashic-hashchange", { detail: hash }));
+    }
 
     const offset = Math.max(HEADER_OFFSET, parseFloat(getComputedStyle(target).scrollMarginTop) || 0);
     const top = id === sections[0]?.id ? 0 : Math.max(0, target.getBoundingClientRect().top + window.scrollY - offset);

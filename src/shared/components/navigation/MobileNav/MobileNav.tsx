@@ -32,10 +32,11 @@ export interface MobileNavProps {
   brandName: string;
   open: boolean;
   pathname: string;
+  currentHash?: string;
   onClose: () => void;
 }
 
-export function MobileNav({ menus, cta, brandName, open, pathname, onClose }: MobileNavProps) {
+export function MobileNav({ menus, cta, brandName, open, pathname, currentHash, onClose }: MobileNavProps) {
   const ui = useUi();
   const [level, setLevel] = useState<string | null>(null);
   const dialogRef = useRef<HTMLDivElement>(null);
@@ -183,7 +184,7 @@ export function MobileNav({ menus, cta, brandName, open, pathname, onClose }: Mo
                   <ul className={styles.groupList} onClick={onClose}>
                     {group.links.map((link) => (
                       <li key={`${link.label}-${link.href}`} className={styles.groupItem}>
-                        <MenuRow link={link} pathname={pathname} />
+                        <MenuRow link={link} pathname={pathname} currentHash={currentHash} />
                       </li>
                     ))}
                   </ul>

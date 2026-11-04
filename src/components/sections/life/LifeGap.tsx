@@ -45,7 +45,7 @@ export default function LifeGap({ content }: { content: LifePage["gap"] }) {
     <section id="the-gap" className="relative scroll-mt-20 bg-background">
       <LifeCornerArc tone="light" />
 
-      <div className="mx-auto w-full max-w-[1440px] px-6 sm:px-10 lg:px-14">
+      <div className="mx-auto w-full max-w-[1440px] px-6 sm:px-10 lg:pl-14 lg:pr-[84px] min-[1600px]:pr-14">
         <div className="grid grid-cols-1 lg:grid-cols-2">
           {/* Pinned side */}
           <div className="pt-24 lg:sticky lg:top-[120px] lg:self-start lg:pb-24 lg:pt-40">

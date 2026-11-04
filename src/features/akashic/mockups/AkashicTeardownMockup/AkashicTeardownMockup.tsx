@@ -29,6 +29,7 @@ import {
   H,
   HASH_MODULE_MAP,
   HUD_NAMES,
+  MODULE_ANCHOR_ALIASES,
   MODULE_HASHES,
   OPEN,
   SEAL,
@@ -44,7 +45,7 @@ import {
 } from "./teardownData";
 import styles from "./AkashicTeardownMockup.module.scss";
 
-export { TEARDOWN_TRACK_VH };
+export { TEARDOWN_TRACK_VH, MODULE_ANCHOR_ALIASES };
 
 export interface AkashicTeardownMockupProps {
   content: AkashicPage["howItWorks"];
@@ -63,6 +64,7 @@ export function AkashicTeardownMockup({ content, trackRef, curtainHeight }: Akas
   const lastHashRef = useRef("");
   const initialCheckedRef = useRef(false);
   const measureRef = useRef<() => void>(() => {});
+  const navigatingUntilRef = useRef(0);
 
   const goToModule = (c: number) => {
     if (measureRef.current) measureRef.current();
@@ -70,9 +72,13 @@ export function AkashicTeardownMockup({ content, trackRef, curtainHeight }: Akas
     if (!b || b.length < c + 3) return;
     const dest = geomRef.current.trackTop + curtainRef.current + b[c + 1] + (b[c + 2] - b[c + 1]) * 0.5;
     const hash = MODULE_HASHES[c];
-    if (hash && typeof window !== "undefined" && window.location.hash !== hash) {
+    navigatingUntilRef.current = performance.now() + 900;
+    if (hash && typeof window !== "undefined") {
       lastHashRef.current = hash;
-      window.history.replaceState(null, "", hash);
+      if (window.location.hash !== hash) {
+        window.history.replaceState(null, "", hash);
+      }
+      window.dispatchEvent(new CustomEvent("akashic-hashchange", { detail: hash }));
     }
     window.scrollTo({ top: dest, behavior: "smooth" });
   };
@@ -347,6 +353,29 @@ export function AkashicTeardownMockup({ content, trackRef, curtainHeight }: Akas
         hud.style.pointerEvents = isStartAnywhere ? "none" : "auto";
       }
 
+      if (performance.now() > navigatingUntilRef.current) {
+        if (mi >= 1 && mi <= 7) {
+          const modIdx = mi - 1;
+          const currentHash = MODULE_HASHES[modIdx];
+          if (lastHashRef.current !== currentHash) {
+            lastHashRef.current = currentHash;
+            if (typeof window !== "undefined") {
+              window.history.replaceState(null, "", currentHash);
+              window.dispatchEvent(new CustomEvent("akashic-hashchange", { detail: currentHash }));
+            }
+          }
+        } else if (cpos < 0.8 || cpos >= 8.2) {
+          if (lastHashRef.current !== "") {
+            lastHashRef.current = "";
+            if (typeof window !== "undefined") {
+              const cleanUrl = window.location.pathname + window.location.search;
+              window.history.replaceState(null, "", cleanUrl);
+              window.dispatchEvent(new CustomEvent("akashic-hashchange", { detail: "" }));
+            }
+          }
+        }
+      }
+
       /* schematics */
       if (aliveArr[0] > 0.02) {
         for (const d of pipeDots) {
@@ -472,21 +501,30 @@ export function AkashicTeardownMockup({ content, trackRef, curtainHeight }: Akas
 
     const checkHash = () => {
       const hash = typeof window !== "undefined" ? window.location.hash : "";
-      if (hash !== lastHashRef.current) {
+      if (hash && hash !== lastHashRef.current) {
         lastHashRef.current = hash;
         if (hash in HASH_MODULE_MAP) {
           const modIdx = HASH_MODULE_MAP[hash];
           if (!initialCheckedRef.current) {
             initialCheckedRef.current = true;
-            setTimeout(() => {
-              goToModule(modIdx);
-            }, 500);
+            requestAnimationFrame(() => goToModule(modIdx));
+            setTimeout(() => goToModule(modIdx), 400);
           } else {
             goToModule(modIdx);
           }
         }
       }
     };
+
+    const onAkashicNavigate = (event: Event) => {
+      const custom = event as CustomEvent<string>;
+      const targetHash = custom.detail || (typeof window !== "undefined" ? window.location.hash : "");
+      if (targetHash in HASH_MODULE_MAP) {
+        const modIdx = HASH_MODULE_MAP[targetHash];
+        goToModule(modIdx);
+      }
+    };
+    window.addEventListener("akashic-navigate", onAkashicNavigate);
 
     const onHashChange = () => checkHash();
     window.addEventListener("hashchange", onHashChange);
@@ -545,6 +583,7 @@ export function AkashicTeardownMockup({ content, trackRef, curtainHeight }: Akas
       window.removeEventListener("touchstart", nudgeAbort);
       window.removeEventListener("hashchange", onHashChange);
       window.removeEventListener("popstate", onHashChange);
+      window.removeEventListener("akashic-navigate", onAkashicNavigate);
     };
   }, [trackRef, content]);
 
@@ -726,7 +765,6 @@ export function AkashicTeardownMockup({ content, trackRef, curtainHeight }: Akas
       {/* narrative rail */}
       <div className={styles.narrativeRail0}>
         <div data-ak="txt-0">
-          <FigureEyebrow num={content.eyebrow.number} label={content.eyebrow.label} bare />
           <h2 className={styles.headline0}>
             <span className={styles.headline0Soft}>{content.title.setup}</span>{" "}
             <span className={styles.headline0Block}>{content.title.payoff}</span>
@@ -788,10 +826,10 @@ export function AkashicTeardownMockup({ content, trackRef, curtainHeight }: Akas
 
       {/* frame chrome */}
       <div className={styles.frameChromeTop}>
-        <span className={styles.frameLabel}>
-          <span className={styles.frameDot} aria-hidden />
-          {content.frameLabel}
-        </span>
+        <FigureEyebrow
+          num={content.eyebrow.number}
+          label={content.frameLabel.replace(/^\[\d+\]\s*/, "") || content.eyebrow.label}
+        />
       </div>
 
       <div data-ak="hud" className={styles.hud}>

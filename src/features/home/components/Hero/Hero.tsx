@@ -4,6 +4,7 @@ import Link from "next/link";
 import type { HomeHero } from "@/content/pages/home";
 import { nameOrWordmark } from "@/shared/components/icons";
 import { RotatingPhrase, ScrollRevealRail } from "@/shared/components/ui";
+import { scrollToHashTarget } from "@/shared/utils/navigation";
 import { HomeHeroTeasersMockup } from "../../mockups/HomeHeroTeasersMockup";
 import styles from "./Hero.module.scss";
 
@@ -47,10 +48,28 @@ export function Hero({ content }: HeroProps) {
           </p>
 
           <div className={styles.actions}>
-            <Link href={primary.href} className="btn-primary">
+            <Link
+              href={primary.href}
+              className="btn-primary"
+              onClick={(e) => {
+                if (primary.href.includes("#")) {
+                  e.preventDefault();
+                  scrollToHashTarget(primary.href);
+                }
+              }}
+            >
               {primary.label}
             </Link>
-            <Link href={secondary.href} className="btn-secondary">
+            <Link
+              href={secondary.href}
+              className="btn-secondary"
+              onClick={(e) => {
+                if (secondary.href.includes("#")) {
+                  e.preventDefault();
+                  scrollToHashTarget(secondary.href);
+                }
+              }}
+            >
               {secondary.label}
             </Link>
           </div>

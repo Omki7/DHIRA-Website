@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import type { AkashicPage, Group } from "@/content/pages/akashic";
 import { ConnectorLogo } from "@/shared/components/icons";
 import { PreviewTag, ScrollReveal } from "@/shared/components/ui";
@@ -55,10 +55,32 @@ export interface AkashicStackProps {
 }
 
 export function AkashicStack({ content: c }: AkashicStackProps) {
+  const [openMap, setOpenMap] = useState<Record<string, boolean>>(() => ({
+    [c.modules[0]?.id]: true,
+  }));
+
+  const openCount = c.modules.filter((m) => openMap[m.id]).length;
+  const allExpanded = openCount === c.modules.length;
+  const allCollapsed = openCount === 0;
+
+  const expandAll = () => {
+    const all: Record<string, boolean> = {};
+    c.modules.forEach((m) => {
+      all[m.id] = true;
+    });
+    setOpenMap(all);
+  };
+
+  const collapseAll = () => {
+    setOpenMap({});
+  };
+
   useEffect(() => {
     const openAnchor = () => {
       const id = window.location.hash.slice(1);
       if (!id.startsWith("reference-")) return;
+      const modId = id.replace(/^reference-/, "");
+      setOpenMap((prev) => ({ ...prev, [modId]: true }));
       const panel = document.getElementById(id);
       if (panel instanceof HTMLDetailsElement) {
         panel.open = true;
@@ -73,7 +95,10 @@ export function AkashicStack({ content: c }: AkashicStackProps) {
         'a[href^="#reference-"]'
       );
       if (!link) return;
-      const panel = document.getElementById(link.hash.slice(1));
+      const panelId = link.hash.slice(1);
+      const modId = panelId.replace(/^reference-/, "");
+      setOpenMap((prev) => ({ ...prev, [modId]: true }));
+      const panel = document.getElementById(panelId);
       if (panel instanceof HTMLDetailsElement) panel.open = true;
     };
     openAnchor();
@@ -95,12 +120,49 @@ export function AkashicStack({ content: c }: AkashicStackProps) {
             <p className={styles.intro}>{c.intro}</p>
           </div>
         </ScrollReveal>
+
+        <div className={styles.toolbar}>
+          <span className={styles.counter}>
+            {c.modules.length} modules · {openCount} open
+          </span>
+          <div className={styles.controls} role="group" aria-label="Module accordion controls">
+            <button
+              type="button"
+              onClick={expandAll}
+              className={styles.toggleBtn}
+              disabled={allExpanded}
+              aria-pressed={allExpanded}
+            >
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                <path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+              Expand all
+            </button>
+            <button
+              type="button"
+              onClick={collapseAll}
+              className={styles.toggleBtn}
+              disabled={allCollapsed}
+              aria-pressed={allCollapsed}
+            >
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                <path d="M2.5 7.5L6 4L9.5 7.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+              Collapse all
+            </button>
+          </div>
+        </div>
+
         <div className={styles.index}>
-          {c.modules.map((m, i) => (
+          {c.modules.map((m) => (
             <details
               id={"reference-" + m.id}
               key={m.id}
-              open={i === 0}
+              open={Boolean(openMap[m.id])}
+              onToggle={(e) => {
+                const isOpen = e.currentTarget.open;
+                setOpenMap((prev) => (prev[m.id] === isOpen ? prev : { ...prev, [m.id]: isOpen }));
+              }}
               className={styles.module}
             >
               <summary>

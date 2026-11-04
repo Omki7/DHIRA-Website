@@ -4,6 +4,7 @@ import { Nav } from "@/app/_components/Nav";
 import CustomersLibrary from "@/components/sections/customers/CustomersLibrary";
 import { PageClose } from "@/shared/components/ui";
 import { PageHero } from "@/shared/components/ui";
+import { PageMinimap } from "@/shared/components/navigation";
 import { getCustomerStories, getPage, getUiStrings } from "@/services/content/content";
 import { pageMetadata } from "@/app/_lib/metadata";
 
@@ -31,6 +32,7 @@ export default async function CustomersPage() {
         <PageClose {...page.close} />
       </main>
       <Footer />
+      <PageMinimap sections={page.sections} aria-label={page.sectionsLabel} />
     </>
   );
 }

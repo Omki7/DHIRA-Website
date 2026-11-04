@@ -24,24 +24,61 @@ export function HashLanding() {
     const id = decodeURIComponent(window.location.hash.slice(1));
     if (!id || !document.getElementById(id)) return;
 
+    const scrollToTarget = () => {
+      const element = document.getElementById(id);
+      if (!element) return;
+      const headerOffset = 120; // 100px header + 20px clearance
+      const top = Math.max(0, element.getBoundingClientRect().top + window.scrollY - headerOffset);
+      window.scrollTo({ top, behavior: "instant" });
+    };
+
+    // Re-land cleanly after mount to guarantee proper clearance below the sticky header
+    scrollToTarget();
+    const frame = requestAnimationFrame(scrollToTarget);
+
     let height = document.body.scrollHeight;
     const land = () => {
       const next = document.body.scrollHeight;
       if (next === height) return;
       height = next;
-      document.getElementById(id)?.scrollIntoView({ block: "start", behavior: "instant" });
+      scrollToTarget();
     };
     const observer = new ResizeObserver(land);
     observer.observe(document.body);
 
     const release = () => {
+      cancelAnimationFrame(frame);
       observer.disconnect();
       window.clearTimeout(timer);
       RELEASE.forEach((type) => window.removeEventListener(type, release));
     };
     const timer = window.setTimeout(release, SETTLE_MS);
     RELEASE.forEach((type) => window.addEventListener(type, release, { passive: true }));
-    return release;
+
+    const handlePopState = () => {
+      const hash = window.location.hash;
+      const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const behavior = prefersReduced ? "instant" : "smooth";
+      if (!hash || hash === "#" || hash === "#hero" || hash === "#main") {
+        window.scrollTo({ top: 0, behavior });
+        window.dispatchEvent(new CustomEvent("akashic-hashchange", { detail: "" }));
+        return;
+      }
+      const targetId = decodeURIComponent(hash.slice(1));
+      const element = document.getElementById(targetId);
+      if (element) {
+        const headerOffset = 120;
+        const top = Math.max(0, element.getBoundingClientRect().top + window.scrollY - headerOffset);
+        window.scrollTo({ top, behavior });
+        window.dispatchEvent(new CustomEvent("akashic-hashchange", { detail: hash }));
+      }
+    };
+    window.addEventListener("popstate", handlePopState);
+
+    return () => {
+      release();
+      window.removeEventListener("popstate", handlePopState);
+    };
   }, [pathname]);
 
   return null;

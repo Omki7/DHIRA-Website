@@ -19,6 +19,15 @@
 
   @include respond-to(lg) {
     padding-left: space(8);
+    padding-right: 72px;
+  }
+
+  @include respond-to(xl) {
+    padding-left: space(8);
+    padding-right: 84px;
+  }
+
+  @media (min-width: 1600px) {
     padding-right: space(8);
   }
 }

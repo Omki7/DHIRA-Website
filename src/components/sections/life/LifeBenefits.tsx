@@ -75,7 +75,7 @@ export default function LifeBenefits({ content }: { content: LifePage["benefits"
       />
       <LifeCornerArc />
 
-      <div className="relative mx-auto w-full max-w-[1440px] px-6 sm:px-10 lg:px-14">
+      <div className="relative mx-auto w-full max-w-[1440px] px-6 sm:px-10 lg:pl-14 lg:pr-[84px] min-[1600px]:pr-14">
         <ScrollReveal className="flex flex-col items-center pt-28 text-center lg:pt-36">
           <LifeEyebrow num={content.eyebrow.num}>{content.eyebrow.label}</LifeEyebrow>
           <h2 className="mt-9 max-w-[16em] text-[30px] font-medium leading-[1.28] tracking-[-0.005em] text-ink sm:text-[36px] lg:text-[42px]">

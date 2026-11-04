@@ -4,6 +4,7 @@ import type { PageSection, Seo } from "../types";
 export interface InsightsPage {
   seo: Seo;
   sections: PageSection[];
+  sectionsLabel?: string;
   hero: { label: string; setup: string; payoff: string; lede: string; featuredLabel: string; featuredSlug: string; latestLabel: string; updatedLabel: string; moreLabel: string };
   latest: {
     label: string; setup: string; payoff: string; lede: string;
@@ -38,6 +39,7 @@ export const insightsPage: InsightsPage = {
     { id: "subscribe", label: "Follow Insights" },
     { id: "talk-to-our-team", label: "Talk to our team" },
   ],
+  sectionsLabel: "Insights page sections",
   hero: {
     label: "Insights",
     setup: "See the decision",

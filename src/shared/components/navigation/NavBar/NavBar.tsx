@@ -59,7 +59,29 @@ export function NavBar({ navigation, brand }: NavBarProps) {
   const reducedMotion = usePrefersReducedMotion();
   const { openId, hoverTrigger, leaveTrigger, enterRegion, leaveRegion, toggle, close } = useMenuIntent();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [currentHash, setCurrentHash] = useState(() => (typeof window !== "undefined" ? window.location.hash : ""));
   const { visible, scrolled } = useHeaderVisibility();
+
+  useEffect(() => {
+    let unmounted = false;
+    const syncHash = () => {
+      queueMicrotask(() => {
+        if (!unmounted && typeof window !== "undefined") {
+          setCurrentHash(window.location.hash);
+        }
+      });
+    };
+    syncHash();
+    window.addEventListener("hashchange", syncHash);
+    window.addEventListener("popstate", syncHash);
+    window.addEventListener("akashic-hashchange", syncHash);
+    return () => {
+      unmounted = true;
+      window.removeEventListener("hashchange", syncHash);
+      window.removeEventListener("popstate", syncHash);
+      window.removeEventListener("akashic-hashchange", syncHash);
+    };
+  }, [pathname]);
 
   const barRef = useRef<HTMLDivElement>(null);
   const ctaRef = useRef<HTMLAnchorElement>(null);
@@ -255,6 +277,7 @@ export function NavBar({ navigation, brand }: NavBarProps) {
             threadX={threadX}
             drawn={drawn}
             pathname={pathname}
+            currentHash={currentHash}
             onNavigate={close}
             onTabOut={onTabOut}
           />
@@ -277,6 +300,7 @@ export function NavBar({ navigation, brand }: NavBarProps) {
         brandName={brand.name}
         open={mobileOpen}
         pathname={pathname}
+        currentHash={currentHash}
         onClose={() => setMobileOpen(false)}
       />
     </>
