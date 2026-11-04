@@ -4,8 +4,8 @@ import { SectionHeader } from "@/shared/components/ui";
 import EisLoopCircuitMockup from "@/components/demos/mockups/eis/EisLoopCircuitMockup";
 import type { EisPage } from "@/content/pages/solutions-eis";
 
-/* [the-loop] — Section [04]: The Action Loop
- * Adheres to Section Grammar: FigureEyebrow [04] THE ACTION LOOP,
+/* [the-loop] — Section [05]: The Action Loop
+ * Adheres to Section Grammar: FigureEyebrow [05] THE ACTION LOOP,
  * two-tone headline, lede directly below, ScrollRevealRail layout.
  */
 export default function EisLoop({ content }: { content: EisPage["loop"] }) {
@@ -16,7 +16,7 @@ export default function EisLoop({ content }: { content: EisPage["loop"] }) {
     >
       <ScrollRevealRail>
         <SectionHeader
-          num="04"
+          num="05"
           label="THE ACTION LOOP"
           setup={content.setup}
           payoff={content.payoff}

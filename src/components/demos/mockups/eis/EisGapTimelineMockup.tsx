@@ -42,7 +42,7 @@ export default function EisGapTimelineMockup() {
                 : "text-secondary-text hover:text-ink"
             }`}
           >
-            ● With Akashic EIS
+            ● With Enterprise Intelligence
           </button>
           <button
             type="button"
@@ -227,7 +227,7 @@ export default function EisGapTimelineMockup() {
               </div>
 
               <span className="font-heading text-[13px] sm:text-[14px] font-bold text-ink leading-tight">
-                Akashic EIS
+                Enterprise Intelligence
               </span>
 
               <span

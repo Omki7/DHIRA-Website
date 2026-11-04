@@ -9,7 +9,6 @@ import EisGap from "@/components/sections/eis/EisGap";
 import EisHero from "@/components/sections/eis/EisHero";
 import EisLenses from "@/components/sections/eis/EisLenses";
 import EisLoop from "@/components/sections/eis/EisLoop";
-import EisProof from "@/components/sections/eis/EisProof";
 import EisTeasers from "@/components/sections/eis/EisTeasers";
 import { getPage } from "@/services/content/content";
 import { pageMetadata } from "@/app/_lib/metadata";
@@ -31,7 +30,6 @@ export default async function EisPage() {
         {page.teasers && <EisTeasers content={page.teasers} />}
         <EisCapabilities content={page.capabilities} />
         <EisLoop content={page.loop} />
-        <EisProof content={page.proof} />
         <EisFaq content={page.faq} />
         <EisClose content={page.close} />
       </main>

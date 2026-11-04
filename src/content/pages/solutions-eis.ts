@@ -394,7 +394,6 @@ export const solutionsEis: EisPage = {
     { id: "use-cases", label: "Four stories" },
     { id: "capabilities", label: "Capabilities" },
     { id: "the-loop", label: "The loop" },
-    { id: "proof", label: "Proof" },
     { id: "questions", label: "Questions" },
     { id: "talk-to-our-team", label: "Talk to our team" },
   ],
@@ -411,7 +410,7 @@ export const solutionsEis: EisPage = {
       "What if your biggest deal slips a quarter and a key client doesn't renew?",
       "Monday, 8 a.m. 2,418 changes since Friday: which 3 need you?",
     ],
-    lede: { lead: "Every decision touches customers, projects, people and cash.", tail: "Akashic EIS connects live to" },
+    lede: { lead: "Every decision touches customers, projects, people and cash.", tail: "Enterprise Intelligence connects live to" },
     readsLabel: "Reads",
     sources: [
       { label: "ERPNext", src: "/universal-context/postgresql.svg" },
@@ -427,7 +426,7 @@ export const solutionsEis: EisPage = {
   gap: {
     setup: "Your company runs as lifecycles.",
     payoff: "Your systems run as departments.",
-    lede: "Disconnected departmental tools hide margin slip until month-end. Akashic EIS correlates delivery, pipeline, and cash flow into a continuous runway before deadlines expire.",
+    lede: "Disconnected departmental tools hide margin slip until month-end. Enterprise Intelligence correlates delivery, pipeline, and cash flow into a continuous runway before deadlines expire.",
     conclusion: "The true cost to an enterprise is the latency between an operational shift and leadership having the verified context to intervene.",
     note: "Enterprise decision latency benchmark.",
     departments: [
@@ -509,7 +508,7 @@ export const solutionsEis: EisPage = {
         duration: "0:29 · voice-over",
         title: "Monday, 8 a.m. What needs you?",
         description:
-          "Thousands of changes since Friday. A handful need a decision from you. Akashic EIS knows which ones, and why.",
+          "Thousands of changes since Friday. A handful need a decision from you. Enterprise Intelligence knows which ones, and why.",
         videoSrc: "/solutions/enterprise-intelligence/aei-teaser-actions-720.mp4",
         posterSrc: "/solutions/enterprise-intelligence/poster-actions.webp",
         label: "Teaser video: prioritised morning action list ranked by exposure",
@@ -577,14 +576,14 @@ export const solutionsEis: EisPage = {
   loop: {
     setup: "Observation alone",
     payoff: "solves nothing.",
-    lede: "Passive dashboards leave teams chasing updates over email. Akashic EIS closes the loop by detecting risks, staging verified interventions, and updating systems upon approval.",
+    lede: "Passive dashboards leave teams chasing updates over email. Enterprise Intelligence closes the loop by detecting risks, staging verified interventions, and updating systems upon approval.",
     cta: { label: "Bring us a decision you cannot close", href: "#talk-to-our-team" },
   },
 
   pipeline: {
     setup: "One save in your ERP.",
     payoff: "A decision in minutes.",
-    lede: "Most intelligence platforms snap a photo of your data and let it age. Akashic EIS reads every committed change as it happens, resolves it against one governed record, and keeps the executive picture current without a refresh.",
+    lede: "Most intelligence platforms snap a photo of your data and let it age. Enterprise Intelligence reads every committed change as it happens, resolves it against one governed record, and keeps the executive picture current without a refresh.",
     steps: [
       {
         number: "System of record",
@@ -680,11 +679,11 @@ export const solutionsEis: EisPage = {
     lede: "Direct answers to the architectural, security, and operational questions executive leadership asks before deployment.",
     /* Opened by default: the page makes both claims and they sound
        contradictory until the two planes are separated. */
-    openByDefault: "Does EIS replace my ERP?",
+    openByDefault: "Does Enterprise Intelligence replace my ERP?",
     items: [
       {
-        question: "Does EIS replace my ERP?",
-        answer: "No. Akashic EIS sits on top of the systems you already run. It reads ERPNext, Salesforce, SAP, and Workday, connects what they each hold about the same account, and surfaces what matters. No rip and replace, no migration, no downtime.",
+        question: "Does Enterprise Intelligence replace my ERP?",
+        answer: "No. Enterprise Intelligence sits on top of the systems you already run. It reads ERPNext, Salesforce, SAP, and Workday, connects what they each hold about the same account, and surfaces what matters. No rip and replace, no migration, no downtime.",
       },
       {
         question: "You say read-only, then you say it writes to my ERP. Which is it?",
@@ -692,7 +691,7 @@ export const solutionsEis: EisPage = {
       },
       {
         question: "How is your answer engine different from asking an AI chatbot?",
-        answer: "It does not write SQL against your raw tables. Questions resolve against the governed metric layer, so a question can only be answered in terms that have already been defined, tested and given permissions. If a metric does not exist, EIS says so rather than inventing a plausible number. Every answer shows its working.",
+        answer: "It does not write SQL against your raw tables. Questions resolve against the governed metric layer, so a question can only be answered in terms that have already been defined, tested and given permissions. If a metric does not exist, Enterprise Intelligence says so rather than inventing a plausible number. Every answer shows its working.",
       },
       {
         question: "Who can see what, and who can approve what?",
@@ -706,15 +705,15 @@ export const solutionsEis: EisPage = {
     bands: [
       {
         label: "What it is",
-        note: "Where EIS sits, and what it needs from you.",
+        note: "Where Enterprise Intelligence sits, and what it needs from you.",
         items: [
           {
-            question: "Does EIS replace my ERP?",
-            answer: "No. Akashic EIS sits on top of the systems you already run. It reads them, connects what they each hold about the same account, and surfaces what matters. No rip and replace, no migration, no downtime.",
+            question: "Does Enterprise Intelligence replace my ERP?",
+            answer: "No. Enterprise Intelligence sits on top of the systems you already run. It reads them, connects what they each hold about the same account, and surfaces what matters. No rip and replace, no migration, no downtime.",
           },
           {
-            question: "What is EIS built on?",
-            answer: "Akashic. The connectors that read your systems, the master data that resolves them into one record, the metric layer that makes revenue mean one thing in every region, the answer engine that cites its sources, and the governance layer that keeps the record of what was done. If Akashic is already in place, EIS is the layer above it, not a second platform.",
+            question: "What is Enterprise Intelligence built on?",
+            answer: "Akashic. The connectors that read your systems, the master data that resolves them into one record, the metric layer that makes revenue mean one thing in every region, the answer engine that cites its sources, and the governance layer that keeps the record of what was done. If Akashic is already in place, Enterprise Intelligence is the layer above it, not a second platform.",
           },
           {
             /* Executives ask this before anything else, and every vendor dodges. */
@@ -734,7 +733,7 @@ export const solutionsEis: EisPage = {
           {
             /* The distinction that stops us being the villain from [the-gap]. */
             question: "How is your answer engine different from asking an AI chatbot?",
-            answer: "It does not write SQL against your raw tables. Questions resolve against the governed metric layer, so a question can only be answered in terms that have already been defined, tested and given permissions. If a metric does not exist, EIS says so rather than inventing a plausible number. And because every answer is assembled from defined metrics, every answer can show its working. An ungoverned chatbot cannot do that, which is why it is fast and untrustworthy at the same time.",
+            answer: "It does not write SQL against your raw tables. Questions resolve against the governed metric layer, so a question can only be answered in terms that have already been defined, tested and given permissions. If a metric does not exist, Enterprise Intelligence says so rather than inventing a plausible number. And because every answer is assembled from defined metrics, every answer can show its working. An ungoverned chatbot cannot do that, which is why it is fast and untrustworthy at the same time.",
           },
           {
             question: "Who can see what, and who can approve what?",
@@ -769,7 +768,7 @@ export const solutionsEis: EisPage = {
     title: ["See it with", "your own numbers."],
     sessionLabel: "Thirty minutes, on a dataset shaped like yours",
     session: [
-      "Your enterprise systems mapped. What Akashic EIS connects to on day one, without migration or downtime.",
+      "Your enterprise systems mapped. What Enterprise Intelligence connects to on day one, without migration or downtime.",
       "One high-stakes operational decision your team cannot currently close, traced from signal to verified action.",
       "Security, access boundaries, and human sign-off policies required by your leadership.",
     ],
