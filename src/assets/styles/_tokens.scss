@@ -1,0 +1,139 @@
+// ------------------------------------------------------------------
+//  Design tokens (FRONTEND_ARCHITECTURE §13)
+// ------------------------------------------------------------------
+// The SCSS face of the design system. Colour VALUES live once, as CSS
+// custom properties for both appearances, in src/app/theme.css; the
+// helpers here only name them, so light and dark (and any future
+// white-label theme) stay a CSS change. Every other token mirrors
+// tailwind.config.ts one for one until Tailwind is retired.
+//
+// Use: @use "assets/styles/tokens" as *;  then  color: c(ink);
+
+@use "sass:map";
+
+// --- Colour -------------------------------------------------------
+// c(ink) → rgb(var(--ink) / 1); c(blue, 0.4) → 40% alpha.
+@function c($name, $alpha: 1) {
+  @return #{"rgb(var(--#{$name}) / #{$alpha})"};
+}
+
+// --- Typography ---------------------------------------------------
+$font-sans: "Google Sans Text", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+$font-heading: "Google Sans", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+$font-mono: "Google Sans Mono", SF Mono, Fira Code, JetBrains Mono, monospace;
+// Newsreader is for pull-quotes only (DESIGN_SYSTEM Rule 3).
+$font-display: Newsreader, Georgia, serif;
+
+$heading-sizes: (
+  sm: (size: 35px, line: 1.1, tracking: -0.035em),
+  md: (size: 48px, line: 1.05, tracking: -0.04em),
+  lg: (size: 56px, line: 1.05, tracking: -0.04em),
+  xl: (size: 64px, line: 1, tracking: -0.04em),
+);
+
+// Text steps: font-size + line-height pairs (Tailwind's default scale,
+// which the site was built on). Use with @include text(sm).
+$text-sizes: (
+  xs: (0.75rem, 1rem),
+  sm: (0.875rem, 1.25rem),
+  base: (1rem, 1.5rem),
+  lg: (1.125rem, 1.75rem),
+  xl: (1.25rem, 1.75rem),
+  "2xl": (1.5rem, 2rem),
+  "3xl": (1.875rem, 2.25rem),
+  "4xl": (2.25rem, 2.5rem),
+  "5xl": (3rem, 1),
+  "6xl": (3.75rem, 1),
+);
+
+$weight-normal: 400;
+$weight-medium: 500;
+$weight-semibold: 600;
+$weight-bold: 700;
+
+$tracking-tightest: -0.05em;
+$tracking-tighter: -0.04em; // the site's value, not Tailwind's -0.05em
+$tracking-tight: -0.025em;
+$tracking-normal: 0em;
+$tracking-wide: 0.025em;
+$tracking-wider: 0.05em;
+$tracking-widest: 0.1em;
+$tracking-eyebrow: 0.14em;
+
+$leading-none: 1;
+$leading-tight: 1.25;
+$leading-snug: 1.375;
+$leading-normal: 1.5;
+$leading-relaxed: 1.625;
+$leading-loose: 2;
+
+// --- Spacing (Tailwind's scale, in rem) ---------------------------
+$space-unit: 0.25rem; // Tailwind spacing is rem-based: step n = n × 0.25rem (4px at the default root size)
+@function space($step) {
+  @return $step * $space-unit;
+}
+$space-1: space(1);
+$space-2: space(2);
+$space-3: space(3);
+$space-4: space(4);
+$space-6: space(6);
+$space-8: space(8);
+$space-10: space(10);
+$space-12: space(12);
+$space-16: space(16);
+$space-24: space(24);
+
+// --- Radius (nested largest to smallest) ---------------------------
+$radius-btn: 10px;
+$radius-card: 8px;
+$radius-frame: 10px;
+$radius-outer: 14px;
+$radius-inner: 10px;
+$radius-tile: 8px;
+$radius-chip: 6px;
+$radius-micro: 4px;
+
+// --- Elevation ----------------------------------------------------
+// Flat colour only: the site uses no cast shadows (AGENTS.md).
+$shadow-none: none;
+
+// --- Motion -------------------------------------------------------
+$ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+$ease-settle: cubic-bezier(0.2, 0.8, 0.2, 1);
+$duration-75: 75ms;
+$duration-100: 100ms;
+$duration-150: 150ms;
+$duration-200: 200ms;
+$duration-250: 250ms;
+$duration-400: 400ms;
+$duration-300: 300ms;
+$duration-500: 500ms;
+$duration-650: 650ms;
+$duration-700: 700ms;
+$duration-1000: 1000ms;
+// Tailwind defaults behind `transition` and `transition-colors`.
+$ease-default: cubic-bezier(0.4, 0, 0.2, 1);
+$ease-in: cubic-bezier(0.4, 0, 1, 1);
+$ease-out: cubic-bezier(0, 0, 0.2, 1);
+$transition-colors: color, background-color, border-color, text-decoration-color, fill, stroke;
+
+// --- Breakpoints (mobile first, Tailwind's defaults) ---------------
+$breakpoints: (
+  sm: 640px,
+  md: 768px,
+  lg: 1024px,
+  xl: 1280px,
+  "2xl": 1536px,
+);
+
+@function bp($name) {
+  @if not map.has-key($breakpoints, $name) {
+    @error "Unknown breakpoint `#{$name}`.";
+  }
+  @return map.get($breakpoints, $name);
+}
+
+// --- Layout -------------------------------------------------------
+// The centred column every section sits in (ui/ScrollRevealRail).
+$rail-max-width: 1440px;
+$nav-height: 72px;

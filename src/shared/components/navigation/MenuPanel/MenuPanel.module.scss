@@ -1,0 +1,207 @@
+@use "assets/styles" as *;
+
+// --- MenuRow ------------------------------------------------------
+.row {
+  display: flex;
+  flex-direction: column;
+  border-radius: $radius-tile;
+  padding-left: space(3);
+  padding-right: space(3);
+  padding-top: space(1.5);
+  padding-bottom: space(1.5);
+  @include transition-colors($duration-150);
+
+  &:hover,
+  &:focus-visible,
+  &[aria-current="page"] {
+    background-color: c(tertiary-bg);
+  }
+}
+
+.rowCaptioned {
+  padding-bottom: space(2);
+}
+
+.rowTitle {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  column-gap: space(2);
+  row-gap: space(1);
+  align-self: flex-start;
+  font-size: 15px;
+  font-weight: $weight-medium;
+  line-height: $leading-snug;
+  color: c(ink);
+}
+
+.rowLabel {
+  text-wrap: balance;
+}
+
+.rowExternal {
+  position: absolute;
+  left: 100%;
+  top: 50%;
+  margin-left: space(1.5);
+  transform: translateY(-50%);
+  color: c(overcast);
+}
+
+// Hangs past the label; slides in on the row's hover or keyboard focus.
+.rowArrow {
+  position: absolute;
+  left: 100%;
+  top: 50%;
+  margin-left: space(2);
+  transform: translate(space(-1), -50%);
+  color: c(blue);
+  opacity: 0;
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity,
+    box-shadow, transform, filter, backdrop-filter;
+  transition-timing-function: $ease-settle;
+  transition-duration: $duration-150;
+
+  .row:hover &,
+  .row:focus-visible & {
+    transform: translate(0, -50%);
+    opacity: 1;
+  }
+}
+
+.rowCaption {
+  margin-top: space(0.5);
+  font-size: 13px;
+  line-height: $leading-snug;
+  color: c(secondary-text);
+}
+
+// --- MenuPanel ----------------------------------------------------
+// The column template is set inline from each block's `span`.
+.root {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  column-gap: space(6);
+  padding-bottom: space(9);
+  padding-top: space(8);
+
+  @include respond-to(xl) {
+    column-gap: space(8);
+  }
+}
+
+.lead {
+  grid-row: span 2 / span 2;
+  border-right-width: 1px;
+  border-color: c(lineSoft);
+  padding-right: space(6);
+
+  @include respond-to(xl) {
+    padding-right: space(8);
+  }
+}
+
+.leadTitle {
+  font-family: $font-heading;
+  font-size: 24px;
+  font-weight: $weight-semibold;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: c(ink);
+}
+
+.leadText {
+  margin-top: space(3);
+  text-wrap: balance;
+  font-size: 14px;
+  line-height: 1.55;
+  color: c(secondary-text);
+}
+
+.leadLink {
+  margin-top: space(5);
+  display: inline-flex;
+  align-items: center;
+  gap: space(1.5);
+  font-size: 14px;
+  font-weight: $weight-medium;
+  color: c(blue);
+  @include transition-colors($duration-150);
+
+  &:hover {
+    color: c(blue-hover);
+  }
+}
+
+.leadArrow {
+  transition-property: transform;
+  transition-timing-function: $ease-settle;
+  transition-duration: $duration-200;
+
+  .leadLink:hover & {
+    transform: translateX(space(0.5));
+  }
+}
+
+.group {
+  grid-row: span 2 / span 2;
+  display: grid;
+  grid-template-rows: subgrid;
+}
+
+// The lead's hairline again, centred in the gutter before the group.
+.groupDivided {
+  position: relative;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: space(-3);
+    width: 1px;
+    background-color: c(lineSoft);
+
+    @include respond-to(xl) {
+      left: space(-4);
+    }
+  }
+}
+
+.groupHeading {
+  align-self: flex-end;
+  text-wrap: balance;
+  padding-left: space(3);
+  padding-right: space(3);
+  padding-bottom: space(2.5);
+  font-family: $font-mono;
+  font-size: 11px;
+  font-weight: $weight-medium;
+  text-transform: uppercase;
+  line-height: 1.5;
+  letter-spacing: $tracking-eyebrow;
+  color: c(overcast);
+}
+
+// Tailwind's space-y-0.5.
+.list {
+  > :not([hidden]) ~ :not([hidden]) {
+    margin-top: space(0.5);
+    margin-bottom: 0;
+  }
+}
+
+.listTwoColumn {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-content: flex-start;
+  column-gap: space(2);
+  row-gap: space(0.5);
+}
+
+// Passed to NavFeatured.
+.featured {
+  grid-row: span 2 / span 2;
+  align-self: flex-start;
+}

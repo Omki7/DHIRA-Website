@@ -1,0 +1,42 @@
+@use "assets/styles" as *;
+
+.group {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  @include text(xs);
+}
+
+.label {
+  font-family: $font-mono;
+  font-size: 11px;
+  font-weight: $weight-medium;
+  text-transform: uppercase;
+  letter-spacing: $tracking-eyebrow;
+  color: c(inkSoft);
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.divider {
+  height: 0.75rem;
+  width: 1px;
+  background-color: c(tertiary-bg);
+}
+
+.option {
+  color: c(inkSoft);
+  @include transition-colors($duration-200, $ease-settle);
+
+  &:hover {
+    color: c(secondary-text);
+  }
+
+  &[aria-pressed="true"] {
+    color: c(ink);
+  }
+}

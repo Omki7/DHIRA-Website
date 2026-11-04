@@ -1,0 +1,148 @@
+@use "assets/styles" as *;
+
+// --- The shell ----------------------------------------------------
+.teaser {
+  border-radius: 14px;
+  border-width: 1px;
+  border-color: c(card-line);
+  background-color: rgb(var(--screen-surface));
+  padding-left: space(4);
+  padding-right: space(4);
+  padding-bottom: space(4);
+  padding-top: space(3);
+}
+
+.header {
+  margin-bottom: space(3);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: space(3);
+  white-space: nowrap;
+  font-family: $font-mono;
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.module {
+  color: c(secondary-text);
+}
+
+.meta {
+  color: c(tertiary-text);
+}
+
+// Tailwind's sr-only, declaration for declaration.
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+// --- xl and up: placed around the pitch ----------------------------
+.field {
+  pointer-events: none;
+  position: absolute;
+  inset: 0px;
+  display: none;
+
+  @include respond-to(xl) {
+    display: block;
+  }
+}
+
+.slot {
+  position: absolute;
+}
+
+.masterData {
+  left: 3%;
+  top: 56px;
+  width: 236px;
+}
+
+.governance {
+  left: min(7.5%, calc(50% - 565px));
+  top: 332px;
+  width: 220px;
+}
+
+.pipelines {
+  bottom: 92px;
+  left: 3.5%;
+  width: 240px;
+}
+
+.bi {
+  right: 3%;
+  top: 52px;
+  width: 240px;
+}
+
+.ask {
+  right: min(7.5%, calc(50% - 580px));
+  top: 312px;
+  width: 236px;
+}
+
+.warehouse {
+  bottom: 84px;
+  right: 3.5%;
+  width: 228px;
+}
+
+.ml {
+  bottom: 28px;
+  left: 50%;
+  width: 272px;
+  transform: translateX(-50%);
+}
+
+// --- Below xl: a scrolling strip -----------------------------------
+.strip {
+  padding-bottom: space(10);
+
+  @include respond-to(xl) {
+    display: none;
+  }
+}
+
+.hint {
+  margin-bottom: space(4);
+  padding-left: space(6);
+  padding-right: space(6);
+  text-align: center;
+  @include text(xs);
+  color: c(secondary-text);
+}
+
+.track {
+  display: flex;
+  scroll-snap-type: x mandatory;
+  align-items: flex-start;
+  gap: space(3);
+  overflow-x: auto;
+  padding-left: space(6);
+  padding-right: space(6);
+  padding-bottom: space(5);
+  scrollbar-width: thin;
+
+  &:focus-visible {
+    outline-style: solid;
+    outline-width: 2px;
+    outline-color: c(blue);
+  }
+}
+
+.card {
+  width: min(78vw, 272px);
+  flex-shrink: 0;
+  scroll-snap-align: center;
+}

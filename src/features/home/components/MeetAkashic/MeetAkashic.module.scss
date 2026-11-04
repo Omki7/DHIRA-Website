@@ -1,0 +1,44 @@
+@use "assets/styles" as *;
+
+.root {
+  position: relative;
+  overflow: hidden;
+  background-color: c(uc-bg);
+  padding-top: space(12);
+  color: c(uc-text);
+
+  @include respond-to(lg) {
+    padding-top: space(16);
+  }
+}
+
+// Full bleed to the rail's width, with the rail's own gutters.
+.showcase {
+  position: relative;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: space(12);
+  width: 100%;
+  max-width: $rail-max-width;
+  padding-left: space(4);
+  padding-right: space(4);
+
+  @include respond-to(sm) {
+    padding-left: space(6);
+    padding-right: space(6);
+  }
+
+  @include respond-to(lg) {
+    margin-top: space(16);
+    padding-left: space(8);
+    padding-right: space(8);
+  }
+}
+
+.capabilities {
+  margin-top: space(4);
+
+  @include respond-to(lg) {
+    margin-top: space(20);
+  }
+}

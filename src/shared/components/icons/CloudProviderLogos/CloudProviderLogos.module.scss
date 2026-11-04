@@ -1,0 +1,13 @@
+@use "assets/styles" as *;
+
+// Default sizes when the caller passes no className (was `h-5 w-auto`).
+.aws {
+  height: 1.25rem;
+  width: auto;
+}
+
+// Was `h-5 w-5`.
+.square {
+  height: 1.25rem;
+  width: 1.25rem;
+}

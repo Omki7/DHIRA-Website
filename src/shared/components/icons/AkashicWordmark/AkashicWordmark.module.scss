@@ -1,0 +1,31 @@
+@use "assets/styles" as *;
+
+.wordmark {
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
+}
+
+// Tailwind's `sr-only`, kept literal: it sets border-width only, so the
+// preflight border-style stays as it was.
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+.logo {
+  height: 1.4em;
+  width: 1.4em;
+  flex-shrink: 0;
+}
+
+.rest {
+  margin-left: -0.3em;
+}

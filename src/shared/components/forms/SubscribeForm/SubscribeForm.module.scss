@@ -1,0 +1,75 @@
+@use "assets/styles" as *;
+
+.root {
+  margin-top: space(8);
+  max-width: 38rem;
+}
+
+// Tailwind's `sr-only` verbatim: `border-width: 0` keeps preflight's border
+// style and colour, where the visually-hidden mixin's `border: 0` resets them.
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+.row {
+  display: flex;
+  flex-direction: column;
+  gap: space(3);
+
+  @include respond-to(sm) {
+    flex-direction: row;
+  }
+}
+
+.input {
+  height: space(11);
+  min-height: space(11);
+  min-width: 0;
+  flex: none;
+  border-radius: $radius-btn;
+  border-width: 1px;
+  border-color: c(default-stroke);
+  background-color: c(background);
+  padding-left: 14px;
+  padding-right: 14px;
+  @include text(sm);
+  color: c(ink);
+
+  @include respond-to(sm) {
+    flex: 1 1 0%;
+  }
+}
+
+.button {
+  min-height: space(11);
+  border-radius: $radius-btn;
+  border-width: 1px;
+  border-color: c(default-stroke);
+  background-color: c(background);
+  padding-left: space(4);
+  padding-right: space(4);
+  @include text(sm);
+  font-weight: $weight-medium;
+  color: c(ink);
+  @include transition-colors($duration-150);
+
+  &:hover {
+    border-color: c(blue);
+    color: c(blue);
+  }
+}
+
+.status {
+  margin-top: space(2);
+  min-height: space(5);
+  @include text(sm);
+  color: c(inkSoft);
+}

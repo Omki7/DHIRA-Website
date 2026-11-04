@@ -1,0 +1,64 @@
+@use "assets/styles" as *;
+
+.list {
+  display: none;
+  align-items: center;
+  gap: space(0.5);
+
+  @include respond-to(lg) {
+    display: flex;
+  }
+}
+
+.item {
+  position: relative;
+  display: flex;
+  height: space(10);
+  align-items: center;
+  font-size: 15px;
+  font-weight: $weight-medium;
+  color: c(secondary-text);
+  @include transition-colors($duration-150);
+
+  &:hover {
+    color: c(ink);
+  }
+}
+
+// Open or current: rests in ink.
+.itemActive {
+  color: c(ink);
+}
+
+// Current section: the 2px blue bar on the header's bottom edge.
+.itemCurrent::after {
+  content: "";
+  position: absolute;
+  bottom: space(-4);
+  left: space(3);
+  right: space(8);
+  height: 2px;
+  border-radius: 9999px;
+  background-color: c(blue);
+}
+
+.label {
+  display: flex;
+  height: 100%;
+  align-items: center;
+  border-radius: $radius-btn;
+  padding-left: space(3);
+  padding-right: space(1.5);
+}
+
+.trigger {
+  display: flex;
+  height: 100%;
+  align-items: center;
+  border-radius: $radius-btn;
+  padding-right: space(3);
+}
+
+.chevron {
+  color: c(overcast);
+}

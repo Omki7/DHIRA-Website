@@ -1,0 +1,41 @@
+@use "assets/styles" as *;
+
+.title {
+  font-size: 34px;
+  font-weight: $weight-medium;
+  line-height: 1.08;
+  letter-spacing: $tracking-tighter;
+
+  // sm:text-heading-md sets size, line-height and tracking; lg changes the size only.
+  @include respond-to(sm) {
+    // text-heading-md, without the heading() mixin's font-family.
+    font-size: 48px;
+    line-height: 1.05;
+    letter-spacing: -0.04em;
+  }
+
+  @include respond-to(lg) {
+    font-size: 52px;
+  }
+}
+
+.line {
+  display: block;
+  text-wrap: balance;
+}
+
+.soft {
+  color: c(inkSoft);
+}
+
+.ink {
+  color: c(ink);
+}
+
+.depthSoft {
+  color: c(uc-mute);
+}
+
+.depthInk {
+  color: c(uc-text);
+}

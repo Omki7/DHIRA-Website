@@ -1,0 +1,375 @@
+@use "assets/styles" as *;
+
+.root {
+  pointer-events: none;
+  user-select: none;
+}
+
+.panel {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: 12px;
+  border: 1px solid c(card-line);
+  background: c(screen-surface);
+  color: c(ink);
+}
+
+.header {
+  display: flex;
+  height: 44px;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid c(card-line);
+  padding-inline: space(4);
+}
+
+.crumbs {
+  display: flex;
+  align-items: center;
+  gap: space(2);
+  white-space: nowrap;
+  font-size: 12px;
+}
+
+.crumbDim {
+  color: c(secondary-text);
+}
+
+.crumbSlash {
+  color: c(tertiary-text);
+}
+
+.crumbCurrent {
+  font-weight: 500;
+}
+
+.headerActions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.tabs {
+  display: flex;
+  border-radius: 7px;
+  background: c(screen-raised);
+  padding: 3px;
+  font-size: 11px;
+}
+
+.tabActive {
+  border-radius: 5px;
+  padding: 3px space(2);
+  border: 1px solid c(card-line);
+  background: c(screen-surface);
+  font-weight: 500;
+  color: c(ink);
+}
+
+.tabInactive {
+  border-radius: 5px;
+  padding: 3px space(2);
+  border: 1px solid transparent;
+  color: c(secondary-text);
+}
+
+.statusChip {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border-radius: 9999px;
+  border: 1px solid c(card-line);
+  padding: 3px space(2);
+  font-size: 10.5px;
+  color: c(secondary-text);
+}
+
+.statusDot {
+  height: 6px;
+  width: 6px;
+  border-radius: 9999px;
+  background: c(ink);
+}
+
+.body {
+  position: relative;
+  min-height: 0;
+  flex: 1 1 0%;
+}
+
+.statusBar {
+  display: flex;
+  height: 30px;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid c(card-line);
+  background: c(screen-raised);
+  padding-inline: space(4);
+  font-size: 10.5px;
+  color: c(secondary-text);
+}
+
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Forecast screen */
+.fcMeta {
+  position: absolute;
+  left: space(4);
+  top: 12px;
+}
+
+.fcEyebrow {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: c(tertiary-text);
+}
+
+.fcNumber {
+  margin-top: 2px;
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.025em;
+  font-variant-numeric: tabular-nums;
+}
+
+.fcUnit {
+  font-size: 12px;
+  font-weight: 400;
+  color: c(secondary-text);
+}
+
+.fcLegend {
+  position: absolute;
+  right: space(4);
+  top: space(4);
+  display: flex;
+  align-items: center;
+  gap: space(4);
+  font-size: 10.5px;
+  color: c(secondary-text);
+}
+
+.fcLegendItem {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.legendLineSolid {
+  height: 2px;
+  width: 16px;
+  background: c(ink);
+}
+
+.legendLineDashed {
+  width: 16px;
+  border-top: 2px dashed c(ink);
+}
+
+.legendBox {
+  height: 10px;
+  width: 16px;
+  border-radius: 2px;
+  border: 1px solid c(card-line);
+  background: c(screen-raised);
+}
+
+/* Ask screen */
+.askWrap {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  padding: 12px space(4);
+}
+
+.askBubbleUser {
+  margin-left: auto;
+  max-width: 78%;
+  border-radius: 12px;
+  border-bottom-right-radius: 4px;
+  background: c(screen-raised);
+  padding: space(2) 12px;
+  font-size: 12.5px;
+}
+
+.askAnswerRow {
+  margin-top: 12px;
+  display: flex;
+  gap: 10px;
+}
+
+.askLogo {
+  margin-top: 2px;
+  height: 20px;
+  width: 20px;
+  flex-shrink: 0;
+}
+
+.askAnswerContent {
+  min-width: 0;
+  flex: 1 1 0%;
+}
+
+.askAnswerText {
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.citeNum {
+  margin-left: 4px;
+  border-radius: 4px;
+  border: 1px solid c(card-line);
+  padding-inline: 4px;
+  font-size: 9.5px;
+  color: c(secondary-text);
+}
+
+.citeNumFollow {
+  margin-left: 2px;
+  border-radius: 4px;
+  border: 1px solid c(card-line);
+  padding-inline: 4px;
+  font-size: 9.5px;
+  color: c(secondary-text);
+}
+
+.askCard {
+  margin-top: 10px;
+  border-radius: 8px;
+  border: 1px solid c(card-line);
+  padding: 10px 12px;
+}
+
+.askCardTitle {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: c(tertiary-text);
+}
+
+.askBars {
+  margin-top: space(2);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.askBarRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 11px;
+}
+
+.askBarLabel {
+  width: 48px;
+  flex-shrink: 0;
+  color: c(secondary-text);
+}
+
+.askBarFillFocus {
+  height: 8px;
+  border-radius: 2px;
+  background: c(ink);
+}
+
+.askBarFillMuted {
+  height: 8px;
+  border-radius: 2px;
+  background: c(tertiary-text);
+}
+
+.askBarValFocus {
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+}
+
+.askBarValMuted {
+  font-variant-numeric: tabular-nums;
+  color: c(secondary-text);
+}
+
+.askInput {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 9px;
+  border: 1px solid c(card-line);
+  padding: space(2) 12px;
+  font-size: 12px;
+  color: c(tertiary-text);
+}
+
+.askSendBtn {
+  display: flex;
+  height: 20px;
+  width: 20px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+  background: c(ink);
+}
+
+/* Dashboard screen */
+.dashGrid {
+  display: grid;
+  height: 100%;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  padding: 12px;
+}
+
+.dashTileRelative {
+  position: relative;
+  border-radius: 9px;
+  border: 1px solid c(card-line);
+}
+
+.dashTile {
+  border-radius: 9px;
+  border: 1px solid c(card-line);
+  padding: 10px 12px 0;
+}
+
+.dashTileHeader {
+  padding: 10px 12px 0;
+}
+
+.dashEyebrow {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: c(tertiary-text);
+}
+
+.dashNumber {
+  margin-top: 2px;
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.dashDelta {
+  font-size: 11px;
+  font-weight: 500;
+  color: c(secondary-text);
+}
+
+.dashSvgAbsolute {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+
+.dashSvgMt {
+  margin-top: space(2);
+}

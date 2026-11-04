@@ -1,0 +1,351 @@
+@use "assets/styles" as *;
+
+.figure {
+  --gw-h: 30px;
+  --gw-gap: 4px;
+  --gw-col: 16px;
+
+  position: relative;
+  margin-top: 2.25rem;
+  overflow: hidden;
+  border-radius: $radius-frame;
+  border: 1px solid c(line);
+  background-color: c(background);
+
+  @media (max-width: 639px) {
+    --gw-h: 26px;
+    --gw-col: 8px;
+  }
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  column-gap: var(--gw-col);
+  padding-left: space(5);
+  padding-right: space(5);
+  padding-top: space(5);
+  padding-bottom: 1.75rem;
+
+  @media (max-width: 639px) {
+    padding-left: space(4);
+    padding-right: space(4);
+  }
+
+  @include respond-to(lg) {
+    grid-template-columns: 220px repeat(4, minmax(0, 1fr));
+    padding-left: space(8);
+    padding-right: space(8);
+  }
+}
+
+.corner {
+  display: none;
+
+  @include respond-to(lg) {
+    display: block;
+    align-self: flex-end;
+    border-bottom: 1px solid c(lineSoft);
+    padding-bottom: 0.75rem;
+  }
+}
+
+.smallLabel {
+  font-family: $font-mono;
+  font-size: 12px;
+  font-weight: $weight-medium;
+  text-transform: uppercase;
+  line-height: 1.625;
+  letter-spacing: 0.08em;
+  color: c(secondary-text);
+}
+
+.head {
+  display: flex;
+  min-width: 0;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25rem space(2);
+  border-bottom: 1px solid c(lineSoft);
+  padding-bottom: 0.75rem;
+
+  @media (max-width: 639px) {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+.index {
+  font-family: $font-mono;
+  font-size: 10px;
+  color: c(overcast);
+}
+
+.name {
+  font-size: 14px;
+  font-weight: $weight-medium;
+  letter-spacing: $tracking-tight;
+  color: c(ink);
+
+  @media (max-width: 639px) {
+    font-size: 12.5px;
+  }
+}
+
+.rowlabel {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  gap: space(1);
+  padding-top: space(6);
+  padding-bottom: 0.75rem;
+
+  @include respond-to(lg) {
+    grid-column: auto;
+    justify-content: center;
+    padding-bottom: 0;
+    padding-right: space(6);
+  }
+
+  strong {
+    font-size: 15px;
+    font-weight: $weight-semibold;
+    letter-spacing: $tracking-tight;
+    color: c(ink);
+  }
+
+  span {
+    text-wrap: balance;
+    font-size: 13px;
+    line-height: 1.375;
+    color: c(secondary-text);
+  }
+}
+
+.rowlabelAkashic {
+  strong {
+    color: c(blue);
+  }
+}
+
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gw-gap);
+
+  @include respond-to(lg) {
+    padding-top: space(6);
+  }
+}
+
+.shared {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--gw-gap);
+
+  @include respond-to(lg) {
+    grid-column: span 4 / span 4;
+    padding-top: space(6);
+  }
+}
+
+.works {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  column-gap: var(--gw-col);
+}
+
+.work {
+  position: relative;
+  display: block;
+  height: var(--gw-h);
+  border-radius: $radius-micro;
+  border: 1px solid rgba(var(--ink), 0.45);
+  background-color: c(tertiary-bg);
+
+  .stack[data-preview="true"] &,
+  &[data-preview="true"] {
+    border: 1px dashed c(blue);
+    background-color: c(blue-subtle);
+  }
+}
+
+.rebuilt,
+.band {
+  position: relative;
+  display: flex;
+  height: var(--gw-h);
+  align-items: center;
+  border-radius: $radius-micro;
+  padding-left: 0.625rem;
+  padding-right: 0.625rem;
+  font-family: $font-mono;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+
+  @media (max-width: 639px) {
+    padding-left: 0.25rem;
+    padding-right: 0.25rem;
+    font-size: 8.5px;
+    letter-spacing: 0.04em;
+  }
+}
+
+.rebuilt {
+  border: 1px solid c(line);
+  color: c(secondary-text);
+  background-image: repeating-linear-gradient(
+    135deg,
+    rgb(var(--line)) 0 1px,
+    transparent 1px 7px
+  );
+
+  > span:first-child {
+    background-color: c(background);
+    padding-left: 0.25rem;
+    padding-right: 0.25rem;
+  }
+
+  .stack[data-preview="true"] & {
+    border-style: dashed;
+  }
+}
+
+.band {
+  border: 1px solid c(blue);
+  background-color: c(blue-solid);
+  color: c(on-accent);
+}
+
+.governance {
+  margin-top: space(2);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25rem space(4);
+  border-top: 1px solid c(blue-border);
+  padding-top: space(3);
+  font-size: 0.75rem;
+  color: c(secondary-text);
+
+  strong {
+    font-weight: $weight-medium;
+    color: c(blue);
+  }
+}
+
+.reuse {
+  font-family: $font-mono;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: c(blue);
+
+  @include respond-to(sm) {
+    margin-left: auto;
+  }
+}
+
+.pin {
+  display: flex;
+  height: space(5);
+  width: space(5);
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  background-color: c(ink);
+  font-family: $font-mono;
+  font-size: 10px;
+  font-weight: $weight-medium;
+  color: c(on-action);
+}
+
+.gridPin {
+  position: absolute;
+  top: calc(50% - 10px);
+  outline: 3px solid c(background);
+}
+
+.pinRebuilt,
+.pinWork {
+  right: -10px;
+}
+
+.pinDefine {
+  left: 64%;
+}
+
+.pinBand {
+  left: 39%;
+}
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: space(2) space(6);
+  border-top: 1px solid c(lineSoft);
+  background-color: c(panel);
+  padding: space(3) space(5);
+  font-size: 0.75rem;
+  color: c(secondary-text);
+
+  @media (max-width: 639px) {
+    padding-left: space(4);
+    padding-right: space(4);
+  }
+
+  @include respond-to(lg) {
+    padding-left: space(8);
+    padding-right: space(8);
+  }
+
+  li {
+    display: flex;
+    align-items: center;
+    gap: space(2);
+  }
+}
+
+.swatch {
+  height: 0.75rem;
+  width: space(5);
+  border-radius: 2px;
+}
+
+.swatchWork {
+  border: 1px solid rgba(var(--ink), 0.45);
+  background-color: c(tertiary-bg);
+}
+
+.swatchRebuilt {
+  border: 1px solid c(line);
+  background-image: repeating-linear-gradient(
+    135deg,
+    rgb(var(--line)) 0 1px,
+    transparent 1px 4px
+  );
+}
+
+.swatchShared {
+  background-color: c(blue-solid);
+}
+
+.swatchPreview {
+  border: 1px dashed c(blue);
+  background-color: c(blue-subtle);
+}

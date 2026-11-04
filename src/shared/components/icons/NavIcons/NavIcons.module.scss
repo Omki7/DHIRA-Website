@@ -1,0 +1,19 @@
+@use "assets/styles" as *;
+
+.icon {
+  flex-shrink: 0;
+}
+
+.chevron {
+  flex-shrink: 0;
+  transition-property: transform;
+  transition-timing-function: $ease-settle;
+  transition-duration: $duration-250;
+}
+
+// Tailwind's `rotate-180`, through its transform variables.
+.open {
+  --tw-rotate: 180deg;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x))
+    skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}

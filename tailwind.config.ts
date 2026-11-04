@@ -3,10 +3,10 @@ import type { Config } from "tailwindcss";
 const colour = (name: string) => `rgb(var(--${name}) / <alpha-value>)`;
 
 const config: Config = {
-  content: [
-    "./app/**/*.{js,ts,jsx,tsx,mdx}",
-    "./components/**/*.{js,ts,jsx,tsx,mdx}",
-  ],
+  content: {
+    relative: true,
+    files: ["./src/**/*.{js,ts,jsx,tsx,mdx}"],
+  },
   theme: {
     extend: {
       // Paired surface, text and accent palettes live in app/theme.css.

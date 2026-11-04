@@ -1,0 +1,27 @@
+@use "assets/styles" as *;
+
+.root {
+  transition-property: opacity, transform;
+  transition-timing-function: $ease-settle;
+  transition-duration: $duration-500;
+}
+
+.visible {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.concealed {
+  transform: translateY(space(4));
+  opacity: 0;
+}
+
+// After the state classes so it wins at equal specificity (Tailwind's
+// variant order).
+@media (prefers-reduced-motion: reduce) {
+  .root {
+    transform: none;
+    opacity: 1;
+    transition-property: none;
+  }
+}

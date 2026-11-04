@@ -1,0 +1,334 @@
+@use "assets/styles" as *;
+
+@mixin mono-caption($size) {
+  font-family: $font-mono;
+  font-size: $size;
+  text-transform: uppercase;
+}
+
+// --- Record marks and the relationship field -------------------------
+.recordMark {
+  margin-bottom: space(2);
+  height: space(9);
+  width: space(14);
+
+  @include respond-to(sm) {
+    margin-bottom: space(3);
+    height: space(11);
+    width: space(16);
+  }
+}
+
+.recordMarkUnified {
+  color: c(blue);
+}
+
+.recordMarkScattered {
+  color: c(overcast);
+}
+
+.field {
+  position: absolute;
+  inset: 0;
+  height: 100%;
+  width: 100%;
+}
+
+// --- The six records ---------------------------------------------------
+.node {
+  position: absolute;
+  transform: translate(-50%, -50%);
+}
+
+.nodeCompact {
+  width: 36%;
+}
+
+.nodeWide {
+  width: 23%;
+  max-width: 225px;
+}
+
+.nodeUnified {
+  background-color: c(background);
+}
+
+.nodeScattered {
+  background-color: c(panel);
+}
+
+.nodeLabel {
+  margin-bottom: space(2);
+  display: flex;
+  align-items: center;
+  gap: space(2);
+  border-top-width: 1px;
+  padding-top: space(2);
+  @include mono-caption(8px);
+  letter-spacing: 0.06em;
+
+  @include respond-to(sm) {
+    font-size: 9px;
+  }
+}
+
+.nodeLabelUnified {
+  border-color: c(blue-border);
+  color: c(blue);
+}
+
+.nodeLabelScattered {
+  border-color: c(line);
+  color: c(inkSoft);
+}
+
+.nodeText {
+  max-width: 19ch;
+  font-size: 12px;
+  font-weight: $weight-medium;
+  line-height: 1.25;
+  letter-spacing: $tracking-tight;
+  color: c(ink);
+
+  @include respond-to(sm) {
+    font-size: 16px;
+  }
+
+  @include respond-to(lg) {
+    font-size: 19px;
+  }
+}
+
+// --- The seam: DHIRA's mark where the records meet -----------------------
+.seam {
+  position: absolute;
+  left: 50%;
+  top: 89%;
+  display: flex;
+  transform: translate(-50%, -50%);
+  flex-direction: column;
+  align-items: center;
+}
+
+.seamMark {
+  display: flex;
+  height: space(12);
+  width: space(12);
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  border-width: 1px;
+  border-color: c(blue-border);
+  background-color: c(background);
+  outline-style: solid;
+  outline-width: 6px;
+  outline-color: c(background);
+
+  @include respond-to(sm) {
+    height: 72px;
+    width: 72px;
+    outline-width: 10px;
+  }
+}
+
+// Replaces DhiraLogo's default size class.
+.seamLogo {
+  height: space(7);
+  width: space(7);
+  color: c(ink);
+
+  @include respond-to(sm) {
+    height: space(10);
+    width: space(10);
+  }
+}
+
+.seamLabel {
+  margin-top: space(3);
+  background-color: c(background);
+  padding-left: space(2);
+  padding-right: space(2);
+  @include mono-caption(8px);
+  letter-spacing: $tracking-eyebrow;
+  color: c(blue);
+
+  @include respond-to(sm) {
+    font-size: 10px;
+  }
+}
+
+// --- The stage -------------------------------------------------------------
+.root {
+  position: absolute;
+  inset: 0;
+}
+
+.canvas {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: $radius-outer;
+}
+
+.after {
+  position: absolute;
+  inset: 0;
+  background-color: c(background);
+}
+
+.before {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  overflow: hidden;
+  background-color: c(panel);
+  transition-property: width;
+  transition-timing-function: $ease-default;
+  transition-duration: $duration-150;
+
+  @media (prefers-reduced-motion: reduce) {
+    transition-property: none;
+  }
+}
+
+.beforeInner {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.sides {
+  pointer-events: none;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  justify-content: space-between;
+  padding: space(4);
+
+  @include respond-to(sm) {
+    padding-left: space(7);
+    padding-right: space(7);
+    padding-top: space(6);
+    padding-bottom: space(6);
+  }
+}
+
+.side {
+  @include mono-caption(9px);
+  letter-spacing: $tracking-eyebrow;
+}
+
+.sideBefore {
+  color: c(inkSoft);
+}
+
+.sideAfter {
+  color: c(blue);
+}
+
+.line {
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  z-index: 20;
+  width: 1px;
+  transform: translateX(-50%);
+  background-color: c(blue);
+  transition-property: left;
+  transition-timing-function: $ease-default;
+  transition-duration: $duration-150;
+
+  @media (prefers-reduced-motion: reduce) {
+    transition-property: none;
+  }
+}
+
+// --- The slider handle -------------------------------------------------------
+// outline-none (0,1,0) beats the sitewide :where() ring; Tailwind's ring-2
+// with a 4px offset replaces it on keyboard focus.
+.slider {
+  position: absolute;
+  top: 46%;
+  z-index: 30;
+  display: flex;
+  height: 60px;
+  width: space(11);
+  transform: translate(-50%, -50%);
+  cursor: ew-resize;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  transition-property: left;
+  transition-timing-function: $ease-default;
+  transition-duration: $duration-150;
+
+  &:focus-visible {
+    box-shadow: 0 0 0 4px #fff, 0 0 0 6px c(blue), 0 0 #0000;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition-property: none;
+  }
+}
+
+.handle {
+  position: relative;
+  display: flex;
+  height: space(12);
+  width: space(11);
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  border-width: 1px;
+  border-color: c(blue-border);
+  background-color: c(background);
+  color: c(blue);
+}
+
+// proofNudge is the global keyframe in src/app/globals.css.
+.nudge {
+  @include motion-safe {
+    animation: global(proofNudge) 1.5s ease-in-out 3;
+  }
+}
+
+.handleIcon {
+  height: space(6);
+  width: space(6);
+}
+
+.hint {
+  position: absolute;
+  top: 100%;
+  margin-top: space(3);
+  border-radius: 9999px;
+  border-width: 1px;
+  border-color: c(default-stroke);
+  background-color: c(background);
+  padding-left: space(3);
+  padding-right: space(3);
+  padding-top: space(1);
+  padding-bottom: space(1);
+  @include mono-caption(9px);
+  letter-spacing: $tracking-eyebrow;
+  color: c(inkSoft);
+}
+
+// The glide states come last: they override the transitions above.
+.glide {
+  transition-duration: $duration-650;
+  transition-timing-function: $ease-settle;
+}
+
+.still {
+  transition-duration: 0s;
+}

@@ -1,0 +1,12 @@
+@use "assets/styles" as *;
+
+// Tailwind's `spin` keyframe, local now that no utility emits it.
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.chakra {
+  animation: spin 80s linear infinite;
+}

@@ -1,0 +1,293 @@
+@use "assets/styles" as *;
+
+// --- Metric -----------------------------------------------------------
+.metricValue {
+  margin-bottom: space(2);
+  display: flex;
+  align-items: baseline;
+  line-height: $leading-none;
+  color: c(ink);
+}
+
+.metricFigure {
+  font-size: 42px;
+  font-weight: $weight-semibold;
+  line-height: $leading-none;
+  letter-spacing: $tracking-tighter;
+  font-variant-numeric: tabular-nums;
+
+  @include respond-to(sm) {
+    @include text("5xl");
+  }
+
+  @include respond-to(md) {
+    font-size: 56px;
+  }
+}
+
+// text-xl, then leading-none: the unit sits on the figure's line.
+.metricSuffix {
+  white-space: pre;
+  @include text(xl);
+  font-weight: $weight-medium;
+  line-height: $leading-none;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: $tracking-tight;
+
+  @include respond-to(md) {
+    font-size: 28px;
+  }
+}
+
+// text-sm, then leading-snug; md:text-base resets the line-height too.
+.metricLabel {
+  @include text(sm);
+  line-height: $leading-snug;
+  color: c(inkSoft);
+
+  @include respond-to(md) {
+    @include text(base);
+  }
+}
+
+// --- The carousel ---------------------------------------------------------
+.root {
+  position: relative;
+}
+
+.frame {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  border-radius: $radius-outer;
+  border-width: 1px;
+  border-color: c(lineSoft);
+  background-color: c(background);
+}
+
+.slide {
+  transition-property: opacity;
+  transition-timing-function: $ease-smooth;
+  transition-duration: $duration-500;
+}
+
+.slideActive {
+  position: relative;
+  z-index: 10;
+  opacity: 1;
+}
+
+.slideHidden {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  opacity: 0;
+}
+
+.slideGrid {
+  display: grid;
+  height: 100%;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+
+  @include respond-to(lg) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.story {
+  display: flex;
+  flex-direction: column;
+  padding: space(8);
+
+  @include respond-to(md) {
+    padding: space(12);
+  }
+
+  @include respond-to(lg) {
+    padding: space(14);
+  }
+}
+
+.storyHead {
+  margin-bottom: space(7);
+}
+
+.platform {
+  font-size: 26px;
+  font-weight: $weight-semibold;
+  line-height: $leading-none;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: $tracking-tight;
+  color: c(ink);
+}
+
+.authority {
+  margin-top: space(2.5);
+  font-family: $font-mono;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: $tracking-eyebrow;
+  color: c(overcast);
+}
+
+// text-2xl, then leading-[1.15]; md:text-3xl resets the line-height too.
+.title {
+  margin-bottom: space(5);
+  @include text("2xl");
+  font-weight: $weight-medium;
+  line-height: 1.15;
+  letter-spacing: $tracking-tight;
+  color: c(ink);
+
+  @include respond-to(md) {
+    @include text("3xl");
+  }
+
+  @include respond-to(lg) {
+    font-size: 34px;
+  }
+}
+
+// text-base, then leading-relaxed; md:text-lg resets the line-height too.
+.description {
+  margin-bottom: space(10);
+  @include text(base);
+  line-height: $leading-relaxed;
+  color: c(inkSoft);
+
+  @include respond-to(md) {
+    @include text(lg);
+  }
+}
+
+.metrics {
+  margin-top: auto;
+  border-top-width: 1px;
+  border-color: c(lineSoft);
+  padding-top: space(7);
+}
+
+.metricsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: space(8);
+}
+
+.photo {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+
+  @include respond-to(lg) {
+    aspect-ratio: auto;
+    min-height: 600px;
+  }
+}
+
+.photoImage {
+  object-fit: cover;
+}
+
+// --- Controls ---------------------------------------------------------------
+.arrow {
+  position: absolute;
+  top: 50%;
+  z-index: 20;
+  display: none;
+  height: space(11);
+  width: space(11);
+  transform: translateY(-50%);
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  border-width: 1px;
+  border-color: c(lineSoft);
+  background-color: c(background);
+  color: c(ink);
+  @include transition-colors($duration-200, $ease-settle);
+
+  &:hover {
+    border-color: c(blue, 0.5);
+    color: c(blue);
+  }
+
+  @include respond-to(lg) {
+    display: flex;
+  }
+}
+
+.arrowPrevious {
+  left: space(-5);
+
+  @include respond-to(lg) {
+    left: space(-6);
+  }
+}
+
+.arrowNext {
+  right: space(-5);
+
+  @include respond-to(lg) {
+    right: space(-6);
+  }
+}
+
+.dots {
+  margin-top: space(6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  @include respond-to(lg) {
+    margin-top: space(8);
+  }
+}
+
+.dotButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: space(2.5);
+}
+
+.progress {
+  position: relative;
+  display: block;
+  height: space(1.5);
+  width: space(11);
+  overflow: hidden;
+  border-radius: 9999px;
+  background-color: c(lineSoft);
+}
+
+// progressFill (src/app/globals.css) runs from the inline style.
+.progressFill {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  display: block;
+  width: 100%;
+  transform-origin: left;
+  border-radius: 9999px;
+  background-color: c(blue);
+}
+
+.dot {
+  display: block;
+  height: space(1.5);
+  width: space(1.5);
+  border-radius: 9999px;
+  background-color: c(line);
+  @include transition-colors($duration-200, $ease-settle);
+
+  &:hover {
+    background-color: c(inkSoft);
+  }
+}
+
+// On ui/MotionToggle, whose module sets no margin.
+.motionToggle {
+  margin-left: space(3);
+}

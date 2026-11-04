@@ -1,0 +1,56 @@
+@use "assets/styles" as *;
+
+.root {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: space(3);
+  color: c(ink);
+}
+
+.mark {
+  display: flex;
+  align-items: center;
+  gap: space(1.5);
+}
+
+.logo {
+  height: space(9);
+  width: space(9);
+}
+
+.name {
+  font-size: 22px;
+  font-weight: $weight-semibold;
+  letter-spacing: $tracking-tight;
+}
+
+// Shown from md, hidden at lg (1024 to 1279px), shown again from xl.
+.expansion {
+  display: none;
+  max-width: 150px;
+  border-left-width: 1px;
+  border-color: c(default-stroke);
+  padding-left: space(3);
+  font-size: 11px;
+  line-height: $leading-tight;
+  letter-spacing: 0.04em;
+  color: c(secondary-text);
+
+  @include respond-to(md) {
+    display: block;
+  }
+
+  @include respond-to(lg) {
+    display: none;
+  }
+
+  @include respond-to(xl) {
+    display: block;
+  }
+}
+
+.initial {
+  font-weight: $weight-medium;
+  color: c(ink);
+}

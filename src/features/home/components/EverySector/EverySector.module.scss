@@ -1,0 +1,521 @@
+@use "assets/styles" as *;
+
+@mixin mono-caption {
+  font-family: $font-mono;
+  font-size: 10px;
+  text-transform: uppercase;
+}
+
+// Arrow's own size; callers add placement and motion.
+.arrow {
+  height: space(5);
+  width: space(5);
+  flex-shrink: 0;
+}
+
+.section {
+  position: relative;
+  overflow: hidden;
+  background-color: c(background);
+  padding-top: space(12);
+  padding-bottom: space(16);
+
+  @include respond-to(lg) {
+    padding-top: space(16);
+    padding-bottom: space(24);
+  }
+}
+
+.anchors {
+  pointer-events: none;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.anchor {
+  position: absolute;
+  top: 0;
+  scroll-margin-top: space(24);
+}
+
+// On ui/ScrollReveal, whose module sets no margin.
+.reveal {
+  margin-top: space(12);
+
+  @include respond-to(lg) {
+    margin-top: space(14);
+  }
+}
+
+.layout {
+  display: grid;
+  min-width: 0;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  row-gap: space(6);
+
+  @include respond-to(lg) {
+    grid-template-columns: 240px minmax(0, 1fr);
+    column-gap: space(10);
+  }
+
+  @include respond-to(xl) {
+    grid-template-columns: 260px minmax(0, 1fr);
+    column-gap: space(12);
+  }
+}
+
+// --- The selector -------------------------------------------------
+.selector {
+  min-width: 0;
+
+  @include respond-to(lg) {
+    grid-column-start: 1;
+    grid-row-start: 1;
+  }
+}
+
+.selectorLabel {
+  margin-bottom: space(4);
+  @include mono-caption;
+  letter-spacing: $tracking-eyebrow;
+  color: c(inkSoft);
+}
+
+.tabs {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: space(3);
+
+  @include respond-to(sm) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  @include respond-to(lg) {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    gap: 0;
+  }
+}
+
+.tab {
+  position: relative;
+  display: flex;
+  min-height: 56px;
+  align-items: center;
+  gap: space(2.5);
+  border-bottom-width: 1px;
+  padding-left: space(1.5);
+  padding-right: space(1.5);
+  padding-top: space(2.5);
+  padding-bottom: space(2.5);
+  text-align: left;
+  @include transition-colors($duration-200);
+
+  @media (prefers-reduced-motion: reduce) {
+    transition-property: none;
+  }
+
+  @include respond-to(lg) {
+    min-height: 65px;
+    gap: space(3);
+    padding-left: space(3);
+    padding-right: space(3);
+  }
+}
+
+.tabSelected {
+  border-color: c(blue);
+  background-color: c(primary-bg);
+  color: c(ink);
+}
+
+.tabIdle {
+  border-color: c(lineSoft);
+  color: c(inkSoft);
+
+  &:hover {
+    background-color: c(primary-bg);
+    color: c(ink);
+  }
+}
+
+.thumb {
+  position: relative;
+  height: space(8);
+  width: space(8);
+  flex-shrink: 0;
+  overflow: hidden;
+  border-radius: $radius-micro;
+  transition-property: filter;
+  transition-timing-function: $ease-default;
+  transition-duration: $duration-400;
+
+  @media (prefers-reduced-motion: reduce) {
+    transition-property: none;
+  }
+
+  @include respond-to(lg) {
+    height: space(9);
+    width: space(9);
+  }
+}
+
+.thumbSelected {
+  filter: grayscale(0);
+}
+
+.thumbIdle {
+  filter: grayscale(100%);
+
+  .tab:hover & {
+    filter: grayscale(0);
+  }
+
+  .tab:focus-visible & {
+    filter: grayscale(0);
+  }
+}
+
+.cover {
+  object-fit: cover;
+}
+
+.tabName {
+  min-width: 0;
+  font-size: 13px;
+  font-weight: $weight-medium;
+  letter-spacing: $tracking-tight;
+
+  @include respond-to(sm) {
+    font-size: 15px;
+  }
+
+  @include respond-to(lg) {
+    font-size: 17px;
+  }
+}
+
+.tabArrow {
+  margin-left: auto;
+  display: none;
+  transition-property: opacity;
+  transition-timing-function: $ease-default;
+  transition-duration: $duration-250;
+
+  @media (prefers-reduced-motion: reduce) {
+    transition-property: none;
+  }
+
+  @include respond-to(lg) {
+    display: block;
+  }
+}
+
+.tabArrowSelected {
+  color: c(blue);
+  opacity: 1;
+}
+
+.tabArrowIdle {
+  opacity: 0;
+
+  .tab:hover & {
+    opacity: 0.6;
+  }
+}
+
+.loader {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 2px;
+  overflow: hidden;
+  background-color: c(blue-border);
+}
+
+// progressFill (src/app/globals.css) runs from the inline style.
+.loaderFill {
+  display: block;
+  width: 100%;
+  height: 100%;
+  transform-origin: left;
+  background-color: c(blue);
+
+  .layout:has(:focus-visible) & {
+    animation-play-state: paused;
+  }
+}
+
+.paused {
+  animation-play-state: paused;
+}
+
+// --- The panel ----------------------------------------------------
+// row-span-2 sets the `grid-row` shorthand before row-start-1, as in Tailwind.
+.panel {
+  min-width: 0;
+  border-radius: $radius-outer;
+
+  @include respond-to(lg) {
+    grid-column-start: 2;
+    grid-row: span 2 / span 2;
+    grid-row-start: 1;
+  }
+}
+
+.media {
+  position: relative;
+  isolation: isolate;
+  height: 310px;
+  overflow: hidden;
+  border-radius: $radius-outer;
+  background-color: c(primary-bg);
+
+  @include respond-to(sm) {
+    height: 370px;
+  }
+
+  @include respond-to(lg) {
+    height: 390px;
+  }
+
+  @include respond-to(xl) {
+    height: 420px;
+  }
+}
+
+.slide {
+  position: absolute;
+  inset: 0;
+}
+
+.chips {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: space(5);
+  @include mono-caption;
+  letter-spacing: $tracking-eyebrow;
+  color: c(ink);
+
+  @include respond-to(sm) {
+    padding: space(7);
+  }
+}
+
+.nameChip {
+  border-radius: $radius-chip;
+  border-width: 1px;
+  border-color: c(line);
+  background-color: c(background);
+  padding-left: space(3);
+  padding-right: space(3);
+  padding-top: space(1.5);
+  padding-bottom: space(1.5);
+}
+
+.countChip {
+  border-radius: $radius-chip;
+  background-color: c(background);
+  padding-left: space(2.5);
+  padding-right: space(2.5);
+  padding-top: space(1.5);
+  padding-bottom: space(1.5);
+  font-variant-numeric: tabular-nums;
+}
+
+.headlineBar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-top-width: 1px;
+  border-color: c(card-line);
+  background-color: c(depth);
+  padding-left: space(6);
+  padding-right: space(6);
+  padding-top: space(5);
+  padding-bottom: space(5);
+
+  @include respond-to(sm) {
+    padding-left: space(8);
+    padding-right: space(8);
+  }
+
+  @include respond-to(lg) {
+    padding-left: space(10);
+    padding-right: space(10);
+  }
+}
+
+.headline {
+  white-space: nowrap;
+  font-size: 26px;
+  font-weight: $weight-medium;
+  line-height: 1.06;
+  letter-spacing: $tracking-tighter;
+  color: c(ink);
+
+  @include respond-to(sm) {
+    font-size: 34px;
+  }
+
+  @include respond-to(xl) {
+    font-size: 38px;
+  }
+}
+
+.detail {
+  padding-top: space(5);
+
+  @include respond-to(sm) {
+    padding-top: space(6);
+  }
+}
+
+.detailRow {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: space(4);
+
+  @include respond-to(xl) {
+    flex-direction: row;
+    gap: space(8);
+  }
+}
+
+.description {
+  max-width: 39em;
+  font-size: 15px;
+  line-height: $leading-relaxed;
+  color: c(inkSoft);
+
+  @include respond-to(sm) {
+    font-size: 16px;
+  }
+}
+
+// The hover shift (0,3,0) outranks the reduced-motion reset, as in Tailwind.
+@mixin link-arrow($link) {
+  transition-property: transform;
+  transition-timing-function: $ease-default;
+  transition-duration: $duration-200;
+
+  #{$link}:hover & {
+    transform: translateX(0.25rem);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transform: none;
+    transition-property: none;
+  }
+}
+
+.explore {
+  display: inline-flex;
+  min-height: space(11);
+  flex-shrink: 0;
+  align-items: center;
+  gap: space(3);
+  font-size: 14px;
+  font-weight: $weight-medium;
+  color: c(ink);
+  text-decoration-line: underline;
+  text-decoration-color: c(line);
+  text-underline-offset: 6px;
+  @include transition-colors($duration-200);
+
+  &:hover {
+    color: c(blue);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition-property: none;
+  }
+}
+
+.exploreArrow {
+  @include link-arrow(".explore");
+}
+
+.topics {
+  margin-top: space(5);
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: space(5);
+  row-gap: space(2);
+  border-top-width: 1px;
+  border-color: c(lineSoft);
+  padding-top: space(4);
+}
+
+.topic {
+  display: flex;
+  align-items: center;
+  gap: space(2);
+  @include mono-caption;
+  letter-spacing: 0.08em;
+  color: c(inkSoft);
+}
+
+.topicDot {
+  height: space(1);
+  width: space(1);
+  border-radius: 9999px;
+  background-color: c(blue);
+}
+
+// --- Public sector --------------------------------------------------
+.publicSector {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-end;
+  border-top-width: 1px;
+  border-style: dashed;
+  border-color: c(lineSoft);
+  padding-top: space(5);
+
+  @include respond-to(lg) {
+    grid-column-start: 1;
+    grid-row-start: 2;
+    margin-top: space(2);
+  }
+}
+
+.publicSectorLabel {
+  font-size: 14px;
+  line-height: $leading-relaxed;
+  color: c(inkSoft);
+}
+
+.publicSectorLink {
+  margin-top: space(1);
+  display: inline-flex;
+  min-height: space(11);
+  align-items: center;
+  gap: space(2);
+  font-size: 14px;
+  font-weight: $weight-medium;
+  color: c(ink);
+  @include transition-colors($duration-200);
+
+  &:hover {
+    color: c(blue);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition-property: none;
+  }
+}
+
+.publicSectorArrow {
+  @include link-arrow(".publicSectorLink");
+}

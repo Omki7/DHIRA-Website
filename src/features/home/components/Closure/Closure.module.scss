@@ -1,0 +1,181 @@
+@use "assets/styles" as *;
+
+.section {
+  position: relative;
+  overflow: hidden;
+  background-color: c(background);
+  padding-top: space(10);
+  padding-bottom: space(12);
+
+  @include respond-to(lg) {
+    padding-top: space(14);
+    padding-bottom: space(16);
+  }
+}
+
+.alias {
+  position: absolute;
+  top: space(-24);
+}
+
+// On ui/ScrollRevealRail, whose module sets no z-index.
+.rail {
+  z-index: 10;
+}
+
+.card {
+  position: relative;
+  overflow: hidden;
+  border-radius: $radius-outer;
+  border-width: 1px;
+  border-color: c(line);
+  background-color: c(vault);
+  padding-left: space(6);
+  padding-right: space(6);
+  padding-top: space(24);
+  padding-bottom: space(24);
+  color: c(ink);
+  transition-property: all;
+  transition-timing-function: $ease-settle;
+  transition-duration: $duration-500;
+
+  &:hover {
+    border-color: c(line);
+  }
+
+  @include respond-to(md) {
+    padding-top: space(32);
+    padding-bottom: space(32);
+  }
+
+  @include respond-to(lg) {
+    padding-top: space(40);
+    padding-bottom: space(40);
+  }
+}
+
+.content {
+  position: relative;
+  z-index: 10;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  max-width: 54rem;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.badge {
+  margin-bottom: space(8);
+  display: flex;
+  align-items: center;
+  gap: space(2);
+  border-radius: 9999px;
+  border-width: 1px;
+  border-color: c(line);
+  background-color: c(background);
+  padding-left: space(3);
+  padding-right: space(3);
+  padding-top: space(1);
+  padding-bottom: space(1);
+  font-family: $font-mono;
+  font-size: 11px;
+  letter-spacing: $tracking-eyebrow;
+  color: c(secondary-text);
+}
+
+// Replaces AkashicLogo's default size class.
+.badgeLogo {
+  height: space(3.5);
+  width: space(3.5);
+}
+
+.badgeLabel {
+  text-transform: uppercase;
+}
+
+.title {
+  text-wrap: balance;
+  padding-bottom: space(1);
+  font-size: 44px;
+  font-weight: $weight-medium;
+  line-height: 1.03;
+  letter-spacing: $tracking-tighter;
+  color: c(ink);
+
+  @include respond-to(sm) {
+    font-size: 60px;
+  }
+
+  @include respond-to(md) {
+    font-size: 80px;
+  }
+
+  @include respond-to(lg) {
+    font-size: 96px;
+  }
+}
+
+// closeRule is the global keyframe in src/app/globals.css.
+.rule {
+  margin-top: space(6);
+  height: 1px;
+  width: min(420px, 70%);
+  transform-origin: center;
+  animation: global(closeRule) 900ms cubic-bezier(0.2, 0.8, 0.2, 1) 320ms both;
+  background-color: c(blue);
+}
+
+// text-base, then leading-relaxed; md:text-lg and lg:text-xl reset the line-height too.
+.body {
+  margin-top: space(7);
+  max-width: 34em;
+  @include text(base);
+  line-height: $leading-relaxed;
+  color: c(secondary-text);
+
+  @include respond-to(md) {
+    @include text(lg);
+  }
+
+  @include respond-to(lg) {
+    @include text(xl);
+  }
+}
+
+.break {
+  display: none;
+
+  @include respond-to(sm) {
+    display: block;
+  }
+}
+
+.actions {
+  margin-top: space(12);
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: space(4);
+
+  @include respond-to(sm) {
+    width: auto;
+    flex-direction: row;
+  }
+}
+
+// Beside the global .btn-primary / .btn-secondary (src/app/globals.css), which
+// set the `transition` shorthand and an :active transform: doubled so these
+// win whatever the stylesheet order, as the Tailwind utilities did.
+.action.action {
+  transition-property: transform;
+  transition-timing-function: $ease-settle;
+  transition-duration: $duration-200;
+
+  &:hover {
+    transform: translateY(-0.125rem);
+  }
+}

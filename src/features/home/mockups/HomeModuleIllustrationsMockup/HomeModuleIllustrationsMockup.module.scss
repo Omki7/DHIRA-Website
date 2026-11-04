@@ -1,0 +1,429 @@
+@use "assets/styles" as *;
+
+// Shared by every file in this folder: the seven teasers and their shell.
+
+// --- One type scale ----------------------------------------------
+// The 9.5px mono label, composed beside each label's own colour.
+.mono {
+  font-family: $font-mono;
+  font-size: 9.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.tertiary {
+  color: c(tertiary-text);
+}
+
+.nowrap {
+  white-space: nowrap;
+}
+
+.label {
+  font-size: 11px;
+  color: c(secondary-text);
+}
+
+.figureSlot {
+  margin-top: space(1.5);
+}
+
+.figureRow {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: space(2);
+}
+
+.figure {
+  font-family: $font-heading;
+  font-size: 24px;
+  font-weight: $weight-medium;
+  line-height: $leading-none;
+  letter-spacing: $tracking-tight;
+  font-variant-numeric: tabular-nums;
+  color: c(ink);
+}
+
+.figureUnit {
+  margin-left: space(1);
+  font-family: $font-sans;
+  font-size: 12px;
+  font-weight: $weight-normal;
+  letter-spacing: $tracking-normal;
+  color: c(secondary-text);
+}
+
+.dot {
+  height: space(1.5);
+  width: space(1.5);
+  border-radius: 9999px;
+  background-color: c(blue);
+}
+
+// --- SVG paint ----------------------------------------------------
+.fillBlue {
+  fill: c(blue);
+}
+
+.fillBlueSubtle {
+  fill: c(blue-subtle);
+}
+
+.fillInk {
+  fill: c(ink);
+}
+
+.strokeBlue {
+  stroke: c(blue);
+}
+
+.strokeBlueBorder {
+  stroke: c(blue-border);
+}
+
+.strokeInk {
+  stroke: c(ink);
+}
+
+.strokeInkSoft {
+  stroke: c(inkSoft);
+}
+
+.strokeLine {
+  stroke: c(line);
+}
+
+.chart {
+  width: 100%;
+  overflow: visible;
+}
+
+// --- Master Data ----------------------------------------------------
+.orgRow {
+  display: flex;
+  align-items: center;
+  gap: space(2.5);
+}
+
+.orgIconBox {
+  display: flex;
+  height: space(6);
+  width: space(6);
+  align-items: center;
+  justify-content: center;
+  border-radius: 7px;
+  border-width: 1px;
+  border-color: c(card-line);
+  color: c(ink);
+}
+
+.orgIcon {
+  height: space(3);
+  width: space(3);
+}
+
+.orgName {
+  font-size: 12.5px;
+  font-weight: $weight-medium;
+  letter-spacing: $tracking-tight;
+  color: c(ink);
+}
+
+.tree {
+  position: relative;
+  margin-left: space(3);
+  margin-top: space(2);
+  border-left-width: 1px;
+  border-color: c(line);
+  padding-left: space(4);
+}
+
+.treeItem {
+  position: relative;
+  padding-top: space(1);
+  padding-bottom: space(1);
+}
+
+.branch {
+  position: absolute;
+  left: space(-4);
+  top: 50%;
+  height: 1px;
+  width: space(3.5);
+}
+
+.branchOn {
+  background-color: c(blue);
+}
+
+.branchOff {
+  background-color: c(line);
+}
+
+.region {
+  border-radius: 8px;
+  padding-left: space(2.5);
+  padding-right: space(2.5);
+  padding-top: space(1.5);
+  padding-bottom: space(1.5);
+}
+
+.regionOn {
+  background-color: c(blue-subtle);
+}
+
+.regionHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.regionName {
+  font-size: 12px;
+}
+
+.regionNameOn {
+  font-weight: $weight-medium;
+  color: c(ink);
+}
+
+.regionNameOff {
+  color: c(secondary-text);
+}
+
+.regionDetail {
+  margin-top: space(0.5);
+}
+
+.moreRegions {
+  padding-left: space(2.5);
+  padding-right: space(2.5);
+  font-size: 11.5px;
+  color: c(tertiary-text);
+}
+
+// --- Business Intelligence ------------------------------------------
+.change {
+  padding-bottom: space(0.5);
+  font-size: 11px;
+  font-weight: $weight-medium;
+  color: c(blue);
+}
+
+.spark {
+  margin-top: space(3);
+  height: space(11);
+}
+
+.sparkFoot {
+  margin-top: space(2);
+  display: flex;
+  justify-content: space-between;
+}
+
+// --- Governance ------------------------------------------------------
+// Tailwind's divide-y divide-lineSoft.
+.roles {
+  > :not([hidden]) ~ :not([hidden]) {
+    border-top-width: 1px;
+    border-bottom-width: 0px;
+    border-color: c(lineSoft);
+  }
+}
+
+.roleRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: space(2);
+  padding-bottom: space(2);
+
+  &:first-child {
+    padding-top: 0px;
+  }
+
+  &:last-child {
+    padding-bottom: 0px;
+  }
+}
+
+.roleName {
+  font-size: 12px;
+  color: c(ink);
+}
+
+.scope {
+  display: flex;
+  align-items: center;
+  gap: space(1.5);
+}
+
+.scopeOpen {
+  color: c(blue);
+}
+
+.lock {
+  height: space(2.5);
+  width: space(2.5);
+}
+
+// --- Ask Akashic -----------------------------------------------------
+.question {
+  margin-left: space(8);
+  border-radius: 12px;
+  border-bottom-right-radius: 4px;
+  border-width: 1px;
+  border-color: c(lineSoft);
+  background-color: c(primary-bg);
+  padding-left: space(3);
+  padding-right: space(3);
+  padding-top: space(2);
+  padding-bottom: space(2);
+  font-size: 12px;
+  line-height: $leading-snug;
+  color: c(secondary-text);
+}
+
+.answerRow {
+  margin-top: space(3);
+  display: flex;
+  gap: space(2.5);
+}
+
+.answerMark {
+  margin-top: 3px;
+  display: flex;
+  height: space(4);
+  width: space(4);
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  background-color: c(blue-subtle);
+}
+
+.answer {
+  font-size: 13px;
+  line-height: $leading-snug;
+  color: c(ink);
+}
+
+.answerFigure {
+  font-weight: $weight-medium;
+  color: c(blue);
+}
+
+.cite {
+  margin-left: space(1);
+  vertical-align: top;
+  font-family: $font-mono;
+  font-size: 9px;
+  color: c(blue);
+}
+
+.footnote {
+  margin-top: space(3);
+  border-top-width: 1px;
+  border-color: c(lineSoft);
+  padding-top: space(2.5);
+}
+
+// --- Data Pipelines ---------------------------------------------------
+.lanes {
+  height: 72px;
+}
+
+.laneName {
+  fill: c(ink);
+  font-family: $font-sans;
+  font-size: 11px;
+}
+
+.pipeFoot {
+  margin-top: space(2.5);
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  border-top-width: 1px;
+  border-color: c(lineSoft);
+  padding-top: space(2.5);
+}
+
+.orders {
+  font-size: 12px;
+  color: c(ink);
+}
+
+.ordersCount {
+  font-weight: $weight-medium;
+  font-variant-numeric: tabular-nums;
+}
+
+// --- Machine Learning ---------------------------------------------------
+.forecast {
+  margin-top: space(3);
+  height: 68px;
+}
+
+.today {
+  fill: c(tertiary-text);
+  font-family: $font-mono;
+  font-size: 8.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+// --- Warehouse ----------------------------------------------------------
+.drivers {
+  margin-top: space(3);
+  display: flex;
+  align-items: flex-end;
+  gap: space(2);
+  border-top-width: 1px;
+  border-color: c(lineSoft);
+  padding-top: space(3);
+}
+
+.driver {
+  min-width: 0px;
+  flex: 1 1 0%;
+}
+
+.driverEnd {
+  text-align: right;
+}
+
+.driverValue {
+  margin-top: space(1);
+  font-size: 13px;
+  font-weight: $weight-medium;
+  font-variant-numeric: tabular-nums;
+  color: c(ink);
+}
+
+.times {
+  padding-bottom: 1px;
+  font-size: 13px;
+  color: c(blue);
+}
+
+// --- Header-row live detail ----------------------------------------------
+.live {
+  display: flex;
+  align-items: center;
+  gap: space(1.5);
+}
+
+// softpulse is the global keyframe in src/app/globals.css.
+.pulse {
+  height: space(1.5);
+  width: space(1.5);
+  animation: global(softpulse) 2.4s infinite;
+  border-radius: 9999px;
+  background-color: c(positive);
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}

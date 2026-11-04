@@ -1,0 +1,218 @@
+@use "assets/styles" as *;
+
+// FrameworkIcon's default size, when no class is passed.
+.frameworkIcon {
+  height: space(8);
+  width: space(8);
+}
+
+// --- The rising line ------------------------------------------------
+.trustLine {
+  position: absolute;
+  inset: 0;
+  height: 100%;
+  width: 100%;
+}
+
+.hairline {
+  opacity: 0.6;
+}
+
+// --- The section ----------------------------------------------------
+.section {
+  position: relative;
+  overflow: hidden;
+  background-color: c(background);
+  padding-top: space(12);
+  padding-bottom: space(16);
+
+  @include respond-to(lg) {
+    padding-top: space(16);
+    padding-bottom: space(24);
+  }
+}
+
+.stage {
+  position: relative;
+  margin-top: space(10);
+  padding-bottom: 168px;
+
+  @include respond-to(sm) {
+    min-height: 460px;
+    padding-bottom: 248px;
+  }
+
+  @include respond-to(lg) {
+    margin-top: space(12);
+    min-height: 560px;
+    padding-bottom: space(20);
+  }
+}
+
+.chart {
+  pointer-events: none;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin-right: space(-4);
+  height: 150px;
+
+  @include respond-to(sm) {
+    margin-right: space(-6);
+    height: 220px;
+  }
+
+  @include respond-to(lg) {
+    top: 0;
+    margin-right: space(-8);
+    height: auto;
+  }
+}
+
+// On ui/ScrollReveal, whose module sets neither position nor z-index.
+.copyReveal {
+  position: relative;
+  z-index: 10;
+}
+
+.copy {
+  max-width: 540px;
+}
+
+// On ui/TwoToneTitle, whose module sets no width.
+.title {
+  @include respond-to(lg) {
+    width: 44rem;
+  }
+}
+
+.kpis {
+  margin-top: space(11);
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: space(10);
+  row-gap: space(9);
+}
+
+.kpi {
+  border-left-width: 2px;
+  border-color: c(blue);
+  padding-left: space(4);
+}
+
+.kpiFigure {
+  font-size: 30px;
+  font-weight: $weight-semibold;
+  line-height: $leading-none;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: $tracking-tight;
+  color: c(ink);
+
+  @include respond-to(lg) {
+    font-size: 36px;
+  }
+}
+
+.kpiLabel {
+  margin-top: space(2.5);
+  font-size: 14px;
+  line-height: $leading-snug;
+  color: c(inkSoft);
+}
+
+// --- The certification bar ------------------------------------------
+.certifications {
+  display: flex;
+  flex-direction: column;
+  gap: space(9);
+  border-top-width: 1px;
+  border-style: dashed;
+  border-color: c(lineSoft);
+  padding-top: space(9);
+
+  @include respond-to(lg) {
+    flex-direction: row;
+    gap: 0;
+  }
+}
+
+.groupFirst {
+  @include respond-to(lg) {
+    padding-right: space(8);
+  }
+}
+
+.groupFollowing {
+  @include respond-to(lg) {
+    border-left-width: 1px;
+    border-style: dashed;
+    border-color: c(lineSoft);
+    padding-left: space(8);
+  }
+}
+
+.groupLabel {
+  font-size: 14px;
+  font-weight: $weight-medium;
+  color: c(inkSoft);
+}
+
+.frameworks {
+  margin-top: space(5);
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: space(6);
+  row-gap: space(7);
+
+  @include respond-to(sm) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  @include respond-to(lg) {
+    display: flex;
+    gap: 0;
+  }
+}
+
+.framework {
+  display: flex;
+  flex: 1 1 0%;
+  align-items: center;
+  gap: space(3);
+
+  @include respond-to(lg) {
+    padding-right: space(5);
+  }
+}
+
+.frameworkFollowing {
+  @include respond-to(lg) {
+    border-left-width: 1px;
+    border-color: c(lineSoft);
+    padding-left: space(5);
+  }
+}
+
+.frameworkMark {
+  height: space(7);
+  width: space(7);
+  flex-shrink: 0;
+  color: c(inkSoft);
+}
+
+.frameworkText {
+  line-height: $leading-tight;
+}
+
+.frameworkLabel {
+  font-size: 13px;
+  font-weight: $weight-semibold;
+  color: c(ink);
+}
+
+.frameworkSub {
+  margin-top: space(0.5);
+  font-size: 11.5px;
+  color: c(overcast);
+}

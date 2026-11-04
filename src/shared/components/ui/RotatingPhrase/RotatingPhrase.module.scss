@@ -1,0 +1,69 @@
+@use "assets/styles" as *;
+
+.root {
+  position: relative;
+  display: inline-grid;
+  vertical-align: baseline;
+}
+
+.alignCenter {
+  text-align: center;
+}
+
+.alignStart {
+  text-align: left;
+}
+
+// Tailwind's `sr-only` verbatim: `border-width: 0` keeps preflight's border
+// style and colour, where the visually-hidden mixin's `border: 0` resets them.
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+.phrase {
+  white-space: nowrap;
+  grid-area: 1/1;
+  transition-property: opacity, transform;
+  transition-timing-function: $ease-settle;
+  transition-duration: 380ms;
+
+  @media (prefers-reduced-motion: reduce) {
+    transition-property: none;
+  }
+}
+
+.word {
+  position: relative;
+  display: inline-block;
+}
+
+.underline {
+  position: absolute;
+  bottom: -0.06em;
+  left: 0;
+  height: 0.06em;
+  width: 100%;
+  border-radius: 9999px;
+  background-color: c(blue);
+}
+
+.control {
+  position: absolute;
+  left: 100%;
+  top: 50%;
+  margin-left: space(2);
+  display: flex;
+  transform: translateY(-50%);
+
+  @include respond-to(sm) {
+    margin-left: space(3);
+  }
+}

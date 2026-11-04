@@ -1,0 +1,31 @@
+@use "assets/styles" as *;
+
+.body {
+  margin-top: 2.5rem;
+  max-width: 46rem;
+
+  @include respond-to(lg) {
+    margin-top: 3rem;
+  }
+}
+
+// text-base, then leading-relaxed; sm:text-lg resets the line-height too.
+.lede {
+  margin-top: 1.5rem;
+  max-width: 36em;
+  text-wrap: pretty;
+  @include text(base);
+  line-height: $leading-relaxed;
+
+  @include respond-to(sm) {
+    @include text(lg);
+  }
+}
+
+.ledeLight {
+  color: c(inkSoft);
+}
+
+.ledeDark {
+  color: c(uc-mute);
+}

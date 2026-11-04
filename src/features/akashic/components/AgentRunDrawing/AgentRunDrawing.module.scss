@@ -1,0 +1,437 @@
+@use "assets/styles" as *;
+
+.figure {
+  position: relative;
+  margin-top: 2.25rem;
+  overflow: hidden;
+  border-radius: $radius-frame;
+  border: 1px solid c(line);
+  background-color: c(background);
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+.lanes {
+  display: none;
+
+  @include respond-to(lg) {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    padding-left: space(8);
+    padding-right: space(8);
+    padding-top: space(6);
+  }
+}
+
+.lane {
+  position: relative;
+  margin-right: space(6);
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+  padding-bottom: space(2);
+  font-family: $font-mono;
+  font-size: 10px;
+  font-weight: $weight-medium;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+
+  &::before,
+  &::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    height: 5px;
+    border-left-width: 1px;
+    border-color: inherit;
+    border-style: inherit;
+  }
+
+  &::before {
+    left: 0;
+  }
+
+  &::after {
+    right: 0;
+  }
+
+  &[data-kind="agent"] {
+    border-bottom-style: dashed;
+    border-color: c(blue);
+    color: c(blue);
+  }
+
+  &[data-kind="person"] {
+    border-color: c(ink);
+    color: c(ink);
+  }
+
+  &[data-kind="record"] {
+    margin-right: 0;
+    border-color: c(blue);
+    color: c(blue);
+  }
+}
+
+.run {
+  display: grid;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  padding-left: space(5);
+  padding-right: space(5);
+  padding-top: space(6);
+
+  @include respond-to(lg) {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    align-items: flex-start;
+    padding-left: space(8);
+    padding-right: space(8);
+    padding-top: space(5);
+  }
+}
+
+.step {
+  position: relative;
+  display: grid;
+  grid-template-columns: 30px minmax(0, 1fr);
+  column-gap: space(4);
+
+  @include respond-to(lg) {
+    display: flex;
+    flex-direction: column;
+
+    &::before {
+      content: "";
+      position: absolute;
+      bottom: 0.25rem;
+      left: 15px;
+      top: 34px;
+      border-left: 1px dashed c(blue-border);
+    }
+
+    &[data-kind="person"]::before {
+      border-left-style: solid;
+      border-left-color: rgba(var(--ink), 0.4);
+    }
+
+    &[data-kind="record"]::before {
+      border-left-style: solid;
+      border-left-color: rgba(var(--blue), 0.5);
+    }
+  }
+}
+
+.rail {
+  grid-row: span 2 / span 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  @include respond-to(lg) {
+    height: 30px;
+    flex-direction: row;
+  }
+}
+
+.node {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  height: 30px;
+  width: 30px;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  border: 1px dashed c(blue);
+  background-color: c(background);
+  font-family: $font-mono;
+  font-size: 10px;
+  font-weight: $weight-medium;
+  color: c(blue);
+
+  .step[data-kind="person"] & {
+    border-style: solid;
+    border-color: c(ink);
+    background-color: c(ink);
+    color: c(on-action);
+  }
+
+  .step[data-kind="record"] & {
+    border-style: solid;
+    border-color: c(blue);
+    background-color: c(blue-solid);
+    color: c(on-accent);
+  }
+}
+
+.ping {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  border: 1px solid c(ink);
+}
+
+.line {
+  display: block;
+  width: 0;
+  flex: 1 1 0%;
+  border-left: 1px dashed c(blue);
+
+  &[data-out="person"] {
+    border-left-style: solid;
+    border-left-color: c(ink);
+  }
+
+  @include respond-to(lg) {
+    height: 0;
+    width: auto;
+    border-left-width: 0;
+    border-top-width: 1px;
+    border-top-style: inherit;
+    border-top-color: inherit;
+  }
+}
+
+.body {
+  padding-top: 0.25rem;
+
+  @include respond-to(lg) {
+    padding-left: 30px;
+    padding-right: space(5);
+    padding-top: space(3);
+  }
+}
+
+.name {
+  font-size: 15px;
+  font-weight: $weight-semibold;
+  letter-spacing: $tracking-tight;
+  color: c(ink);
+}
+
+.detail {
+  margin-top: 0.125rem;
+  font-family: $font-mono;
+  font-size: 10.5px;
+  text-transform: uppercase;
+  line-height: 1.625;
+  letter-spacing: 0.06em;
+  color: c(secondary-text);
+}
+
+.agents {
+  display: flex;
+  flex-direction: column;
+  gap: space(3);
+  padding-top: space(3);
+  padding-bottom: space(7);
+
+  @include respond-to(lg) {
+    padding-bottom: 0.25rem;
+    padding-left: 30px;
+    padding-right: space(4);
+    padding-top: space(4);
+  }
+
+  li {
+    position: relative;
+    display: block;
+
+    @include respond-to(lg) {
+      &::before {
+        content: "";
+        position: absolute;
+        left: -15px;
+        top: 10px;
+        width: 11px;
+        border-top: 1px dashed c(blue-border);
+      }
+    }
+  }
+}
+
+.agent {
+  display: flex;
+  align-items: center;
+  gap: space(2);
+}
+
+.code {
+  display: inline-flex;
+  height: space(5);
+  min-width: 34px;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  border-radius: $radius-chip;
+  border: 1px solid c(blue);
+  background-color: c(blue-subtle);
+  padding-left: 0.25rem;
+  padding-right: 0.25rem;
+  font-family: $font-mono;
+  font-size: 9.5px;
+  font-weight: $weight-medium;
+  letter-spacing: 0.06em;
+  color: c(blue);
+
+  &[data-preview="true"] {
+    border-style: dashed;
+  }
+}
+
+.agent strong {
+  min-width: 0;
+  font-size: 13.5px;
+  font-weight: $weight-medium;
+  line-height: 1.375;
+  color: c(ink);
+}
+
+.agentLine {
+  margin-top: 0.25rem;
+  display: block;
+  text-wrap: balance;
+  font-size: 12.5px;
+  line-height: 1.375;
+  color: c(secondary-text);
+}
+
+.note {
+  text-wrap: balance;
+  padding-bottom: space(7);
+  padding-top: space(3);
+  font-size: 13.5px;
+  font-weight: $weight-medium;
+  line-height: 1.375;
+  color: c(ink);
+
+  &[data-kind="person"]::before {
+    content: "";
+    margin-right: space(2);
+    display: inline-block;
+    height: space(2);
+    width: space(2);
+    border-radius: 9999px;
+    background-color: c(ink);
+    vertical-align: 1px;
+  }
+
+  @include respond-to(lg) {
+    padding-bottom: 0.25rem;
+    padding-left: 30px;
+    padding-right: space(4);
+    padding-top: space(4);
+  }
+}
+
+.foundation {
+  margin-left: space(5);
+  margin-right: space(5);
+  display: flex;
+  flex-direction: column;
+  gap: space(3);
+  border-top: 1px solid c(lineSoft);
+  padding-top: space(5);
+  padding-bottom: space(5);
+
+  @include respond-to(lg) {
+    margin-left: space(8);
+    margin-right: space(8);
+    margin-top: space(6);
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 2.5rem;
+  }
+
+  .agents {
+    gap: space(3) 3rem;
+    padding: 0;
+
+    @include respond-to(sm) {
+      flex-direction: row;
+      flex-wrap: wrap;
+    }
+
+    @include respond-to(lg) {
+      padding-left: 0;
+      padding-top: 0;
+
+      li::before {
+        content: none;
+      }
+    }
+  }
+}
+
+.smallLabel {
+  font-family: $font-mono;
+  font-size: 12px;
+  font-weight: $weight-medium;
+  text-transform: uppercase;
+  line-height: 1.625;
+  letter-spacing: 0.08em;
+  flex-shrink: 0;
+  color: c(blue);
+
+  @include respond-to(lg) {
+    width: 150px;
+    padding-top: 0.125rem;
+  }
+}
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: space(2) space(6);
+  border-top: 1px solid c(lineSoft);
+  background-color: c(panel);
+  padding: space(3) space(5);
+  font-size: 0.75rem;
+  color: c(secondary-text);
+
+  @include respond-to(lg) {
+    padding-left: space(8);
+    padding-right: space(8);
+  }
+
+  li {
+    display: flex;
+    align-items: center;
+    gap: space(2);
+  }
+}
+
+.swatch {
+  height: 0.75rem;
+  width: space(5);
+  border-radius: 2px;
+
+  &[data-kind="agent"] {
+    border: 1px dashed c(blue);
+    background-color: c(blue-subtle);
+  }
+
+  &[data-kind="person"] {
+    background-color: c(ink);
+  }
+
+  &[data-kind="record"] {
+    background-color: c(blue-solid);
+  }
+}
+
+.personGlyph {
+  height: 15px;
+  width: 15px;
+}

@@ -1,0 +1,112 @@
+@use "assets/styles" as *;
+
+.root {
+  scroll-margin-top: space(24);
+  border-top-width: 1px;
+  border-color: c(lineSoft);
+  background-color: c(background);
+  padding-bottom: space(16);
+  padding-top: space(12);
+
+  @include respond-to(lg) {
+    padding-bottom: space(24);
+    padding-top: space(16);
+  }
+}
+
+.grid {
+  margin-top: space(10);
+  display: grid;
+  row-gap: space(12);
+
+  @include respond-to(lg) {
+    margin-top: space(12);
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: space(12);
+  }
+}
+
+.aside {
+  @include respond-to(lg) {
+    grid-column: span 4 / span 4;
+  }
+}
+
+.sticky {
+  @include respond-to(lg) {
+    position: sticky;
+    top: space(28);
+  }
+}
+
+// `text-base leading-relaxed sm:text-lg`: from sm the text step's own
+// line-height replaces leading-relaxed, as Tailwind's variant order does.
+.lede {
+  margin-top: space(6);
+  max-width: 30em;
+  text-wrap: pretty;
+  font-size: 1rem;
+  line-height: $leading-relaxed;
+  color: c(inkSoft);
+
+  @include respond-to(sm) {
+    @include text(lg);
+  }
+}
+
+.questions {
+  @include respond-to(lg) {
+    grid-column: span 8 / span 8;
+  }
+}
+
+.groupNext {
+  margin-top: space(10);
+}
+
+.groupHeading {
+  display: flex;
+  align-items: center;
+  gap: space(3);
+  font-family: $font-mono;
+  font-size: 11px;
+  font-weight: $weight-normal;
+  text-transform: uppercase;
+  letter-spacing: $tracking-eyebrow;
+  color: c(inkSoft);
+}
+
+.groupCount {
+  color: c(overcast);
+}
+
+.list {
+  margin-top: space(4);
+  border-top-width: 1px;
+  border-color: c(ink, 0.8);
+}
+
+.item {
+  border-bottom-width: 1px;
+  border-color: c(lineSoft);
+  padding-top: 18px;
+  padding-bottom: 18px;
+}
+
+.question {
+  text-wrap: pretty;
+  font-size: 17px;
+  font-weight: $weight-semibold;
+  line-height: $leading-snug;
+  letter-spacing: -0.01em;
+  color: c(ink);
+}
+
+.answer {
+  margin-top: 6px;
+  max-width: 52em;
+  text-wrap: pretty;
+  font-size: 15px;
+  line-height: $leading-relaxed;
+  color: c(secondary-text);
+}

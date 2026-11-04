@@ -1,0 +1,61 @@
+@use "assets/styles" as *;
+
+.section {
+  position: relative;
+  overflow: hidden;
+  background-color: c(background);
+  padding-top: space(12);
+  padding-bottom: space(16);
+  color: c(ink);
+
+  @include respond-to(lg) {
+    padding-top: space(16);
+    padding-bottom: space(24);
+  }
+}
+
+.alias {
+  position: absolute;
+  top: 0;
+  scroll-margin-top: space(24);
+}
+
+// On ui/ScrollRevealRail, whose module also sets `position`: doubled so this
+// wins whatever the stylesheet order.
+.rail.rail {
+  position: relative;
+  z-index: 10;
+}
+
+.header {
+  position: relative;
+}
+
+.ornament {
+  position: absolute;
+  right: 0;
+  top: 88px;
+  display: none;
+  width: 170px;
+
+  @include respond-to(lg) {
+    display: block;
+  }
+
+  @include respond-to(xl) {
+    width: 190px;
+  }
+}
+
+.chakra {
+  width: 100%;
+}
+
+// On ui/ScrollReveal, whose module sets no margin.
+.stories {
+  margin-top: space(12);
+
+  @include respond-to(lg) {
+    margin-top: space(14);
+  }
+}

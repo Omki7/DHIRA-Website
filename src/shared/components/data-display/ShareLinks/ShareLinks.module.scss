@@ -1,0 +1,34 @@
+@use "assets/styles" as *;
+
+.root {
+  font-family: $font-mono;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: $tracking-eyebrow;
+}
+
+.label {
+  color: c(overcast);
+}
+
+.list {
+  margin-top: space(3);
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: space(5);
+  row-gap: space(2);
+}
+
+.link {
+  color: c(inkSoft);
+  @include transition-colors($duration-150);
+
+  &:hover {
+    color: c(blue);
+  }
+}
+
+// Preflight sets `text-transform: none` on buttons.
+.copy {
+  text-transform: uppercase;
+}

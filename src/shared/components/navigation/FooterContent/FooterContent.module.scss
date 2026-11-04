@@ -1,0 +1,253 @@
+@use "assets/styles" as *;
+
+// Ink mono capitals: the footer's headings.
+@mixin heading-type {
+  font-family: $font-mono;
+  @include text(xs);
+  font-weight: $weight-medium;
+  text-transform: uppercase;
+  line-height: space(4);
+  letter-spacing: $tracking-eyebrow;
+  color: c(ink);
+}
+
+.root {
+  border-top-width: 1px;
+  border-color: c(lineSoft);
+  background-color: c(vault);
+  color: c(ink);
+  padding-top: space(16);
+  padding-bottom: space(8);
+
+  @include respond-to(lg) {
+    padding-top: space(20);
+  }
+}
+
+.main {
+  margin-bottom: space(14);
+  display: grid;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  row-gap: space(12);
+
+  @include respond-to(xl) {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 3fr);
+    column-gap: space(16);
+  }
+}
+
+// --- Brand block --------------------------------------------------
+.brand {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.homeLink {
+  margin-bottom: space(5);
+  display: flex;
+  align-items: center;
+  gap: space(1.5);
+  color: c(ink);
+}
+
+.logo {
+  height: space(8);
+  width: space(8);
+  color: c(ink);
+}
+
+.name {
+  @include text(xl);
+  font-weight: $weight-semibold;
+  letter-spacing: $tracking-tight;
+}
+
+.tagline {
+  max-width: 260px;
+  @include text(sm);
+  line-height: $leading-relaxed;
+  color: c(inkSoft);
+}
+
+.offices {
+  margin-top: space(5);
+  @include text(xs);
+  letter-spacing: $tracking-wide;
+  color: c(inkSoft);
+}
+
+// Paired with .ribbonLink for its hover.
+.contact {
+  margin-top: space(2);
+  @include text(xs);
+  letter-spacing: $tracking-wide;
+  color: c(inkSoft);
+}
+
+.askLabel {
+  margin-top: space(8);
+  @include text(sm);
+  color: c(inkSoft);
+}
+
+.askList {
+  margin-left: space(-2.5);
+  margin-top: space(2);
+  display: flex;
+  align-items: center;
+  gap: space(1);
+}
+
+.askLink {
+  display: flex;
+  height: space(10);
+  width: space(10);
+  align-items: center;
+  justify-content: center;
+  border-radius: $radius-btn;
+  color: c(inkSoft);
+  @include transition-colors($duration-200, $ease-settle);
+
+  &:hover {
+    background-color: c(primary-bg);
+    color: c(ink);
+  }
+}
+
+.askIcon {
+  height: space(5);
+  width: space(5);
+}
+
+// Tailwind's sr-only, declaration for declaration: border-width only, so
+// the element keeps the preflight border style and colour.
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+.subscribeHeading {
+  margin-top: space(7);
+  @include heading-type;
+}
+
+.subscribeLede {
+  margin-bottom: space(3);
+  margin-top: space(2);
+  @include text(sm);
+  color: c(inkSoft);
+}
+
+// --- Link columns -------------------------------------------------
+.columns {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: space(8);
+  row-gap: space(12);
+
+  @include respond-to(md) {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  gap: space(10);
+}
+
+// On phones the longest column runs down the right beside the other three.
+.columnLongest {
+  grid-row: span 3 / span 3;
+
+  @include respond-to(md) {
+    grid-row: span 1 / span 1;
+  }
+}
+
+.columnHeading {
+  margin-bottom: space(5);
+  @include heading-type;
+}
+
+.linkList {
+  @include text(sm);
+  line-height: space(5);
+
+  > :not([hidden]) ~ :not([hidden]) {
+    margin-top: space(3);
+    margin-bottom: 0;
+  }
+}
+
+.link {
+  color: c(inkSoft);
+  @include text(sm);
+  @include transition-colors($duration-200, $ease-settle);
+
+  &:hover {
+    color: c(ink);
+  }
+}
+
+.linkExternal {
+  display: inline-flex;
+  align-items: center;
+  gap: space(1);
+}
+
+.externalIcon {
+  opacity: 0.7;
+}
+
+// --- Ribbon -------------------------------------------------------
+.ribbon {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: space(4);
+  border-top-width: 1px;
+  border-color: c(line);
+  padding-top: space(6);
+  @include text(xs);
+  color: c(inkSoft);
+
+  @include respond-to(xl) {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+// Tailwind's space-y-1.
+.company {
+  > :not([hidden]) ~ :not([hidden]) {
+    margin-top: space(1);
+    margin-bottom: 0;
+  }
+}
+
+.ribbonEnd,
+.policies {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  column-gap: space(5);
+  row-gap: space(2);
+}
+
+.ribbonLink {
+  @include transition-colors($duration-200, $ease-settle);
+
+  &:hover {
+    color: c(ink);
+  }
+}

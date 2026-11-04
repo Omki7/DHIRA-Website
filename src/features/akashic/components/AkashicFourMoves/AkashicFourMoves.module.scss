@@ -1,0 +1,790 @@
+@use "assets/styles" as *;
+
+.section {
+  position: relative;
+  scroll-margin-top: space(24);
+  background-color: c(background);
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-left-width: 0;
+  border-right-width: 0;
+  padding-top: space(12);
+  padding-bottom: space(16);
+
+  @include respond-to(lg) {
+    min-height: 100vh;
+    padding-top: space(10);
+    padding-bottom: space(10);
+  }
+}
+
+.grid {
+  margin-top: space(10);
+  display: grid;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  gap: space(10);
+
+  @include respond-to(lg) {
+    margin-top: space(12);
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    align-items: center;
+    gap: space(14);
+  }
+}
+
+.leftCol {
+  @include respond-to(lg) {
+    grid-column: span 5 / span 5;
+  }
+}
+
+.headline {
+  text-wrap: balance;
+  font-family: $font-heading;
+  font-size: 35px;
+  line-height: 1.1;
+  letter-spacing: -0.035em;
+  font-weight: $weight-medium;
+  color: c(ink);
+
+  @include respond-to(md) {
+    font-size: 48px;
+    line-height: 1.05;
+    letter-spacing: -0.04em;
+  }
+
+  @include respond-to(lg) {
+    font-size: clamp(32px, calc(3.8vw - 7px), 48px);
+  }
+}
+
+.headlineSetup {
+  color: c(inkSoft);
+
+  @include respond-to(lg) {
+    white-space: nowrap;
+  }
+}
+
+.headlineBr {
+  display: none;
+
+  @include respond-to(lg) {
+    display: block;
+  }
+}
+
+.lede {
+  margin-top: space(6);
+  max-width: 34em;
+  font-size: 1.125rem;
+  line-height: 1.625;
+  color: c(inkSoft);
+}
+
+.tablistWrap {
+  margin-top: space(8);
+  display: flex;
+}
+
+.tablist {
+  display: inline-flex;
+  border-radius: 9999px;
+  border: 1px solid c(blue-border);
+  background-color: c(background);
+  padding: space(1);
+}
+
+.tab {
+  border-radius: 9999px;
+  padding: 0.375rem space(4);
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: $weight-medium;
+  transition-property: $transition-colors;
+  transition-duration: 200ms;
+  transition-timing-function: $ease-settle;
+  color: c(inkSoft);
+
+  &:hover {
+    color: c(ink);
+  }
+}
+
+.tabActive {
+  background-color: c(blue-solid);
+  color: c(on-accent);
+
+  &:hover {
+    color: c(on-accent);
+  }
+}
+
+.rightCol {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  gap: 0.875rem;
+
+  @include respond-to(lg) {
+    grid-column: span 7 / span 7;
+  }
+}
+
+.inputCard {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.875rem;
+  border-radius: $radius-outer;
+  background-color: c(background);
+  padding: space(4);
+  transition-property: all;
+  transition-duration: 400ms;
+  transition-timing-function: $ease-settle;
+
+  @include respond-to(sm) {
+    padding: space(5);
+  }
+}
+
+.inputCardRunning {
+  box-shadow: 0 0 0 3px rgba(var(--blue), 0.25);
+}
+
+.inputCardIdle {
+  box-shadow: 0 0 0 1px c(lineSoft);
+}
+
+.searchIcon {
+  margin-top: space(1);
+  flex-shrink: 0;
+  color: c(blue);
+}
+
+.questionText {
+  min-height: 2.8em;
+  font-size: 1.125rem;
+  line-height: 1.375;
+  font-weight: $weight-medium;
+  color: c(ink);
+
+  @include respond-to(sm) {
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+  }
+
+  @media (min-width: 1280px) {
+    min-height: 0;
+  }
+}
+
+.caret {
+  margin-left: 0.125rem;
+  font-weight: $weight-bold;
+  color: c(blue);
+  animation: global(ps-caret-blink) 1s step-end infinite;
+}
+
+.askerMeta {
+  margin-top: 0.375rem;
+  display: flex;
+  height: space(4);
+  align-items: center;
+  gap: space(2);
+  font-family: $font-mono;
+  font-size: 11px;
+  color: c(secondary-text);
+}
+
+.askerText {
+  transition-property: opacity;
+  transition-duration: 500ms;
+}
+
+.askerTextHidden {
+  opacity: 0;
+}
+
+.askerTextVisible {
+  opacity: 1;
+}
+
+.statusIndicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-weight: $weight-bold;
+  color: c(blue);
+}
+
+.statusDot {
+  height: 0.375rem;
+  width: 0.375rem;
+  border-radius: 9999px;
+  background-color: c(blue);
+  animation: global(ps-pulse) 2.4s infinite;
+}
+
+.inputAffordances {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 0.375rem;
+  align-self: flex-start;
+}
+
+.cmdK {
+  display: none;
+  align-items: center;
+  gap: 0.125rem;
+  border-radius: $radius-chip;
+  border: 1px solid c(lineSoft);
+  background-color: c(panel);
+  padding: space(1) 0.375rem;
+  font-family: $font-mono;
+  font-size: 9px;
+  font-weight: $weight-semibold;
+  color: c(secondary-text);
+
+  @include respond-to(sm) {
+    display: flex;
+  }
+}
+
+.micButton {
+  display: flex;
+  height: space(7);
+  width: space(7);
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  color: c(overcast);
+  transition-property: $transition-colors;
+  transition-duration: 150ms;
+
+  &:hover {
+    background-color: c(panel);
+    color: c(blue);
+  }
+}
+
+.askBadge {
+  display: flex;
+  align-items: center;
+  gap: space(1);
+  border-radius: 9999px;
+  background-color: c(blue-solid);
+  padding: 0.375rem space(3);
+  font-size: 10px;
+  font-weight: $weight-bold;
+  letter-spacing: 0.06em;
+  color: c(on-accent);
+
+  > span {
+    text-transform: uppercase;
+  }
+}
+
+.movesList {
+  padding-top: space(1);
+  padding-bottom: space(1);
+  padding-left: space(1);
+}
+
+.moveRow {
+  display: flex;
+  align-items: center;
+  gap: space(4);
+  padding-top: 0.625rem;
+  padding-bottom: 0.625rem;
+  transition-property: all;
+  transition-duration: 500ms;
+  transition-timing-function: $ease-settle;
+}
+
+.moveRowLit {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.moveRowUnlit {
+  transform: translateY(space(3));
+  opacity: 0;
+}
+
+.moveNumber {
+  display: flex;
+  height: space(8);
+  width: space(8);
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  background-color: c(blue-solid);
+  font-family: $font-mono;
+  font-size: 11px;
+  font-weight: $weight-bold;
+  color: c(on-accent);
+}
+
+.moveContent {
+  min-width: 0;
+  font-size: 13.5px;
+  line-height: 1.375;
+}
+
+.moveName {
+  font-weight: $weight-semibold;
+  color: c(ink);
+}
+
+.moveLine {
+  margin-left: space(2);
+  color: c(inkSoft);
+}
+
+.answerCard {
+  overflow: hidden;
+  border-radius: $radius-outer;
+  background-color: c(background);
+  box-shadow: 0 0 0 1px c(lineSoft);
+}
+
+.answerPop {
+  animation: global(akx-pop) 0.65s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+.invisible {
+  visibility: hidden;
+}
+
+.answerChrome {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid c(card-divide);
+  background-color: c(panel);
+  padding: 0.625rem space(4);
+}
+
+.answerWordmark {
+  font-size: 11.5px;
+  font-weight: $weight-bold;
+  letter-spacing: $tracking-tight;
+  color: c(ink);
+}
+
+.answerLabel {
+  margin-left: space(2);
+  font-family: $font-mono;
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: c(secondary-text);
+}
+
+.answerMeta {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-family: $font-mono;
+  font-size: 9.5px;
+  color: c(secondary-text);
+}
+
+.metaPositiveDot {
+  height: 0.375rem;
+  width: 0.375rem;
+  border-radius: 9999px;
+  background-color: c(positive);
+}
+
+.speakerButton {
+  margin-left: space(2);
+  display: flex;
+  height: space(6);
+  width: space(6);
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  color: c(overcast);
+  transition-property: $transition-colors;
+  transition-duration: 150ms;
+
+  &:hover {
+    background-color: c(background);
+    color: c(blue);
+  }
+}
+
+.answerBody {
+  padding: space(4);
+
+  @include respond-to(sm) {
+    padding: space(5);
+  }
+}
+
+.answerTitle {
+  font-size: 16px;
+  font-weight: $weight-semibold;
+  line-height: 1.375;
+  color: c(ink);
+
+  @include respond-to(sm) {
+    font-size: 17px;
+  }
+}
+
+.answerDetail {
+  margin-top: 0.375rem;
+  font-size: 13px;
+  line-height: 1.625;
+  color: c(inkSoft);
+}
+
+.panelsGrid {
+  margin-top: space(4);
+  display: grid;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  align-items: stretch;
+  gap: space(3);
+
+  @include respond-to(sm) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.chipsFooter {
+  margin-top: space(4);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.375rem;
+  border-top: 1px solid c(card-divide);
+  padding-top: space(3);
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  border-radius: 9999px;
+  border: 1px solid c(lineSoft);
+  background-color: c(primary-bg);
+  padding: 0.25rem 0.625rem;
+  font-family: $font-mono;
+  font-size: 9.5px;
+  color: c(secondary-text);
+}
+
+.chipIcon {
+  color: c(blue);
+}
+
+// EvidencePanels styles
+.panelCard {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: $radius-inner;
+  border: 1px solid c(card-line);
+  background-color: c(background);
+}
+
+.panelHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  border-bottom: 1px solid c(card-divide);
+  background-color: c(panel);
+  padding: space(2) space(3);
+}
+
+.panelIcon {
+  color: c(blue);
+}
+
+.panelLabel {
+  font-family: $font-mono;
+  font-size: 9px;
+  font-weight: $weight-semibold;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: c(secondary-text);
+}
+
+.panelRight {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+}
+
+.lagTag {
+  border-radius: 9999px;
+  border: 1px solid rgba(var(--red), 0.2);
+  background-color: rgba(var(--red), 0.06);
+  padding: 0.125rem space(2);
+  font-family: $font-mono;
+  font-size: 9px;
+  font-weight: $weight-semibold;
+  color: c(red);
+  animation: global(akx-rise) 0.5s 0.95s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+.chartBody {
+  display: flex;
+  flex: 1 1 0%;
+  flex-direction: column;
+  justify-content: center;
+  gap: space(2);
+  padding: space(3);
+}
+
+.chartTitle {
+  font-family: $font-mono;
+  font-size: 9px;
+  font-weight: $weight-semibold;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: c(secondary-text);
+}
+
+.chartRows {
+  display: flex;
+  flex-direction: column;
+  gap: space(2);
+}
+
+.chartRow {
+  display: grid;
+  grid-template-columns: 30px 1fr 38px;
+  align-items: center;
+  gap: space(2);
+}
+
+.rowLabel {
+  font-family: $font-mono;
+  font-size: 9px;
+  color: c(secondary-text);
+}
+
+.rowLabelLag {
+  font-family: $font-mono;
+  font-size: 9px;
+  font-weight: $weight-semibold;
+  color: c(red);
+}
+
+.track {
+  position: relative;
+  display: block;
+  height: 10px;
+  border-radius: 9999px;
+  background-color: c(panel);
+}
+
+.bar {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  transform-origin: left;
+  border-radius: 9999px;
+}
+
+.barBlue {
+  background-color: c(blue);
+}
+
+.barRed {
+  background-color: c(red);
+}
+
+.targetLine {
+  position: absolute;
+  top: -3px;
+  bottom: -3px;
+  width: 1px;
+  border-left: 1px dashed c(overcast);
+}
+
+.pctText {
+  text-align: right;
+  font-family: $font-mono;
+  font-size: 10px;
+  font-weight: $weight-medium;
+  color: c(inkSoft);
+}
+
+.pctTextLag {
+  text-align: right;
+  font-family: $font-mono;
+  font-size: 10px;
+  font-weight: $weight-bold;
+  color: c(red);
+}
+
+.targetLegend {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.375rem;
+  font-family: $font-mono;
+  font-size: 9px;
+  color: c(secondary-text);
+}
+
+.targetTick {
+  display: inline-block;
+  height: space(3);
+  width: 1px;
+  border-left: 1px dashed c(overcast);
+}
+
+.footnote {
+  border-top: 1px solid c(card-divide);
+  background-color: c(panel);
+  padding: space(2) space(3);
+  font-size: 11px;
+  line-height: 1.375;
+  color: c(inkSoft);
+  animation: global(akx-rise) 0.5s 1.1s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+.docCount {
+  font-family: $font-mono;
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: c(secondary-text);
+}
+
+.docsBody {
+  display: flex;
+  flex: 1 1 0%;
+  flex-direction: column;
+  gap: space(2);
+  background-color: c(panel);
+  padding: space(3);
+}
+
+.excerptBox {
+  display: flex;
+  flex: 1 1 0%;
+  flex-direction: column;
+  border-radius: $radius-inner;
+  border: 1px solid c(card-line);
+  background-color: c(background);
+  padding: 0.625rem;
+  animation: global(akx-rise) 0.5s 0.45s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+.excerptHeader {
+  display: flex;
+  align-items: center;
+  gap: space(2);
+}
+
+.excerptIcon {
+  display: flex;
+  height: space(5);
+  width: space(5);
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  border-radius: $radius-chip;
+  background-color: c(blue-subtle);
+  color: c(blue);
+}
+
+.excerptSource {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 10.5px;
+  font-weight: $weight-semibold;
+  color: c(ink);
+}
+
+.excerptDate {
+  margin-left: auto;
+  flex-shrink: 0;
+  font-family: $font-mono;
+  font-size: 9px;
+  color: c(secondary-text);
+}
+
+.excerptText {
+  margin-top: space(2);
+  font-size: 12px;
+  line-height: 1.625;
+  color: c(ink);
+}
+
+.recordBox {
+  display: flex;
+  align-items: center;
+  gap: space(2);
+  border-radius: $radius-inner;
+  border: 1px solid c(card-line);
+  background-color: c(background);
+  padding: 0.625rem;
+  animation: global(akx-rise) 0.5s 0.65s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+.recordIcon {
+  display: flex;
+  height: space(5);
+  width: space(5);
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  border-radius: $radius-chip;
+  background-color: c(blue-subtle);
+  color: c(blue);
+}
+
+.recordDetails {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+}
+
+.recordName {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 10.5px;
+  font-weight: $weight-semibold;
+  line-height: 1.25;
+  color: c(ink);
+}
+
+.recordSub {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: $font-mono;
+  font-size: 9px;
+  color: c(secondary-text);
+}
+
+.recordStatus {
+  margin-left: auto;
+  flex-shrink: 0;
+  border-radius: $radius-micro;
+  border: 1px solid rgba(var(--red), 0.2);
+  background-color: rgba(var(--red), 0.05);
+  padding: 0.125rem 0.375rem;
+  font-family: $font-mono;
+  font-size: 8px;
+  font-weight: $weight-bold;
+  text-transform: uppercase;
+  color: c(red);
+}

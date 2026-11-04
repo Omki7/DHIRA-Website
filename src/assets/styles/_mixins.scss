@@ -1,0 +1,78 @@
+// ------------------------------------------------------------------
+//  Mixins (FRONTEND_ARCHITECTURE §13)
+// ------------------------------------------------------------------
+// Use: @use "assets/styles/mixins" as *;
+
+@use "sass:list";
+@use "sass:map";
+@use "tokens" as *;
+
+// Mobile first: styles inside apply from the named width up.
+@mixin respond-to($name) {
+  @media (min-width: bp($name)) {
+    @content;
+  }
+}
+
+// The site's keyboard focus ring (matches src/app/globals.css).
+@mixin focus-ring($offset: 2px) {
+  &:focus-visible {
+    outline: 2px solid c(blue);
+    outline-offset: $offset;
+  }
+}
+
+@mixin truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+// Flat surfaces only: an opaque fill and a precise border, no shadow.
+@mixin elevation($surface: background, $border: lineSoft) {
+  background-color: c($surface);
+  border: 1px solid c($border);
+  box-shadow: $shadow-none;
+}
+
+// A two-tone section heading at one of the heading steps.
+@mixin heading($size: md) {
+  $step: map.get($heading-sizes, $size);
+  font-family: $font-heading;
+  font-size: map.get($step, size);
+  line-height: map.get($step, line);
+  letter-spacing: map.get($step, tracking);
+}
+
+// Rule 6: motion only for visitors who have not asked for less.
+@mixin motion-safe {
+  @media (prefers-reduced-motion: no-preference) {
+    @content;
+  }
+}
+
+@mixin visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+// A text step: font-size with its paired line-height (tokens $text-sizes).
+@mixin text($size) {
+  $step: map.get($text-sizes, $size);
+  font-size: list.nth($step, 1);
+  line-height: list.nth($step, 2);
+}
+
+// Tailwind's `transition-colors` (+ optional duration and easing overrides).
+@mixin transition-colors($duration: $duration-150, $ease: $ease-default) {
+  transition-property: $transition-colors;
+  transition-timing-function: $ease;
+  transition-duration: $duration;
+}

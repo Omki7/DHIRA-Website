@@ -1,0 +1,226 @@
+@use "assets/styles" as *;
+
+.root {
+  position: relative;
+  width: 100%;
+  overflow: clip;
+  background-color: c(background);
+  padding-top: space(12);
+  padding-bottom: space(16);
+
+  @include respond-to(lg) {
+    padding-top: space(16);
+    padding-bottom: space(24);
+  }
+}
+
+// Passed to ui/ScrollRevealRail, which sets no z-index of its own.
+.rail {
+  z-index: 10;
+}
+
+// Tailwind's sr-only, declaration for declaration.
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+// --- The composition ------------------------------------------------
+.composition {
+  margin-top: space(12);
+  display: grid;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  border-top-width: 1px;
+  border-color: c(lineSoft);
+  padding-top: space(4);
+
+  @include respond-to(lg) {
+    margin-top: space(14);
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+    column-gap: space(16);
+    padding-top: space(6);
+  }
+
+  @include respond-to(xl) {
+    grid-template-columns: minmax(0, 1fr) 600px;
+    column-gap: space(24);
+  }
+}
+
+// Passed to ui/ScrollReveal, which sets no grid placement of its own.
+.answers {
+  @include respond-to(lg) {
+    grid-column-start: 2;
+    grid-row-start: 1;
+  }
+}
+
+.frame {
+  display: flex;
+  flex-direction: column;
+
+  @include respond-to(lg) {
+    grid-column-start: 1;
+    grid-row-start: 1;
+    justify-content: space-between;
+    padding-bottom: space(10);
+    padding-top: space(4);
+  }
+}
+
+// --- The industry record ----------------------------------------------
+.evidence {
+  margin-top: space(10);
+  border-top-width: 1px;
+  border-color: c(lineSoft);
+  padding-top: space(6);
+
+  @include respond-to(lg) {
+    margin-top: 0px;
+    border-width: 0px;
+    padding-top: 0px;
+  }
+}
+
+.evidenceHeading {
+  font-size: 22px;
+  font-weight: $weight-semibold;
+  letter-spacing: $tracking-tight;
+  color: c(ink);
+
+  @include respond-to(sm) {
+    font-size: 24px;
+  }
+}
+
+.facts {
+  margin-top: space(6);
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: space(5);
+
+  @include respond-to(sm) {
+    column-gap: space(8);
+  }
+}
+
+// first: outranks sm:pl-8 on specificity, as Tailwind's first:pl-0 does.
+.fact {
+  min-width: 0px;
+  border-left-width: 1px;
+  border-style: dashed;
+  border-color: c(lineSoft);
+  padding-left: space(5);
+
+  &:first-child {
+    border-width: 0px;
+    padding-left: 0px;
+  }
+
+  @include respond-to(sm) {
+    padding-left: space(8);
+  }
+}
+
+.figure {
+  font-family: $font-sans;
+  font-size: 40px;
+  font-weight: $weight-semibold;
+  line-height: $leading-none;
+  letter-spacing: $tracking-tightest;
+  color: c(red-deep);
+  font-variant-numeric: tabular-nums;
+
+  @include respond-to(sm) {
+    font-size: 46px;
+  }
+
+  @include respond-to(xl) {
+    font-size: 52px;
+  }
+}
+
+.factBody {
+  margin-top: space(3);
+  min-width: 0px;
+}
+
+.claim {
+  font-size: 14px;
+  font-weight: $weight-medium;
+  line-height: $leading-snug;
+  color: c(ink);
+
+  @include respond-to(sm) {
+    font-size: 15px;
+  }
+}
+
+.source {
+  margin-top: space(3);
+  display: inline-flex;
+  align-items: center;
+  gap: space(1);
+  font-family: $font-mono;
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: c(blue);
+  text-decoration-line: underline;
+  text-decoration-color: c(blue, 0.4);
+  text-underline-offset: 4px;
+  @include transition-colors($duration-200, $ease-settle);
+
+  &:hover {
+    color: c(blue-hover);
+    text-decoration-color: c(blue-hover);
+  }
+
+  @include respond-to(sm) {
+    font-size: 10px;
+  }
+}
+
+.sourceIcon {
+  flex-shrink: 0;
+}
+
+// --- The verdict ----------------------------------------------------------
+.verdict {
+  margin-top: space(10);
+  border-top-width: 1px;
+  border-style: dashed;
+  border-color: c(lineSoft);
+  padding-top: space(6);
+  text-wrap: balance;
+  font-size: 20px;
+  font-weight: $weight-semibold;
+  line-height: $leading-snug;
+  letter-spacing: $tracking-tight;
+
+  @include respond-to(sm) {
+    font-size: 22px;
+  }
+
+  @include respond-to(lg) {
+    margin-top: space(12);
+  }
+}
+
+.verdictSetup {
+  display: block;
+  color: c(inkSoft);
+}
+
+.verdictPayoff {
+  margin-top: space(1);
+  display: block;
+  color: c(ink);
+}

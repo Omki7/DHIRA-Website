@@ -1,0 +1,175 @@
+@use "assets/styles" as *;
+
+.close {
+  position: relative;
+  scroll-margin-top: 6rem;
+  border-top-width: 1px;
+  border-color: c(lineSoft);
+  background-color: c(background);
+  padding-top: 3rem;
+  padding-bottom: 6rem;
+
+  @include respond-to(lg) {
+    padding-top: 4rem;
+    padding-bottom: 8rem;
+  }
+}
+
+.anchor {
+  position: absolute;
+  top: -6rem;
+}
+
+.card {
+  position: relative;
+  overflow: hidden;
+  border-radius: $radius-frame;
+  background-color: c(anchor);
+  color: c(ink);
+}
+
+.bar {
+  position: absolute;
+  left: 0px;
+  right: 0px;
+  top: 0px;
+  height: 3px;
+  background-color: c(blue);
+}
+
+.grid {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+
+  @include respond-to(lg) {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+  }
+}
+
+.invite {
+  padding: 3rem 1.5rem;
+
+  @include respond-to(sm) {
+    padding-left: 2.5rem;
+    padding-right: 2.5rem;
+  }
+
+  @include respond-to(lg) {
+    grid-column: span 7 / span 7;
+    padding: 4rem 3.5rem;
+  }
+}
+
+.title {
+  margin-top: 2rem;
+}
+
+.body {
+  margin-top: 1.5rem;
+  max-width: 32em;
+  @include text(lg);
+  line-height: $leading-relaxed;
+  color: c(secondary-text);
+}
+
+.actions {
+  margin-top: 2.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.titleBlock {
+  position: relative;
+  border-top-width: 1px;
+  border-color: c(line);
+
+  @include respond-to(lg) {
+    grid-column: span 5 / span 5;
+    border-left-width: 1px;
+    border-top-width: 0px;
+  }
+}
+
+.cells {
+  display: grid;
+  height: 100%;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  font-family: $font-mono;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.cell {
+  border-bottom-width: 1px;
+  border-color: c(line);
+  padding: 1.25rem 1.5rem;
+
+  @include respond-to(sm) {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
+.cellLeft {
+  border-right-width: 1px;
+}
+
+.wideCell {
+  grid-column: span 2 / span 2;
+  border-bottom-width: 1px;
+  border-color: c(line);
+  padding: 1.25rem 1.5rem;
+
+  @include respond-to(sm) {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
+// px-6 then pr-28; sm:px-8 then sm:pr-32 (Tailwind's order).
+.drawnCell {
+  grid-column: span 2 / span 2;
+  padding: 1.5rem 7rem 1.5rem 1.5rem;
+
+  @include respond-to(sm) {
+    padding-left: 2rem;
+    padding-right: 8rem;
+  }
+}
+
+.term {
+  color: c(inkSoft);
+}
+
+.value {
+  margin-top: 0.5rem;
+  font-size: 15px;
+  letter-spacing: 0.04em;
+  color: c(ink);
+}
+
+.drawnBy {
+  margin-top: 0.5rem;
+  max-width: 18em;
+  text-wrap: pretty;
+  font-family: $font-sans;
+  font-size: 13px;
+  text-transform: none;
+  line-height: $leading-relaxed;
+  letter-spacing: $tracking-normal;
+  color: c(secondary-text);
+}
+
+.stamp {
+  position: absolute;
+  bottom: 1.25rem;
+  right: 1.5rem;
+
+  @include respond-to(sm) {
+    right: 2rem;
+  }
+}

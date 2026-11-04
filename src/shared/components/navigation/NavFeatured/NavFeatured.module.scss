@@ -1,0 +1,97 @@
+@use "assets/styles" as *;
+
+.root {
+  display: flex;
+  flex-direction: column;
+  border-radius: $radius-outer;
+  border-width: 1px;
+  border-color: c(subtle-stroke);
+  background-color: c(primary-bg);
+  padding: space(5);
+  @include transition-colors($duration-200, $ease-settle);
+
+  &:hover {
+    border-color: c(blue-border);
+  }
+}
+
+.figure {
+  display: block;
+}
+
+.svg {
+  height: 72px;
+  width: 100%;
+}
+
+// Figure strokes and fills (beside the global `.ad-draw` / `.ad-fade` kit).
+.line {
+  stroke: c(overcast, 0.5);
+}
+
+.live {
+  stroke: c(blue);
+}
+
+.fillTint {
+  fill: c(blue, 0.15);
+}
+
+.fillGround {
+  fill: c(primary-bg);
+}
+
+.eyebrow {
+  margin-top: space(4);
+  font-family: $font-mono;
+  font-size: 11px;
+  font-weight: $weight-medium;
+  text-transform: uppercase;
+  letter-spacing: $tracking-eyebrow;
+  color: c(overcast);
+}
+
+.title {
+  margin-top: space(1.5);
+  white-space: pre-line;
+  text-wrap: balance;
+  font-family: $font-heading;
+  font-size: 17px;
+  font-weight: $weight-semibold;
+  line-height: $leading-snug;
+  letter-spacing: -0.01em;
+  color: c(ink);
+}
+
+.caption {
+  margin-top: space(1.5);
+  text-wrap: balance;
+  font-size: 13px;
+  line-height: $leading-snug;
+  color: c(secondary-text);
+}
+
+.cta {
+  margin-top: space(4);
+  display: inline-flex;
+  align-items: center;
+  gap: space(1.5);
+  font-size: 13px;
+  font-weight: $weight-medium;
+  color: c(blue);
+  @include transition-colors($duration-150);
+
+  .root:hover & {
+    color: c(blue-hover);
+  }
+}
+
+.ctaArrow {
+  transition-property: transform;
+  transition-timing-function: $ease-settle;
+  transition-duration: $duration-200;
+
+  .root:hover & {
+    transform: translateX(space(0.5));
+  }
+}

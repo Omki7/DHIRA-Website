@@ -1,0 +1,53 @@
+@use "assets/styles" as *;
+
+.link {
+  margin-top: 1.5rem;
+  display: inline-flex;
+  min-height: 2.75rem;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 15px;
+  font-weight: $weight-medium;
+  text-decoration-line: underline;
+  text-underline-offset: 6px;
+  @include transition-colors($duration-200, $ease-settle);
+
+  &:hover {
+    text-decoration-color: currentColor;
+  }
+}
+
+.light {
+  color: c(ink);
+  text-decoration-color: c(line);
+
+  &:hover {
+    color: c(blue);
+  }
+}
+
+.depth {
+  color: c(uc-text);
+  text-decoration-color: c(line);
+
+  &:hover {
+    color: c(blue-300);
+  }
+}
+
+.arrow {
+  height: 1rem;
+  width: 1rem;
+  transition-property: transform;
+  transition-timing-function: $ease-default;
+  transition-duration: $duration-200;
+
+  // As in Tailwind, the hover shift (0,3,0) outranks the reduced-motion reset.
+  .link:hover & {
+    transform: translateX(0.25rem);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transform: none;
+  }
+}

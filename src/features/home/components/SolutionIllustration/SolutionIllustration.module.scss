@@ -1,0 +1,130 @@
+@use "assets/styles" as *;
+
+.root {
+  height: 100%;
+  width: 100%;
+  max-width: 440px;
+}
+
+// --- Text ----------------------------------------------------------
+// The mono line that names each drawing.
+.kicker {
+  fill: c(secondary-text);
+  font-family: $font-mono;
+  font-size: 11px;
+  letter-spacing: 1.2px;
+}
+
+// A document's own mono label.
+.docLabel {
+  fill: c(secondary-text);
+  font-family: $font-mono;
+  font-size: 10px;
+  letter-spacing: 1px;
+}
+
+.docLabelTight {
+  fill: c(secondary-text);
+  font-family: $font-mono;
+  font-size: 10px;
+  letter-spacing: 0.7px;
+}
+
+.footnote {
+  fill: c(secondary-text);
+  font-family: $font-mono;
+  font-size: 10px;
+  letter-spacing: 0.5px;
+}
+
+.headline {
+  fill: c(ink);
+  font-size: 16px;
+  font-weight: $weight-medium;
+}
+
+.docTitle {
+  fill: c(ink);
+  font-size: 14px;
+  font-weight: $weight-medium;
+}
+
+.sources {
+  fill: c(ink);
+  font-size: 14px;
+}
+
+.place {
+  fill: c(ink);
+  font-size: 12px;
+  font-weight: $weight-medium;
+}
+
+.entry {
+  fill: c(ink);
+  font-size: 12px;
+}
+
+.caption {
+  fill: c(secondary-text);
+  font-size: 12px;
+}
+
+.axis {
+  fill: c(secondary-text);
+  font-size: 11px;
+}
+
+.linked {
+  fill: c(blue);
+  font-size: 12px;
+}
+
+.linkedSmall {
+  fill: c(blue);
+  font-size: 11px;
+}
+
+// --- Shapes --------------------------------------------------------
+.sheet {
+  fill: c(background);
+  stroke: c(line);
+}
+
+.sheetStrong {
+  fill: c(background);
+  stroke: c(default-stroke);
+}
+
+.pin {
+  fill: c(background);
+  stroke: c(blue);
+}
+
+.highlight {
+  fill: c(blue-subtle);
+}
+
+.dot {
+  fill: c(blue);
+}
+
+.strokeLine {
+  stroke: c(line);
+}
+
+.strokeInk {
+  stroke: c(ink);
+}
+
+.strokeMuted {
+  stroke: c(default-stroke);
+}
+
+.strokeBlue {
+  stroke: c(blue);
+}
+
+.strokeBlueBorder {
+  stroke: c(blue-border);
+}

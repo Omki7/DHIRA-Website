@@ -1,0 +1,292 @@
+@use "assets/styles" as *;
+
+.root {
+  position: relative;
+  isolation: isolate;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+  max-width: 600px;
+  padding-top: space(3);
+  padding-bottom: space(3);
+
+  @include respond-to(sm) {
+    padding-top: space(4);
+    padding-bottom: space(4);
+  }
+}
+
+// --- The question ---------------------------------------------------
+.head {
+  text-align: center;
+}
+
+.period {
+  font-family: $font-mono;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: $tracking-eyebrow;
+  color: c(inkSoft);
+}
+
+.question {
+  position: relative;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: space(3);
+  max-width: 20em;
+  font-size: 21px;
+  font-weight: $weight-medium;
+  line-height: $leading-tight;
+  letter-spacing: $tracking-tight;
+  color: c(ink);
+
+  @include respond-to(sm) {
+    font-size: 25px;
+  }
+}
+
+.reserve {
+  visibility: hidden;
+}
+
+.caretSpace {
+  margin-left: space(1);
+  display: inline-block;
+  width: 2px;
+}
+
+.typed {
+  position: absolute;
+  inset: 0px;
+}
+
+// ps-caret-blink is the global keyframe in src/app/globals.css.
+.caret {
+  margin-left: space(1);
+  display: inline-block;
+  height: 1em;
+  width: 2px;
+  transform: translateY(0.13em);
+  background-color: c(blue);
+
+  @include motion-safe {
+    animation: global(ps-caret-blink) 1s step-end infinite;
+  }
+}
+
+// --- The three answers -------------------------------------------------
+.diagram {
+  position: relative;
+  margin-top: space(4);
+}
+
+.connectors {
+  pointer-events: none;
+  position: absolute;
+  left: 0px;
+  right: 0px;
+  top: 0px;
+  height: 176px;
+  width: 100%;
+  overflow: visible;
+  color: c(blue, 0.65);
+}
+
+.node {
+  fill: c(blue);
+}
+
+.answers {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.answer {
+  position: relative;
+  min-width: 0px;
+  padding-left: space(1);
+  padding-right: space(1);
+  padding-top: space(16);
+  text-align: center;
+
+  @include respond-to(sm) {
+    padding-left: space(3);
+    padding-right: space(3);
+  }
+}
+
+.tile {
+  position: relative;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  height: space(11);
+  width: space(11);
+  align-items: center;
+  justify-content: center;
+  border-radius: $radius-tile;
+  border-width: 1px;
+  border-color: c(blue-border);
+  background-color: c(background);
+  color: c(blue);
+}
+
+.glyph {
+  height: space(6);
+  width: space(6);
+}
+
+.source {
+  position: relative;
+  margin-top: space(3);
+  height: space(4);
+  font-family: $font-mono;
+  font-size: 9px;
+  text-transform: uppercase;
+  line-height: 1rem;
+  letter-spacing: 0.06em;
+  color: c(inkSoft);
+
+  @include respond-to(sm) {
+    font-size: 10px;
+    letter-spacing: $tracking-eyebrow;
+  }
+}
+
+.sourceName {
+  background-color: c(background);
+  padding-left: space(1.5);
+  padding-right: space(1.5);
+}
+
+.figure {
+  margin-top: space(11);
+  white-space: nowrap;
+  font-size: 34px;
+  font-weight: $weight-medium;
+  line-height: $leading-none;
+  letter-spacing: $tracking-tightest;
+  font-variant-numeric: tabular-nums;
+
+  @include respond-to(sm) {
+    font-size: 46px;
+  }
+
+  @include respond-to(lg) {
+    font-size: 40px;
+  }
+
+  @include respond-to(xl) {
+    font-size: 52px;
+  }
+}
+
+.figureLead {
+  color: c(blue);
+}
+
+.figureOther {
+  color: c(ink);
+}
+
+.unit {
+  margin-top: space(2);
+  font-size: 13px;
+  font-weight: $weight-medium;
+  color: c(inkSoft);
+
+  @include respond-to(sm) {
+    font-size: 14px;
+  }
+}
+
+.caveat {
+  margin-top: space(2);
+  font-size: 11px;
+  line-height: $leading-snug;
+  color: c(inkSoft);
+
+  @include respond-to(sm) {
+    font-size: 12px;
+  }
+}
+
+.drop {
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: space(4);
+  height: space(6);
+  width: 1px;
+  border-left-width: 1px;
+  border-style: dashed;
+  border-color: c(red, 0.4);
+}
+
+// --- The spread --------------------------------------------------------
+.spread {
+  position: relative;
+  margin-left: auto;
+  margin-right: auto;
+  width: 83.333333%;
+  border-top-width: 1px;
+  border-color: c(red, 0.4);
+  padding-top: space(6);
+  text-align: center;
+}
+
+.spreadMark {
+  position: absolute;
+  left: 50%;
+  top: 0px;
+  display: flex;
+  height: space(6);
+  width: space(10);
+  transform: translate(-50%, -50%);
+  align-items: center;
+  justify-content: center;
+  background-color: c(background);
+  color: c(red);
+}
+
+.spreadIcon {
+  height: space(5);
+  width: space(8);
+}
+
+.spreadLine {
+  font-size: 14px;
+  line-height: $leading-snug;
+  color: c(inkSoft);
+
+  @include respond-to(sm) {
+    font-size: 15px;
+  }
+}
+
+.spreadFigure {
+  font-weight: $weight-semibold;
+  color: c(red-deep);
+}
+
+.conclusion {
+  margin-top: space(2);
+  font-size: 17px;
+  font-weight: $weight-medium;
+  letter-spacing: $tracking-tight;
+  color: c(ink);
+
+  @include respond-to(sm) {
+    font-size: 19px;
+  }
+}
+
+.caption {
+  margin-top: space(4);
+  text-align: center;
+  font-family: $font-mono;
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: $tracking-eyebrow;
+  color: c(inkSoft);
+}

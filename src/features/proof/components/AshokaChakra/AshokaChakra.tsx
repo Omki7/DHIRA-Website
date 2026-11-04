@@ -1,0 +1,57 @@
+/*
+ * Decorative 24-spoke wheel (Ashoka Chakra motif) in brand blues: outer ring,
+ * 24 spokes, 24 rim marks, solid hub, slow continuous rotation. Pure brand
+ * ornament (not a reproduction of the State Emblem or the flag rendering).
+ */
+
+import { cx } from "@/shared/utils/cx";
+import styles from "./AshokaChakra.module.scss";
+
+const SPOKES = Array.from({ length: 24 }, (_, i) => (i * 360) / 24);
+
+export interface AshokaChakraProps {
+  className?: string;
+}
+
+export function AshokaChakra({ className = "" }: AshokaChakraProps) {
+  return (
+    <svg
+      viewBox="0 0 200 200"
+      fill="none"
+      aria-hidden
+      className={cx(styles.chakra, className)}
+    >
+      <circle cx="100" cy="100" r="95" stroke="rgb(var(--blue-border))" strokeWidth="3.5" />
+      <circle cx="100" cy="100" r="88" stroke="rgb(var(--blue))" strokeWidth="1" opacity="0.3" />
+      {SPOKES.map((angle) => (
+        <line
+          key={angle}
+          x1="100"
+          y1="17"
+          x2="100"
+          y2="86"
+          stroke="rgb(var(--blue))"
+          strokeWidth="2"
+          strokeLinecap="round"
+          opacity="0.7"
+          transform={`rotate(${angle} 100 100)`}
+        />
+      ))}
+      {SPOKES.map((angle) => {
+        const rad = ((angle + 7.5) * Math.PI) / 180;
+        return (
+          <circle
+            key={`dot-${angle}`}
+            cx={100 + 91 * Math.cos(rad)}
+            cy={100 + 91 * Math.sin(rad)}
+            r="1.8"
+            fill="rgb(var(--blue))"
+            opacity="0.55"
+          />
+        );
+      })}
+      <circle cx="100" cy="100" r="13" fill="rgb(var(--blue))" />
+      <circle cx="100" cy="100" r="5" fill="rgb(var(--background))" opacity="0.9" />
+    </svg>
+  );
+}

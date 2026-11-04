@@ -1,0 +1,28 @@
+@use "assets/styles" as *;
+
+.title {
+  text-wrap: balance;
+  font-size: 34px;
+  font-weight: $weight-medium;
+  line-height: 1.08;
+  letter-spacing: $tracking-tighter;
+  color: c(ink);
+
+  @include respond-to(sm) {
+    font-size: 44px;
+  }
+
+  @include respond-to(lg) {
+    font-size: 52px;
+  }
+
+  > span {
+    color: c(inkSoft);
+  }
+}
+
+.arrow {
+  height: space(5);
+  width: space(5);
+  flex-shrink: 0;
+}

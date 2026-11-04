@@ -1,0 +1,219 @@
+@use "assets/styles" as *;
+
+.root {
+  position: relative;
+  z-index: 10;
+  margin-inline: auto;
+  width: 100%;
+  max-width: 1152px;
+  padding-block: space(2);
+}
+
+.stageMask {
+  position: relative;
+  margin-inline: auto;
+  height: 330px;
+  width: 100%;
+  max-width: 1000px;
+  overflow: hidden;
+  mask-image: linear-gradient(to right, transparent, black 4%, black 96%, transparent);
+
+  @include respond-to(md) {
+    mask-image: linear-gradient(to right, transparent, black 6%, black 94%, transparent);
+  }
+}
+
+.stageViewport {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  height: 320px;
+  width: 960px;
+  --fx: var(--fm);
+  --sc: 0.88;
+
+  @include respond-to(md) {
+    --fx: 480px;
+    --sc: 1;
+  }
+}
+
+.captionP {
+  margin-inline: auto;
+  margin-top: space(3);
+  min-height: 4.2rem;
+  max-width: 56rem;
+  padding-inline: space(4);
+  text-align: center;
+  font-size: 13.5px;
+  line-height: $leading-relaxed;
+  color: c(secondary-text);
+
+  @include respond-to(md) {
+    font-size: 14.5px;
+  }
+
+  @include respond-to(lg) {
+    min-height: 0;
+  }
+}
+
+.captionRise {
+  display: inline-block;
+  animation: global(ps-rise) 420ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+.captionModule {
+  color: c(primary-text);
+}
+
+.captionLink {
+  white-space: nowrap;
+  font-weight: 500;
+  color: c(blue);
+  text-underline-offset: 4px;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.tabsContainer {
+  margin-inline: auto;
+  margin-top: space(6);
+  display: flex;
+  width: fit-content;
+  max-width: 100%;
+  align-items: center;
+  gap: space(5);
+  overflow-x: auto;
+  padding-inline: space(4);
+  scrollbar-width: none;
+
+  @include respond-to(lg) {
+    gap: space(7);
+  }
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.tabBtn {
+  position: relative;
+  display: flex;
+  flex-shrink: 0;
+  align-items: baseline;
+  gap: 6px;
+  white-space: nowrap;
+  padding-bottom: 10px;
+  font-size: 14.5px;
+  letter-spacing: -0.025em;
+  transition: color 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.tabActive {
+  font-weight: 600;
+  color: c(primary-text);
+}
+
+.tabInactive {
+  font-weight: 400;
+  color: c(tertiary-text);
+
+  &:hover {
+    color: c(secondary-text);
+  }
+}
+
+.tabNumActive {
+  font-family: $font-mono;
+  font-size: 10px;
+  font-weight: 400;
+  color: c(blue);
+}
+
+.tabNumInactive {
+  font-family: $font-mono;
+  font-size: 10px;
+  font-weight: 400;
+  color: c(tertiary-text);
+}
+
+.tabTrack {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 1px;
+  width: 100%;
+  background: c(tertiary-text, 0.15);
+}
+
+.tabProgress {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 1px;
+  width: 100%;
+  transform-origin: left;
+  background: c(blue);
+}
+
+/* Shared drawing classes */
+.panel {
+  border-radius: 12px;
+  border: 1px solid c(card-line);
+  background: c(screen-surface);
+}
+
+.panelBlueBorder {
+  border-color: c(blue, 0.35);
+}
+
+.eyebrow {
+  font-family: $font-mono;
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+.softpulse {
+  animation: global(softpulse) 2.4s infinite;
+}
+
+.caretBlink {
+  margin-left: 1px;
+  display: inline-block;
+  height: 1.05em;
+  width: 1px;
+  transform: translateY(0.15em);
+  animation: global(ps-caret-blink) 1s steps(1) infinite;
+  background: c(blue);
+}
+
+.flowItem {
+  pointer-events: none;
+
+  @media (prefers-reduced-motion: reduce) {
+    display: none;
+  }
+}
+
+/* Token helper classes for moments */
+.textSecondary { color: c(secondary-text); }
+.textTertiary { color: c(tertiary-text); }
+.textPrimary { color: c(primary-text); }
+.textBlue { color: c(blue); }
+.textPositive { color: c(positive-text); }
+.bgScreenSurface { background: c(screen-surface); }
+.bgCardLine { background: c(card-line); }
+.bgBlue { background: c(blue); }
+.bgPositive { background: c(positive); }
+.bgPositiveSubtle { background: c(positive-subtle); }
+.bgBlueSubtle { background: c(blue-subtle); }
+.bgTertiaryBg { background: c(tertiary-bg); }
+.borderCardLine { border-color: c(card-line); }
+.borderDefaultStroke { border-color: c(default-stroke); }

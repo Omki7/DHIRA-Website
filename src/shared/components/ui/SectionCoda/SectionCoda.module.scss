@@ -1,0 +1,38 @@
+@use "assets/styles" as *;
+
+.coda {
+  text-wrap: pretty;
+  font-family: $font-mono;
+  font-size: 11px;
+  text-transform: uppercase;
+  line-height: 1.6;
+  letter-spacing: 0.08em;
+}
+
+.leadLight {
+  color: c(inkSoft);
+}
+
+.leadDark {
+  color: c(uc-mute);
+}
+
+.payoffLight {
+  color: c(ink);
+}
+
+.payoffDark {
+  color: c(uc-text);
+}
+
+.spacing {
+  margin-top: 1.5rem;
+}
+
+.rule {
+  margin-top: 2rem;
+  border-top-width: 1px;
+  border-style: dashed;
+  border-color: c(lineSoft);
+  padding-top: 1.25rem;
+}

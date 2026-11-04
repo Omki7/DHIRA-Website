@@ -1,0 +1,38 @@
+@use "assets/styles" as *;
+
+.mergeDown {
+  display: none;
+  height: 3.5rem;
+  width: 100%;
+  overflow: visible;
+
+  @include respond-to(md) {
+    display: block;
+  }
+}
+
+.mobileConn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: space(3);
+  padding-bottom: space(3);
+
+  @include respond-to(md) {
+    display: none;
+  }
+}
+
+.mobileDot {
+  height: space(2);
+  width: space(2);
+  border-radius: 9999px;
+  border: 2px solid c(blue-border);
+  background-color: c(background);
+}
+
+.mobileLine {
+  height: space(8);
+  width: 1px;
+  background-color: c(blue-border);
+}

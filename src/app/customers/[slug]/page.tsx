@@ -1,0 +1,106 @@
+import Image from "next/image";
+import { notFound } from "next/navigation";
+import type { Metadata } from "next";
+import { Nav } from "@/app/_components/Nav";
+import { Footer } from "@/app/_components/Footer";
+import { JsonLd } from "@/shared/components/data-display";
+import { PageClose } from "@/shared/components/ui";
+import LongformArticle from "@/components/sections/longform/LongformArticle";
+import RelatedList from "@/components/sections/longform/RelatedList";
+import { MetricPair } from "@/components/sections/customers/CustomersLibrary";
+import { getCustomerStories, getCustomerStory, getPage } from "@/services/content/content";
+import { pageMetadata } from "@/app/_lib/metadata";
+import { absoluteUrl } from "@/config/site";
+
+type Params = { params: Promise<{ slug: string }> };
+
+export async function generateStaticParams() {
+  const stories = await getCustomerStories();
+  return stories.map((story) => ({ slug: story.id }));
+}
+
+export async function generateMetadata({ params }: Params): Promise<Metadata> {
+  const { slug } = await params;
+  const story = await getCustomerStory(slug);
+  if (!story) return {};
+  return pageMetadata({
+    title: story.title,
+    description: story.description,
+    path: `/customers/${slug}`,
+    image: story.image,
+    type: "article",
+  });
+}
+
+export default async function CustomerStoryPage({ params }: Params) {
+  const { slug } = await params;
+  const story = await getCustomerStory(slug);
+  if (!story) notFound();
+
+  const [{ story: copy }, stories] = await Promise.all([getPage("customers"), getCustomerStories()]);
+  const url = absoluteUrl(`/customers/${story.id}`);
+  const others = stories.filter((item) => item.id !== story.id).map((item) => ({
+    href: `/customers/${item.id}`,
+    eyebrow: item.authority,
+    title: item.title,
+    dek: item.description,
+  }));
+
+  return (
+    <>
+      <Nav />
+      <main id="main" className="bg-background">
+        <JsonLd
+          data={{
+            "@type": "BreadcrumbList",
+            itemListElement: [
+              { "@type": "ListItem", position: 1, name: copy.crumb, item: absoluteUrl("/customers") },
+              { "@type": "ListItem", position: 2, name: story.title, item: url },
+            ],
+          }}
+        />
+        <LongformArticle
+          crumbs={[
+            { label: copy.crumb, href: "/customers" },
+            { label: story.sector, href: `/customers#${story.id}` },
+          ]}
+          title={story.title}
+          dek={story.description}
+          meta={
+            <>
+              <span className="text-inkSoft">{story.platform}</span>&nbsp;&nbsp;·&nbsp;&nbsp;{story.authority}
+            </>
+          }
+          blocks={story.body}
+          url={url}
+          lead={
+            <div className="mb-14">
+              <MetricPair metrics={story.metrics} />
+              <figure className="mt-10">
+                <div className="relative aspect-[16/9] overflow-hidden rounded-frame bg-panel">
+                  <Image src={story.image} alt={story.alt} fill sizes="(min-width: 1024px) 60vw, 100vw" className="object-cover" />
+                </div>
+                <figcaption className="mt-3 font-mono text-[11px] uppercase tracking-eyebrow text-overcast">
+                  {copy.photoCaption}
+                </figcaption>
+              </figure>
+              <div className="mt-10 border-t border-dashed border-lineSoft pt-5">
+                <p className="font-mono text-[11px] uppercase tracking-eyebrow text-overcast">{copy.builtOn}</p>
+                <ul className="mt-3 flex flex-wrap gap-x-6 gap-y-2">
+                  {story.modules.map((module) => (
+                    <li key={module} className="text-[15px] font-medium text-ink">
+                      {module}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          }
+        />
+        <RelatedList heading={copy.relatedHeading} items={others} />
+        <PageClose {...copy.close} />
+      </main>
+      <Footer />
+    </>
+  );
+}

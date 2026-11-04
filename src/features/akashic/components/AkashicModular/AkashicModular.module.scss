@@ -1,0 +1,27 @@
+@use "assets/styles" as *;
+
+.section {
+  position: relative;
+  background-color: c(primary-bg);
+}
+
+.anchor {
+  position: absolute;
+  width: 100%;
+}
+
+.stickyFrame {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.curtain {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 10;
+  width: 100%;
+}

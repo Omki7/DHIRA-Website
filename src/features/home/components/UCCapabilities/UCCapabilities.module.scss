@@ -1,0 +1,112 @@
+@use "assets/styles" as *;
+
+.root {
+  position: relative;
+  z-index: 20;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 22rem;
+  padding-left: space(6);
+  padding-right: space(6);
+  padding-bottom: space(16);
+  padding-top: space(14);
+
+  @include respond-to(lg) {
+    display: grid;
+    max-width: 1000px;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    border-top-width: 1px;
+    border-color: c(uc-line);
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-bottom: space(24);
+    padding-top: 0px;
+  }
+
+  @include respond-to(xl) {
+    max-width: 1100px;
+  }
+}
+
+// Stacked and ruled below lg; from lg a row of five divided by vertical
+// rules. The :first-child and :not(:first-child) rules outrank the plain
+// lg padding, as Tailwind's first: and [&:not(:first-child)] variants do.
+.item {
+  border-color: c(uc-stroke);
+  padding-top: space(6);
+  padding-bottom: space(6);
+  text-align: center;
+
+  &:first-child {
+    padding-top: 0px;
+  }
+
+  &:not(:first-child) {
+    border-top-width: 1px;
+  }
+
+  @include respond-to(lg) {
+    padding-left: space(5);
+    padding-right: space(5);
+    padding-bottom: 0px;
+    padding-top: space(7);
+    text-align: left;
+
+    &:first-child {
+      padding-top: space(7);
+    }
+
+    &:not(:first-child) {
+      border-left-width: 1px;
+      border-top-width: 0px;
+    }
+  }
+
+  @include respond-to(xl) {
+    padding-left: space(6);
+    padding-right: space(6);
+  }
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  @include respond-to(lg) {
+    align-items: flex-start;
+  }
+}
+
+// Passed to UCFeatureIcon, which has no styles of its own.
+.icon {
+  width: space(7);
+  height: space(7);
+  color: c(uc-mute);
+}
+
+.term {
+  margin-top: space(5);
+  font-family: $font-mono;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: c(uc-mute);
+}
+
+.title {
+  margin-top: space(1.5);
+  font-size: 16px;
+  font-weight: $weight-semibold;
+  line-height: $leading-snug;
+  letter-spacing: $tracking-tight;
+  color: c(uc-text);
+}
+
+.text {
+  margin-top: space(1.5);
+  text-wrap: pretty;
+  font-size: 14px;
+  line-height: $leading-relaxed;
+  color: c(uc-mute);
+}

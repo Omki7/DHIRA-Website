@@ -1,0 +1,11 @@
+@use "assets/styles" as *;
+
+.main {
+  background: c(background);
+}
+
+.archWrap {
+  position: relative;
+  border-bottom: 1px solid c(line-soft);
+  background: c(background);
+}

@@ -1,0 +1,60 @@
+@use "assets/styles" as *;
+
+.section {
+  position: relative;
+  scroll-margin-top: space(24);
+  border-top: 1px solid c(lineSoft);
+  background-color: c(background);
+}
+
+.wrap {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 1440px;
+  padding: 3.5rem space(6);
+
+  @include respond-to(sm) {
+    padding-left: space(10);
+    padding-right: space(10);
+    padding-top: space(16);
+    padding-bottom: space(16);
+  }
+
+  @include respond-to(lg) {
+    padding-left: space(16);
+    padding-right: space(16);
+    padding-top: space(20);
+    padding-bottom: space(20);
+  }
+}
+
+.heading {
+  margin-top: space(10);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: space(6);
+
+  @include respond-to(lg) {
+    margin-top: space(12);
+  }
+}
+
+.intro {
+  max-width: 48em;
+  font-size: 1rem;
+  line-height: 1.625;
+  color: c(secondary-text);
+
+  @include respond-to(lg) {
+    font-size: 17px;
+  }
+}
+
+.coda {
+  margin-top: space(6);
+  font-size: 1rem;
+  font-weight: $weight-medium;
+  letter-spacing: $tracking-tight;
+  color: c(ink);
+}

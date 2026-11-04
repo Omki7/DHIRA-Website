@@ -1,0 +1,277 @@
+@use "assets/styles" as *;
+
+// Every element keeps single-class selectors (plus Tailwind's own
+// :first-child / :last-child / > ~ shapes), so a caller's descendant
+// override such as InsightArticle's `[&_h2]:font-medium` still wins.
+
+// --- Body scale ---------------------------------------------------
+.bodyEssay {
+  color: c(ink, 0.86);
+  font-size: 18px;
+  line-height: 1.75;
+
+  @include respond-to(sm) {
+    font-size: 19px;
+    line-height: 1.72;
+  }
+}
+
+.bodyArticle {
+  color: c(secondary-text);
+  font-size: 17px;
+  line-height: 1.75;
+}
+
+.bodyLegal {
+  color: c(secondary-text);
+  font-size: 15.5px;
+  line-height: 1.7;
+}
+
+// --- Inline links -------------------------------------------------
+.link {
+  color: c(blue);
+  text-decoration-line: underline;
+  text-decoration-color: c(blue, 0.3);
+  text-underline-offset: 3px;
+  @include transition-colors($duration-150);
+
+  &:hover {
+    text-decoration-color: c(blue);
+  }
+}
+
+// --- Paragraph ----------------------------------------------------
+.p {
+  text-wrap: pretty;
+}
+
+.pEssay {
+  margin-top: space(7);
+}
+
+.pDefault {
+  margin-top: space(5);
+}
+
+.p:first-child {
+  margin-top: 0;
+}
+
+// --- Headings -----------------------------------------------------
+.h2 {
+  scroll-margin-top: space(28);
+  text-wrap: balance;
+  font-family: $font-heading;
+  font-weight: $weight-semibold;
+  letter-spacing: -0.02em;
+  color: c(ink);
+}
+
+.h2Essay {
+  margin-top: space(16);
+  font-size: 26px;
+  line-height: 1.2;
+}
+
+.h2Article {
+  margin-top: space(14);
+  font-size: 26px;
+  line-height: 1.2;
+}
+
+.h2Legal {
+  margin-top: space(12);
+  font-size: 22px;
+  line-height: 1.25;
+}
+
+.h2:first-child {
+  margin-top: 0;
+}
+
+@include respond-to(lg) {
+  .h2Essay {
+    font-size: 30px;
+  }
+
+  .h2Article {
+    font-size: 28px;
+  }
+}
+
+.h3 {
+  margin-top: space(8);
+  text-wrap: balance;
+  font-size: 18px;
+  font-weight: $weight-semibold;
+  line-height: $leading-snug;
+  letter-spacing: -0.01em;
+  color: c(ink);
+}
+
+// --- Unordered list -----------------------------------------------
+.ul {
+  margin-top: space(5);
+
+  > :not([hidden]) ~ :not([hidden]) {
+    margin-top: 10px;
+    margin-bottom: 0;
+  }
+}
+
+.ulItem {
+  display: grid;
+  grid-template-columns: 18px 1fr;
+  gap: space(2);
+}
+
+.ulMarker {
+  margin-top: 0.72em;
+  height: 5px;
+  width: 5px;
+  border-radius: 1px;
+  background-color: c(overcast);
+}
+
+.ulText {
+  text-wrap: pretty;
+}
+
+// --- Ordered list -------------------------------------------------
+.ol {
+  margin-top: space(6);
+  border-top-width: 1px;
+  border-bottom-width: 1px;
+  border-style: dashed;
+  border-color: c(lineSoft);
+}
+
+.olItem {
+  display: grid;
+  grid-template-columns: 36px 1fr;
+  gap: space(3);
+  border-bottom-width: 1px;
+  border-style: dashed;
+  border-color: c(lineSoft);
+  padding-top: 14px;
+  padding-bottom: 14px;
+
+  &:last-child {
+    border-bottom-width: 0;
+  }
+}
+
+.olNumber {
+  padding-top: 0.35em;
+  font-family: $font-mono;
+  font-size: 11px;
+  letter-spacing: $tracking-eyebrow;
+  color: c(overcast);
+}
+
+.olText {
+  text-wrap: pretty;
+  color: c(ink);
+}
+
+// --- Quote --------------------------------------------------------
+.quoteEssay {
+  margin-top: space(14);
+  margin-bottom: space(14);
+  border-top-width: 1px;
+  border-bottom-width: 1px;
+  border-color: c(lineSoft);
+  padding-top: space(10);
+  padding-bottom: space(10);
+}
+
+.quoteDefault {
+  margin-top: space(10);
+  border-left-width: 2px;
+  border-color: c(blue);
+  padding-left: space(6);
+}
+
+.blockquote {
+  text-wrap: balance;
+  font-family: $font-display;
+  color: c(ink);
+}
+
+.blockquoteEssay {
+  font-size: 28px;
+  line-height: 1.28;
+}
+
+.blockquoteDefault {
+  font-size: 24px;
+  line-height: 1.35;
+}
+
+@include respond-to(lg) {
+  .blockquoteEssay {
+    font-size: 34px;
+  }
+
+  .blockquoteDefault {
+    font-size: 26px;
+  }
+}
+
+.cite {
+  margin-top: space(3);
+  font-family: $font-mono;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: $tracking-eyebrow;
+  color: c(overcast);
+}
+
+// --- Note ---------------------------------------------------------
+.noteEssay {
+  margin-top: space(10);
+  border-radius: $radius-outer;
+  border-width: 1px;
+  border-color: c(subtle-stroke);
+  background-color: c(primary-bg);
+  padding: space(6);
+
+  @include respond-to(sm) {
+    padding: space(8);
+  }
+}
+
+.noteDefault {
+  margin-top: space(8);
+  border-top-width: 1px;
+  border-bottom-width: 1px;
+  border-color: c(lineSoft);
+  padding-top: space(5);
+  padding-bottom: space(5);
+}
+
+.noteLabel {
+  font-family: $font-mono;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: $tracking-eyebrow;
+  color: c(overcast);
+}
+
+.noteText {
+  text-wrap: pretty;
+  color: c(ink);
+}
+
+.noteTextEssay {
+  margin-top: space(3);
+  font-size: 17px;
+  line-height: 1.65;
+}
+
+.noteTextDefault {
+  margin-top: space(2);
+  font-size: 15px;
+  line-height: $leading-relaxed;
+}

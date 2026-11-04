@@ -1,0 +1,11 @@
+// ------------------------------------------------------------------
+//  Style entry for SCSS Modules (FRONTEND_ARCHITECTURE §13)
+// ------------------------------------------------------------------
+// Every *.module.scss starts with:  @use "assets/styles" as *;
+// which brings in the tokens and mixins. Global styles (reset, base
+// type, the CSS custom properties for both appearances) still load from
+// src/app/globals.css and src/app/theme.css; they move here when
+// Tailwind is retired (phase 4).
+
+@forward "tokens";
+@forward "mixins";

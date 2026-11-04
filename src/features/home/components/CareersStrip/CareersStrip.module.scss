@@ -1,0 +1,113 @@
+@use "assets/styles" as *;
+
+.section {
+  position: relative;
+  scroll-margin-top: space(24);
+  background-color: c(background);
+  padding-bottom: space(16);
+
+  @include respond-to(lg) {
+    padding-bottom: space(24);
+  }
+}
+
+.body {
+  position: relative;
+  display: grid;
+  gap: space(10);
+  border-bottom-width: 1px;
+  border-color: c(lineSoft);
+  padding-top: space(10);
+  padding-bottom: space(10);
+
+  @include respond-to(sm) {
+    padding-top: space(12);
+    padding-bottom: space(12);
+  }
+
+  @include respond-to(lg) {
+    grid-template-columns: 1.1fr 1fr;
+    align-items: center;
+    gap: space(20);
+    padding-top: space(14);
+    padding-bottom: space(14);
+  }
+}
+
+.roles {
+  position: relative;
+  padding-left: space(14);
+
+  @include respond-to(sm) {
+    padding-left: space(24);
+  }
+}
+
+.branches {
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  height: 100%;
+  width: space(12);
+  color: c(blue);
+
+  @include respond-to(sm) {
+    width: space(20);
+  }
+}
+
+.role {
+  display: flex;
+  min-height: 70px;
+  align-items: center;
+  gap: space(4);
+  border-bottom-width: 1px;
+  border-color: c(lineSoft);
+
+  &:last-child {
+    border-bottom-width: 0;
+  }
+}
+
+.seat {
+  font-size: 19px;
+  font-weight: $weight-medium;
+  letter-spacing: $tracking-tight;
+  color: c(ink);
+  @include transition-colors;
+
+  .role:hover & {
+    color: c(blue);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition-property: none;
+  }
+
+  @include respond-to(sm) {
+    font-size: 22px;
+  }
+}
+
+.arrow {
+  margin-left: auto;
+  display: flex;
+  height: space(8);
+  width: space(8);
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  color: c(inkSoft);
+  @include transition-colors;
+
+  .role:hover & {
+    background-color: c(blue-subtle);
+    color: c(blue);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition-property: none;
+  }
+}

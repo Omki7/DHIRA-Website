@@ -1,0 +1,19 @@
+@use "assets/styles" as *;
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  border-radius: $radius-chip;
+  border-width: 1px;
+  border-style: dashed;
+  border-color: c(blue);
+  padding-left: 0.375rem;
+  padding-right: 0.375rem;
+  font-family: $font-mono;
+  font-size: 9.5px;
+  font-weight: $weight-medium;
+  text-transform: uppercase;
+  line-height: 1.6;
+  letter-spacing: 0.08em;
+  color: c(blue);
+}

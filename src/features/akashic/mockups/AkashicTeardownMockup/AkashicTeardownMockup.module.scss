@@ -1,0 +1,459 @@
+@use "assets/styles" as *;
+
+.root {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  user-select: none;
+  overflow: hidden;
+  background: c(primary-bg);
+  color: c(ink);
+}
+
+.scene {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+}
+
+.narrativeRail0 {
+  pointer-events: none;
+  position: absolute;
+  left: 6%;
+  right: 6%;
+  top: 15%;
+
+  @include respond-to(md) {
+    right: auto;
+    left: 7%;
+    top: 46%;
+    width: 470px;
+    transform: translateY(-40%);
+  }
+}
+
+.headline0 {
+  margin-top: space(6);
+  font-size: 30px;
+  font-weight: 500;
+  line-height: 1.06;
+  letter-spacing: -0.05em;
+  color: c(ink);
+
+  @include respond-to(md) {
+    font-size: 44px;
+  }
+}
+
+.headline0Soft {
+  color: c(ink-soft);
+}
+
+.headline0Block {
+  @include respond-to(md) {
+    display: block;
+  }
+}
+
+.lede0 {
+  margin-top: space(5);
+  max-width: 430px;
+  font-size: 15px;
+  line-height: $leading-relaxed;
+  color: c(ink-soft);
+
+  @include respond-to(md) {
+    font-size: 16.5px;
+  }
+}
+
+.narrativeRailModule {
+  pointer-events: none;
+  position: absolute;
+  left: 6%;
+  right: 6%;
+  top: 12%;
+
+  @include respond-to(md) {
+    right: auto;
+    left: 7%;
+    top: 50%;
+    width: 420px;
+    transform: translateY(-40%);
+  }
+}
+
+.modNum {
+  pointer-events: none;
+  position: absolute;
+  left: -8px;
+  top: -48px;
+  user-select: none;
+  font-family: $font-mono;
+  font-size: 110px;
+  font-weight: 600;
+  line-height: 1;
+  color: c(ink, 0.045);
+
+  @include respond-to(md) {
+    top: -64px;
+    font-size: 150px;
+  }
+}
+
+.modEyebrow {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: $font-mono;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: $tracking-eyebrow;
+}
+
+.modEyebrowBlue {
+  color: c(blue);
+}
+
+.modEyebrowLine {
+  display: block;
+  height: 1px;
+  width: 32px;
+  background: c(line);
+}
+
+.modKicker {
+  border-radius: 5px;
+  border: 1px solid c(blue-border);
+  background: c(blue-subtle);
+  padding: 3px space(2);
+  font-size: 9.5px;
+  color: c(blue);
+}
+
+.modTitle {
+  position: relative;
+  margin-top: space(4);
+  font-size: 27px;
+  font-weight: 500;
+  line-height: 1.05;
+  letter-spacing: -0.05em;
+  color: c(ink);
+
+  @include respond-to(md) {
+    font-size: 38px;
+  }
+}
+
+.modLede {
+  position: relative;
+  margin-top: space(3);
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: -0.025em;
+  color: c(ink);
+
+  @include respond-to(md) {
+    font-size: 19px;
+  }
+}
+
+.modPoints {
+  position: relative;
+  margin-top: space(4);
+  display: flex;
+  flex-direction: column;
+  gap: space(2);
+
+  @include respond-to(md) {
+    gap: 10px;
+  }
+}
+
+.modPointItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 13px;
+  line-height: $leading-snug;
+  color: c(ink-soft);
+
+  @include respond-to(md) {
+    font-size: 14.5px;
+  }
+}
+
+.modPointBadge {
+  margin-top: 1px;
+  display: flex;
+  height: 20px;
+  width: 20px;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  border-radius: $radius-tile;
+  background: c(blue-subtle);
+  color: c(blue);
+}
+
+.modPointText {
+  min-width: 0;
+  padding-top: 2px;
+}
+
+.previewTagWrap {
+  margin-left: space(2);
+  vertical-align: 1px;
+}
+
+.narrativeRailClose {
+  pointer-events: none;
+  position: absolute;
+  left: 50%;
+  top: 8%;
+  width: min(92vw, 760px);
+  transform: translateX(-50%);
+  text-align: center;
+
+  @include respond-to(md) {
+    top: 10%;
+  }
+}
+
+.closeEyebrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-family: $font-mono;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: $tracking-eyebrow;
+}
+
+.closeEyebrowBlue {
+  color: c(blue);
+}
+
+.closeEyebrowSoft {
+  color: c(ink-soft);
+}
+
+.closeTitle {
+  margin-inline: auto;
+  margin-top: space(5);
+  max-width: 16em;
+  font-size: 28px;
+  font-weight: 500;
+  line-height: 1.08;
+  letter-spacing: -0.05em;
+  color: c(ink);
+
+  @include respond-to(md) {
+    font-size: 42px;
+  }
+}
+
+.closeBody {
+  margin-inline: auto;
+  margin-top: space(4);
+  max-width: 36em;
+  font-size: 15px;
+  line-height: $leading-relaxed;
+  color: c(ink-soft);
+
+  @include respond-to(md) {
+    font-size: 16.5px;
+  }
+}
+
+.closeTaglineWrap {
+  margin-top: space(7);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: space(4) space(5);
+}
+
+.closeTagline {
+  font-family: $font-mono;
+  font-size: 10.5px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: c(secondary-text);
+}
+
+.comboBadge {
+  pointer-events: none;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  border-radius: 9999px;
+  border: 1px solid c(blue-border);
+  background: c(blue-subtle);
+  padding: 6px space(4);
+  font-family: $font-mono;
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: c(blue);
+  top: 50%;
+
+  @include respond-to(md) {
+    top: 46%;
+  }
+}
+
+.frameChromeTop {
+  pointer-events: none;
+  position: absolute;
+  inset-inline: 0;
+  top: 0;
+  display: flex;
+  height: 54px;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid c(line-soft);
+  padding-inline: 6%;
+
+  @include respond-to(md) {
+    padding-inline: 7%;
+  }
+}
+
+.frameLabel {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: $font-mono;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: c(secondary-text);
+}
+
+.frameDot {
+  display: block;
+  height: 6px;
+  width: 6px;
+  border-radius: 9999px;
+  background: c(blue);
+  animation: global(ps-pulse) 2s infinite;
+}
+
+.hud {
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  display: flex;
+  height: 64px;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid c(line-soft);
+  background: c(primary-bg);
+  padding-inline: 6%;
+
+  @include respond-to(md) {
+    padding-inline: 7%;
+  }
+}
+
+.hudModLeft {
+  display: none;
+  width: 270px;
+  align-items: center;
+  gap: space(3);
+  font-family: $font-mono;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+
+  @include respond-to(md) {
+    display: flex;
+  }
+}
+
+.hudModDim {
+  color: c(secondary-text);
+}
+
+.hudModInk {
+  color: c(ink);
+}
+
+.hudTicks {
+  display: flex;
+  align-items: flex-end;
+  gap: space(4);
+
+  @include respond-to(md) {
+    gap: 22px;
+  }
+}
+
+.hudTickBtn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 7px;
+  padding: 6px space(1);
+  cursor: pointer;
+  transition: transform 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  background: none;
+  border: none;
+
+  &:hover {
+    transform: scale(1.1);
+  }
+
+  &:focus-visible {
+    outline: none;
+  }
+}
+
+.hudTickLine {
+  display: block;
+  width: 1px;
+  transition: none;
+}
+
+.hudTickNum {
+  font-family: $font-mono;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+}
+
+.hudDepthRight {
+  display: none;
+  width: 190px;
+  align-items: center;
+  justify-content: flex-end;
+  gap: space(3);
+  font-family: $font-mono;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+
+  @include respond-to(md) {
+    display: flex;
+  }
+}
+
+.hudProgress {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 2px;
+  background: c(blue);
+}
+
+.wordmark {
+  font-size: 34px;
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  color: c(ink);
+}

@@ -1,0 +1,69 @@
+@use "assets/styles" as *;
+
+.capillary {
+  height: 3px;
+  background-color: c(blue);
+}
+
+.capillaryBright {
+  height: 3px;
+  background-color: c(blue);
+}
+
+.liveChip {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: space(1);
+  border-radius: $radius-chip;
+  border: 1px solid c(positive-border);
+  background-color: c(positive-subtle);
+  padding: space(1) space(2);
+}
+
+.liveDot {
+  height: 5px;
+  width: 5px;
+  border-radius: 9999px;
+  background-color: c(positive);
+  animation: global(ps-pulse) 2.4s infinite;
+}
+
+.liveLabel {
+  font-size: 9px;
+  font-weight: $weight-bold;
+  letter-spacing: 0.03em;
+  color: c(positive-text);
+}
+
+.blueChip {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  border-radius: $radius-chip;
+  border: 1px solid c(blue-border);
+  background-color: c(blue-subtle);
+  padding: space(1) space(2);
+  font-size: 9px;
+  font-weight: $weight-bold;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: c(blue);
+}
+
+.mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: $radius-inner;
+  border: 1px solid c(card-line);
+  background-color: c(background);
+  padding: 0.625rem space(4);
+}
+
+.wordmark {
+  font-size: 13.5px;
+  font-weight: $weight-bold;
+  letter-spacing: $tracking-tight;
+  color: c(ink);
+}

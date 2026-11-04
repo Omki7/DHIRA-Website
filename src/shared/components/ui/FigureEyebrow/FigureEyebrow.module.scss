@@ -1,0 +1,72 @@
+@use "assets/styles" as *;
+
+.root {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  font-family: $font-mono;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: $tracking-eyebrow;
+}
+
+.rail {
+  border-top-width: 1px;
+  border-bottom-width: 1px;
+  border-style: dashed;
+  padding-left: 2px;
+  padding-right: 2px;
+  padding-top: 17px;
+  padding-bottom: 17px;
+}
+
+.railLight {
+  border-color: c(lineSoft);
+}
+
+.railDark {
+  border-color: c(line);
+}
+
+.line {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.num {
+  color: c(overcast);
+}
+
+.numDark {
+  color: c(uc-dim);
+}
+
+.label {
+  color: c(inkSoft);
+}
+
+.labelDark {
+  color: c(uc-mute);
+}
+
+.live {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: c(blue);
+}
+
+.liveDot {
+  height: 5px;
+  width: 5px;
+  border-radius: 9999px;
+  background-color: c(blue);
+  // ps-pulse is the global keyframe in src/app/globals.css.
+  animation: global(ps-pulse) 2s infinite;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}

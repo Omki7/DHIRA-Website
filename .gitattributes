@@ -1,0 +1,9 @@
+# LF everywhere, matching .editorconfig and .prettierrc.json.
+* text=auto eol=lf
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.webp binary
+*.avif binary
+*.ico binary
+*.woff2 binary

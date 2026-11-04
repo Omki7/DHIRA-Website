@@ -4,6 +4,8 @@
    origin is Google Fonts (app/layout.tsx). A CMS whose images are served
    from its own CDN adds that host to `img-src` and to `images.remotePatterns`. */
 
+import { fileURLToPath } from "node:url";
+
 const isDev = process.env.NODE_ENV === "development";
 
 const contentSecurityPolicy = [
@@ -34,6 +36,11 @@ const nextConfig = {
   poweredByHeader: false,
   images: {
     formats: ["image/avif", "image/webp"],
+  },
+  /* SCSS Modules resolve shared styles from src/: every module starts with
+     `@use "assets/styles" as *;` for the tokens and mixins. */
+  sassOptions: {
+    loadPaths: [fileURLToPath(new URL("./src", import.meta.url))],
   },
   /* Every URL names its page as the menu does (26 Oct 2026, user: "when we
      click services, URL shows delivery"). Old paths redirect for good;

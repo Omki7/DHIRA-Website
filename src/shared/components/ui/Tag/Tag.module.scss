@@ -1,0 +1,43 @@
+@use "assets/styles" as *;
+
+.tag {
+  display: inline-flex;
+  height: 1.75rem;
+  align-items: center;
+  gap: 0.375rem;
+  white-space: nowrap;
+  border-radius: 9999px;
+  border-width: 1px;
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+  font-size: 12.5px;
+  font-weight: $weight-medium;
+}
+
+.neutral {
+  border-color: c(card-line);
+  background-color: c(background);
+  color: c(ink);
+}
+
+.muted {
+  border-color: c(line);
+  background-color: c(background);
+  color: c(secondary-text);
+}
+
+.akashic {
+  border-color: c(blue-border);
+  background-color: c(blue-subtle);
+  color: c(blue);
+}
+
+.custom {
+  border-color: c(ink);
+  background-color: c(background);
+  color: c(ink);
+}
+
+.preview {
+  border-style: dashed;
+}
