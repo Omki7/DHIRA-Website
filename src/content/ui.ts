@@ -93,24 +93,32 @@ export interface UiStrings {
     sentBody: string;
     sendAnother: string;
     close: string;
+    /** One line under each field it belongs to; `failed` under the button. */
+    errors: { name: string; email: string; company: string; interest: string; message: string; failed: string };
   };
-  /** The footer's business email sign-up (layout/FooterSubscribe). */
-  subscribe: {
+  /** The footer's business email sign-up (layout/FooterSubscribe). Its
+      `submitting` and `errors` are shared by every sign-up form. */
+  subscribe: SubscribeCopy & {
     heading: string;
     lede: string;
-    label: string;
-    placeholder: string;
-    submit: string;
     submitting: string;
-    /** Shown in place of the form; the address follows. */
-    done: string;
     errors: { invalid: string; personal: string; failed: string };
-    consent: { before: string; link: { label: string; href: string }; after: string };
   };
   /** Accessible name before an assistant's name: "Ask ChatGPT about DHIRA". */
   askAssistant: { before: string; after: string };
   /** app/error.tsx: shown when a page fails while rendering. */
   error: { label: string; setup: string; payoff: string; lede: string; retry: string; home: { label: string; href: string } };
+}
+
+/** One sign-up form's own words (features/newsletter SubscribeForm): the
+    footer's here, the /insights one in content/pages/insights.ts. */
+export interface SubscribeCopy {
+  label: string;
+  placeholder: string;
+  submit: string;
+  /** Shown in place of the form; the address follows. */
+  done: string;
+  consent: { before: string; link: { label: string; href: string }; after: string };
 }
 
 export const ui: UiStrings = {
@@ -204,6 +212,14 @@ export const ui: UiStrings = {
     sentBody: "It’s with our team now. Expect a reply within one business day from a real engineer who read it.",
     sendAnother: "Send another message",
     close: "Close",
+    errors: {
+      name: "Please enter your name.",
+      email: "Enter a valid email address.",
+      company: "Please enter your company.",
+      interest: "Please choose one of the options.",
+      message: "Please tell us what you’re trying to solve.",
+      failed: "We couldn’t send your message just now. Please try again, or write to info@dhira.ai.",
+    },
   },
   /* No newsletter yet (2 Nov 2026, user): the copy promises news, not a
      schedule, and no confirmation email is sent. */

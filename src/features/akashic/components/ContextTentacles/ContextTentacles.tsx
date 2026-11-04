@@ -45,14 +45,7 @@ export interface ContextTentaclesProps {
   control?: ReactNode;
 }
 
-export function ContextTentacles({
-  nodes,
-  active,
-  resetKey,
-  durationMs,
-  onSelect,
-  control,
-}: ContextTentaclesProps) {
+export function ContextTentacles({ nodes, active, resetKey, durationMs, onSelect, control }: ContextTentaclesProps) {
   const ref = useRef<HTMLDivElement>(null);
   const [width, setWidth] = useState(1000);
 
@@ -60,9 +53,7 @@ export function ContextTentacles({
     const el = ref.current;
     if (!el) return;
     setWidth(el.offsetWidth);
-    const observer = new ResizeObserver(([entry]) =>
-      setWidth(entry.contentRect.width)
-    );
+    const observer = new ResizeObserver(([entry]) => setWidth(entry.contentRect.width));
     observer.observe(el);
     return () => observer.disconnect();
   }, []);
@@ -94,8 +85,7 @@ export function ContextTentacles({
             return (
               <g key={node.module}>
                 {Array.from({ length: LINES_PER_NODE }, (_, k) => {
-                  const offset =
-                    (k - (LINES_PER_NODE - 1) / 2) * (SPREAD / LINES_PER_NODE);
+                  const offset = (k - (LINES_PER_NODE - 1) / 2) * (SPREAD / LINES_PER_NODE);
                   return (
                     <path
                       key={k}
@@ -106,12 +96,12 @@ export function ContextTentacles({
                       strokeDasharray={on ? "3 5" : undefined}
                       className={on ? styles.pathRunning : undefined}
                       style={{
-                        transition:
-                          "stroke-opacity 400ms cubic-bezier(0.2,0.8,0.2,1)",
+                        transition: "stroke-opacity 400ms cubic-bezier(0.2,0.8,0.2,1)",
                       }}
                     />
                   );
                 })}
+                <circle cx={x} cy={ROW_Y} r={on ? 3 : 2} fill={on ? "rgb(var(--blue))" : "rgb(var(--overcast))"} />
               </g>
             );
           })}
@@ -124,48 +114,36 @@ export function ContextTentacles({
               key={node.module}
               type="button"
               onClick={() => onSelect(i)}
+              aria-pressed={on}
               className={styles.nodeButton}
-              style={{ left: spacing * (i + 1), width: 140 }}
+              style={{ left: spacing * (i + 1) }}
             >
-              <span
-                className={`${styles.nodePill} ${
-                  on ? styles.nodePillOn : styles.nodePillOff
-                }`}
-              >
-                {progress(on)}
+              {/* Full module names ("Business Intelligence") hold one line. */}
+              <span className={on ? `${styles.nodeModule} ${styles.nodeModuleOn}` : styles.nodeModule}>
                 {node.module}
               </span>
-              <span
-                className={`${styles.nodeAdds} ${
-                  on ? styles.nodeAddsOn : styles.nodeAddsOff
-                }`}
-              >
-                {node.adds}
+              <span className={on ? `${styles.nodeAdds} ${styles.nodeAddsOn}` : styles.nodeAdds}>{node.adds}</span>
+              <span aria-hidden className={styles.nodeTrack}>
+                {progress(on)}
               </span>
             </button>
           );
         })}
 
         {control && (
-          <div
-            className={styles.controlWrap}
-            style={{ left: spacing * (nodes.length + 0.5) }}
-          >
+          <div className={styles.controlWrap} style={{ left: width - spacing / 2, top: ROW_Y }}>
             {control}
           </div>
         )}
 
-        {/* The context ground everything connects into */}
-        <div className={styles.contextBox}>
+        {/* Where the lines unite: what the seven modules add up to. */}
+        <div className={styles.contextBox} style={{ left: cx, top: CONVERGE_Y }}>
           <AkashicWordmark className={styles.contextWordmark} />
-          <span className={styles.contextLabel}>Universal Context</span>
-          <span className={styles.contextDesc}>
-            one ground for your organisation
-          </span>
+          <span className={styles.contextLabel}>Organisational context</span>
         </div>
       </div>
 
-      {/* Below lg: horizontal scrolling tabs + active summary card */}
+      {/* Phones and tablets: the same index, one scrolling row. */}
       <div className={styles.mobileWrap}>
         <div className={styles.mobileRow}>
           {nodes.map((node, i) => {
@@ -175,28 +153,17 @@ export function ContextTentacles({
                 key={node.module}
                 type="button"
                 onClick={() => onSelect(i)}
-                className={`${styles.mobileTab} ${
-                  on ? styles.mobileTabOn : styles.mobileTabOff
-                }`}
+                aria-pressed={on}
+                className={on ? `${styles.mobileTab} ${styles.mobileTabOn}` : styles.mobileTab}
               >
-                {progress(on)}
                 {node.module}
+                <span aria-hidden className={styles.mobileTabRule} />
+                {progress(on)}
               </button>
             );
           })}
-          {control && <div className="shrink-0">{control}</div>}
         </div>
-        <div className={styles.mobileBox}>
-          <AkashicWordmark className={styles.contextWordmark} />
-          <div className={styles.mobileBoxDetails}>
-            <span className={styles.mobileBoxTitle}>
-              {nodes[active]?.module}
-            </span>
-            <span className={styles.mobileBoxAdds}>
-              {nodes[active]?.adds}
-            </span>
-          </div>
-        </div>
+        {control}
       </div>
     </>
   );

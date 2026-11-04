@@ -2,6 +2,7 @@ import type { Story } from "@/content/collections/customer-stories";
 import type { Role } from "@/content/collections/roles";
 import type { HomePage as HomeDocument } from "@/content/pages/home";
 import { ProvenAtScale } from "@/features/proof";
+import { RegionOnly } from "@/shared/components/ui";
 import { BuiltOnAkashic } from "../components/BuiltOnAkashic";
 import { CareersStrip } from "../components/CareersStrip";
 import { Closure } from "../components/Closure";
@@ -41,7 +42,10 @@ export function HomePage({ page, stories, roles }: HomePageProps) {
       <Voices content={page.voices} />
       <EnterpriseSecurity content={page.governance} />
       <Closure content={page.close} />
-      <CareersStrip content={page.careers} roles={roles} />
+      {/* India only (content/pages/home.ts `careers.audience`). */}
+      <RegionOnly region={page.careers.audience}>
+        <CareersStrip content={page.careers} roles={roles} />
+      </RegionOnly>
     </main>
   );
 }

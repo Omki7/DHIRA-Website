@@ -1,0 +1,353 @@
+@use "assets/styles" as *;
+
+// Both lines share one geometry: a 48px rail on the left of every stop,
+// the line centred 11px inside it.
+$rail: 48px;
+$spine-x: 11px;
+$spine-width: 1.5px;
+
+.alias {
+  display: block;
+  scroll-margin-top: 5rem;
+}
+
+.layout {
+  display: grid;
+  row-gap: space(14);
+
+  @include respond-to(xl) {
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+    column-gap: space(20);
+    align-items: start;
+  }
+}
+
+// From xl the heading column stays in view while the line scrolls past it.
+.intro {
+  @include respond-to(xl) {
+    position: sticky;
+    top: 7.5rem;
+  }
+}
+
+// The label over each line ("The usual route", "At DHIRA").
+.columnLabel {
+  font-family: $font-mono;
+  font-size: 12px;
+  line-height: 1.6;
+  letter-spacing: $tracking-eyebrow;
+  text-transform: uppercase;
+  color: c(overcast);
+}
+
+// Drawing annotations on the lines.
+%annotation {
+  font-family: $font-mono;
+  font-size: 11px;
+  line-height: 18px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+// --- The usual route: a dashed line, broken twice ----------------------
+
+.usual {
+  margin-top: space(10);
+  max-width: 34rem;
+  border-top: 1px solid c(lineSoft);
+  padding-top: space(6);
+}
+
+.route {
+  margin: space(5) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.routeStop {
+  @extend %annotation;
+  position: relative;
+  padding: 0 0 space(12) $rail;
+  color: c(secondary-text);
+
+  // The dashed stretch below each party stops short; the break sits in the gap.
+  &:not(:last-child)::before {
+    content: "";
+    position: absolute;
+    top: 14px;
+    bottom: 26px;
+    left: $spine-x - $spine-width * 0.5;
+    border-left: $spine-width dashed c(default-stroke);
+  }
+
+  &:last-child {
+    padding-bottom: 0;
+  }
+}
+
+.routeRing {
+  position: absolute;
+  top: 5px;
+  left: $spine-x - 4px;
+  width: 8px;
+  height: 8px;
+  border: 1.5px solid c(default-stroke);
+  border-radius: 50%;
+  background-color: c(background);
+}
+
+.break {
+  position: absolute;
+  bottom: 6px;
+  left: $spine-x - 6px;
+  width: 12px;
+  height: 16px;
+  color: c(default-stroke);
+}
+
+// --- DHIRA's line: one spine, unbroken ----------------------------------
+
+.line {
+  // Names the spine's scroll timeline for the stops and the arrow below it.
+  timeline-scope: --about-spine;
+
+  @include respond-to(xl) {
+    // Level with the headline, which sits 48px under the eyebrow rail.
+    padding-top: space(12);
+  }
+}
+
+.stops {
+  position: relative;
+  margin: space(5) 0 0;
+  padding: 0;
+  list-style: none;
+  view-timeline-name: --about-spine;
+
+  // The spine: from the first ring to the arrow under the last stop.
+  &::before {
+    content: "";
+    position: absolute;
+    top: 9px;
+    bottom: 0;
+    left: $spine-x - $spine-width * 0.5;
+    width: $spine-width;
+    background-color: c(blue);
+    transform-origin: top;
+  }
+}
+
+.stop {
+  @extend %annotation;
+  position: relative;
+  padding: 0 0 space(8) $rail;
+  color: c(overcast);
+}
+
+// The start: an open ring, where the work begins.
+.ring {
+  position: absolute;
+  top: 4px;
+  left: $spine-x - 5px;
+  width: 10px;
+  height: 10px;
+  border: 1.5px solid c(blue);
+  border-radius: 50%;
+  background-color: c(background);
+}
+
+// Production: a filled node. (An open ring on /about means "not joined yet".)
+.node {
+  position: absolute;
+  top: 4px;
+  left: $spine-x - 5px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: c(blue);
+}
+
+// The leaders: one group held by a bracket whose back is the spine itself,
+// so the same people span the whole stretch of line.
+.team {
+  position: relative;
+  margin-bottom: space(8);
+  padding: space(7) 0 space(7) $rail;
+}
+
+.bracket {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: $spine-x;
+  width: 22px;
+  border-top: $spine-width solid c(blue);
+  border-bottom: $spine-width solid c(blue);
+}
+
+.leaders {
+  display: grid;
+  row-gap: space(9);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.person {
+  display: grid;
+  grid-template-columns: 88px minmax(0, 1fr);
+  column-gap: space(5);
+  align-items: start;
+
+  @include respond-to(sm) {
+    grid-template-columns: 112px minmax(0, 1fr);
+    column-gap: space(6);
+  }
+}
+
+.portrait {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  border-radius: $radius-micro;
+  background-color: c(panel);
+}
+
+// All /about people photography is monochrome (DESIGN_SYSTEM §12).
+.photo {
+  object-fit: cover;
+  object-position: center 15%;
+  filter: grayscale(1);
+}
+
+.name {
+  font-family: $font-heading;
+  font-size: 20px;
+  font-weight: $weight-medium;
+  line-height: 1.2;
+  letter-spacing: $tracking-tight;
+  color: c(ink);
+
+  @include respond-to(sm) {
+    font-size: 22px;
+  }
+}
+
+.role {
+  margin-top: 6px;
+  font-size: 13px;
+  line-height: 1.55;
+  color: c(secondary-text);
+}
+
+.focus {
+  margin-top: space(3);
+  max-width: 26rem;
+  font-size: 15px;
+  line-height: 1.6;
+  color: c(inkSoft);
+}
+
+// --- Where the line arrives ------------------------------------------
+
+.destination {
+  position: relative;
+  padding-left: $rail;
+}
+
+.arrow {
+  position: absolute;
+  top: -3px;
+  left: $spine-x - 6px;
+  width: 12px;
+  height: 8px;
+  color: c(blue);
+}
+
+.destinationLabel {
+  @extend %annotation;
+  padding-top: space(3);
+  color: c(blue);
+}
+
+.destinationTitle {
+  margin-top: space(3);
+  font-family: $font-heading;
+  font-size: 26px;
+  font-weight: $weight-medium;
+  line-height: 1.15;
+  letter-spacing: $tracking-tight;
+  color: c(ink);
+
+  @include respond-to(sm) {
+    font-size: 30px;
+  }
+}
+
+.destinationLines {
+  margin-top: space(4);
+  font-size: 16px;
+  line-height: 1.75;
+  color: c(secondary-text);
+
+  span {
+    display: block;
+  }
+}
+
+.coda {
+  margin-top: space(8);
+  border-top: 1px dashed c(lineSoft);
+  padding-top: space(5);
+}
+
+// On phones the payoff takes its own line, so no word is left at a line end.
+.codaPayoff {
+  display: block;
+
+  @include respond-to(sm) {
+    display: inline;
+  }
+}
+
+// The spine grows with the scroll where scroll-driven animation exists,
+// for visitors who have not asked for less motion. It completes while the
+// last leaders are still below the fold, so a reader never meets a gap in
+// a line whose point is that it does not break; the production node and
+// the arrow appear only as the spine reaches them.
+@include motion-safe {
+  @supports (animation-timeline: view()) {
+    .stops::before {
+      animation: spine-grow linear both;
+      animation-timeline: --about-spine;
+      animation-range: entry 10% cover 32%;
+    }
+
+    .node,
+    .arrow {
+      animation: spine-arrive linear both;
+      animation-timeline: --about-spine;
+      animation-range: cover 30% cover 33%;
+    }
+  }
+}
+
+@keyframes spine-grow {
+  from {
+    transform: scaleY(0);
+  }
+
+  to {
+    transform: scaleY(1);
+  }
+}
+
+@keyframes spine-arrive {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}

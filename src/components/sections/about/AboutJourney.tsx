@@ -3,6 +3,7 @@
 import JourneyLayers, { JourneyEmblem } from "@/components/demos/about/JourneyLayers";
 import AboutSection, { AboutHeading } from "@/components/sections/about/AboutSection";
 import type { AboutPage, JourneyLayerKind, JourneyTimeline } from "@/content/pages/about";
+import { PreviewTag } from "@/shared/components/ui";
 
 interface Entry {
   id: string;
@@ -44,6 +45,7 @@ function Ledger({ timeline }: { timeline: JourneyTimeline }) {
                   <span aria-hidden className={`mt-[7px] h-2.5 w-2.5 shrink-0 rounded-[2px] ${GLYPH[entry.kind]}`} />
                   {entry.title}
                 </h3>
+                {entry.kind === "ahead" && <div className="mt-3 pl-5"><PreviewTag /></div>}
                 <p className={entry.kind === "ahead" ? "mt-2 pl-5 text-[15px] leading-relaxed text-secondary-text" : "sr-only"}>{entry.description}</p>
                 {entry.kind === "ahead" && <ul className="mt-5 space-y-4 border-l border-dashed border-blue/50 pl-5">
                   {timeline.direction.map((direction) => <li key={direction.title}>
@@ -64,10 +66,8 @@ export default function AboutJourney({ content }: { content: AboutPage["journey"
   const { timeline } = content;
   return (
     <AboutSection id="journey" eyebrow={{ number: content.number, label: content.label }}>
-      <JourneyLayers
-        timeline={timeline}
-        heading={<AboutHeading setup={content.setup} title={content.title} intro={content.intro} />}
-      />
+      <AboutHeading setup={content.setup} title={content.title} intro={content.intro} />
+      <JourneyLayers timeline={timeline} />
       <div className="mt-10 lg:hidden">
         <JourneyEmblem timeline={timeline} />
       </div>

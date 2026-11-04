@@ -30,13 +30,6 @@
   letter-spacing: 0.7px;
 }
 
-.footnote {
-  fill: c(secondary-text);
-  font-family: $font-mono;
-  font-size: 10px;
-  letter-spacing: 0.5px;
-}
-
 .headline {
   fill: c(ink);
   font-size: 16px;
@@ -103,6 +96,11 @@
 
 .highlight {
   fill: c(blue-subtle);
+}
+
+// The highlighter swipe (`.ad-strike`) grows from the mark's own left edge.
+.swipe {
+  transform-box: fill-box;
 }
 
 .dot {

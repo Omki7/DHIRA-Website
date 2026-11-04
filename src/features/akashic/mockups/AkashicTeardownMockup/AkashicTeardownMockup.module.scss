@@ -1,5 +1,7 @@
 @use "assets/styles" as *;
 
+@include keyframes(ps-pulse);
+
 .root {
   position: relative;
   height: 100%;
@@ -37,7 +39,7 @@
   font-size: 30px;
   font-weight: 500;
   line-height: 1.06;
-  letter-spacing: -0.05em;
+  letter-spacing: $tracking-tighter;
   color: c(ink);
 
   @include respond-to(md) {
@@ -46,7 +48,7 @@
 }
 
 .headline0Soft {
-  color: c(ink-soft);
+  color: c(inkSoft);
 }
 
 .headline0Block {
@@ -60,7 +62,7 @@
   max-width: 430px;
   font-size: 15px;
   line-height: $leading-relaxed;
-  color: c(ink-soft);
+  color: c(inkSoft);
 
   @include respond-to(md) {
     font-size: 16.5px;
@@ -138,7 +140,7 @@
   font-size: 27px;
   font-weight: 500;
   line-height: 1.05;
-  letter-spacing: -0.05em;
+  letter-spacing: $tracking-tighter;
   color: c(ink);
 
   @include respond-to(md) {
@@ -177,7 +179,7 @@
   gap: 10px;
   font-size: 13px;
   line-height: $leading-snug;
-  color: c(ink-soft);
+  color: c(inkSoft);
 
   @include respond-to(md) {
     font-size: 14.5px;
@@ -237,7 +239,7 @@
 }
 
 .closeEyebrowSoft {
-  color: c(ink-soft);
+  color: c(inkSoft);
 }
 
 .closeTitle {
@@ -247,7 +249,7 @@
   font-size: 28px;
   font-weight: 500;
   line-height: 1.08;
-  letter-spacing: -0.05em;
+  letter-spacing: $tracking-tighter;
   color: c(ink);
 
   @include respond-to(md) {
@@ -261,7 +263,7 @@
   max-width: 36em;
   font-size: 15px;
   line-height: $leading-relaxed;
-  color: c(ink-soft);
+  color: c(inkSoft);
 
   @include respond-to(md) {
     font-size: 16.5px;
@@ -337,7 +339,7 @@
   width: 6px;
   border-radius: 9999px;
   background: c(blue);
-  animation: global(ps-pulse) 2s infinite;
+  animation: ps-pulse 2s infinite;
 }
 
 .hud {
@@ -348,7 +350,7 @@
   height: 64px;
   align-items: center;
   justify-content: space-between;
-  border-top: 1px solid c(line-soft);
+  border-top: 1px solid c(lineSoft);
   background: c(primary-bg);
   padding-inline: 6%;
 

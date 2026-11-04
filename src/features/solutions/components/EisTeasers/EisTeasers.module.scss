@@ -1,0 +1,154 @@
+@use "assets/styles" as *;
+
+// Section padding 48 / 64px, 64 / 96px from lg (DESIGN_SYSTEM §3).
+.section {
+  position: relative;
+  width: 100%;
+  scroll-margin-top: space(24);
+  overflow: clip;
+  background-color: c(background);
+  padding-top: space(12);
+  padding-bottom: space(16);
+
+  @include respond-to(lg) {
+    padding-top: space(16);
+    padding-bottom: space(24);
+  }
+}
+
+.grid {
+  margin-top: space(12);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: space(10);
+
+  @include respond-to(md) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @include respond-to(lg) {
+    margin-top: space(14);
+    column-gap: space(10);
+    row-gap: space(12);
+  }
+}
+
+// --- One story -------------------------------------------------------
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: space(4);
+}
+
+// The footage is cut on a warm light grey, #f7f7f5 (re-cut 4 Nov 2026; the
+// posters are frames of the same videos, docs/ASSETS.md). Against the cool
+// porcelain page it read as a beige block (user, 4 Nov 2026), so each video
+// runs through a colour matrix (EisTeasers.tsx, the hidden <svg>) that
+// scales each channel: in light the footage ground lands exactly on
+// `background`, in dark it settles to a soft cool white instead of glaring.
+// Black stays black and the brand blue barely moves, because it is a
+// scale, not an offset. The frame behind takes the same corrected ground,
+// so the sub-pixel letterbox never shows a second colour. Browsers without
+// SVG filters on video show the footage as cut.
+.frame {
+  --footage-ground: #{c(background)};
+  position: relative;
+  aspect-ratio: 16 / 9;
+  width: 100%;
+  overflow: hidden;
+  border-radius: $radius-outer;
+  border: 1px solid c(card-line);
+  background-color: var(--footage-ground);
+
+  :global(:root[data-theme="dark"]) & {
+    --footage-ground: rgb(228 235 246);
+  }
+}
+
+.video {
+  height: 100%;
+  width: 100%;
+  object-fit: contain;
+  background-color: var(--footage-ground);
+  filter: url(#eis-footage-light);
+
+  :global(:root[data-theme="dark"]) & {
+    filter: url(#eis-footage-dark);
+  }
+}
+
+// Holds the colour matrices; display: none would switch the filters off.
+.filters {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+.play {
+  position: absolute;
+  bottom: space(4);
+  left: space(4);
+  display: inline-flex;
+  height: space(9);
+  align-items: center;
+  gap: space(2);
+  border-radius: 9999px;
+  border: 1px solid c(card-line);
+  background-color: c(background);
+  padding-left: space(4);
+  padding-right: space(4);
+  @include text(sm);
+  font-weight: $weight-medium;
+  color: c(ink);
+  @include transition-colors($duration-200);
+  @include focus-ring;
+
+  &:hover {
+    background-color: c(tertiary-bg);
+  }
+}
+
+.playIcon {
+  height: space(3.5);
+  width: space(3.5);
+  fill: currentColor;
+}
+
+.meta {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: space(4);
+  font-family: $font-mono;
+  font-size: 11px;
+}
+
+.metaTopic {
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: c(blue);
+}
+
+.metaDuration {
+  color: c(tertiary-text);
+}
+
+// text-xl sets the line-height; from sm only the size grows.
+.title {
+  @include text(xl);
+  font-weight: $weight-medium;
+  letter-spacing: $tracking-tight;
+  color: c(ink);
+
+  @include respond-to(sm) {
+    font-size: 22px;
+  }
+}
+
+.description {
+  margin-top: space(2);
+  font-size: 15px;
+  line-height: $leading-relaxed;
+  color: c(secondary-text);
+}

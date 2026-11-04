@@ -29,6 +29,7 @@ export function AkashicHero({ content }: AkashicHeroProps) {
         <div className={styles.inner}>
           <ScrollReveal>
             <figure className={`group ${styles.badge}`}>
+              <span aria-hidden className={styles.badgeArc} />
               <span className={styles.badgeInner}>
                 <span className={styles.badgeProduct}>
                   {nameOrWordmark(badge.product)}

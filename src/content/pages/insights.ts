@@ -1,5 +1,6 @@
 import type { PageCloseBlock } from "../blocks";
 import type { PageSection, Seo } from "../types";
+import type { SubscribeCopy } from "../ui";
 
 export interface InsightsPage {
   seo: Seo;
@@ -15,8 +16,10 @@ export interface InsightsPage {
   };
   subscribe: {
     label: string; setup: string; payoff: string; lede: string;
-    rss: { link: string; href: string }; note: string;
-    feed: { label: string; copy: string; copied: string; error: string };
+    /** The email sign-up (features/newsletter SubscribeForm). */
+    form: SubscribeCopy;
+    /** The line under the form for feed readers; `link` is the linked words. */
+    feed: { before: string; link: string; href: string; after: string };
   };
   close: PageCloseBlock;
   rss: { title: string; description: string; language: string };
@@ -71,19 +74,28 @@ export const insightsPage: InsightsPage = {
     galleryLabel: "Gallery",
     indexLabel: "Index",
   },
+  /* An email sign-up since 4 Nov 2026 (user), in place of copying the feed
+     address: readers here have just shown interest, and few business
+     readers use a feed reader. The feed stays, linked under the form. Same
+     list and rules as the footer sign-up (business email only); no send
+     schedule is promised. */
   subscribe: {
     label: "Keep a clear view",
-    setup: "Good questions deserve",
-    payoff: "a place in your reading list.",
-    lede: "Follow new perspectives on the business of data and AI. Read every article in full, without an account.",
-    rss: { link: "Follow the article feed", href: "/insights/rss.xml" },
-    note: "An open feed for your preferred reader.",
-    feed: {
-      label: "Article feed address",
-      copy: "Copy feed address",
-      copied: "Feed address copied.",
-      error: "Copy the selected address into your feed reader.",
+    setup: "Get the next essay",
+    payoff: "in your inbox.",
+    lede: "We’ll email you new essays on the business of data and AI. Every article stays free to read in full, without an account.",
+    form: {
+      label: "Business email",
+      placeholder: "Business email",
+      submit: "Get new essays",
+      done: "Thank you. We’ll send new essays to",
+      consent: {
+        before: "We’ll only email you new essays and news from DHIRA, and you can unsubscribe at any time. See our",
+        link: { label: "privacy policy", href: "/privacy" },
+        after: ".",
+      },
     },
+    feed: { before: "Prefer a feed reader?", link: "Follow the article feed", href: "/insights/rss.xml", after: "." },
   },
   close: {
     label: "From perspective to practice",

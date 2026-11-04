@@ -1,0 +1,172 @@
+@use "assets/styles" as *;
+
+.section {
+  position: relative;
+  scroll-margin-top: 6rem;
+  padding-bottom: space(16);
+
+  @include respond-to(lg) {
+    padding-bottom: space(24);
+  }
+}
+
+// The /about column (matches .about-shell in about-page.css).
+.shell {
+  margin: 0 auto;
+  width: 100%;
+  max-width: $rail-max-width;
+  padding: 0 space(5);
+
+  @include respond-to(sm) {
+    padding: 0 space(8);
+  }
+
+  @include respond-to(lg) {
+    padding: 0 space(12);
+  }
+}
+
+.card {
+  @include elevation(depth, subtle-stroke);
+  border-radius: $radius-frame;
+  padding: space(12) space(5) space(8);
+  text-align: center;
+
+  @include respond-to(sm) {
+    padding: space(16) space(10) space(10);
+  }
+
+  @include respond-to(lg) {
+    padding: space(16) space(16) space(10);
+  }
+}
+
+// --- The drawing --------------------------------------------------------
+
+// The page's last drawing is its widest after [03]: the close is the summit.
+.drawing {
+  position: relative;
+  margin: 0 auto;
+  width: 100%;
+  max-width: 880px;
+}
+
+.drawingSvg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+// Labels under the ground. `translate`, not `transform`: `.ad-fade` owns
+// `transform` and would undo the centring once the drawing lands.
+.siloLabel,
+.yours {
+  position: absolute;
+  translate: -50% 0;
+  white-space: nowrap;
+  font-family: $font-mono;
+  font-size: 11px;
+  line-height: 1.6;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+// The joined systems' names need the width [03] gives them: from md.
+.siloLabel {
+  display: none;
+  color: c(blue-300);
+
+  @include respond-to(md) {
+    display: block;
+  }
+}
+
+.yours {
+  color: c(uc-text);
+}
+
+// --- The words ------------------------------------------------------------
+
+.kicker {
+  margin-top: space(10);
+  font-family: $font-mono;
+  font-size: 12px;
+  line-height: 1.6;
+  letter-spacing: $tracking-eyebrow;
+  text-transform: uppercase;
+  color: c(uc-mute);
+}
+
+.title {
+  margin: space(6) auto 0;
+  max-width: 54rem;
+  font-family: $font-heading;
+  font-size: 34px;
+  font-weight: $weight-medium;
+  line-height: 1.08;
+  letter-spacing: $tracking-tighter;
+  color: c(uc-text);
+  text-wrap: balance;
+
+  @include respond-to(sm) {
+    font-size: 44px;
+  }
+
+  @include respond-to(xl) {
+    font-size: 52px;
+  }
+}
+
+.setup {
+  display: block;
+  color: c(uc-mute);
+}
+
+.intro {
+  margin: space(6) auto 0;
+  max-width: 36rem;
+  font-size: 16px;
+  line-height: 1.75;
+  color: c(uc-mute);
+  text-wrap: pretty;
+
+  @include respond-to(sm) {
+    font-size: 17px;
+  }
+}
+
+.actions {
+  margin-top: space(8);
+  display: flex;
+  justify-content: center;
+}
+
+.offices {
+  margin-top: space(12);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: space(2) space(5);
+  border-top: 1px dashed c(line);
+  padding-top: space(5);
+  font-family: $font-mono;
+  font-size: 12px;
+  line-height: 1.6;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: c(uc-mute);
+}
+
+// On phones the label takes its own line above the cities.
+.officesLabel {
+  flex-basis: 100%;
+
+  @include respond-to(sm) {
+    flex-basis: auto;
+  }
+}
+
+.office {
+  color: c(uc-text);
+}

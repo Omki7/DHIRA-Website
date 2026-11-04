@@ -1,5 +1,7 @@
 @use "assets/styles" as *;
 
+@include keyframes(ps-caret-blink);
+
 .root {
   position: relative;
   isolation: isolate;
@@ -71,7 +73,7 @@
   background-color: c(blue);
 
   @include motion-safe {
-    animation: global(ps-caret-blink) 1s step-end infinite;
+    animation: ps-caret-blink 1s step-end infinite;
   }
 }
 

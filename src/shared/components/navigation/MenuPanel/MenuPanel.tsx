@@ -1,4 +1,7 @@
+"use client";
+
 import type { NavLink, NavMenu } from "@/content/navigation";
+import useRegion from "@/shared/hooks/useRegion";
 import { nameOrWordmark } from "@/shared/components/icons/AkashicWordmark";
 import { Arrow, ArrowUpRight } from "@/shared/components/icons/NavIcons";
 import { NavFeatured } from "@/shared/components/navigation/NavFeatured";
@@ -6,6 +9,7 @@ import { RegionLink } from "@/shared/components/navigation/RegionLink";
 import { PreviewTag } from "@/shared/components/ui/PreviewTag";
 import { cx } from "@/shared/utils/cx";
 import { isCurrentPage, scrollToHashTarget } from "@/shared/utils/navigation";
+import { forRegion, isShownTo } from "@/shared/utils/region";
 import styles from "./MenuPanel.module.scss";
 
 /* One menu's contents inside the desktop sheet, the same grammar for every
@@ -18,7 +22,9 @@ import styles from "./MenuPanel.module.scss";
    row (CSS subgrid) and sit on its baseline, so when one wraps to two lines
    every list still starts on the same line. A `divided` group draws the
    lead's hairline again, centred in the gutter before it, so it costs the
-   list no width. */
+   list no width.
+   Links and the featured card can differ by region (content/navigation.ts
+   `audience`, and `feature` as `{ in, intl }`): careers is for India only. */
 
 export interface MenuRowProps {
   link: NavLink;
@@ -73,7 +79,9 @@ export interface MenuPanelProps {
 }
 
 export function MenuPanel({ menu, drawn, pathname, currentHash }: MenuPanelProps) {
-  const { lead, groups, feature } = menu;
+  const { region } = useRegion();
+  const { lead, groups } = menu;
+  const feature = forRegion(menu.feature, region);
   const columns = [lead.span, ...groups.map((group) => group.span), feature.span]
     .map((span) => `minmax(0, ${span}fr)`)
     .join(" ");
@@ -113,11 +121,13 @@ export function MenuPanel({ menu, drawn, pathname, currentHash }: MenuPanelProps
               {group.heading}
             </p>
             <ul aria-labelledby={headingId} className={group.twoColumn ? styles.listTwoColumn : styles.list}>
-              {group.links.map((link) => (
-                <li key={`${link.label}-${link.href}`}>
-                  <MenuRow link={link} pathname={pathname} currentHash={currentHash} />
-                </li>
-              ))}
+              {group.links
+                .filter((link) => isShownTo(link.audience, region))
+                .map((link) => (
+                  <li key={`${link.label}-${link.href}`}>
+                    <MenuRow link={link} pathname={pathname} currentHash={currentHash} />
+                  </li>
+                ))}
             </ul>
           </div>
         );

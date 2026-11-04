@@ -7,6 +7,7 @@ import { AssistantLogo } from "@/shared/components/icons/AssistantLogo";
 import { DhiraLogo } from "@/shared/components/icons/DhiraLogo";
 import { ArrowUpRight } from "@/shared/components/icons/NavIcons";
 import { RegionLink } from "@/shared/components/navigation/RegionLink";
+import { RegionOnly } from "@/shared/components/ui/RegionOnly";
 import { ScrollRevealRail } from "@/shared/components/ui/ScrollRevealRail";
 import { cx } from "@/shared/utils/cx";
 import { REGIONAL_PATHS } from "@/shared/utils/region";
@@ -50,13 +51,17 @@ import styles from "./FooterContent.module.scss";
 function LinkList({ links }: { links: FooterLink[] }) {
   return (
     <ul className={styles.linkList}>
+      {/* A link with an `audience` (Careers: India only) shows only to
+          visitors in that region. */}
       {links.map((link) => (
-        <li key={link.label}>
-          <RegionLink href={link.href} className={cx(styles.link, link.external && styles.linkExternal)}>
-            {link.label}
-            {link.external && <ArrowUpRight className={styles.externalIcon} />}
-          </RegionLink>
-        </li>
+        <RegionOnly key={link.label} region={link.audience}>
+          <li>
+            <RegionLink href={link.href} className={cx(styles.link, link.external && styles.linkExternal)}>
+              {link.label}
+              {link.external && <ArrowUpRight className={styles.externalIcon} />}
+            </RegionLink>
+          </li>
+        </RegionOnly>
       ))}
     </ul>
   );

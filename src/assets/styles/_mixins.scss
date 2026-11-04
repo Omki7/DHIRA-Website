@@ -76,3 +76,32 @@
   transition-timing-function: $ease;
   transition-duration: $duration;
 }
+
+// The hero pills' travelling arc: one blue arc runs the pill's 1px rim.
+// The pill is the rim: `overflow: hidden`, `padding: 1px` and the rim
+// colour as its background. This mixin goes on an empty, aria-hidden first
+// child; the content span after it needs `position: relative` and its own
+// background so only the rim shows the arc. The including module must
+// `@include keyframes(spin);`. Under reduced motion the arc is not drawn.
+@mixin travelling-arc($duration: 3s) {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.75;
+  transition: opacity $duration-150 $ease-default;
+
+  &::before {
+    content: "";
+    flex-shrink: 0;
+    width: 120%;
+    aspect-ratio: 1;
+    background: conic-gradient(from 90deg at 50% 50%, transparent 0%, transparent 85%, c(blue) 100%);
+    animation: spin $duration linear infinite;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    display: none;
+  }
+}

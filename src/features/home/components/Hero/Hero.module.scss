@@ -1,5 +1,7 @@
 @use "assets/styles" as *;
 
+@include keyframes(spin);
+
 .root {
   position: relative;
   overflow: hidden;
@@ -55,17 +57,26 @@
   justify-content: center;
   overflow: hidden;
   border-radius: 9999px;
-  border-width: 1px;
-  border-color: c(card-line);
-  background-color: c(background);
+  // The 1px rim is this padding over the rim colour, so the travelling arc
+  // can run along it (same chrome as the /akashic hero pill).
+  padding: 1px;
+  background-color: c(card-line);
   @include transition-colors;
 
   &:hover {
-    border-color: c(blue);
+    background-color: c(blue);
   }
 
   @include respond-to(md) {
     margin-bottom: space(10);
+  }
+}
+
+.badgeArc {
+  @include travelling-arc;
+
+  .badge:hover & {
+    opacity: 1;
   }
 }
 
@@ -200,18 +211,5 @@
 
   @include respond-to(md) {
     margin-top: space(10);
-  }
-}
-
-.note {
-  margin-top: space(5);
-  font-family: $font-mono;
-  font-size: 12px;
-  text-transform: uppercase;
-  letter-spacing: $tracking-eyebrow;
-  color: c(tertiary-text);
-
-  @include respond-to(md) {
-    margin-top: space(7);
   }
 }

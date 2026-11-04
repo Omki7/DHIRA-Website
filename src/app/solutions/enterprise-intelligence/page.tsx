@@ -1,38 +1,23 @@
 import type { Metadata } from "next";
 import { Footer } from "@/app/_components/Footer";
 import { Nav } from "@/app/_components/Nav";
-import { PageMinimap } from "@/shared/components/navigation";
-import EisCapabilities from "@/components/sections/eis/EisCapabilities";
-import EisClose from "@/components/sections/eis/EisClose";
-import EisFaq from "@/components/sections/eis/EisFaq";
-import EisGap from "@/components/sections/eis/EisGap";
-import EisHero from "@/components/sections/eis/EisHero";
-import EisLenses from "@/components/sections/eis/EisLenses";
-import EisLoop from "@/components/sections/eis/EisLoop";
-import EisTeasers from "@/components/sections/eis/EisTeasers";
-import { getPage } from "@/services/content/content";
 import { pageMetadata } from "@/app/_lib/metadata";
+import { EnterpriseIntelligencePage } from "@/features/solutions";
+import { getPage } from "@/services/content/content";
+import { PageMinimap } from "@/shared/components/navigation";
 
 export async function generateMetadata(): Promise<Metadata> {
   const { seo } = await getPage("solutions/enterprise-intelligence");
   return pageMetadata(seo);
 }
 
-export default async function EisPage() {
+/* The body is features/solutions (EnterpriseIntelligencePage). */
+export default async function Page() {
   const page = await getPage("solutions/enterprise-intelligence");
   return (
     <>
       <Nav />
-      <main id="main" className="bg-background">
-        <EisHero content={page.hero} />
-        <EisLenses content={page.lenses} />
-        <EisGap content={page.gap} />
-        {page.teasers && <EisTeasers content={page.teasers} />}
-        <EisCapabilities content={page.capabilities} />
-        <EisLoop content={page.loop} />
-        <EisFaq content={page.faq} />
-        <EisClose content={page.close} />
-      </main>
+      <EnterpriseIntelligencePage page={page} />
       <Footer />
       <PageMinimap sections={page.sections} aria-label={page.sectionsLabel} />
     </>

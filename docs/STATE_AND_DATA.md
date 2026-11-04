@@ -63,6 +63,9 @@ pattern.
 - It reads the stored choice (`dhira-region`), else guesses from the device time
   zone (`Asia/Kolkata`). No request leaves the browser.
 - During SSR only the page's own region is known, so links settle after mount.
+- India-only items on shared pages (careers, ARCHITECTURE.md "Regions") work
+  the same way: absent from the static HTML, shown after mount to visitors
+  in India (`ui/RegionOnly`, `isShownTo`).
 
 Name animation and timing constants at module top (`ROTATE_MS = 7000`), not as
 magic numbers in the body.
@@ -81,24 +84,64 @@ Local overrides go in `.env.local`, which git ignores (`.env*` except
 
 ## Forms
 
-The contact form (`layout/ContactForm`, used by ContactModal and /contact) is
-**simulated**: it validates, then shows its success state without sending
-anything. The site is the final high-fidelity build. `ui/SubscribeForm` on
-/insights only copies the feed address, so it needs no backend.
+The contact form (`features/contact/components/ContactForm`, used by
+ContactModal and /contact) submits through a Server Action,
+`features/contact/actions/contact.action.ts`, which filters spam (4 Nov 2026,
+user: the live site gets about 50 spam messages a day). Delivery is still
+**simulated**: the action reports success without sending anything until
+developers connect email or a CRM at its `HAND-OFF` line. Every check is
+invisible to people:
 
-The footer's "Stay in touch" sign-up (`layout/FooterSubscribe`) is
-**simulated** too, but already submits through a Server Action,
-`lib/subscribe.ts`. The action checks the address, turns away personal
+1. **Bot traps** (`utils/spam.ts` `isBot`). A hidden honeypot field
+   (`website`), and the time the form was open (`elapsed`, added by the form
+   only when it sends, so a bot copying the page's HTML does not have it).
+   Under 3 seconds, or missing, is a bot. A bot is told its message was sent,
+   so it learns nothing, and nothing is kept. These checks run before
+   validation.
+2. **Validation** (`schemas/contact.schema.ts`, Zod). The form checks the
+   same rules first, so a person sees field errors at once; the server
+   checks again. `interest` must be empty or one of the form's own options.
+   Field errors go back to their fields; a failed send shows one line under
+   the button.
+3. **Content flags** (`utils/spam.ts` `spamFlags`). Signs of spam a person
+   could also send: more than two links, a link in the name or company, a
+   stock pitch (SEO, backlinks, guest posts, crypto, casino and the like),
+   Cyrillic or East Asian script, a message that repeats the name or company.
+   These never block. The message is delivered with `suspectedSpam: true`
+   and the matched flags, so the team can file it for review and a real
+   enquiry is never lost to a false match.
+
+If spam still gets through after launch, the next layer is a challenge such
+as Cloudflare Turnstile (needs an account, its keys in `config/env.ts`, and
+its origin in the CSP), or a rate limit per address backed by a store such as
+Vercel KV. In-memory limits do not hold across serverless instances.
+
+The site is the final high-fidelity build.
+
+The email sign-ups are **simulated** too, and already submit through a
+Server Action, `lib/subscribe.ts`. One form, `features/newsletter`
+`SubscribeForm`, in two places: the footer's "Stay in touch"
+(`layout/FooterSubscribe`) and, since 4 Nov 2026, the /insights follow
+section on the index and every article ("Get new essays"). Both join one
+list; a hidden `source` field (`footer` or `insights`) says which, since
+the footer also shows on /insights pages. No consent checkbox: the form
+does nothing but subscribe, so pressing the button is the consent, with
+the notice under it. The action checks the address, turns away personal
 mailboxes (gmail.com, outlook.com and the like) with a request for a
 business email, drops honeypot submissions, then reports success without
 saving. Connecting a mailing list or CRM is the one marked `HAND-OFF` line
 in that action. Its error state (`failed`) and copy are already in place.
 
-Developers wire both forms at hand-off:
+Both forms already submit through a Server Action, and the contact form
+validates with a schema and returns field errors. Developers wire delivery
+at hand-off:
 
-- Submit through a Server Action or a route handler.
-- Validate on the server with a schema, and return field errors to the form.
 - Send to the CRM or email provider. Keys go in `lib/env.ts`, server-only.
+- For the contact form, mark `suspectedSpam` messages (a "[Suspected spam]"
+  subject or a review folder); never drop them.
+- For the sign-ups, send a confirmation email before adding an address
+  (double opt-in), keep `source`, `page` and the time of signing up, and put
+  an unsubscribe link in every email. The /insights notice promises it.
 - Add the provider's origin to the CSP `connect-src` or `form-action` in
   `next.config.mjs` only if the browser talks to it directly.
 - Keep the success and error copy in `content/ui.ts`.

@@ -7,7 +7,7 @@
 
 import Link from "next/link";
 import { ContactForm } from "@/features/contact";
-import { ScrollReveal } from "@/shared/components/ui";
+import { RegionOnly, ScrollReveal } from "@/shared/components/ui";
 import { ScrollRevealRail } from "@/shared/components/ui";
 import { SectionHeader } from "@/shared/components/ui";
 import type { ContactPage } from "@/content/pages/contact";
@@ -55,21 +55,26 @@ export function ContactRoutes({ content: c }: { content: ContactPage["routes"] }
         <SectionHeader num={c.num} label={c.label} setup={c.setup} payoff={c.payoff} />
         <ScrollReveal delay={80}>
           <ul className="mt-12 border-t border-lineSoft lg:mt-16">
+            {/* A route with an `audience` (Careers: India only) shows only to
+                visitors in that region; it is listed last, so the numbers
+                stay in sequence either way. */}
             {c.items.map((route, index) => (
-              <li key={route.name} className="grid gap-2 border-b border-lineSoft py-6 lg:grid-cols-[56px_minmax(0,14rem)_1fr_auto] lg:items-baseline lg:gap-8">
-                <span className="font-mono text-[11px] tracking-eyebrow text-overcast">{pad(index + 1)}</span>
-                <span className="text-[18px] font-semibold tracking-[-0.01em] text-ink">{route.name}</span>
-                <span className="text-pretty text-[15px] leading-relaxed text-secondary-text">{route.line}</span>
-                <Link
-                  href={route.cta.href}
-                  className="group inline-flex items-center gap-1.5 text-[15px] font-medium text-blue transition-colors duration-150 hover:text-blue-hover"
-                >
-                  {route.cta.label}
-                  <span aria-hidden className="transition-transform duration-200 ease-settle group-hover:translate-x-0.5">
-                    &rarr;
-                  </span>
-                </Link>
-              </li>
+              <RegionOnly key={route.name} region={route.audience}>
+                <li className="grid gap-2 border-b border-lineSoft py-6 lg:grid-cols-[56px_minmax(0,14rem)_1fr_auto] lg:items-baseline lg:gap-8">
+                  <span className="font-mono text-[11px] tracking-eyebrow text-overcast">{pad(index + 1)}</span>
+                  <span className="text-[18px] font-semibold tracking-[-0.01em] text-ink">{route.name}</span>
+                  <span className="text-pretty text-[15px] leading-relaxed text-secondary-text">{route.line}</span>
+                  <Link
+                    href={route.cta.href}
+                    className="group inline-flex items-center gap-1.5 text-[15px] font-medium text-blue transition-colors duration-150 hover:text-blue-hover"
+                  >
+                    {route.cta.label}
+                    <span aria-hidden className="transition-transform duration-200 ease-settle group-hover:translate-x-0.5">
+                      &rarr;
+                    </span>
+                  </Link>
+                </li>
+              </RegionOnly>
             ))}
           </ul>
         </ScrollReveal>

@@ -1,0 +1,450 @@
+@use "assets/styles" as *;
+
+// Geometry. Below lg the rail runs down the left at $v-x; from lg it runs
+// across at $h-y, through a rail row as tall as the tangle.
+$node: 12px;
+$v-x: 12px;
+$v-indent: 44px;
+$h-row: 88px;
+$h-y: 44px;
+$h-end: minmax(120px, 0.42fr);
+
+// Tablets: the vertical rail, each stop's output beside its words.
+$tablet: "(min-width: #{bp(md)}) and (max-width: #{bp(lg) - 0.02px})";
+
+// The approved pastel panel (21 Oct 2026): opaque, crisp border, no shadow.
+.panel {
+  border: 1px solid c(card-line);
+  border-radius: $radius-outer;
+  background-color: c(anchor);
+  padding: space(8) space(5) space(7);
+  color: c(ink);
+
+  @include respond-to(sm) {
+    padding: space(10);
+  }
+
+  @include respond-to(lg) {
+    padding: space(10) space(10) space(9);
+  }
+}
+
+.route {
+  display: flex;
+  flex-direction: column;
+
+  @include respond-to(lg) {
+    display: grid;
+    grid-template-columns: $h-end repeat(3, minmax(0, 1fr)) $h-end;
+    grid-template-rows: $h-row repeat(4, auto);
+  }
+}
+
+// Every item shares the five rows from lg: rail, label, title, description,
+// output. Below lg each is a block on the vertical rail.
+.start,
+.stop,
+.end {
+  position: relative;
+  padding-left: $v-indent;
+
+  @include respond-to(lg) {
+    display: grid;
+    grid-row: 1 / -1;
+    grid-template-rows: subgrid;
+    padding-left: 0;
+  }
+}
+
+.start {
+  min-height: 64px;
+  padding-top: space(4);
+  padding-bottom: space(9);
+
+  @include respond-to(lg) {
+    min-height: 0;
+    padding: 0;
+  }
+}
+
+.stop {
+  padding-bottom: space(10);
+
+  @include respond-to(lg) {
+    padding-bottom: 0;
+  }
+}
+
+.end {
+  @include respond-to(lg) {
+    text-align: right;
+  }
+}
+
+// --- The rail ---------------------------------------------------------
+.rail {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: $v-x * 2;
+
+  @include respond-to(lg) {
+    position: relative;
+    grid-row: 1;
+    width: auto;
+    height: $h-row;
+  }
+}
+
+// A stop's rail runs on through the gutter its words keep, to the next node.
+.link > .rail {
+  @include respond-to(lg) {
+    margin-right: calc(-1 * #{space(8)});
+  }
+}
+
+.tangleLine {
+  stroke: c(inkSoft);
+}
+
+.tangleWide {
+  display: none;
+
+  @include respond-to(lg) {
+    display: block;
+    height: 100%;
+    width: 100%;
+  }
+}
+
+.tangleTall {
+  position: absolute;
+  top: 0;
+  left: $v-x - 20px;
+  height: 64px;
+  width: 40px;
+
+  @include respond-to(lg) {
+    display: none;
+  }
+}
+
+// A stretch of the route: down to the next stop below lg, across to it
+// from lg. Grows from its start when the figure is drawn (transform only).
+.segment {
+  position: absolute;
+  top: $node + 2px;
+  bottom: -2px;
+  left: $v-x - 0.75px;
+  width: 0;
+  border-left: 1.5px solid c(ink);
+  transform: scaleY(0);
+  transform-origin: top center;
+  transition: transform 0.45s $ease-smooth var(--ad-delay, 0s);
+
+  [data-drawn="true"] & {
+    transform: none;
+  }
+
+  @include respond-to(lg) {
+    top: $h-y - 0.75px;
+    right: 0;
+    bottom: auto;
+    left: $node * 0.5;
+    width: auto;
+    height: 0;
+    border-left-width: 0;
+    border-top: 1.5px solid c(ink);
+    transform: scaleX(0);
+    transform-origin: left center;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}
+
+// Below lg: from the tangle's loose end down to the first stop.
+.lead {
+  top: 64px;
+  border-left-color: c(inkSoft);
+
+  @include respond-to(lg) {
+    display: none;
+  }
+}
+
+.stop[data-stage="plan"] .segment {
+  border-left-style: dashed;
+  border-top-style: dashed;
+  border-color: c(inkSoft);
+}
+
+.stop[data-stage="run"] .segment,
+.end .segment {
+  border-left-width: 2px;
+  border-color: c(blue);
+
+  @include respond-to(lg) {
+    border-left-width: 0;
+    border-top-width: 2px;
+    top: $h-y - 1px;
+  }
+}
+
+// The end's stretch starts at the column edge and stops at its node.
+.end .segment {
+  top: -2px;
+  bottom: auto;
+  height: $node;
+
+  @include respond-to(lg) {
+    top: $h-y - 1px;
+    left: 0;
+    right: $node * 0.5;
+    height: 0;
+  }
+}
+
+.node,
+.endNode {
+  position: absolute;
+  top: 2px;
+  left: $v-x - $node * 0.5;
+  z-index: 1;
+  height: $node;
+  width: $node;
+  border: 1.5px solid c(ink);
+  border-radius: 9999px;
+  background-color: c(anchor);
+  // `.ad-fade`'s entrance (opacity, transform, on its delay) plus the hover
+  // fill, in one list: a module rule would otherwise replace the kit's.
+  transition:
+    opacity 0.7s $ease-settle var(--ad-delay, 0s),
+    transform 0.7s $ease-settle var(--ad-delay, 0s),
+    background-color $duration-150 $ease-settle;
+
+  @include respond-to(lg) {
+    top: $h-y - $node * 0.5;
+    left: 0;
+  }
+}
+
+.stop[data-stage="plan"] .node {
+  border-color: c(inkSoft);
+}
+
+.stop[data-stage="run"] .node {
+  border-color: c(blue);
+}
+
+.link:hover .node,
+.link:focus-visible .node {
+  background-color: c(ink);
+}
+
+.stop[data-stage="plan"] .link:hover .node,
+.stop[data-stage="plan"] .link:focus-visible .node {
+  background-color: c(inkSoft);
+}
+
+.stop[data-stage="run"] .link:hover .node,
+.stop[data-stage="run"] .link:focus-visible .node {
+  background-color: c(blue);
+}
+
+// In daily use: the route's one filled node, with a hairline ring (an
+// outline, not a glow).
+.endNode {
+  top: $node + 2px;
+  border-color: c(blue-solid);
+  background-color: c(blue-solid);
+  outline: 1px solid c(blue-border);
+  outline-offset: 3px;
+
+  @include respond-to(lg) {
+    top: $h-y - $node * 0.5;
+    right: 0;
+    left: auto;
+  }
+}
+
+// --- The words ----------------------------------------------------------
+.link {
+  display: block;
+  border-radius: $radius-inner;
+  color: c(ink);
+
+  &:focus-visible {
+    outline: 2px solid c(blue);
+    outline-offset: 6px;
+  }
+
+  @media #{$tablet} {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 0.8fr);
+    column-gap: space(10);
+    align-items: start;
+  }
+
+  @include respond-to(lg) {
+    display: grid;
+    grid-row: 1 / -1;
+    grid-template-rows: subgrid;
+    padding-right: space(8);
+  }
+}
+
+.scope,
+.endLabel {
+  font-family: $font-mono;
+  font-size: 11px;
+  line-height: 16px;
+  text-transform: uppercase;
+  letter-spacing: $tracking-eyebrow;
+  color: c(secondary-text);
+
+  @include respond-to(lg) {
+    grid-row: 2;
+    margin-top: space(5);
+  }
+}
+
+// The two ends may wrap where the end columns are narrowest (lg).
+.endLabel {
+  display: block;
+
+  @include respond-to(xl) {
+    white-space: nowrap;
+  }
+}
+
+.start .endLabel {
+  @include respond-to(lg) {
+    padding-right: space(4);
+  }
+}
+
+.end .endLabel {
+  margin-top: space(4);
+  color: c(blue);
+
+  @include respond-to(lg) {
+    margin-top: space(5);
+  }
+}
+
+.scope,
+.title,
+.description {
+  @media #{$tablet} {
+    grid-column: 1;
+  }
+}
+
+.title {
+  margin-top: space(3);
+  text-wrap: balance;
+  font-family: $font-heading;
+  font-size: 23px;
+  font-weight: $weight-medium;
+  line-height: $leading-tight;
+  letter-spacing: $tracking-tight;
+  color: c(ink);
+  @include transition-colors($duration-200, $ease-settle);
+
+  .link:hover &,
+  .link:focus-visible & {
+    color: c(blue);
+  }
+
+  @include respond-to(lg) {
+    grid-row: 3;
+  }
+
+  // One line each from xl, so the shared rows hold no gaps.
+  @include respond-to(xl) {
+    font-size: 24px;
+  }
+
+  @include respond-to("2xl") {
+    font-size: 26px;
+  }
+}
+
+.arrow {
+  display: inline-block;
+  height: 0.7em;
+  width: 0.7em;
+  margin-left: 0.3em;
+  vertical-align: 0.02em;
+  color: c(overcast);
+  transition:
+    transform $duration-200 $ease-settle,
+    color $duration-200 $ease-settle;
+
+  .link:hover &,
+  .link:focus-visible & {
+    color: c(blue);
+    transform: translateX(space(1));
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transform: none !important;
+    transition: none;
+  }
+}
+
+.description {
+  margin-top: space(3);
+  max-width: 26em;
+  text-wrap: pretty;
+  font-size: 15px;
+  line-height: $leading-relaxed;
+  color: c(secondary-text);
+
+  @include respond-to(lg) {
+    grid-row: 4;
+  }
+}
+
+.output {
+  margin-top: space(5);
+  max-width: 26em;
+  border-top: 1px dashed c(line);
+  padding-top: space(4);
+
+  @media #{$tablet} {
+    grid-column: 2;
+    grid-row: 1 / span 3;
+    margin-top: 0;
+    border-top-width: 0;
+    border-left: 1px dashed c(line);
+    padding-top: 0;
+    padding-left: space(6);
+  }
+
+  @include respond-to(lg) {
+    grid-row: 5;
+    margin-top: space(6);
+    padding-top: space(5);
+  }
+}
+
+.outputLabel {
+  font-family: $font-mono;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: $tracking-eyebrow;
+  color: c(blue);
+}
+
+.outputText {
+  margin-top: space(2);
+  text-wrap: pretty;
+  font-size: 14px;
+  font-weight: $weight-medium;
+  line-height: $leading-relaxed;
+  color: c(ink);
+}

@@ -197,7 +197,7 @@ export const services: ServicesPage = {
       ],
       live: "Live",
       handover: "Handed over · your team runs it",
-      note: "Illustrative engagement",
+      note: "A typical engagement",
     },
   },
 

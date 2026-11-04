@@ -118,12 +118,34 @@ function LibraryFigure() {
   );
 }
 
+/* Company, outside India (where the careers card is not shown): the three
+   offices on one time-zone rule, New York apart from Hyderabad and
+   Bangalore, joined by one live thread: one team across time zones. */
+function OfficesFigure() {
+  const ticks = Array.from({ length: 9 }, (_, i) => 24 + i * 24);
+  const offices = [48, 168, 192];
+  return (
+    <>
+      <path d="M12 54H228" className={`ad-draw ${LINE}`} strokeWidth={1.2} pathLength={1} style={pace(0, 0.7)} />
+      {ticks.map((x, i) => (
+        <path key={x} d={`M${x} 54V60`} className={`ad-fade ${LINE}`} strokeWidth={1.2} style={pace(0.2 + i * 0.03)} />
+      ))}
+      <path d="M48 48C72 8 144 8 168 48" className={`ad-draw ${LIVE}`} strokeWidth={1.2} pathLength={1} style={pace(0.5, 0.8)} />
+      <path d="M168 48C172 38 188 38 192 48" className={`ad-draw ${LIVE}`} strokeWidth={1.2} pathLength={1} style={pace(1.2, 0.3)} />
+      {offices.map((x, i) => (
+        <circle key={x} cx={x} cy={54} r={6} className={`ad-fade ${LIVE} ${styles.fillGround}`} strokeWidth={1.2} style={pace(0.3 + i * 0.1)} />
+      ))}
+    </>
+  );
+}
+
 const FIGURES: Record<NavDrawing, ComponentType> = {
   release: ReleaseFigure,
   foundation: FoundationFigure,
   method: MethodFigure,
   library: LibraryFigure,
   seat: SeatFigure,
+  offices: OfficesFigure,
 };
 
 export interface NavFeaturedProps {

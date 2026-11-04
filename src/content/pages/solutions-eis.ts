@@ -291,8 +291,50 @@ export interface EisHeading {
   lede: string;
 }
 
-/** Which evidence panel illustrates a capability (demos/mockups/eis/EisCapabilityEvidence). */
+/** Which evidence a capability band item points at (kept from the earlier capability panels). */
 export type EisEvidence = "definition" | "entity" | "permissions" | "action" | "planes" | "record";
+
+/** [02] The decision gap, drawn as swimlanes over one month
+    (features/solutions/EisGap). One client's lifecycle crosses three
+    department systems; each holds one piece. Department reporting brings
+    the pieces together at month-end; Enterprise Intelligence on day 0.
+    Days run from 0 to `horizon`; every `day` below is on that scale. The
+    sample client continues the story from [01]'s cockpit. */
+export interface EisGapBoard {
+  /** The whole drawing in one sentence, for assistive technology. */
+  label: string;
+  client: string;
+  clientNote: string;
+  scenario: string;
+  legend: { department: string; intelligence: string };
+  horizon: number;
+  /** Day ticks; `note` names what happens that day. */
+  ruler: { day: number; label: string; note?: string; tone?: "deadline" | "muted" }[];
+  columns: { department: string; piece: string };
+  lanes: { department: string; system: string; signal: string; seenBy: string }[];
+  leadership: { name: string; note: string };
+  /** What Enterprise Intelligence puts in front of leadership on day 0. */
+  risk: { stamp: string; title: string; body: string };
+  deadline: number;
+  /** The monthly pack: where department reporting first shows all three. */
+  pack: { day: number; title: string; note: string };
+  runway: { label: string; act: string; late: string };
+}
+
+/** [04]'s three guarantees; each one picks its panel in the governance
+    inspector (features/solutions EisGovernanceInspectorMockup). */
+export type EisGuaranteeId = "metric" | "correlation" | "execution";
+
+export interface EisGuarantee {
+  id: EisGuaranteeId;
+  tag: string;
+  title: string;
+  headline: string;
+  /** Read as a set of tags: three words or fewer each. */
+  proofs: string[];
+  /** Agents do this work, so it carries the preview mark (DESIGN_SYSTEM §1). */
+  preview?: boolean;
+}
 
 export interface EisTeaserItem {
   id: string;
@@ -315,8 +357,16 @@ export interface EisPage {
     /** The product's name over the headline, as the Solutions menu names it: "Enterprise Intelligence", nothing more. */
     badge: string;
     title: [string, string];
-    /** Typed one after another into the ask bar; one per industry. */
-    prompts: string[];
+    /** Typed one after another into the ask bar, each under its topic tag. */
+    prompts: { tag: string; question: string }[];
+    /** What the ask bar's pause control stops, for its accessible name ("Pause the example questions"). */
+    motionLabel: string;
+    /** The ask bar's arrow, which jumps to the role cockpits in [01]. */
+    askLabel: string;
+    /** Under the ask bar: which connectors are live today. */
+    connectorsNote: string;
+    /** Under the hero: one outcome each, a mono label over one sentence. */
+    outcomes: { label: string; body: string }[];
     lede: { lead: string; tail: string };
     /** "Reads" + the source names, for assistive technology. */
     readsLabel: string;
@@ -326,24 +376,22 @@ export interface EisPage {
     screenUrl: string;
   };
   gap: EisHeading & {
-    conclusion: string;
-    note: string;
-    departments?: {
-      system: string;
-      dept: string;
-      breach: string | null;
-      hit: boolean;
-    }[];
-    stats?: {
-      value: string;
-      label: string;
-      citation: string;
-    }[];
+    board: EisGapBoard;
+    /** The industry figures under the drawing: real and sourced (Rule 4). */
+    research: {
+      title: string;
+      stats: { value: string; label: string; citation: string }[];
+    };
+    coda: { lead: string; payoff: string };
   };
   teasers?: EisHeading & {
+    /** The play button over each story, and its label once a story has ended. */
+    playLabel: string;
+    replayLabel: string;
     items: EisTeaserItem[];
   };
   capabilities: EisHeading & {
+    guarantees: EisGuarantee[];
     bands: { label: string; note: string; items: { lead: string; body: string; evidence: EisEvidence }[] }[];
     pillars?: { tag: string; title: string; body: string; metrics: string[]; evidence: EisEvidence }[];
   };
@@ -359,7 +407,12 @@ export interface EisPage {
   };
   faq: {
     title: string;
+    /** The two-tone headline of the shared FAQ section. */
+    setup: string;
+    payoff: string;
     lede: string;
+    /** The section's one onward link. */
+    link: Cta;
     /** The question that starts open. */
     openByDefault: string;
     items?: Faq[];
@@ -405,11 +458,15 @@ export const solutionsEis: EisPage = {
     title: ["See where your business will land.", "Every hour."],
     /* Grounded in the four core questions from the executive wireframe */
     prompts: [
-      "Someone asks for five days off. Who checks what it breaks?",
-      "A GPU node requested on Friday. Who knows what it will cost?",
-      "What if your biggest deal slips a quarter and a key client doesn't renew?",
-      "Monday, 8 a.m. 2,418 changes since Friday: which 3 need you?",
+      { tag: "People and margin", question: "Someone asks for five days off. Who checks what it breaks?" },
+      { tag: "Cloud and FinOps", question: "A GPU node requested on Friday. Who knows what it will cost?" },
+      { tag: "What-if forecast", question: "What if your biggest deal slips a quarter and a key client doesn't renew?" },
+      { tag: "Decision runway", question: "Monday, 8 a.m. 2,418 changes since Friday: which 3 need you?" },
     ],
+    motionLabel: "the example questions",
+    askLabel: "View live role cockpit",
+    connectorsNote:
+      "Grounds every answer in ERPNext, Salesforce and SAP · ERPNext live today · More connectors on roadmap",
     lede: { lead: "Every decision touches customers, projects, people and cash.", tail: "Enterprise Intelligence connects live to" },
     readsLabel: "Reads",
     sources: [
@@ -421,54 +478,92 @@ export const solutionsEis: EisPage = {
     primary: { label: "See it with your own data", href: "#talk-to-our-team" },
     secondary: { label: "Watch four 30-second stories", href: "#use-cases" },
     screenUrl: "akashic.dhira.ai/enterprise-intelligence",
+    outcomes: [
+      { label: "Zero reporting lag", body: "Live operating reality without 3-week reporting cycles" },
+      { label: "Unified ground truth", body: "CEO, CFO, and COO aligned on identical numbers" },
+      { label: "Early risk warning", body: "Margin and contract slippage detected 30 days early" },
+      { label: "Governed execution", body: "Human-authorised actions with immutable audit" },
+    ],
   },
 
   gap: {
     setup: "Your company runs as lifecycles.",
-    payoff: "Your systems run as departments.",
-    lede: "Disconnected departmental tools hide margin slip until month-end. Enterprise Intelligence correlates delivery, pipeline, and cash flow into a continuous runway before deadlines expire.",
-    conclusion: "The true cost to an enterprise is the latency between an operational shift and leadership having the verified context to intervene.",
-    note: "Enterprise decision latency benchmark.",
-    departments: [
-      { system: "CRM", dept: "Sales", breach: null, hit: false },
-      { system: "JIRA", dept: "Delivery", breach: "A milestone slips", hit: true },
-      { system: "HRMS", dept: "HR", breach: "A leave is approved", hit: true },
-      { system: "ERP", dept: "Finance", breach: "An invoice moves", hit: true },
-      { system: "Cloud", dept: "IT", breach: null, hit: false },
-    ],
-    stats: [
-      {
-        value: "46%",
-        label: "of FP&A time goes to collecting and validating data, not analysis.",
-        citation: "FP&A Trends Survey 2025",
+    payoff: "Your tools run as departments.",
+    /* Redesigned 4 Nov 2026 (user: the old timeline felt rudimentary). The
+       idea in one drawing: the three pieces of one client's trouble exist on
+       day 0, but each sits in a different department's system. Reporting
+       joins them at month-end, after the renewal notice has closed;
+       Enterprise Intelligence joins them that morning. */
+    lede: "Each department's system holds one piece of a client. Enterprise Intelligence joins the pieces the morning a risk starts, not at month-end.",
+    board: {
+      label:
+        "One client, Northwind Insurance, across one month. Sales sees the renewal's sponsor resign, Delivery sees the Claims Engine project three weeks late, and Finance sees an invoice 74 days overdue. Department reporting puts the three together in the monthly pack on day 26, seventeen days after the renewal notice closed on day 9. Enterprise Intelligence puts them together on day 0, leaving nine days to act.",
+      client: "Northwind Insurance",
+      clientNote: "One client, seen by three departments",
+      scenario: "Illustrative scenario",
+      legend: { department: "Department reporting", intelligence: "Enterprise Intelligence" },
+      horizon: 30,
+      ruler: [
+        { day: 0, label: "Day 0" },
+        { day: 9, label: "Day 9", note: "Renewal notice closes", tone: "deadline" },
+        { day: 26, label: "Day 26", note: "Month-end" },
+        { day: 30, label: "Day 30", tone: "muted" },
+      ],
+      columns: { department: "Department", piece: "What its system shows" },
+      lanes: [
+        { department: "Sales", system: "Salesforce", signal: "The renewal's sponsor resigns", seenBy: "Seen by the account manager" },
+        { department: "Delivery", system: "ERPNext Projects", signal: "Claims Engine three weeks late", seenBy: "Seen by the project lead" },
+        { department: "Finance", system: "ERPNext Accounts", signal: "An invoice 74 days overdue", seenBy: "Seen by collections" },
+      ],
+      leadership: { name: "Leadership", note: "When they find out" },
+      risk: {
+        stamp: "Day 0 · Enterprise Intelligence",
+        title: "Northwind renewal at risk",
+        body: "$180,000 a year, and three systems agree.",
       },
-      {
-        value: "45%",
-        label: "of organisations still plan mainly in spreadsheets.",
-        citation: "FP&A Trends Survey 2025",
-      },
-      {
-        value: "29%",
-        label: "of teams take more than 10 days to produce a forecast.",
-        citation: "FP&A Trends Survey 2025",
-      },
-      {
-        value: "~15%",
-        label: "of chargeable consulting work is never billed to clients.",
-        citation: "TIQ and London Business School, 2016",
-      },
-    ],
+      deadline: 9,
+      pack: { day: 26, title: "The monthly pack", note: "All three on one page" },
+      runway: { label: "Decision runway", act: "9 days to act", late: "Seen 17 days too late" },
+    },
+    research: {
+      title: "Most finance teams close this gap by hand.",
+      stats: [
+        {
+          value: "46%",
+          label: "of financial planning time goes to collecting and validating data, not analysis.",
+          citation: "FP&A Trends Survey 2025",
+        },
+        {
+          value: "45%",
+          label: "of organisations still plan mainly in spreadsheets.",
+          citation: "FP&A Trends Survey 2025",
+        },
+        {
+          value: "29%",
+          label: "of teams take more than 10 days to produce a forecast.",
+          citation: "FP&A Trends Survey 2025",
+        },
+        {
+          value: "~15%",
+          label: "of chargeable consulting work is never billed to clients.",
+          citation: "TIQ and London Business School, 2016",
+        },
+      ],
+    },
+    coda: { lead: "The risk was visible on day 0.", payoff: "The pack showed it on day 26." },
   },
 
   teasers: {
     setup: "See the impact",
     payoff: "before anyone commits.",
     lede: "Four everyday decisions, each one quietly touching the rest of the business.",
+    playLabel: "Play",
+    replayLabel: "Watch again",
     items: [
       {
         id: "leave",
         number: "01",
-        meta: "01 · People, projects, revenue",
+        meta: "People, projects and revenue",
         duration: "0:29 · voice-over",
         title: "One leave. Four lifecycles.",
         description:
@@ -480,7 +575,7 @@ export const solutionsEis: EisPage = {
       {
         id: "cloud",
         number: "02",
-        meta: "02 · Cloud Ops and FinOps",
+        meta: "Cloud operations and FinOps",
         duration: "0:30 · voice-over",
         title: "Know the cost before anyone creates it.",
         description:
@@ -492,7 +587,7 @@ export const solutionsEis: EisPage = {
       {
         id: "whatif",
         number: "03",
-        meta: "03 · What-if",
+        meta: "What-if",
         duration: "0:29 · voice-over",
         title: "What if your biggest deal slips a quarter?",
         description:
@@ -504,7 +599,7 @@ export const solutionsEis: EisPage = {
       {
         id: "actions",
         number: "04",
-        meta: "04 · Today and this week",
+        meta: "Today and this week",
         duration: "0:29 · voice-over",
         title: "Monday, 8 a.m. What needs you?",
         description:
@@ -520,6 +615,30 @@ export const solutionsEis: EisPage = {
     setup: "A figure you can defend.",
     payoff: "An action you can reverse.",
     lede: "Deterministic metric definitions, continuous risk correlation, and dual-key human sign-off ensure every figure is verified and every operational action is audited.",
+    guarantees: [
+      {
+        id: "metric",
+        tag: "Ground truth",
+        title: "Governed metric layer",
+        headline: "Every figure shows its mathematical working. Zero hallucinated SQL.",
+        proofs: ["100% deterministic logic", "Row-level security", "Complete data lineage"],
+      },
+      {
+        id: "correlation",
+        tag: "Early warning",
+        title: "Continuous risk correlation",
+        headline: "Cross-department risks detected 30 days before month-end.",
+        proofs: ["Continuous scanning", "Cross-silo triangulation", "Zero polling required"],
+        preview: true,
+      },
+      {
+        id: "execution",
+        tag: "Policy control",
+        title: "Dual-key human execution",
+        headline: "Strict segregation of composition and executive authorisation.",
+        proofs: ["Segregation of duties", "Dual-key sign-off", "Cryptographic audit trail"],
+      },
+    ],
     pillars: [
       {
         tag: "Foundation",
@@ -676,6 +795,9 @@ export const solutionsEis: EisPage = {
 
   faq: {
     title: "Frequently asked questions.",
+    setup: "Frequently asked",
+    payoff: "questions.",
+    link: { label: "Talk to our team", href: "#talk-to-our-team" },
     lede: "Direct answers to the architectural, security, and operational questions executive leadership asks before deployment.",
     /* Opened by default: the page makes both claims and they sound
        contradictory until the two planes are separated. */

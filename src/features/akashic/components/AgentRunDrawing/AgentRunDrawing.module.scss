@@ -36,8 +36,9 @@
 .lane {
   position: relative;
   margin-right: space(6);
+  // The ticks (::before/::after) inherit this style and colour on every side.
+  border-style: solid;
   border-bottom-width: 1px;
-  border-bottom-style: solid;
   padding-bottom: space(2);
   font-family: $font-mono;
   font-size: 10px;
@@ -65,7 +66,7 @@
   }
 
   &[data-kind="agent"] {
-    border-bottom-style: dashed;
+    border-style: dashed;
     border-color: c(blue);
     color: c(blue);
   }
@@ -119,12 +120,12 @@
 
     &[data-kind="person"]::before {
       border-left-style: solid;
-      border-left-color: rgba(var(--ink), 0.4);
+      border-left-color: c(ink, 0.4);
     }
 
     &[data-kind="record"]::before {
       border-left-style: solid;
-      border-left-color: rgba(var(--blue), 0.5);
+      border-left-color: c(blue, 0.5);
     }
   }
 }
@@ -185,11 +186,15 @@
   display: block;
   width: 0;
   flex: 1 1 0%;
-  border-left: 1px dashed c(blue);
+  // Tailwind's `border-l border-dashed border-blue` styled every side, so
+  // the top border the line switches to at lg stays dashed blue.
+  border-style: dashed;
+  border-color: c(blue);
+  border-left-width: 1px;
 
   &[data-out="person"] {
-    border-left-style: solid;
-    border-left-color: c(ink);
+    border-style: solid;
+    border-color: c(ink);
   }
 
   @include respond-to(lg) {
@@ -197,8 +202,6 @@
     width: auto;
     border-left-width: 0;
     border-top-width: 1px;
-    border-top-style: inherit;
-    border-top-color: inherit;
   }
 }
 
@@ -398,6 +401,7 @@
   background-color: c(panel);
   padding: space(3) space(5);
   font-size: 0.75rem;
+  line-height: 1rem;
   color: c(secondary-text);
 
   @include respond-to(lg) {

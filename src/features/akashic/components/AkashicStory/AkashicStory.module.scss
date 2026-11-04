@@ -21,6 +21,11 @@
   }
 }
 
+// The technical reference ([09] stack): the setup reads in uc-mute.
+.titleReference > span {
+  color: c(uc-mute);
+}
+
 .arrow {
   height: space(5);
   width: space(5);

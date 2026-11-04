@@ -1,5 +1,7 @@
 @use "assets/styles" as *;
 
+@include keyframes(ps-pulse);
+
 .root {
   display: flex;
   align-items: center;
@@ -64,7 +66,7 @@
   border-radius: 9999px;
   background-color: c(blue);
   // ps-pulse is the global keyframe in src/app/globals.css.
-  animation: global(ps-pulse) 2s infinite;
+  animation: ps-pulse 2s infinite;
 
   @media (prefers-reduced-motion: reduce) {
     animation: none;

@@ -1,93 +1,84 @@
 @use "assets/styles" as *;
 
+// One plate: three bays over the platform. The plate clips its corners, so
+// focus rings sit inside the bays.
+.plate {
+  overflow: hidden;
+  border: 1px solid c(subtle-stroke);
+  border-radius: $radius-outer;
+  background-color: c(background);
+}
+
 // --- The three solutions ---------------------------------------------
 .solutions {
   display: grid;
-  grid-template-columns: repeat(1, minmax(0, 1fr));
-  gap: space(12);
+  grid-template-columns: minmax(0, 1fr);
 
   @include respond-to(lg) {
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: space(8);
   }
 }
 
 .solution {
   position: relative;
-  min-width: 0px;
+  min-width: 0;
+
+  & + & {
+    border-top: 1px solid c(lineSoft);
+  }
 
   @include respond-to(lg) {
-    padding-bottom: space(12);
+    & + & {
+      border-top-width: 0;
+      border-left: 1px solid c(lineSoft);
+    }
   }
 }
 
-// The hover and keyboard states of .more, .moreLabel and .moreArrow hang
-// off this link.
+// The hover and keyboard states of the bay hang off this link. Phones: copy
+// over drawing. Tablets: copy beside drawing. From lg: copy over drawing,
+// the drawing resting on the foundation.
 .card {
   display: flex;
   height: 100%;
   flex-direction: column;
-  border-radius: $radius-outer;
+  color: c(ink);
 
   &:focus-visible {
-    outline-style: solid;
-    outline-width: 2px;
-    outline-offset: 8px;
-    outline-color: c(blue);
+    outline: 2px solid c(blue);
+    outline-offset: -4px;
   }
 
   @include respond-to(sm) {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: space(6);
   }
 
   @include respond-to(lg) {
     display: flex;
-    gap: 0px;
   }
 }
 
-.illustration {
+// Pointing at a bay deepens both its grounds by one step (the hover fills,
+// DESIGN_SYSTEM §4), so the chosen solution reads as one column.
+.copy {
   display: flex;
-  height: 280px;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  border-top-width: 1px;
-  border-bottom-width: 1px;
-  border-color: c(lineSoft);
-  background-color: c(primary-bg);
-
-  @include respond-to(sm) {
-    height: 100%;
-    min-height: 280px;
-  }
-
-  @include respond-to(lg) {
-    height: 304px;
-    min-height: 0px;
-  }
-}
-
-.body {
-  display: flex;
-  flex: 1 1 0%;
   flex-direction: column;
-  padding-left: space(1);
-  padding-right: space(1);
-  padding-top: space(6);
+  padding: space(7) space(5) space(6);
+  @include transition-colors($duration-200, $ease-settle);
+
+  .card:hover &,
+  .card:focus-visible & {
+    background-color: c(primary-bg);
+  }
 
   @include respond-to(sm) {
-    padding-top: space(4);
-    padding-bottom: space(4);
+    padding: space(8) space(7);
   }
 
   @include respond-to(lg) {
-    padding-left: space(2);
-    padding-right: space(2);
-    padding-bottom: 0px;
-    padding-top: space(8);
+    flex: 1 1 auto;
+    padding: space(8) space(8) space(7);
   }
 }
 
@@ -99,29 +90,36 @@
   color: c(secondary-text);
 }
 
+// Each benefit follows its own name; the links meet at the foot of the copy
+// instead (a held two-line name left a hole under the one-line names).
 .name {
   margin-top: space(3);
-  text-wrap: pretty;
+  text-wrap: balance;
   font-family: $font-heading;
   font-size: 25px;
-  font-weight: $weight-semibold;
-  line-height: 1.2;
+  font-weight: $weight-medium;
+  line-height: 1.15;
   letter-spacing: $tracking-tight;
   color: c(ink);
+  @include transition-colors($duration-200, $ease-settle);
+
+  .card:hover &,
+  .card:focus-visible & {
+    color: c(blue);
+  }
 
   @include respond-to(lg) {
-    min-height: 3.6em;
-    font-size: 28px;
+    font-size: 26px;
   }
 
   @include respond-to(xl) {
-    min-height: 2.4em;
+    font-size: 28px;
   }
 }
 
 .benefit {
-  margin-top: space(4);
-  max-width: 20em;
+  margin-top: space(3);
+  max-width: 22em;
   text-wrap: pretty;
   font-size: 16px;
   line-height: $leading-relaxed;
@@ -139,14 +137,11 @@
   font-size: 14px;
   font-weight: $weight-medium;
   color: c(ink);
+  @include transition-colors($duration-200, $ease-settle);
 
   .card:hover &,
   .card:focus-visible & {
     color: c(blue);
-  }
-
-  @include respond-to(lg) {
-    padding-top: space(6);
   }
 }
 
@@ -155,7 +150,8 @@
   text-decoration-color: c(line);
   text-underline-offset: 5px;
 
-  .card:hover & {
+  .card:hover &,
+  .card:focus-visible & {
     text-decoration-color: c(blue);
   }
 }
@@ -163,85 +159,96 @@
 .moreArrow {
   height: space(4);
   width: space(4);
-  transition-property: transform;
-  transition-timing-function: $ease-default;
-  transition-duration: $duration-200;
+  transition: transform $duration-200 $ease-settle;
 
-  .card:hover & {
+  .card:hover &,
+  .card:focus-visible & {
     transform: translateX(space(1));
   }
 
   @media (prefers-reduced-motion: reduce) {
     transform: none !important;
-    transition-property: none;
+    transition: none;
   }
 }
 
-// lg: each solution's stem down to the rail.
-.stem {
+// The drawing's ground: one step deeper than the bay.
+.scene {
+  display: flex;
+  min-height: 280px;
+  flex: 1 1 auto;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-top: 1px solid c(lineSoft);
+  background-color: c(primary-bg);
+  padding: space(2) space(3);
+  @include transition-colors($duration-200, $ease-settle);
+
+  .card:hover &,
+  .card:focus-visible & {
+    background-color: c(tertiary-bg);
+  }
+
+  @include respond-to(sm) {
+    border-top-width: 0;
+    border-left: 1px solid c(lineSoft);
+  }
+
+  @include respond-to(lg) {
+    height: 312px;
+    min-height: 0;
+    flex: none;
+    margin-top: auto;
+    border-left-width: 0;
+    border-top: 1px solid c(lineSoft);
+  }
+}
+
+// lg: the bay's socket on the foundation's edge, under its drawing.
+.socket {
   position: absolute;
-  bottom: 0px;
+  bottom: -5px;
   left: 50%;
+  z-index: 1;
   display: none;
-  height: space(6);
-  width: 1px;
-  background-color: c(line);
+  height: 10px;
+  width: 10px;
+  margin-left: -5px;
+  border: 1.5px solid c(blue);
+  border-radius: 9999px;
+  background-color: c(depth);
+  @include transition-colors($duration-150, $ease-settle);
+
+  .solution:hover &,
+  .solution:focus-within & {
+    background-color: c(blue);
+  }
 
   @include respond-to(lg) {
     display: block;
   }
-}
-
-.rail {
-  position: relative;
-  margin-left: auto;
-  margin-right: auto;
-  display: none;
-  height: space(8);
-  width: calc((100% + 2rem) / 3 * 2);
-  border-top-width: 1px;
-  border-color: c(line);
-
-  @include respond-to(lg) {
-    display: block;
-  }
-}
-
-.railStem {
-  position: absolute;
-  left: 50%;
-  top: 0px;
-  height: 100%;
-  width: 1px;
-  background-color: c(line);
 }
 
 // --- The platform underneath ------------------------------------------
 .foundation {
-  position: relative;
-  margin-top: space(10);
-  border-radius: $radius-outer;
-  border-width: 1px;
-  border-color: c(blue-border);
+  border-top: 1px solid c(blue-border);
   background-color: c(depth);
-  padding-left: space(5);
-  padding-right: space(5);
-  padding-top: space(6);
-  padding-bottom: space(6);
+  padding: space(6) space(5) space(5);
+
+  @include respond-to(sm) {
+    padding: space(7) space(7) space(6);
+  }
 
   @include respond-to(lg) {
-    margin-top: 0px;
-    padding-left: space(8);
-    padding-right: space(8);
-    padding-top: space(7);
-    padding-bottom: space(7);
+    padding: space(8) space(8) space(6);
   }
 }
 
 .foundationHead {
   display: flex;
   flex-direction: column;
-  gap: space(4);
+  gap: space(3);
 
   @include respond-to(lg) {
     flex-direction: row;
@@ -260,8 +267,7 @@
 
 .foundationCopy {
   @include respond-to(lg) {
-    border-left-width: 1px;
-    border-color: c(blue-border);
+    border-left: 1px solid c(blue-border);
     padding-left: space(10);
   }
 }
@@ -281,23 +287,25 @@
   color: c(secondary-text);
 }
 
+// The seven modules as the foundation's cells. Pointing at any solution
+// lights every module in turn: the whole platform, every time.
 .modules {
   margin-top: space(6);
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   column-gap: space(4);
   row-gap: space(3);
-  border-top-width: 1px;
-  border-color: c(blue-border);
+  border-top: 1px solid c(blue-border);
   padding-top: space(5);
 
   @include respond-to(sm) {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 
   @include respond-to(lg) {
     grid-template-columns: repeat(7, minmax(0, 1fr));
-    column-gap: space(3);
+    column-gap: 0;
+    padding-top: 0;
   }
 }
 
@@ -305,29 +313,44 @@
   display: flex;
   align-items: center;
   gap: space(2);
-  font-size: 12px;
+  font-size: 13px;
   font-weight: $weight-medium;
-  line-height: $leading-relaxed;
+  line-height: $leading-snug;
   color: c(ink);
 
   @include respond-to(lg) {
-    justify-content: center;
+    flex-direction: column;
+    gap: space(3);
+    padding: space(5) space(2) space(1);
     text-align: center;
-  }
 
-  @include respond-to(xl) {
-    font-size: 13px;
+    & + & {
+      border-left: 1px dashed c(blue-border);
+    }
   }
 }
 
-.moduleDot {
-  height: space(1);
-  width: space(1);
+.moduleMark {
+  height: 6px;
+  width: 6px;
   flex-shrink: 0;
   border-radius: 9999px;
-  background-color: c(blue);
+  background-color: c(blue-border);
+  transition: background-color $duration-150 $ease-settle;
+  transition-delay: calc(var(--i, 0) * 25ms);
+
+  .plate:has(.card:hover) &,
+  .plate:has(.card:focus-visible) & {
+    background-color: c(blue);
+  }
 
   @include respond-to(lg) {
-    display: none;
+    height: 2px;
+    width: space(5);
+    border-radius: 1px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition-delay: 0s;
   }
 }

@@ -155,12 +155,12 @@
   height: 86px;
   width: 86px;
   border-radius: 9999px;
-  border: 1px solid rgba(var(--blue), 0.15);
+  border: 1px solid c(blue, 0.15);
 
   &:nth-child(2) {
     height: 114px;
     width: 114px;
-    border-color: rgba(var(--blue), 0.1);
+    border-color: c(blue, 0.1);
   }
 }
 

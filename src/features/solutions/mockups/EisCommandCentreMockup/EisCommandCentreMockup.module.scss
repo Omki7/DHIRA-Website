@@ -1,0 +1,319 @@
+@use "assets/styles" as *;
+
+// The mono label used across the cockpit's chrome.
+@mixin label {
+  font-family: $font-mono;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.root {
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+  max-width: 1152px;
+}
+
+// --- Role switch: ink when active, as the homepage's Before / After ------
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: space(3);
+}
+
+.switch {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: space(1);
+  border-radius: $radius-btn;
+  border: 1px solid c(default-stroke);
+  background-color: c(background);
+  padding: space(1);
+}
+
+.option {
+  border-radius: 7px;
+  padding: space(1.5) space(3);
+  font-size: 13px;
+  font-weight: $weight-medium;
+  color: c(secondary-text);
+  @include transition-colors($duration-200);
+  @include focus-ring;
+
+  &:hover {
+    background-color: c(tertiary-bg);
+    color: c(ink);
+  }
+}
+
+.optionActive,
+.optionActive:hover {
+  background-color: c(action);
+  color: c(on-action);
+}
+
+.sync {
+  display: none;
+  align-items: center;
+  gap: space(2);
+
+  @include respond-to(sm) {
+    display: flex;
+  }
+}
+
+.syncDot {
+  height: space(1.5);
+  width: space(1.5);
+  border-radius: 9999px;
+  background-color: c(positive);
+}
+
+.syncLabel {
+  @include label;
+  color: c(tertiary-text);
+}
+
+// --- The stage -------------------------------------------------------
+.stage {
+  position: relative;
+  margin-top: space(4);
+  overflow: hidden;
+  border-radius: $radius-outer;
+  border: 1px solid c(card-line);
+  background-color: c(background);
+}
+
+.stageHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: space(4);
+  border-bottom: 1px solid c(card-divide);
+  padding: space(3) space(4);
+  @include label;
+
+  @include respond-to(sm) {
+    padding-left: space(5);
+    padding-right: space(5);
+  }
+}
+
+.stageTitle {
+  @include truncate;
+  color: c(secondary-text);
+}
+
+.stageDot {
+  color: c(overcast);
+}
+
+.stageAside {
+  display: none;
+  flex-shrink: 0;
+  color: c(tertiary-text);
+
+  @include respond-to(sm) {
+    display: inline;
+  }
+}
+
+// Capped and dissolving: the stage teases, it does not reveal (§8).
+.stageBody {
+  max-height: 350px;
+  overflow: hidden;
+  padding: space(4);
+  mask-image: linear-gradient(to bottom, black 60%, transparent 98%);
+
+  @include respond-to(sm) {
+    padding: space(5);
+  }
+}
+
+.kpis {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: space(3);
+
+  @include respond-to(sm) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.kpi {
+  border-radius: $radius-card;
+  border: 1px solid c(card-line);
+  background-color: c(background);
+  padding: space(3.5);
+}
+
+.kpiLabel {
+  @include label;
+  color: c(tertiary-text);
+}
+
+.kpiValue {
+  margin-top: space(2);
+  font-size: 24px;
+  font-weight: $weight-semibold;
+  line-height: $leading-none;
+  letter-spacing: $tracking-tighter;
+  color: c(ink);
+  font-variant-numeric: tabular-nums;
+}
+
+.kpiNote {
+  margin-top: space(2);
+  font-size: 11px;
+  line-height: $leading-tight;
+}
+
+.notePositive {
+  color: c(positive-text);
+}
+
+.noteNegative {
+  color: c(red);
+}
+
+.noteNeutral {
+  color: c(tertiary-text);
+}
+
+// --- The feed --------------------------------------------------------
+.feed {
+  margin-top: space(3);
+  border-radius: $radius-card;
+  border: 1px solid c(card-line);
+  background-color: c(primary-bg);
+  padding: space(3) space(4) space(1);
+}
+
+.feedHead {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: space(3);
+  border-bottom: 1px solid c(card-divide);
+  padding-bottom: space(2.5);
+}
+
+.feedHeading {
+  display: flex;
+  min-width: 0;
+  align-items: baseline;
+  gap: space(2);
+}
+
+.feedBadge {
+  flex-shrink: 0;
+  @include label;
+  color: c(blue);
+}
+
+.feedTitle {
+  @include truncate;
+  font-size: 13px;
+  font-weight: $weight-medium;
+  color: c(ink);
+}
+
+.feedMeta {
+  display: none;
+  flex-shrink: 0;
+  font-family: $font-mono;
+  font-size: 10px;
+  color: c(tertiary-text);
+
+  @include respond-to(sm) {
+    display: inline;
+  }
+}
+
+.rows > * + * {
+  border-top: 1px solid c(card-divide);
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: space(2.5);
+  padding-bottom: space(2.5);
+  font-size: 12px;
+}
+
+.rowText {
+  min-width: 0;
+  padding-right: space(4);
+}
+
+.rowLabel {
+  display: block;
+  @include truncate;
+  font-weight: $weight-medium;
+  color: c(ink);
+}
+
+.rowSub {
+  margin-top: space(0.5);
+  display: block;
+  @include truncate;
+  font-size: 11px;
+  color: c(secondary-text);
+}
+
+.rowValue {
+  flex-shrink: 0;
+  font-size: 12px;
+  font-weight: $weight-semibold;
+  font-variant-numeric: tabular-nums;
+}
+
+.valueBad {
+  color: c(red);
+}
+
+.valueWarn {
+  color: c(diagram-gold);
+}
+
+.valueOk {
+  color: c(ink);
+}
+
+// --- Caption ---------------------------------------------------------
+.caption {
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: space(5);
+  max-width: 60rem;
+  text-wrap: balance;
+  text-align: center;
+  @include text(sm);
+  line-height: $leading-relaxed;
+  color: c(secondary-text);
+
+  @include respond-to(sm) {
+    font-size: 15px;
+  }
+}
+
+.captionLead {
+  font-weight: $weight-medium;
+  color: c(ink);
+}
+
+.captionLink {
+  white-space: nowrap;
+  color: c(blue);
+  @include transition-colors;
+
+  &:hover {
+    color: c(blue-hover);
+  }
+}

@@ -279,6 +279,69 @@
   --journey-programme-2: #3B485A;
 }
 
+/* Architecture overview [04]: the four layers are one blue ramp on the
+   cobalt hue (266), strongest at the top (user, 4 Nov 2026: the green,
+   purple and amber layers used colours found nowhere else on the site).
+   Governance is deep navy, Intelligence the brand blue, Knowledge a soft
+   periwinkle, Data a pastel. `solid` fills the tab and icon badges, `on`
+   is the text and icon colour on it (navy on the two pale fills), `port`
+   draws connectors and node rings, strong enough to show on the band.
+   Dark: the ramp runs from bright cobalt to dusk blue, white on every
+   fill; grounds stay blue-black. Contrast checked in OKLCH: every `on`
+   at least 4.8:1 on its fill, every `text` at least 5.8:1 on its tint. */
+:root {
+  --arch-gov-solid: 29 53 128;
+  --arch-gov-on: 255 255 255;
+  --arch-gov-port: 29 53 128;
+  --arch-gov-text: 29 53 128;
+  --arch-gov-tint: 230 239 254;
+  --arch-gov-line: 175 197 236;
+  --arch-intel-solid: 54 93 206;
+  --arch-intel-on: 255 255 255;
+  --arch-intel-port: 54 93 206;
+  --arch-intel-text: 41 76 182;
+  --arch-intel-tint: 237 244 255;
+  --arch-intel-line: 197 217 247;
+  --arch-know-solid: 148 177 235;
+  --arch-know-on: 29 53 128;
+  --arch-know-port: 97 130 212;
+  --arch-know-text: 51 83 174;
+  --arch-know-tint: 241 246 254;
+  --arch-know-line: 206 219 243;
+  --arch-data-solid: 205 221 249;
+  --arch-data-on: 29 53 128;
+  --arch-data-port: 113 145 211;
+  --arch-data-text: 61 93 178;
+  --arch-data-tint: 245 249 254;
+  --arch-data-line: 218 227 244;
+}
+:root[data-theme="dark"] {
+  --arch-gov-solid: 69 108 215;
+  --arch-gov-on: 255 255 255;
+  --arch-gov-port: 88 128 230;
+  --arch-gov-text: 172 199 255;
+  --arch-gov-tint: 23 39 66;
+  --arch-gov-line: 52 76 121;
+  --arch-intel-solid: 53 84 168;
+  --arch-intel-on: 255 255 255;
+  --arch-intel-port: 80 112 192;
+  --arch-intel-text: 175 196 243;
+  --arch-intel-tint: 23 36 59;
+  --arch-intel-line: 47 66 101;
+  --arch-know-solid: 42 65 125;
+  --arch-know-on: 255 255 255;
+  --arch-know-port: 78 102 163;
+  --arch-know-text: 176 193 229;
+  --arch-know-tint: 22 34 53;
+  --arch-know-line: 44 58 85;
+  --arch-data-solid: 35 52 89;
+  --arch-data-on: 255 255 255;
+  --arch-data-port: 72 93 136;
+  --arch-data-text: 177 190 216;
+  --arch-data-tint: 22 31 47;
+  --arch-data-line: 40 51 71;
+}
+
 /* Daylight and twilight share the same terrain and adapt their illumination. */
 .life-ground {
   background-color: rgb(var(--life-abyss)); }

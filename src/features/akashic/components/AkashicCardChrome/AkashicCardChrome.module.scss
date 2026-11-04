@@ -1,5 +1,7 @@
 @use "assets/styles" as *;
 
+@include keyframes(ps-pulse);
+
 .capillary {
   height: 3px;
   background-color: c(blue);
@@ -26,7 +28,7 @@
   width: 5px;
   border-radius: 9999px;
   background-color: c(positive);
-  animation: global(ps-pulse) 2.4s infinite;
+  animation: ps-pulse 2.4s infinite;
 }
 
 .liveLabel {

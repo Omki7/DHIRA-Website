@@ -271,29 +271,31 @@
       height: 1px;
       background-color: c(line);
     }
-  }
 
-  &[data-spine]::after {
-    content: "";
-    position: absolute;
-    left: 28.25px;
-    width: 1.5px;
-    background-color: c(blue);
-  }
+    // The spine: a solution's modules joined top to bottom, centred on the
+    // nodes (24px padding + the 5px node radius). Desktop grid only.
+    &[data-spine]::after {
+      content: "";
+      position: absolute;
+      left: 28.25px;
+      width: 1.5px;
+      background-color: c(blue);
+    }
 
-  &[data-spine="start"]::after {
-    top: 50%;
-    bottom: 0;
-  }
+    &[data-spine="start"]::after {
+      top: 50%;
+      bottom: 0;
+    }
 
-  &[data-spine="mid"]::after {
-    top: 0;
-    bottom: 0;
-  }
+    &[data-spine="mid"]::after {
+      top: 0;
+      bottom: 0;
+    }
 
-  &[data-spine="end"]::after {
-    top: 0;
-    bottom: 50%;
+    &[data-spine="end"]::after {
+      top: 0;
+      bottom: 50%;
+    }
   }
 }
 
@@ -317,7 +319,7 @@
     margin-right: 1px;
     height: space(2);
     width: space(2);
-    border: 1px solid rgba(var(--overcast), 0.7);
+    border: 1px solid c(overcast, 0.7);
     background-color: c(panel);
   }
 }

@@ -9,19 +9,18 @@ import { FigureEyebrow } from "@/shared/components/ui";
    Where the heading sits in a column beside a drawing, the section passes
    its eyebrow to AboutSection instead, so the rail runs the full width as it
    does on every other page; the heading then omits `number` and `label`.
-   `card` drops the rail inside the closing card. */
-export function AboutHeading({ number, label, setup, title, intro, dark = false, card = false }: {
+   The closing card ([06], features/about) sets its own centred heading. */
+export function AboutHeading({ number, label, setup, title, intro, dark = false }: {
   number?: string;
   label?: string;
   setup: string;
   title: string;
   intro?: string;
   dark?: boolean;
-  card?: boolean;
 }) {
   return (
     <header className="about-heading">
-      {number && label && <div data-about-reveal="0"><FigureEyebrow num={number} label={label} dark={dark} bare={card} /></div>}
+      {number && label && <div data-about-reveal="0"><FigureEyebrow num={number} label={label} dark={dark} /></div>}
       <h2 data-about-reveal="70" className="about-title text-ink"><span className={`block ${dark ? "text-uc-mute" : "text-inkSoft"}`}>{setup}</span>{" "}{title}</h2>
       {intro && <p data-about-reveal="120" className={`about-intro ${dark ? "text-uc-mute" : "text-secondary-text"}`}>{intro}</p>}
     </header>

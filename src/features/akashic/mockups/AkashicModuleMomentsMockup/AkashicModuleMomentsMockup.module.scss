@@ -1,5 +1,9 @@
 @use "assets/styles" as *;
 
+@include keyframes(ps-caret-blink);
+@include keyframes(ps-rise);
+@include keyframes(softpulse);
+
 .root {
   position: relative;
   z-index: 10;
@@ -60,11 +64,11 @@
 
 .captionRise {
   display: inline-block;
-  animation: global(ps-rise) 420ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  animation: ps-rise 420ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
 }
 
 .captionModule {
-  color: c(primary-text);
+  color: c(ink);
 }
 
 .captionLink {
@@ -117,7 +121,7 @@
 
 .tabActive {
   font-weight: 600;
-  color: c(primary-text);
+  color: c(ink);
 }
 
 .tabInactive {
@@ -181,7 +185,7 @@
 }
 
 .softpulse {
-  animation: global(softpulse) 2.4s infinite;
+  animation: softpulse 2.4s infinite;
 }
 
 .caretBlink {
@@ -190,7 +194,7 @@
   height: 1.05em;
   width: 1px;
   transform: translateY(0.15em);
-  animation: global(ps-caret-blink) 1s steps(1) infinite;
+  animation: ps-caret-blink 1s steps(1) infinite;
   background: c(blue);
 }
 
@@ -205,7 +209,7 @@
 /* Token helper classes for moments */
 .textSecondary { color: c(secondary-text); }
 .textTertiary { color: c(tertiary-text); }
-.textPrimary { color: c(primary-text); }
+.textPrimary { color: c(ink); }
 .textBlue { color: c(blue); }
 .textPositive { color: c(positive-text); }
 .bgScreenSurface { background: c(screen-surface); }

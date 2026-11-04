@@ -21,6 +21,7 @@
    are presentation hints the editor picks from a fixed list. Matching and
    current-page logic lives in lib/navigation.ts. */
 
+import type { Region, Regional } from "@/shared/utils/region";
 import { mailto, site } from "./site";
 import type { Link } from "./types";
 
@@ -33,6 +34,8 @@ export type NavLink = {
   preview?: boolean;
   /** Leaves the site (the app, the docs): drawn with a north-east arrow. */
   external?: boolean;
+  /** Shown only to visitors in this region (shared/utils/region.ts). Unset: everyone. */
+  audience?: Region;
 };
 
 /** A block's relative width in the desktop sheet (one `fr` track each).
@@ -53,7 +56,7 @@ export type NavGroup = {
 };
 
 /** Which hairline drawing the featured card carries (nav/NavFeatured.tsx). */
-export type NavDrawing = "release" | "foundation" | "method" | "library" | "seat";
+export type NavDrawing = "release" | "foundation" | "method" | "library" | "seat" | "offices";
 
 export type NavFeature = {
   eyebrow: string;
@@ -81,7 +84,8 @@ export type NavMenu = {
   match: string[];
   lead: NavLead;
   groups: NavGroup[];
-  feature: NavFeature;
+  /** One card for everyone, or one per region (`{ in, intl }`). */
+  feature: Regional<NavFeature>;
 };
 
 /* The Platform menu (redrawn again 15 Oct 2026, user): the same grammar as
@@ -324,20 +328,34 @@ const menus: NavMenu[] = [
         heading: "Work with us",
         span: 3,
         links: [
-          { label: "Careers", href: "/careers", caption: "Open roles and how we hire" },
+          { label: "Careers", href: "/careers", caption: "Open roles and how we hire", audience: "in" },
           { label: "Partners", href: "/partners", caption: "Build, deliver and sell on Akashic" },
           { label: "Contact", href: "/contact", caption: "New York, Hyderabad, Bangalore" },
         ],
       },
     ],
+    /* Careers is for India only (4 Nov 2026, user), so visitors elsewhere
+       see the offices card in its place: the /contact offices section's
+       own headline. */
     feature: {
-      eyebrow: "Now hiring",
-      title: "Find your seat.",
-      caption: "See where you fit on the team.",
-      href: "/careers",
-      cta: "See open roles",
-      drawing: "seat",
-      span: 3,
+      in: {
+        eyebrow: "Now hiring",
+        title: "Find your seat.",
+        caption: "See where you fit on the team.",
+        href: "/careers",
+        cta: "See open roles",
+        drawing: "seat",
+        span: 3,
+      },
+      intl: {
+        eyebrow: "Offices",
+        title: "Three offices.\nOne team across time zones.",
+        caption: "New York, Hyderabad and Bangalore.",
+        href: "/contact#offices",
+        cta: "See our offices",
+        drawing: "offices",
+        span: 3,
+      },
     },
   },
 ];
@@ -397,7 +415,13 @@ const cta: Link = { label: "Talk to our team", href: "#talk-to-our-team" };
    By industry | Services, Resources | About. "By industry" is the header's
    own group heading inside Solutions, so it stacks under Solutions rather
    than standing as a column of its own. */
-export type FooterLink = { label: string; href: string; external?: boolean };
+export type FooterLink = {
+  label: string;
+  href: string;
+  external?: boolean;
+  /** Shown only to visitors in this region (shared/utils/region.ts). Unset: everyone. */
+  audience?: Region;
+};
 
 /** A titled list: one header menu under its label, word for word, or one
     of the menu's groups under the group's heading. */
@@ -471,7 +495,7 @@ const footerColumns: FooterColumn[] = [
         links: [
           { label: "About DHIRA", href: "/about" },
           { label: "Newsroom", href: "/newsroom" },
-          { label: "Careers", href: "/careers" },
+          { label: "Careers", href: "/careers", audience: "in" },
           { label: "Partners", href: "/partners" },
           { label: "Contact", href: "/contact" },
         ],

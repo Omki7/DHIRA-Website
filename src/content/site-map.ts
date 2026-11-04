@@ -9,6 +9,7 @@
    by sitemap.ts and the site map from lib/region.ts REGIONAL_PATHS. In a
    CMS the titles and descriptions come from each page's own document. */
 
+import type { Region } from "@/shared/utils/region";
 import type { Seo } from "./types";
 
 export interface SiteRoute {
@@ -18,6 +19,9 @@ export interface SiteRoute {
   description: string;
   /** ISO date of the last content change, when known. */
   updated?: string;
+  /** Listed on the HTML site map only for visitors in this region
+      (shared/utils/region.ts). sitemap.xml and llms.txt list every route. */
+  audience?: Region;
 }
 
 export interface RouteGroup {
@@ -88,7 +92,7 @@ export const siteMap: SiteMapContent = {
       routes: [
         { path: "/about", title: "About DHIRA", description: "A data company since 2018, offices in New York, Hyderabad and Bangalore." },
         { path: "/newsroom", title: "Newsroom", description: "Announcements, recognition and the media kit." },
-        { path: "/careers", title: "Careers", description: "Open roles and how DHIRA hires." },
+        { path: "/careers", title: "Careers", description: "Open roles and how DHIRA hires.", audience: "in" },
         { path: "/partners", title: "Partners", description: "Delivery, technology, white label and reseller partnerships." },
         { path: "/contact", title: "Contact", description: "Sales, partnerships, press, security, support and offices." },
       ],
