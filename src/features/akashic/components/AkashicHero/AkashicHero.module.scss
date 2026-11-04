@@ -1,5 +1,7 @@
 @use "assets/styles" as *;
 
+@include keyframes(spin);
+
 .hero {
   position: relative;
   overflow: hidden;
@@ -25,8 +27,14 @@
   justify-content: center;
   overflow: hidden;
   border-radius: 9999px;
-  border: 1px solid c(card-line);
-  background-color: c(background);
+  // The 1px rim is this padding over the rim colour, so the travelling arc
+  // can run along it (same chrome as the homepage hero pill).
+  padding: 1px;
+  background-color: c(card-line);
+}
+
+.badgeArc {
+  @include travelling-arc;
 }
 
 .badgeInner {
@@ -50,7 +58,7 @@
   display: inline-flex;
   align-items: center;
   font-weight: $weight-semibold;
-  color: c(primary-text);
+  color: c(ink);
 }
 
 .badgeDivider {
@@ -63,7 +71,7 @@
 
 .badgeClaim {
   font-weight: $weight-medium;
-  color: c(primary-text);
+  color: c(ink);
 }
 
 .kicker {
@@ -100,14 +108,16 @@
   font-weight: $weight-medium;
   line-height: 1.1;
   letter-spacing: $tracking-tightest;
-  color: c(primary-text);
+  color: c(ink);
 
   @include respond-to(sm) {
     font-size: 3rem;
+    line-height: 1;
   }
 
   @include respond-to(md) {
     font-size: 3.75rem;
+    line-height: 1;
   }
 
   @include respond-to(lg) {

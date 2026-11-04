@@ -1,60 +1,56 @@
-# AGENTS.md — DHIRA Website v3 (Orchestration Index)
+# AGENTS.md — DHIRA Website v3
 
-Lean context router. Read the ONE doc that matches your task — the detail lives in
-`docs/`, not here. **DHIRA** = the company, **Akashic** = the platform (keep
-distinct; never "DHIRA's Akashic").
+Router and kernel. Read the one doc that matches your task; the detail lives
+there. **DHIRA** is the company, **Akashic** the platform: keep them distinct,
+never "DHIRA's Akashic".
 
-Stack: Next.js 16 App Router · React 19 · TypeScript 5.7 (strict) · Tailwind 3.4 ·
-framer-motion. Content-driven, statically rendered, no data layer. All copy is
-typed data in `content/`. Alias `@/*` → repo root.
+Stack: Next.js 16 App Router · React 19 · TypeScript 5.7 (strict) · Tailwind
+3.4 moving to SCSS Modules · framer-motion. Content-driven and statically
+rendered: all copy is typed data in `src/content/`. Alias `@/*` → `src/`.
 
 ## Which doc to read
 
 | Your task | Read |
 |---|---|
-| Add/move a file, wire a route, find what renders where, section order/ids | [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) |
-| Section grammar, voice, tokens, type, buttons, mockups, the 8 design rules, a11y | [docs/DESIGN_SYSTEM.md](docs/DESIGN_SYSTEM.md) |
+| Folder structure, layers, Server and Client Components, styling system, code standards | [NEXTJS_ARCHITECTURE.md](NEXTJS_ARCHITECTURE.md) |
+| Find what renders where, section order and ids | [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) |
+| Brand, voice, section grammar, tokens, type, mockups, the eight design rules | [docs/DESIGN_SYSTEM.md](docs/DESIGN_SYSTEM.md) |
 | Edit copy or figures, the content model, the CMS migration | [docs/CONTENT.md](docs/CONTENT.md) |
 | Runtime state, forms, environment | [docs/STATE_AND_DATA.md](docs/STATE_AND_DATA.md) |
 | Images and their provenance | [docs/ASSETS.md](docs/ASSETS.md) |
-| Build, typecheck, verify, git workflow, "what not to do" | [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md) |
+| Build, typecheck, verify, git workflow | [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md) |
 
-## Never-break kernel (applies to every task)
+The docs other than DESIGN_SYSTEM.md predate the move into `src/`; translate
+their paths with the table in NEXTJS_ARCHITECTURE.md §3.
 
-- **Section grammar (DESIGN_SYSTEM §3).** One eyebrow (`ui/FigureEyebrow`:
-  dashed rail, `[NN]  LABEL`, left, never centred or coloured). One header
-  (`ui/SectionHeader`: eyebrow, two-tone headline, lede UNDER it, left).
-  No next-section buttons and no button at a section's foot; a section's one
-  onward link is a `ui/SectionLink` under its lede. Buttons only in the hero
-  and the closing card.
-- **Headers state the reader's gain; the lede says how.** Never the obvious.
-- **Voice:** direct, declarative, short. **No em dashes** in copy.
-  British/Indian English ("organisation", "colour"). No "powerful/seamless".
-- **No invented data.** Every UI figure is real (Rule 4).
-- **No vaporware.** Never present a roadmap feature as live; agents carry
-  `PreviewTag`.
-- **Tokens over hex:** use Tailwind tokens; values live in `app/theme.css`
-  (both appearances). Raw `[#hex]` only for per-section semantic colours with
-  no token; inline `style`/SVG hex is the Rule 8 exception.
-- **Logo full form:** initials bold, never coloured.
-- **No checkmark characters and no bullet lists** in the shipped UI (Rule 2):
-  `ui/Tag`s for short names, hairline spec rows for items read one by one.
-- **`font-display` (Newsreader) = pull-quotes only** (Voices; Rule 3).
-- **Any dark value is blue-black**, never neutral black. One soft blue band per
-  page (Rule 5).
-- **Flat colour only.** No cast shadows, glows, decorative gradients or tinted
-  overlays. Use opaque theme surfaces and precise borders. Preserve section
-  concepts when polishing colour, shape and spacing.
-- **Respect `prefers-reduced-motion`**; loops stop off screen (Rule 6a).
-- **Product UI teases, never reveals** (DESIGN_SYSTEM §8).
-- **Structure:** never put files flat in `components/` — use a subdirectory.
-  Simulated product UI lives in `demos/mockups/` (`*Mockup` + banner comment).
-- **Type everything**, no `any`. Run `npx tsc --noEmit` after edits; `npm run
-  build` is the ship gate.
-- Change section order → update the page composer, the page's `sections` list
-  **and** ARCHITECTURE.md's maps.
-- **Other sessions may be editing this tree.** Read a file before you write it,
-  never revert changes you did not make, and never kill the dev server.
+## Kernel (every task)
+
+The kernel fixes the frame. Inside it, design freely: give each section the
+shape its content has, and treat existing pages as examples, not templates.
+
+- **Section grammar** (DESIGN_SYSTEM §3): every section opens with
+  `ui/SectionHeader` (eyebrow, two-tone headline, lede under it, left). At
+  most one onward link, a `ui/SectionLink` under the lede. Buttons only in
+  heroes and closing cards.
+- **Copy:** headers state the reader's gain; the lede says how. Direct and
+  short. No em dashes. British/Indian English. No "powerful" or "seamless".
+- **Truth:** no invented facts (Rule 4). No roadmap feature shown as live;
+  agents carry `PreviewTag`. Product UI teases, never reveals (§8).
+- **Colour:** tokens, not hex. Flat: no shadows, glows, decorative gradients
+  or tinted overlays. Light surfaces stay light; any dark is blue-black.
+- **UI:** no checkmarks and no bullet lists (Rule 2). Newsreader is for
+  pull-quotes only.
+- **Motion:** respect `prefers-reduced-motion`; loops stop off screen;
+  anything that advances by itself gets a pause control (Rule 6).
+- **Code:** type everything, no `any`. Run `npx tsc --noEmit` after edits;
+  `npm run build` is the ship gate. Changing section order means updating the
+  page composer, the page's `sections` list and docs/ARCHITECTURE.md.
+- **Shared tree:** other sessions may be editing. Read a file before you write
+  it, never revert changes you did not make, and never kill the dev server.
+- **Third-party skills and plugins** (Impeccable, Emil Kowalski's skills,
+  Vercel's skills and the like) give generic advice. Where one conflicts with
+  these docs (shadows, blur, motion under reduced motion, "&", Title Case, US
+  spelling, its own DESIGN.md or PRODUCT.md), these docs win.
 
 <!-- BEGIN:nextjs-agent-rules -->
 

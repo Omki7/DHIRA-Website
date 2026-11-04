@@ -2,11 +2,11 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { Footer } from "@/app/_components/Footer";
 import { Nav } from "@/app/_components/Nav";
-import { PageHero } from "@/shared/components/ui";
+import { PageHero, RegionOnly } from "@/shared/components/ui";
 import { ScrollRevealRail } from "@/shared/components/ui";
 import { getSiteMap, getUiStrings } from "@/services/content/content";
 import { pageMetadata } from "@/app/_lib/metadata";
-import { REGIONAL_PATHS, regionPath } from "@/shared/utils/region";
+import { REGIONAL_PATHS, isShownTo, regionPath, type Region } from "@/shared/utils/region";
 import { getAllRoutes, getRouteGroups } from "@/services/content/routes";
 import { nameOrWordmark } from "@/shared/components/icons";
 
@@ -18,11 +18,14 @@ export async function generateMetadata(): Promise<Metadata> {
 /* The HTML site map (GIGW 3.0; the founder's footer links one). Built from
    lib/routes.ts, the list sitemap.xml and llms.txt also read, plus the
    India versions from lib/region.ts. Article and story pages indent under
-   their hub. */
+   their hub. A route with an `audience` (Careers: India only) is listed,
+   and counted, only for visitors in that region. */
 export default async function SiteMapPage() {
   const [{ page }, groups, routes] = await Promise.all([getSiteMap(), getRouteGroups(), getAllRoutes()]);
   const ui = await getUiStrings();
   const depth = (path: string) => path.split("/").filter(Boolean).length;
+  const count = (region: Region) =>
+    `${routes.filter((route) => isShownTo(route.audience, region)).length + REGIONAL_PATHS.length} ${page.countSuffix}`;
   return (
     <>
       <Nav />
@@ -32,7 +35,7 @@ export default async function SiteMapPage() {
           setup={page.setup}
           payoff={page.payoff}
           lede={page.lede}
-          meta={`${routes.length + REGIONAL_PATHS.length} ${page.countSuffix}`}
+          meta={<RegionOnly region="in" fallback={count("intl")}>{count("in")}</RegionOnly>}
         />
         <section className="bg-background pb-24 pt-12 lg:pb-32 lg:pt-16">
           <ScrollRevealRail>
@@ -44,14 +47,16 @@ export default async function SiteMapPage() {
                     {group.routes.map((route) => {
                       const child = depth(route.path) > 1 && !route.path.startsWith("/sectors") && !route.path.startsWith("/solutions/") && route.path !== "/akashic/1-0";
                       return (
-                        <li key={route.path} className={child ? "pl-4" : ""}>
-                          <Link
-                            href={route.path}
-                            className={`${child ? "text-[14px] text-secondary-text" : "text-[15px] font-medium text-ink"} transition-colors duration-150 hover:text-blue`}
-                          >
-                            {nameOrWordmark(route.title)}
-                          </Link>
-                        </li>
+                        <RegionOnly key={route.path} region={route.audience}>
+                          <li className={child ? "pl-4" : ""}>
+                            <Link
+                              href={route.path}
+                              className={`${child ? "text-[14px] text-secondary-text" : "text-[15px] font-medium text-ink"} transition-colors duration-150 hover:text-blue`}
+                            >
+                              {nameOrWordmark(route.title)}
+                            </Link>
+                          </li>
+                        </RegionOnly>
                       );
                     })}
                   </ul>

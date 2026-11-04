@@ -1,0 +1,145 @@
+@use "assets/styles" as *;
+
+.alias { display: block; scroll-margin-top: 5rem; }
+.srOnly, .choice { @include visually-hidden; }
+
+// The requested Attio composition is a deliberate exception to left-aligned
+// section headings. The page's numbered rail still anchors the section.
+.story {
+  max-width: 690px;
+  margin: space(16) auto space(16);
+  text-align: center;
+  @include respond-to(md) { margin-top: space(24); margin-bottom: space(16); }
+}
+.storyHeader {
+  font-family: $font-heading;
+  font-size: clamp(25px, 3vw, 32px);
+  font-weight: $weight-medium;
+  line-height: 1.2;
+  letter-spacing: -.025em;
+  text-wrap: balance;
+  h2, p { display: inline; font: inherit; }
+  h2 { color: c(ink); }
+  p { color: c(inkSoft); }
+}
+.story :global(a) { margin-top: space(6); }
+
+.team { min-width: 0; margin: 0; padding: 0; border: 0; }
+.field {
+  display: grid;
+  grid-template-columns: repeat(20, minmax(0, 1fr));
+  grid-template-rows: repeat(5, 36px) auto;
+  max-width: 440px;
+  margin: 0 auto;
+  isolation: isolate;
+  @include respond-to(md) {
+    grid-template-columns: repeat(48, minmax(0, 1fr));
+    grid-template-rows: repeat(5, 40px) auto;
+    max-width: 960px;
+  }
+}
+.ambient {
+  display: none;
+  pointer-events: none;
+  @include respond-to(md) {
+    display: grid;
+    grid-area: 1 / 1 / 6 / -1;
+    grid-template-columns: repeat(48, minmax(0, 1fr));
+    grid-template-rows: repeat(5, 40px);
+    place-items: center;
+    z-index: -1;
+    span { width: min(26px, 85%); aspect-ratio: 1; background: c(panel); border-radius: 50%; }
+  }
+}
+.colleague { display: contents; }
+.person, .empty {
+  display: grid;
+  grid-column: var(--person-column) / span 2;
+  grid-row: var(--person-row);
+  place-items: center;
+  min-width: 0;
+  @include respond-to(md) { grid-column: var(--person-wide-column) / span 2; }
+}
+.person { cursor: pointer; touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
+.portrait, .empty > span {
+  display: block;
+  position: relative;
+  width: min(28px, 88%);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: c(panel);
+  @include respond-to(md) { width: min(32px, 88%); }
+}
+.portrait {
+  opacity: .64;
+  @include motion-safe { transition: opacity $duration-200 $ease-out, transform $duration-200 $ease-out; }
+  &::after {
+    content: "";
+    position: absolute;
+    inset: -3px;
+    border: 1px solid c(blue);
+    border-radius: inherit;
+    opacity: 0;
+    @include motion-safe { transition: opacity $duration-200 $ease-out; }
+  }
+}
+.photoWindow { position: absolute; inset: 0; overflow: hidden; border-radius: inherit; }
+.photo { object-fit: cover; filter: grayscale(1); }
+.initials {
+  display: grid;
+  position: absolute;
+  inset: 0;
+  place-items: center;
+  border: 1px solid c(line);
+  border-radius: inherit;
+  color: c(secondary-text);
+  font-family: $font-heading;
+  font-size: 9px;
+  font-weight: $weight-medium;
+}
+.choice:checked + .person .portrait { opacity: 1; }
+.choice:checked + .person .portrait::after { opacity: 1; }
+@include motion-safe {
+  .choice:checked + .person .portrait { transform: scale(1.13); }
+  .choice:focus-visible + .person .portrait { transition: none; }
+}
+.choice:focus-visible + .person .portrait { outline: 2px solid c(ink); outline-offset: 5px; }
+@media (hover: hover) and (pointer: fine) { .person:hover .portrait { opacity: 1; } }
+
+.profile {
+  grid-area: 6 / 1 / 7 / -1;
+  align-self: start;
+  padding-top: space(12);
+  visibility: hidden;
+  opacity: 0;
+  text-align: center;
+  @include motion-safe { transition: opacity $duration-200 $ease-out; }
+  @include respond-to(md) { padding-top: space(14); }
+}
+.choice:checked ~ .profile { visibility: visible; opacity: 1; }
+.choice:focus-visible ~ .profile { transition: none; }
+.bio {
+  max-width: 700px;
+  margin: 0 auto;
+  // An editorial profile, not a fabricated employee quotation.
+  font-family: $font-heading;
+  font-size: 21px;
+  font-weight: $weight-normal;
+  line-height: 1.4;
+  letter-spacing: -.015em;
+  color: c(ink);
+  @include respond-to(md) { font-size: 25px; line-height: 1.35; }
+}
+.byline {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: baseline;
+  gap: space(2) space(3);
+  max-width: 680px;
+  margin: space(5) auto 0;
+}
+.name { color: c(ink); font-family: $font-heading; font-size: 14px; font-weight: $weight-medium; line-height: 1.5; }
+.role { color: c(secondary-text); font-size: 13px; line-height: 1.5; }
+.fieldFooter { display: flex; align-items: center; justify-content: center; gap: space(3); min-height: 32px; margin-top: space(7); color: c(secondary-text); font-size: 11px; line-height: 1.5; }
+.motionToggle { flex-shrink: 0; }

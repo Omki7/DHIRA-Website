@@ -1,11 +1,13 @@
 /* Public API of shared/components/ui: import from "@/shared/components/ui". */
 export * from "./DrawingSetClose";
+export * from "./DrawnFigure";
 export * from "./FigureEyebrow";
 export * from "./MotionToggle";
 export * from "./OffscreenAnimationGate";
 export * from "./PageClose";
 export * from "./PageHero";
 export * from "./PreviewTag";
+export * from "./RegionOnly";
 export * from "./RotatingPhrase";
 export * from "./ScrollReveal";
 export * from "./ScrollRevealRail";

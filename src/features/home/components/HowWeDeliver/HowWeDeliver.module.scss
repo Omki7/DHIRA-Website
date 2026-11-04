@@ -3,7 +3,6 @@
 // `delivery-band` (src/app/theme.css) stays beside this class and paints the ground.
 .section {
   position: relative;
-  overflow: hidden;
   padding-top: space(12);
   padding-bottom: space(16);
 
@@ -19,143 +18,12 @@
   scroll-margin-top: space(24);
 }
 
-.card {
-  position: relative;
-  margin-top: space(10);
-  overflow: hidden;
-  border-radius: $radius-outer;
-  border-width: 1px;
-  border-color: c(card-line);
-  background-color: c(anchor);
-  padding-left: space(6);
-  padding-right: space(6);
-  padding-top: space(10);
-  padding-bottom: space(10);
-  color: c(ink);
-
-  @include respond-to(sm) {
-    padding: space(10);
-  }
+// Header to content: 48px, 56px from lg (DESIGN_SYSTEM §3). Passed to
+// ui/ScrollReveal, which sets no margin of its own.
+.route {
+  margin-top: space(12);
 
   @include respond-to(lg) {
-    margin-top: space(12);
-    padding: space(16);
+    margin-top: space(14);
   }
-}
-
-.intro {
-  position: relative;
-  z-index: 10;
-  max-width: 46rem;
-}
-
-// text-base, then leading-relaxed; sm:text-lg resets the line-height too.
-.lede {
-  margin-top: space(6);
-  max-width: 36em;
-  text-wrap: pretty;
-  @include text(base);
-  line-height: $leading-relaxed;
-  color: c(secondary-text);
-
-  @include respond-to(sm) {
-    @include text(lg);
-  }
-}
-
-.services {
-  position: relative;
-  z-index: 10;
-  margin-top: space(10);
-  display: grid;
-  grid-template-columns: repeat(1, minmax(0, 1fr));
-  gap: space(4);
-
-  @include respond-to(md) {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-
-  @include respond-to(lg) {
-    margin-top: space(12);
-    gap: space(6);
-  }
-}
-
-.service {
-  display: flex;
-  flex-direction: column;
-  border-radius: $radius-inner;
-  border-width: 1px;
-  border-color: c(card-line);
-  background-color: c(background);
-  padding: space(6);
-  color: c(ink);
-  @include transition-colors($duration-200, $ease-settle);
-
-  &:hover {
-    border-color: c(blue-border);
-    background-color: c(background);
-  }
-
-  &:focus-visible {
-    background-color: c(background);
-  }
-
-  @include respond-to(lg) {
-    padding: space(7);
-  }
-}
-
-.arrowRow {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  color: c(overcast);
-
-  .service:hover & {
-    color: c(blue);
-  }
-
-  .service:focus-visible & {
-    color: c(blue);
-  }
-}
-
-.arrow {
-  height: space(5);
-  width: space(5);
-}
-
-.title {
-  margin-top: space(7);
-  font-family: $font-heading;
-  font-size: 24px;
-  font-weight: $weight-semibold;
-  line-height: $leading-tight;
-  letter-spacing: $tracking-tight;
-
-  @include respond-to(lg) {
-    font-size: 27px;
-  }
-}
-
-.description {
-  margin-top: space(3);
-  font-size: 15px;
-  line-height: $leading-relaxed;
-  color: c(secondary-text);
-}
-
-.foot {
-  margin-top: auto;
-  padding-top: space(7);
-}
-
-.scope {
-  border-top-width: 1px;
-  border-color: c(lineSoft);
-  padding-top: space(4);
-  font-size: 12px;
-  line-height: $leading-relaxed;
-  color: c(inkSoft);
 }

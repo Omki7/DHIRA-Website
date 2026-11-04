@@ -8,7 +8,16 @@
    one marked line below. A Server Action, so the browser posts to this site
    only (the CSP's `form-action 'self'` holds) and provider keys, once there
    are some, stay on the server. Status copy lives in content/ui.ts
-   `subscribe`. */
+   `subscribe`.
+   Two forms post here (components/SubscribeForm): the footer's, and the
+   /insights one (4 Nov 2026, user) on the index and every article. Both
+   join the same list; `source` records which, since the footer also
+   shows on /insights pages. */
+
+/** Which sign-up form a subscription came from. */
+export type SubscribeSource = "footer" | "insights";
+
+const SOURCES: readonly SubscribeSource[] = ["footer", "insights"];
 
 export type SubscribeState =
   | { status: "idle" }
@@ -40,8 +49,13 @@ export async function subscribe(_previous: SubscribeState, form: FormData): Prom
   const domain = email.slice(email.lastIndexOf("@") + 1);
   if (PERSONAL_DOMAINS.has(domain) || PERSONAL_FAMILIES.test(domain)) return { status: "error", reason: "personal" };
 
+  const source = SOURCES.find((value) => value === form.get("source")) ?? "footer";
+
   /* HAND-OFF: save the sign-up here, e.g. { email, page: form.get("page"),
-     source: "footer" } to the mailing list or CRM, with its keys in
-     lib/env.ts. On failure return { status: "error", reason: "failed" }. */
+     source } to the mailing list or CRM, with its keys in lib/env.ts. Send
+     a confirmation email before adding the address (double opt-in), and an
+     unsubscribe link in every email. On failure return
+     { status: "error", reason: "failed" }. */
+  void source;
   return { status: "done", email };
 }

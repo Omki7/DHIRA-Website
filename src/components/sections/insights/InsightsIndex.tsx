@@ -1,16 +1,14 @@
 import Link from "next/link";
+import { SubscribeForm } from "@/features/newsletter";
 import { FigureEyebrow } from "@/shared/components/ui";
 import { ScrollReveal } from "@/shared/components/ui";
 import { ScrollRevealRail } from "@/shared/components/ui";
 import { SectionHeader } from "@/shared/components/ui";
-import { SectionLink } from "@/shared/components/ui";
 import { TwoToneTitle } from "@/shared/components/ui";
-import { SubscribeForm } from "@/shared/components/forms";
 import type { Insight } from "@/content/collections/insights";
 import type { InsightsPage } from "@/content/pages/insights";
 import { insightCardData } from "@/shared/utils/insights";
 import { formatDate, formatShortDate, readingMinutes } from "@/shared/utils/richText";
-import { absoluteUrl } from "@/config/site";
 import InsightsLibrary from "./InsightsLibrary";
 import { Kicker } from "./InsightCard";
 import InsightCover from "./InsightCover";
@@ -107,15 +105,23 @@ export function InsightsLatest({ insights, content, minRead }: { insights: Insig
   );
 }
 
+/* On /insights and under every article. An email sign-up since 4 Nov 2026
+   (user), in place of copying the feed address; the feed stays as the
+   line under the form. Same list and Server Action as the footer sign-up. */
 export function InsightsSubscribe({ content, num = "02" }: { content: InsightsPage["subscribe"]; num?: string }) {
+  const { feed } = content;
   return (
     <section id="subscribe" className="scroll-mt-24 bg-band pb-16 pt-12 lg:pb-24 lg:pt-16">
       <ScrollRevealRail>
-        <SectionHeader num={num} label={content.label} setup={content.setup} payoff={content.payoff} lede={content.lede}>
-          <SectionLink href={content.rss.href}>{content.rss.link}</SectionLink>
-        </SectionHeader>
-        <SubscribeForm href={absoluteUrl(content.rss.href)} content={content.feed} />
-        <p className="mt-3 text-sm text-inkSoft">{content.note}</p>
+        <SectionHeader num={num} label={content.label} setup={content.setup} payoff={content.payoff} lede={content.lede} />
+        <SubscribeForm copy={content.form} source="insights" variant="section" />
+        <p className="mt-2 text-[12px] leading-5 text-inkSoft">
+          {feed.before}{" "}
+          <a href={feed.href} className="underline decoration-line underline-offset-2 transition-colors duration-200 hover:text-ink">
+            {feed.link}
+          </a>
+          {feed.after}
+        </p>
       </ScrollRevealRail>
     </section>
   );

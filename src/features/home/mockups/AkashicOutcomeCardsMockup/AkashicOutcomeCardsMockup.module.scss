@@ -1,5 +1,8 @@
 @use "assets/styles" as *;
 
+@include keyframes(ps-caret-blink);
+@include keyframes(ps-rise);
+
 // Shared by every file in this folder (the stage, the card and the drawings).
 
 @mixin mono-caption {
@@ -120,7 +123,7 @@
   width: 1px;
   transform: translateY(0.15em);
   background-color: c(blue);
-  animation: global(ps-caret-blink) 0.9s steps(1) infinite;
+  animation: ps-caret-blink 0.9s steps(1) infinite;
 }
 
 .answer {
@@ -229,7 +232,7 @@
 // ps-rise is the global keyframe in src/app/globals.css.
 .captionText {
   display: inline-block;
-  animation: global(ps-rise) 420ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  animation: ps-rise 420ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
 
   @media (prefers-reduced-motion: reduce) {
     animation: none;

@@ -4,9 +4,9 @@ import { GroundworkDrawing } from "../GroundworkDrawing";
 import { StoryLabel, StoryTitle } from "../AkashicStory";
 import styles from "./AkashicBuildVsBuy.module.scss";
 
-/* [07] Why Akashic: header, one drawing with four keyed executive seats,
-   one measure line with the CTA. The drawing owns the reuse argument;
-   see GroundworkDrawing for what each row claims. */
+/* [08] Why Akashic: distinct business initiatives repeat their foundations
+   in isolated delivery, or reuse one platform. The drawing is followed by
+   four documented reasons to build that foundation on Akashic. */
 export interface AkashicBuildVsBuyProps {
   content: AkashicPage["advantage"];
 }
@@ -25,12 +25,6 @@ export function AkashicBuildVsBuy({ content }: AkashicBuildVsBuyProps) {
 
         <GroundworkDrawing content={content} />
 
-        {/* The section ends on its measure line. The "Map your first use
-            case" button went on 20 Oct 2026: the close owns the contact
-            CTA, and no section ends on a button (founder). */}
-        <div className={styles.close}>
-          <p>{content.measure}</p>
-        </div>
       </div>
     </section>
   );

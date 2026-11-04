@@ -28,6 +28,7 @@
    names (never "IPMS"), "Business Intelligence" not "BI", figures in words
    ("1.19 million", not "1.19M"). "AI" is the one exception. */
 
+import type { Region } from "@/shared/utils/region";
 import type { ProvenAtScaleBlock } from "../blocks";
 import type { Cta, Eyebrow, PageSection, TwoTone } from "../types";
 import { solutionModules, type AkashicSolution, type OutcomeShowcase } from "./akashic";
@@ -58,7 +59,6 @@ export interface HomeHero {
   secondary: Cta;
   illustrations: {
     label: string;
-    note: string;
     scrollHint: string;
     modules: HomeHeroModule[];
   };
@@ -141,6 +141,8 @@ export interface HomeService {
   title: string;
   description: string;
   scope: string;
+  /** What the reader leaves this service line with: /services [01]'s line. */
+  output: string;
   href: string;
 }
 
@@ -149,6 +151,9 @@ export interface HomeDelivery {
   title: TwoTone;
   description: string;
   cta: Cta;
+  /** The route the three service lines sit on: where it starts, where it
+      ends, and the key over each line's output. */
+  route: { start: string; end: string; outputLabel: string };
   services: HomeService[];
 }
 
@@ -202,7 +207,6 @@ export interface HomeProof {
   sliderValue: { before: string; after: string };
   dragHint: string;
   summary: string;
-  illustrationLabel: string;
   nodes: ProofNode[];
 }
 
@@ -241,6 +245,8 @@ export interface HomeCareers {
   title: TwoTone;
   cta: Cta;
   rolesHref: string;
+  /** Shown only to visitors in this region (shared/utils/region.ts). Unset: everyone. */
+  audience?: Region;
 }
 
 export interface HomeClose {
@@ -306,7 +312,6 @@ export const home: HomePage = {
     secondary: { label: "Talk to our team", href: "#talk-to-our-team" },
     illustrations: {
       label: "Explore the Akashic modules",
-      note: "Sample business · illustrative",
       scrollHint: "Scroll to explore the modules",
       modules: [
         { kind: "master-data", module: "Master Data", title: "Your business hierarchy", description: "See the relationships between your group, regions and locations." },
@@ -421,7 +426,7 @@ export const home: HomePage = {
         audience: "Public procurement",
         name: "Intelligent Procurement Management System",
         benefit: "Award contracts you can defend, with evidence at every step.",
-        illustrationLabel: "An illustrative tender requirement for prior delivery is linked to a completion certificate in the bid. The evidence trail supports committee review.",
+        illustrationLabel: "A tender requirement for prior delivery is linked to a completion certificate in the bid. The evidence trail supports committee review.",
         href: "/solutions#intelligent-procurement",
         linkLabel: "See the solution",
       },
@@ -447,29 +452,34 @@ export const home: HomePage = {
     /* The reader's own problems, and DHIRA as more than Akashic (user, 21 Oct
        2026: the earlier headers "sound obsessed with Akashic"). It answers
        [03]: those are problems we already solve; this is for the problems
-       only you have. The three cards are the three service lines the nav
-       names, in its order. */
+       only you have. The three stops are the three service lines the nav
+       names, in its order, on one route from the reader's problem to daily
+       use (4 Nov 2026). Each output is /services [01]'s "You leave with". */
     eyebrow: { number: "04", label: "Our services" },
     title: { setup: "Need it built for you?", payoff: "Our engineers plan and build it." },
     description: "Strategy, software and AI for the problems only you have, with or without Akashic. We stay until it works.",
     cta: { label: "Explore our services", href: "/services" },
+    route: { start: "Your problem", end: "In daily use", outputLabel: "You leave with" },
     services: [
       {
         title: "Plan what to build",
         description: "Find where data and AI will pay off, and map the route there.",
         scope: "Strategic Advisory",
+        output: "A prioritised roadmap with scope, dependencies and success measures.",
         href: "/services#advisory",
       },
       {
         title: "Build what you need",
         description: "Software, data platforms and data pipelines, on the stack you choose.",
         scope: "Engineering at Scale",
+        output: "Tested software, connected data and documented technical decisions.",
         href: "/services#engineering",
       },
       {
         title: "Bring AI into your work",
         description: "Assistants and governed workflows, taken from pilot to production.",
         scope: "AI Solutions and Accelerators",
+        output: "An evaluated AI use case in daily work, with human review built in.",
         href: "/services#ai-solutions",
       },
     ],
@@ -551,7 +561,6 @@ export const home: HomePage = {
     sliderValue: { before: "before DHIRA", after: "after DHIRA" },
     dragHint: "Drag",
     summary: "From disconnected tools to a shared, governed foundation.",
-    illustrationLabel: "Illustrative comparison",
     nodes: [
       { id: "systems", icon: "Enterprise", beforeLabel: "Core systems", beforeDetail: "Disconnected records", afterLabel: "Connected sources" },
       { id: "customers", icon: "Customer Stories", beforeLabel: "Customer data", beforeDetail: "Conflicting records", afterLabel: "Governed customer records" },
@@ -651,6 +660,8 @@ export const home: HomePage = {
     title: { setup: "Join the team behind Akashic.", payoff: "Build what national programmes run on." },
     cta: { label: "Explore open roles", href: "/careers" },
     rolesHref: "/careers#open-roles",
+    /* Careers is for India only (4 Nov 2026, user). */
+    audience: "in",
   },
 
   close: {

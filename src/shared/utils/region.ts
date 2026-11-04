@@ -34,6 +34,25 @@ export const REGIONS: Record<Region, { hreflang: string; locale: string }> = {
    suggestion card never shows; the routing stays for the next regional page. */
 export const REGIONAL_PATHS: string[] = [];
 
+/* Content for one audience, on a page everyone shares (4 Nov 2026, user:
+   "careers should only be visible for Indian audience"). An item carries
+   `audience: "in"` and shows only to visitors whose region is India
+   (shared/hooks/useRegion); with no audience it shows to everyone. Static
+   HTML is the international version, so India-only items appear after
+   hydration and never flash for anyone else. The page they lead to stays
+   reachable from a direct link, and nobody is redirected. */
+
+/** Whether an item for `audience` shows to a visitor in `region`. No audience: everyone. */
+export const isShownTo = (audience: Region | undefined, region: Region) => audience === undefined || audience === region;
+
+/** One value for everyone, or one per region. */
+export type Regional<T extends object> = T | Record<Region, T>;
+
+const isPerRegion = <T extends object>(value: Regional<T>): value is Record<Region, T> => "in" in value && "intl" in value;
+
+/** The version of a `Regional` value for a visitor in `region`. */
+export const forRegion = <T extends object>(value: Regional<T>, region: Region): T => (isPerRegion(value) ? value[region] : value);
+
 const trim = (path: string) => path.replace(/\/$/, "") || "/";
 
 /** The path without its region prefix: /in/pricing → /pricing. */

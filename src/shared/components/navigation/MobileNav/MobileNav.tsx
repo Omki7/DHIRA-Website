@@ -11,9 +11,11 @@ import { MenuRow } from "@/shared/components/navigation/MenuPanel";
 import { NavFeatured } from "@/shared/components/navigation/NavFeatured";
 import { RegionLink } from "@/shared/components/navigation/RegionLink";
 import { ThemeSwitch } from "@/shared/components/ui/ThemeSwitch";
+import useRegion from "@/shared/hooks/useRegion";
 import { useUi } from "@/shared/providers/UiProvider";
 import { cx } from "@/shared/utils/cx";
 import { isCurrentSection } from "@/shared/utils/navigation";
+import { forRegion, isShownTo } from "@/shared/utils/region";
 import styles from "./MobileNav.module.scss";
 
 /* Below lg: a full-screen drawer that drills down (Figma / Apple pattern)
@@ -22,7 +24,9 @@ import styles from "./MobileNav.module.scss";
    from the right with a Back control and the same lead, groups and featured
    card as the desktop sheet. Rendered outside the sticky header, because a
    transformed or backdrop-filtered ancestor would trap `position: fixed`.
-   Scroll locked, focus trapped, Escape and route changes close it. */
+   Scroll locked, focus trapped, Escape and route changes close it.
+   Links and featured cards follow the visitor's region, as on the desktop
+   sheet (MenuPanel). */
 
 const FOCUSABLE = "a[href], button:not([disabled])";
 
@@ -38,6 +42,7 @@ export interface MobileNavProps {
 
 export function MobileNav({ menus, cta, brandName, open, pathname, currentHash, onClose }: MobileNavProps) {
   const ui = useUi();
+  const { region } = useRegion();
   const [level, setLevel] = useState<string | null>(null);
   const dialogRef = useRef<HTMLDivElement>(null);
 
@@ -182,17 +187,19 @@ export function MobileNav({ menus, cta, brandName, open, pathname, currentHash, 
                 <div key={group.heading} className={styles.group}>
                   <p className={styles.groupHeading}>{group.heading}</p>
                   <ul className={styles.groupList} onClick={onClose}>
-                    {group.links.map((link) => (
-                      <li key={`${link.label}-${link.href}`} className={styles.groupItem}>
-                        <MenuRow link={link} pathname={pathname} currentHash={currentHash} />
-                      </li>
-                    ))}
+                    {group.links
+                      .filter((link) => isShownTo(link.audience, region))
+                      .map((link) => (
+                        <li key={`${link.label}-${link.href}`} className={styles.groupItem}>
+                          <MenuRow link={link} pathname={pathname} currentHash={currentHash} />
+                        </li>
+                      ))}
                   </ul>
                 </div>
               ))}
 
               <div className={styles.featured} onClick={onClose}>
-                <NavFeatured feature={menu.feature} drawn={active} />
+                <NavFeatured feature={forRegion(menu.feature, region)} drawn={active} />
               </div>
             </div>
           );

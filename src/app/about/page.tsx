@@ -2,14 +2,12 @@ import "@/components/sections/about/about-page.css";
 import type { Metadata } from "next";
 import { Footer } from "@/app/_components/Footer";
 import { Nav } from "@/app/_components/Nav";
+import { AboutClose, AboutCulture, AboutLeadership } from "@/features/about";
 import { PageMinimap } from "@/shared/components/navigation";
-import AboutClose from "@/components/sections/about/AboutClose";
 import AboutConviction from "@/components/sections/about/AboutConviction";
-import AboutCulture from "@/components/sections/about/AboutCulture";
 import AboutHero from "@/components/sections/about/AboutHero";
 import AboutJourney from "@/components/sections/about/AboutJourney";
 import AboutMotion from "@/components/sections/about/AboutMotion";
-import AboutPeople from "@/components/sections/about/AboutPeople";
 import AboutVision from "@/components/sections/about/AboutVision";
 import { getLeaders, getPage } from "@/services/content/content";
 import { pageMetadata } from "@/app/_lib/metadata";
@@ -29,7 +27,7 @@ export default async function AboutPage() {
         <AboutConviction content={page.conviction} />
         <AboutJourney content={page.journey} />
         <AboutVision content={page.vision} />
-        <AboutPeople content={page.people} leaders={leaders} />
+        <AboutLeadership content={page.people} leaders={leaders} />
         <AboutCulture content={page.culture} />
         <AboutClose content={page.close} />
       </main>

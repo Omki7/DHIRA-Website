@@ -23,6 +23,7 @@ export function Hero({ content }: HeroProps) {
             href={badge.href}
             className={styles.badge}
           >
+            <span aria-hidden className={styles.badgeArc} />
             <span className={styles.badgeInner}>
               <span className={styles.badgeLead}>{badge.lead}</span>
               <span className={styles.badgeProduct}>{nameOrWordmark(badge.product)}</span>
@@ -73,7 +74,6 @@ export function Hero({ content }: HeroProps) {
               {secondary.label}
             </Link>
           </div>
-          <p className={styles.note}>{content.illustrations.note}</p>
         </div>
       </ScrollRevealRail>
       <HomeHeroTeasersMockup content={content.illustrations} />

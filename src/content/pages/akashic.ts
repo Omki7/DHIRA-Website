@@ -171,23 +171,29 @@ export interface AkashicAgents extends StoryHeading {
   coda: string;
 }
 
-/* `pin` names the part of the [08] drawing a seat's line is about. */
-export type SeatPin = "rebuilt" | "band" | "define" | "work";
-
+/** [08] Distinct business initiatives, with isolated or shared foundations. */
 export interface AkashicAdvantage extends StoryHeading {
   intro: string;
   figureCaption: string;
-  cornerLabel: string;
-  useCases: { name: string; preview: boolean }[];
-  /** Top to bottom, as drawn: the groundwork builds up from Connect. */
-  layers: string[];
-  rows: { project: { name: string; note: string }; akashic: { name: string; note: string } };
-  bandNote: string;
-  governance: string;
-  controls: string;
-  legend: { work: string; rebuilt: string; shared: string; preview: string };
-  seats: { role: string; pin: SeatPin; line: string }[];
-  measure: string;
+  rows: {
+    project: { name: string; note: string };
+    akashic: { name: string; note: string };
+  };
+  projects: { id: string; owner: string; name: string; work: string; icon: ArchitectureIconKey }[];
+  assets: {
+    id: string;
+    name: string;
+    repeated: string;
+    shared: string;
+    component: string;
+    icon: ArchitectureIconKey;
+    tone: "data" | "know" | "gov";
+  }[];
+  rebuildLabel: string;
+  projectWorkLabel: string;
+  foundation: { title: string; note: string };
+  reasonsTitle: string;
+  reasons: { title: string; body: string; icon: ArchitectureIconKey }[];
 }
 
 /** The outcome-card stage (demos/mockups/AkashicOutcomeCardsMockup), shown
@@ -257,18 +263,32 @@ export interface AkashicPage {
   };
   architecture: StoryHeading & {
     intro: string;
-    sourcesLabel: string;
-    sources: string[];
-    layers: { number: string; name: string; verb: string; desc: string }[];
-    context: string[];
-    explore: string;
-    governanceLabel: string;
-    governance: string;
-    controls: string;
-    exploreGovernance: string;
-    coda: string;
-    /** The module cards in the data and intelligence rows. */
-    modules: { data: LayerModule[]; intelligence: LayerModule[] };
+    /** The section's one onward link, under the figure (user, 4 Nov 2026). */
+    link: Cta;
+    /** Accessible summary of the whole figure. */
+    figureLabel: string;
+    /** The platform's own header inside its frame. */
+    platform: { tagline: string; count: string };
+    /** The top row: every team, ordered from the boardroom to the front line. */
+    users: ArchitectureLayer & { teams: ArchitectureFacet[] };
+    /** The four layers Akashic runs, top to bottom. */
+    /** Governance: its module, then the six controls every request passes. */
+    governance: ArchitectureLayer & { module: ArchitectureModule; controls: ArchitectureFacet[] };
+    intelligence: ArchitectureLayer & {
+      modules: ArchitectureModule[];
+      /** The preview strip under the three modules; links to [05]. */
+      agents: { name: string; line: string; href: string };
+    };
+    /** Not a module: the shared layer Master Data builds. */
+    knowledge: ArchitectureLayer & { note: string; parts: ArchitectureFacet[] };
+    data: ArchitectureLayer & { modules: ArchitectureModule[] };
+    /** The bottom row: the systems Akashic reads from, by kind. */
+    systems: ArchitectureLayer & { groups: { name: string; items: ArchitectureSource[] }[] };
+    /** One question, down through every layer and back up: one step per
+        row (users, governance, intelligence, knowledge, data, systems),
+        then `back` on the return leg. `motion` names what the pause
+        control stops. */
+    flow: { label: string; motion: string; steps: ArchitectureStep[]; back: ArchitectureStep };
   };
   agents: AkashicAgents;
   trust: StoryHeading & AkashicSecurity;
@@ -323,7 +343,59 @@ export interface AskWorld {
   chips: { icon: IconKey; label: string }[];
 }
 
-/* [04] module entries: high-level summaries of [10]'s datasheet, terse
+/** [04] Glyph keys of the architecture figure's own icon set
+    (features/akashic/…/AkashicModules/ArchitectureIcon). Keys, not copy. */
+export type ArchitectureIconKey =
+  | "executives" | "finance" | "sales" | "marketing" | "operations" | "supply-chain"
+  | "people" | "risk" | "service" | "analysts" | "data-teams" | "front-line"
+  | "governance" | "access" | "masking" | "lineage" | "audit" | "quality" | "residency"
+  | "business-intelligence" | "ask-akashic" | "machine-learning" | "agents"
+  | "entities" | "relationships" | "definitions" | "history"
+  | "data-pipelines" | "master-data" | "data-warehouse"
+  | "documents";
+
+/** [04] One module in the architecture overview: its name, one plain
+    outcome, existing anchors and the link to its detailed [10] sheet. */
+export interface ArchitectureModule {
+  /** The module's anchor: its one name in kebab case (`/akashic#master-data`). */
+  anchor: string;
+  /** Older anchors that still land on this module. */
+  aliases: string[];
+  icon: ArchitectureIconKey;
+  /** Its [10] sheet: `#reference-<reference>`. */
+  reference: string;
+  name: string;
+  line: string;
+}
+
+/** [04] A layer's key (its one-word name) and what it does for you. */
+export interface ArchitectureLayer {
+  key: string;
+  verb: string;
+}
+
+/** [04] A named part inside a row: a team, a governance control, a part of
+    the knowledge layer. `detail` is the plain line under the name. */
+export interface ArchitectureFacet {
+  icon: ArchitectureIconKey;
+  name: string;
+  detail?: string;
+}
+
+/** [04] A system feeding the platform: its name and its grey mark (a real
+    connector logo, or one of the figure's own glyphs). */
+export interface ArchitectureSource {
+  name: string;
+  logo: ConnectorLogoId | "documents";
+}
+
+/** [04] One step of the question's path; `key` is its one-word verb. */
+export interface ArchitectureStep {
+  key: string;
+  text: string;
+}
+
+/* Module entries for /akashic/1-0: high-level summaries of [10]'s datasheet, terse
    noun phrases only (user direction, Jul 2026), and no vendor or
    technology names ([10] is the only place technology is named). */
 export interface LayerModule {
@@ -1011,29 +1083,151 @@ export const akashic: AkashicPage = {
     summary: { setup: "Your data stays where you need it.", payoff: "The platform on top of it never changes." },
   },
 
+  /* [04] Redrawn 4 Nov 2026 (user: the per-team traces left the figure
+     "hollow and timid"; show the layers the way leading platforms show
+     theirs: Databricks, Microsoft Fabric, Salesforce). Read top to bottom:
+     every team, then the four layers Akashic runs (Governance,
+     Intelligence, Knowledge, Data), then your systems. ONE question runs
+     down through every layer and comes back up answered: no team gets its
+     own path. Each layer has a named tab and connected components; the
+     layers share one blue ramp, strongest at the top (theme.css arch-*). Modules keep one outcome; capability lists
+     remain in [10]. The systems row includes all named [10] connectors
+     and document-ingestion types. */
   architecture: {
     number: "04",
     label: "The architecture",
     setup: "You get seven modules",
     title: "and nothing to stitch together.",
-    intro: "Data, context and AI share one foundation, so the seven modules arrive already joined. Governance carries through every layer.",
-    sourcesLabel: "Your sources",
-    sources: ["Business systems", "Databases", "Documents", "Event streams"],
-    layers: [
-      { number: "01", name: "Data", verb: "Bring the records together.", desc: "Ingest, resolve and model the data your organisation runs on." },
-      { number: "02", name: "Knowledge", verb: "Give every record context.", desc: "Connect entities, definitions and history in a governed knowledge layer." },
-      { number: "03", name: "Intelligence", verb: "Put AI to work.", desc: "Models, AI answers and dashboards draw from the same foundation." },
-    ],
-    context: ["Entities", "Relationships", "Definitions", "History"],
-    explore: "Explore capabilities",
-    governanceLabel: "Every layer / Governance",
-    governance: "Governance runs through every layer.",
-    controls: "Access control · Lineage · Audit · Residency",
-    exploreGovernance: "Explore governance",
-    /* The page's one explicit agent line: agents ship in preview, the
-       groundwork they depend on is live. */
-    coda: "Agents, in preview. The groundwork they need, already live.",
-    modules: { data: dataLayerModules, intelligence: intelligenceLayerModules },
+    intro: "Bring data, analytics and AI together on one governed foundation. Seven connected modules give every team a consistent view of the business.",
+    link: { label: "See every module in detail", href: "#stack" },
+    figureLabel:
+      "The Akashic architecture, read top to bottom. Every team, from executives to front-line staff, asks at the top. Akashic runs four layers. Governance checks every request. Intelligence answers with Business Intelligence, Ask Akashic and Machine Learning, with AI agents in preview. The knowledge layer gives every record its meaning. Data brings the records together with Data Pipelines, Master Data and Data Warehouse. Your systems, such as SAP, Salesforce, PostgreSQL and Apache Kafka, feed in at the bottom. One question travels down through every layer, and the answer comes back up, traceable to its source.",
+    platform: { tagline: "The governed data and AI platform", count: "Seven modules · four layers" },
+    /* Ordered from the boardroom to the front line (user, 4 Nov 2026:
+       "wide spread teams of organization from executive to everyone else"). */
+    users: {
+      key: "Every team",
+      verb: "From leaders to front-line teams.",
+      teams: [
+        { icon: "executives", name: "Executives" },
+        { icon: "finance", name: "Finance" },
+        { icon: "sales", name: "Sales" },
+        { icon: "marketing", name: "Marketing" },
+        { icon: "operations", name: "Operations" },
+        { icon: "supply-chain", name: "Supply chain" },
+        { icon: "people", name: "Human resources" },
+        { icon: "risk", name: "Risk and compliance" },
+        { icon: "service", name: "Customer service" },
+        { icon: "analysts", name: "Analysts" },
+        { icon: "data-teams", name: "Data teams" },
+        { icon: "front-line", name: "Front-line staff" },
+      ],
+    },
+    /* The six controls, each from the Governance [10] sheet: role-based
+       access, PII masking, column-level lineage, the audit log, freshness
+       and drift tests, in-region deployment. */
+    governance: {
+      key: "Governance",
+      verb: "Protect and trace your data.",
+      module: {
+        anchor: "governance", aliases: ["modules-governance"], icon: "governance", reference: "governance",
+        name: "Governance",
+        line: "Access, quality and lineage across every module.",
+      },
+      controls: [
+        { icon: "access", name: "Access rules" },
+        { icon: "masking", name: "Data masking" },
+        { icon: "lineage", name: "Lineage" },
+        { icon: "audit", name: "Audit log" },
+        { icon: "quality", name: "Data quality" },
+        { icon: "residency", name: "Data residency" },
+      ],
+    },
+    intelligence: {
+      key: "Intelligence",
+      verb: "Analyse, ask and predict.",
+      modules: [
+        { anchor: "business-intelligence", aliases: ["modules-business-intelligence"], icon: "business-intelligence", reference: "bi", name: "Business Intelligence", line: "Shared metrics, dashboards and alerts." },
+        { anchor: "ask-akashic", aliases: ["modules-ask-akashic", "ask-ai"], icon: "ask-akashic", reference: "ask", name: "Ask Akashic", line: "Ask in plain language. Get cited answers." },
+        { anchor: "machine-learning", aliases: ["modules-machine-learning"], icon: "machine-learning", reference: "ml", name: "Machine Learning", line: "Build, track and monitor predictive models." },
+      ],
+      /* [04]'s one agent line: explicitly preview, and a person decides
+         (DESIGN_SYSTEM §1). [05] tells the rest. */
+      agents: { name: "AI agents", line: "Shared foundation. Human approval.", href: "#agents" },
+    },
+    knowledge: {
+      key: "Knowledge",
+      verb: "Share the same meaning.",
+      note: "Shared context, built by Master Data",
+      parts: [
+        { icon: "entities", name: "Entities", detail: "People, products, places" },
+        { icon: "relationships", name: "Relationships", detail: "How records connect" },
+        { icon: "definitions", name: "Definitions", detail: "Agreed business terms" },
+        { icon: "history", name: "History", detail: "Changes over time" },
+      ],
+    },
+    data: {
+      key: "Data",
+      verb: "Connect and unify records.",
+      modules: [
+        { anchor: "data-pipelines", aliases: ["modules-data-pipelines"], icon: "data-pipelines", reference: "pipelines", name: "Data Pipelines", line: "Bring in data from systems, documents and streams." },
+        { anchor: "master-data", aliases: ["modules-master-data"], icon: "master-data", reference: "master-data", name: "Master Data", line: "One trusted record for each customer, citizen or asset." },
+        { anchor: "data-warehouse", aliases: ["modules-data-warehouse", "data-warehousing"], icon: "data-warehouse", reference: "warehouse", name: "Data Warehouse", line: "Store governed data and define metrics once." },
+      ],
+    },
+    /* All named source and warehouse connectors from [10], plus its four
+       unstructured ingestion types. No inferred vendor integrations. */
+    systems: {
+      key: "Your systems",
+      verb: "Connect the stack you already run.",
+      groups: [
+        { name: "Applications", items: [
+          { name: "Salesforce", logo: "salesforce" },
+          { name: "SAP", logo: "sap" },
+          { name: "Oracle NetSuite", logo: "oracle" },
+          { name: "HubSpot", logo: "hubspot" },
+          { name: "Workday", logo: "generic" },
+          { name: "Zendesk", logo: "zendesk" },
+        ] },
+        { name: "Databases", items: [
+          { name: "PostgreSQL", logo: "postgresql" },
+          { name: "MySQL", logo: "mysql" },
+          { name: "MongoDB", logo: "mongodb" },
+        ] },
+        { name: "Warehouses", items: [
+          { name: "Snowflake", logo: "snowflake" },
+          { name: "BigQuery", logo: "bigquery" },
+          { name: "Databricks", logo: "databricks" },
+          { name: "Amazon Redshift", logo: "redshift" },
+          { name: "Azure Synapse", logo: "azure" },
+        ] },
+        { name: "Files and documents", items: [
+          { name: "Amazon S3", logo: "s3" },
+          { name: "Google Sheets", logo: "sheets" },
+          { name: "PDF documents", logo: "documents" },
+          { name: "Office documents", logo: "documents" },
+          { name: "Email", logo: "documents" },
+          { name: "Scanned documents", logo: "documents" },
+        ] },
+        { name: "Streams and events", items: [
+          { name: "Apache Kafka", logo: "kafka" },
+          { name: "REST and webhooks", logo: "generic" },
+        ] },
+      ],
+    },
+    flow: {
+      label: "Question to answer",
+      motion: "the question's path",
+      steps: [
+        { key: "Ask", text: "Ask a business question." },
+        { key: "Check", text: "Apply access rules." },
+        { key: "Answer", text: "Choose the right analysis." },
+        { key: "Understand", text: "Use shared definitions." },
+        { key: "Match", text: "Resolve the records." },
+        { key: "Source", text: "Read from your systems." },
+      ],
+      back: { key: "Return", text: "Return a traceable answer." },
+    },
   },
 
   agents: {
@@ -1092,42 +1286,71 @@ export const akashic: AkashicPage = {
     close: "Own your data. Own your standards. Keep your freedom to choose.",
   },
 
-  /* [08] Why Akashic. One drawing carries the whole argument (30 Sep 2026):
-     the same four use cases, built project by project and on Akashic. The
-     fourth use case is AI agents, drawn dashed because agents are in
-     preview. No savings figure: the reader is told what to measure instead
-     (Design Rule 4). */
+  /* [08] Why Akashic. Rebuilt 4 Nov 2026 after an executive review found the
+     grid of hatched layers hard to read (jargon rows, a four-swatch legend
+     and numbered pins to decode). Now two timelines of the same four use
+     cases: project by project, each starts by rebuilding its groundwork; on
+     Akashic, the groundwork is laid once and each use case adds only its
+     own work. The difference is drawn, not claimed: exactly three rounds of
+     groundwork. No savings figure (Design Rule 4) and the axis says the
+     bars are schematic. AI agents are dashed and tagged: in preview. */
   advantage: {
     number: "08",
     label: "Why Akashic",
-    setup: "Lay the groundwork once,",
-    title: "then build every use case on top.",
-    intro: "Connections, records and definitions carry forward. Each new dashboard, model or AI use case starts where the last one finished.",
-    figureCaption:
-      "Four use cases (dashboards, forecasts, AI answers and AI agents), built two ways. Project by project, each use case rebuilds its own connect, unify and define groundwork. With Akashic, the groundwork is laid once and every use case builds only its own work on top. AI agents are in preview.",
-    cornerLabel: "Use case",
-    useCases: [
-      { name: "Dashboards", preview: false },
-      { name: "Forecasts", preview: false },
-      { name: "AI answers", preview: false },
-      { name: "AI agents", preview: true },
-    ],
-    layers: ["Define", "Unify", "Connect"],
+    setup: "Build a foundation that lasts",
+    title: "beyond the first project.",
+    intro: "Akashic turns data connections, trusted records and business rules into shared assets. New initiatives extend that foundation instead of recreating it.",
+    figureCaption: "Three distinct business initiatives: revenue assurance for finance, customer retention for customer success, and service performance for operations. In isolated project delivery, each team rebuilds source connections, customer matching, business definitions and access controls. On Akashic, those assets form one governed foundation that all three initiatives can reuse and extend. Each initiative still needs its own data and business logic. This is an architectural comparison, not a delivery-time or cost estimate.",
     rows: {
-      project: { name: "Project by project", note: "Groundwork rebuilt every time" },
-      akashic: { name: "With Akashic", note: "Groundwork laid once, reused" },
+      project: {
+        name: "Project by project",
+        note: "When the foundation stays inside each project, the next team repeats the setup.",
+      },
+      akashic: {
+        name: "One foundation across projects",
+        note: "Keep the common groundwork. Add the data and logic each initiative needs.",
+      },
     },
-    bandNote: "Reused by the next use case",
-    governance: "Governance throughout",
-    controls: "Permissions · Lineage · Audit",
-    legend: { work: "New work", rebuilt: "Groundwork, rebuilt", shared: "Groundwork, laid once", preview: "In preview" },
-    seats: [
-      { role: "CFO", pin: "rebuilt", line: "Pay for the groundwork once, not per project." },
-      { role: "CIO / CTO", pin: "band", line: "Keep your systems. One partner delivers the platform." },
-      { role: "CDO / AI lead", pin: "define", line: "Models, AI answers and agents read one set of definitions." },
-      { role: "CEO / COO", pin: "work", line: "One figure in every meeting, traced to its source." },
+    projects: [
+      { id: "revenue", owner: "Finance", name: "Revenue assurance", work: "Billing rules and leakage checks", icon: "finance" },
+      { id: "retention", owner: "Customer success", name: "Customer retention", work: "Churn signals and interventions", icon: "people" },
+      { id: "service", owner: "Service operations", name: "Service performance", work: "Case priorities and response targets", icon: "service" },
     ],
-    measure: "Measure the difference on your own work: cost per use case, time to the next.",
+    assets: [
+      { id: "connections", name: "Source connections", repeated: "Connect the sources", shared: "Sales, billing and service data.", component: "Data Pipelines", icon: "data-pipelines", tone: "data" },
+      { id: "records", name: "Trusted records", repeated: "Match the customers", shared: "One customer and account identity.", component: "Master Data", icon: "master-data", tone: "data" },
+      { id: "meaning", name: "Business definitions", repeated: "Define the business terms", shared: "Shared terms, metrics and relationships.", component: "Knowledge layer", icon: "definitions", tone: "know" },
+      { id: "controls", name: "Access and lineage", repeated: "Set access and traceability", shared: "Policies and evidence across projects.", component: "Governance", icon: "governance", tone: "gov" },
+    ],
+    rebuildLabel: "Foundation rebuilt for this project",
+    projectWorkLabel: "Project-specific work",
+    foundation: {
+      title: "Build once. Reuse and extend.",
+      note: "New sources, definitions and controls can be added as the work grows.",
+    },
+    reasonsTitle: "Shared assets, with ownership and control.",
+    reasons: [
+      {
+        title: "Customer identity is built in.",
+        body: "Master Data resolves duplicate records and account hierarchies, so each project can start from the same trusted customer.",
+        icon: "master-data",
+      },
+      {
+        title: "Business context reaches AI.",
+        body: "The knowledge layer carries agreed definitions and relationships into analytics and AI. The next team inherits the meaning as well as the data.",
+        icon: "definitions",
+      },
+      {
+        title: "The foundation fits your boundary.",
+        body: "Run the same platform in your cloud, on premises or across both. Build around the requirements of your organisation.",
+        icon: "residency",
+      },
+      {
+        title: "One team carries it into production.",
+        body: "DHIRA builds Akashic and delivers the systems on top, with one team accountable for the platform and its implementation.",
+        icon: "people",
+      },
+    ],
   },
 
   scale: {

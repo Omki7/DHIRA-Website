@@ -1,0 +1,307 @@
+@use "assets/styles" as *;
+
+@include keyframes(spin);
+
+.hero {
+  position: relative;
+  overflow: hidden;
+  background-color: c(background);
+}
+
+// Wide enough for the headline to set on two lines at 1440, as on /akashic.
+.inner {
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  max-width: 1040px;
+  flex-direction: column;
+  align-items: center;
+  padding-top: space(16);
+  padding-bottom: space(16);
+  text-align: center;
+
+  @include respond-to(sm) {
+    padding-top: space(20);
+  }
+
+  @include respond-to(md) {
+    padding-top: space(24);
+  }
+
+  @include respond-to(lg) {
+    padding-bottom: space(24);
+  }
+}
+
+// --- The pill: the homepage and /akashic badge -------------------------
+.badge {
+  position: relative;
+  margin-bottom: space(8);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 9999px;
+  // The 1px rim is this padding over the rim colour, so the travelling arc
+  // can run along it.
+  padding: 1px;
+  background-color: c(card-line);
+}
+
+.badgeArc {
+  @include travelling-arc;
+}
+
+.badgeInner {
+  position: relative;
+  display: flex;
+  align-items: center;
+  border-radius: 9999px;
+  background-color: c(background);
+  padding: space(1.5) space(3.5);
+  @include text(xs);
+  font-weight: $weight-semibold;
+  color: c(ink);
+
+  @include respond-to(sm) {
+    @include text(sm);
+  }
+}
+
+// --- Headline and lede: the /akashic hero sizes --------------------------
+.title {
+  width: 100%;
+  text-wrap: balance;
+  font-size: 38px;
+  font-weight: $weight-medium;
+  line-height: 1.1;
+  letter-spacing: $tracking-tightest;
+  color: c(ink);
+
+  @include respond-to(sm) {
+    font-size: 3rem;
+    line-height: 1;
+  }
+
+  @include respond-to(md) {
+    font-size: 3.75rem;
+  }
+
+  @include respond-to(lg) {
+    font-size: 64px;
+  }
+}
+
+.titleBreak {
+  @include respond-to(sm) {
+    display: block;
+  }
+}
+
+// text-base, then leading-relaxed; text-lg from sm sets the line-height too.
+.lede {
+  margin-top: space(6);
+  max-width: 38em;
+  text-wrap: balance;
+  @include text(base);
+  line-height: $leading-relaxed;
+  color: c(secondary-text);
+
+  @include respond-to(sm) {
+    @include text(lg);
+  }
+
+  @include respond-to(md) {
+    margin-top: space(8);
+  }
+}
+
+.sources {
+  display: inline-flex;
+  transform: translateY(-1px);
+  align-items: center;
+  gap: space(1.5);
+  vertical-align: middle;
+}
+
+.source {
+  display: inline-flex;
+  height: space(7);
+  width: space(7);
+  align-items: center;
+  justify-content: center;
+  border-radius: $radius-tile;
+  border: 1px solid c(card-line);
+  background-color: c(background);
+}
+
+.sourceLogo {
+  position: relative;
+  display: block;
+  height: space(4);
+  width: space(4);
+}
+
+.sourceImage {
+  object-fit: contain;
+}
+
+.actions {
+  margin-top: space(8);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: space(4);
+
+  @include respond-to(md) {
+    margin-top: space(10);
+  }
+}
+
+// --- The ask bar -----------------------------------------------------
+.ask {
+  margin-top: space(14);
+  width: 100%;
+
+  @include respond-to(md) {
+    margin-top: space(16);
+  }
+}
+
+.askRow {
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  width: 100%;
+  max-width: 680px;
+  align-items: center;
+  gap: space(2);
+}
+
+.askBar {
+  display: flex;
+  min-width: 0;
+  flex: 1 1 0%;
+  align-items: center;
+  gap: space(3);
+  border-radius: 9999px;
+  border: 1px solid c(card-line);
+  background-color: c(primary-bg);
+  padding: space(1.5) space(1.5) space(1.5) space(4);
+}
+
+.askIcon {
+  height: space(4);
+  width: space(4);
+  flex-shrink: 0;
+  color: c(tertiary-text);
+}
+
+.askTag {
+  display: none;
+  flex-shrink: 0;
+  border-radius: $radius-micro;
+  border: 1px solid c(blue-border);
+  background-color: c(blue-subtle);
+  padding: space(0.5) space(1.5);
+  font-family: $font-mono;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: c(blue);
+
+  @include respond-to(sm) {
+    display: inline;
+  }
+}
+
+.askText {
+  display: flex;
+  min-width: 0;
+  flex: 1 1 0%;
+  align-items: center;
+  text-align: left;
+  @include text(sm);
+  color: c(ink);
+
+  @include respond-to(sm) {
+    font-size: 15px;
+  }
+}
+
+.askTyped {
+  @include truncate;
+}
+
+.caret {
+  margin-left: space(0.5);
+  display: inline-block;
+  height: 1.1em;
+  width: 1px;
+  flex-shrink: 0;
+  background-color: c(blue);
+}
+
+.askGo {
+  display: flex;
+  height: space(9);
+  width: space(9);
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  background-color: c(action);
+  color: c(on-action);
+  @include transition-colors($duration-200);
+  @include focus-ring;
+
+  &:hover {
+    background-color: c(action-hover);
+  }
+}
+
+.connectors {
+  margin-top: space(3);
+  font-family: $font-mono;
+  font-size: 11px;
+  color: c(tertiary-text);
+}
+
+// --- One outcome each ------------------------------------------------
+.outcomes {
+  margin-top: space(14);
+  display: grid;
+  width: 100%;
+  max-width: 896px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: space(6);
+  border-top: 1px solid c(lineSoft);
+  padding-top: space(8);
+  text-align: left;
+
+  @include respond-to(sm) {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.outcome {
+  border-left: 1px dashed c(lineSoft);
+  padding-left: space(4);
+}
+
+.outcomeLabel {
+  display: block;
+  font-family: $font-mono;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: c(inkSoft);
+}
+
+.outcomeBody {
+  margin-top: space(1.5);
+  font-size: 13px;
+  line-height: $leading-snug;
+  color: c(secondary-text);
+}

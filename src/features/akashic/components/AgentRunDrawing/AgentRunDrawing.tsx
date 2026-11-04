@@ -159,7 +159,7 @@ export function AgentRunDrawing({ content: c }: AgentRunDrawingProps) {
       </ol>
 
       <div className={styles.foundation}>
-        <span className={styles.smallLabel}>{c.foundation.label}</span>
+        <p className={styles.smallLabel}>{c.foundation.label}</p>
         <AgentList agents={c.foundation.agents} start={1.3} preview={c.preview} />
       </div>
 

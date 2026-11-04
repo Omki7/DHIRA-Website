@@ -95,7 +95,7 @@ knows about features.
 | Validation                          | Zod                                                                                                                                               | 3.25.76            | `src/config/env.ts`                                                                              |
 | Server state                        | None (build-time content, React `cache()`)                                                                                                        | —                  | `src/services/content/content.ts`                                                                |
 | Client state                        | `useState`, React Context, `useSyncExternalStore` stores                                                                                          | —                  | `src/shared/providers/UiProvider/`, `src/shared/utils/theme.ts`, `src/shared/hooks/useRegion.ts` |
-| Forms                               | Native forms; one Server Action                                                                                                                   | —                  | `ContactForm.tsx`, `src/services/subscribe/subscribe.ts`                                         |
+| Forms                               | Native forms; two Server Actions (contact with spam filtering; email sign-up in the footer and on /insights), delivery simulated                  | —                  | `features/contact/actions/contact.action.ts`, `features/newsletter/actions/subscribe.action.ts`  |
 | HTTP client / TanStack Query / auth | None                                                                                                                                              | —                  | No backend calls, no login                                                                       |
 | Lint / format                       | ESLint 9 flat config (`eslint-config-next` 16.4.4 + layer, import-order and no-cycle rules), Prettier 3.9.10, knip 5.88.1                         | —                  | `eslint.config.mjs`, `.prettierrc.json`, `knip.json`                                             |
 | Testing                             | None                                                                                                                                              | —                  | No test runner or test files                                                                     |
@@ -126,14 +126,14 @@ src/
     region/                   RegionSuggest, RegionSwitch
   shared/
     components/               SCSS Modules, ComponentName/ folders; import from the group barrel
-      ui/                     16: FigureEyebrow, SectionHeader, SectionLink, SectionCoda, TwoToneTitle,
+      ui/                     18: FigureEyebrow, SectionHeader, SectionLink, SectionCoda, TwoToneTitle,
                               Tag, PreviewTag, PageHero, PageClose, DrawingSetClose, MotionToggle,
                               RotatingPhrase, ScrollReveal, ScrollRevealRail, ThemeSwitch,
-                              OffscreenAnimationGate
+                              OffscreenAnimationGate, RegionOnly, DrawnFigure (flips `data-drawn`
+                              once in view so the `.ad-*` kit plays; the drawing stays server-side)
       navigation/             10: NavBar (split), MegaSheet, MenuPanel, MobileNav, NavFeatured,
                               AnnouncementBar, FooterContent, PageMinimap, RegionLink, HashLanding
       data-display/           FaqSection, RichText, JsonLd, ShareLinks
-      forms/                  SubscribeForm
       icons/                  DhiraLogo, AkashicLogo, AkashicWordmark, AssistantLogo,
                               CloudProviderLogos, ConnectorLogo, DynamicSketchIcon, NavIcons
     providers/UiProvider/     UiProvider + useUi() (interface strings for Client Components)
@@ -190,7 +190,7 @@ before the move and still name the old paths. Read them through this table:
 | Component files     | One flat file per component, 196 of 211 default exports, inline prop types; 15 files over 300 lines (largest 1,293)                                                                          | Weakness (§16)                                                                                      |
 | Styling             | Tailwind utility classes everywhere, tokens as CSS variables (light + dark), 2 page-scoped CSS files                                                                                         | Consistent; SCSS Modules migration approved (ADR-03)                                                |
 | Error / loading     | `error.tsx` (branded) and `not-found.tsx`; no `global-error.tsx`; no `loading.tsx` (nothing streams)                                                                                         | Add `global-error.tsx` (P-04)                                                                       |
-| Forms               | Native validation; contact submit SIMULATED; careers "Apply" points at `#talk-to-our-team`                                                                                                   | Real submission missing (P-06)                                                                      |
+| Forms               | Contact form validates with Zod in the browser and the Server Action and filters spam (4 Nov 2026); delivery SIMULATED; careers "Apply" points at `#talk-to-our-team`                       | Real delivery missing (P-06)                                                                        |
 | Environment         | One reader (`config/env.ts`), Zod-validated, public value only, documented in `.env.example`                                                                                                 | Good                                                                                                |
 | Security            | CSP, HSTS, `nosniff`, `X-Frame-Options: DENY`, `Referrer-Policy`, `Permissions-Policy`; JSON-LD escapes `<`; external links `noopener noreferrer`; production `npm audit`: 0 vulnerabilities | Good                                                                                                |
 | Fonts               | Google Fonts `<link>`, not `next/font`: `next/font` has no Google Sans Text or Google Sans Mono (comment in `app/layout.tsx`)                                                                | Justified exception                                                                                 |
@@ -473,7 +473,8 @@ Feature-specific calls stay in `features/<x>/api/`.
 
 **Server Actions** (`"use server"`) handle form posts and other mutations.
 
-- **Current:** `src/services/subscribe/subscribe.ts` (footer sign-up). It checks the address and refuses personal mailboxes on the server; the save is SIMULATED.
+- **Current:** `features/newsletter/actions/subscribe.action.ts` (the email sign-up, one `SubscribeForm` in the footer and on /insights, told apart by `source`). It checks the address and refuses personal mailboxes on the server; the save is SIMULATED.
+- **Current:** `features/contact/actions/contact.action.ts` (the contact form, 4 Nov 2026). Bot traps (honeypot, minimum fill time) drop bots with a fake success; Zod validation (`schemas/contact.schema.ts`) returns field errors; content flags (`utils/spam.ts`, `server-only`) mark likely spam for review without blocking it. Delivery is SIMULATED at its `HAND-OFF` line (docs/STATE_AND_DATA.md, Forms).
 - **Target:** feature-owned, `features/newsletter/actions/subscribe.action.ts`; the contact form gets `features/contact/actions/contact.action.ts` when its backend is chosen.
 - Rules: validate every input on the server with Zod (client validation is convenience only); return typed result states, never throw raw errors to the client; keep provider keys server-side; the browser posts only to this origin (CSP `form-action 'self'`).
 
@@ -521,9 +522,13 @@ params when touched (P-09).
 
 ## 15. Forms and validation
 
-**Current:** two native forms. `ContactForm` uses `required` and
-`type="email"` and disables submit while pending (submission SIMULATED).
-`FooterSubscribe` posts to the Server Action, which validates on the server.
+**Current:** two native forms, both posting to Server Actions.
+`ContactForm` checks `schemas/contact.schema.ts` before it sends (the rules
+the server applies again), maps field errors onto fields, moves focus to the
+first, and calls its action from the submit handler inside a transition, so
+the controlled fields and the modal's progress bar keep working (no React
+Hook Form yet; delivery SIMULATED). `FooterSubscribe` posts to its Server
+Action, which validates on the server.
 
 **Target:**
 
@@ -579,12 +584,14 @@ names them in `tailwind.config.ts`. Two page-scoped CSS files
 
 Rules:
 
-- Colours only through `c(<token>)`; values stay in `theme.css`, so both appearances keep working.
+- Colours only through `c(<token>)`; values stay in `theme.css`, so both appearances keep working. The token is the CSS variable's name in `theme.css` (`inkSoft`, `lineSoft`), not a Tailwind alias (`primary-text` is `ink`) or a kebab-case guess (`ink-soft`). Alpha is `c(blue, 0.15)`, never `rgba(var(--blue), 0.15)`: the variables hold space-separated channels, so the comma form is invalid and the browser drops the whole declaration (a border or tint silently disappears).
+- Keyframes: CSS Modules scope animation names to their file, so a module cannot reference a keyframe in `globals.css`, and `animation: global(name)` compiles to `animation: none`. Emit the keyframe into the module with `@include keyframes(<name>);` (`assets/styles/_keyframes.scss`) and reference it by name.
+- Converting a Tailwind class list: Tailwind's text steps set a line-height with the size (`text-sm` is 14px/20px, and `sm:text-5xl` resets an earlier `leading-*` to 1), and `border-dashed`/`border-<colour>` apply to every side, so keep them on every side when a breakpoint moves the border.
 - Spacing, radius, type, motion and breakpoints from `_tokens.scss`; no hardcoded design values.
 - Class names in camelCase (`styles.cardHeader`); no global class leakage.
 - **One component, one system:** a component is either fully Tailwind (not yet migrated) or fully SCSS Module. Never both in one file.
 - Tailwind and `globals.css` are removed when the last feature is migrated (§26 Phase 4).
-- The design kernel in AGENTS.md (flat colour, blue-black darks, one soft blue band per page, reduced motion) applies unchanged.
+- The design rules in AGENTS.md and docs/DESIGN_SYSTEM.md (flat colour, blue-black darks, one soft blue band per page, reduced motion) apply unchanged.
 
 ---
 
@@ -722,6 +729,8 @@ Every task, in order:
 | ADR-11 | 03 Nov 2026 | `contact`, `newsletter` and `region` became features in Phase 2 (ahead of Phase 3)                                                                     | They lived in the dissolved `components/layout/`; the kit may not depend on them         | Done (Phase 2)                                   |
 | ADR-12 | 03 Nov 2026 | Kit components are named exports through group barrels (`@/shared/components/ui`); inside `shared/`, siblings import by folder path                    | Barrels for consumers; folder paths inside avoid import cycles                           | Done (Phase 2)                                   |
 | ADR-13 | 03 Nov 2026 | A Tailwind caller that overrides a migrated SCSS-Module kit component on the same property uses `!` (important) until the caller migrates              | Module CSS loads after the Tailwind utilities, so equal-specificity overrides would lose | Applied once (`ServicesCapabilities` Tag height) |
+| ADR-14 | 04 Nov 2026 | India-only content on shared pages: an `audience` field in content, filtered on the client (`shared/ui/RegionOnly`, `isShownTo`, `forRegion`); static HTML is the international version; no middleware, no redirects | User: careers for the Indian audience only. Keeps every route static; reuses the time-zone region detection | Done (careers) |
+| ADR-15 | 04 Nov 2026 | Contact form spam filtering in its Server Action: invisible bot traps, server-side Zod, content flags that tag rather than block; no CAPTCHA or third-party service yet | User: about 50 spam messages a day on the live site. No account or CSP change needed; Turnstile is the next layer if needed | Done (delivery still simulated) |
 
 ---
 
@@ -733,7 +742,7 @@ Each phase ends with typecheck, lint, knip and build green, and a pause for revi
 | ------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------- |
 | 1. Foundation | `src/` layers, `config/env.ts` (Zod), Sass tokens and mixins, Prettier, ESLint layer/order/cycle rules, `.gitattributes`, Next.js 16.4.4                                                                                                                                                                                                                                                                                                                                               | **Done** (uncommitted) |
 | 2. Shared kit | `components/{ui,icons,layout}` → `shared/components/{ui,icons,navigation,data-display,forms}` as `ComponentName/` folders, named exports, SCSS Modules; `contact`, `newsletter`, `region` features; `app/_components` shells. Verified pixel-equivalent: computed-style fingerprints of all 33 routes at 1440 and 375 px, mega menus, mobile drawer and contact modal match the pre-migration build                                                                                    | **Done** (uncommitted) |
-| 3. Features   | One or two features per step (§7.2): components, mockups, page composition and styles move together; route files become thin; `(site)` group layout (P-01). Batch 1 **done**: `features/home` (sections, mockups, `pages/HomePage`) and `features/proof` (`ProvenAtScale`), verified against the previous build at 1440 and 375 px. Next: 2 `akashic` (+ 1.0 release), 3 `services`/`about`/`careers`, 4 `solutions` (hub, EIS, Life), 5 `sectors`, 6 resource pages + `(site)` layout | In progress            |
+| 3. Features   | One or two features per step (§7.2): components, mockups, page composition and styles move together; route files become thin; `(site)` group layout (P-01). Batch 1 **done**: `features/home` (sections, mockups, `pages/HomePage`) and `features/proof` (`ProvenAtScale`), verified against the previous build at 1440 and 375 px. `features/about` started early (4 Nov 2026): /about [04] to [06] were redesigned straight into it as SCSS Modules; the hero and [01] to [03] still import from `components/sections/about`. `features/solutions` (4 Nov 2026): Enterprise Intelligence [02] `EisGap` was redesigned straight into it, and the rest of /solutions/enterprise-intelligence moved in as SCSS Modules (`pages/EnterpriseIntelligencePage`); the solutions hub and /solutions/life are still legacy. Next: 2 `akashic` (+ 1.0 release), 3 `services`/`about` (rest)/`careers`, 4 `solutions` (hub, EIS, Life), 5 `sectors`, 6 resource pages + `(site)` layout | In progress            |
 | 4. Quality    | `global-error.tsx`, Zod + React Hook Form for contact, tests + CI, remove Tailwind and `globals.css`, run Prettier, update AGENTS.md and docs/ paths                                                                                                                                                                                                                                                                                                                                   | Pending                |
 
 ### Outstanding recommendations

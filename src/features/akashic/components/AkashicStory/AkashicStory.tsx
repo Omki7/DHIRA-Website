@@ -35,11 +35,13 @@ export function StoryLabel({
 export interface StoryTitleProps {
   setup: string;
   children: ReactNode;
+  /** `reference`: the technical reference section's quieter setup line. */
+  tone?: "light" | "reference";
 }
 
-export function StoryTitle({ setup, children }: StoryTitleProps) {
+export function StoryTitle({ setup, children, tone = "light" }: StoryTitleProps) {
   return (
-    <h2 className={styles.title}>
+    <h2 className={tone === "reference" ? `${styles.title} ${styles.titleReference}` : styles.title}>
       <span>{setup}</span>
       <br />
       {children}

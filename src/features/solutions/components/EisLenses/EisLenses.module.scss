@@ -1,0 +1,26 @@
+@use "assets/styles" as *;
+
+// Section padding 48 / 64px, 64 / 96px from lg (DESIGN_SYSTEM §3).
+.section {
+  position: relative;
+  width: 100%;
+  scroll-margin-top: space(24);
+  overflow: clip;
+  background-color: c(background);
+  padding-top: space(12);
+  padding-bottom: space(16);
+
+  @include respond-to(lg) {
+    padding-top: space(16);
+    padding-bottom: space(24);
+  }
+}
+
+// Header to content: 48px, 56px from lg.
+.figure {
+  margin-top: space(12);
+
+  @include respond-to(lg) {
+    margin-top: space(14);
+  }
+}

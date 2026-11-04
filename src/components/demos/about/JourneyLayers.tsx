@@ -2,8 +2,9 @@
 
 /* Calendar-scaled terraces accumulate on native scroll. Equal thickness is not a metric. */
 
-import { createContext, useContext, useEffect, useId, useRef, useState, type PointerEvent, type ReactNode } from "react";
+import { createContext, useContext, useEffect, useId, useMemo, useRef, useState, type PointerEvent } from "react";
 import type { JourneyLayer, JourneyTimeline } from "@/content/pages/about";
+import { PreviewTag } from "@/shared/components/ui";
 
 /* The chronology is content (content/pages/about.ts journey.timeline). Pure
    geometry helpers take it as `tl`; the drawing's parts read it from context. */
@@ -19,7 +20,7 @@ const AHEAD = "Ahead";
 const T1 = 2028.4;
 /* Room kept left of the 2018 step for the founding label. */
 const LABEL_ROOM = 208;
-const horizonWidth = (width: number) => Math.max(228, width * 0.19);
+const horizonWidth = (width: number) => Math.max(48, width * 0.065);
 
 /* The time origin: 2016 on wide screens, earlier on narrow ones, so the
    founding label always has its room. The emblem carries no labels. */
@@ -31,10 +32,16 @@ function origin(tl: JourneyTimeline, width: number, compact: boolean) {
   return Math.min(2016, founding - lead);
 }
 const YEARS = [2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026];
-const SCROLL_STEP = 150;
-const erasOf = (tl: JourneyTimeline) => [...tl.eras, { ...tl.aheadEra, from: tl.today, to: T1 - 0.15 }];
-/* Mono label widths, estimated from the face: 0.6em advance plus tracking. */
-const monoWidth = (text: string, size: number, tracking: number) => text.length * size * (0.6 + tracking);
+const SCROLL_STEP = 180;
+const PIN_TOP = 104;
+/* Room kept under the pinned stage. */
+const PIN_BOTTOM = 24;
+/* Terrace thickness on the pinned stage. Short windows (a laptop at 150%
+   scaling is about 780px tall) get thinner terraces, down to the label
+   height, so the stage still fits and the year-by-year reading still runs. */
+const LAYER_MAX = 34;
+const LAYER_MIN = 26;
+const FIGURE_TOP = 42;
 
 /* Lighter as the stack rises: the foundation is the darkest ground. */
 const PLATFORM_FILLS = Array.from({ length: 7 }, (_, i) => `var(--journey-platform-${i})`);
@@ -108,12 +115,20 @@ function buildScene(tl: JourneyTimeline, width: number, compact: boolean, L: num
 
   const floor = baseline + tl.proven.length * L;
   const ruler = floor + (compact ? 12 : 24);
-  const eras = ruler + 36;
-  const height = compact ? ruler + 18 : eras + 14;
-  return { width, height, compact, L, top, baseline, floor, ruler, eras, summit, x, built, proven, ahead, today: x(tl.today) };
+  const height = compact ? ruler + 18 : ruler + 30;
+  return { width, height, compact, L, top, baseline, floor, ruler, summit, x, built, proven, ahead, today: x(tl.today) };
 }
 
 type Scene = ReturnType<typeof buildScene>;
+
+/* The pinned figure's height for a terrace thickness (independent of width). */
+const figureHeight = (tl: JourneyTimeline, L: number) => buildScene(tl, 1, false, L, FIGURE_TOP).height;
+
+/* The thickest terraces whose figure fits the given height. */
+function layerThickness(tl: JourneyTimeline, room: number) {
+  for (let L = LAYER_MAX; L > LAYER_MIN; L--) if (figureHeight(tl, L) <= room) return L;
+  return LAYER_MIN;
+}
 
 /* Which layers stay lit while one is hovered: everything it stands on. */
 function lit(tl: JourneyTimeline, focus: string | null, id: string) {
@@ -164,13 +179,14 @@ function Label({ layerId, title, year, right, top, visible = true, focus, setFoc
 }
 
 /* Dates and titles share one baseline, centred on their terrace. */
-function Layers({ scene, focus, setFocus, currentYear = AHEAD }: Focus & { scene: Scene; currentYear?: string }) {
+function Layers({ scene, focus, setFocus, currentYear = AHEAD, overview = true }: Focus & { scene: Scene; currentYear?: string; overview?: boolean }) {
   const tl = useTimeline();
   const uid = useId().replace(/[^a-zA-Z0-9_-]/g, "");
   const { width, height, L, compact } = scene;
   const launch = scene.x(tl.launch.at);
   const akashic = scene.built[1];
   const band = (id: string) => (compact ? {} : hover(id, setFocus));
+  const showLabel = (layer: JourneyLayer) => overview || layer.year === currentYear || focus === layer.id;
 
   return (
     <>
@@ -187,10 +203,15 @@ function Layers({ scene, focus, setFocus, currentYear = AHEAD }: Focus & { scene
           </clipPath>
         </defs>
 
+        {/* The quiet contour keeps the whole landscape legible before its history fills in. */}
+        {!compact && [...scene.built, ...scene.proven].map(({ layer, edge }) => (
+          <path key={`contour-${layer.id}`} d={edge} fill="none" className="stroke-lineSoft" strokeWidth="1" />
+        ))}
+
         {scene.proven.map(({ layer, area, edge }, j) => (
           <g key={layer.id} className="jl-layer" data-revealed={reached(layer.year, currentYear)} data-dim={!lit(tl, focus, layer.id)} {...band(layer.id)}>
             <path d={area} fill={PROGRAMME_FILLS[j]} />
-            <path d={edge} fill="none" className="stroke-overcast/60" strokeWidth="1" strokeLinejoin="round" />
+            <path d={edge} fill="none" className={layer.year === currentYear ? "stroke-secondary-text" : "stroke-line"} strokeWidth="1" strokeLinejoin="round" />
           </g>
         ))}
 
@@ -209,7 +230,7 @@ function Layers({ scene, focus, setFocus, currentYear = AHEAD }: Focus & { scene
               <path
                 d={edge}
                 fill="none"
-                className={k === tl.built.length - 1 ? "stroke-blue-hover/90" : "stroke-blue/60"}
+                className={layer.year === currentYear ? "stroke-blue" : "stroke-blue-border"}
                 strokeWidth="1"
                 strokeLinejoin="round"
               />
@@ -231,7 +252,7 @@ function Layers({ scene, focus, setFocus, currentYear = AHEAD }: Focus & { scene
               layerId={layer.id}
               title={layer.title}
               year={layer.year}
-              visible={reached(layer.year, currentYear)}
+              visible={reached(layer.year, currentYear) && showLabel(layer)}
               right={width - anchor + 14}
               top={mid - 12}
               focus={focus}
@@ -241,7 +262,7 @@ function Layers({ scene, focus, setFocus, currentYear = AHEAD }: Focus & { scene
           <div
             className="jl-label pointer-events-auto absolute flex items-baseline gap-3 whitespace-nowrap"
             data-dim={!lit(tl, focus, "akashic")}
-            data-revealed={reached("2022", currentYear)}
+            data-revealed={reached("2022", currentYear) && (overview || currentYear === "2022" || focus === "launch")}
             style={{ left: launch + 12, top: akashic.mid - 12 }}
             {...hover("launch", setFocus)}
           >
@@ -256,31 +277,14 @@ function Layers({ scene, focus, setFocus, currentYear = AHEAD }: Focus & { scene
 
 /* The open horizon is deliberately undated. */
 function Ahead({ scene, currentYear = AHEAD }: { scene: Scene; currentYear?: string }) {
-  const tl = useTimeline();
-  const { width, height, compact, today, summit } = scene;
+  const { width, height } = scene;
   const visible = currentYear === "Ahead";
   return (
     <div className="jl-ahead pointer-events-none absolute inset-0" data-revealed={visible}>
       <svg className="absolute inset-0 overflow-visible" width={width} height={height} viewBox={`0 0 ${width} ${height}`} aria-hidden>
-        <path d={scene.ahead.area} className="fill-blue-subtle/60" />
+        <path d={scene.ahead.area} className="fill-blue-subtle" />
         <path d={scene.ahead.edge} fill="none" className="stroke-blue" strokeWidth="1.25" strokeDasharray="4 6" strokeLinecap="round" />
       </svg>
-      {!compact && (
-        <div className="absolute" style={{ left: today + 34, right: 0, top: summit + 26 }}>
-          <p className="font-mono text-[11px] font-medium uppercase leading-4 tracking-[0.08em] text-blue-hover">{tl.horizon.label}</p>
-          <h3 className="mt-2 max-w-[220px] font-heading text-[22px] font-medium leading-[1.2] tracking-[-0.025em] text-ink">{tl.horizon.title}</h3>
-          <ol className="jl-principles mt-5 space-y-4">
-            {tl.direction.map((item) => (
-              <li key={item.title} className="relative">
-                <span className="absolute -left-[18px] top-[7px] h-[7px] w-[7px] rounded-full border border-blue/70 bg-background" />
-                <p className="font-heading text-[16px] font-medium leading-[22px] tracking-[-0.01em] text-ink">{item.title}</p>
-                <p className="mt-1 text-[14px] leading-5 text-secondary-text">{item.description}</p>
-              </li>
-            ))}
-          </ol>
-        </div>
-      )}
-      {!compact && <p className="absolute bg-background px-2 font-mono text-[11px] leading-[14px] tracking-normal text-secondary-text" style={{ left: today + 20, top: scene.ruler - 7 }}>{tl.horizon.status}</p>}
     </div>
   );
 }
@@ -300,9 +304,8 @@ function Today({ scene, currentYear }: { scene: Scene; currentYear: string }) {
 }
 
 function Ruler({ scene, currentYear = AHEAD }: { scene: Scene; currentYear?: string }) {
-  const tl = useTimeline();
-  const { x, ruler, eras, width, height, compact, today } = scene;
-  const shown = compact ? YEARS.filter((year) => year % 2 === 0) : YEARS;
+  const { x, ruler, width, height, compact, today } = scene;
+  const shown = YEARS.filter((year) => compact ? year % 2 === 0 : year % 4 === 2);
   return (
     <div className="jl-ruler pointer-events-none absolute inset-0" aria-hidden>
       <svg className="absolute inset-0 overflow-visible" width={width} height={height} viewBox={`0 0 ${width} ${height}`}>
@@ -311,19 +314,6 @@ function Ruler({ scene, currentYear = AHEAD }: { scene: Scene; currentYear?: str
         {YEARS.map((year) => (
           <line key={year} x1={x(year)} x2={x(year)} y1={ruler} y2={ruler + (compact ? 4 : 6)} className="stroke-line" strokeWidth="1" />
         ))}
-        {!compact &&
-          erasOf(tl).map((era) => {
-            const a = x(era.from);
-            const b = x(era.to);
-            const open = era.label === "Ahead";
-            return (
-              <g key={era.label} className="stroke-line" strokeWidth="1">
-                <line x1={a} x2={b} y1={eras} y2={eras} strokeDasharray={open ? "1 5" : undefined} strokeLinecap={open ? "round" : undefined} />
-                {/* One slash per boundary, drawn by the era that starts there; Ahead stays open. */}
-                <line x1={a - 3} x2={a + 3} y1={eras + 3} y2={eras - 3} />
-              </g>
-            );
-          })}
       </svg>
       {shown.map((year) => (
         <span
@@ -336,21 +326,6 @@ function Ruler({ scene, currentYear = AHEAD }: { scene: Scene; currentYear?: str
           {year}
         </span>
       ))}
-      {!compact &&
-        erasOf(tl).map((era) => {
-          // Full name, then the short one, then none: a label never crosses its neighbour.
-          const span = x(era.to) - x(era.from) - 8;
-          const text = [era.label, era.short].find((name) => monoWidth(name, 11, 0.08) + 16 <= span);
-          return text ? (
-            <span
-              key={era.label}
-              className="absolute -translate-x-1/2 -translate-y-1/2 whitespace-nowrap bg-background px-2 font-mono text-[11px] uppercase leading-none tracking-[0.08em] text-secondary-text"
-              style={{ left: (x(era.from) + x(era.to)) / 2, top: eras }}
-            >
-              {text}
-            </span>
-          ) : null;
-        })}
     </div>
   );
 }
@@ -369,68 +344,81 @@ function useWidth<T extends HTMLElement>() {
 }
 
 /* The drawing accumulates with native page scroll. No wheel or touch interception. */
-export default function JourneyLayers({ heading, timeline: tl }: { heading: ReactNode; timeline: JourneyTimeline }) {
+export default function JourneyLayers({ timeline: tl }: { timeline: JourneyTimeline }) {
   const lastStep = tl.steps.length - 1;
   const scrollTravel = SCROLL_STEP * (lastStep + 1);
   const [frame, width] = useWidth<HTMLDivElement>();
   const track = useRef<HTMLDivElement>(null);
   const stage = useRef<HTMLDivElement>(null);
-  const head = useRef<HTMLDivElement>(null);
-  const [headHeight, setHeadHeight] = useState(0);
-  const [layerHeight, setLayerHeight] = useState(42);
+  const composition = useRef<HTMLDivElement>(null);
+  const reading = useRef<HTMLDivElement>(null);
   const [canScroll, setCanScroll] = useState(false);
   const [fits, setFits] = useState(false);
+  const [layer, setLayer] = useState(LAYER_MAX);
   const [overview, setOverview] = useState(false);
   const [active, setActive] = useState(0);
   const [focus, setFocus] = useState<string | null>(null);
+  const [manual, setManual] = useState(false);
+  const [keyboard, setKeyboard] = useState(false);
+  const panelId = useId();
   const enhanced = canScroll && fits && !overview;
-  const currentYear = enhanced ? tl.steps[active].year : "Ahead";
-  const wide = width >= 1080;
-  const L = layerHeight;
-  const top = wide ? Math.max(44, headHeight + 34 - (tl.built.length - 1) * L) : 44;
-  const scene = width > 0 ? buildScene(tl, width, false, L, top) : null;
-  const headRoom = scene && wide ? scene.x(tl.built[2].from) - 184 : 0;
-
-  useEffect(() => {
-    const node = head.current;
-    if (!node) return;
-    const observer = new ResizeObserver(() => setHeadHeight(node.offsetHeight));
-    observer.observe(node);
-    return () => observer.disconnect();
-  }, []);
+  const complete = overview || (!enhanced && !manual);
+  const currentYear = complete ? AHEAD : tl.steps[active].year;
+  const readingIndex = complete ? lastStep : active;
+  // Geometry is independent of the scroll position and pointer focus.
+  const scene = useMemo(() => width > 0 ? buildScene(tl, width, false, layer, FIGURE_TOP) : null, [tl, width, layer]);
 
   useEffect(() => {
     const node = stage.current;
-    if (!node) return;
-    const measure = () => setFits(node.offsetHeight <= window.innerHeight - 96);
+    const grid = composition.current;
+    const column = reading.current;
+    if (!node || !grid || !column) return;
+    const measure = () => {
+      // Fit from the predicted height, so a resize never unpins for a frame
+      // before the terraces adjust.
+      const room = window.innerHeight - PIN_TOP - PIN_BOTTOM;
+      const chrome = node.offsetHeight - grid.offsetHeight;
+      const nextLayer = layerThickness(tl, room - chrome);
+      const nextFits = chrome + Math.max(column.offsetHeight, figureHeight(tl, nextLayer)) <= room;
+      const scrollTrack = track.current;
+      if (!nextFits && scrollTrack?.dataset.enhanced === "true") {
+        const bounds = scrollTrack.getBoundingClientRect();
+        if (bounds.top <= PIN_TOP && bounds.bottom + scrollTravel > PIN_TOP) {
+          window.scrollTo({ top: Math.max(0, bounds.top + window.scrollY - PIN_TOP), behavior: "instant" });
+        }
+      }
+      setLayer(nextLayer);
+      setFits(nextFits);
+    };
     const observer = new ResizeObserver(measure);
     observer.observe(node);
     window.addEventListener("resize", measure);
     measure();
     return () => { observer.disconnect(); window.removeEventListener("resize", measure); };
-  }, []);
+  }, [scrollTravel, tl]);
 
   useEffect(() => {
-    const viewport = matchMedia("(min-width: 1200px) and (min-height: 820px)");
+    // Height is settled by the fit above; this only rules out tiny windows.
+    const viewport = matchMedia("(min-width: 1200px) and (min-height: 640px)");
     const reduced = matchMedia("(prefers-reduced-motion: reduce)");
     const update = () => {
       const enable = viewport.matches && !reduced.matches;
       const node = track.current;
       if (!enable && node?.dataset.enhanced === "true") {
         const bounds = node.getBoundingClientRect();
-        if (bounds.top <= 88 && bounds.bottom > 88) {
-          window.scrollTo({ top: Math.max(0, bounds.top + window.scrollY - 88), behavior: "instant" });
+        // The reduced-motion CSS may already have collapsed the travel spacer.
+        if (bounds.top <= PIN_TOP && bounds.bottom + scrollTravel > PIN_TOP) {
+          window.scrollTo({ top: Math.max(0, bounds.top + window.scrollY - PIN_TOP), behavior: "instant" });
         }
       }
       setCanScroll(enable);
-      setLayerHeight(window.innerHeight < 880 ? 38 : 42);
     };
     update();
     viewport.addEventListener("change", update);
     reduced.addEventListener("change", update);
     window.addEventListener("resize", update);
     return () => { viewport.removeEventListener("change", update); reduced.removeEventListener("change", update); window.removeEventListener("resize", update); };
-  }, []);
+  }, [scrollTravel]);
 
   useEffect(() => {
     if (!enhanced) return;
@@ -438,12 +426,16 @@ export default function JourneyLayers({ heading, timeline: tl }: { heading: Reac
     const pinned = stage.current;
     if (!node || !pinned) return;
     let frameId = 0;
+    let previous = -1;
     const update = () => {
       frameId = 0;
-      const offset = parseFloat(getComputedStyle(pinned).top) || 88;
-      const progress = Math.max(0, offset - node.getBoundingClientRect().top);
-      setActive(Math.min(lastStep, Math.floor(progress / SCROLL_STEP)));
-      setFocus(null);
+      const progress = Math.max(0, PIN_TOP - node.getBoundingClientRect().top);
+      const next = Math.min(lastStep, Math.floor(progress / SCROLL_STEP));
+      if (next !== previous) {
+        previous = next;
+        setActive(next);
+        setFocus(null);
+      }
     };
     const schedule = () => { if (!frameId) frameId = requestAnimationFrame(update); };
     update();
@@ -452,48 +444,79 @@ export default function JourneyLayers({ heading, timeline: tl }: { heading: Reac
     return () => { cancelAnimationFrame(frameId); window.removeEventListener("scroll", schedule); window.removeEventListener("resize", schedule); };
   }, [enhanced, lastStep]);
 
-  const toggleOverview = () => {
+  const toggleOverview = (fromKeyboard: boolean) => {
     const node = track.current;
     if (!node) return;
-    const start = node.getBoundingClientRect().top + window.scrollY - 88;
-    setOverview(!overview);
+    const start = node.getBoundingClientRect().top + window.scrollY - PIN_TOP;
+    setKeyboard(fromKeyboard);
+    setOverview(!complete);
     setFocus(null);
+    setManual(complete);
     // Preserve this section when removing its extra scroll distance.
     window.scrollTo({ top: Math.max(0, start), behavior: "instant" });
   };
 
+  const selectYear = (index: number, fromKeyboard: boolean) => {
+    setKeyboard(fromKeyboard);
+    setManual(true);
+    setOverview(false);
+    setFocus(null);
+    setActive(index);
+    if (canScroll && fits && track.current) {
+      const start = track.current.getBoundingClientRect().top + window.scrollY - PIN_TOP;
+      // Wait for the scroll track to return when leaving the complete view.
+      requestAnimationFrame(() => window.scrollTo({ top: start + index * SCROLL_STEP + 1, behavior: "instant" }));
+    }
+  };
+
   return (
     <TimelineContext.Provider value={tl}>
-    <div ref={track} className="jl-track" data-enhanced={enhanced} data-interactive={canScroll}>
+    <div ref={track} className="jl-track" data-enhanced={enhanced} data-keyboard={keyboard}>
       <div ref={stage} className="jl-stage" data-year={currentYear}>
-        <div className="relative">
-          <div ref={head} className={wide ? "absolute left-0 top-0 z-10" : "relative"} style={wide ? { width: Math.min(570, headRoom) } : undefined}>
-            {heading}
-            {canScroll && <div className="jl-reading mt-6 border-l-2 border-blue pl-4" aria-hidden="true">
-              <div className="grid">
-                {tl.steps.map((step, index) => <div key={step.year} className="jl-reading-step col-start-1 row-start-1" data-current={enhanced ? active === index : index === lastStep}>
-                  <p className="mb-2 font-mono text-[13px] uppercase tracking-[0.04em] text-blue-hover">{step.year === AHEAD ? tl.reading.horizon : step.year}</p>
-                  <p className="font-heading text-[19px] font-medium leading-[1.3] tracking-[-0.015em] text-ink">{step.title}</p>
-                  <p className="mt-2 max-w-[390px] text-[15px] leading-[1.6] text-secondary-text">{step.description}</p>
+        <div ref={composition} className="jl-composition">
+          <div ref={reading} id={panelId} className="jl-reading" aria-live={manual ? "polite" : "off"}>
+            <div className="grid">
+              {tl.steps.map((step, index) => <div key={step.year} className="jl-reading-step col-start-1 row-start-1" data-current={readingIndex === index} aria-hidden={readingIndex !== index}>
+                <p className="jl-chapter-year">{step.year === AHEAD ? tl.aheadEra.label : step.year}</p>
+                <h3 className="jl-chapter-title">{step.year === AHEAD ? tl.horizon.title : step.title}</h3>
+                <p className="jl-chapter-description">{step.description}</p>
+                {step.year === AHEAD && <>
+                  <div className="jl-horizon-status"><PreviewTag /><span>{tl.horizon.status}</span></div>
+                  <dl className="jl-principles">
+                    {tl.direction.map((item) => <div key={item.title}>
+                      <dt>{item.title}</dt>
+                      <dd>{item.description}</dd>
+                    </div>)}
+                  </dl>
+                </>}
                 </div>)}
-              </div>
-            </div>}
+            </div>
           </div>
-          <div ref={frame} className={`jl-figure relative hidden lg:block ${wide ? "" : "mt-12"}`} style={{ height: scene ? scene.height : 650 }} aria-hidden="true">
+          <div ref={frame} className="jl-figure relative" style={{ height: scene ? scene.height : 510 }} aria-hidden="true">
             {scene && <>
               <Ruler scene={scene} currentYear={currentYear} />
               <div className="pointer-events-none absolute inset-0">
-                <Layers scene={scene} currentYear={currentYear} focus={focus} setFocus={setFocus} />
+                <Layers scene={scene} currentYear={currentYear} overview={complete} focus={focus} setFocus={setFocus} />
               </div>
               <Today scene={scene} currentYear={currentYear} />
               <Ahead scene={scene} currentYear={currentYear} />
             </>}
           </div>
         </div>
-        {canScroll && <div className="jl-controls mt-5 flex min-h-[53px] items-center justify-between gap-6 border-t border-lineSoft pt-2">
-          <p className="flex items-center gap-3 text-[13px] text-secondary-text"><span aria-hidden="true">↓</span>{enhanced ? active === lastStep ? tl.reading.end : tl.reading.scroll : tl.reading.overview}</p>
-          {fits && <button type="button" onClick={toggleOverview} aria-pressed={overview} className="min-h-11 shrink-0 rounded-sm px-1 text-[13px] font-medium text-ink underline decoration-line underline-offset-4 transition-colors hover:text-blue-hover hover:decoration-blue-hover focus-visible:text-blue-hover motion-reduce:transition-none">{overview ? tl.reading.explore : tl.reading.showAll}</button>}
-        </div>}
+        <div className="jl-controls">
+          <div className="jl-years" role="group" aria-label={tl.reading.overview}>
+            {tl.steps.map((step, index) => <button
+              key={step.year}
+              type="button"
+              className="jl-year"
+              aria-label={`${step.year}: ${step.title}`}
+              aria-pressed={!complete && active === index}
+              aria-controls={panelId}
+              onClick={(event) => selectYear(index, event.detail === 0)}
+            >{step.year}</button>)}
+          </div>
+          <button type="button" onClick={(event) => toggleOverview(event.detail === 0)} aria-pressed={complete} className="jl-overview">{complete ? tl.reading.explore : tl.reading.showAll}</button>
+        </div>
       </div>
       {enhanced && <div className="jl-travel" style={{ height: scrollTravel }} aria-hidden="true" />}
     </div>

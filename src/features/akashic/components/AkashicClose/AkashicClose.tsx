@@ -11,7 +11,7 @@ export interface AkashicCloseProps {
 export function AkashicClose({ content: c }: AkashicCloseProps) {
   return (
     <section id="talk-to-our-team" className={styles.section}>
-      <span id="login" />
+      <span id="login" className={styles.anchor} />
       <div className={styles.wrap}>
         <ScrollReveal>
           <div className={styles.card}>

@@ -169,7 +169,6 @@ export function TheProof({ content: HOME_PROOF }: TheProofProps) {
                 button (founder). */}
             <div className={styles.caption}>
               <p className={styles.summary}>{HOME_PROOF.summary}</p>
-              <p className={styles.label}>{HOME_PROOF.illustrationLabel}</p>
             </div>
           </div>
         </ScrollReveal>

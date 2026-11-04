@@ -116,7 +116,7 @@ export function AkashicStack({ content: c }: AkashicStackProps) {
         <ScrollReveal>
           <StoryLabel number={c.number}>{c.label}</StoryLabel>
           <div className={styles.heading}>
-            <StoryTitle setup={c.setup}>{c.title}</StoryTitle>
+            <StoryTitle setup={c.setup} tone="reference">{c.title}</StoryTitle>
             <p className={styles.intro}>{c.intro}</p>
           </div>
         </ScrollReveal>

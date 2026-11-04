@@ -1,5 +1,7 @@
 @use "assets/styles" as *;
 
+@include keyframes(softpulse);
+
 // Shared by every file in this folder: the seven teasers and their shell.
 
 // --- One type scale ----------------------------------------------
@@ -419,7 +421,7 @@
 .pulse {
   height: space(1.5);
   width: space(1.5);
-  animation: global(softpulse) 2.4s infinite;
+  animation: softpulse 2.4s infinite;
   border-radius: 9999px;
   background-color: c(positive);
 

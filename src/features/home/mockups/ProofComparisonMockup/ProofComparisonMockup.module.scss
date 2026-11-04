@@ -1,5 +1,7 @@
 @use "assets/styles" as *;
 
+@include keyframes(proofNudge);
+
 @mixin mono-caption($size) {
   font-family: $font-mono;
   font-size: $size;
@@ -297,7 +299,7 @@
 // proofNudge is the global keyframe in src/app/globals.css.
 .nudge {
   @include motion-safe {
-    animation: global(proofNudge) 1.5s ease-in-out 3;
+    animation: proofNudge 1.5s ease-in-out 3;
   }
 }
 

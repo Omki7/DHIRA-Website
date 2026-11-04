@@ -1,0 +1,150 @@
+@use "assets/styles" as *;
+
+// The homepage closing card's geometry (features/home Closure).
+.section {
+  position: relative;
+  scroll-margin-top: space(24);
+  background-color: c(background);
+  padding-top: space(10);
+  padding-bottom: space(12);
+
+  @include respond-to(lg) {
+    padding-top: space(14);
+    padding-bottom: space(16);
+  }
+}
+
+.card {
+  overflow: hidden;
+  border-radius: $radius-outer;
+  border: 1px solid c(line);
+  background-color: c(vault);
+  padding: space(16) space(6);
+
+  @include respond-to(md) {
+    padding-top: space(20);
+    padding-bottom: space(20);
+  }
+
+  @include respond-to(lg) {
+    padding-top: space(24);
+    padding-bottom: space(24);
+  }
+}
+
+.content {
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  max-width: 54rem;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.kicker {
+  margin-bottom: space(8);
+  display: inline-flex;
+  align-items: center;
+  border-radius: 9999px;
+  border: 1px solid c(line);
+  background-color: c(background);
+  padding: space(1) space(3);
+  font-family: $font-mono;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: $tracking-eyebrow;
+  color: c(secondary-text);
+}
+
+// Two tones, soft setup then ink payoff (DESIGN_SYSTEM §5).
+.title {
+  text-wrap: balance;
+  font-size: 40px;
+  font-weight: $weight-medium;
+  line-height: 1.05;
+  letter-spacing: $tracking-tighter;
+
+  @include respond-to(sm) {
+    font-size: 54px;
+  }
+
+  @include respond-to(lg) {
+    font-size: 60px;
+  }
+}
+
+.titleSetup {
+  color: c(inkSoft);
+}
+
+.titlePayoff {
+  color: c(ink);
+}
+
+.rule {
+  margin-top: space(6);
+  height: 1px;
+  width: min(420px, 70%);
+  background-color: c(blue);
+}
+
+// text-base, then leading-relaxed; text-lg from md sets the line-height too.
+.prompt {
+  margin-top: space(7);
+  max-width: 34em;
+  @include text(base);
+  line-height: $leading-relaxed;
+  color: c(secondary-text);
+
+  @include respond-to(md) {
+    @include text(lg);
+  }
+}
+
+.actions {
+  margin-top: space(10);
+  display: flex;
+  justify-content: center;
+}
+
+// Hairline spec rows, one mono key each (DESIGN_SYSTEM §7, Lists).
+.timeline {
+  margin-top: space(12);
+  width: 100%;
+  max-width: 32rem;
+  text-align: left;
+}
+
+.step {
+  display: flex;
+  align-items: baseline;
+  gap: space(4);
+  border-top: 1px solid c(line);
+  padding-top: space(3.5);
+  padding-bottom: space(3.5);
+}
+
+.stepKey {
+  width: space(20);
+  flex: none;
+  font-family: $font-mono;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: c(blue);
+}
+
+.stepLabel {
+  font-size: 15px;
+  line-height: $leading-snug;
+  color: c(ink);
+}
+
+.footnote {
+  margin-top: space(8);
+  max-width: 36rem;
+  @include text(xs);
+  line-height: $leading-relaxed;
+  color: c(tertiary-text);
+}

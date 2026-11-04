@@ -37,19 +37,21 @@ non-photographic ones came from.
 | `og-image.png` | Default social card (`content/site.ts` `seo.ogImage`) |
 | `brand/` | Logo files for press and partners |
 | `avatars/` | Leadership portraits (`*-executive-v1.webp`, provenance below) and the homepage voices portraits |
-| `about/` | One explicitly illustrative remote-review placeholder; `about/team/` contains nine employee photographs sourced from dhira.io |
+| `about/` | Archived-use CC0 workspace photograph; `about/team/` contains nine AI-edited studio portraits and fourteen additional public-source portraits. About [05] also reuses the five leadership portraits. Sources and draft status: ABOUT_TEAM_SOURCES.md |
 | `delivery/` (retired) | The old Services photographs moved to `.archive/services-redesign/public/delivery/` on 26 Oct 2026. Services now uses code-native concept drawings and the shared proof imagery |
 | `sectors/` | Sector page photographs |
 | `proof/` | Homepage proof imagery |
 | `universal-context/` | System logos (SAP, Salesforce, Oracle, PostgreSQL) on the /solutions/enterprise-intelligence hero. The other eight went to `.archive/removed-2026-10-20/` with the homepage logo strip |
+| `solutions/enterprise-intelligence/` | The four 30-second teaser videos on /solutions/enterprise-intelligence [03] (`aei-teaser-*-720.mp4`, DHIRA's own, re-cut 4 Nov 2026 on a light ground) and their posters (`poster-*.webp`, 1280 by 720): each poster is a frame of its own video, about two seconds in where the title card has landed, so a poster always matches its footage. Re-export the posters whenever a video changes |
 | `.well-known/security.txt` | Security contact, linked from the terms of use |
 
 ## Provenance
 
 The older lifestyle imagery is generated or AI-edited, not camera photographs
 of DHIRA people or places. Leadership portraits are enhanced versions of real
-photographs. The About team photographs added on 28 October 2026 are actual
-images from dhira.io; their sources are recorded below. Connector and AI
+photographs. The original nine About team photographs now have AI-edited
+studio versions. Fourteen further public-source portraits were added unchanged
+on 4 November 2026; their sources are recorded below. Connector and AI
 assistant marks are published brand marks. The two new home-workspace scenes
 are AI placeholders.
 
@@ -122,40 +124,55 @@ in both appearances and are decorative beside the linked article title.
 
 ### About: remote work and team (28 October 2026)
 
-The user authorised generated workspace placeholders and reuse of employee
-photographs from [the public DHIRA About page](https://dhira.io/aboutus/), and
-confirmed that DHIRA mainly works from home. Team names, roles and interests are
-transcribed or briefly paraphrased from the same source. These are selected
-people from that page, not a statement of total headcount.
+The user authorised reuse of employee photographs from
+[the public DHIRA About page](https://dhira.io/aboutus/), and confirmed that
+DHIRA mainly works from home. The original team names and roles came from
+that page. The expanded concept roster now combines public sources, and its
+individual introductions are user-requested editorial drafts. See
+[the source ledger and review notes](ABOUT_TEAM_SOURCES.md). The selected
+people and placeholder circles do not state a total company headcount.
 
-**Generated placeholder:** `public/about/remote-review-illustrative.webp`
-(1536 × 1024), a monochrome engineering review over a video call from home.
-Generated with the built-in image tool, then encoded as WebP at quality 86.
-The people, room and notebook are illustrative, not real DHIRA material.
-The visible caption and alt text identify the placeholder. The two previous
-desk studies were retired to `.archive/about-inspiration-2026-10-28/retired-assets/`.
+**Workspace photograph:** `public/about/home-workspace.webp` (1536 × 1024,
+WebP quality 86, metadata stripped). A laptop, an open notebook of handwritten
+notes, a pen, a phone and coffee on a wooden table. Source:
+[Home-office-336377.jpg](https://commons.wikimedia.org/wiki/File:Home-office-336377.jpg)
+on Wikimedia Commons, by Free-Photos via
+[Pixabay](https://pixabay.com/photos/home-office-workstation-office-336377/).
+Licence: CC0 1.0 (public domain dedication); attribution is not required.
+Original 5616 × 3744, SHA-1 `763209e2cc10cb959461dba96fd26f111623ba1e`,
+downloaded 4 Nov 2026. Rendered monochrome by the `grayscale` class.
 
-Exact prompts and developer replacement instructions: [ABOUT_IMAGE_PROMPTS.md](ABOUT_IMAGE_PROMPTS.md).
-To replace, edit `culture.workspace` and `culture.imageNote`
-in `content/pages/about.ts`. Record the new photographer/source here.
+It replaced an AI-generated remote-review scene on 4 Nov 2026 (user). The
+photograph has no people in it, so it cannot be read as DHIRA staff and
+carries no caption. **Not shown since the same day's remodel of /about [05]**,
+where the team portrait field is the section's picture; the file stays in
+`public/about/` in case it is wanted again. If a workspace image returns, a
+real DHIRA photograph (with consent from everyone pictured) is the better
+choice; a stock photo of people on this page would need a caption. Record the
+source here and add the field back to `culture` in `content/pages/about.ts`.
 
-**Nine real employee photographs:** original files served by dhira.io,
-downloaded at the user's direction. Optimised to at most 600px per edge
-without enlargement, WebP quality 88. No image-generation edits, retouching
-or background replacement. All people photographs render monochrome through
-CSS, including on hover, per the user's direction. Original files retain their
-colour. Focal positions are typed per person in the page content. Chiransh,
-Subhamoy and Diksha were removed at the user's request; their photographs are
-in the same local archive, outside `public/`.
+**Nine studio portraits, updated 4 November 2026:** AI-enhanced edits of
+the existing real employee photographs, authorised by the user. These use a
+consistent black-and-white studio backdrop and head-and-upper-chest framing.
+They are 1122 × 1402 WebP files at quality 92. They are not new camera
+photographs. The original downloads remain in the local culture archives.
+[Exact generation prompts](ABOUT_TEAM_PORTRAIT_PROMPTS.md) are recorded
+separately.
+
+The Attio-style concept now includes fourteen additional public-source photos,
+downloaded unchanged. Individual CSS crops bring the faces into comparable
+frames; all portraits render monochrome. Missing photographs use initials.
+See [the full source ledger and draft roster](ABOUT_TEAM_SOURCES.md).
+Chiransh, Subhamoy and Diksha remain excluded at the user's request.
 
 | Local file under `public/about/team/` | Original source |
 |---|---|
-| `monica-kishor.webp` | [Original](https://dhira.io/wp-content/uploads/2022/12/MicrosoftTeams-image-2.jpg) |
-| `bhaskar-sarkar.webp` | [Original](https://dhira.io/wp-content/uploads/2022/12/IMG-20211211-WA0014-1.jpg) |
-| `yash-kanvinde.webp` | [Original](https://dhira.io/wp-content/uploads/2022/12/WhatsApp-Image-2022-12-26-at-12.45.27-PM-1.jpeg) |
-| `vinay-kulkarni.webp` | [Original](https://dhira.io/wp-content/uploads/2022/12/MicrosoftTeams-image-1.jpg) |
-| `jitendra-billava.webp` | [Original](https://dhira.io/wp-content/uploads/2022/12/MicrosoftTeams-image.jpg) |
-| `vishwanandan-ka.webp` | [Original](https://dhira.io/wp-content/uploads/2023/07/MicrosoftTeams-image-22-1.jpg) |
-| `vipul-gabhane.webp` | [Original](https://dhira.io/wp-content/uploads/2022/12/MicrosoftTeams-image-30.jpg) |
-| `vipul-madan.webp` | [Original](https://dhira.io/wp-content/uploads/2022/12/MicrosoftTeams-image-32.jpg) |
-| `naved-ansari.webp` | [Original](https://dhira.io/wp-content/uploads/2023/07/MicrosoftTeams-image-24.jpg) |
+| `monica-kishor-studio-v1.webp` | [Original](https://dhira.io/wp-content/uploads/2022/12/MicrosoftTeams-image-2.jpg) |
+| `bhaskar-sarkar-studio-v1.webp` | [Original](https://dhira.io/wp-content/uploads/2022/12/IMG-20211211-WA0014-1.jpg) |
+| `yash-kanvinde-studio-v1.webp` | [Original](https://dhira.io/wp-content/uploads/2022/12/WhatsApp-Image-2022-12-26-at-12.45.27-PM-1.jpeg) |
+| `vinay-kulkarni-studio-v1.webp` | [Original](https://dhira.io/wp-content/uploads/2022/12/MicrosoftTeams-image-1.jpg) |
+| `jitendra-billava-studio-v1.webp` | [Original](https://dhira.io/wp-content/uploads/2022/12/MicrosoftTeams-image.jpg) |
+| `vishwanandan-ka-studio-v1.webp` | [Original](https://dhira.io/wp-content/uploads/2023/07/MicrosoftTeams-image-22-1.jpg) |
+| `vipul-gabhane-studio-v1.webp` | [Original](https://dhira.io/wp-content/uploads/2022/12/MicrosoftTeams-image-30.jpg) |
+| `vipul-madan-studio-v1.webp` | [Original](https://dhira.io/wp-content/uploads/2022/12/MicrosoftTeams-image-32.jpg) |
+| `naved-ansari-studio-v1.webp` | [Original](https://dhira.io/wp-content/uploads/2023/07/MicrosoftTeams-image-24.jpg) |

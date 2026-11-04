@@ -1,0 +1,133 @@
+// ------------------------------------------------------------------
+//  Shared keyframes for SCSS Modules
+// ------------------------------------------------------------------
+// CSS Modules scope every animation name to its file, so a module cannot
+// point at a keyframe in src/app/globals.css: `animation: global(name)` is
+// not valid and compiles to `animation: none`. Emit the keyframe into the
+// module instead, at the root of the file, and reference it by name:
+//
+//   @include keyframes(ps-pulse);
+//   .dot { animation: ps-pulse 2s infinite; }
+//
+// The bodies match the global keyframes in src/app/globals.css, which the
+// Tailwind components still use. Keep the two in step until Tailwind is
+// retired (NEXTJS_ARCHITECTURE §26, phase 4).
+
+@mixin keyframes($name) {
+  @if $name == ps-pulse {
+    @keyframes ps-pulse {
+      0%,
+      100% {
+        opacity: 1;
+      }
+      50% {
+        opacity: 0.3;
+      }
+    }
+  } @else if $name == ps-caret-blink {
+    @keyframes ps-caret-blink {
+      0%,
+      100% {
+        opacity: 1;
+      }
+      50% {
+        opacity: 0;
+      }
+    }
+  } @else if $name == ps-rise {
+    @keyframes ps-rise {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  } @else if $name == softpulse {
+    @keyframes softpulse {
+      0%,
+      100% {
+        opacity: 1;
+      }
+      50% {
+        opacity: 0.35;
+      }
+    }
+  } @else if $name == dashmove {
+    @keyframes dashmove {
+      to {
+        stroke-dashoffset: -16;
+      }
+    }
+  } @else if $name == akx-pop {
+    @keyframes akx-pop {
+      0% {
+        opacity: 0;
+        transform: translateY(18px) scale(0.965);
+      }
+      60% {
+        opacity: 1;
+        transform: translateY(-3px) scale(1.004);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+  } @else if $name == akx-rise {
+    @keyframes akx-rise {
+      from {
+        opacity: 0;
+        transform: translateY(7px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  } @else if $name == closeRule {
+    @keyframes closeRule {
+      from {
+        transform: scaleX(0);
+        opacity: 0;
+      }
+      to {
+        transform: scaleX(1);
+        opacity: 1;
+      }
+    }
+  } @else if $name == spin {
+    // Tailwind's `spin`.
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+  } @else if $name == proofNudge {
+    @keyframes proofNudge {
+      0%,
+      100% {
+        transform: translateX(0);
+      }
+      14% {
+        transform: translateX(-9px);
+      }
+      32% {
+        transform: translateX(9px);
+      }
+      50% {
+        transform: translateX(-5px);
+      }
+      68% {
+        transform: translateX(5px);
+      }
+      84% {
+        transform: translateX(0);
+      }
+    }
+  } @else {
+    @error "Unknown shared keyframe `#{$name}`. Add it to assets/styles/_keyframes.scss.";
+  }
+}
