@@ -411,7 +411,7 @@ export const solutionsEis: EisPage = {
       "What if your biggest deal slips a quarter and a key client doesn't renew?",
       "Monday, 8 a.m. 2,418 changes since Friday: which 3 need you?",
     ],
-    lede: { lead: "Every decision touches customers, projects, people and cash.", tail: "AEI connects live to" },
+    lede: { lead: "Every decision touches customers, projects, people and cash.", tail: "Akashic EIS connects live to" },
     readsLabel: "Reads",
     sources: [
       { label: "ERPNext", src: "/universal-context/postgresql.svg" },
@@ -500,7 +500,7 @@ export const solutionsEis: EisPage = {
           "And a key client does not renew? See the year move before it happens, not in a spreadsheet over the weekend.",
         videoSrc: "/solutions/enterprise-intelligence/aei-teaser-whatif-720.mp4",
         posterSrc: "/solutions/enterprise-intelligence/poster-whatif.webp",
-        label: "Teaser video: interactive what-if modeling on rolling 12-month forecast",
+        label: "Teaser video: interactive what-if modelling on rolling 12-month forecast",
       },
       {
         id: "actions",
@@ -509,10 +509,10 @@ export const solutionsEis: EisPage = {
         duration: "0:29 · voice-over",
         title: "Monday, 8 a.m. What needs you?",
         description:
-          "Thousands of changes since Friday. A handful need a decision from you. AEI knows which ones, and why.",
+          "Thousands of changes since Friday. A handful need a decision from you. Akashic EIS knows which ones, and why.",
         videoSrc: "/solutions/enterprise-intelligence/aei-teaser-actions-720.mp4",
         posterSrc: "/solutions/enterprise-intelligence/poster-actions.webp",
-        label: "Teaser video: prioritized morning action list ranked by exposure",
+        label: "Teaser video: prioritised morning action list ranked by exposure",
       },
     ],
   },
@@ -549,7 +549,7 @@ export const solutionsEis: EisPage = {
         label: "Before you believe the figure",
         note: "Everything that has to hold before a figure is worth acting on.",
         items: [
-          { lead: "Arguments end at the definition.", body: "When two teams produce two revenue numbers, the dispute is never the query. It is whether deferred revenue is recognized, and which entities were consolidated.", evidence: "definition" },
+          { lead: "Arguments end at the definition.", body: "When two teams produce two revenue numbers, the dispute is never the query. It is whether deferred revenue is recognised, and which entities were consolidated.", evidence: "definition" },
           { lead: "One golden record across ERPNext.", body: "Master data resolves customers, people, and projects across Selling, Projects, HRMS, and Accounts into one verified entity with zero manual crosswalking.", evidence: "entity" },
           { lead: "Permissions enforced before computation.", body: "Row-level security ensures leaders see only what they are accountable for. The CEO sees the full company; Delivery leads see their projects; HR sees people; Finance sees P&L.", evidence: "permissions" },
         ],
@@ -688,11 +688,11 @@ export const solutionsEis: EisPage = {
       },
       {
         question: "You say read-only, then you say it writes to my ERP. Which is it?",
-        answer: "Both, on two separate paths. Ingestion is strictly read-only across every connected system and never mutates a source record. Write-back is a deliberately short list of named actions you define during implementation: a specific field executed by a scoped service principal behind explicit human approval with an idempotency key. Without that approval, the system stays 100% read-only.",
+        answer: "Both, on two separate paths. Ingestion is strictly read-only across every connected system and never mutates a source record. Write-back is a deliberately short list of named actions you define during implementation: a specific field on a specific object, executed by a scoped service principal behind explicit human approval with an idempotency key. Without that approval, the system stays 100% read-only.",
       },
       {
         question: "How is your answer engine different from asking an AI chatbot?",
-        answer: "It does not write SQL against your raw tables. Questions resolve against the governed metric layer, so a question can only be answered in terms that have already been defined, tested, and permissioned. If a metric does not exist, EIS says so rather than inventing a plausible number. Every answer shows its working.",
+        answer: "It does not write SQL against your raw tables. Questions resolve against the governed metric layer, so a question can only be answered in terms that have already been defined, tested and given permissions. If a metric does not exist, EIS says so rather than inventing a plausible number. Every answer shows its working.",
       },
       {
         question: "Who can see what, and who can approve what?",
@@ -700,7 +700,7 @@ export const solutionsEis: EisPage = {
       },
       {
         question: "What do you need from us to get started?",
-        answer: "Two things, and it is fair to know them upfront. Someone has to own the metric definitions, because a governed number is an organisational decision, not an engineering assumption. And for each write-back action you want, someone with authority over that system has to approve the scope.",
+        answer: "Two things, and it is fair to know them up front. Someone has to own the metric definitions, because a governed number is an organisational decision, not an engineering assumption. And for each write-back action you want, someone with authority over that system has to approve the scope.",
       },
     ],
     bands: [
@@ -719,7 +719,7 @@ export const solutionsEis: EisPage = {
           {
             /* Executives ask this before anything else, and every vendor dodges. */
             question: "What do you need from us?",
-            answer: "Two things, and it is fair to know them upfront. Someone has to own the metric definitions, because a governed number is a decision your organisation makes, not one we can make for you. And for each write-back action you want, someone with authority over that system has to agree to the scope. Read-only reporting can start well before either is finished. Write-back should not.",
+            answer: "Two things, and it is fair to know them up front. Someone has to own the metric definitions, because a governed number is a decision your organisation makes, not one we can make for you. And for each write-back action you want, someone with authority over that system has to agree to the scope. Read-only reporting can start well before either is finished. Write-back should not.",
           },
         ],
       },
@@ -734,7 +734,7 @@ export const solutionsEis: EisPage = {
           {
             /* The distinction that stops us being the villain from [the-gap]. */
             question: "How is your answer engine different from asking an AI chatbot?",
-            answer: "It does not write SQL against your raw tables. Questions resolve against the governed metric layer, so a question can only be answered in terms that have already been defined, tested, and permissioned. If a metric does not exist, EIS says so rather than inventing a plausible number. And because every answer is assembled from defined metrics, every answer can show its working. An ungoverned chatbot cannot do that, which is why it is fast and untrustworthy at the same time.",
+            answer: "It does not write SQL against your raw tables. Questions resolve against the governed metric layer, so a question can only be answered in terms that have already been defined, tested and given permissions. If a metric does not exist, EIS says so rather than inventing a plausible number. And because every answer is assembled from defined metrics, every answer can show its working. An ungoverned chatbot cannot do that, which is why it is fast and untrustworthy at the same time.",
           },
           {
             question: "Who can see what, and who can approve what?",

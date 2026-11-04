@@ -168,7 +168,7 @@ export const careers: CareersPage = {
           num: "W05",
           principle: "Work where you work best.",
           question: "Can I work from where I live?",
-          answer: "New York, Hyderabad, Bangalore or remote. One team, three time zones.",
+          answer: "New York, Hyderabad, Bangalore or remote. One team, two time zones.",
         },
         {
           num: "W06",
@@ -194,7 +194,7 @@ export const careers: CareersPage = {
           num: "W03",
           principle: "An open stack, portable skills.",
           question: "Legacy maintenance, or modern tooling?",
-          answer: "Open, modern technologies. Inspectable, swappable, and no black box to inherit.",
+          answer: "Open, modern technologies. Inspectable and swappable, with no black box to inherit.",
         },
         {
           num: "W04",
@@ -266,6 +266,6 @@ export const careers: CareersPage = {
       sheet: { label: "Sheet", value: "05 of 05" },
     },
     where: { label: "Where", value: "New York · Hyderabad · Bangalore · Remote" },
-    drawnBy: "A small team shipping across three time zones.",
+    drawnBy: "A small team shipping across two time zones.",
   },
 };

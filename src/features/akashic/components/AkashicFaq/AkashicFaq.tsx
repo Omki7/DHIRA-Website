@@ -1,3 +1,4 @@
+import type { CSSProperties } from "react";
 import type { AkashicPage } from "@/content/pages/akashic";
 import { JsonLd } from "@/shared/components/data-display";
 import { ScrollReveal } from "@/shared/components/ui";
@@ -34,7 +35,7 @@ export function AkashicFaq({ content: c }: AkashicFaqProps) {
           </div>
         </ScrollReveal>
         <ScrollReveal delay={80}>
-          <dl className={styles.faq}>
+          <dl className={styles.faq} style={{ "--faq-rows": Math.ceil(c.items.length / 2) } as CSSProperties}>
             {c.items.map((item, i) => (
               <div key={item.question} className={styles.item}>
                 <dt>

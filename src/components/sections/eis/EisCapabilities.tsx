@@ -296,7 +296,7 @@ export default function EisCapabilities({ content }: { content: EisPage["capabil
                               <span className="text-tertiary-text">Updated 1 min ago</span>
                             </div>
                             <p className="mt-1 text-[13px] font-medium text-ink">
-                              Project P-104 is 3 weeks behind plan. Fixed-price budget exceeded by $61,000 due to change request dispute.
+                              Project P-104 is 3 weeks behind plan. Fixed-price budget exceeded by $61,000 due to a change-request dispute.
                             </p>
                           </div>
 

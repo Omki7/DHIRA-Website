@@ -162,7 +162,7 @@ function SuccessConsole() {
 
       <div className="flex items-center justify-between gap-3 border-t border-line bg-tertiary-bg px-4 py-2.5 font-mono text-[8.5px] uppercase tracking-[0.06em]">
         <span className="text-inkSoft">SIS · LMS · assessment unified</span>
-        <span className="text-inkSoft">Every learner one record</span>
+        <span className="text-inkSoft">Every learner, one record</span>
       </div>
     </div>
   );

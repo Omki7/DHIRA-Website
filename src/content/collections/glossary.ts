@@ -142,7 +142,7 @@ export const glossaryTerms: GlossaryTerm[] = [
   {
     id: "semantic-layer",
     term: "Semantic layer",
-    definition: "Shared definitions of metrics and business terms, so that active customer or margin means the same thing everywhere.",
+    definition: "Shared definitions of metrics and business terms, so that “active customer” or “margin” means the same thing everywhere.",
     inAkashic: "Part of the Data Warehouse module, read by Business Intelligence, Machine Learning and Ask Akashic.",
     href: "/akashic#data-warehouse",
   },

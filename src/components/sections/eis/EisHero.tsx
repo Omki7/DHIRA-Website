@@ -182,7 +182,7 @@ export default function EisHero({
                 <span className="font-mono text-[10px] font-bold uppercase tracking-wider text-ink">
                   Governed Execution
                 </span>
-                <p className="mt-1 text-[13px] text-secondary-text">Human-authorized actions with immutable audit</p>
+                <p className="mt-1 text-[13px] text-secondary-text">Human-authorised actions with immutable audit</p>
               </div>
             </div>
           </div>

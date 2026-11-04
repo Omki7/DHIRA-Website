@@ -591,7 +591,7 @@ export const home: HomePage = {
         avatarPath: "/avatars/amara.png",
       },
       {
-        quote: "Managing emigration approvals and benefit payouts across millions of citizens created a massive reconciliation gap. Akashic consolidated 387,000 active employment records, legacy logs, and biometric cards into a single ledger. What used to take a desk full of physical files is now resolved instantly.",
+        quote: "Managing emigration approvals and benefit payouts across millions of citizens created a massive reconciliation gap. Akashic consolidated 387,000 active employment records, legacy logs and biometric cards into a single ledger. What used to take a desk full of physical files is now resolved instantly.",
         name: "Kai Sterling",
         role: "Director of Immigration",
         org: "GovWorkforce",
@@ -599,7 +599,7 @@ export const home: HomePage = {
         avatarPath: "/avatars/kai.png",
       },
       {
-        quote: "Executing a statewide socioeconomic census usually meant collecting spreadsheets from 40 different districts. With Akashic, we ingested, unified, and validated survey responses from millions of households in less than three weeks. We now run policy simulations on a single source of truth that our cabinet trusts implicitly.",
+        quote: "Executing a statewide socioeconomic census usually meant collecting spreadsheets from 40 different districts. With Akashic, we ingested, unified and validated survey responses from millions of households in less than three weeks. We now run policy simulations on a single source of truth that our cabinet trusts implicitly.",
         name: "Lena Harper",
         role: "Senior Policy Official",
         org: "StateGov",

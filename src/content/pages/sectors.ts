@@ -231,7 +231,7 @@ export const sectorPages: Record<SectorSlug, SectorContent> = {
         },
         {
           title: "Maintenance runs on the calendar",
-          body: "Assets are serviced on schedule, not on condition. The signals that predict failure exist, they sit in a historian that no planning system ever queries.",
+          body: "Assets are serviced on schedule, not on condition. The signals that predict failure exist, but they sit in a historian that no planning system ever queries.",
         },
       ],
     },

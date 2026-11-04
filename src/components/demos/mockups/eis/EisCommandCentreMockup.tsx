@@ -38,7 +38,7 @@ const ROLES: RoleConfig[] = [
     label: "CEO",
     initials: "DH",
     title: "Chief Executive Cockpit",
-    caption: "Know where the enterprise lands this year, every hour. Real-time EBITDA, cash runway, and prioritized risks.",
+    caption: "Know where the enterprise lands this year, every hour. Real-time EBITDA, cash runway and prioritised risks.",
     kpis: [
       { label: "FY Revenue Outlook", value: "$11.4M", note: "Plan $10.8M · +$600K ahead", tone: "positive" },
       { label: "FY EBITDA Margin", value: "19.4%", note: "Target 17.0% · +2.4 pts", tone: "positive" },

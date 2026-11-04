@@ -192,7 +192,7 @@ export const ui: UiStrings = {
       placeholder: "Select one",
       options: ["Platform deployment", "Product build", "Advisory", "Just exploring"],
     },
-    message: { label: "What are you trying to solve?", placeholder: "Tell us about your data challenge, project goals, or questions..." },
+    message: { label: "What are you trying to solve?", placeholder: "Tell us about your data challenge, project goals or questions..." },
     submit: "Send message",
     submitting: "Sending message…",
     consent: {

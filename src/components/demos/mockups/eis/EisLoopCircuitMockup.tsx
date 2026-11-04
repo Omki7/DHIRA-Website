@@ -53,7 +53,7 @@ const STATIONS: { n: string; name: string; claim: string; art: ReactNode }[] = [
     art: (
       <div className="space-y-1.5">
         {[
-          ["ERPNext Accounts", "Invoice 74 days overdue ($118 K)"],
+          ["ERPNext Accounts", "Invoice 74 days overdue ($118K)"],
           ["CRM / Selling", "VP Claims departed; new sponsor unengaged"],
           ["Customer Health", "NPS score dropped from 48 to 12"],
         ].map(([sys, note], i) => (
@@ -86,7 +86,7 @@ const STATIONS: { n: string; name: string; claim: string; art: ReactNode }[] = [
         </p>
         <div className="mt-2 space-y-[5px]">
           <Field k="Account" v="Northwind Insurance · SOW-2024-03" />
-          <Field k="Defined as" v="$180 K ARR · contract expiry 31 Dec" />
+          <Field k="Defined as" v="$180K ARR · contract expiry 31 Dec" />
         </div>
       </div>
     ),
@@ -98,8 +98,8 @@ const STATIONS: { n: string; name: string; claim: string; art: ReactNode }[] = [
     art: (
       <div className="space-y-1.5">
         {[
-          { opt: "Wait for standard dunning", cost: "–$180 K ARR", note: "Churn risk 78% · renewal slips", bad: true },
-          { opt: "Executive sponsor outreach", cost: "Retains $180 K", note: "Collects $118 K overdue in 14d", bad: false },
+          { opt: "Wait for standard dunning", cost: "–$180K ARR", note: "Churn risk 78% · renewal slips", bad: true },
+          { opt: "Executive sponsor outreach", cost: "Retains $180K", note: "Collects $118K overdue in 14d", bad: false },
         ].map((o) => (
           <div
             key={o.opt}

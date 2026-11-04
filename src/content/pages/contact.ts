@@ -61,7 +61,7 @@ export const contactPage: ContactPage = {
     label: "Write to us",
     setup: "Sales, demos and first questions.",
     payoff: "A reply from someone who read it.",
-    lede: "A few details are enough to get the right people in the room: a solutions architect, and the delivery lead for your sector.",
+    lede: "A few details are enough to get the right people in the room: a solutions architect and the delivery lead for your sector.",
     steps: [
       "You tell us the question you most need answered.",
       "A solutions architect replies and sets up a 30-minute discovery.",

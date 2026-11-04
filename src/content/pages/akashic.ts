@@ -418,7 +418,7 @@ export const akashicModules: ModuleDef[] = [
     icon: "Akashic Data Pipelines",
     name: "Data Pipelines",
     tagline: "Ingestion",
-    desc: "Every source, ingested and validated the moment it arrives. Structured, unstructured, or streaming: one entry point into the platform, or a standalone ingestion layer.",
+    desc: "Every source, ingested and validated the moment it arrives. Structured, unstructured or streaming: one entry point into the platform, or a standalone ingestion layer.",
     groups: [
       {
         label: "Source connectors",
@@ -586,7 +586,7 @@ export const akashicModules: ModuleDef[] = [
     icon: "Akashic Machine Learning",
     name: "Machine Learning",
     tagline: "Prediction",
-    desc: "Build, train, deploy, and monitor models directly on governed data. No exports, no separate environment.",
+    desc: "Build, train, deploy and monitor models directly on governed data. No exports, no separate environment.",
     groups: [
       {
         label: "Development",
@@ -698,7 +698,7 @@ export const akashicModules: ModuleDef[] = [
     icon: "Akashic Data Governance",
     name: "Governance",
     tagline: "Always on",
-    desc: "Access control, lineage, and audit under every module, from the first byte to the final answer.",
+    desc: "Access control, lineage and audit under every module, from the first byte to the final answer.",
     groups: [
       {
         label: "Catalogue & lineage",
@@ -932,7 +932,7 @@ export const akashic: AkashicPage = {
         lede: "Forecasts, trained on governed data.",
         points: [
           { icon: "cpu", text: "Train and deploy where the data lives: no exports" },
-          { icon: "eye", text: "Drift, bias, and freshness monitored automatically" },
+          { icon: "eye", text: "Drift, bias and freshness monitored automatically" },
           { icon: "trace", text: "Every prediction traceable to governed features" },
         ],
       },
@@ -961,7 +961,7 @@ export const akashic: AkashicPage = {
         name: "Governance",
         lede: "It’s been running the whole time.",
         points: [
-          { icon: "shield", text: "Access, lineage, and audit under every module" },
+          { icon: "shield", text: "Access, lineage and audit under every module" },
           { icon: "key", text: "Deployed in-region, with your own keys when self-hosted" },
           { icon: "badge", text: "ISO 27001 and SOC 2 certified · DPDP, GDPR, CERT-In compliant" },
         ],
@@ -982,7 +982,7 @@ export const akashic: AkashicPage = {
   deployment: {
     eyebrow: { number: "03", label: "Where it runs" },
     title: "Deploy where your data has to live.",
-    intro: "Cloud, on-premises, or hybrid: Akashic is identical in all three. Same modules, same governance, same answers.",
+    intro: "Cloud, on-premises or hybrid: Akashic is identical in all three. Same modules, same governance, same answers.",
     cloud: {
       name: "Cloud",
       desc: "Run in the region your regulator names. All three providers, if you need them.",
@@ -1044,7 +1044,7 @@ export const akashic: AkashicPage = {
     title: "People make the call.",
     intro: "Agents read the documents, pull the figures and check the rules. Your teams review the evidence instead of assembling it. Nothing consequential moves without a person’s approval.",
     figureCaption:
-      "One agent run in six steps. Agents handle ask, plan, retrieve and verify: a Business Intelligence concierge, an orchestrator, SQL, document and hybrid agents, and a metadata agent. A person approves, with maker-checker sign-off, and no agent signs off. The run is recorded on an append-only audit trail with the model and prompt version. A golden-record steward and a pipeline monitor run under every run.",
+      "One agent run in six steps. Agents handle ask, plan, retrieve and verify: a Business Intelligence concierge, an orchestrator, SQL, document and hybrid agents, and a metadata agent. A person approves, with maker-checker sign-off, and no agent signs off. The run is recorded on an append-only audit trail with the model and prompt version. A golden-record steward and a pipeline monitor run beneath every agent run.",
     previewNote: "Agents are in preview.",
     lanes: { agent: "Agents do the legwork", person: "A person decides", record: "Kept on record" },
     steps: [
@@ -1104,7 +1104,7 @@ export const akashic: AkashicPage = {
     title: "then build every use case on top.",
     intro: "Connections, records and definitions carry forward. Each new dashboard, model or AI use case starts where the last one finished.",
     figureCaption:
-      "Four use cases, dashboards, forecasts, AI answers and AI agents, built two ways. Project by project, each use case rebuilds its own connect, unify and define groundwork. With Akashic, the groundwork is laid once and every use case builds only its own work on top. AI agents are in preview.",
+      "Four use cases (dashboards, forecasts, AI answers and AI agents), built two ways. Project by project, each use case rebuilds its own connect, unify and define groundwork. With Akashic, the groundwork is laid once and every use case builds only its own work on top. AI agents are in preview.",
     cornerLabel: "Use case",
     useCases: [
       { name: "Dashboards", preview: false },

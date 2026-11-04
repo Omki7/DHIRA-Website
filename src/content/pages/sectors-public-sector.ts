@@ -101,13 +101,13 @@ export const sectorsPublicSector: PublicSectorPage = {
   },
   sections: [
     { id: "hero", label: "Overview" },
-    { id: "the-gap", label: "Governance Gap" },
-    { id: "proven", label: "Proven at Scale" },
-    { id: "in-practice", label: "In Practice" },
+    { id: "the-gap", label: "Governance gap" },
+    { id: "proven", label: "Proven at scale" },
+    { id: "in-practice", label: "In practice" },
     { id: "why-akashic", label: "Why Akashic" },
-    { id: "how-it-works", label: "How It Works" },
+    { id: "how-it-works", label: "How it works" },
     { id: "deployment", label: "Deployment" },
-    { id: "talk-to-our-team", label: "Get Started" },
+    { id: "talk-to-our-team", label: "Get started" },
   ],
   sectionsLabel: "Public sector page sections",
 
@@ -138,7 +138,7 @@ export const sectorsPublicSector: PublicSectorPage = {
     lede: "Most data systems don’t. The gap shows up the same way in every ministry review.",
     items: [
       { figure: "28 states", title: "One fragmented view", desc: "Most national schemes run on state-wise systems that don't talk to each other, so the centre sees a delayed, incomplete picture.", visual: "india" },
-      { figure: "Crores", title: "Manual reconciliation", desc: "Beneficiary and citizen data duplicated across departments: the same person counted differently in five different schemes.", visual: "duplicates" },
+      { figure: "Crores", title: "Manual reconciliation", desc: "Beneficiary and citizen data duplicated across departments: the same person counted differently in five schemes.", visual: "duplicates" },
       { figure: "Months", title: "Reporting lag", desc: "Field-level data takes months to reach ministry dashboards. By the time a gap is visible, the budget cycle has already moved on.", visual: "lag" },
     ],
     visuals: {
@@ -229,7 +229,7 @@ export const sectorsPublicSector: PublicSectorPage = {
       { num: "REQ-01", title: "Data sovereignty", desc: "Full on-premises deployment available. Your citizen data stays within your infrastructure: never a forced cloud dependency.", chip: "ON-PREM AVAILABLE" },
       { num: "REQ-02", title: "Audit-ready governance", desc: "End-to-end lineage, metadata catalogues, and role-based access control: built for the scrutiny that public spending demands.", chip: "LINEAGE + RBAC" },
       { num: "REQ-03", title: "Fast delivery", desc: "A complete proof-of-concept for CBSE was delivered in 1.5 months. Government timelines don't wait for long engineering cycles. Neither do we.", chip: "POC IN 1.5 MONTHS" },
-      { num: "REQ-04", title: "Multi-language ready", desc: "Akashic's multilingual language layer means dashboards and insights are accessible in regional languages, not just English.", chip: "REGIONAL LANGUAGES" },
+      { num: "REQ-04", title: "Multi-language ready", desc: "Akashic's multilingual layer means dashboards and insights are accessible in regional languages, not just English.", chip: "REGIONAL LANGUAGES" },
       { num: "REQ-05", title: "Works with what you have", desc: "23+ source connectors mean Akashic plugs into existing ministry databases, citizen registries, and legacy systems. No forced migration.", chip: "23+ CONNECTORS" },
       { num: "REQ-06", title: "No testimonials needed", desc: "Government clients cannot give testimonials. We don't ask. We show the platforms, the scale, and the numbers instead.", chip: "PUBLIC RECORD" },
     ],

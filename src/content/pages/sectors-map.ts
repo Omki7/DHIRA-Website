@@ -85,7 +85,7 @@ export const sectorMaps: Record<SectorSlug, MapScene> = {
       {
         tag: "The enterprise joins",
         title: "Floor and ledger, one record.",
-        body: "Warehouse movements, ERP orders, and quality results resolve against the same batches and machines. One genealogy.",
+        body: "Warehouse movements, ERP orders and quality results resolve against the same batches and machines. One genealogy.",
       },
       {
         tag: "Answers flow back",
@@ -116,7 +116,7 @@ export const sectorMaps: Record<SectorSlug, MapScene> = {
       {
         tag: "The systems speak",
         title: "Every record starts streaming.",
-        body: "Admissions, results, scans, and claims land on the governed foundation as they're written, not when someone exports them.",
+        body: "Admissions, results, scans and claims land on the governed foundation as they're written, not when someone exports them.",
       },
       {
         tag: "One patient forms",
@@ -152,7 +152,7 @@ export const sectorMaps: Record<SectorSlug, MapScene> = {
       {
         tag: "Transactions stream",
         title: "Every hop lands on one graph.",
-        body: "Card swipes, UPI transfers, and account movements stream in as they clear, not in tomorrow's batch file.",
+        body: "Card swipes, UPI transfers and account movements stream in as they clear, not in tomorrow's batch file.",
       },
       {
         tag: "Identities resolve",
@@ -162,7 +162,7 @@ export const sectorMaps: Record<SectorSlug, MapScene> = {
       {
         tag: "The desk sees it",
         title: "Flagged as it forms. Evidence attached.",
-        body: "The pattern reaches the risk desk in minutes, with entities, hops, and source records already assembled.",
+        body: "The pattern reaches the risk desk in minutes, with entities, hops and source records already assembled.",
       },
     ],
   },
@@ -193,7 +193,7 @@ export const sectorMaps: Record<SectorSlug, MapScene> = {
       {
         tag: "Stock resolves",
         title: "One picture, DC to shelf.",
-        body: "Warehouse, in-transit, and backroom stock resolve into one live position per SKU, per store.",
+        body: "Warehouse, in-transit and backroom stock resolve into one live position per SKU, per store.",
       },
       {
         tag: "The gap closes",
@@ -224,7 +224,7 @@ export const sectorMaps: Record<SectorSlug, MapScene> = {
       {
         tag: "Signals stream",
         title: "The journey starts writing itself.",
-        body: "Attendance, scores, and fee events land on one governed record as they happen, all term long.",
+        body: "Attendance, scores and fee events land on one governed record as they happen, all term long.",
       },
       {
         tag: "One learner forms",

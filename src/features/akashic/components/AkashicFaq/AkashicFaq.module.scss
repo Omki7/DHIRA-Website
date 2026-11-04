@@ -47,6 +47,9 @@
 
   @include respond-to(lg) {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+    /* Read down the left column, then down the right (rows = half the questions). */
+    grid-auto-flow: column;
+    grid-template-rows: repeat(var(--faq-rows, 3), auto);
   }
 }
 

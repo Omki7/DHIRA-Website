@@ -165,7 +165,7 @@ const terms: LegalDoc = {
     { type: "h2", id: "liability", text: "Liability" },
     {
       type: "p",
-      text: "To the extent the law allows, the site is provided as is, and DHIRA is not liable for loss arising from its use or from reliance on its content. Nothing in these terms limits liability that cannot be limited by law.",
+      text: "To the extent the law allows, the site is provided on an “as is” basis, and DHIRA is not liable for loss arising from its use or from reliance on its content. Nothing in these terms limits liability that cannot be limited by law.",
     },
     { type: "h2", id: "governing-law", text: "Governing law" },
     { type: "p", text: "These terms are governed by the laws of India. The courts at Hyderabad, Telangana have jurisdiction over any dispute about them." },

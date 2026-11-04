@@ -20,7 +20,7 @@
  * Ground: the page's one soft blue band (Rule 5a).
  */
 
-import { useState } from "react";
+import { useState, type CSSProperties } from "react";
 import { ScrollReveal } from "@/shared/components/ui";
 import { ScrollRevealRail } from "@/shared/components/ui";
 import { SectionHeader } from "@/shared/components/ui";
@@ -76,13 +76,19 @@ export default function CareersCulture({ content }: { content: CareersPage["cult
           </div>
         </SectionHeader>
 
-        <dl className="mt-10 grid grid-cols-1 gap-x-16 border-t border-blue-border/70 md:grid-cols-2">
+        {/* Read down the left column first, then down the right: on desktop the
+            grid flows by column (rows = half the questions). On phones it is one
+            column in the same W01 to W06 order. */}
+        <dl
+          className="mt-10 grid grid-cols-1 gap-x-16 border-t border-blue-border/70 md:grid-flow-col md:grid-cols-2 md:[grid-template-rows:repeat(var(--qa-rows),auto)]"
+          style={{ "--qa-rows": Math.ceil(qa.length / 2) } as CSSProperties}
+        >
           {qa.map((item, k) => (
             <div
               key={item.num}
-              className={`border-b border-blue-border/70 py-6 ${k % 2 === 0 ? "md:pr-4" : "md:pl-4"}`}
+              className={`border-b border-blue-border/70 py-6 ${k < Math.ceil(qa.length / 2) ? "md:pr-4" : "md:pl-4"}`}
             >
-              <ScrollReveal delay={40 + (k % 2) * 40}>
+              <ScrollReveal delay={40 + (k % Math.ceil(qa.length / 2)) * 40}>
                 <p className="font-mono text-[11px] uppercase tracking-[0.08em] text-overcast">
                   <span className="text-blue">{item.num}</span>&nbsp;&nbsp;{item.principle}
                 </p>

@@ -243,7 +243,7 @@ export const about: AboutPage = {
       steps: [
         { year: "2018", title: "Start with dependable data.", description: "DHIRA begins with data engineering as the foundation." },
         { year: "2019", title: "Build the common foundation.", description: "Research begins on Akashic, connecting data to insight." },
-        { year: "2020", title: "Put it to work at national scale.", description: "Our first national scale system goes live at year end." },
+        { year: "2020", title: "Put it to work at national scale.", description: "Our first national scale system goes live at the end of the year." },
         { year: "2022", title: "Bring the platform together.", description: "Akashic launches with data pipelines, warehousing and Business Intelligence." },
         { year: "2023", title: "Add prediction. Extend the reach.", description: "Machine learning launches. Akashic serves a national learning programme." },
         { year: "2024", title: "Build AI on the data foundation.", description: "AI arrives on the platform. Akashic serves a national employment programme." },

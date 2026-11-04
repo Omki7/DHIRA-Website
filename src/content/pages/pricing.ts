@@ -144,8 +144,8 @@ export interface Term {
 
 const terms: Term[] = [
   { id: "monthly", label: "Monthly", billing: "per month, no term" },
-  { id: "annual", label: "1 year", save: "15%", billing: "per month on a 1 year term" },
-  { id: "triennial", label: "3 years", save: "25%", billing: "per month on a 3 year term" },
+  { id: "annual", label: "1 year", save: "15%", billing: "per month on a 1-year term" },
+  { id: "triennial", label: "3 years", save: "25%", billing: "per month on a 3-year term" },
 ];
 
 /* PLACEHOLDER list prices (15 Oct 2026). The user asked for representative
@@ -261,7 +261,7 @@ const compare: CompareGroup[] = [
 
 /* Printed under the grid: what the workbook does not price yet. */
 const compareNote =
-  "Limits are per organisation. Ask Akashic, Machine Learning and AI agents, in preview, are quoted with your plan.";
+  "Limits are per organisation. Ask Akashic, Machine Learning and AI agents (in preview) are quoted with your plan.";
 
 /* The founder's eight controls ("Trust & deployment" in his wireframe),
    written out in full. Captions are terse noun phrases, balanced. */
@@ -392,7 +392,7 @@ const faq: { label: string; setup: string; payoff: string; lede: string; link: C
       items: [
         {
           question: "How is Akashic priced?",
-          answer: "By plan and term. Each plan sets the capacity of every module: data ingested, pipeline hours, users and records. Pay monthly, or commit to a 1 or 3 year term for a lower rate. Enterprise is quoted for a dedicated instance.",
+          answer: "By plan and term. Each plan sets the capacity of every module: data ingested, pipeline hours, users and records. Pay monthly, or commit to a 1- or 3-year term for a lower rate. Enterprise is quoted for a dedicated instance.",
         },
         {
           question: "Can we start small?",

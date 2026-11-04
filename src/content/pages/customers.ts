@@ -65,7 +65,7 @@ export const customersPage: CustomersPage = {
   },
   story: {
     crumb: "Customer stories",
-    photoCaption: "Photograph illustrative of the sector",
+    photoCaption: "Illustrative photograph of the sector",
     builtOn: "Built on",
     relatedHeading: "More customer stories",
     close: {

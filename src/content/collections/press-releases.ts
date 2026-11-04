@@ -45,7 +45,7 @@ export const pressReleases: PressRelease[] = [
       },
       {
         type: "quote",
-        text: "I founded DHIRA to tightly couple digitalisation, AI and data governance, so that intelligence reaches every decision, at scale.",
+        text: "I founded DHIRA to couple digitalisation, AI and data governance tightly, so that intelligence reaches every decision, at scale.",
         cite: `${site.founder.name}, ${site.founder.role}, ${site.name}`,
       },
       { type: "h2", id: "availability", text: "Availability" },
