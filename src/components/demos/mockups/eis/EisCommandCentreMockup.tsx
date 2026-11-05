@@ -166,7 +166,7 @@ export default function EisCommandCentreMockup() {
                 onClick={() => setSelectedRole(r.id)}
                 className={`flex items-center rounded-chip border px-3 py-1.5 text-[12px] font-medium transition-all ${
                   isActive
-                    ? "border-blue bg-blue text-white shadow-sm font-semibold"
+                    ? "border-blue bg-blue text-white font-semibold"
                     : "border-lineSoft bg-background text-secondary-text hover:border-line hover:bg-primary-bg hover:text-ink"
                 }`}
               >
@@ -185,7 +185,7 @@ export default function EisCommandCentreMockup() {
       </div>
 
       {/* Short Dynamic Teaser Window (Lower-third dissolves into the page) */}
-      <div className="relative mt-4 overflow-hidden rounded-outer border border-line bg-background shadow-sm">
+      <div className="relative mt-4 overflow-hidden rounded-outer border border-line bg-background">
         
         {/* App Topbar */}
         <div className="flex h-10 items-center justify-between border-b border-lineSoft bg-primary-bg px-4">

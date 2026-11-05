@@ -22,7 +22,7 @@ function IndiaVisual({ copy }: { copy: Visuals["india"] }) {
       <span className="relative hidden h-px min-w-[32px] flex-1 overflow-hidden sm:block" aria-hidden>
         <span className="absolute inset-y-0 -left-8 right-0 bg-[length:16px_1px] bg-repeat-x bg-[repeating-linear-gradient(90deg,rgb(var(--blue-border))_0_8px,transparent_8px_16px)] animate-[ps-dash_1.8s_linear_infinite]" />
       </span>
-      <div className="w-full max-w-[210px] shrink-0 rounded-[10px] border border-subtle-stroke bg-background px-3.5 py-3 shadow-xs">
+      <div className="w-full max-w-[210px] shrink-0 rounded-[10px] border border-subtle-stroke bg-background px-3.5 py-3">
         <div className="flex items-center justify-between gap-2">
           <span className="font-mono text-[8.5px] font-bold uppercase tracking-[0.08em] text-ink">
             {copy.title}

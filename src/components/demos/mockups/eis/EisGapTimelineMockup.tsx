@@ -17,7 +17,7 @@ export default function EisGapTimelineMockup() {
   const isAkashic = mode === "akashic";
 
   return (
-    <div className="overflow-hidden rounded-outer border border-line bg-background shadow-sm transition-colors">
+    <div className="overflow-hidden rounded-outer border border-line bg-background transition-colors">
       {/* 1. Header with Mode Switcher */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-lineSoft bg-primary-bg px-5 py-3.5 sm:px-7">
         <div className="flex items-center gap-2.5">
@@ -171,7 +171,7 @@ export default function EisGapTimelineMockup() {
             <span className="inline-flex items-center gap-1 rounded bg-ink px-1.5 py-0.5 font-mono text-[9px] font-bold text-white uppercase tracking-wider">
               01 · Signal
             </span>
-            <div className="mt-1.5 rounded-inner border border-lineSoft bg-background p-2.5 shadow-xs max-w-[145px]">
+            <div className="mt-1.5 rounded-inner border border-lineSoft bg-background p-2.5 max-w-[145px]">
               <span className="block font-mono text-[8.5px] font-bold uppercase tracking-wider text-tertiary-text">
                 Day 0 · Mon 09:00
               </span>
@@ -205,7 +205,7 @@ export default function EisGapTimelineMockup() {
             <div
               className={`relative flex h-[150px] w-[150px] sm:h-[160px] sm:w-[160px] flex-col items-center justify-center rounded-full border-2 transition-all duration-300 ${
                 isAkashic
-                  ? "border-blue bg-background shadow-lg scale-102"
+                  ? "border-blue bg-background scale-102"
                   : "border-line bg-primary-bg opacity-75"
               }`}
             >
@@ -220,7 +220,7 @@ export default function EisGapTimelineMockup() {
               {/* Logo Badge */}
               <div
                 className={`flex h-9 w-9 items-center justify-center rounded-full mb-1 transition-colors ${
-                  isAkashic ? "bg-blue text-white shadow-xs" : "bg-card-line text-tertiary-text"
+                  isAkashic ? "bg-blue text-white" : "bg-card-line text-tertiary-text"
                 }`}
               >
                 <DhiraLogo className="h-4.5 w-4.5 text-current" />
@@ -274,7 +274,7 @@ export default function EisGapTimelineMockup() {
               Day 9 · Deadline
             </span>
             <div
-              className={`mt-1.5 rounded-inner border p-2 shadow-xs bg-background max-w-[125px] text-center ${
+              className={`mt-1.5 rounded-inner border p-2 bg-background max-w-[125px] text-center ${
                 isAkashic ? "border-line" : "border-red/40 bg-red/5"
               }`}
             >
@@ -307,7 +307,7 @@ export default function EisGapTimelineMockup() {
               03 · Month-End
             </span>
             <div
-              className={`mt-1.5 rounded-inner border p-2.5 shadow-xs max-w-[140px] text-right bg-background ${
+              className={`mt-1.5 rounded-inner border p-2.5 max-w-[140px] text-right bg-background ${
                 isAkashic ? "border-lineSoft" : "border-red/40 bg-red/5"
               }`}
             >

@@ -93,7 +93,7 @@ export default function EisCapabilities({ content }: { content: EisPage["capabil
                     }}
                     className={`group relative flex flex-col text-left rounded-outer border p-5 sm:p-6 transition-all duration-200 ${
                       isSelected
-                        ? "border-blue bg-primary-bg shadow-sm"
+                        ? "border-blue bg-primary-bg"
                         : "border-lineSoft bg-background hover:border-line hover:bg-primary-bg/50"
                     }`}
                   >
@@ -145,7 +145,7 @@ export default function EisCapabilities({ content }: { content: EisPage["capabil
             {/* Right Column: Live Governance Inspector Workbench */}
             <div className="lg:col-span-7">
               <ScrollReveal delay={100}>
-                <div className="h-full flex flex-col rounded-outer border border-line bg-background shadow-sm overflow-hidden">
+                <div className="h-full flex flex-col rounded-outer border border-line bg-background overflow-hidden">
                   
                   {/* Console Header Bar */}
                   <div className="flex items-center justify-between border-b border-lineSoft bg-primary-bg px-4 py-3 sm:px-6">

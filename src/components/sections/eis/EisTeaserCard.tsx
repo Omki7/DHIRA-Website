@@ -91,7 +91,7 @@ export default function EisTeaserCard({ item }: EisTeaserCardProps) {
   return (
     <article className="group flex flex-col gap-4">
       {/* Video Container */}
-      <div className="relative aspect-video w-full overflow-hidden rounded-2xl bg-[#07062A] shadow-md border border-lineSoft">
+      <div className="relative aspect-video w-full overflow-hidden rounded-2xl bg-[#07062A] border border-lineSoft">
         <video
           ref={videoRef}
           src={item.videoSrc}
@@ -108,7 +108,7 @@ export default function EisTeaserCard({ item }: EisTeaserCardProps) {
             type="button"
             onClick={handlePlayClick}
             aria-label={`Play ${item.title}`}
-            className="absolute bottom-4 left-4 inline-flex items-center gap-2 rounded-full bg-white/95 px-4 py-2 font-body text-sm font-semibold text-[#1100CC] shadow-lg backdrop-blur-sm transition-transform duration-150 hover:scale-105 hover:bg-white"
+            className="absolute bottom-4 left-4 inline-flex items-center gap-2 rounded-full border border-lineSoft bg-white/95 px-4 py-2 font-body text-sm font-semibold text-[#1100CC] backdrop-blur-sm transition-transform duration-150 hover:scale-105 hover:bg-white"
           >
             <svg
               className="h-3.5 w-3.5 fill-current"
