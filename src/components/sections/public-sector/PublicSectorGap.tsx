@@ -6,17 +6,25 @@
  * crawling from field to ministry). Sample record data is canned (§8a).
  */
 
+import Image from "next/image";
 import { ScrollReveal } from "@/shared/components/ui";
 import { ScrollRevealRail } from "@/shared/components/ui";
 import type { PublicSectorPage } from "@/content/pages/sectors-public-sector";
-import IndiaStateMap from "./IndiaStateMap";
 
 type Visuals = PublicSectorPage["gap"]["visuals"];
 
 function IndiaVisual({ copy }: { copy: Visuals["india"] }) {
   return (
     <div className="flex flex-col items-center gap-5 sm:flex-row sm:gap-4 w-full justify-center">
-      <IndiaStateMap />
+      <div className="relative h-[180px] w-[180px] sm:h-[200px] sm:w-[200px] shrink-0 overflow-hidden rounded-xl border border-subtle-stroke bg-background shadow-xs">
+        <Image
+          src="/sectors/gateway-of-india.webp"
+          alt="Gateway of India, Mumbai"
+          fill
+          sizes="(max-width: 640px) 180px, 200px"
+          className="object-cover"
+        />
+      </div>
       {/* The dashes travel by transform on an inner strip (Rule 6a), not by
           background-position, which repainted the line every frame. */}
       <span className="relative hidden h-px min-w-[32px] flex-1 overflow-hidden sm:block" aria-hidden>
