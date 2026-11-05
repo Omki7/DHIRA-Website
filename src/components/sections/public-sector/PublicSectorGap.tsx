@@ -9,98 +9,20 @@
 import { ScrollReveal } from "@/shared/components/ui";
 import { ScrollRevealRail } from "@/shared/components/ui";
 import type { PublicSectorPage } from "@/content/pages/sectors-public-sector";
+import IndiaStateMap from "./IndiaStateMap";
 
 type Visuals = PublicSectorPage["gap"]["visuals"];
 
-/* Dot-matrix India: rows of [start, end] column segments. Deliberately an
-   abstract patchwork of disconnected state-system tints, not a boundary map. */
-const INDIA_ROWS: [number, number][][] = [
-  [[7, 9]],
-  [[6, 9]],
-  [[6, 10]],
-  [[5, 10]],
-  [[4, 11]],
-  [[3, 12]],
-  [[3, 13]],
-  [[2, 13], [15, 19]],
-  [[1, 13], [14, 19]],
-  [[0, 13], [15, 18]],
-  [[0, 12]],
-  [[1, 11]],
-  [[2, 11]],
-  [[3, 10]],
-  [[3, 10]],
-  [[4, 9]],
-  [[4, 9]],
-  [[4, 8]],
-  [[5, 8]],
-  [[5, 8]],
-  [[5, 7]],
-  [[6, 7]],
-  [[6, 7]],
-  [[6, 6]],
-];
-
-const TINTS = ["rgb(var(--blue-border))", "rgb(var(--blue-border))", "rgb(var(--blue-400))", "rgb(var(--blue-subtle))"];
-const PITCH = 11;
-const CELL = 8.5;
-
-function FragmentedIndia() {
-  const cells: { x: number; y: number; tint: string; pulse: boolean }[] = [];
-  INDIA_ROWS.forEach((segments, y) => {
-    segments.forEach(([start, end]) => {
-      for (let x = start; x <= end; x++) {
-        cells.push({
-          x,
-          y,
-          tint: TINTS[(x * 7 + y * 13) % 4],
-          pulse: (x * 3 + y * 5) % 31 === 0,
-        });
-      }
-    });
-  });
-  return (
-    <svg
-      viewBox={`0 0 ${20 * PITCH} ${INDIA_ROWS.length * PITCH}`}
-      fill="none"
-      aria-hidden
-      className="w-full max-w-[250px]"
-    >
-      {cells.map((cell) => (
-        <rect
-          key={`${cell.x}-${cell.y}`}
-          x={cell.x * PITCH}
-          y={cell.y * PITCH}
-          width={CELL}
-          height={CELL}
-          rx="2"
-          fill={cell.tint}
-        >
-          {cell.pulse && (
-            <animate
-              attributeName="opacity"
-              values="1;0.25;1"
-              dur="2.6s"
-              begin={`${((cell.x + cell.y) % 5) * 0.4}s`}
-              repeatCount="indefinite"
-            />
-          )}
-        </rect>
-      ))}
-    </svg>
-  );
-}
-
 function IndiaVisual({ copy }: { copy: Visuals["india"] }) {
   return (
-    <div className="flex flex-col items-center gap-5 sm:flex-row sm:gap-3">
-      <FragmentedIndia />
+    <div className="flex flex-col items-center gap-5 sm:flex-row sm:gap-4 w-full justify-center">
+      <IndiaStateMap />
       {/* The dashes travel by transform on an inner strip (Rule 6a), not by
           background-position, which repainted the line every frame. */}
-      <span className="relative hidden h-px min-w-[36px] flex-1 overflow-hidden sm:block" aria-hidden>
+      <span className="relative hidden h-px min-w-[32px] flex-1 overflow-hidden sm:block" aria-hidden>
         <span className="absolute inset-y-0 -left-8 right-0 bg-[length:16px_1px] bg-repeat-x bg-[repeating-linear-gradient(90deg,rgb(var(--blue-border))_0_8px,transparent_8px_16px)] animate-[ps-dash_1.8s_linear_infinite]" />
       </span>
-      <div className="w-full max-w-[210px] shrink-0 rounded-[10px] border border-subtle-stroke bg-background px-3.5 py-3 ">
+      <div className="w-full max-w-[210px] shrink-0 rounded-[10px] border border-subtle-stroke bg-background px-3.5 py-3 shadow-xs">
         <div className="flex items-center justify-between gap-2">
           <span className="font-mono text-[8.5px] font-bold uppercase tracking-[0.08em] text-ink">
             {copy.title}
