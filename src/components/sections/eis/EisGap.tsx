@@ -45,7 +45,7 @@ export default function EisGap({ content }: { content: EisPage["gap"] }) {
                     key={dept.system}
                     className={`flex min-h-[110px] flex-col justify-between rounded-xl p-3.5 sm:p-4 border transition-colors ${
                       dept.hit
-                        ? "border-blue-border bg-blue-subtle text-ink shadow-xs"
+                        ? "border-blue-border bg-blue-subtle text-ink"
                         : "border-lineSoft bg-card"
                     }`}
                   >

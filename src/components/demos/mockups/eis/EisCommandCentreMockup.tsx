@@ -216,7 +216,7 @@ export default function EisCommandCentreMockup() {
             {role.kpis.map((k) => (
               <div
                 key={k.label}
-                className={`rounded-card border p-3.5 transition-colors ${
+                className={`flex flex-col justify-between h-[104px] rounded-card border p-3.5 transition-colors ${
                   k.tone === "positive"
                     ? "border-positive-border bg-positive-subtle/50"
                     : k.tone === "negative"
@@ -224,21 +224,23 @@ export default function EisCommandCentreMockup() {
                     : "border-lineSoft bg-background"
                 }`}
               >
-                <div className="font-mono text-[10px] uppercase tracking-wider text-secondary-text">
-                  {k.label}
+                <div>
+                  <div className="font-mono text-[10px] uppercase tracking-wider text-secondary-text">
+                    {k.label}
+                  </div>
+                  <div
+                    className={`mt-1 font-heading text-[24px] font-bold tracking-tight leading-tight ${
+                      k.tone === "positive"
+                        ? "text-positive"
+                        : k.tone === "negative"
+                        ? "text-red"
+                        : "text-ink"
+                    }`}
+                  >
+                    {k.value}
+                  </div>
                 </div>
-                <div
-                  className={`mt-1 font-heading text-[24px] font-bold tracking-tight leading-tight ${
-                    k.tone === "positive"
-                      ? "text-positive"
-                      : k.tone === "negative"
-                      ? "text-red"
-                      : "text-ink"
-                  }`}
-                >
-                  {k.value}
-                </div>
-                <div className="mt-1 text-[11px] text-tertiary-text leading-tight">{k.note}</div>
+                <div className="mt-1 text-[11px] text-tertiary-text leading-tight truncate">{k.note}</div>
               </div>
             ))}
           </div>

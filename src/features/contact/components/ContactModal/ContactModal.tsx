@@ -59,6 +59,19 @@ export function ContactModal() {
   const close = useCallback(() => setOpen(false), []);
 
   useEffect(() => {
+    function checkHash() {
+      if (typeof window !== "undefined" && CONTACT_HASHES.includes(window.location.hash)) {
+        setSession((n) => n + 1);
+        setProgressPercent(0);
+        setOpen(true);
+      }
+    }
+    checkHash();
+    window.addEventListener("hashchange", checkHash);
+    return () => window.removeEventListener("hashchange", checkHash);
+  }, []);
+
+  useEffect(() => {
     function onClick(e: MouseEvent) {
       if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey) return;
       const anchor = (e.target as HTMLElement)?.closest("a");
@@ -140,8 +153,8 @@ export function ContactModal() {
               aria-label={copy.close}
               className={styles.close}
             >
-              <svg width="15" height="15" viewBox="0 0 15 15" fill="none" aria-hidden>
-                <path stroke="currentColor" strokeLinecap="round" strokeWidth="1.6" d="M3.5 3.5l8 8M11.5 3.5l-8 8" />
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden>
+                <path stroke="currentColor" strokeLinecap="round" strokeWidth="2" d="M3.5 3.5l9 9M12.5 3.5l-9 9" />
               </svg>
             </button>
 

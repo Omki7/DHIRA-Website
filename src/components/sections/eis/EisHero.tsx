@@ -157,29 +157,30 @@ export default function EisHero({
           {/* Executive Trust Badges */}
           <div className="mx-auto mt-14 max-w-4xl border-t border-lineSoft pt-8 sm:mt-16">
             <div className="grid grid-cols-2 gap-4 text-left sm:grid-cols-4 sm:gap-6">
-              <div className="border-l border-lineSoft pl-4">
-                <div className="flex items-center gap-1.5">
-                  <span className="h-2 w-2 rounded-full bg-positive" />
-                  <span className="font-mono text-[10px] font-bold uppercase tracking-wider text-ink">
-                    Zero Reporting Lag
-                  </span>
-                </div>
+              <div className="flex flex-col justify-between border-l border-lineSoft pl-4">
+                <span className="font-mono text-[10px] font-bold uppercase tracking-wider text-ink flex items-center gap-1.5">
+                  <span className="h-1.5 w-1.5 rounded-full bg-positive shrink-0" />
+                  Zero Reporting Lag
+                </span>
                 <p className="mt-1 text-[13px] text-secondary-text">Live operating reality without 3-week reporting cycles</p>
               </div>
-              <div className="border-l border-lineSoft pl-4">
-                <span className="font-mono text-[10px] font-bold uppercase tracking-wider text-ink">
+              <div className="flex flex-col justify-between border-l border-lineSoft pl-4">
+                <span className="font-mono text-[10px] font-bold uppercase tracking-wider text-ink flex items-center gap-1.5">
+                  <span className="h-1.5 w-1.5 rounded-full bg-blue shrink-0" />
                   Unified Ground Truth
                 </span>
                 <p className="mt-1 text-[13px] text-secondary-text">CEO, CFO, and COO aligned on identical numbers</p>
               </div>
-              <div className="border-l border-lineSoft pl-4">
-                <span className="font-mono text-[10px] font-bold uppercase tracking-wider text-ink">
+              <div className="flex flex-col justify-between border-l border-lineSoft pl-4">
+                <span className="font-mono text-[10px] font-bold uppercase tracking-wider text-ink flex items-center gap-1.5">
+                  <span className="h-1.5 w-1.5 rounded-full bg-blue shrink-0" />
                   Early Risk Warning
                 </span>
                 <p className="mt-1 text-[13px] text-secondary-text">Margin and contract slippage detected 30 days early</p>
               </div>
-              <div className="border-l border-lineSoft pl-4">
-                <span className="font-mono text-[10px] font-bold uppercase tracking-wider text-ink">
+              <div className="flex flex-col justify-between border-l border-lineSoft pl-4">
+                <span className="font-mono text-[10px] font-bold uppercase tracking-wider text-ink flex items-center gap-1.5">
+                  <span className="h-1.5 w-1.5 rounded-full bg-blue shrink-0" />
                   Governed Execution
                 </span>
                 <p className="mt-1 text-[13px] text-secondary-text">Human-authorized actions with immutable audit</p>

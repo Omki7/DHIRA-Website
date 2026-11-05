@@ -177,7 +177,7 @@ export function ContactForm({ idPrefix, onProgress, onDone, doneLabel }: Contact
             <textarea
               id={id("message")}
               required
-              rows={4}
+              rows={2}
               value={form.message}
               onChange={(e) => update("message", e.target.value)}
               className={styles.textarea}

@@ -335,23 +335,25 @@ export default function EisGapTimelineMockup() {
       <div className="grid grid-cols-1 divide-y divide-lineSoft border-t border-lineSoft sm:grid-cols-3 sm:divide-y-0 sm:divide-x bg-primary-bg">
         
         {/* Metric 1 */}
-        <div className="p-4 sm:p-5">
-          <span className="block font-mono text-[10px] uppercase tracking-wider text-tertiary-text font-bold">
-            Time to Action
-          </span>
-          <div className="mt-1 flex items-baseline gap-2">
-            <span
-              className={`font-heading text-xl sm:text-2xl font-bold transition-colors ${
-                isAkashic ? "text-positive" : "text-red"
-              }`}
-            >
-              {isAkashic ? "30 Minutes" : "26 Days"}
+        <div className="flex flex-col justify-between p-4 sm:p-5 min-h-[116px] h-full">
+          <div>
+            <span className="block font-mono text-[10px] uppercase tracking-wider text-tertiary-text font-bold">
+              Time to Action
             </span>
-            <span className="font-mono text-[10.5px] text-secondary-text">
-              {isAkashic ? "(Day 0 · 09:30 AM)" : "(17 Days Past Deadline)"}
-            </span>
+            <div className="mt-1 flex items-baseline gap-2">
+              <span
+                className={`font-heading text-xl sm:text-2xl font-bold transition-colors ${
+                  isAkashic ? "text-positive" : "text-red"
+                }`}
+              >
+                {isAkashic ? "30 Minutes" : "26 Days"}
+              </span>
+              <span className="font-mono text-[10.5px] text-secondary-text">
+                {isAkashic ? "(Day 0 · 09:30 AM)" : "(17 Days Late)"}
+              </span>
+            </div>
           </div>
-          <p className="mt-1 text-[11.5px] text-secondary-text leading-snug">
+          <p className="mt-1.5 text-[11.5px] text-secondary-text leading-snug line-clamp-2">
             {isAkashic
               ? "Live correlation intercepts risk immediately on appearance."
               : "Discovered only after month-end reporting close."}
@@ -359,23 +361,25 @@ export default function EisGapTimelineMockup() {
         </div>
 
         {/* Metric 2 */}
-        <div className="p-4 sm:p-5">
-          <span className="block font-mono text-[10px] uppercase tracking-wider text-tertiary-text font-bold">
-            Deadline Margin
-          </span>
-          <div className="mt-1 flex items-baseline gap-2">
-            <span
-              className={`font-heading text-xl sm:text-2xl font-bold transition-colors ${
-                isAkashic ? "text-positive" : "text-red"
-              }`}
-            >
-              {isAkashic ? "+18 Days Early" : "17 Days Late"}
+        <div className="flex flex-col justify-between p-4 sm:p-5 min-h-[116px] h-full">
+          <div>
+            <span className="block font-mono text-[10px] uppercase tracking-wider text-tertiary-text font-bold">
+              Deadline Margin
             </span>
-            <span className="font-mono text-[10.5px] text-secondary-text">
-              {isAkashic ? "Safe Window" : "Permanent Loss"}
-            </span>
+            <div className="mt-1 flex items-baseline gap-2">
+              <span
+                className={`font-heading text-xl sm:text-2xl font-bold transition-colors ${
+                  isAkashic ? "text-positive" : "text-red"
+                }`}
+              >
+                {isAkashic ? "+18 Days Early" : "17 Days Late"}
+              </span>
+              <span className="font-mono text-[10.5px] text-secondary-text">
+                {isAkashic ? "Safe Window" : "Permanent Loss"}
+              </span>
+            </div>
           </div>
-          <p className="mt-1 text-[11.5px] text-secondary-text leading-snug">
+          <p className="mt-1.5 text-[11.5px] text-secondary-text leading-snug line-clamp-2">
             {isAkashic
               ? "Intervention executed 18 days before notice window."
               : "Notice window expired on Day 9 with no alert raised."}
@@ -383,20 +387,25 @@ export default function EisGapTimelineMockup() {
         </div>
 
         {/* Metric 3 */}
-        <div className="p-4 sm:p-5">
-          <span className="block font-mono text-[10px] uppercase tracking-wider text-tertiary-text font-bold">
-            P&L Outcome
-          </span>
-          <div className="mt-1 flex items-baseline gap-2">
-            <span
-              className={`font-heading text-xl sm:text-2xl font-bold transition-colors ${
-                isAkashic ? "text-positive" : "text-red"
-              }`}
-            >
-              {isAkashic ? "$180,000 Retained" : "-$180,000 Churn"}
+        <div className="flex flex-col justify-between p-4 sm:p-5 min-h-[116px] h-full">
+          <div>
+            <span className="block font-mono text-[10px] uppercase tracking-wider text-tertiary-text font-bold">
+              P&L Outcome
             </span>
+            <div className="mt-1 flex items-baseline gap-2">
+              <span
+                className={`font-heading text-xl sm:text-2xl font-bold transition-colors ${
+                  isAkashic ? "text-positive" : "text-red"
+                }`}
+              >
+                {isAkashic ? "$180,000 Retained" : "-$180,000 Churn"}
+              </span>
+              <span className="font-mono text-[10.5px] text-secondary-text">
+                {isAkashic ? "Annual Value" : "Revenue Loss"}
+              </span>
+            </div>
           </div>
-          <p className="mt-1 text-[11.5px] text-secondary-text leading-snug">
+          <p className="mt-1.5 text-[11.5px] text-secondary-text leading-snug line-clamp-2">
             {isAkashic
               ? "Renewed contract with updated payment schedule."
               : "Account lapsed silently without executive visibility."}
