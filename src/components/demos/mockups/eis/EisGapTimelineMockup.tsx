@@ -32,24 +32,24 @@ export default function EisGapTimelineMockup() {
         </div>
 
         {/* Interactive Mode Toggle */}
-        <div className="inline-flex items-center rounded-btn border border-line bg-background p-1 shadow-xs">
+        <div className="inline-flex items-center rounded-btn border border-line bg-background p-1">
           <button
             type="button"
             onClick={() => setMode("akashic")}
             className={`relative rounded-inner px-3 py-1 font-mono text-[11px] font-bold transition-all ${
               isAkashic
-                ? "bg-blue text-white shadow-xs"
+                ? "bg-blue text-white"
                 : "text-secondary-text hover:text-ink"
             }`}
           >
-            ● With Enterprise Intelligence
+            With Enterprise Intelligence
           </button>
           <button
             type="button"
             onClick={() => setMode("legacy")}
             className={`relative rounded-inner px-3 py-1 font-mono text-[11px] font-bold transition-all ${
               !isAkashic
-                ? "bg-red text-white shadow-xs"
+                ? "bg-red text-white"
                 : "text-secondary-text hover:text-ink"
             }`}
           >
@@ -190,12 +190,12 @@ export default function EisGapTimelineMockup() {
             {/* Callout Above Circle */}
             <div className="mb-2 whitespace-nowrap">
               {isAkashic ? (
-                <span className="inline-flex items-center gap-1 rounded-full bg-positive text-white px-2.5 py-0.5 font-mono text-[9.5px] font-bold tracking-wider shadow-xs uppercase">
-                  <span>● Intercepted in 30 Mins</span>
+                <span className="inline-flex items-center gap-1 rounded-full bg-positive text-white px-2.5 py-0.5 font-mono text-[9.5px] font-bold tracking-wider uppercase">
+                  <span>Intercepted in 30 Mins</span>
                   <span className="opacity-80">· +18d Early</span>
                 </span>
               ) : (
-                <span className="inline-flex items-center gap-1 rounded-full bg-red text-white px-2.5 py-0.5 font-mono text-[9.5px] font-bold tracking-wider shadow-xs uppercase">
+                <span className="inline-flex items-center gap-1 rounded-full bg-red text-white px-2.5 py-0.5 font-mono text-[9.5px] font-bold tracking-wider uppercase">
                   ⚠ System Blind Spot
                 </span>
               )}

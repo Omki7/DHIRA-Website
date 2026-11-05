@@ -18,7 +18,7 @@ const hops = [
   { code: "14:02", name: "Card", state: "ok" },
   { code: "14:07", name: "UPI", state: "ok" },
   { code: "14:08", name: "Savings", state: "chain" },
-  { code: "—", name: "Resolved", state: "ok" },
+  { code: "-", name: "Resolved", state: "ok" },
 ] as const;
 
 const readouts = [

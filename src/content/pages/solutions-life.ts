@@ -145,7 +145,7 @@ export const solutionsLife: LifePage = {
     items: [
       { icon: "heart", head: "She is caught before the emergency", body: "Severe risk is flagged at the visit, not on the fourth day. The window that decides the outcome is the one the system now sits inside." },
       { icon: "handset", head: "It works where nothing else does", body: "No broadband, no lab, no specialist within reach. The whole screen is read on the handset a frontline worker is already carrying." },
-      { icon: "record", head: "One mother, one record", body: "The health worker, the primary health centre and the district hospital read the same golden record. Not three versions of her that somebody has to reconcile later." },
+      { icon: "record", head: "One mother, one record", body: "The health worker, the primary health centre and the district hospital read the same resolved record. Not three versions of her that somebody has to reconcile later." },
       { icon: "map", head: "The district view is finally live", body: "Every reading aggregates upward, anonymised, so administrators watch risk building in a block while there is still time to move people and supplies to it." },
     ],
   },
@@ -162,7 +162,7 @@ export const solutionsLife: LifePage = {
 
   /* Figures as on the public record (Rule 4), as in the customer stories. */
   recordOfWork: {
-    eyebrow: { num: "06", label: "Already done. Already running." },
+    eyebrow: { num: "05", label: "Already done. Already running." },
     lede: "Reading risk at the edge is the new part. Carrying a country’s health data without dropping a record is not, and it is the part that is hard.",
     chain: [
       { figure: "2 Billion+", name: "National immunisation registry", body: "The same data backbone reconciled more than 2 billion dose records through a country-scale programme, under load, in public." },
@@ -172,11 +172,11 @@ export const solutionsLife: LifePage = {
   },
 
   built: {
-    eyebrow: { num: "07", label: "What is underneath" },
+    eyebrow: { num: "06", label: "What is underneath" },
     title: "Nothing here is bespoke. It is Akashic, pointed at a village.",
     layers: [
       { module: "Machine Learning", name: "On-device risk reading", body: "Models tuned small enough to run on the basic Android handsets frontline workers already carry, and to read a full antenatal screen locally with nothing leaving the device." },
-      { module: "Master Data", name: "One golden record", body: "The same mother is recognised as the same mother whether she is seen by a health worker, a primary health centre or a district hospital. One record, not three." },
+      { module: "Master Data", name: "One resolved record", body: "The same mother is recognised as the same mother whether she is seen by a health worker, a primary health centre or a district hospital. One record, not three." },
       { module: "Business Intelligence and Governance", name: "Audited by design", body: "Aggregated, anonymised risk flows into district and national dashboards with full lineage, audit trails and role-based access, exactly as in every other Akashic deployment." },
     ],
   },

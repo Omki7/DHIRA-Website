@@ -242,7 +242,7 @@ export const sectorsPublicSector: PublicSectorPage = {
     end: "Policy decision",
     steps: [
       { num: "01", name: "Connect", module: "23+ CONNECTORS", desc: "Ingest from citizen registries, ministry databases, state portals, and field applications: real-time or batch, no migration required." },
-      { num: "02", name: "Unify", module: "MASTER DATA", desc: "One Golden Record per citizen or beneficiary, deduplicating records across schemes, departments, and states." },
+      { num: "02", name: "Unify", module: "MASTER DATA", desc: "One resolved record per citizen or beneficiary, deduplicating records across schemes, departments, and states." },
       { num: "03", name: "Structure", module: "DATA WAREHOUSE", desc: "Governed, analytics-ready models, built for both ministry-level and district-level queries." },
       { num: "04", name: "Analyse", module: "BUSINESS INTELLIGENCE", desc: "Live dashboards by state, district, and scheme. Role-based, so a district officer and a secretary see what's relevant to them." },
       { num: "05", name: "Predict", module: "MACHINE LEARNING", desc: "Flags coverage gaps, predicts scheme drop-off, and scores eligibility, surfacing risk before it becomes a crisis." },

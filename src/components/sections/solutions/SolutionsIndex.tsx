@@ -1,10 +1,8 @@
 /*
- * [03] By industry and function: two registers side by side. Each line names
+ * [03] By industry & [04] By function: two dedicated registers. Each line names
  * the solutions that fit it, linked to their row above or their own page.
  * Function rows carry the ids the nav's "By function" links target
  * (#function-<slug>). The page's one soft blue band (Rule 5a).
- * The mappings are drafted from the founder's copy; see the note in
- * lib/solutionsSections.ts.
  */
 
 import Link from "next/link";
@@ -24,7 +22,7 @@ function Register({ id, title, rows, links }: { id: string; title: string; rows:
           <li
             key={row.label}
             id={row.id}
-            className="grid scroll-mt-28 gap-1.5 border-b border-lineSoft py-4 sm:grid-cols-[minmax(0,13rem)_1fr] sm:gap-6"
+            className="grid scroll-mt-28 gap-1.5 border-b border-lineSoft py-4 sm:grid-cols-[minmax(0,13rem)_1fr] sm:gap-6 target:bg-blue/10 target:px-3 target:rounded-card transition-all duration-300"
           >
             {row.href ? (
               <Link
@@ -80,26 +78,48 @@ export default function SolutionsIndex({
 }) {
   const links = solutionLinks(featured, more);
   return (
-    <section
-      id="industries"
-      className="scroll-mt-24 bg-band pb-20 pt-16 lg:pb-28 lg:pt-20"
-    >
-      <ScrollRevealRail>
-        <SectionHeader
-          num={content.num}
-          label={content.label}
-          setup={content.setup}
-          payoff={content.payoff}
-          lede={content.lede}
-        />
+    <>
+      <section
+        id="industries"
+        className="scroll-mt-24 bg-band pb-16 pt-16 lg:pb-20 lg:pt-20"
+      >
+        <ScrollRevealRail>
+          <SectionHeader
+            num="03"
+            label="By industry"
+            setup="Find your starting point."
+            payoff="By the sector you serve."
+            lede="Each line names the solutions that fit your industry, so the first conversation starts from your domain."
+          />
 
-        <ScrollReveal delay={80}>
-          <div className="mt-12 grid gap-12 lg:mt-16 lg:grid-cols-2 lg:gap-16">
-            <Register id="industry-list" title={content.industryTitle} rows={content.industries} links={links} />
-            <Register id="functions" title={content.functionTitle} rows={content.functions} links={links} />
-          </div>
-        </ScrollReveal>
-      </ScrollRevealRail>
-    </section>
+          <ScrollReveal delay={80}>
+            <div className="mt-12 max-w-4xl lg:mt-16">
+              <Register id="industry-list" title={content.industryTitle} rows={content.industries} links={links} />
+            </div>
+          </ScrollReveal>
+        </ScrollRevealRail>
+      </section>
+
+      <section
+        id="functions"
+        className="scroll-mt-24 border-t border-lineSoft bg-band pb-20 pt-16 lg:pb-28 lg:pt-20"
+      >
+        <ScrollRevealRail>
+          <SectionHeader
+            num="04"
+            label="By function"
+            setup="Or by the team you lead."
+            payoff="Configured for the outcome."
+            lede="Akashic configured around each business function, with shared data, governance and lineage."
+          />
+
+          <ScrollReveal delay={80}>
+            <div className="mt-12 max-w-4xl lg:mt-16">
+              <Register id="function-list" title={content.functionTitle} rows={content.functions} links={links} />
+            </div>
+          </ScrollReveal>
+        </ScrollRevealRail>
+      </section>
+    </>
   );
 }

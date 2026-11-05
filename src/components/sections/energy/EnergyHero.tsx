@@ -17,7 +17,7 @@ const assets = [
   { code: "TX-118", name: "Sub A", state: "ok" },
   { code: "TX-042", name: "Feeder 7", state: "drift" },
   { code: "TX-205", name: "Sub C", state: "ok" },
-  { code: "—", name: "Dispatched", state: "ok" },
+  { code: "-", name: "Dispatched", state: "ok" },
 ] as const;
 
 const readouts = [

@@ -93,12 +93,12 @@ const patientSignals = [
 export default function HealthcareHero({ content, template }: { content: SectorContent; template: SectorTemplate }) {
   const [eyebrowLead, eyebrowTail] = content.eyebrow.split(" · ");
   return (
-    <div id="hero">
+    <section id="hero" className="relative overflow-hidden bg-anchor text-ink">
       <div className="lg:hidden">
         <SectorHero content={content} template={template} />
       </div>
 
-      <section className="relative hidden overflow-hidden bg-anchor text-ink lg:block">
+      <div className="relative hidden overflow-hidden text-ink lg:block">
         
         
         
@@ -197,7 +197,7 @@ export default function HealthcareHero({ content, template }: { content: SectorC
             </div>
           </ScrollReveal>
         </ScrollRevealRail>
-      </section>
-    </div>
+      </div>
+    </section>
   );
 }
