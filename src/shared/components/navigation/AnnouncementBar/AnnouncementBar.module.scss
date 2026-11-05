@@ -22,6 +22,13 @@
   padding-right: space(4);
   font-size: 12px;
 
+  // The bar sits at the top edge under the nav, so the global ring (2px out)
+  // was drawn off screen. Inset it (platform audit, 5 Nov 2026).
+  &:focus-visible {
+    outline: 2px solid c(blue);
+    outline-offset: -2px;
+  }
+
   @include respond-to(sm) {
     padding-left: space(6);
     padding-right: space(6);

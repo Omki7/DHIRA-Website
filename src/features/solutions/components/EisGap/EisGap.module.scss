@@ -35,7 +35,7 @@ $junction: 9px;
 // Hidden first state, only where the board can draw itself in.
 $can-draw: "(scripting: enabled) and (prefers-reduced-motion: no-preference)";
 
-@mixin mono($size: 10.5px) {
+@mixin mono($size: 12px) {
   font-family: $font-mono;
   font-size: $size;
   font-weight: $weight-normal;
@@ -287,13 +287,14 @@ $can-draw: "(scripting: enabled) and (prefers-reduced-motion: no-preference)";
 
 .riskBody {
   margin: space(1) 0 0;
+  text-wrap: pretty;
   font-size: 13.5px;
   line-height: 1.5;
   color: c(secondary-text);
 }
 
 .runwayLabel {
-  @include mono(11px);
+  @include mono;
   margin: space(8) 0 0;
   letter-spacing: $tracking-eyebrow;
   color: c(overcast);
@@ -581,7 +582,7 @@ $can-draw: "(scripting: enabled) and (prefers-reduced-motion: no-preference)";
 
   .tick {
     top: 14px;
-    font-size: 11px;
+    font-size: 12px;
   }
 
   .tickMuted {
@@ -704,7 +705,7 @@ $can-draw: "(scripting: enabled) and (prefers-reduced-motion: no-preference)";
   }
 
   .spanLabel {
-    font-size: 11px;
+    font-size: 12px;
   }
 }
 

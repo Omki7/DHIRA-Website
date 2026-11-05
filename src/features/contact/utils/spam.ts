@@ -42,13 +42,16 @@ export type SpamFlag =
 
 const LINK = /https?:\/\/|www\.|\[url=|<a\s/gi;
 const MAX_LINKS = 2;
+/* An application is expected to link to work: GitHub, LinkedIn, a portfolio
+   and a project or two (5 Nov 2026). */
+const MAX_LINKS_APPLICATION = 5;
 const PITCH =
   /\b(seo|backlinks?|link building|guest posts?|sponsored posts?|dofollow|first page of google|rank(ing)? (on|in) google|(boost|increase) (your )?(website )?traffic|buy followers|crypto(currency)?|bitcoin|forex|casino|viagra|cialis)\b/i;
 const FOREIGN_SCRIPT = /[\p{Script=Cyrillic}\p{Script=Han}\p{Script=Hiragana}\p{Script=Katakana}\p{Script=Hangul}]/u;
 
-export function spamFlags({ name, company, message }: ContactEnquiry): SpamFlag[] {
+export function spamFlags({ name, company, message }: ContactEnquiry, application = false): SpamFlag[] {
   const flags: SpamFlag[] = [];
-  if ((message.match(LINK) ?? []).length > MAX_LINKS) flags.push("links");
+  if ((message.match(LINK) ?? []).length > (application ? MAX_LINKS_APPLICATION : MAX_LINKS)) flags.push("links");
   if (`${name} ${company}`.match(LINK)) flags.push("link-in-name");
   if (PITCH.test(`${company} ${message}`)) flags.push("pitch");
   if (FOREIGN_SCRIPT.test(`${name} ${company} ${message}`)) flags.push("script");

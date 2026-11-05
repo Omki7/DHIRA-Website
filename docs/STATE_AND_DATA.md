@@ -103,8 +103,33 @@ invisible to people:
    checks again. `interest` must be empty or one of the form's own options.
    Field errors go back to their fields; a failed send shows one line under
    the button.
+   **Email (5 Nov 2026, user: "at least check if the email is proper
+   format", no OTP).** `shared/utils/email.ts` `isEmail`: one @, a name of
+   at most 64 characters with no stray dots, a domain of real labels, a top
+   level domain of two or more letters, and none of the typos no real
+   address has (`.con`, `.cmo`). A format check only: nothing is sent to
+   the address. The form checks it as the visitor leaves the field (an empty
+   field waits for send), and again on send; the server checks it once more.
+   **Interest options (5 Nov 2026, user).** Platform deployment, Product
+   build, Advisory, Partnership, Just exploring, Joining DHIRA, Something
+   else (`content/ui.ts` `contactForm.interest`). "Joining DHIRA" (its
+   `careers`) is one option, never the open roles one by one: the user did
+   not want the form tied to the roles board. It shows only to visitors in
+   India, like every way into careers, or when a careers link opened the
+   form on it: every careers Apply, the careers close and the hiring coda
+   carry `data-contact-interest`. While it is chosen, the form and dialog
+   switch to `contactForm.application` and `contactModal.application`
+   wording, the company is optional, and an optional **resume** can be
+   attached: PDF or Word, at most 4 MB. The form checks the name and size;
+   the server checks them again and reads the file's first bytes
+   (`utils/resume.ts`), so a renamed file is turned back. 4 MB because
+   Vercel refuses request bodies over 4.5 MB; `next.config.mjs` raises the
+   Server Action limit (1 MB by default) to 4.5 MB. The action marks the
+   submission `application: true` and passes the file as `resume`, so
+   delivery can send it to hiring as an attachment.
 3. **Content flags** (`utils/spam.ts` `spamFlags`). Signs of spam a person
-   could also send: more than two links, a link in the name or company, a
+   could also send: more than two links (five in a job application, which
+   should link to work), a link in the name or company, a
    stock pitch (SEO, backlinks, guest posts, crypto, casino and the like),
    Cyrillic or East Asian script, a message that repeats the name or company.
    These never block. The message is delivered with `suspectedSpam: true`

@@ -37,7 +37,7 @@ non-photographic ones came from.
 | `og-image.png` | Default social card (`content/site.ts` `seo.ogImage`) |
 | `brand/` | Logo files for press and partners |
 | `avatars/` | Leadership portraits (`*-executive-v1.webp`, provenance below) and the homepage voices portraits |
-| `about/` | Archived-use CC0 workspace photograph; `about/team/` contains nine AI-edited studio portraits and fourteen additional public-source portraits. About [05] also reuses the five leadership portraits. Sources and draft status: ABOUT_TEAM_SOURCES.md |
+| `about/` | Archived-use CC0 workspace photograph; `about/team/` contains nine AI-edited studio portraits, public-source portraits, and 35 crops of the company's employee photographs (`*-company-v1.webp`, 5 Nov 2026). About [05] also reuses the five leadership portraits. Sources and draft status: ABOUT_TEAM_SOURCES.md and ABOUT_TEAM_WORKBOOK.md |
 | `delivery/` (retired) | The old Services photographs moved to `.archive/services-redesign/public/delivery/` on 26 Oct 2026. Services now uses code-native concept drawings and the shared proof imagery |
 | `sectors/` | Sector page photographs |
 | `proof/` | Homepage proof imagery |
@@ -51,7 +51,9 @@ The older lifestyle imagery is generated or AI-edited, not camera photographs
 of DHIRA people or places. Leadership portraits are enhanced versions of real
 photographs. The original nine About team photographs now have AI-edited
 studio versions. Fourteen further public-source portraits were added unchanged
-on 4 November 2026; their sources are recorded below. Connector and AI
+on 4 November 2026; their sources are recorded below. On 5 November 2026, 35
+portraits were cropped from the company's own employee photographs (supplied
+by the user); see ABOUT_TEAM_WORKBOOK.md. Connector and AI
 assistant marks are published brand marks. The two new home-workspace scenes
 are AI placeholders.
 
@@ -162,6 +164,15 @@ separately.
 The Attio-style concept now includes fourteen additional public-source photos,
 downloaded unchanged. Individual CSS crops bring the faces into comparable
 frames; all portraits render monochrome. Missing photographs use initials.
+
+**Company photographs, 5 November 2026:** 35 `*-company-v1.webp` files are
+square head-and-shoulders crops of the pictures in the company's employee
+workbook (`Employee Images.xlsx`, supplied by the user), at most 480 px,
+WebP quality 86. One was rotated upright; nothing else was retouched. They
+fill missing portraits and replace six public-source photos (Muthusivabalan,
+Sandeep, Alok, Veman, Mohammad Kaim, Parul), whose `*-public-v1.jpg` files
+remain for provenance but are no longer used. Row-by-row mapping:
+[ABOUT_TEAM_WORKBOOK.md](ABOUT_TEAM_WORKBOOK.md).
 See [the full source ledger and draft roster](ABOUT_TEAM_SOURCES.md).
 Chiransh, Subhamoy and Diksha remain excluded at the user's request.
 

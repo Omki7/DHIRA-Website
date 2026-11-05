@@ -11,6 +11,8 @@
  * It replaces four line art scenes that played one at a time, which meant
  * the "both ways" claim was never visible as a whole. The four step
  * descriptions are the approved copy, now a legend under the drawing.
+ *
+ * The coda link opens the contact dialog on "Joining DHIRA".
  */
 
 import Link from "next/link";
@@ -18,10 +20,12 @@ import { ScrollReveal } from "@/shared/components/ui";
 import { ScrollRevealRail } from "@/shared/components/ui";
 import { SectionHeader } from "@/shared/components/ui";
 import { SectionCoda } from "@/shared/components/ui";
+import { useUi } from "@/shared/providers/UiProvider";
 import HiringLoop from "@/components/demos/careers/HiringLoop";
 import type { CareersPage } from "@/content/pages/careers";
 
 export default function CareersHiring({ content }: { content: CareersPage["hiring"] }) {
+  const { careers } = useUi().contactForm.interest;
   return (
     <section
       id="how-we-hire"
@@ -44,7 +48,7 @@ export default function CareersHiring({ content }: { content: CareersPage["hirin
             rule
             lead={content.coda.lead}
             payoff={
-              <Link href={content.coda.link.href} className="underline-offset-4 hover:underline">
+              <Link href={content.coda.link.href} data-contact-interest={careers} className="underline-offset-4 hover:underline">
                 {content.coda.link.label}
               </Link>
             }

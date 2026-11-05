@@ -13,10 +13,13 @@
  *
  * The whole row is the Apply target (a stretched link), not just the word.
  * Apply anchors to #talk-to-our-team, which opens the site contact dialog,
- * until an ATS or careers inbox is wired.
+ * until an ATS or careers inbox is wired. `data-contact-interest` opens it
+ * on "Joining DHIRA", as a job application (features/contact, 5 Nov 2026).
+ * The form does not list the roles: the candidate names theirs.
  */
 
 import Link from "next/link";
+import { useUi } from "@/shared/providers/UiProvider";
 import { ScrollReveal } from "@/shared/components/ui";
 import { ScrollRevealRail } from "@/shared/components/ui";
 import { SectionHeader } from "@/shared/components/ui";
@@ -33,6 +36,7 @@ function ChairGlyph() {
 }
 
 export default function CareersRoles({ content, roles: ROLES }: { content: CareersPage["roles"]; roles: Role[] }) {
+  const { careers } = useUi().contactForm.interest;
   return (
     <section
       id="open-roles"
@@ -74,6 +78,7 @@ export default function CareersRoles({ content, roles: ROLES }: { content: Caree
                   </p>
                   <Link
                     href={content.applyHref}
+                    data-contact-interest={careers}
                     aria-label={`${content.applyFor} ${role.title}`}
                     className="inline-flex items-center gap-1 text-sm font-semibold text-blue transition-colors duration-150 after:absolute after:inset-0 after:content-[''] group-hover:text-blue-hover focus-visible:outline-none focus-visible:after:rounded-tile focus-visible:after:ring-2 focus-visible:after:ring-blue md:col-span-1 md:justify-end"
                   >

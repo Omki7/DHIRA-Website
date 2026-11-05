@@ -24,10 +24,24 @@ export function EisHero({ content }: EisHeroProps) {
   const [typed, setTyped] = useState("");
   const [deleting, setDeleting] = useState(false);
   const [paused, setPaused] = useState(false);
+  /* Hover or focus holds the bar on its current question (critique, 5 Nov
+     2026: the link and its label changed under the pointer and under
+     keyboard focus, so Enter opened a different story from the one read). */
+  const [hovered, setHovered] = useState(false);
+  const [focused, setFocused] = useState(false);
+  const held = hovered || focused;
   const still = usePrefersReducedMotion();
   const askRef = useRef<HTMLDivElement>(null);
   const onScreen = useOnScreen(askRef);
-  const running = !still && !paused && onScreen;
+  const running = !still && !paused && !held && onScreen;
+
+  /* Holding completes the question in place, so releasing resumes from the
+     whole question rather than snapping back to a half-typed one. */
+  const hold = (set: (value: boolean) => void) => {
+    set(true);
+    setTyped(prompts[index].question);
+    setDeleting(false);
+  };
 
   useEffect(() => {
     if (!running) return;
@@ -51,10 +65,10 @@ export function EisHero({ content }: EisHeroProps) {
 
   /* Paused mid-word, the bar shows the whole question it was typing. */
   const prompt = still ? prompts[0] : prompts[index];
-  const shown = still || paused ? prompt.question : typed;
+  const shown = still || paused || held ? prompt.question : typed;
   /* The answer lands once the question is whole (critique, 5 Nov 2026: the
      bar asked but never answered). */
-  const landed = still || paused || (!deleting && typed === prompt.question);
+  const landed = still || paused || held || (!deleting && typed === prompt.question);
 
   return (
     <section id="hero" className={styles.hero}>
@@ -95,24 +109,25 @@ export function EisHero({ content }: EisHeroProps) {
           {/* The product tease: one question at a time, as the homepage's
               Ask Akashic card types its question. */}
           <div ref={askRef} className={styles.ask}>
-            <div className={styles.askRow}>
-              {/* The whole bar is the way into the matching story in [03]. */}
+            <div
+              className={styles.askRow}
+              onPointerEnter={() => hold(setHovered)}
+              onPointerLeave={() => setHovered(false)}
+              onFocus={() => hold(setFocused)}
+              onBlur={(e) => {
+                if (!e.currentTarget.contains(e.relatedTarget as Node | null)) setFocused(false);
+              }}
+            >
+              {/* The whole bar is the way into the matching story in [03].
+                  A play mark, not a magnifier: it opens a story, it does not
+                  take typing (critique, 5 Nov 2026). */}
               <a
                 href={`#story-${prompt.story}`}
                 className={styles.askBar}
                 aria-label={`${content.askLabel}: ${prompt.question}`}
               >
-                <svg
-                  aria-hidden
-                  viewBox="0 0 16 16"
-                  className={styles.askIcon}
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth={1.6}
-                  strokeLinecap="round"
-                >
-                  <circle cx="7" cy="7" r="4.5" />
-                  <path d="m10.5 10.5 3 3" />
+                <svg aria-hidden viewBox="0 0 24 24" className={styles.askIcon} fill="currentColor">
+                  <path d="M8 5.5v13l11-6.5z" />
                 </svg>
                 <span className={styles.askTag} aria-hidden="true">{prompt.tag}</span>
                 {prompt.preview && <PreviewTag />}

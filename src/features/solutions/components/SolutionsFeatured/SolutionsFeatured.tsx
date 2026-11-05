@@ -56,11 +56,19 @@ export function SolutionsFeatured({ content }: SolutionsFeaturedProps) {
                     </li>
                   ))}
                 </ul>
+                {/* The homepage's per-solution link: ink, underlined, an arrow. */}
                 <Link href={solution.href} className={styles.link}>
-                  {solution.cta}
-                  <span aria-hidden="true" className={styles.arrow}>
-                    &rarr;
-                  </span>
+                  <span className={styles.linkLabel}>{solution.cta}</span>
+                  <svg
+                    viewBox="0 0 20 20"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.4"
+                    className={styles.arrow}
+                    aria-hidden="true"
+                  >
+                    <path d="M3 10h13m-5-5 5 5-5 5" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
                 </Link>
               </ScrollReveal>
 

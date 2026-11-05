@@ -10,11 +10,14 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useUi } from "@/shared/providers/UiProvider";
+import { isApplication } from "../../schemas/contact.schema";
 import { ContactForm } from "../ContactForm";
 import styles from "./ContactModal.module.scss";
 
 /* Copy: content/ui.ts `contactModal` (the assurances keep their ids, which
-   pick the icon). */
+   pick the icon), and its `application` ask while the form is a job
+   application (5 Nov 2026). A contact link can preselect the form's interest
+   with `data-contact-interest`: the careers links open on "Joining DHIRA". */
 
 const CONTACT_HASHES = ["#talk-to-our-team", "#get-started", "#briefing-form"];
 
@@ -49,27 +52,39 @@ function AssuranceIcon({ type }: { type: string }) {
 }
 
 export function ContactModal() {
-  const { contactModal: copy } = useUi();
+  const { contactModal, contactForm } = useUi();
   const [open, setOpen] = useState(false);
   /* Each open mounts a fresh form, so a sent message never shows on reopen. */
   const [session, setSession] = useState(0);
   const [progressPercent, setProgressPercent] = useState(0);
+  const [interest, setInterest] = useState("");
+  const [applying, setApplying] = useState(false);
   const dialogRef = useRef<HTMLDivElement>(null);
+  const copy = applying ? { ...contactModal, ...contactModal.application } : contactModal;
 
   const close = useCallback(() => setOpen(false), []);
 
+  /* Opens a fresh form. The ask matches from the first frame: an Apply link
+     opens on the candidate's ask, anything else on the business one. */
+  const openWith = useCallback(
+    (preselect: string) => {
+      setSession((n) => n + 1);
+      setProgressPercent(0);
+      setInterest(preselect);
+      setApplying(isApplication(preselect, contactForm.interest));
+      setOpen(true);
+    },
+    [contactForm.interest],
+  );
+
   useEffect(() => {
     function checkHash() {
-      if (typeof window !== "undefined" && CONTACT_HASHES.includes(window.location.hash)) {
-        setSession((n) => n + 1);
-        setProgressPercent(0);
-        setOpen(true);
-      }
+      if (typeof window !== "undefined" && CONTACT_HASHES.includes(window.location.hash)) openWith("");
     }
     checkHash();
     window.addEventListener("hashchange", checkHash);
     return () => window.removeEventListener("hashchange", checkHash);
-  }, []);
+  }, [openWith]);
 
   useEffect(() => {
     function onClick(e: MouseEvent) {
@@ -82,13 +97,11 @@ export function ContactModal() {
       const hash = href.includes("#") ? `#${href.split("#")[1]}` : "";
       if (!CONTACT_HASHES.includes(hash)) return;
       e.preventDefault();
-      setSession((n) => n + 1);
-      setProgressPercent(0);
-      setOpen(true);
+      openWith(anchor.dataset.contactInterest ?? "");
     }
     document.addEventListener("click", onClick, true);
     return () => document.removeEventListener("click", onClick, true);
-  }, []);
+  }, [openWith]);
 
   useEffect(() => {
     if (!open) return;
@@ -209,7 +222,14 @@ export function ContactModal() {
 
               {/* Right Column — The Form */}
               <div className={styles.formColumn}>
-                <ContactForm key={session} idPrefix="cm" onProgress={setProgressPercent} onDone={close} />
+                <ContactForm
+                  key={session}
+                  idPrefix="cm"
+                  initialInterest={interest}
+                  onProgress={setProgressPercent}
+                  onApplyingChange={setApplying}
+                  onDone={close}
+                />
               </div>
             </div>
           </motion.div>

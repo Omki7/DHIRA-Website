@@ -2,11 +2,12 @@
 
 import { useSyncExternalStore } from "react";
 import { usePathname } from "next/navigation";
-import { pageRegion, type Region } from "@/shared/utils/region";
+import { REGIONAL_PATHS, pageRegion, type Region } from "@/shared/utils/region";
 
 /* The visitor's region (see lib/region.ts). Three inputs, in this order:
    the page being viewed (/in/... is India), the region the visitor chose
-   (footer switch or the suggestion card, kept in localStorage), and a guess
+   (footer switch or the suggestion card, kept in localStorage; ignored
+   while REGIONAL_PATHS is empty and the switch is hidden), and a guess
    from the device time zone. India runs on one zone, so the guess needs no
    lookup service and nothing leaves the browser. During SSR and hydration
    only the page is known, so links render their international hrefs and
@@ -18,7 +19,13 @@ const INDIA_ZONES = ["Asia/Kolkata", "Asia/Calcutta"];
 
 const isRegion = (value: unknown): value is Region => value === "intl" || value === "in";
 
+/* A stored choice counts only while the visitor can see and change it: the
+   footer switch shows only while REGIONAL_PATHS has a page (5 Nov 2026). An
+   Indian visitor who picked International when /in/pricing existed kept that
+   choice after the switch went, and it hid India-only Careers from them with
+   no way back. While the switch is hidden, the time zone decides. */
 function readChoice(): Region | null {
+  if (REGIONAL_PATHS.length === 0) return null;
   try {
     const value = localStorage.getItem(KEY);
     return isRegion(value) ? value : null;

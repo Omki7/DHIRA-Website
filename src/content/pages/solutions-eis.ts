@@ -484,10 +484,8 @@ export interface EisPage {
   close: {
     title: [string, string];
     sessionLabel: string;
-    session: string[];
     prompt: string;
     primary: Cta;
-    secondary: Cta;
     timeline?: {
       duration: string;
       label: string;
@@ -519,7 +517,10 @@ export const solutionsEis: EisPage = {
 
   hero: {
     badge: "Enterprise Intelligence",
-    title: ["See where your business will land.", "Every hour."],
+    /* 5 Nov 2026 critique: "Every hour." contradicted the lede ("as it
+       changes") and the receipt ("two minutes ago"). One sentence across
+       the two tones; the payoff is the decision runway of [01]. */
+    title: ["See where your business will land", "in time to act."],
     /* The four questions are the four stories in [03], in the same order,
        short enough to sit whole in the ask bar (5 Nov 2026: the old ones
        were cut off). Tags are the stories' own topics. */
@@ -528,13 +529,13 @@ export const solutionsEis: EisPage = {
         tag: "People and projects",
         question: "Someone asks for five days off. What breaks?",
         story: "leave",
-        answer: { outcome: "A client milestone slips. $84,000 of October revenue at risk.", source: "ERPNext Projects and Accounts" },
+        answer: { outcome: "A client milestone slips. $84,000 of October revenue at risk.", source: "Project tool and accounting" },
       },
       {
         tag: "Cloud costs",
         question: "A GPU node, requested on Friday. What will it cost?",
         story: "cloud",
-        answer: { outcome: "$734 over 30 days, absorbed by a fixed-price project.", source: "Cloud billing and ERPNext Projects" },
+        answer: { outcome: "$734 over 30 days, absorbed by a fixed-price project.", source: "Cloud billing and the project tool" },
       },
       {
         tag: "What-if",
@@ -552,20 +553,23 @@ export const solutionsEis: EisPage = {
     ],
     motionLabel: "the example questions",
     askLabel: "Watch the story",
-    /* True as of 5 Nov 2026: ERPNext is the live connector. The old lede
-       listed Salesforce, SAP and Oracle as live (and showed the PostgreSQL
-       mark for ERPNext); they are not claimed here. */
-    connectorsNote: "Every answer traces to its record · Live on ERPNext today · More systems on the roadmap",
-    lede: "Every decision touches customers, projects, people and cash. Enterprise Intelligence reads your ERP as it changes, so every leader works from the same live figures.",
-    primary: { label: "See it with your own data", href: "#talk-to-our-team" },
+    /* 5 Nov 2026 (user): no vendor names on this page. Systems are named by
+       role (CRM, project tool, accounting, HR system, cloud billing), so the
+       page reads as connecting to the organisation's own systems. Never
+       name a specific vendor as connected live (Salesforce, SAP, Oracle). */
+    connectorsNote: "Every answer traces to its record · Works with the systems you already run",
+    lede: "Each decision touches customers, projects, people and cash. Enterprise Intelligence reads your business systems as they change, so every leader works from the same live figures.",
+    /* The first step is a 30-minute demo; your own data comes with the
+       3-week diagnostic (see close.timeline), so the button names the demo. */
+    primary: { label: "Book a 30-minute demo", href: "#talk-to-our-team" },
     secondary: { label: "Watch four 30-second stories", href: "#use-cases" },
     screenUrl: "akashic.dhira.ai/enterprise-intelligence",
     /* Plain promises the page itself goes on to show: [01], [05], [03], [06]. */
     outcomes: [
-      { label: "No month-end wait", body: "The picture moves with your ERP, not with the monthly pack." },
-      { label: "No two versions", body: "Every leader reads the same figures, traced to the record." },
-      { label: "Impact before approval", body: "See what a leave, a deal or a cloud request will move." },
-      { label: "Your ERP stays the record", body: "Nothing changes in your ERP without approval." },
+      { label: "Today's picture", body: "The picture moves with your systems, not the monthly pack." },
+      { label: "One set of figures", body: "Each leader reads the same figures, traced to the record." },
+      { label: "See impact first", body: "Know what a leave, a deal or a cloud request will change." },
+      { label: "Records stay put", body: "No system changes without your approval." },
     ],
   },
 
@@ -594,9 +598,9 @@ export const solutionsEis: EisPage = {
       ],
       columns: { department: "Department", piece: "What its system shows" },
       lanes: [
-        { department: "Sales", system: "ERPNext CRM", signal: "The renewal's sponsor resigns", seenBy: "Seen by the account manager" },
-        { department: "Delivery", system: "ERPNext Projects", signal: "Claims Engine three weeks late", seenBy: "Seen by the project lead" },
-        { department: "Finance", system: "ERPNext Accounts", signal: "An invoice 74 days overdue", seenBy: "Seen by collections" },
+        { department: "Sales", system: "CRM", signal: "The renewal's sponsor resigns", seenBy: "Seen by the account manager" },
+        { department: "Delivery", system: "Project tool", signal: "Claims Engine three weeks late", seenBy: "Seen by the project lead" },
+        { department: "Finance", system: "Accounting", signal: "An invoice 74 days overdue", seenBy: "Seen by collections" },
       ],
       leadership: { name: "Leadership", note: "When they find out" },
       risk: {
@@ -609,16 +613,17 @@ export const solutionsEis: EisPage = {
       runway: { label: "Decision runway", act: "9 days to act", late: "Seen 17 days too late" },
     },
     research: {
-      title: "Most finance teams close this gap by hand.",
+      /* Not "Most": the figures below are 45 to 46 per cent, not a majority. */
+      title: "Finance teams still close this gap by hand.",
       stats: [
         {
           value: "46%",
-          label: "of financial planning time goes to collecting and validating data, not analysis.",
+          label: "of financial planning time goes to collecting and validating data.",
           citation: "FP&A Trends Survey 2025",
         },
         {
           value: "45%",
-          label: "of organisations still plan mainly in spreadsheets.",
+          label: "of organisations still do most of their planning in spreadsheets.",
           citation: "FP&A Trends Survey 2025",
         },
         {
@@ -639,7 +644,7 @@ export const solutionsEis: EisPage = {
   teasers: {
     setup: "See the impact",
     payoff: "before anyone commits.",
-    lede: "Four everyday decisions, each one quietly touching the rest of the business.",
+    lede: "Four everyday decisions, and what each one moves elsewhere in the business.",
     playLabel: "Play",
     replayLabel: "Watch again",
     items: [
@@ -650,7 +655,7 @@ export const solutionsEis: EisPage = {
         duration: "0:29 · voice-over",
         title: "One leave. Four lifecycles.",
         description:
-          "Someone asks for five days off. What does it quietly put at risk, and who finds out before it is approved?",
+          "Someone asks for five days off. What does it put at risk, and who finds out before it is approved?",
         videoSrc: "/solutions/enterprise-intelligence/aei-teaser-leave-720.mp4",
         posterSrc: "/solutions/enterprise-intelligence/poster-leave.webp",
         label: "Teaser video: one leave touching four lifecycles",
@@ -698,9 +703,9 @@ export const solutionsEis: EisPage = {
      what Enterprise Intelligence is. This section does, in the hub's own
      words, and shows the one client from [01] whole. */
   onePicture: {
-    setup: "Ask about one client.",
-    payoff: "See everything it touches.",
-    lede: "Enterprise Intelligence does the work of financial planning and management reporting. It reads your ERP as records change and follows every link across people, work and money.",
+    setup: "Ask about one client",
+    payoff: "and see everything it touches.",
+    lede: "Enterprise Intelligence does the work of financial planning and management reporting. It reads your systems as records change and follows every link across people, work and money.",
     figure: {
       question: "How exposed are we to Northwind Insurance?",
       centre: { name: "Northwind Insurance", note: "Client · claims programme" },
@@ -709,13 +714,12 @@ export const solutionsEis: EisPage = {
       legend: { chain: "One chain across departments", client: "Linked to the client" },
       /* Families in the order of the chain (people, delivery, finance,
          sales); each family's first record is a link in it. Sources are
-         the live ERPNext modules (5 Nov 2026 critique: Salesforce is on
-         the roadmap, and HR is Frappe HR). */
+         named by role, never by vendor (5 Nov 2026, user). */
       families: [
         {
           key: "people",
           name: "People",
-          source: "Frappe HR",
+          source: "HR system",
           records: [
             { title: "Karthik Iyer on leave", detail: "Lead engineer, 26 to 30 October" },
             { title: "Five engineers free", detail: "On the bench from 20 October" },
@@ -724,7 +728,7 @@ export const solutionsEis: EisPage = {
         {
           key: "work",
           name: "Delivery",
-          source: "ERPNext Projects",
+          source: "Project tool",
           records: [
             { title: "Claims Engine slips", detail: "Project P-104, three weeks late" },
             { title: "Change request 07", detail: "Scope in dispute" },
@@ -733,7 +737,7 @@ export const solutionsEis: EisPage = {
         {
           key: "money",
           name: "Finance",
-          source: "ERPNext Accounts",
+          source: "Accounting",
           records: [
             { title: "Forecast down $84,000", detail: "October milestone not invoiced" },
             { title: "Invoice 74 days overdue", detail: "$118,000, invoice 8942" },
@@ -742,7 +746,7 @@ export const solutionsEis: EisPage = {
         {
           key: "sales",
           name: "Sales",
-          source: "ERPNext CRM",
+          source: "CRM",
           records: [
             { title: "Renewal notice in 9 days", detail: "$180,000 a year" },
             { title: "Sponsor resigned", detail: "Head of claims, on Monday" },
@@ -754,7 +758,7 @@ export const solutionsEis: EisPage = {
       label: "Five ready-made views",
       items: ["Customer 360", "Project 360", "Employee 360", "Finance", "Rolling 12-month forecast"],
     },
-    note: "Read-only. Every answer traces back to the record it came from.",
+    note: "Read-only: asking a question never changes a record.",
   },
 
   /* [04] Written 5 Nov 2026 (docs/EIS_PAGE_SCRIPT.md). Replaces the loop:
@@ -763,14 +767,14 @@ export const solutionsEis: EisPage = {
   monday: {
     setup: "2,418 changes since Friday.",
     payoff: "Three need you first.",
-    lede: "Agents read every change and bring you only what needs a decision, ranked by the money at stake: the facts, what it is worth and a proposed action for you to approve.",
+    lede: "Agents read each change and bring you only what needs a decision: the facts, what it is worth and a proposed action for you to approve.",
     field: {
       legend: "One dot per change since Friday",
       bands: [
-        { system: "ERPNext Projects", rows: 13 },
-        { system: "Frappe HR", rows: 7 },
-        { system: "ERPNext CRM", rows: 9 },
-        { system: "ERPNext Accounts", rows: 10 },
+        { system: "Project tool", rows: 13 },
+        { system: "HR system", rows: 7 },
+        { system: "CRM", rows: 9 },
+        { system: "Accounting", rows: 10 },
       ],
     },
     inboxLabel: "Sample decisions inbox, ranked by money at stake",
@@ -805,7 +809,7 @@ export const solutionsEis: EisPage = {
       factsLabel: "What the agents found",
       found: "2 minutes ago",
       facts: [
-        "Project P-109 starts in 10 days",
+        "Project P-109 starts in 9 days",
         "5 engineers on the bench match the skills",
         "3 new joiners start before the kickoff",
       ],
@@ -814,22 +818,24 @@ export const solutionsEis: EisPage = {
       impact: "Bench cost falls by about $19,000 a month, and the $660,000 contract starts on time.",
       actions: { primary: "Approve", others: ["Approve with changes", "Dismiss"] },
     },
-    coda: { lead: "Ranked by the money at stake.", payoff: "Your weekly review starts with three." },
+    coda: { lead: "Ranked by the money at stake,", payoff: "so the weekly review starts with the largest." },
   },
 
   /* [05] Written 5 Nov 2026 (docs/EIS_PAGE_SCRIPT.md). Replaces the role
      cockpit: the same five roles, each reduced to the one question it
      brings to the weekly review and the one answer it gets. */
   leaders: {
-    setup: "Five leaders, five questions.",
-    payoff: "One set of numbers.",
+    setup: "Five leaders ask five questions",
+    payoff: "and read one set of numbers.",
     lede: "The chief executive, finance, sales, delivery and people leaders each open their own view, and every view reads the same records underneath. One client shows up in three of them.",
     seats: [
       {
         role: "Chief executive",
         question: "Where are we heading?",
         answer: "$11.4 million",
-        outcome: "Next 12 months, $600,000 ahead of plan",
+        /* Outcomes are parallel items: one line each at 1440 (DESIGN_SYSTEM
+           §2), and Northwind is named in the three seats it touches. */
+        outcome: "$600,000 ahead of plan",
         source: "Rolling 12-month forecast",
         drawing: "forecast",
       },
@@ -837,8 +843,8 @@ export const solutionsEis: EisPage = {
         role: "Finance",
         question: "What cash is stuck?",
         answer: "$392,000",
-        outcome: "Overdue, oldest is Northwind's $118,000",
-        source: "ERPNext Accounts",
+        outcome: "Overdue, oldest is Northwind",
+        source: "Accounting",
         drawing: "ageing",
       },
       {
@@ -846,27 +852,27 @@ export const solutionsEis: EisPage = {
         question: "Which renewals are at risk?",
         answer: "$240,000",
         outcome: "2 accounts, Northwind first",
-        source: "ERPNext CRM",
+        source: "CRM",
         drawing: "renewals",
       },
       {
         role: "Delivery",
         question: "Which projects are slipping?",
         answer: "2 of 14",
-        outcome: "Claims Engine three weeks late",
-        source: "ERPNext Projects",
+        outcome: "Northwind's Claims Engine first",
+        source: "Project tool",
         drawing: "projects",
       },
       {
         role: "People",
         question: "Who covers the next kickoff?",
         answer: "8 of 8 seats",
-        outcome: "Civic Digital: 5 from the bench, 3 joiners",
-        source: "Frappe HR",
+        outcome: "5 from the bench, 3 joiners",
+        source: "HR system",
         drawing: "seats",
       },
     ],
-    spine: "Read live from ERPNext and Frappe HR",
+    spine: "Read live from your own systems",
   },
 
   /* [06] Written 5 Nov 2026 (docs/EIS_PAGE_SCRIPT.md). Replaces the
@@ -883,15 +889,15 @@ export const solutionsEis: EisPage = {
       rows: [
         { key: "Defined as", value: "Annual value of a renewal showing two or more risk signals" },
         { key: "Owned by", value: "The finance team, who signed off the definition" },
-        { key: "As at", value: "Read from ERPNext at 09:30, two minutes ago" },
+        { key: "As at", value: "Read from the CRM at 09:30, two minutes ago" },
         { key: "Checks", value: "Passed the checks finance set" },
       ],
       valueLabel: "Value from",
-      valueFrom: { system: "ERPNext CRM", record: "Opportunity 4012 · $180,000 a year" },
+      valueFrom: { system: "CRM", record: "Opportunity 4012 · $180,000 a year" },
       signalsLabel: "Risk signals",
       signals: [
-        { system: "ERPNext Accounts", record: "Invoice 8942 · 74 days overdue" },
-        { system: "ERPNext Projects", record: "Project P-104 · three weeks late" },
+        { system: "Accounting", record: "Invoice 8942 · 74 days overdue" },
+        { system: "Project tool", record: "Project P-104 · three weeks late" },
       ],
       footnote: "If a figure has no definition, Enterprise Intelligence says so instead of guessing.",
     },
@@ -901,7 +907,7 @@ export const solutionsEis: EisPage = {
         { title: "Proposed", detail: "An agent drafts the action, with the facts and the money at stake." },
         { title: "Checked", detail: "Your rules decide who must approve." },
         { title: "Approved", detail: "A named person with authority signs off. Proposing and approving are held apart." },
-        { title: "Carried out and recorded", detail: "One field on one record, by a narrowly scoped account. If it fails, it is held and the owner is told." },
+        { title: "Carried out and recorded", detail: "One field on one record, by a narrowly scoped account." },
       ],
     },
     link: { label: "How Akashic governs every figure", href: "/akashic#governance" },
@@ -928,15 +934,21 @@ export const solutionsEis: EisPage = {
           },
           {
             question: "Which systems does it read today?",
-            answer: "ERPNext is live today: its CRM, projects, accounts and Frappe HR modules. More systems are on the roadmap. If you run something else, bring it to the first conversation and we will tell you plainly what connects now and what does not.",
+            answer: "The systems that run your business: your ERP, CRM, project tool, HR system and cloud billing. Bring the list of what you run to the first conversation and we will tell you plainly what connects on day one.",
           },
           {
             question: "What do you need from us?",
-            answer: "Two things, and it is fair to know them up front. Someone has to own the definitions of your figures, because what counts as revenue is a decision your organisation makes, not one we can make for you. And for each action you want Enterprise Intelligence to carry out, someone with authority over that system has to agree to it. Read-only reporting can start well before either is settled.",
+            answer: "Two things. Someone has to own the definitions of your figures, because what counts as revenue is your organisation's decision. And for each action you want Enterprise Intelligence to carry out, someone with authority over that system has to agree to it. Read-only reporting can start well before either is settled.",
           },
           {
             question: "How is it different from asking an AI chatbot?",
-            answer: "A chatbot writes a query against your raw tables and returns something plausible. Enterprise Intelligence answers only in terms your organisation has defined and given access to. If a figure has no definition, it says so rather than inventing one, and every answer shows where it came from.",
+            answer: "A chatbot writes a query against your raw tables and returns something plausible. Enterprise Intelligence answers only in terms your organisation has defined and given access to, and each answer shows where it came from.",
+          },
+          {
+            /* 5 Nov 2026 (user): no published price on this page; pricing
+               goes through the contact form. */
+            question: "How much does it cost?",
+            answer: "Ask us. Use Talk to our team, tell us which systems you run and what you want to see first, and we will come back with pricing for your organisation.",
           },
         ],
       },
@@ -954,7 +966,7 @@ export const solutionsEis: EisPage = {
           },
           {
             question: "What happens if an action fails?",
-            answer: "It is recorded as a failure with the reason and the system that refused it. The decision is held rather than retried in the background, and the owner of that system is told. Nothing disappears.",
+            answer: "It is recorded as a failure with the reason and the system that refused it. The decision is held rather than retried in the background, and the owner of that system is told.",
           },
           {
             question: "Where does my data live?",
@@ -967,19 +979,15 @@ export const solutionsEis: EisPage = {
 
   close: {
     title: ["See it with", "your own numbers."],
-    sessionLabel: "Thirty minutes, on a dataset shaped like yours",
-    session: [
-      "Your enterprise systems mapped. What Enterprise Intelligence connects to on day one, without migration or downtime.",
-      "One high-stakes operational decision your team cannot currently close, traced from signal to verified action.",
-      "Security, access boundaries, and human sign-off policies required by your leadership.",
-    ],
-    prompt: "Bring one decision you cannot close by Friday.",
+    /* The title's "your own numbers" arrives with the 3-week diagnostic;
+       the kicker says the order, so it no longer contradicts the title. */
+    sessionLabel: "Demo first, then your own data",
+    prompt: "Bring one decision your team cannot close by Friday.",
     primary: { label: "Talk to our team", href: "#talk-to-our-team" },
-    secondary: { label: "See the Akashic platform", href: "/akashic" },
     timeline: [
       {
         duration: "30 minutes",
-        label: "A live demo, built around the decisions you make every week",
+        label: "A live demo, built around your weekly decisions",
       },
       {
         duration: "3 weeks",

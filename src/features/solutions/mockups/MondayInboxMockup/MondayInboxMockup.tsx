@@ -36,7 +36,10 @@ export function MondayInboxMockup({ label, columns, decisions, open }: MondayInb
           <li
             key={decision.title}
             className={cx(styles.item, i === 0 && styles.itemOpen)}
-            style={{ ["--d" as string]: `${0.9 + i * 0.18}s` } as CSSProperties}
+            /* Rank order still arrives one by one, but the first row is in
+               within 0.3s (critique, 5 Nov 2026: at 0.9s a fast scroller
+               saw an empty inbox). */
+            style={{ ["--d" as string]: `${0.3 + i * 0.12}s` } as CSSProperties}
           >
             <div className={styles.row} data-wire-to={i}>
               <span className={styles.rank} aria-hidden="true">

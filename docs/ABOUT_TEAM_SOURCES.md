@@ -1,9 +1,11 @@
 # About [05]: team sources and editorial drafts
 
-Updated 4 November 2026 at the user's request. The concept uses 40 portrait
-positions: 34 named people, 28 photographs, six named initials placeholders
-and six unassigned circles. The five existing leadership portraits are included.
-The circles do not assert a company headcount.
+Updated 5 November 2026 against the user-supplied `Employee Images (2).xlsx`.
+All 75 workbook names are represented alongside seven existing profiles:
+82 people, 57 portraits and 25 initials placeholders. The five existing
+leadership portraits are included. Decorative circles do not assert a company
+headcount. See [the workbook reconciliation](ABOUT_TEAM_WORKBOOK.md) for the
+row-by-row mapping, name variants and current photograph paths.
 
 ## Editorial status
 
@@ -13,6 +15,11 @@ third-person profiles, not quotations, approved employee biographies or
 testimonials. The work-style descriptions are proposed copy rather than
 independently verified facts. Review the bios, current employment and role
 titles with the company before publication.
+
+All 82 profiles now have introductions. The 48 lines added on 5 November use
+matched professional sources for 17 people and confirmed team membership for
+the other 31. The latter are general introductions, with no inferred role or
+personal traits. See [the introduction source ledger](ABOUT_TEAM_BIOS.md).
 
 The existing nine colleagues and five leaders retain the names and titles
 already in the website. Newly added public directory records can be stale:
@@ -89,12 +96,13 @@ The displayed title remains a draft for company review.
 
 `AboutCulture` preserves the page's numbered rail and India-only careers
 link. Its centred heading is the explicit user-requested Attio exception
-to the normal left-aligned section header. `TeamField` arranges 40 positions
-in five rows (6 / 9 / 10 / 9 / 6), with the six unassigned positions around
-the perimeter. Background circles on desktop are decoration, not people.
+to the normal left-aligned section header. `TeamField` sizes a staggered
+portrait field to the full roster using `features/about/utils/teamField.ts`.
+Portraits are larger, with a restrained spotlight around the selected person;
+initials remain fully legible. Background circles are decoration, not people.
 Native radio inputs select the profile with pointer or keyboard. The tour
 pauses on interaction and off screen, and does not run under reduced motion.
 
-Concept testing, screenshots, typechecking and build validation were deferred
-at the user's explicit direction until they approve the design.
+The 5 November refinement includes desktop, tablet and mobile visual checks,
+full-roster and image-load checks, keyboard selection and reduced-motion checks.
 
