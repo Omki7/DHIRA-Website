@@ -59,7 +59,7 @@ export function NavBar({ navigation, brand }: NavBarProps) {
   const reducedMotion = usePrefersReducedMotion();
   const { openId, hoverTrigger, leaveTrigger, enterRegion, leaveRegion, toggle, close } = useMenuIntent();
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [currentHash, setCurrentHash] = useState(() => (typeof window !== "undefined" ? window.location.hash : ""));
+  const [currentHash, setCurrentHash] = useState("");
   const { visible, scrolled } = useHeaderVisibility();
 
   useEffect(() => {

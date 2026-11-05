@@ -17,7 +17,7 @@ const stores = [
   { code: "083", name: "Pune", state: "ok" },
   { code: "114", name: "Nagpur", state: "low" },
   { code: "DC-2", name: "Bhiwandi", state: "ok" },
-  { code: "—", name: "Routed", state: "ok" },
+  { code: "-", name: "Routed", state: "ok" },
 ] as const;
 
 const readouts = [

@@ -238,7 +238,7 @@ export function ContactForm({ idPrefix, onProgress, onDone, doneLabel }: Contact
             <textarea
               {...fieldProps("message")}
               required
-              rows={4}
+              rows={2}
               maxLength={CONTACT_LIMITS.message}
               className={styles.textarea}
               placeholder={copy.message.placeholder}

@@ -38,21 +38,23 @@ export default function PublicSectorDeploy({ content }: { content: PublicSectorP
               {environments.map((env, idx) => (
                 <div
                   key={env.name}
-                  className={`flex flex-col p-6 md:p-7 ${
+                  className={`flex flex-col justify-between p-6 md:p-7 min-h-[190px] ${
                     idx > 0 ? "border-t border-dashed border-lineSoft md:border-l md:border-t-0" : ""
                   } ${env.chip ? "bg-background" : ""}`}
                 >
-                  <div className="flex items-center justify-between gap-2">
-                    <span className="flex h-[34px] w-[34px] shrink-0 items-center justify-center rounded-[9px] border border-blue/20 bg-blue-subtle ">
-                      <DynamicSketchIcon text={env.icon} className="h-[16px] w-[16px] text-blue" />
-                    </span>
-                    {env.chip && (
-                      <span className="inline-flex items-center rounded-[7px] border border-blue-border bg-blue-subtle px-2 py-1 font-mono text-[8.5px] font-bold tracking-[0.04em] text-blue">
-                        {env.chip}
+                  <div>
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="flex h-[34px] w-[34px] shrink-0 items-center justify-center rounded-[9px] border border-blue/20 bg-blue-subtle ">
+                        <DynamicSketchIcon text={env.icon} className="h-[16px] w-[16px] text-blue" />
                       </span>
-                    )}
+                      {env.chip && (
+                        <span className="inline-flex items-center rounded-[7px] border border-blue-border bg-blue-subtle px-2 py-1 font-mono text-[8.5px] font-bold tracking-[0.04em] text-blue">
+                          {env.chip}
+                        </span>
+                      )}
+                    </div>
+                    <h3 className="mt-4 text-[20px] font-semibold tracking-tight text-ink">{env.name}</h3>
                   </div>
-                  <h3 className="mt-4 text-[20px] font-semibold tracking-tight text-ink">{env.name}</h3>
                   <p className="mt-2 text-[14px] leading-relaxed text-inkSoft">{env.desc}</p>
                 </div>
               ))}

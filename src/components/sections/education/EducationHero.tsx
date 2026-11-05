@@ -18,7 +18,7 @@ const signals = [
   { code: "ATT", name: "Attendance", state: "ok" },
   { code: "LMS", name: "Scores", state: "ok" },
   { code: "FEE", name: "Fees", state: "risk" },
-  { code: "—", name: "Outreach", state: "ok" },
+  { code: "-", name: "Outreach", state: "ok" },
 ] as const;
 
 const readouts = [

@@ -129,7 +129,7 @@ function HealthcareBoard() {
       <ResolveBar label="Resolved · one patient" />
       <HighlightCard
         title="Rahul Sharma · one record"
-        sub="Golden record · 3 registrations merged"
+        sub="Resolved record · 3 registrations merged"
         tags={["Full history", "Allergies surfaced", "Sources attached"]}
       />
     </BoardShell>

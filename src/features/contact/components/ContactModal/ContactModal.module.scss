@@ -22,12 +22,12 @@ $tw-transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(va
   justify-content: center;
   overflow-y: auto;
   overscroll-behavior: contain;
-  padding: 1rem;
-  padding-top: max(1rem, 5vh);
-  padding-bottom: max(1rem, 5vh);
+  padding: 0.75rem;
 
   @include respond-to(sm) {
     padding: 1.5rem;
+    padding-top: max(1rem, 5vh);
+    padding-bottom: max(1rem, 5vh);
   }
 }
 
@@ -65,19 +65,20 @@ $tw-transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(va
 
 .close {
   position: absolute;
-  right: 0.875rem;
-  top: 1rem;
-  z-index: 20;
+  right: 0.75rem;
+  top: 0.75rem;
+  z-index: 50;
   display: flex;
-  height: 2rem;
-  width: 2rem;
+  height: 2.25rem;
+  width: 2.25rem;
   align-items: center;
   justify-content: center;
   border-radius: 9999px;
   border-width: 1px;
-  border-color: c(subtle-stroke);
+  border-color: c(lineSoft);
   background-color: c(background);
-  color: c(secondary-text);
+  color: c(ink);
+  cursor: pointer;
   transition-property: all;
   transition-timing-function: $ease-default;
   transition-duration: $duration-200;
@@ -87,7 +88,8 @@ $tw-transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(va
     --tw-scale-y: 1.05;
     transform: $tw-transform;
     background-color: c(tertiary-bg);
-    color: c(ink);
+    color: c(blue);
+    border-color: c(blue-border);
   }
 }
 
@@ -109,17 +111,14 @@ $tw-transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(va
   border-bottom-width: 1px;
   border-color: c(lineSoft);
   background-color: c(primary-bg);
-  padding-left: 1.5rem;
-  padding-right: 1.5rem;
-  padding-top: 2rem;
-  padding-bottom: 2rem;
+  padding: 0.75rem 1rem;
 
   @include respond-to(md) {
-    padding-left: 2rem;
-    padding-right: 2rem;
+    padding: 1.5rem 1.75rem;
   }
 
   @include respond-to(lg) {
+    padding: 2rem;
     border-bottom-width: 0;
     border-right-width: 1px;
   }
@@ -179,34 +178,50 @@ $tw-transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(va
 }
 
 .title {
-  margin-top: 1rem;
-  font-size: 24px;
+  margin-top: 0.5rem;
+  font-size: 18px;
   font-weight: $weight-semibold;
   line-height: $leading-tight;
   letter-spacing: $tracking-tight;
   color: c(ink);
 
   @include respond-to(md) {
+    font-size: 22px;
+  }
+
+  @include respond-to(lg) {
+    margin-top: 1rem;
     font-size: 28px;
   }
 }
 
 .body {
-  margin-top: 0.75rem;
+  margin-top: 0.25rem;
   max-width: 28em;
-  font-size: 14px;
-  line-height: $leading-relaxed;
+  font-size: 13px;
+  line-height: $leading-snug;
   color: c(secondary-text);
+
+  @include respond-to(lg) {
+    margin-top: 0.75rem;
+    font-size: 14px;
+    line-height: $leading-relaxed;
+  }
 }
 
 // Tailwind's `space-y-3`.
 .assurances {
-  margin-top: 1.75rem;
+  display: none;
 
-  > :not([hidden]) ~ :not([hidden]) {
-    --tw-space-y-reverse: 0;
-    margin-top: calc(0.75rem * calc(1 - var(--tw-space-y-reverse)));
-    margin-bottom: calc(0.75rem * var(--tw-space-y-reverse));
+  @include respond-to(lg) {
+    display: block;
+    margin-top: 1.75rem;
+
+    > :not([hidden]) ~ :not([hidden]) {
+      --tw-space-y-reverse: 0;
+      margin-top: calc(0.75rem * calc(1 - var(--tw-space-y-reverse)));
+      margin-bottom: calc(0.75rem * var(--tw-space-y-reverse));
+    }
   }
 }
 
@@ -264,18 +279,22 @@ $tw-transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(va
 }
 
 .askFooter {
-  position: relative;
-  z-index: 10;
-  margin-top: 2rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  border-top-width: 1px;
-  border-color: c(lineSoft);
-  padding-top: 1rem;
-  font-family: $font-mono;
-  font-size: 11px;
-  color: c(tertiary-text);
+  display: none;
+
+  @include respond-to(lg) {
+    position: relative;
+    z-index: 10;
+    margin-top: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-top-width: 1px;
+    border-color: c(lineSoft);
+    padding-top: 1rem;
+    font-family: $font-mono;
+    font-size: 11px;
+    color: c(tertiary-text);
+  }
 }
 
 // --- Right column: the form ---------------------------------------
@@ -283,13 +302,13 @@ $tw-transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(va
   position: relative;
   z-index: 10;
   background-color: c(background);
-  padding-left: 1.5rem;
-  padding-right: 1.5rem;
-  padding-top: 2rem;
-  padding-bottom: 2rem;
+  padding: 0.75rem 1rem;
 
   @include respond-to(md) {
-    padding-left: 2rem;
-    padding-right: 2rem;
+    padding: 1.5rem 1.75rem;
+  }
+
+  @include respond-to(lg) {
+    padding: 2rem;
   }
 }

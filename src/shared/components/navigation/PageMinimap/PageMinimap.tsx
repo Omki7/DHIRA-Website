@@ -31,9 +31,12 @@ export function PageMinimap({
   const [expanded, setExpanded] = useState(false);
   const [atFooter, setAtFooter] = useState(false);
   const [labelWidth, setLabelWidth] = useState(0);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const navRef = useRef<HTMLElement>(null);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const activeIndex = Math.max(0, sections.findIndex((section) => section.id === activeId));
+  const currentSection = sections[activeIndex] || sections[0];
+  const currentNumber = currentSection?.eyebrow?.replace(/[\[\]]/g, "") ?? String(activeIndex).padStart(2, "0");
 
   useEffect(() => () => {
     if (closeTimer.current) clearTimeout(closeTimer.current);
@@ -135,7 +138,7 @@ export function PageMinimap({
       <div
         aria-hidden="true"
         data-expanded={expanded}
-        className={`page-minimap-sheet ${styles.sheet}`}
+        className={`hidden lg:block page-minimap-sheet ${styles.sheet}`}
         style={railStyle}
       />
       <nav
@@ -143,7 +146,7 @@ export function PageMinimap({
         aria-label={ariaLabel ?? ui.pageSections}
         data-expanded={expanded}
         data-hidden={atFooter}
-        className={`page-minimap ${styles.rail}`}
+        className={`hidden lg:block page-minimap ${styles.rail}`}
         style={railStyle}
         onPointerEnter={(event) => { if (event.pointerType !== "touch") open(); }}
         onPointerLeave={close}
@@ -196,6 +199,84 @@ export function PageMinimap({
           </div>
         </div>
       </nav>
+
+      {/* Mobile Floating Section Indicator (under lg) */}
+      <div
+        className={`${styles.mobileIndicator} ${
+          atFooter ? "opacity-0 pointer-events-none translate-y-3" : "opacity-100 translate-y-0"
+        }`}
+      >
+        {/* Mobile Section Picker Popover */}
+        {mobileMenuOpen && (
+          <>
+            <div
+              className={styles.mobileOverlay}
+              onClick={() => setMobileMenuOpen(false)}
+            />
+            <div className={styles.mobilePopover}>
+              <p className={styles.mobilePopoverHeader}>
+                {ui.pageSections ?? "Page Sections"}
+              </p>
+              <ul className={styles.mobilePopoverList}>
+                {sections.map((section, index) => {
+                  const num = section.eyebrow?.replace(/[\[\]]/g, "") ?? String(index).padStart(2, "0");
+                  const isActive = section.id === activeId;
+                  return (
+                    <li key={section.id}>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          scrollTo(section.id);
+                          setMobileMenuOpen(false);
+                        }}
+                        className={`${styles.mobilePopoverBtn} ${
+                          isActive ? styles.mobilePopoverActiveBtn : ""
+                        }`}
+                      >
+                        <span
+                          className={`${styles.mobilePopoverBadge} ${
+                            isActive ? styles.mobilePopoverActiveBadge : ""
+                          }`}
+                        >
+                          {num}
+                        </span>
+                        <span className="truncate">{section.label}</span>
+                      </button>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+          </>
+        )}
+
+        {/* Floating Indicator Capsule */}
+        <button
+          type="button"
+          onClick={() => setMobileMenuOpen((prev) => !prev)}
+          aria-label={`Current section: ${currentNumber} ${currentSection.label}. Tap to jump to sections.`}
+          className={styles.mobileCapsule}
+        >
+          <span className={styles.mobileBadge}>
+            {currentNumber}
+          </span>
+          <span className={styles.mobileLabel}>
+            {currentSection.label}
+          </span>
+          <svg
+            width="12"
+            height="12"
+            viewBox="0 0 12 12"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.6"
+            className={`${styles.mobileChevron} ${mobileMenuOpen ? "rotate-180" : ""}`}
+            aria-hidden="true"
+          >
+            <path d="M2.5 4.5L6 8L9.5 4.5" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </button>
+      </div>
     </>
   );
 }
