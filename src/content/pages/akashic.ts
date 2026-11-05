@@ -90,7 +90,7 @@ export const akashicSolutions: AkashicSolutions = {
         { title: "Check the rules", detail: "Versioned, linked to evidence" },
         { title: "Approve the award", detail: "Bids sealed until approval" },
       ],
-      note: "Rules decide, people approve, and every step lands in the audit trail.",
+      note: "Rules decide, people approve, and each step is recorded.",
       modules: solutionModules,
       href: "/solutions#intelligent-procurement",
       cta: "See the procurement system",
@@ -116,24 +116,49 @@ export const akashicSolutions: AkashicSolutions = {
   all: { label: "All solutions", href: "/solutions" },
 };
 
-export interface AkashicSecurity {
+/* [07] Privacy and control. Merged 5 Nov 2026 from the old [06] Trust and
+   [07] Open (platform audit: both told "you stay in control", and the badges
+   repeated the cards). Two groups of three rows; the second keeps the old
+   #open anchor that other pages link to. Residency left this section: [04]
+   Where it runs owns it. Certifications and the laws followed are separate,
+   labelled groups, in the homepage [09] wording (DESIGN_SYSTEM §2). */
+export type ControlIcon = "no-training" | "permissions" | "definitions" | "inspect" | "extend" | "keep";
+
+export interface AkashicControl {
   setup: string;
   title: string;
   intro: string;
-  badges: string[];
-  cards: { title: string; text: string; caption: string }[];
+  groups: { id: string; title: string; items: { icon: ControlIcon; title: string; text: string }[] }[];
+  frameworks: { label: string; items: string[] }[];
 }
 
-const akashicSecurity: AkashicSecurity = {
+const akashicControl: AkashicControl = {
   setup: "Put AI to work",
   title: "without losing control of your data.",
-  intro: "Use your data with confidence. Akashic applies permissions, policy and privacy controls from ingestion to the final answer.",
-  badges: ["Role-based access", "Private deployment", "Auditable answers"],
-  cards: [
-    { title: "No AI training", text: "Your data and queries are not used to train models. Your information stays yours.", caption: "Your data stays private" },
-    { title: "Permissions that follow", text: "Row and column permissions follow the person, from the underlying records to the answer.", caption: "Access enforced at query time" },
-    { title: "Governed definitions", text: "Shared metric definitions and central policy keep dashboards and AI working from the same meaning.", caption: "One definition across surfaces" },
-    { title: "Residency you control", text: "Choose the deployment boundary. Align storage, processing and inference with your residency requirements.", caption: "Cloud · On premises · Hybrid" },
+  intro: "Akashic applies access rules and privacy controls from ingestion to the final answer, and keeps the platform open to inspect, extend and leave.",
+  groups: [
+    {
+      id: "private",
+      title: "Private by default",
+      items: [
+        { icon: "no-training", title: "No training on your data", text: "Your data and the questions people ask are never used to train models." },
+        { icon: "permissions", title: "Permissions follow the person", text: "Row and column permissions apply from the underlying records to the final answer." },
+        { icon: "definitions", title: "One set of definitions", text: "Dashboards and AI read the same governed metric definitions, so a figure means the same thing in both." },
+      ],
+    },
+    {
+      id: "open",
+      title: "Open, with no lock-in",
+      items: [
+        { icon: "inspect", title: "Open to inspect", text: "Read the tables, transforms and metric definitions with the tools your team already uses." },
+        { icon: "extend", title: "Open to extend", text: "Connect existing systems and build your own applications through open interfaces." },
+        { icon: "keep", title: "Yours to keep", text: "Data and work stay in open formats, so you can move both whenever you choose." },
+      ],
+    },
+  ],
+  frameworks: [
+    { label: "Certified", items: ["ISO 27001", "SOC 2 Type II"] },
+    { label: "Complies with", items: ["Digital Personal Data Protection Act", "General Data Protection Regulation", "Indian Computer Emergency Response Team directions"] },
   ],
 };
 
@@ -192,8 +217,13 @@ export interface AkashicAdvantage extends StoryHeading {
   rebuildLabel: string;
   projectWorkLabel: string;
   foundation: { title: string; note: string };
-  reasonsTitle: string;
-  reasons: { title: string; body: string; icon: ArchitectureIconKey }[];
+  /** The leadership panel under the drawing: what the shared foundation
+      changes for each executive, in that executive's own terms. */
+  leaders: {
+    key: string;
+    verb: string;
+    roles: { id: string; icon: ArchitectureIconKey; role: string; gain: string; detail: string }[];
+  };
 }
 
 /** The outcome-card stage (demos/mockups/AkashicOutcomeCardsMockup), shown
@@ -213,7 +243,9 @@ export interface AkashicPage {
   seo: Seo;
   sections: PageSection[];
   sectionsLabel: string;
-  quote: {
+  /** The sticky quote under the hero. Optional: with no quote the page opens
+      on the hero alone. Only a real, attributed quote goes here (Rule 4). */
+  quote?: {
     /** Spoken word by word as the reader scrolls. */
     text: string;
     /** The line breaks after this word from md up. */
@@ -234,6 +266,8 @@ export interface AkashicPage {
     title: TwoTone;
     lede: string;
     examplesLabel: string;
+    /** Names what the play control runs ("Play the …"). */
+    replayLabel: string;
     statusLabels: string[];
     chrome: { ask: string; answer: string; for: string; time: string; systems: string; documents: string; targetLine: string };
     worlds: AskWorld[];
@@ -291,20 +325,14 @@ export interface AkashicPage {
     flow: { label: string; motion: string; steps: ArchitectureStep[]; back: ArchitectureStep };
   };
   agents: AkashicAgents;
-  trust: StoryHeading & AkashicSecurity;
-  open: StoryHeading & {
-    principles: { title: string; desc: string; detail: string }[];
-    productName: string;
-    close: string;
-  };
+  trust: StoryHeading & AkashicControl;
   advantage: AkashicAdvantage;
   scale: ProvenAtScaleBlock;
-  reference: StoryHeading & { intro: string; note: string; chartTypes: string; modules: ModuleDef[] };
+  reference: AkashicReference;
   solutions: StoryHeading & AkashicSolutions & {
     modules: string[];
     axis: { solution: string; workflow: string; underneath: string };
-    used: string;
-    unused: string;
+    /** The line over the shared module band under the three solutions. */
     legend: { on: string };
   };
   faq: StoryHeading & { items: Faq[] };
@@ -470,24 +498,31 @@ export type Cap = { icon: string; term: string; sub?: string };
 export type Group =
   | { label: string; kind: "conn"; items: Conn[] }
   | { label: string; kind: "cap"; items: Cap[]; preview?: boolean }
-  | { label: string; kind: "charts" }
-  | { label: string; kind: "badges"; items: string[] };
+  | { label: string; kind: "charts" };
 
 
 /* [10] Capabilities & connections: the technical reference, one sheet per module. */
 export interface ModuleDef {
   id: string;
   icon: string;
+  /** Its [05] layer and glyph, so the sheet wears the same colour as its tile. */
+  layer: ReferenceLayer;
+  glyph: ArchitectureIconKey;
   name: string;
   tagline: string;
   desc: string;
   groups: Group[];
 }
 
+/** The [05] layers a module sheet can belong to (theme.css arch-*). */
+export type ReferenceLayer = "data" | "intel" | "gov";
+
 export const akashicModules: ModuleDef[] = [
   {
     id: "pipelines",
     icon: "Akashic Data Pipelines",
+    layer: "data",
+    glyph: "data-pipelines",
     name: "Data Pipelines",
     tagline: "Ingestion",
     desc: "Every source, ingested and validated the moment it arrives. Structured, unstructured or streaming: one entry point into the platform, or a standalone ingestion layer.",
@@ -528,17 +563,17 @@ export const akashicModules: ModuleDef[] = [
         items: [
           { icon: "bolt", term: "Streaming", sub: "real-time" },
           { icon: "layers", term: "Batch", sub: "scheduled" },
-          { icon: "refresh", term: "Change data capture", sub: "CDC" },
+          { icon: "refresh", term: "Change data capture" },
         ],
       },
       {
-        label: "Validation & preparation",
+        label: "Validation and preparation",
         kind: "cap",
         items: [
           { icon: "code", term: "25 built-in transforms", sub: "prepare without code" },
           { icon: "funnel", term: "Schema validation", sub: "on arrival" },
           { icon: "clipboard", term: "Data contracts", sub: "versioned" },
-          { icon: "alert", term: "Error quarantine", sub: "retry & backfill" },
+          { icon: "alert", term: "Error quarantine", sub: "retry and backfill" },
         ],
       },
       {
@@ -554,6 +589,8 @@ export const akashicModules: ModuleDef[] = [
   {
     id: "master-data",
     icon: "Akashic Master Data",
+    layer: "data",
+    glyph: "master-data",
     name: "Master Data",
     tagline: "Entity resolution",
     desc: "Every version of an entity resolves into one golden record, with the lineage of everything merged kept intact. Those records and the links between them are what the governed knowledge layer is built from.",
@@ -597,7 +634,7 @@ export const akashicModules: ModuleDef[] = [
         label: "Knowledge layer",
         kind: "cap",
         items: [
-          { icon: "link", term: "Entity relationships", sub: "typed & versioned" },
+          { icon: "link", term: "Entity relationships", sub: "typed and versioned" },
           { icon: "tag", term: "Classification", sub: "taxonomies · policy tags" },
           { icon: "history", term: "Change history", sub: "point-in-time queries" },
         ],
@@ -615,6 +652,8 @@ export const akashicModules: ModuleDef[] = [
   {
     id: "warehouse",
     icon: "Akashic Data Warehouse",
+    layer: "data",
+    glyph: "data-warehouse",
     name: "Data Warehouse",
     tagline: "Modelled storage",
     desc: "Mastered records become models built for fast, reliable queries. Bring your own warehouse or run Akashic-managed storage.",
@@ -642,7 +681,7 @@ export const akashicModules: ModuleDef[] = [
         ],
       },
       {
-        label: "Storage & serving",
+        label: "Storage and serving",
         kind: "cap",
         items: [
           { icon: "lock", term: "ACID transactions" },
@@ -654,39 +693,35 @@ export const akashicModules: ModuleDef[] = [
     ],
   },
   {
-    id: "ml",
-    icon: "Akashic Machine Learning",
-    name: "Machine Learning",
-    tagline: "Prediction",
-    desc: "Build, train, deploy and monitor models directly on governed data. No exports, no separate environment.",
+    id: "bi",
+    icon: "Akashic BI",
+    layer: "intel",
+    glyph: "business-intelligence",
+    name: "Business Intelligence",
+    tagline: "Decision surface",
+    desc: "Dashboards and metrics defined once, consistent on every surface they appear.",
     groups: [
+      { label: "50+ chart types", kind: "charts" },
       {
-        label: "Development",
+        label: "Analytics",
         kind: "cap",
         items: [
-          { icon: "notebook", term: "JupyterHub notebooks", sub: "Python" },
-          { icon: "flask", term: "Experiment tracking", sub: "MLflow" },
-          { icon: "grid", term: "Feature store", sub: "online + offline" },
-          { icon: "chip", term: "GPU compute", sub: "on demand" },
+          { icon: "database", term: "61 data sources", sub: "connected natively" },
+          { icon: "sparkle", term: "AI chart builder", sub: "describe the chart in plain language" },
+          { icon: "chart-bar", term: "Semantic metric layer", sub: "defined once" },
+          { icon: "code", term: "SQL Lab", sub: "ad-hoc queries" },
+          { icon: "filter", term: "Cross-filtering", sub: "dashboard-wide" },
+          { icon: "funnel", term: "Drill-down", sub: "to row level" },
         ],
       },
       {
-        label: "Deployment",
+        label: "Delivery and control",
         kind: "cap",
         items: [
-          { icon: "archive", term: "Model registry", sub: "dev · staging · prod" },
-          { icon: "rocket", term: "CI/CD promotion", sub: "staged rollout" },
-          { icon: "link", term: "Serving endpoints", sub: "batch + real-time" },
-        ],
-      },
-      {
-        label: "Monitoring",
-        kind: "cap",
-        items: [
-          { icon: "gauge", term: "Drift detection", sub: "PSI" },
-          { icon: "alert", term: "Bias monitoring", sub: "per segment" },
-          { icon: "history", term: "Feature freshness", sub: "SLA-tracked" },
-          { icon: "refresh", term: "Scheduled retraining" },
+          { icon: "bell", term: "Alerts and thresholds", sub: "metric-based" },
+          { icon: "mail", term: "Scheduled reports", sub: "email delivery" },
+          { icon: "shield", term: "Row-level security", sub: "per viewer" },
+          { icon: "link", term: "Embedded analytics", sub: "iframe · SDK" },
         ],
       },
     ],
@@ -694,6 +729,8 @@ export const akashicModules: ModuleDef[] = [
   {
     id: "ask",
     icon: "Akashic Insights",
+    layer: "intel",
+    glyph: "ask-akashic",
     name: "Ask Akashic",
     tagline: "Conversational AI",
     desc: "Plain-language questions become governed SQL, answered from the metric layer and the knowledge layer, with lineage attached to every answer.",
@@ -726,7 +763,7 @@ export const akashicModules: ModuleDef[] = [
         kind: "cap",
         items: [
           { icon: "shield", term: "Row-level enforcement", sub: "at answer time" },
-          { icon: "mask", term: "PII masking", sub: "before inference" },
+          { icon: "mask", term: "Personal data masking", sub: "before inference" },
           { icon: "history", term: "Prompt audit log", sub: "append-only" },
           { icon: "globe", term: "In-region inference", sub: "no training on your data" },
         ],
@@ -734,33 +771,41 @@ export const akashicModules: ModuleDef[] = [
     ],
   },
   {
-    id: "bi",
-    icon: "Akashic BI",
-    name: "Business Intelligence",
-    tagline: "Decision surface",
-    desc: "Dashboards and metrics defined once, consistent on every surface they appear.",
+    id: "ml",
+    icon: "Akashic Machine Learning",
+    layer: "intel",
+    glyph: "machine-learning",
+    name: "Machine Learning",
+    tagline: "Prediction",
+    desc: "Build, train, deploy and monitor models directly on governed data. No exports, no separate environment.",
     groups: [
-      { label: "50+ chart types", kind: "charts" },
       {
-        label: "Analytics",
+        label: "Development",
         kind: "cap",
         items: [
-          { icon: "database", term: "61 data sources", sub: "connected natively" },
-          { icon: "sparkle", term: "AI chart builder", sub: "describe the chart in plain language" },
-          { icon: "chart-bar", term: "Semantic metric layer", sub: "defined once" },
-          { icon: "code", term: "SQL Lab", sub: "ad-hoc queries" },
-          { icon: "filter", term: "Cross-filtering", sub: "dashboard-wide" },
-          { icon: "funnel", term: "Drill-down", sub: "to row level" },
+          { icon: "notebook", term: "JupyterHub notebooks", sub: "Python" },
+          { icon: "flask", term: "Experiment tracking", sub: "MLflow" },
+          { icon: "grid", term: "Feature store", sub: "online and offline" },
+          { icon: "chip", term: "GPU compute", sub: "on demand" },
         ],
       },
       {
-        label: "Delivery & control",
+        label: "Deployment",
         kind: "cap",
         items: [
-          { icon: "bell", term: "Alerts & thresholds", sub: "metric-based" },
-          { icon: "mail", term: "Scheduled reports", sub: "email delivery" },
-          { icon: "shield", term: "Row-level security", sub: "per viewer" },
-          { icon: "link", term: "Embedded analytics", sub: "iframe · SDK" },
+          { icon: "archive", term: "Model registry", sub: "dev · staging · prod" },
+          { icon: "rocket", term: "CI/CD promotion", sub: "staged rollout" },
+          { icon: "link", term: "Serving endpoints", sub: "batch and real-time" },
+        ],
+      },
+      {
+        label: "Monitoring",
+        kind: "cap",
+        items: [
+          { icon: "gauge", term: "Drift detection", sub: "population stability index" },
+          { icon: "alert", term: "Bias monitoring", sub: "per segment" },
+          { icon: "history", term: "Feature freshness", sub: "SLA-tracked" },
+          { icon: "refresh", term: "Scheduled retraining" },
         ],
       },
     ],
@@ -768,12 +813,14 @@ export const akashicModules: ModuleDef[] = [
   {
     id: "governance",
     icon: "Akashic Data Governance",
+    layer: "gov",
+    glyph: "governance",
     name: "Governance",
     tagline: "Always on",
     desc: "Access control, lineage and audit under every module, from the first byte to the final answer.",
     groups: [
       {
-        label: "Catalogue & lineage",
+        label: "Catalogue and lineage",
         kind: "cap",
         items: [
           { icon: "database", term: "Asset catalogue", sub: "80+ metadata connectors" },
@@ -787,35 +834,46 @@ export const akashicModules: ModuleDef[] = [
         kind: "cap",
         items: [
           { icon: "history", term: "Freshness tests", sub: "SLA-tracked" },
-          { icon: "funnel", term: "Null & uniqueness tests", sub: "per column" },
+          { icon: "funnel", term: "Null and uniqueness tests", sub: "per column" },
           { icon: "alert", term: "Schema-drift detection" },
           { icon: "gauge", term: "Volume monitoring", sub: "row-count baselines" },
         ],
       },
       {
-        label: "Access & audit",
+        label: "Access and audit",
         kind: "cap",
         items: [
-          { icon: "users", term: "Role-based access", sub: "row + column level" },
+          { icon: "users", term: "Role-based access", sub: "row and column level" },
           { icon: "key", term: "SSO / SCIM", sub: "identity sync" },
           { icon: "queue", term: "Audit log", sub: "append-only" },
-          { icon: "mask", term: "PII classification", sub: "auto-tagged · masked" },
+          { icon: "mask", term: "Personal data classification", sub: "auto-tagged · masked" },
         ],
       },
       {
-        label: "Residency & keys",
+        label: "Residency and keys",
         kind: "cap",
         items: [
-          { icon: "pin", term: "In-region deployment", sub: "cloud · on-prem · hybrid" },
+          { icon: "pin", term: "In-region deployment", sub: "cloud · on-premises · hybrid" },
           { icon: "globe", term: "Zero data egress", sub: "policy-enforced" },
           { icon: "lock", term: "AES-256 encryption", sub: "at rest · in transit" },
-          { icon: "shield", term: "Customer-held keys", sub: "no DHIRA key custody" },
+          { icon: "shield", term: "Customer-held keys", sub: "self-hosted · no DHIRA key custody" },
         ],
       },
-      { label: "Compliance", kind: "badges", items: ["ISO 27001", "SOC 2 Type II", "DPDP Act", "GDPR", "CERT-In"] },
     ],
   },
 ];
+
+/** [09] Capabilities and connections: the technical reference sheets. */
+export type AkashicReference = StoryHeading & {
+  intro: string;
+  note: string;
+  chartTypes: string;
+  /** Accessible name of the module index. */
+  indexLabel: string;
+  /** Group names in the index, [05]'s layer keys. */
+  layers: Record<ReferenceLayer, string>;
+  modules: ModuleDef[];
+};
 
 /* ---------------- Content ---------------- */
 
@@ -826,28 +884,38 @@ export const akashic: AkashicPage = {
       "Akashic is the governed data and AI platform. Data Pipelines, Master Data, Data Warehouse, Machine Learning, Ask Akashic and Business Intelligence on one foundation, ready for agents, with lineage, access control and audit under every layer.",
     path: "/akashic",
   },
+  /* Order since 5 Nov 2026 (platform audit): the national proof moved up
+     to [03], straight after the [01] to [02] opening the user fixed on
+     14 Oct; [06] Trust and [07] Open merged into [07]. The capability
+     reference went to /akashic/1-0 and came back the same day (user): it is
+     [09] again, between Why Akashic and Built on Akashic. Labels match each
+     section's eyebrow. */
   sections: [
     { id: "hero", label: "Introduction" },
     { id: "akashic-in-action", label: "Ask Akashic", eyebrow: "[01]" },
     { id: "how-it-works", label: "How it works", eyebrow: "[02]" },
-    { id: "architecture", label: "Where it runs", eyebrow: "[03]" },
-    { id: "modules", label: "The architecture", eyebrow: "[04]" },
-    { id: "agents", label: "AI agents", eyebrow: "[05]" },
-    { id: "trust", label: "Enterprise trust", eyebrow: "[06]" },
-    { id: "open", label: "Open architecture", eyebrow: "[07]" },
-    { id: "build-vs-buy", label: "The Akashic advantage", eyebrow: "[08]" },
-    { id: "scale", label: "Proven at scale", eyebrow: "[09]" },
-    { id: "stack", label: "Capabilities & connections", eyebrow: "[10]" },
-    { id: "solutions", label: "Built on Akashic", eyebrow: "[11]" },
-    { id: "faq", label: "Questions", eyebrow: "[12]" },
-    { id: "talk-to-our-team", label: "Ready when you are", eyebrow: "[13]" },
+    { id: "scale", label: "In production", eyebrow: "[03]" },
+    { id: "architecture", label: "Where it runs", eyebrow: "[04]" },
+    { id: "modules", label: "The architecture", eyebrow: "[05]" },
+    { id: "agents", label: "AI agents", eyebrow: "[06]" },
+    { id: "trust", label: "Privacy and control", eyebrow: "[07]" },
+    { id: "build-vs-buy", label: "Why Akashic", eyebrow: "[08]" },
+    { id: "stack", label: "Capabilities and connections", eyebrow: "[09]" },
+    { id: "solutions", label: "Built on Akashic", eyebrow: "[10]" },
+    { id: "faq", label: "Questions", eyebrow: "[11]" },
+    { id: "talk-to-our-team", label: "Your next decision", eyebrow: "[12]" },
   ],
   sectionsLabel: "Akashic page sections",
 
-  /* DRAFT: placeholder attribution. Executives supply the final quote. */
+  /* DRAFT: placeholder attribution. Executives supply the final quote.
+     Taken off on 5 Nov 2026 (platform audit: an invented name breaks Rule 4)
+     and restored the same day at the user's request. Replace the name and
+     role with a real, attributed quote before launch. */
   quote: {
     text: "“I didn’t realise how much I’d stopped trusting our own numbers until the day I finally could again.”",
-    breakAfter: "trusting",
+    /* "numbers", not "trusting": at md and up "trusting" sat alone on its
+       own line (platform audit, 5 Nov 2026). Three lines from md up. */
+    breakAfter: "numbers",
     name: "Ananya Rao",
     role: "Chief Operating Officer · Nexora",
   },
@@ -872,8 +940,9 @@ export const akashic: AkashicPage = {
   inAction: {
     eyebrow: { number: "01", label: "Ask Akashic" },
     title: { setup: "Why the number moved,", payoff: "answered in seconds." },
-    lede: "The figure sits in a system. The reason sits in a contract, an email or a field report. Akashic reads both and returns one answer, every line cited. No week of reconciling. No decision made on a hunch.",
+    lede: "The figure sits in one system and the reason in a contract, an email or a field report. Akashic reads both and returns one answer, with each line cited.",
     examplesLabel: "Choose an example",
+    replayLabel: "the question and its answer",
     /* What the status line says while the run is underway, per phase 0 to 4. */
     statusLabels: ["Thinking", "Connecting", "Understanding", "Reasoning", "Answering"],
     chrome: {
@@ -917,7 +986,7 @@ export const akashic: AkashicPage = {
         },
         chips: [
           { icon: "source", label: "2 systems · 3 documents read" },
-          { icon: "graph", label: "Every line traced to its source" },
+          { icon: "graph", label: "Each line traced to its source" },
           { icon: "bolt", label: "Ready in seconds" },
         ],
       },
@@ -952,7 +1021,7 @@ export const akashic: AkashicPage = {
         },
         chips: [
           { icon: "source", label: "2 systems · 4 field notes read" },
-          { icon: "graph", label: "Every line traced to its source" },
+          { icon: "graph", label: "Each line traced to its source" },
           { icon: "bolt", label: "Ready in seconds" },
         ],
       },
@@ -971,7 +1040,7 @@ export const akashic: AkashicPage = {
       {
         kicker: "Ingestion",
         name: "Data Pipelines",
-        lede: "Every source, ingested and validated.",
+        lede: "Sources ingested and validated.",
         points: [
           { icon: "database", text: "CRMs, ERPs, PDFs, live feeds: streaming, batch, CDC" },
           { icon: "funnel", text: "Validated on arrival, so nothing downstream inherits a problem" },
@@ -981,7 +1050,7 @@ export const akashic: AkashicPage = {
       {
         kicker: "Entity resolution",
         name: "Master Data",
-        lede: "One golden record. No duplicates.",
+        lede: "Duplicates resolved into one golden record.",
         points: [
           { icon: "merge", text: "One golden record, settled by survivorship rules" },
           { icon: "graph", text: "Records link into the knowledge layer as they merge" },
@@ -1005,7 +1074,7 @@ export const akashic: AkashicPage = {
         points: [
           { icon: "cpu", text: "Train and deploy where the data lives: no exports" },
           { icon: "eye", text: "Drift, bias and freshness monitored automatically" },
-          { icon: "trace", text: "Every prediction traceable to governed features" },
+          { icon: "trace", text: "Predictions traceable to governed features" },
         ],
       },
       {
@@ -1014,7 +1083,7 @@ export const akashic: AkashicPage = {
         lede: "Plain-language answers, grounded.",
         points: [
           { icon: "database", text: "Questions become SQL on the governed metric layer" },
-          { icon: "quote", text: "A citation on every line, never a guess" },
+          { icon: "quote", text: "A citation on each line of the answer" },
           { icon: "lock", text: "Row-level security enforced at answer time" },
         ],
       },
@@ -1035,7 +1104,7 @@ export const akashic: AkashicPage = {
         points: [
           { icon: "shield", text: "Access, lineage and audit under every module" },
           { icon: "key", text: "Deployed in-region, with your own keys when self-hosted" },
-          { icon: "badge", text: "ISO 27001 and SOC 2 certified · DPDP, GDPR, CERT-In compliant" },
+          { icon: "badge", text: "Certified to ISO 27001 and SOC 2 Type II" },
         ],
       },
     ],
@@ -1043,7 +1112,7 @@ export const akashic: AkashicPage = {
     combos: ["Run Data Pipelines on its own", "Or Master Data + Ask Akashic", "Or the whole platform"],
     close: {
       kicker: ["Start anywhere", "Scale everywhere"],
-      title: "Every module works on its own. Together, they’re the whole platform.",
+      title: "Each module works on its own. Together, they’re the whole platform.",
       body: "Pick the modules that solve today’s problem: they run alongside whatever you already have. Add the rest when you’re ready. The foundation never changes.",
       tagline: "Seven modules · one platform",
     },
@@ -1052,7 +1121,7 @@ export const akashic: AkashicPage = {
   },
 
   deployment: {
-    eyebrow: { number: "03", label: "Where it runs" },
+    eyebrow: { number: "04", label: "Where it runs" },
     title: "Deploy where your data has to live.",
     intro: "Cloud, on-premises or hybrid: Akashic is identical in all three. Same modules, same governance, same answers.",
     cloud: {
@@ -1072,7 +1141,7 @@ export const akashic: AkashicPage = {
     },
     hybrid: {
       name: "Hybrid",
-      desc: "Keep regulated data in your racks and run everything else in your cloud. One estate, not two.",
+      desc: "Keep regulated data in your racks and run everything else in your cloud, governed as one estate.",
       chip: "CONNECTED",
       footer: "One governed foundation, racks and cloud",
       racks: "Your racks",
@@ -1094,11 +1163,11 @@ export const akashic: AkashicPage = {
      remain in [10]. The systems row includes all named [10] connectors
      and document-ingestion types. */
   architecture: {
-    number: "04",
+    number: "05",
     label: "The architecture",
     setup: "You get seven modules",
     title: "and nothing to stitch together.",
-    intro: "Bring data, analytics and AI together on one governed foundation. Seven connected modules give every team a consistent view of the business.",
+    intro: "Bring data, analytics and AI together on one governed foundation. Seven connected modules give teams one consistent view of the business.",
     link: { label: "See every module in detail", href: "#stack" },
     figureLabel:
       "The Akashic architecture, read top to bottom. Every team, from executives to front-line staff, asks at the top. Akashic runs four layers. Governance checks every request. Intelligence answers with Business Intelligence, Ask Akashic and Machine Learning, with AI agents in preview. The knowledge layer gives every record its meaning. Data brings the records together with Data Pipelines, Master Data and Data Warehouse. Your systems, such as SAP, Salesforce, PostgreSQL and Apache Kafka, feed in at the bottom. One question travels down through every layer, and the answer comes back up, traceable to its source.",
@@ -1132,7 +1201,7 @@ export const akashic: AkashicPage = {
       module: {
         anchor: "governance", aliases: ["modules-governance"], icon: "governance", reference: "governance",
         name: "Governance",
-        line: "Access, quality and lineage across every module.",
+        line: "Access, quality and lineage across all seven modules.",
       },
       controls: [
         { icon: "access", name: "Access rules" },
@@ -1232,7 +1301,7 @@ export const akashic: AkashicPage = {
 
   agents: {
     preview: true,
-    number: "05",
+    number: "06",
     label: "AI agents",
     setup: "Agents do the legwork.",
     title: "People make the call.",
@@ -1256,7 +1325,7 @@ export const akashic: AkashicPage = {
       },
       { kind: "agent", name: "Verify", detail: "Citations · lineage · rules", agents: [{ code: "MD", name: "Metadata agent", line: "Explains definitions and lineage" }] },
       { kind: "person", name: "Approve", detail: "Maker-checker sign-off", note: "No agent signs off." },
-      { kind: "record", name: "Record", detail: "Append-only audit trail", note: "Model and prompt version on every step" },
+      { kind: "record", name: "Record", detail: "Append-only audit trail", note: "Model and prompt version on each step" },
     ],
     foundation: {
       label: "Under every run",
@@ -1269,22 +1338,7 @@ export const akashic: AkashicPage = {
     coda: "Model-neutral by design. Each task runs on a named model, including models hosted inside your boundary.",
   },
 
-  trust: { number: "06", label: "Data privacy and security", ...akashicSecurity },
-
-  open: {
-    number: "07",
-    label: "Open architecture",
-    setup: "No lock-in, by design:",
-    title: "your data, your formats, your call.",
-    principles: [
-      { title: "Modular by design", desc: "Start with the modules you need. Expand on the same foundation as your priorities grow.", detail: "Adopt at your pace" },
-      { title: "Open to inspect", desc: "Read the tables, transforms and metric definitions with tools your team already uses.", detail: "See how the answer was made" },
-      { title: "Yours to extend", desc: "Use open interfaces to connect existing systems and build for your organisation.", detail: "Keep your engineering freedom" },
-      { title: "Yours to keep", desc: "Keep your data and your work in open formats. Carry both forward as your needs change.", detail: "Stay by choice" },
-    ],
-    productName: "Akashic",
-    close: "Own your data. Own your standards. Keep your freedom to choose.",
-  },
+  trust: { number: "07", label: "Privacy and control", ...akashicControl },
 
   /* [08] Why Akashic. Rebuilt 4 Nov 2026 after an executive review found the
      grid of hatched layers hard to read (jargon rows, a four-swatch legend
@@ -1328,71 +1382,68 @@ export const akashic: AkashicPage = {
       title: "Build once. Reuse and extend.",
       note: "New sources, definitions and controls can be added as the work grows.",
     },
-    reasonsTitle: "Shared assets, with ownership and control.",
-    reasons: [
-      {
-        title: "Customer identity is built in.",
-        body: "Master Data resolves duplicate records and account hierarchies, so each project can start from the same trusted customer.",
-        icon: "master-data",
-      },
-      {
-        title: "Business context reaches AI.",
-        body: "The knowledge layer carries agreed definitions and relationships into analytics and AI. The next team inherits the meaning as well as the data.",
-        icon: "definitions",
-      },
-      {
-        title: "The foundation fits your boundary.",
-        body: "Run the same platform in your cloud, on premises or across both. Build around the requirements of your organisation.",
-        icon: "residency",
-      },
-      {
-        title: "One team carries it into production.",
-        body: "DHIRA builds Akashic and delivers the systems on top, with one team accountable for the platform and its implementation.",
-        icon: "people",
-      },
-    ],
+    /* Added 5 Nov 2026 (user: "add benefits direct to CTO, COO and other
+       executives so it's more relatable"). Each gain restates this
+       section's one claim, reuse across initiatives, in one executive's
+       terms. None repeats the page's other claims ("the same numbers",
+       "one trusted record", the access, lineage and audit trio), none
+       promises speed or savings, and the first initiative is not claimed
+       to start ready-made. No figures (Rule 4). */
+    leaders: {
+      key: "Your leadership",
+      verb: "What one foundation changes for each executive.",
+      roles: [
+        { id: "ceo", icon: "executives", role: "Chief Executive Officer", gain: "Start each new initiative on ground already laid.", detail: "After the first, every initiative opens on the connections, records and rules already in place. Its team starts on the business problem." },
+        { id: "coo", icon: "operations", role: "Chief Operating Officer", gain: "Roll a proven process out to the next team or region.", detail: "The next business unit reuses the same customer records, definitions and controls instead of commissioning its own build." },
+        { id: "cfo", icon: "finance", role: "Chief Financial Officer", gain: "Fund the new work, not the same setup again.", detail: "The groundwork is built once and reused, so each new budget goes to the data and business logic that initiative adds." },
+        { id: "cto", icon: "data-teams", role: "Chief Technology Officer", gain: "Run one set of integrations, not one per project.", detail: "Connectors and pipelines are built and maintained once. Each new initiative extends them, whichever warehouse you run." },
+        { id: "cdo", icon: "definitions", role: "Chief Data Officer", gain: "Fix a data problem once, and every project gets the fix.", detail: "A corrected match rule or business definition reaches every initiative that reads from the foundation." },
+        { id: "cro", icon: "risk", role: "Chief Risk Officer", gain: "Review controls in one place, not project by project.", detail: "Policies and their evidence live in the foundation, so an audit reads one record across every initiative." },
+      ],
+    },
   },
 
   scale: {
-    number: "09",
+    number: "03",
     eyebrow: "In production",
     title: { setup: "The platform behind national programmes", payoff: "is ready for your organisation." },
-    description: "Not pilots. National systems in production, at population scale.",
+    description: "National systems in production, at population scale.",
     storiesLabel: "Akashic deployments in production",
     storyNoun: "deployment",
   },
 
-  /* The founder's platform figures, real per Rule 4, live in [10]'s module
+  /* The founder's platform figures, real per Rule 4, live in these module
      sheets beside the claim each one proves: Data Pipelines 25 built-in
-     transforms, BI 61 data sources and 50+ chart types, Governance 80+
-     metadata connectors. Not used: his "10 modules" and "13 agents" (held). */
+     transforms, Business Intelligence 61 data sources and 50+ chart types,
+     Governance 80+ metadata connectors. Not used: his "10 modules" and
+     "13 agents" (held). */
   reference: {
-    number: "10",
-    label: "Capabilities & connections",
+    number: "09",
+    label: "Capabilities and connections",
     setup: "Look beneath the promise",
     title: "and inspect every capability.",
     intro: "An open reference for your technical team. Explore each module, its connections and its controls.",
     note: "Discuss connector compatibility, model hosting and deployment requirements with our team.",
     chartTypes: "Bars · Lines · Areas · Metrics · Tables · Heatmaps · Scatter · Pie",
+    indexLabel: "Akashic modules",
+    layers: { data: "Data", intel: "Intelligence", gov: "Governance" },
     modules: akashicModules,
   },
 
   solutions: {
-    number: "11",
+    number: "10",
     label: "Built on Akashic",
     ...akashicSolutions,
     modules: solutionModules,
     axis: { solution: "Solution", workflow: "Workflow", underneath: "Akashic underneath" },
-    used: ", in use",
-    unused: ", not used",
-    legend: { on: "All seven modules in every solution" },
+    legend: { on: "All seven modules, under all three solutions" },
   },
 
   /* [12] Questions (14 Oct 2026). The founder's FAQ, re-cut for this page.
      Every answer restates a claim the page already makes; none introduces
      a new one. If agents go GA, rewrite the agents answer with `agents.preview`. */
   faq: {
-    number: "12",
+    number: "11",
     label: "Questions",
     setup: "The questions leaders ask,",
     title: "answered plainly.",
@@ -1418,14 +1469,14 @@ export const akashic: AkashicPage = {
         answer: "In the cloud, on-premises or hybrid. On-premises installs run on Docker and Kubernetes in your data centre. The modules, governance and answers are the same in all three.",
       },
       {
-        question: "How do Enterprise Intelligence and the Intelligent Procurement Management System relate to Akashic?",
-        answer: "They are Akashic, configured around one process. Each solution switches on the modules its process needs, so the next one starts on data, definitions and governance already in place.",
+        question: "How do Enterprise Intelligence, the Intelligent Procurement Management System and Akashic Life relate to Akashic?",
+        answer: "They are Akashic, configured around one process. Each solution runs on all seven modules, so the next one starts on data, definitions and governance already in place.",
       },
     ],
   },
 
   close: {
-    number: "13",
+    number: "12",
     label: "Your next decision",
     setup: "See what your data",
     title: "can decide.",

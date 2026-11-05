@@ -37,6 +37,15 @@ const nextConfig = {
   images: {
     formats: ["image/avif", "image/webp"],
   },
+  /* Server Actions take 1 MB by default. A job application may attach a
+     resume of up to 4 MB (features/contact, 5 Nov 2026), so the limit is
+     4.5 MB: the file plus the form's text and multipart overhead, and the
+     most Vercel accepts in one request body. */
+  experimental: {
+    serverActions: {
+      bodySizeLimit: "4.5mb",
+    },
+  },
   /* SCSS Modules resolve shared styles from src/: every module starts with
      `@use "assets/styles" as *;` for the tokens and mixins. */
   sassOptions: {

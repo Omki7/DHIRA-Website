@@ -8,7 +8,7 @@ $can-draw: "(scripting: enabled) and (prefers-reduced-motion: no-preference)";
 $label-w: 236px;
 $label-gap: 26px;
 
-@mixin mono($size: 11px) {
+@mixin mono($size: 12px) {
   font-family: $font-mono;
   font-size: $size;
   font-weight: $weight-normal;
@@ -235,7 +235,7 @@ $label-gap: 26px;
   place-items: center;
   border-radius: 50%;
   background-color: c(blue);
-  font-size: 10.5px;
+  font-size: 12px;
   letter-spacing: 0;
   color: c(on-accent);
 }
@@ -423,6 +423,7 @@ $label-gap: 26px;
 .note {
   margin: 0;
   max-width: 34rem;
+  text-wrap: pretty;
   font-size: 14px;
   line-height: 1.5;
   color: c(secondary-text);

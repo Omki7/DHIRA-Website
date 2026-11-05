@@ -50,7 +50,9 @@ export function EisTrust({ content, num }: EisTrustProps) {
             </div>
             <dl className={styles.rows}>
               {receipt.rows.map((row, i) => (
-                <div key={row.key} className={styles.row} style={delay(0.2 + i * 0.08)}>
+                /* Tightened 5 Nov 2026 (critique: the sources and the route sat
+                   empty for nearly a second): everything is in by about 0.9s. */
+                <div key={row.key} className={styles.row} style={delay(0.1 + i * 0.06)}>
                   <dt>{row.key}</dt>
                   <dd>{row.value}</dd>
                 </div>
@@ -58,7 +60,7 @@ export function EisTrust({ content, num }: EisTrustProps) {
             </dl>
             <p className={styles.sourcesLabel}>{receipt.valueLabel}</p>
             <ul className={styles.sources}>
-              <li className={cx(styles.source, styles.sourceValue)} style={delay(0.55)}>
+              <li className={cx(styles.source, styles.sourceValue)} style={delay(0.3)}>
                 <span className={styles.sourceSystem}>{receipt.valueFrom.system}</span>
                 <span className={styles.sourceRecord}>{receipt.valueFrom.record}</span>
               </li>
@@ -66,7 +68,7 @@ export function EisTrust({ content, num }: EisTrustProps) {
             <p className={styles.sourcesLabel}>{receipt.signalsLabel}</p>
             <ul className={styles.sources}>
               {receipt.signals.map((signal, i) => (
-                <li key={signal.system} className={styles.source} style={delay(0.7 + i * 0.1)}>
+                <li key={signal.system} className={styles.source} style={delay(0.38 + i * 0.06)}>
                   <span className={styles.sourceSystem}>{signal.system}</span>
                   <span className={styles.sourceRecord}>{signal.record}</span>
                 </li>
@@ -86,7 +88,7 @@ export function EisTrust({ content, num }: EisTrustProps) {
                 <li
                   key={step.title}
                   className={cx(styles.step, i === 2 && styles.stepYou)}
-                  style={delay(0.35 + i * 0.16)}
+                  style={delay(0.2 + i * 0.1)}
                 >
                   <span className={styles.stepNode} aria-hidden="true">
                     {i + 1}

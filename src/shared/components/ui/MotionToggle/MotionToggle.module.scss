@@ -19,6 +19,17 @@
     color: c(ink);
   }
 
+  /* A 28px control with a 44px touch area (5 Nov 2026 critique). */
+  @media (pointer: coarse) {
+    position: relative;
+
+    &::after {
+      content: "";
+      position: absolute;
+      inset: -8px;
+    }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     display: none;
   }

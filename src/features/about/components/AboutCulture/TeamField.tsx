@@ -1,63 +1,54 @@
 "use client";
 
 import Image from "next/image";
-import { useId, type CSSProperties } from "react";
+import { useId, useMemo, type CSSProperties } from "react";
 import type { AboutPage } from "@/content/pages/about";
 import { MotionToggle } from "@/shared/components/ui/MotionToggle";
 import useTour from "@/shared/hooks/useTour";
+import { spotlight, spreadEvenly, teamField, type FieldShape } from "../../utils/teamField";
 import styles from "./AboutCulture.module.scss";
 
-/* Forty portrait positions form a compact five-row field, as requested.
-   A missing photograph uses initials; unassigned positions stay neutral.
+/* The whole roster as one staggered field of portraits (utils/teamField):
+   ten across on phones and tablets, twenty-four on desktop, where background
+   dots carry the pattern to the edges. Selecting a person (or the tour)
+   brings them forward and their neighbours with them, so the field reads as
+   people around the one you are meeting. A missing photograph uses initials,
+   and those circles are spread evenly through the field (spreadEvenly).
    Profiles are editorial drafts, not quotations from the people pictured. */
-const ROWS = [6, 9, 10, 9, 6];
-// Leave a few quiet spaces around the perimeter while the roster is a draft.
-// Additional named people automatically fill these last six positions.
-const PERIMETER = [0, 5, 6, 24, 34, 39];
-const MEMBER_ORDER = [
-  ...Array.from({ length: 40 }, (_, i) => i).filter(i => !PERIMETER.includes(i)),
-  ...PERIMETER,
-];
-const SLOTS = ROWS.flatMap((count, row) =>
-  Array.from({ length: count }, (_, column) => ({
-    row: row + 1,
-    column: (20 - count * 2) / 2 + column * 2 + 1,
-    wideColumn: (48 - count * 2) / 2 + column * 2 + 1,
-  })),
-).map((slot, index) => ({ ...slot, memberIndex: MEMBER_ORDER.indexOf(index) }));
-const AMBIENT = ROWS.flatMap((count, row) => {
-  const offset = count % 2;
-  const firstPortrait = (48 - count * 2) / 2 + 1;
-  const lastPortrait = firstPortrait + (count - 1) * 2;
-  return Array.from({ length: 24 - offset }, (_, column) => ({
-    row: row + 1,
-    column: column * 2 + 1 + offset,
-    opacity: Math.min(.8, Math.min(column + 1, 24 - offset - column) / 7),
-  })).filter(dot => dot.column < firstPortrait || dot.column > lastPortrait);
-});
-type SlotStyle = CSSProperties & { "--person-row": number; "--person-column": number; "--person-wide-column": number };
+const NARROW: FieldShape = { perRow: 10, ratio: [0.8, 10], fade: 2 };
+const WIDE: FieldShape = { perRow: 24, ratio: [1.5, 2.2], fade: 7 };
+
+type PersonStyle = CSSProperties & Record<"--row" | "--column" | "--wide-row" | "--wide-column" | "--near" | "--wide-near", number>;
+type FieldStyle = CSSProperties & Record<"--rows" | "--wide-rows", number>;
+
+const initialsOf = (name: string) => name.split(/\s+/).filter(Boolean).map((part) => part[0]).slice(0, 2).join("");
 
 export function TeamField({ team }: { team: AboutPage["culture"]["team"] }) {
   const id = useId();
-  const { ref, active, paused, pick, toggle, hold } = useTour<HTMLFieldSetElement>(Math.min(team.members.length, SLOTS.length), { dwell: 8500 });
+  const members = useMemo(() => spreadEvenly(team.members, (member) => !member.image), [team.members]);
+  const [narrow, wide] = useMemo(() => [teamField(members.length, NARROW), teamField(members.length, WIDE)], [members.length]);
+  const { ref, active, paused, pick, toggle, hold } = useTour<HTMLFieldSetElement>(members.length, { dwell: 8500 });
+  const near = spotlight(narrow, active);
+  const wideNear = spotlight(wide, active);
+  const fieldStyle: FieldStyle = { "--rows": narrow.rows, "--wide-rows": wide.rows };
 
   return (
     <fieldset ref={ref} className={styles.team} {...hold}>
       <legend className={styles.srOnly}>{team.label}</legend>
-      <div className={styles.field}>
-        <div className={styles.ambient} aria-hidden="true">
-          {AMBIENT.map((dot, index) => <span key={index} style={{ gridRow: dot.row, gridColumn: `${dot.column} / span 2`, opacity: dot.opacity }} />)}
-        </div>
-        {SLOTS.map((slot, slotIndex) => {
-          const index = slot.memberIndex;
-          const member = team.members[index];
-          const placement: SlotStyle = {
-            "--person-row": slot.row,
-            "--person-column": slot.column,
-            "--person-wide-column": slot.wideColumn,
+      <div className={styles.field} style={fieldStyle}>
+        {[narrow, wide].map((layout, l) => layout.ambient.map((dot, index) => (
+          <span key={`dot-${l}-${index}`} className={l ? styles.dotWide : styles.dotNarrow} style={{ gridRow: dot.row, gridColumn: `${dot.column} / span 2`, opacity: dot.opacity }} aria-hidden="true" />
+        )))}
+        {members.map((member, index) => {
+          const placement: PersonStyle = {
+            "--row": narrow.people[index].row,
+            "--column": narrow.people[index].column,
+            "--wide-row": wide.people[index].row,
+            "--wide-column": wide.people[index].column,
+            "--near": near[index],
+            "--wide-near": wideNear[index],
           };
-          if (!member) return <span key={`empty-${slotIndex}`} className={styles.empty} style={placement} aria-hidden="true"><span /></span>;
-          const initials = member.name.split(/\s+/).filter(Boolean).map(part => part[0]).slice(0, 2).join("");
+          const describedBy = [member.bio && `${id}-bio-${index}`, member.role && `${id}-role-${index}`].filter(Boolean).join(" ") || undefined;
           return (
             <div key={member.id} className={styles.colleague} style={placement}>
               <input
@@ -68,7 +59,7 @@ export function TeamField({ team }: { team: AboutPage["culture"]["team"] }) {
                 checked={active === index}
                 onChange={() => pick(index)}
                 onFocus={() => pick(index)}
-                aria-describedby={`${id}-bio-${index} ${id}-role-${index}`}
+                aria-describedby={describedBy}
               />
               <label
                 htmlFor={`${id}-${index}`}
@@ -82,7 +73,7 @@ export function TeamField({ team }: { team: AboutPage["culture"]["team"] }) {
                         src={member.image.src}
                         alt=""
                         fill
-                        sizes="100px"
+                        sizes="(min-width: 1024px) 56px, 46px"
                         className={styles.photo}
                         style={{
                           objectPosition: member.position ?? "50% 40%",
@@ -93,16 +84,26 @@ export function TeamField({ team }: { team: AboutPage["culture"]["team"] }) {
                         }}
                       />
                     </span>
-                  ) : <span className={styles.initials} aria-hidden="true">{initials}</span>}
+                  ) : <span className={styles.initials} aria-hidden="true">{initialsOf(member.name)}</span>}
                 </span>
                 <span className={styles.srOnly}>{member.name}</span>
               </label>
               <div className={styles.profile}>
-                <p id={`${id}-bio-${index}`} className={styles.bio}>{member.bio}</p>
-                <div className={styles.byline}>
-                  <h3 className={styles.name}>{member.name}</h3>
-                  <p id={`${id}-role-${index}`} className={styles.role}>{member.role}</p>
-                </div>
+                {member.bio ? (
+                  <>
+                    <p id={`${id}-bio-${index}`} className={styles.bio}>{member.bio}</p>
+                    <div className={styles.byline}>
+                      <h3 className={styles.name}>{member.name}</h3>
+                      {member.role && <p id={`${id}-role-${index}`} className={styles.role}>{member.role}</p>}
+                    </div>
+                  </>
+                ) : (
+                  /* No profile yet: the name takes the profile's place. */
+                  <>
+                    <h3 className={styles.bio}>{member.name}</h3>
+                    {member.role && <p id={`${id}-role-${index}`} className={`${styles.byline} ${styles.role}`}>{member.role}</p>}
+                  </>
+                )}
               </div>
             </div>
           );

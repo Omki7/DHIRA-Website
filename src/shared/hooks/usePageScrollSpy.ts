@@ -2,11 +2,11 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { PageSection } from "@/content/types";
+import { sectionScrollTop } from "@/shared/utils/navigation";
 
 export type { PageSection };
 
 const SCROLL_SETTLE_MS = 180;
-const HEADER_OFFSET = 88;
 
 interface ScrollDestination {
   id: string;
@@ -162,8 +162,8 @@ export function usePageScrollSpy(sections: PageSection[]) {
       window.dispatchEvent(new CustomEvent("akashic-hashchange", { detail: hash }));
     }
 
-    const offset = Math.max(HEADER_OFFSET, parseFloat(getComputedStyle(target).scrollMarginTop) || 0);
-    const top = id === sections[0]?.id ? 0 : Math.max(0, target.getBoundingClientRect().top + window.scrollY - offset);
+    // Lands on the section's eyebrow, clear of the header (sectionScrollTop).
+    const top = id === sections[0]?.id ? 0 : sectionScrollTop(target);
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     window.scrollTo({ top, behavior: reducedMotion ? "instant" : "smooth" });
     settleTimer.current = setTimeout(() => finishScroll.current(), SCROLL_SETTLE_MS);

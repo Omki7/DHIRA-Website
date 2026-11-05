@@ -76,16 +76,40 @@ export interface UiStrings {
     badge: string;
     title: string;
     body: string;
-    assurances: { id: "discovery" | "response" | "privacy"; title: string; text: string }[];
+    assurances: ContactAssurance[];
     footerLeft: string;
     footerRight: string;
+    /** In place of the ask above while the form is a job application. */
+    application: { dialogLabel: string; badge: string; title: string; body: string; assurances: ContactAssurance[] };
   };
   contactForm: {
     name: { label: string; placeholder: string };
     email: { label: string; placeholder: string };
     company: { label: string; placeholder: string };
-    interest: { label: string; placeholder: string; options: string[] };
+    /** `options` in the order they show. `careers` is the one of them that
+        makes the form a job application; it shows only to visitors in India,
+        like every other way into careers. */
+    interest: {
+      label: string;
+      placeholder: string;
+      options: string[];
+      careers: string;
+    };
     message: { label: string; placeholder: string };
+    /** In place of the business wording while the interest is `careers`. */
+    application: {
+      email: { label: string; placeholder: string };
+      company: { label: string; placeholder: string };
+      message: { label: string; placeholder: string };
+      /** The optional resume attachment. `hint` stands in for a file name. */
+      resume: { label: string; choose: string; change: string; hint: string; remove: string };
+      submit: string;
+      submitting: string;
+      consentBefore: string;
+      sentTitle: string;
+      sentBody: string;
+      errors: { message: string; resume: string };
+    };
     submit: string;
     submitting: string;
     consent: { before: string; link: { label: string; href: string }; after: string };
@@ -110,6 +134,13 @@ export interface UiStrings {
   error: { label: string; setup: string; payoff: string; lede: string; retry: string; home: { label: string; href: string } };
 }
 
+/** One line of the contact dialog's ask. `id` picks the icon. */
+export interface ContactAssurance {
+  id: "discovery" | "response" | "privacy";
+  title: string;
+  text: string;
+}
+
 /** One sign-up form's own words (features/newsletter SubscribeForm): the
     footer's here, the /insights one in content/pages/insights.ts. */
 export interface SubscribeCopy {
@@ -120,6 +151,10 @@ export interface SubscribeCopy {
   done: string;
   consent: { before: string; link: { label: string; href: string }; after: string };
 }
+
+/* The contact form's careers option: listed in its `options` and named as
+   `careers`, written once so the two cannot differ. */
+const JOINING_DHIRA = "Joining DHIRA";
 
 export const ui: UiStrings = {
   skipLink: "Skip to main content",
@@ -189,18 +224,47 @@ export const ui: UiStrings = {
     ],
     footerLeft: "DHIRA tech squad",
     footerRight: "NY · HYD · BLR",
+    /* 5 Nov 2026 (user: the Apply buttons opened a business form with no
+       option for candidates). Every promise here is already on /careers. */
+    application: {
+      dialogLabel: "Apply to DHIRA",
+      badge: "Join the team",
+      title: "Tell us what you’ve built.",
+      body: "Share shipped work and the role you want. Every candidate gets an answer.",
+      assurances: [
+        { id: "discovery", title: "Intro call with your future team", text: "Thirty minutes. You interview us too." },
+        { id: "response", title: "A clear yes or no", text: "With reasons. No puzzles, no ghosting." },
+        { id: "privacy", title: "Strict confidentiality", text: "Your details stay with us. Nothing shared, nothing sold." },
+      ],
+    },
   },
   /* Placeholders are neutral examples, never a real person's details. */
   contactForm: {
     name: { label: "Full name", placeholder: "Your name" },
     email: { label: "Work email", placeholder: "name@organisation.com" },
     company: { label: "Company", placeholder: "Your organisation" },
+    /* 5 Nov 2026 (user): Partnership and "Something else" for anything the
+       site does not list; one "Joining DHIRA" for candidates, not the open
+       roles one by one, so the form never depends on the roles board. */
     interest: {
       label: "I’m interested in",
       placeholder: "Select one",
-      options: ["Platform deployment", "Product build", "Advisory", "Just exploring"],
+      options: ["Platform deployment", "Product build", "Advisory", "Partnership", "Just exploring", JOINING_DHIRA, "Something else"],
+      careers: JOINING_DHIRA,
     },
     message: { label: "What are you trying to solve?", placeholder: "Tell us about your data challenge, project goals or questions..." },
+    application: {
+      email: { label: "Email", placeholder: "you@example.com" },
+      company: { label: "Company or college", placeholder: "Optional" },
+      message: { label: "What have you built?", placeholder: "The role you want, and links to shipped work, GitHub or LinkedIn." },
+      resume: { label: "Resume (optional)", choose: "Attach resume", change: "Change", hint: "PDF or Word, up to 4 MB", remove: "Remove" },
+      submit: "Send application",
+      submitting: "Sending application…",
+      consentBefore: "By sending this you agree we may contact you about your application. See our",
+      sentTitle: "Your application is sent",
+      sentBody: "It’s with the hiring team now. Every candidate gets an answer: a clear yes or no, with reasons.",
+      errors: { message: "Please tell us what you’ve built.", resume: "Attach a PDF or Word file of 4 MB or less." },
+    },
     submit: "Send message",
     submitting: "Sending message…",
     consent: {

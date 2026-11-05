@@ -1,11 +1,24 @@
-import type { AkashicPage } from "@/content/pages/akashic";
 import { nameOrWordmark } from "@/shared/components/icons";
 import { ScrollReveal } from "@/shared/components/ui";
 import { StoryLabel, StoryTitle } from "../AkashicStory";
 import styles from "./AkashicOpenFoundations.module.scss";
 
+/* RETIRED 5 Nov 2026: /akashic [07] Open merged into [07] Privacy and control
+   (AkashicTrust), whose "Open, with no lock-in" group keeps the #open anchor.
+   Nothing renders this component. Kept only because deleting a file the
+   running dev server has compiled breaks every page until it restarts
+   (docs/DEVELOPMENT.md); delete this folder and its line in
+   features/akashic/index.ts after the next restart. */
 export interface AkashicOpenFoundationsProps {
-  content: AkashicPage["open"];
+  content: {
+    number: string;
+    label: string;
+    setup: string;
+    title: string;
+    principles: { title: string; desc: string; detail: string }[];
+    productName: string;
+    close: string;
+  };
 }
 
 export function AkashicOpenFoundations({ content }: AkashicOpenFoundationsProps) {

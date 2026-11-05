@@ -37,8 +37,11 @@ export function FigureEyebrow({
   bare = false,
 }: FigureEyebrowProps) {
   const rail = bare ? undefined : cx(styles.rail, dark ? styles.railDark : styles.railLight);
+  /* `data-section-eyebrow` marks where a section starts: jumps land here
+     (shared/utils/navigation sectionScrollTop). A bare eyebrow sits inside
+     a card, so its section lands on its own top instead. */
   return (
-    <div className={cx(styles.root, rail)}>
+    <div className={cx(styles.root, rail)} data-section-eyebrow={bare ? undefined : ""}>
       <p className={styles.line}>
         <span>
           {num && <span className={dark ? styles.numDark : styles.num}>[{num}]&nbsp;&nbsp;</span>}

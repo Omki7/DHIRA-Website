@@ -1,5 +1,23 @@
 @use "assets/styles" as *;
 
+// [09] A module index beside one specification sheet, in [05]'s tones
+// (theme.css, arch-*): `solid` fills the sheet header and the chosen badge,
+// `on` is drawn on it, `text` and `line` carry the tone on light ground.
+@each $name, $key in (Data: data, Intel: intel, Gov: gov) {
+  .tone#{$name} {
+    --tone-solid: var(--arch-#{$key}-solid);
+    --tone-on: var(--arch-#{$key}-on);
+    --tone-port: var(--arch-#{$key}-port);
+    --tone-text: var(--arch-#{$key}-text);
+    --tone-tint: var(--arch-#{$key}-tint);
+    --tone-line: var(--arch-#{$key}-line);
+  }
+}
+
+$index-w: 288px;
+$gap-lg: space(8);
+
+// --- Section and heading ---------------------------------------------------------
 .section {
   position: relative;
   scroll-margin-top: space(24);
@@ -14,17 +32,11 @@
   padding: 3.5rem space(6);
 
   @include respond-to(sm) {
-    padding-left: space(10);
-    padding-right: space(10);
-    padding-top: space(16);
-    padding-bottom: space(16);
+    padding: space(16) space(10);
   }
 
   @include respond-to(lg) {
-    padding-left: space(16);
-    padding-right: space(16);
-    padding-top: space(20);
-    padding-bottom: space(20);
+    padding: space(20) space(16);
   }
 }
 
@@ -40,18 +52,10 @@
   }
 }
 
-.title {
-  color: c(ink);
-
-  > span {
-    color: c(uc-mute);
-  }
-}
-
 .intro {
   max-width: 48em;
   font-size: 1rem;
-  line-height: 1.625;
+  line-height: $leading-relaxed;
   color: c(secondary-text);
 
   @include respond-to(lg) {
@@ -59,275 +63,403 @@
   }
 }
 
-.toolbar {
-  margin-top: space(8);
-  margin-bottom: space(3);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: space(3);
+// --- The console: index, then the chosen sheet ------------------------------------
+.console {
+  margin-top: space(12);
+  display: grid;
+  gap: space(4);
 
   @include respond-to(lg) {
-    margin-top: space(10);
+    margin-top: space(14);
+    grid-template-columns: $index-w minmax(0, 1fr);
+    align-items: start;
+    gap: $gap-lg;
   }
 }
 
-.counter {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  font-weight: $weight-medium;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: c(overcast);
-}
-
-.controls {
-  display: inline-flex;
-  align-items: center;
-  gap: space(1);
-  background-color: c(depth-raised);
-  border: 1px solid c(line);
-  border-radius: $radius-tile;
-  padding: 3px;
-}
-
-.toggleBtn {
-  display: inline-flex;
-  align-items: center;
-  gap: space(1.5);
-  padding: space(1.5) space(3);
-  border-radius: calc(#{$radius-tile} - 2px);
-  font-size: 12.5px;
-  font-weight: $weight-medium;
-  line-height: $leading-none;
-  color: c(secondary-text);
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
-  transition: color 150ms ease, background-color 150ms ease, opacity 150ms ease;
-
-  svg {
-    flex-shrink: 0;
-  }
-
-  &:hover:not(:disabled) {
-    color: c(ink);
-    background-color: c(background);
-  }
-
-  &[data-active="true"] {
-    color: c(blue);
-    background-color: c(background);
-    font-weight: $weight-semibold;
-  }
-
-  &:disabled {
-    opacity: 0.45;
-    cursor: default;
-  }
-}
-
+// One labelled group per layer at every width: phones stack the groups
+// (three compact tiles a row), tablets set them side by side, and from lg
+// the index is one column that stays in view beside a long sheet.
 .index {
-  margin-top: space(3);
-  overflow: hidden;
-  border-radius: $radius-frame;
-  border: 1px solid c(line);
-}
+  display: grid;
+  gap: space(4);
 
-.module {
-  scroll-margin-top: space(24);
-  border-bottom: 1px solid c(line);
-
-  &:last-child {
-    border-bottom-width: 0;
-  }
-
-  summary {
-    display: grid;
-    cursor: pointer;
-    list-style: none;
-    grid-template-columns: 1fr 20px;
-    align-items: center;
+  @include respond-to(md) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    align-items: start;
     gap: space(4);
-    padding: space(5);
-
-    @include respond-to(md) {
-      grid-template-columns: 1fr 24px;
-      padding-left: 1.75rem;
-      padding-right: 1.75rem;
-    }
-
-    &::-webkit-details-marker {
-      display: none;
-    }
-
-    &:hover {
-      background-color: c(depth-raised);
-    }
-
-    &:focus-visible {
-      outline: 2px solid c(blue);
-      outline-offset: -4px;
-    }
   }
 
-  &[open] summary {
-    background-color: c(depth-raised);
+  @include respond-to(lg) {
+    position: sticky;
+    top: space(24);
+    display: flex;
+    flex-direction: column;
+    gap: space(6);
   }
 }
 
-.nameWrap {
+.layerGroup {
+  display: grid;
+  gap: space(2);
+}
+
+.layerName {
   display: flex;
+  align-items: center;
+  gap: space(3);
+  font-family: $font-mono;
+  font-size: 10px;
+  font-weight: $weight-medium;
+  line-height: 1;
+  letter-spacing: $tracking-eyebrow;
+  text-transform: uppercase;
+  color: c(tone-text);
+
+  &::after {
+    content: "";
+    flex: 1;
+    border-top: 1px solid c(tone-line);
+  }
+}
+
+.layerTabs {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: space(2);
+
+  @include respond-to(md) {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  @include respond-to(lg) {
+    gap: space(1);
+  }
+}
+
+.tab {
+  position: relative;
+  display: flex;
+  width: 100%;
+  min-height: 52px;
   flex-direction: column;
-  gap: space(1);
+  align-items: center;
+  gap: space(2);
+  border: 1px solid c(line);
+  border-radius: $radius-inner;
+  background-color: c(primary-bg);
+  padding: space(3) space(2);
+  text-align: center;
+  color: c(ink);
+  cursor: pointer;
+  @include transition-colors($duration-150, $ease-settle);
+  @include focus-ring(2px);
+
+  &:hover {
+    border-color: c(tone-port);
+  }
+
+  &[aria-selected="true"] {
+    border-color: c(tone-port);
+    background-color: c(background);
+  }
 
   @include respond-to(md) {
     flex-direction: row;
-    align-items: baseline;
-    gap: space(4);
+    gap: space(3);
+    padding: space(2) space(3);
+    text-align: left;
   }
 
-  h3 {
-    font-size: 20px;
-    font-weight: $weight-medium;
-    letter-spacing: $tracking-tight;
+  @include respond-to(lg) {
+    border-color: transparent;
+    background-color: transparent;
+    padding: space(2) space(3) space(2) space(2);
 
-    @include respond-to(md) {
-      font-size: 23px;
+    &:hover {
+      border-color: transparent;
+      background-color: c(depth-raised);
+    }
+
+    &[aria-selected="true"] {
+      border-color: c(tone-port);
+      background-color: c(background);
+    }
+
+    // The chosen module's port into its sheet, as [05] joins tile to layer.
+    &[aria-selected="true"]::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: calc(100% + 1px);
+      width: $gap-lg;
+      border-top: 1px solid c(tone-port);
+      pointer-events: none;
+    }
+
+    &[aria-selected="true"]::before {
+      content: "";
+      position: absolute;
+      top: calc(50% - 2px);
+      left: calc(100% + #{$gap-lg} - 3px);
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background-color: c(tone-port);
+      pointer-events: none;
     }
   }
 }
 
-.tagline {
-  font-size: 0.75rem;
-  line-height: 1rem;
-  color: c(secondary-text);
-}
+.badge {
+  display: grid;
+  width: 30px;
+  height: 30px;
+  flex-shrink: 0;
+  place-items: center;
+  border: 1px solid c(tone-line);
+  border-radius: 7px;
+  background-color: c(tone-tint);
+  color: c(tone-text);
+  @include transition-colors($duration-150, $ease-settle);
 
-.plus {
-  position: relative;
-  height: space(5);
-  width: space(5);
-
-  &::before,
-  &::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    top: 50%;
-    height: 1px;
-    width: 20px;
-    background-color: c(blue-300);
-  }
-
-  &::after {
-    transform: rotate(90deg);
-  }
-
-  .module[open] &::after {
-    transform: rotate(0deg);
+  .tab[aria-selected="true"] & {
+    border-color: c(tone-solid);
+    background-color: c(tone-solid);
+    color: c(tone-on);
   }
 }
 
-.content {
-  background-color: c(background);
-  padding: space(5) space(5) space(3) space(5);
-  color: c(ink);
+.badgeIcon {
+  width: 18px;
+  height: 18px;
+}
+
+.tabText {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.tabName {
+  font-size: 13px;
+  font-weight: $weight-medium;
+  line-height: $leading-tight;
+  letter-spacing: $tracking-tight;
 
   @include respond-to(md) {
-    padding-left: 1.75rem;
-    padding-right: 1.75rem;
+    font-size: 14px;
+  }
+
+  @include respond-to(lg) {
+    font-size: 15px;
+  }
+}
+
+.tabLine {
+  display: none;
+  font-size: 12px;
+  line-height: $leading-snug;
+  color: c(secondary-text);
+
+  @include respond-to(md) {
+    display: block;
+  }
+}
+
+// --- The sheet -------------------------------------------------------------------
+// Never set `display` on .sheet: the `hidden` attribute hides the others.
+.sheet {
+  min-width: 0;
+  overflow: hidden;
+  scroll-margin-top: space(24);
+  border: 1px solid c(tone-line);
+  border-radius: $radius-outer;
+  background-color: c(background);
+  @include focus-ring(2px);
+
+  @include motion-safe {
+    animation: sheetIn $duration-200 $ease-settle both;
+  }
+}
+
+@keyframes sheetIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.sheetHead {
+  display: flex;
+  align-items: center;
+  gap: space(4);
+  background-color: c(tone-solid);
+  padding: space(5);
+  color: c(tone-on);
+
+  @include respond-to(md) {
+    padding: space(6) space(8);
+  }
+}
+
+.sheetBadge {
+  display: grid;
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  place-items: center;
+  border-radius: $radius-inner;
+  background-color: c(background);
+  color: c(tone-text);
+}
+
+.sheetIcon {
+  width: 24px;
+  height: 24px;
+}
+
+.sheetTitle {
+  min-width: 0;
+
+  h3 {
+    font-family: $font-heading;
+    font-size: 24px;
+    font-weight: $weight-medium;
+    line-height: 1.15;
+    letter-spacing: $tracking-tight;
+
+    @include respond-to(md) {
+      font-size: 28px;
+    }
+  }
+
+  p {
+    margin-top: space(1);
+    font-family: $font-mono;
+    font-size: 11px;
+    font-weight: $weight-medium;
+    line-height: 1.4;
+    letter-spacing: $tracking-eyebrow;
+    text-transform: uppercase;
+  }
+}
+
+.sheetBody {
+  padding: space(5);
+
+  @include respond-to(md) {
+    padding: space(6) space(8) space(8);
   }
 }
 
 .desc {
-  max-width: 62em;
-  font-size: 0.875rem;
-  line-height: 1.625;
+  max-width: 64ch;
+  font-size: 15px;
+  line-height: $leading-relaxed;
+  text-wrap: pretty;
   color: c(secondary-text);
+
+  @include respond-to(lg) {
+    font-size: 16px;
+  }
 }
 
 .groups {
-  margin-top: space(5);
+  margin-top: space(6);
 }
 
+// One spec row per group: a mono key, then its items.
 .group {
   display: grid;
   gap: space(3);
   border-top: 1px solid c(lineSoft);
-  padding-top: space(5);
-  padding-bottom: space(5);
+  padding: space(5) 0;
 
-  @include respond-to(lg) {
-    grid-template-columns: 160px 1fr;
+  &:last-child {
+    padding-bottom: 0;
+  }
+
+  @include respond-to(md) {
+    grid-template-columns: 168px minmax(0, 1fr);
     gap: space(6);
-  }
-
-  h4 {
-    font-size: 0.875rem;
-    line-height: 1.25rem;
-    font-weight: $weight-semibold;
-    color: c(ink);
-  }
-
-  dl {
-    display: grid;
-    gap: space(4) space(5);
-
-    @media (max-width: 639px) {
-      grid-template-columns: 1fr;
-      gap: 0;
-
-      > div {
-        border-bottom: 1px solid c(lineSoft);
-        padding-top: 0.75rem;
-        padding-bottom: 0.75rem;
-
-        &:first-child {
-          padding-top: 0;
-        }
-
-        &:last-child {
-          border-bottom-width: 0;
-        }
-      }
-    }
-
-    @include respond-to(sm) {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
-    @include respond-to(xl) {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-    }
-
-    &.pairs {
-      @include respond-to(sm) {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-    }
-
-    dt {
-      font-size: 15px;
-      font-weight: $weight-medium;
-      line-height: 1.375;
-      color: c(ink);
-    }
-
-    dd {
-      margin-top: 0.25rem;
-      font-size: 0.75rem;
-      line-height: 1.375;
-      color: c(secondary-text);
-    }
   }
 }
 
-.connectorList {
+.groupKey {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: space(2);
+  align-self: start;
+  padding-top: 2px;
+  font-family: $font-mono;
+  font-size: 11px;
+  font-weight: $weight-medium;
+  line-height: 1.5;
+  letter-spacing: $tracking-eyebrow;
+  text-transform: uppercase;
+  color: c(tone-text);
+}
+
+.previewTag {
+  letter-spacing: normal;
+}
+
+.caps {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: space(4) space(5);
+
+  > div {
+    min-width: 0;
+    border-left: 1px solid c(tone-line);
+    padding-left: space(3);
+  }
+
+  dt {
+    font-size: 14px;
+    font-weight: $weight-medium;
+    line-height: $leading-snug;
+    color: c(ink);
+
+    @include respond-to(md) {
+      font-size: 15px;
+    }
+  }
+
+  dd {
+    margin-top: 2px;
+    font-size: 12.5px;
+    line-height: $leading-snug;
+    color: c(secondary-text);
+  }
+}
+
+.capsWide {
+  @include respond-to(xl) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+// Preview capabilities are dashed, as every not-yet-general line is.
+.capsPreview > div {
+  border-left-style: dashed;
+}
+
+.connectors {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: space(2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
 
   @include respond-to(sm) {
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -339,46 +471,70 @@
 
   li {
     display: flex;
+    min-width: 0;
+    min-height: 40px;
     align-items: center;
     gap: space(2);
-    border-radius: $radius-micro;
     border: 1px solid c(lineSoft);
-    background-color: c(panel);
-    padding: space(2);
+    border-radius: $radius-tile;
+    background-color: c(primary-bg);
+    padding: space(1) space(2);
     font-size: 13px;
     font-weight: $weight-medium;
-    line-height: 1.375;
+    line-height: $leading-tight;
     color: c(ink);
   }
 }
 
-.connectorMark {
-  display: flex;
-  height: space(6);
-  width: space(6);
+.logo {
+  display: grid;
+  width: 24px;
+  height: 24px;
   flex-shrink: 0;
-  align-items: center;
-  justify-content: center;
+  place-items: center;
   border-radius: $radius-micro;
   background-color: c(background);
   color: c(overcast);
 }
 
-.charts {
-  font-size: 0.875rem;
-  line-height: 1.625;
-  color: c(secondary-text);
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: space(2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
 .note {
-  margin-top: space(5);
+  margin-top: space(6);
   max-width: 60em;
-  font-size: 0.75rem;
-  line-height: 1.625;
+  font-size: 13px;
+  line-height: $leading-relaxed;
   color: c(secondary-text);
+
+  @include respond-to(lg) {
+    margin-left: calc(#{$index-w} + #{$gap-lg});
+  }
 }
 
-.previewTag {
-  margin-left: space(2);
-  vertical-align: 1px;
+// Without JS the tabs cannot switch: show every sheet, stacked, and drop
+// the index.
+@media (scripting: none) {
+  .console {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .index {
+    display: none;
+  }
+
+  .sheets {
+    display: grid;
+    gap: space(4);
+  }
+
+  .sheet[hidden] {
+    display: block;
+  }
 }

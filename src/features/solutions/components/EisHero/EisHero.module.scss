@@ -183,7 +183,7 @@
   background-color: c(blue-subtle);
   padding: space(0.5) space(1.5);
   font-family: $font-mono;
-  font-size: 10px;
+  font-size: 12px;
   text-transform: uppercase;
   letter-spacing: 0.08em;
   color: c(blue);
@@ -298,7 +298,7 @@
 
 .answerSource {
   font-family: $font-mono;
-  font-size: 11px;
+  font-size: 12px;
   letter-spacing: 0.04em;
   color: c(tertiary-text);
 }
@@ -306,7 +306,7 @@
 .connectors {
   margin-top: space(2);
   font-family: $font-mono;
-  font-size: 11px;
+  font-size: 12px;
   color: c(tertiary-text);
 }
 
@@ -335,7 +335,7 @@
 .outcomeLabel {
   display: block;
   font-family: $font-mono;
-  font-size: 11px;
+  font-size: 12px;
   text-transform: uppercase;
   letter-spacing: 0.08em;
   color: c(inkSoft);

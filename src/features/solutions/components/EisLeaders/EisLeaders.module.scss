@@ -6,7 +6,7 @@
 
 $can-draw: "(scripting: enabled) and (prefers-reduced-motion: no-preference)";
 
-@mixin mono($size: 11px) {
+@mixin mono($size: 12px) {
   font-family: $font-mono;
   font-size: $size;
   font-weight: $weight-normal;
@@ -141,7 +141,7 @@ $can-draw: "(scripting: enabled) and (prefers-reduced-motion: no-preference)";
 }
 
 .source {
-  @include mono(10.5px);
+  @include mono;
   margin: auto 0 0;
   border-top: 1px solid c(card-divide);
   padding-top: space(3);
@@ -255,7 +255,7 @@ $can-draw: "(scripting: enabled) and (prefers-reduced-motion: no-preference)";
   margin: 0 0 0 -5px;
   padding-top: space(4);
   font-family: $font-mono;
-  font-size: 11px;
+  font-size: 12px;
   text-transform: uppercase;
   letter-spacing: $tracking-eyebrow;
   color: c(blue);

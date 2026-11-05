@@ -62,6 +62,13 @@ Never: "autonomous", "zero hallucination", "100% deterministic",
 "Enterprise Intelligence" in full (never "AEI"). "Knowledge layer", never
 "knowledge graph".
 
+**No vendor names (decided 5 Nov 2026, after the critique).** The page names
+systems by role, not by product: CRM, project tool, accounting, HR system,
+cloud billing, "the systems you already run". ERPNext and Frappe HR are no
+longer named on the page; Salesforce, SAP and Oracle are still never claimed
+as connected. The FAQ "Which systems does it read today?" stays honest: bring
+the list and we say plainly what connects on day one.
+
 **The sample business** (unnamed, USD, about 96 people, $11.4 million
 revenue outlook) is the one in the videos and the role cockpits: clients
 Northwind Insurance (renewal, $180,000 a year), Civic Digital, Lumen Bank,

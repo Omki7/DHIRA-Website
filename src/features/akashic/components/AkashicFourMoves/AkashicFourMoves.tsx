@@ -9,16 +9,18 @@
  * then cascade in one by one, and the answer card pops in as a two-panel
  * evidence dossier: "From your systems" (numbers) beside "From your
  * documents" (the why) — the structured + unstructured pull made obvious in
- * plain words. The run plays once and persists; switching worlds replays it.
+ * plain words. Since 5 Nov 2026 (platform audit) the section arrives with the
+ * answer already shown: the run plays only from its play control (Rule 6b),
+ * and the page no longer glides itself to this section.
  *
  * Everything on the right is SIMULATED PRODUCT UI (AGENTS.md §8a): canned
  * copy and demo data for storytelling only.
  */
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type KeyboardEvent } from "react";
 import type { AkashicPage } from "@/content/pages/akashic";
 import { AkashicWordmark } from "@/shared/components/icons";
-import { FigureEyebrow, ScrollReveal } from "@/shared/components/ui";
+import { FigureEyebrow, MotionToggle, ScrollReveal } from "@/shared/components/ui";
 import usePrefersReducedMotion from "@/shared/hooks/usePrefersReducedMotion";
 import {
   DocumentsPanel,
@@ -36,141 +38,55 @@ export function AkashicFourMoves({ content }: AkashicFourMovesProps) {
   const [active, setActive] = useState(0);
   const [typedRun, setTypedLen] = useState(0);
   const [phaseRun, setPhase] = useState(0);
-  const [started, setStarted] = useState(false);
-  const sectionRef = useRef<HTMLDivElement>(null);
+  /* False: the finished answer is shown. True: the run is replaying. */
+  const [playing, setPlaying] = useState(false);
+  const tabsRef = useRef<(HTMLButtonElement | null)[]>([]);
   const reduced = usePrefersReducedMotion();
 
   const world = worlds[active];
-  /* Reduced motion shows the finished run at once. */
-  const typedLen = started && reduced ? world.question.length : typedRun;
-  const phase = started && reduced ? 5 : phaseRun;
+  const run = playing && !reduced;
+  const typedLen = run ? typedRun : world.question.length;
+  const phase = run ? phaseRun : 5;
   const typingDone = typedLen >= world.question.length;
   const revealed = phase === 5;
-  const running = started && !revealed;
+  const running = run && !revealed;
 
-  // Pull-to-pop: the moment the section peeks in from the wireframes above,
-  // a rAF eased glide lands it flush with the viewport. Native smooth scroll
-  // is too uneven across platforms for this to feel like one motion.
-  useEffect(() => {
-    if (reduced) return;
-    let lastY = window.scrollY;
-    let lastScrollTime = Date.now();
-    let snapping = false;
-    let cooldownUntil = 0;
-    let rafId = 0;
+  const selectWorld = (i: number) => {
+    if (i === active) return;
+    setActive(i);
+    setPlaying(false);
+  };
 
-    const abort = () => {
-      if (snapping) {
-        snapping = false;
-        cancelAnimationFrame(rafId);
-        cooldownUntil = Date.now() + 1200;
-        lastY = window.scrollY;
-      }
-    };
-    const onWheelUp = (e: WheelEvent) => {
-      if (e.deltaY < 0) abort();
-    };
+  // Roving focus across the two examples (WAI-ARIA tabs pattern).
+  const onTabKey = (event: KeyboardEvent<HTMLButtonElement>, i: number) => {
+    const last = worlds.length - 1;
+    const next =
+      event.key === "ArrowRight" ? (i === last ? 0 : i + 1)
+      : event.key === "ArrowLeft" ? (i === 0 ? last : i - 1)
+      : event.key === "Home" ? 0
+      : event.key === "End" ? last
+      : -1;
+    if (next < 0) return;
+    event.preventDefault();
+    selectWorld(next);
+    tabsRef.current[next]?.focus();
+  };
 
-    const glide = (targetY: number) => {
-      const startY = window.scrollY;
-      const dist = targetY - startY;
-      if (Math.abs(dist) < 2) return;
-      const dur = Math.min(950, 480 + Math.abs(dist) * 0.4);
-      const t0 = performance.now();
-      snapping = true;
-      let expectedY = startY;
-      const ease = (t: number) => 1 - Math.pow(1 - t, 4);
-      const stepFrame = (now: number) => {
-        if (!snapping) return;
-
-        // If the actual scroll position deviates from where we scrolled,
-        // it means the user manually scrolled (wheel, trackpad, touch, etc.). Abort.
-        const currentY = window.scrollY;
-        if (Math.abs(currentY - expectedY) > 1.5) {
-          abort();
-          return;
-        }
-
-        const p = Math.min((now - t0) / dur, 1);
-        const nextY = startY + dist * ease(p);
-        expectedY = nextY;
-
-        window.scrollTo(0, nextY);
-
-        if (p < 1) {
-          rafId = requestAnimationFrame(stepFrame);
-        } else {
-          snapping = false;
-          cooldownUntil = Date.now() + 1600;
-          lastY = window.scrollY;
-        }
-      };
-      rafId = requestAnimationFrame(stepFrame);
-    };
-
-    const onScroll = () => {
-      const el = sectionRef.current;
-      if (!el) return;
-      const y = window.scrollY;
-      const delta = y - lastY;
-      const now = Date.now();
-      const dt = now - lastScrollTime;
-      lastY = y;
-      lastScrollTime = now;
-
-      if (snapping || delta <= 0) return;
-
-      // If delta is large or scroll speed is high, user is scrolling fast. Avoid hijacking.
-      const speed = dt > 0 ? Math.abs(delta) / dt : 0;
-      if (speed > 1.5 || delta > 40) {
-        cooldownUntil = Date.now() + 1000;
-        return;
-      }
-
-      if (Date.now() < cooldownUntil) return;
-
-      const rect = el.getBoundingClientRect();
-      const vh = window.innerHeight;
-      // A light downward scroll with the section edge on screen pulls it flush.
-      if (rect.top < vh - 72 && rect.top > vh * 0.22) {
-        glide(y + rect.top);
-      }
-    };
-
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("wheel", onWheelUp, { passive: true });
-    window.addEventListener("touchstart", abort, { passive: true });
-    return () => {
-      abort();
-      window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("wheel", onWheelUp);
-      window.removeEventListener("touchstart", abort);
-    };
-  }, [reduced]);
-
-  // Start the run once, the first time the section is properly on screen.
-  // It never resets on scroll-out: the answered state stays put.
-  useEffect(() => {
-    const el = sectionRef.current;
-    if (!el) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setStarted(true);
-          observer.disconnect();
-        }
-      },
-      { threshold: 0.3 }
-    );
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
+  const togglePlay = () => {
+    if (playing) {
+      setPlaying(false);
+      return;
+    }
+    setTypedLen(0);
+    setPhase(0);
+    setPlaying(true);
+  };
 
   // The run: type the question, hold a beat on "Thinking", cascade the four
-  // moves in order, then reveal the answer. Replays only on a world switch.
+  // moves in order, then reveal the answer and settle.
   useEffect(() => {
-    if (!started || reduced) return;
-    const q = worlds[active].question;
+    if (!run) return;
+    const q = world.question;
     const timers: number[] = [];
     let i = 0;
     const typer = window.setInterval(() => {
@@ -181,7 +97,10 @@ export function AkashicFourMoves({ content }: AkashicFourMovesProps) {
         [1, 2, 3, 4, 5].forEach((p, idx) => {
           timers.push(
             window.setTimeout(
-              () => setPhase(p),
+              () => {
+                setPhase(p);
+                if (p === 5) setPlaying(false);
+              },
               800 + idx * 850 + (p === 5 ? 250 : 0)
             )
           );
@@ -192,14 +111,10 @@ export function AkashicFourMoves({ content }: AkashicFourMovesProps) {
       window.clearInterval(typer);
       timers.forEach((t) => window.clearTimeout(t));
     };
-  }, [started, active, reduced, worlds]);
+  }, [run, world.question]);
 
   return (
-    <section
-      id="akashic-in-action"
-      className={styles.section}
-      ref={sectionRef}
-    >
+    <section id="akashic-in-action" className={styles.section}>
       <div className={`rail-container ${styles.container}`}>
         {/* The site's one eyebrow rail, full width above both columns. The
             "See what's underneath" button that ended this section went on 20
@@ -242,28 +157,39 @@ export function AkashicFourMoves({ content }: AkashicFourMovesProps) {
                   {worlds.map((w, i) => (
                     <button
                       key={w.label}
+                      ref={(node) => {
+                        tabsRef.current[i] = node;
+                      }}
+                      id={`ask-tab-${i}`}
                       type="button"
                       role="tab"
                       aria-selected={i === active}
-                      onClick={() => {
-                        if (i !== active) {
-                          setActive(i);
-                          setTypedLen(0);
-                          setPhase(0);
-                        }
-                      }}
+                      aria-controls="ask-run"
+                      tabIndex={i === active ? 0 : -1}
+                      onClick={() => selectWorld(i)}
+                      onKeyDown={(event) => onTabKey(event, i)}
                       className={`${styles.tab} ${i === active ? styles.tabActive : ""}`}
                     >
                       {w.label}
                     </button>
                   ))}
                 </div>
+                <MotionToggle
+                  paused={!playing}
+                  onToggle={togglePlay}
+                  controls={content.replayLabel}
+                />
               </div>
             </ScrollReveal>
           </div>
 
           {/* Right: the ask simulation */}
-          <div className={styles.rightCol}>
+          <div
+            id="ask-run"
+            role="tabpanel"
+            aria-labelledby={`ask-tab-${active}`}
+            className={styles.rightCol}
+          >
             {/* Question card — a focused input while the run is underway */}
             <div
               className={`${styles.inputCard} ${
@@ -288,7 +214,7 @@ export function AkashicFourMoves({ content }: AkashicFourMovesProps) {
               <div className="min-w-0 flex-1">
                 <p className={styles.questionText}>
                   {world.question.slice(0, typedLen)}
-                  {(!typingDone || phase === 0) && started && !reduced && (
+                  {(!typingDone || phase === 0) && run && (
                     <span className={styles.caret}>|</span>
                   )}
                 </p>

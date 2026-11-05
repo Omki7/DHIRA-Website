@@ -8,10 +8,12 @@
  * way. Its stamp is the hero's empty chair.
  *
  * Carries #talk-to-our-team, which every Apply link on the page targets.
+ * Its button opens the contact dialog on "Joining DHIRA".
  */
 
 import Link from "next/link";
 import { DrawingSetClose, type TitleCell } from "@/shared/components/ui";
+import { useUi } from "@/shared/providers/UiProvider";
 import type { Role } from "@/content/collections/roles";
 import type { CareersPage } from "@/content/pages/careers";
 
@@ -27,6 +29,7 @@ function ChairStamp() {
 
 export default function CareersClose({ content, roles }: { content: CareersPage["close"]; roles: Role[] }) {
   const { cells } = content;
+  const { careers } = useUi().contactForm.interest;
   const titleBlock: TitleCell[] = [
     cells.company,
     { label: cells.seats, value: String(roles.length) },
@@ -42,7 +45,7 @@ export default function CareersClose({ content, roles }: { content: CareersPage[
       body={content.body}
       actions={
         <>
-          <Link href={content.primary.href} className="btn-primary btn-lg">
+          <Link href={content.primary.href} data-contact-interest={careers} className="btn-primary btn-lg">
             {content.primary.label}
           </Link>
           <Link href={content.secondary.href} className="btn-secondary btn-lg">

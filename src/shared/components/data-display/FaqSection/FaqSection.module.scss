@@ -69,7 +69,7 @@
   align-items: center;
   gap: space(3);
   font-family: $font-mono;
-  font-size: 11px;
+  font-size: 12px;
   font-weight: $weight-normal;
   text-transform: uppercase;
   letter-spacing: $tracking-eyebrow;
@@ -104,7 +104,7 @@
 
 .answer {
   margin-top: 6px;
-  max-width: 52em;
+  max-width: 34em; // about 75 characters at 15px (DESIGN_SYSTEM: about 65)
   text-wrap: pretty;
   font-size: 15px;
   line-height: $leading-relaxed;

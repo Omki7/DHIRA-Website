@@ -407,9 +407,9 @@
     transform: scale(1.1);
   }
 
-  &:focus-visible {
-    outline: none;
-  }
+  // The site ring, inset so the HUD's top border does not clip it
+  // (platform audit, 5 Nov 2026: the ticks had no visible focus).
+  @include focus-ring(-2px);
 }
 
 .hudTickLine {
@@ -453,4 +453,78 @@
   font-weight: 600;
   letter-spacing: -0.025em;
   color: c(ink);
+}
+
+// Below lg: the walkthrough is a plain column (platform audit, 5 Nov 2026;
+// the layout itself is in AkashicModular.module.scss). The scene, the HUD
+// and the drawer caption go; the engine does not run, so the inline opacity
+// and transforms the narrative blocks start with are overridden here. The
+// blocks take the rail-container gutters so their left edge matches the
+// sections around them.
+@media (max-width: #{bp(lg) - 0.02px}) {
+  .root {
+    display: contents;
+    user-select: auto;
+  }
+
+  .scene,
+  .hud,
+  .comboBadge,
+  .modNum {
+    display: none;
+  }
+
+  .frameChromeTop,
+  .narrativeRail0,
+  .narrativeRailModule,
+  .narrativeRailClose {
+    position: static;
+    inset: auto;
+    width: auto;
+    transform: none;
+    pointer-events: auto;
+    padding-inline: space(4);
+
+    @include respond-to(sm) {
+      padding-inline: space(6);
+    }
+  }
+
+  .frameChromeTop {
+    order: 0;
+  }
+
+  .narrativeRail0 {
+    order: 1;
+  }
+
+  .narrativeRailModule {
+    order: var(--stack-order);
+    margin-top: space(12);
+    max-width: 40rem;
+  }
+
+  .narrativeRailClose {
+    order: 20;
+    margin-top: space(14);
+    max-width: 40rem;
+    text-align: left;
+  }
+
+  .narrativeRail0 > div,
+  .narrativeRailModule > div,
+  .narrativeRailClose > div {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .closeEyebrow,
+  .closeTaglineWrap {
+    justify-content: flex-start;
+  }
+
+  .closeTitle,
+  .closeBody {
+    margin-inline: 0;
+  }
 }

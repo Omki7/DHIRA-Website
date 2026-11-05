@@ -26,7 +26,7 @@ const QUOTE_TRACK_VH = 200;
 const QUOTE_REVEAL_VH = 75;
 
 export interface AkashicHeroQuoteProps {
-  quote: AkashicPage["quote"];
+  quote: NonNullable<AkashicPage["quote"]>;
   hero: AkashicPage["hero"];
 }
 
@@ -35,7 +35,11 @@ export function AkashicHeroQuote({ quote, hero }: AkashicHeroQuoteProps) {
   const quoteWords = quote.text.split(" ");
   const [quoteProgress, setQuoteProgress] = useState(0);
   const curtainRef = useRef<HTMLDivElement>(null);
-  const [curtainHeight, setCurtainHeight] = useState(1400);
+  /* Null until measured. The first render sizes the track from the hero's
+     own CSS height (one screen under the 110px header), so nothing below
+     moves when the measurement lands (a fixed 1400px guess shifted the page
+     about 600px after hydration and broke deep links). */
+  const [curtainHeight, setCurtainHeight] = useState<number | null>(null);
 
   useEffect(() => {
     if (!curtainRef.current) return;
@@ -61,7 +65,8 @@ export function AkashicHeroQuote({ quote, hero }: AkashicHeroQuoteProps) {
 
       // Progress starts once the hero curtain has fully risen and finishes
       // while the quote is still stuck to the viewport — see QUOTE_REVEAL_VH.
-      const scrolledPastCurtain = Math.max(0, scrollPos - curtainHeight);
+      const curtain = curtainHeight ?? window.innerHeight - 110;
+      const scrolledPastCurtain = Math.max(0, scrollPos - curtain);
       const revealDistance = (window.innerHeight * QUOTE_REVEAL_VH) / 100;
       const progress =
         revealDistance > 0
@@ -89,7 +94,10 @@ export function AkashicHeroQuote({ quote, hero }: AkashicHeroQuoteProps) {
       <section
         className={styles.quoteSection}
         style={{
-          height: `calc(${QUOTE_TRACK_VH}vh + ${curtainHeight}px)`,
+          height:
+            curtainHeight === null
+              ? `calc(${QUOTE_TRACK_VH}vh + 100svh - 110px)`
+              : `calc(${QUOTE_TRACK_VH}vh + ${curtainHeight}px)`,
         }}
       >
         <div className={styles.stickyContainer}>

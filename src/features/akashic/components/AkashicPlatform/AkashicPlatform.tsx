@@ -1,46 +1,21 @@
 import Link from "next/link";
-import type { AkashicPage, AkashicSolution } from "@/content/pages/akashic";
+import type { AkashicPage } from "@/content/pages/akashic";
 import { ScrollReveal } from "@/shared/components/ui";
 import { StoryArrow, StoryLabel, StoryTitle } from "../AkashicStory";
 import { SolutionWorkflow } from "../SolutionWorkflow";
 import styles from "./AkashicPlatform.module.scss";
 
 /*
- * [10] Built on Akashic (rebuilt 14 Oct 2026).
- * One claim, distinct from [07]: the solutions are not separate products but
- * Akashic, configured. One sheet in [07]'s grid language: an axis column,
- * then a column per solution. Above, each solution stands in its own column
- * (who it serves, its claim, a three-step workflow). Below, on the tinted
- * platform band, the seven modules run as continuous lines across every
- * column: all seven nodes are in use, with a blue spine joining them.
- * Separate columns above, shared lines below: the claim, drawn.
- * Desktop rows align across columns with `grid-template-rows: subgrid`
- * (akashic-story.css); below lg each solution stacks with only its own
- * modules. All solutions use all seven (user correction, 21 Oct 2026).
- * Replaces a tab carousel with auto-advance and simulated product screens:
- * no autoplay, no screens (the page already carries them), all three
- * solutions visible at once.
+ * [09] Built on Akashic (rebuilt 14 Oct 2026; matrix cut 5 Nov 2026).
+ * One claim: the solutions are not separate products but Akashic,
+ * configured. Each solution stands in its own column (who it serves, its
+ * claim, a three-step workflow, its link); under all three runs one shared
+ * band naming the seven modules. The seven-row dot matrix that stood here
+ * (every cell filled, user correction 21 Oct 2026) said the same thing 21
+ * times, so the band now says it once (platform audit). Desktop rows align
+ * across columns with `grid-template-rows: subgrid`. No autoplay, no
+ * screens, all three solutions visible at once.
  */
-
-type Spine = "start" | "mid" | "end" | undefined;
-
-/* Where a module cell sits on its solution's spine, which runs from the
-   first module the solution uses to the last. */
-function spineAt(
-  MODULES: string[],
-  solution: AkashicSolution,
-  index: number
-): Spine {
-  const used = MODULES.flatMap((module, i) =>
-    solution.modules.includes(module) ? [i] : []
-  );
-  const first = used[0];
-  const last = used[used.length - 1];
-  if (used.length < 2 || index < first || index > last) return undefined;
-  if (index === first) return "start";
-  if (index === last) return "end";
-  return "mid";
-}
 
 export interface AkashicPlatformProps {
   content: AkashicPage["solutions"];
@@ -62,17 +37,11 @@ export function AkashicPlatform({ content }: AkashicPlatformProps) {
         <ScrollReveal delay={80}>
           <div className={styles.config}>
             <div className={styles.configGrid}>
-              {/* Row labels for the desktop sheet; every cell also names its
-                  own module for assistive technology, so this column is hidden. */}
+              {/* Row labels for the desktop sheet, hidden from assistive
+                  technology: each column's own headings say the same. */}
               <div className={styles.axis} aria-hidden="true">
                 <p className={styles.axisHead}>{content.axis.solution}</p>
                 <p className={styles.axisFlow}>{content.axis.workflow}</p>
-                <p className={styles.axisUnder}>{content.axis.underneath}</p>
-                {MODULES.map((module) => (
-                  <p key={module} className={styles.axisModule}>
-                    {module}
-                  </p>
-                ))}
                 <p className={styles.axisLink} />
               </div>
 
@@ -91,33 +60,6 @@ export function AkashicPlatform({ content }: AkashicPlatformProps) {
 
                   <SolutionWorkflow solution={solution} />
 
-                  <p className={styles.under}>
-                    <span>{content.axis.underneath}</span>
-                  </p>
-                  {MODULES.map((module, index) => {
-                    const used = solution.modules.includes(module);
-                    return (
-                      <p
-                        key={module}
-                        className={styles.cell}
-                        data-used={used}
-                        data-spine={spineAt(MODULES, solution, index)}
-                      >
-                        <span
-                          className={styles.node}
-                          data-used={used}
-                          aria-hidden="true"
-                        />
-                        <span className={styles.cellName}>
-                          {module}
-                          <span className={styles.srOnly}>
-                            {used ? content.used : content.unused}
-                          </span>
-                        </span>
-                      </p>
-                    );
-                  })}
-
                   <Link href={solution.href} className={styles.link}>
                     {solution.cta}
                     <StoryArrow />
@@ -127,14 +69,17 @@ export function AkashicPlatform({ content }: AkashicPlatformProps) {
             </div>
 
             <div className={styles.legend}>
-              <p>
-                <span
-                  className={styles.node}
-                  data-used="true"
-                  aria-hidden="true"
-                />
-                {content.legend.on}
-              </p>
+              <div className={styles.foundation}>
+                <p className={styles.foundationLabel}>
+                  {content.axis.underneath}
+                  <span className={styles.foundationNote}>{content.legend.on}</span>
+                </p>
+                <ul className={styles.foundationModules}>
+                  {MODULES.map((module) => (
+                    <li key={module}>{module}</li>
+                  ))}
+                </ul>
+              </div>
               <Link href={content.all.href} className={styles.allLink}>
                 {content.all.label}
                 <StoryArrow />

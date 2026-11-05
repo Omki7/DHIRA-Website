@@ -330,6 +330,14 @@ the points above.
 - **Section index** (`navigation/PageMinimap`): right-edge dots driven by the
   page's `sections` list; the line runs from the first dot to the current
   one; labels unfold on hover or focus. Hidden below lg.
+- **Landing.** Every jump to a section (section index, menus, in-page
+  links, a URL with a hash, back and forward) lands on the section's
+  eyebrow with 32px of air above it (24px on phones), not on the
+  section's top padding: `sectionScrollTop` in `shared/utils/navigation`,
+  used by `usePageScrollSpy`, `HashLanding` and `scrollToHashTarget`. The
+  header hides on the way down, so only an upward jump leaves room for it.
+  `FigureEyebrow` carries `data-section-eyebrow` for this; a bare eyebrow
+  inside a card does not, and its section lands on its own top.
 
 ## 10. The eight design rules
 

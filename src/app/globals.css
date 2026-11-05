@@ -140,6 +140,22 @@ h1, h2, h3, h4, h5, h6 {
     transform: scale(0.98);
   }
 
+  /* Touch targets (5 Nov 2026 critique: 36px buttons under the 44px
+     minimum on phones). The buttons keep their look; on a coarse pointer an
+     invisible band above and below takes the hit area to 44px. */
+  @media (pointer: coarse) {
+    .btn-primary,
+    .btn-secondary {
+      position: relative;
+    }
+    .btn-primary::after,
+    .btn-secondary::after {
+      content: "";
+      position: absolute;
+      inset: -4px 0;
+    }
+  }
+
   /* Larger actions for closing panels. */
   .btn-lg {
     height: 44px;
