@@ -7,11 +7,18 @@
  * six plates (pipelines → BI) over an always-on governance frame, then
  * reseals for the "start anywhere" close where individual plates pull
  * out like drawers to show any subset works on its own.
+ *
+ * Since 5 Nov 2026 (platform audit): the scene runs from lg up only; below
+ * lg the same markup reads as a plain column (AkashicModular). Scroll is the
+ * only input: the engine never moves the page by itself, never rewrites the
+ * URL (module links land on the anchor spans in AkashicModular), and its
+ * frame loop stops as soon as nothing is moving.
  */
 
-import { useEffect, useRef, type RefObject } from "react";
+import { useEffect, useRef, type CSSProperties, type RefObject } from "react";
 import type { AkashicPage } from "@/content/pages/akashic";
 import { FigureEyebrow, PreviewTag } from "@/shared/components/ui";
+import useMinWidth from "@/shared/hooks/useMinWidth";
 import usePrefersReducedMotion from "@/shared/hooks/usePrefersReducedMotion";
 import { PlateShell, PointIcon } from "./PlateShell";
 import {
@@ -27,14 +34,10 @@ import {
   ACC,
   COMBO_SETS,
   H,
-  HASH_MODULE_MAP,
   HUD_NAMES,
-  MODULE_ANCHOR_ALIASES,
-  MODULE_HASHES,
   OPEN,
   SEAL,
   TEARDOWN_SEGS_VH,
-  TEARDOWN_TRACK_VH,
   TH,
   clamp,
   inkA,
@@ -45,7 +48,7 @@ import {
 } from "./teardownData";
 import styles from "./AkashicTeardownMockup.module.scss";
 
-export { TEARDOWN_TRACK_VH, MODULE_ANCHOR_ALIASES };
+export { MODULE_ANCHOR_ALIASES, TEARDOWN_TRACK_VH, moduleAnchorVh } from "./teardownData";
 
 export interface AkashicTeardownMockupProps {
   content: AkashicPage["howItWorks"];
@@ -61,26 +64,18 @@ export function AkashicTeardownMockup({ content, trackRef, curtainHeight }: Akas
   const geomRef = useRef({ trackTop: 0, trackH: 1, vh: 800 });
   const reduced = usePrefersReducedMotion();
   const reducedRef = useRef(reduced);
-  const lastHashRef = useRef("");
-  const initialCheckedRef = useRef(false);
   const measureRef = useRef<() => void>(() => {});
-  const navigatingUntilRef = useRef(0);
+  /* The pinned scene runs from lg up; below it the markup is a plain column. */
+  const pinned = useMinWidth(1024);
 
+  /* A HUD tick scrolls to the middle of its module's segment, the same
+     place the module's anchor span lands. */
   const goToModule = (c: number) => {
     if (measureRef.current) measureRef.current();
     const b = boundsRef.current;
     if (!b || b.length < c + 3) return;
     const dest = geomRef.current.trackTop + curtainRef.current + b[c + 1] + (b[c + 2] - b[c + 1]) * 0.5;
-    const hash = MODULE_HASHES[c];
-    navigatingUntilRef.current = performance.now() + 900;
-    if (hash && typeof window !== "undefined") {
-      lastHashRef.current = hash;
-      if (window.location.hash !== hash) {
-        window.history.replaceState(null, "", hash);
-      }
-      window.dispatchEvent(new CustomEvent("akashic-hashchange", { detail: hash }));
-    }
-    window.scrollTo({ top: dest, behavior: "smooth" });
+    window.scrollTo({ top: dest, behavior: reducedRef.current ? "instant" : "smooth" });
   };
 
   useEffect(() => {
@@ -94,7 +89,7 @@ export function AkashicTeardownMockup({ content, trackRef, curtainHeight }: Akas
 
   useEffect(() => {
     const root = rootRef.current;
-    if (!root) return;
+    if (!root || !pinned) return;
 
     const el: Record<string, HTMLElement | SVGElement> = {};
     root.querySelectorAll<HTMLElement>("[data-ak]").forEach((n) => {
@@ -167,7 +162,10 @@ export function AkashicTeardownMockup({ content, trackRef, curtainHeight }: Akas
     };
     measure();
     measureRef.current = measure;
-    const onResize = () => measure();
+    const onResize = () => {
+      measure();
+      if (!raf) raf = requestAnimationFrame(frame);
+    };
     window.addEventListener("resize", onResize);
 
     let sy = 0;
@@ -191,7 +189,7 @@ export function AkashicTeardownMockup({ content, trackRef, curtainHeight }: Akas
       else if (cpos < 7) {
         const c = Math.floor(cpos - 1);
         const tt = cpos - 1 - c;
-        fpos = c === 0 ? 0 : c - 1 + ss(tt, 0, 0.34);
+        fpos = c < 5 ? c + ss(tt, 0.86, 1) : 5;
       } else if (cpos < 8) fpos = lerp(5, 2.5, ss(cpos - 7, 0, 0.5));
       else fpos = 2.5;
 
@@ -202,6 +200,7 @@ export function AkashicTeardownMockup({ content, trackRef, curtainHeight }: Akas
 
       const comboIdx = cpos >= 9.5 ? 2 : cpos >= 9.0 ? 1 : cpos >= 8.5 ? 0 : -1;
       const ease = reducedRef.current ? 1 : 0.13;
+      let settling = 0;
       for (let i = 0; i < 6; i++) {
         let pullT = 0,
           ringT = 0,
@@ -216,12 +215,13 @@ export function AkashicTeardownMockup({ content, trackRef, curtainHeight }: Akas
         pullCur[i] += (pullT - pullCur[i]) * ease;
         ringCur[i] += (ringT - ringCur[i]) * ease;
         dimCur[i] += (dimT - dimCur[i]) * ease;
+        settling = Math.max(settling, Math.abs(pullT - pullCur[i]) / 140, Math.abs(ringT - ringCur[i]), Math.abs(dimT - dimCur[i]));
       }
       const pull = pullCur;
       const ring = ringCur;
       const dim = dimCur;
 
-      const rotX = 58 - 2.5 * ss(cpos, 1, 7) + 3 * ss(cpos, 7.05, 7.7);
+      const rotX = 50 - 2.5 * ss(cpos, 1, 7) + 3 * ss(cpos, 7.05, 7.7);
       const rotZ = -42 + 7 * ss(cpos, 0.6, 7.6) - 4 * ss(cpos, 8, 8.7);
       const scale = (0.94 + 0.1 * ss(cpos, 0.6, 1.5) - 0.26 * ss(cpos, 7.0, 7.7) - 0.06 * Z8) * fit;
       const sinX = Math.sin((rotX * Math.PI) / 180);
@@ -242,11 +242,13 @@ export function AkashicTeardownMockup({ content, trackRef, curtainHeight }: Akas
       const aliveArr: number[] = [];
       const FArr: number[] = [];
       for (let i = 0; i < 6; i++) {
-        const alive = ss(cpos, 1.06 + i, 1.42 + i);
+        // A plate comes alive as it lifts (the end of the previous module's
+        // segment), so the focused plate is never an empty frame.
+        const alive = ss(cpos, 0.9 + i, 1.2 + i);
         const S = Math.max(1 - 0.88 * X, alive);
         let F = FW * Math.max(0, 1 - Math.abs(fpos - i));
         F = F * F * (3 - 2 * F);
-        const g = ss(cpos, 1.08 + i, 1.5 + i);
+        const g = ss(cpos, 0.95 + i, 1.45 + i);
         gArr.push(g);
         aliveArr.push(alive);
         FArr.push(F);
@@ -315,8 +317,8 @@ export function AkashicTeardownMockup({ content, trackRef, curtainHeight }: Akas
           y = (1 - iIn) * 26;
         } else {
           const d = cpos - b;
-          const iIn = ss(d, 0.12, 0.32);
-          const iOut = ss(d, 0.86, 1.06);
+          const iIn = b === 1 ? ss(d, 0.04, 0.2) : ss(d, 0, 0.14);
+          const iOut = b === 7 ? ss(d, 0.86, 1.06) : ss(d, 0.86, 1);
           op = iIn * (1 - iOut);
           y = (1 - iIn) * 34 - iOut * 34;
         }
@@ -331,7 +333,9 @@ export function AkashicTeardownMockup({ content, trackRef, curtainHeight }: Akas
         capAlpha = 0;
         lastCombo = comboIdx;
       }
-      capAlpha += ((comboIdx >= 0 ? 1 : 0) - capAlpha) * (reducedRef.current ? 1 : 0.1);
+      const capTarget = comboIdx >= 0 ? 1 : 0;
+      capAlpha += (capTarget - capAlpha) * (reducedRef.current ? 1 : 0.1);
+      settling = Math.max(settling, Math.abs(capTarget - capAlpha));
       combo.style.opacity = capAlpha.toFixed(3);
 
       const depth = Math.min(100, Math.round((cpos / 10) * 100));
@@ -351,29 +355,6 @@ export function AkashicTeardownMockup({ content, trackRef, curtainHeight }: Akas
         const isStartAnywhere = cpos >= 8.0;
         hud.style.opacity = isStartAnywhere ? "0" : "1";
         hud.style.pointerEvents = isStartAnywhere ? "none" : "auto";
-      }
-
-      if (performance.now() > navigatingUntilRef.current) {
-        if (mi >= 1 && mi <= 7) {
-          const modIdx = mi - 1;
-          const currentHash = MODULE_HASHES[modIdx];
-          if (lastHashRef.current !== currentHash) {
-            lastHashRef.current = currentHash;
-            if (typeof window !== "undefined") {
-              window.history.replaceState(null, "", currentHash);
-              window.dispatchEvent(new CustomEvent("akashic-hashchange", { detail: currentHash }));
-            }
-          }
-        } else if (cpos < 0.8 || cpos >= 8.2) {
-          if (lastHashRef.current !== "") {
-            lastHashRef.current = "";
-            if (typeof window !== "undefined") {
-              const cleanUrl = window.location.pathname + window.location.search;
-              window.history.replaceState(null, "", cleanUrl);
-              window.dispatchEvent(new CustomEvent("akashic-hashchange", { detail: "" }));
-            }
-          }
-        }
       }
 
       /* schematics */
@@ -426,135 +407,31 @@ export function AkashicTeardownMockup({ content, trackRef, curtainHeight }: Akas
       }
       spark.style.strokeDashoffset = ((1 - ss(gArr[5], 0.35, 0.75)) * sparkLen).toFixed(1);
       setText(get("kpi"), `${(94.2 * ss(gArr[5], 0.25, 0.7)).toFixed(1)}%`);
+      return settling > 0.002;
     };
-
-    let nudgeLastY = window.scrollY;
-    let nudgeLastMove = performance.now();
-    let nudgeDir = 0;
-    let nudgeCooldownUntil = 0;
-    let nudgeSnappingUntil = 0;
-    let nudgeHandled = false;
-    let glideRaf = 0;
-
-    const glideTo = (targetY: number) => {
-      const startY = window.scrollY;
-      const dist = targetY - startY;
-      if (Math.abs(dist) < 2) return;
-      const dur = clamp(500 + Math.abs(dist) * 0.55, 600, 1200);
-      const t0 = performance.now();
-      nudgeSnappingUntil = t0 + dur + 80;
-      nudgeCooldownUntil = t0 + dur + 900;
-      const easeInOut = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
-      const step = (now: number) => {
-        if (performance.now() >= nudgeSnappingUntil) return;
-        const p = Math.min((now - t0) / dur, 1);
-        window.scrollTo(0, startY + dist * easeInOut(p));
-        if (p < 1) glideRaf = requestAnimationFrame(step);
-      };
-      glideRaf = requestAnimationFrame(step);
-    };
-
-    const nudgeAbort = () => {
-      if (performance.now() < nudgeSnappingUntil) {
-        cancelAnimationFrame(glideRaf);
-        nudgeSnappingUntil = 0;
-        nudgeCooldownUntil = performance.now() + 1400;
-        nudgeHandled = true;
-      }
-    };
-    window.addEventListener("wheel", nudgeAbort, { passive: true });
-    window.addEventListener("touchstart", nudgeAbort, { passive: true });
-
-    const maybeNudge = (cpos: number, y: number, settled: boolean) => {
-      const nowMs = performance.now();
-      if (Math.abs(y - nudgeLastY) > 0.5) {
-        nudgeDir = y > nudgeLastY ? 1 : -1;
-        nudgeLastY = y;
-        nudgeLastMove = nowMs;
-        nudgeHandled = false;
-      }
-      if (
-        reducedRef.current ||
-        nudgeHandled ||
-        nudgeDir <= 0 ||
-        !settled ||
-        nowMs - nudgeLastMove < 260 ||
-        nowMs < nudgeCooldownUntil ||
-        nowMs < nudgeSnappingUntil ||
-        cpos <= 0.82 ||
-        cpos >= 7.95
-      )
-        return;
-      const frac = cpos - Math.floor(cpos);
-      const m = Math.floor(cpos) - 1;
-      let dest = -1;
-      if (frac > 0.82 && m < 6) dest = m + 1;
-      else if (frac < 0.18 && m >= 0) dest = m;
-      if (dest >= 0) {
-        nudgeHandled = true;
-        const bb = boundsRef.current;
-        glideTo(
-          geomRef.current.trackTop + curtainRef.current + bb[dest + 1] + (bb[dest + 2] - bb[dest + 1]) * 0.5,
-        );
-      }
-    };
-
-    const checkHash = () => {
-      const hash = typeof window !== "undefined" ? window.location.hash : "";
-      if (hash && hash !== lastHashRef.current) {
-        lastHashRef.current = hash;
-        if (hash in HASH_MODULE_MAP) {
-          const modIdx = HASH_MODULE_MAP[hash];
-          if (!initialCheckedRef.current) {
-            initialCheckedRef.current = true;
-            requestAnimationFrame(() => goToModule(modIdx));
-            setTimeout(() => goToModule(modIdx), 400);
-          } else {
-            goToModule(modIdx);
-          }
-        }
-      }
-    };
-
-    const onAkashicNavigate = (event: Event) => {
-      const custom = event as CustomEvent<string>;
-      const targetHash = custom.detail || (typeof window !== "undefined" ? window.location.hash : "");
-      if (targetHash in HASH_MODULE_MAP) {
-        const modIdx = HASH_MODULE_MAP[targetHash];
-        goToModule(modIdx);
-      }
-    };
-    window.addEventListener("akashic-navigate", onAkashicNavigate);
-
-    const onHashChange = () => checkHash();
-    window.addEventListener("hashchange", onHashChange);
-    window.addEventListener("popstate", onHashChange);
 
     const inRangeAt = (y: number) => {
       const { trackTop, vh, trackH } = geomRef.current;
       return y > trackTop - vh * 1.5 && y < trackTop + trackH + vh * 0.5;
     };
-    const wake = () => {
-      if (!raf && inRangeAt(window.scrollY)) raf = requestAnimationFrame(frame);
-    };
-    window.addEventListener("scroll", wake, { passive: true });
-    const hashPoll = window.setInterval(() => {
-      if (!raf) checkHash();
-    }, 250);
+
+    /* Ambient motion (the data dots, LEDs, the idle bob) runs on a clock that
+       only advances while frames run, so it resumes where it stopped. */
+    let clock = 0;
+    let lastT = 0;
 
     const frame = (tms: number) => {
-      raf = requestAnimationFrame(frame);
-      checkHash();
+      raf = 0;
       const { trackTop, vh } = geomRef.current;
       if (geomRef.current.trackH <= 1) measure();
       const trackH = geomRef.current.trackH;
       const y = window.scrollY;
-      const inRange = y > trackTop - vh * 1.5 && y < trackTop + trackH + vh * 0.5;
-      if (!inRange && painted) {
-        cancelAnimationFrame(raf);
-        raf = 0;
+      if (!inRangeAt(y) && painted) {
+        lastT = 0;
         return;
       }
+      clock += lastT ? Math.min(64, tms - lastT) : 16;
+      lastT = tms;
 
       const passed = clamp(y - trackTop, 0, Math.max(1, trackH - vh));
       const target = Math.max(0, passed - curtainRef.current);
@@ -567,25 +444,33 @@ export function AkashicTeardownMockup({ content, trackRef, curtainHeight }: Akas
       let len = b[s + 1] - b[s];
       if (s === 9) len = Math.max(1, len - vh);
       const t = clamp((sy - b[s]) / len, 0, 1);
-      layout(s + t, tms / 1000);
-      maybeNudge(s + t, y, sy === target);
+      const easing = layout(s + t, clock / 1000);
       painted = true;
+
+      // Keep going only while something still moves; scroll wakes it again.
+      if (sy !== target || easing) raf = requestAnimationFrame(frame);
+      else lastT = 0;
     };
+    const wake = () => {
+      if (!raf && inRangeAt(window.scrollY)) raf = requestAnimationFrame(frame);
+    };
+    window.addEventListener("scroll", wake, { passive: true });
+    /* Re-measure when anything above the track changes height (fonts,
+       images, sections that settle after load). */
+    const pageObserver = new ResizeObserver(() => {
+      measure();
+      wake();
+    });
+    pageObserver.observe(document.body);
     raf = requestAnimationFrame(frame);
 
     return () => {
       cancelAnimationFrame(raf);
-      cancelAnimationFrame(glideRaf);
-      window.clearInterval(hashPoll);
+      pageObserver.disconnect();
       window.removeEventListener("scroll", wake);
       window.removeEventListener("resize", onResize);
-      window.removeEventListener("wheel", nudgeAbort);
-      window.removeEventListener("touchstart", nudgeAbort);
-      window.removeEventListener("hashchange", onHashChange);
-      window.removeEventListener("popstate", onHashChange);
-      window.removeEventListener("akashic-navigate", onAkashicNavigate);
     };
-  }, [trackRef, content]);
+  }, [trackRef, content, pinned]);
 
   return (
     <div ref={rootRef} className={styles.root}>
@@ -600,7 +485,7 @@ export function AkashicTeardownMockup({ content, trackRef, curtainHeight }: Akas
             width: 0,
             height: 0,
             transformStyle: "preserve-3d",
-            transform: "translate3d(0,-30px,0) rotateX(58deg) rotateZ(-42deg) scale3d(0.94,0.94,0.94)",
+            transform: "translate3d(0,-30px,0) rotateX(50deg) rotateZ(-42deg) scale3d(0.94,0.94,0.94)",
             willChange: "transform",
           }}
         >
@@ -774,7 +659,11 @@ export function AkashicTeardownMockup({ content, trackRef, curtainHeight }: Akas
       </div>
 
       {MODULES.map((m, i) => (
-        <div key={m.name} className={styles.narrativeRailModule}>
+        <div
+          key={m.name}
+          className={styles.narrativeRailModule}
+          style={{ "--stack-order": 3 + 2 * i } as CSSProperties}
+        >
           <div data-ak={`txt-${i + 1}`} style={{ position: "relative", opacity: 0 }}>
             <span aria-hidden className={styles.modNum}>
               0{i + 1}

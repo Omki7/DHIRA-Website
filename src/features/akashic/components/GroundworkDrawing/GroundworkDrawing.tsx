@@ -113,21 +113,6 @@ export function GroundworkDrawing({ content: c }: GroundworkDrawingProps) {
           </div>
         </figure>
       </DrawnFigure>
-
-      <div className={styles.reasons}>
-        <h3>{c.reasonsTitle}</h3>
-        <dl className={styles.reasonGrid}>
-          {c.reasons.map((reason) => (
-            <div key={reason.title} className={styles.reason}>
-              <ArchitectureIcon name={reason.icon} className={styles.reasonIcon} />
-              <div>
-                <dt>{reason.title}</dt>
-                <dd>{reason.body}</dd>
-              </div>
-            </div>
-          ))}
-        </dl>
-      </div>
     </>
   );
 }

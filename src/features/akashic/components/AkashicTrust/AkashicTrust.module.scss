@@ -1,11 +1,10 @@
 @use "assets/styles" as *;
 
+// [07] Privacy and control: the page's one soft blue band (Rule 5a).
 .section {
   position: relative;
   scroll-margin-top: space(24);
-  overflow: hidden;
-  border-top: 1px solid c(lineSoft);
-  background-color: c(background);
+  background-color: c(band);
 }
 
 .wrap {
@@ -40,7 +39,7 @@
 
 .intro {
   margin-top: space(6);
-  max-width: 48em;
+  max-width: 46rem;
   font-size: 1rem;
   line-height: 1.625;
   color: c(secondary-text);
@@ -50,145 +49,125 @@
   }
 }
 
-.badges {
-  margin-top: space(6);
-  display: flex;
-  flex-wrap: wrap;
-  gap: space(3);
-
-  > span {
-    display: flex;
-    align-items: center;
-    gap: space(2);
-    border-radius: 9999px;
-    border: 1px solid c(line);
-    background-color: c(background);
-    padding: 0.375rem space(4) 0.375rem 0.375rem;
-    font-size: 0.75rem;
-    line-height: 1rem;
-    font-weight: $weight-medium;
-    color: c(ink);
-
-    > span {
-      display: flex;
-      height: space(6);
-      width: space(6);
-      align-items: center;
-      justify-content: center;
-      border-radius: 9999px;
-      background-color: c(blue-subtle);
-      font-family: $font-mono;
-      font-size: 9px;
-      color: c(blue);
-    }
-  }
-}
-
-.cards {
-  margin-top: 2.25rem;
+// Two groups side by side from lg: private, then open.
+.groups {
+  margin-top: space(12);
   display: grid;
-  gap: space(4);
-
-  @include respond-to(sm) {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
+  gap: space(12);
 
   @include respond-to(lg) {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-  }
-
-  article {
-    display: flex;
-    flex-direction: column;
-    border-radius: $radius-outer;
-    border: 1px solid c(subtle-stroke);
-    background-color: c(primary-bg);
-    padding: space(6);
-
-    h3 {
-      font-size: 18px;
-      font-weight: $weight-semibold;
-      letter-spacing: $tracking-tight;
-      color: c(ink);
-    }
-
-    > p {
-      margin-top: space(3);
-      font-size: 14px;
-      line-height: 1.625;
-      color: c(secondary-text);
-    }
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: space(16);
   }
 }
 
-.illustration {
+.group {
   position: relative;
-  margin-top: auto;
-  display: flex;
-  height: 9rem;
-  flex-shrink: 0;
-  align-items: center;
-  justify-content: center;
+  min-width: 0;
 }
 
-.icon {
-  position: relative;
-  z-index: 10;
+.anchor {
+  position: absolute;
+  top: 0;
+  scroll-margin-top: 120px;
+}
+
+.groupTitle {
+  font-family: $font-mono;
+  font-size: 12px;
+  font-weight: $weight-medium;
+  text-transform: uppercase;
+  letter-spacing: $tracking-eyebrow;
+  color: c(blue);
+}
+
+.rows {
+  margin-top: space(4);
+  border-bottom: 1px solid c(line);
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 36px minmax(0, 1fr);
+  gap: space(4);
+  border-top: 1px solid c(line);
+  padding-block: space(5);
+
+  dt {
+    font-family: $font-heading;
+    font-size: 18px;
+    font-weight: $weight-medium;
+    line-height: 1.35;
+    letter-spacing: -0.01em;
+    color: c(ink);
+  }
+
+  dd {
+    margin-top: space(1.5);
+    max-width: 34rem;
+    font-size: 15px;
+    line-height: 1.55;
+    text-wrap: pretty;
+    color: c(secondary-text);
+  }
+}
+
+.glyph {
   display: flex;
-  height: 3.5rem;
-  width: 3.5rem;
+  height: 36px;
+  width: 36px;
   align-items: center;
   justify-content: center;
-  border-radius: 9999px;
+  border-radius: $radius-tile;
   border: 1px solid c(blue-border);
   background-color: c(background);
   color: c(blue);
 
   svg {
-    height: space(6);
-    width: space(6);
+    height: 20px;
+    width: 20px;
   }
 }
 
-.orbit {
-  position: absolute;
-  height: 86px;
-  width: 86px;
-  border-radius: 9999px;
-  border: 1px solid c(blue, 0.15);
+// Certifications and the laws followed: separate, labelled groups.
+.frameworks {
+  margin-top: space(12);
+  display: grid;
+  gap: space(4);
 
-  &:nth-child(2) {
-    height: 114px;
-    width: 114px;
-    border-color: c(blue, 0.1);
+  @include respond-to(lg) {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+    gap: space(16);
   }
 }
 
-.field {
-  position: absolute;
-  left: 0;
-  z-index: 20;
-  border-radius: $radius-chip;
-  border: 1px solid c(line);
-  background-color: c(background);
-  padding: 0.25rem space(2);
-  font-family: $font-mono;
-  font-size: 9px;
-  color: c(secondary-text);
+.framework {
+  display: flex;
+  flex-direction: column;
+  gap: space(3);
 
-  &:last-child {
-    left: auto;
-    right: 0;
+  dt {
+    font-family: $font-mono;
+    font-size: 12px;
+    font-weight: $weight-medium;
+    text-transform: uppercase;
+    letter-spacing: $tracking-eyebrow;
+    color: c(overcast);
   }
-}
 
-.caption {
-  border-top: 1px solid c(lineSoft);
-  padding-top: space(4);
-  font-family: $font-mono;
-  font-size: 9px;
-  text-transform: uppercase;
-  line-height: 1.625;
-  letter-spacing: $tracking-wide;
-  color: c(secondary-text);
+  ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: space(2);
+  }
+
+  li {
+    border: 1px solid c(line);
+    border-radius: $radius-chip;
+    background-color: c(background);
+    padding: space(1) space(2.5);
+    font-size: 13px;
+    font-weight: $weight-medium;
+    color: c(ink);
+  }
 }

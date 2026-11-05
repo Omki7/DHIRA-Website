@@ -101,7 +101,8 @@ export function Step({ n, step, back = false }: StepProps) {
 export function ModuleTile({ module }: { module: ArchitectureModule }) {
   /* No id from module.anchor here: #data-pipelines, #master-data and the
      other module hashes land in the [02] walkthrough (teardownData
-     MODULE_HASHES). The tile keeps its modules-* and older aliases. */
+     MODULE_ANCHOR_ALIASES). The tile keeps its modules-* and older aliases.
+     Its arrow opens the module's sheet in [09] Capabilities and connections. */
   return (
     <a href={`#reference-${module.reference}`} className={styles.tile}>
       {module.aliases.map((alias) => (

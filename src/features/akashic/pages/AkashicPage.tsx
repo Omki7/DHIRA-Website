@@ -8,10 +8,10 @@ import { AkashicBuildVsBuy } from "../components/AkashicBuildVsBuy";
 import { AkashicClose } from "../components/AkashicClose";
 import { AkashicFaq } from "../components/AkashicFaq";
 import { AkashicFourMoves } from "../components/AkashicFourMoves";
+import { AkashicHero } from "../components/AkashicHero";
 import { AkashicHeroQuote } from "../components/AkashicHeroQuote";
 import { AkashicModular } from "../components/AkashicModular";
 import { AkashicModules } from "../components/AkashicModules";
-import { AkashicOpenFoundations } from "../components/AkashicOpenFoundations";
 import { AkashicPlatform } from "../components/AkashicPlatform";
 import { AkashicStack } from "../components/AkashicStack";
 import { AkashicTrust } from "../components/AkashicTrust";
@@ -22,12 +22,20 @@ export interface AkashicPageProps {
   stories: Story[];
 }
 
+/* Section order since 5 Nov 2026 (platform audit): the [01] to [02] opening
+   stays together (user, 14 Oct 2026) and the national proof follows it.
+   The sticky quote under the hero renders whenever the document has one. */
 export function AkashicPage({ page, stories }: AkashicPageProps) {
   return (
     <main id="main" data-theme-page="akashic" className={styles.main}>
-      <AkashicHeroQuote quote={page.quote} hero={page.hero} />
+      {page.quote ? (
+        <AkashicHeroQuote quote={page.quote} hero={page.hero} />
+      ) : (
+        <AkashicHero content={page.hero} />
+      )}
       <AkashicFourMoves content={page.inAction} />
       <AkashicModular content={page.howItWorks} />
+      <ProvenAtScale id="scale" content={page.scale} stories={stories} />
       <ScrollRevealRail>
         <div className={styles.archWrap}>
           <AkashicArchitecture content={page.deployment} />
@@ -36,9 +44,7 @@ export function AkashicPage({ page, stories }: AkashicPageProps) {
       <AkashicModules content={page.architecture} />
       <AkashicAgents content={page.agents} />
       <AkashicTrust content={page.trust} />
-      <AkashicOpenFoundations content={page.open} />
       <AkashicBuildVsBuy content={page.advantage} />
-      <ProvenAtScale id="scale" content={page.scale} stories={stories} />
       <AkashicStack content={page.reference} />
       <AkashicPlatform content={page.solutions} />
       <AkashicFaq content={page.faq} />

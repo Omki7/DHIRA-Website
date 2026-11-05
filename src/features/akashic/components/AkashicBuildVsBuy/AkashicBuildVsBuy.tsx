@@ -1,12 +1,15 @@
 import type { AkashicPage } from "@/content/pages/akashic";
 import { ScrollReveal } from "@/shared/components/ui";
 import { GroundworkDrawing } from "../GroundworkDrawing";
+import { LeaderGains } from "../LeaderGains";
 import { StoryLabel, StoryTitle } from "../AkashicStory";
 import styles from "./AkashicBuildVsBuy.module.scss";
 
 /* [08] Why Akashic: distinct business initiatives repeat their foundations
-   in isolated delivery, or reuse one platform. The drawing is followed by
-   four documented reasons to build that foundation on Akashic. */
+   in isolated delivery, or reuse one platform. The drawing proves the
+   reuse; the leadership panel under it says what that reuse changes for
+   each executive (user, 5 Nov 2026). The four reasons that once followed
+   the drawing repeated [02], [04] and [05] and stay retired. */
 export interface AkashicBuildVsBuyProps {
   content: AkashicPage["advantage"];
 }
@@ -25,6 +28,9 @@ export function AkashicBuildVsBuy({ content }: AkashicBuildVsBuyProps) {
 
         <GroundworkDrawing content={content} />
 
+        <ScrollReveal>
+          <LeaderGains content={content.leaders} />
+        </ScrollReveal>
       </div>
     </section>
   );

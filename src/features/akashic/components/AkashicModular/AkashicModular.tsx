@@ -11,15 +11,20 @@
  * snap assist pulls the stage up to cover the full screen. Scroll
  * position stays the single source of truth — the HUD ticks navigate by
  * scrolling the page.
+ *
+ * Below lg (5 Nov 2026, platform audit) nothing pins: the track drops its
+ * height and the walkthrough reads as one column, each module's anchor span
+ * sitting just above its text (CSS `order`, AkashicModular.module.scss).
  */
 
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
 import type { AkashicPage } from "@/content/pages/akashic";
 import usePrefersReducedMotion from "@/shared/hooks/usePrefersReducedMotion";
 import {
   AkashicTeardownMockup,
   MODULE_ANCHOR_ALIASES,
   TEARDOWN_TRACK_VH,
+  moduleAnchorVh,
 } from "../../mockups/AkashicTeardownMockup";
 import styles from "./AkashicModular.module.scss";
 
@@ -115,42 +120,38 @@ export function AkashicModular({ content, curtainContent }: AkashicModularProps)
   }, [curtainHeight, reduced]);
 
   return (
-    <section className={styles.section}>
-      <div
-        id="how-it-works"
-        className={styles.anchor}
-        style={{ top: `${curtainHeight}px` }}
-      />
+    /* Without a curtain the section itself is #how-it-works, so the page's
+       scroll spy sees the module anchors as inside it and keeps a module
+       hash (#master-data) instead of rewriting it to the section's. */
+    <section id={curtainContent ? undefined : "how-it-works"} className={styles.section}>
+      {curtainContent && (
+        <div
+          id="how-it-works"
+          className={styles.anchor}
+          style={{ top: `${curtainHeight}px` }}
+        />
+      )}
       <div
         ref={trackRef}
+        className={styles.track}
         style={{
-          position: "relative",
-          height: `calc(${TEARDOWN_TRACK_VH}vh${curtainHeight > 0 ? ` + ${curtainHeight}px` : ""})`,
-        }}
+          "--track-h": `calc(${TEARDOWN_TRACK_VH}vh${curtainHeight > 0 ? ` + ${curtainHeight}px` : ""})`,
+        } as CSSProperties}
       >
-        {MODULE_ANCHOR_ALIASES.map((aliases, i) => {
-          let acc = 60;
-          for (let s = 0; s < i; s++) acc += 90;
-          const topVh = acc + 45;
-          return (
-            <span
-              key={aliases[0]}
-              style={{
-                position: "absolute",
-                top: `${topVh}vh`,
-                left: 0,
-                width: 0,
-                height: 0,
-                pointerEvents: "none",
-                visibility: "hidden",
-              }}
-            >
-              {aliases.map((alias) => (
-                <span key={alias} id={alias} />
-              ))}
-            </span>
-          );
-        })}
+        {MODULE_ANCHOR_ALIASES.map((aliases, i) => (
+          <span
+            key={aliases[0]}
+            className={styles.moduleAnchor}
+            style={{
+              top: `calc(${moduleAnchorVh(i)}vh + 120px)`,
+              "--stack-order": 2 + 2 * i,
+            } as CSSProperties}
+          >
+            {aliases.map((alias) => (
+              <span key={alias} id={alias} className={styles.moduleAnchorId} />
+            ))}
+          </span>
+        ))}
         <div className={styles.stickyFrame}>
           <AkashicTeardownMockup
             content={content}

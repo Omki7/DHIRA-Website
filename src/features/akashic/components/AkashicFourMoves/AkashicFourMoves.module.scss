@@ -36,7 +36,9 @@
   @include respond-to(lg) {
     margin-top: space(12);
     grid-template-columns: repeat(12, minmax(0, 1fr));
-    align-items: center;
+    // Top-aligned: centring left the headline floating ~300px under its
+    // eyebrow beside the tall answer card (platform audit, 5 Nov 2026).
+    align-items: start;
     gap: space(14);
   }
 }
@@ -94,6 +96,8 @@
 .tablistWrap {
   margin-top: space(8);
   display: flex;
+  align-items: center;
+  gap: space(3);
 }
 
 .tablist {

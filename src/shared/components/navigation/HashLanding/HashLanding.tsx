@@ -2,37 +2,51 @@
 
 import { useEffect } from "react";
 import { usePathname } from "next/navigation";
+import { sectionScrollTop } from "@/shared/utils/navigation";
 
-/* A link with a #hash lands on its target even when the page grows after
-   the browser's first jump (UX review, 23 Oct 2026: menu links "jump to the
-   wrong place"). /about's journey pins after hydration and adds about
-   1,150px of travel above #leadership, so the browser's anchor scroll landed a
-   screen short. For a few seconds after each page load this re-lands the
-   target whenever the page's height changes, and lets go the moment the
-   reader scrolls, taps or presses a key. The target's scroll-margin keeps it
-   clear of the sticky header. Hashes with no element (the contact hashes
-   ContactModal opens, the /akashic walkthrough's own module hashes) are left
-   alone. */
+/* Every jump to a section lands where the section starts: its eyebrow, just
+   under the top edge (shared/utils/navigation sectionScrollTop; user,
+   5 Nov 2026: jumps "always land a bit down").
+
+   1. A page loaded with a #hash lands on its target even when the page
+      grows after the browser's first jump (UX review, 23 Oct 2026: /about's
+      journey pins after hydration and adds about 1,150px above #leadership).
+      For a few seconds after load it re-lands whenever the page's height
+      changes, and lets go the moment the reader scrolls, taps or presses a
+      key.
+   2. An in-page link (`href="#stack"`, a next/link SectionLink, a menu
+      row) lands the same way. Before anyone handles the click, the target's
+      scroll-margin is set to the landing, so the browser's own jump, Next's
+      scrollIntoView and scrollToHashTarget all agree. Nothing is prevented:
+      ContactModal's hashes, the skip link and feature handlers keep their
+      clicks. Targets that are not rendered (a hidden [09] sheet) are left
+      to the feature that shows them.
+   3. Back and forward between hashes land the same way. */
 
 const SETTLE_MS = 3000;
 const RELEASE = ["wheel", "touchstart", "pointerdown", "keydown"] as const;
+const TOP_HASHES = new Set(["", "#", "#hero", "#main"]);
+
+function behaviour(): ScrollBehavior {
+  return window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth";
+}
 
 export function HashLanding() {
   const pathname = usePathname();
 
+  // 1. Landing after a page load with a hash.
   useEffect(() => {
     const id = decodeURIComponent(window.location.hash.slice(1));
     if (!id || !document.getElementById(id)) return;
 
     const scrollToTarget = () => {
       const element = document.getElementById(id);
-      if (!element) return;
-      const headerOffset = 120; // 100px header + 20px clearance
-      const top = Math.max(0, element.getBoundingClientRect().top + window.scrollY - headerOffset);
-      window.scrollTo({ top, behavior: "instant" });
+      // A target not rendered yet (a hidden [09] sheet) is landed by its feature.
+      if (element && element.getClientRects().length > 0) {
+        window.scrollTo({ top: sectionScrollTop(element), behavior: "instant" });
+      }
     };
 
-    // Re-land cleanly after mount to guarantee proper clearance below the sticky header
     scrollToTarget();
     const frame = requestAnimationFrame(scrollToTarget);
 
@@ -54,30 +68,46 @@ export function HashLanding() {
     };
     const timer = window.setTimeout(release, SETTLE_MS);
     RELEASE.forEach((type) => window.addEventListener(type, release, { passive: true }));
+    return release;
+  }, [pathname]);
 
-    const handlePopState = () => {
+  // 2 and 3. In-page links, back and forward.
+  useEffect(() => {
+    /* Window capture runs before every other click handler. */
+    const onClick = (event: MouseEvent) => {
+      if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+      if (!(event.target instanceof Element)) return;
+      const link = event.target.closest<HTMLAnchorElement>("a[href*='#']");
+      if (!link) return;
+      const url = new URL(link.href, window.location.href);
+      if (url.origin !== window.location.origin || url.pathname !== window.location.pathname) return;
+      if (TOP_HASHES.has(url.hash)) return;
+      const element = document.getElementById(decodeURIComponent(url.hash.slice(1)));
+      if (!element || element.getClientRects().length === 0) return;
+      const top = element.getBoundingClientRect().top + window.scrollY;
+      element.style.scrollMarginTop = `${Math.round(top - sectionScrollTop(element))}px`;
+    };
+
+    const onPopState = () => {
+      // Back or forward to another page is Next's to land.
+      if (window.location.pathname !== pathname) return;
       const hash = window.location.hash;
-      const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      const behavior = prefersReduced ? "instant" : "smooth";
-      if (!hash || hash === "#" || hash === "#hero" || hash === "#main") {
-        window.scrollTo({ top: 0, behavior });
+      if (TOP_HASHES.has(hash)) {
+        window.scrollTo({ top: 0, behavior: behaviour() });
         window.dispatchEvent(new CustomEvent("akashic-hashchange", { detail: "" }));
         return;
       }
-      const targetId = decodeURIComponent(hash.slice(1));
-      const element = document.getElementById(targetId);
-      if (element) {
-        const headerOffset = 120;
-        const top = Math.max(0, element.getBoundingClientRect().top + window.scrollY - headerOffset);
-        window.scrollTo({ top, behavior });
-        window.dispatchEvent(new CustomEvent("akashic-hashchange", { detail: hash }));
-      }
+      const element = document.getElementById(decodeURIComponent(hash.slice(1)));
+      if (!element) return;
+      window.scrollTo({ top: sectionScrollTop(element), behavior: behaviour() });
+      window.dispatchEvent(new CustomEvent("akashic-hashchange", { detail: hash }));
     };
-    window.addEventListener("popstate", handlePopState);
 
+    window.addEventListener("click", onClick, true);
+    window.addEventListener("popstate", onPopState);
     return () => {
-      release();
-      window.removeEventListener("popstate", handlePopState);
+      window.removeEventListener("click", onClick, true);
+      window.removeEventListener("popstate", onPopState);
     };
   }, [pathname]);
 

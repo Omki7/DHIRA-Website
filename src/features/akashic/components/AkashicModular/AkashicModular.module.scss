@@ -10,6 +10,28 @@
   width: 100%;
 }
 
+.track {
+  position: relative;
+  height: var(--track-h);
+}
+
+// One per module: its ids sit in the middle of the module's scroll segment.
+// The scroll margin matches the 120px offset HashLanding and
+// scrollToHashTarget use, so every way of following a link lands alike.
+.moduleAnchor {
+  position: absolute;
+  left: 0;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+  visibility: hidden;
+}
+
+.moduleAnchorId {
+  display: block;
+  scroll-margin-top: 120px;
+}
+
 .stickyFrame {
   position: sticky;
   top: 0;
@@ -24,4 +46,29 @@
   left: 0;
   z-index: 10;
   width: 100%;
+}
+
+// Below lg nothing pins (platform audit, 5 Nov 2026: at 390 and 834 the
+// pinned plates were illegible and the copy ran over the drawing). The track
+// becomes a column; the frame and the scene's root step aside
+// (`display: contents`) so the anchor spans and the narrative blocks
+// interleave by `order`: chrome, headline, then anchor + module seven times,
+// then the close. Styles for the blocks themselves are in
+// AkashicTeardownMockup.module.scss.
+@media (max-width: #{bp(lg) - 0.02px}) {
+  .track {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    padding-block: space(16) space(20);
+  }
+
+  .moduleAnchor {
+    position: static;
+    order: var(--stack-order);
+  }
+
+  .stickyFrame {
+    display: contents;
+  }
 }

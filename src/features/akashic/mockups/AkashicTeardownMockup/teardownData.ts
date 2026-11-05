@@ -1,7 +1,10 @@
 import type { CSSProperties } from "react";
 
-/* intro + 7 modules + modular pick + close, in vh of scroll each */
-export const TEARDOWN_SEGS_VH = [60, 90, 90, 90, 90, 90, 90, 90, 120, 200];
+/* intro + 7 modules + modular pick + close, in vh of scroll each. The last
+   segment includes the 100vh the pinned frame takes to unstick. Cut from
+   1010vh to 424vh on 5 Nov 2026 (platform audit: the walkthrough took a third
+   of the page): about three screens of scroll from pin to release. */
+export const TEARDOWN_SEGS_VH = [25, 32, 32, 32, 32, 32, 32, 32, 45, 130];
 export const TEARDOWN_TRACK_VH = TEARDOWN_SEGS_VH.reduce((a, b) => a + b, 0);
 
 export const ACC = "rgb(var(--blue))";
@@ -90,32 +93,18 @@ export const COMBO_SETS: [number, number][][] = [
   ],
 ];
 
-export const HASH_MODULE_MAP: Record<string, number> = {
-  "#data-pipelines": 0,
-  "#pipelines": 0,
-  "#master-data": 1,
-  "#master": 1,
-  "#data-warehouse": 2,
-  "#warehouse": 2,
-  "#machine-learning": 3,
-  "#ml": 3,
-  "#ask-akashic": 4,
-  "#ask": 4,
-  "#business-intelligence": 5,
-  "#bi": 5,
-  "#governance": 6,
+/* Where module `i`'s anchor sits in the track, in vh: the middle of its
+   scroll segment. The anchor span also carries a 120px scroll margin (the
+   sticky header plus clearance, as HashLanding and scrollToHashTarget use),
+   so a link lands with the module centred in its segment. */
+export const moduleAnchorVh = (i: number) => {
+  let start = 0;
+  for (let s = 0; s <= i; s++) start += TEARDOWN_SEGS_VH[s];
+  return start + TEARDOWN_SEGS_VH[i + 1] * 0.5;
 };
 
-export const MODULE_HASHES = [
-  "#data-pipelines",
-  "#master-data",
-  "#data-warehouse",
-  "#machine-learning",
-  "#ask-akashic",
-  "#business-intelligence",
-  "#governance",
-];
-
+/* The module hashes, in plate order: the ids AkashicModular's anchor spans
+   carry. Menus and other pages link to these (/akashic#master-data). */
 export const MODULE_ANCHOR_ALIASES: string[][] = [
   ["data-pipelines", "pipelines"],
   ["master-data", "master"],
