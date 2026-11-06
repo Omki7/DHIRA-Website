@@ -391,7 +391,7 @@ export interface Person {
   id: number;
   documentId: string;
   name: string;
-  jobTitle: string;
+  jobTitle: string | null;
   group: "founder" | "leadership" | "colleague";
   order: number | null;
   photo?: Media | null;
@@ -400,6 +400,11 @@ export interface Person {
   bio: string | null;
   teamBio: string | null;
   teamOrder: number | null;
+  teamKey?: string | null;
+  teamPhoto?: Media | null;
+  position?: string | null;
+  framing?: unknown;
+  sourceUrl?: string | null;
   createdAt: string;
   updatedAt: string;
   publishedAt: string;

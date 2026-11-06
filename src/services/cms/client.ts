@@ -1,5 +1,6 @@
 import "server-only";
 import { env } from "@/config/env";
+import type { LegalDoc } from "@/content/collections/legal";
 import type {
   CareerQa,
   CustomerStory,
@@ -202,7 +203,7 @@ export async function getCmsLeaders(): Promise<Person[] | null> {
 
 export async function getCmsTeam(): Promise<Person[] | null> {
   const query =
-    "/api/people?filters[teamOrder][$notNull]=true&sort=teamOrder:asc&pagination[pageSize]=100&populate[photo]=true";
+    "/api/people?filters[teamOrder][$notNull]=true&sort=teamOrder:asc&pagination[pageSize]=100&populate[photo]=true&populate[teamPhoto]=true";
   const res = await fetchFromCms<StrapiList<Person>>(query, ["people:team"]);
   return res?.data ?? null;
 }
@@ -256,5 +257,31 @@ export async function getCmsCareerQas(): Promise<CareerQa[] | null> {
 export async function getCmsHiringSteps(): Promise<HiringStep[] | null> {
   const query = "/api/hiring-steps?sort=order:asc";
   const res = await fetchFromCms<StrapiList<HiringStep>>(query, ["hiring-steps"]);
+  return res?.data ?? null;
+}
+
+/* ------------------------------------------------------------------ */
+/*  Phase 1: Page Singletons (GET /api/pages/:key)                     */
+/* ------------------------------------------------------------------ */
+
+export async function getCmsPage<T>(key: string): Promise<T | null> {
+  const query = `/api/pages/${encodeURIComponent(key)}`;
+  const res = await fetchFromCms<StrapiSingle<T>>(query, [`page:${key}`]);
+  return res?.data ?? null;
+}
+
+/* ------------------------------------------------------------------ */
+/*  Phase 1: Legal Documents (GET /api/legal-documents)               */
+/* ------------------------------------------------------------------ */
+
+export async function getCmsLegalDocs(): Promise<LegalDoc[] | null> {
+  const query = "/api/legal-documents";
+  const res = await fetchFromCms<StrapiList<LegalDoc>>(query, ["legal-documents"]);
+  return res?.data ?? null;
+}
+
+export async function getCmsLegalDoc(slug: string): Promise<LegalDoc | null> {
+  const query = `/api/legal-documents/${encodeURIComponent(slug)}`;
+  const res = await fetchFromCms<StrapiSingle<LegalDoc>>(query, [`legal-document:${slug}`]);
   return res?.data ?? null;
 }

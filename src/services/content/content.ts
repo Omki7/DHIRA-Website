@@ -43,8 +43,11 @@ import {
   getCmsInsights,
   getCmsJobOpenings,
   getCmsLeaders,
+  getCmsLegalDoc,
+  getCmsLegalDocs,
   getCmsMediaKit,
   getCmsMediaPortraits,
+  getCmsPage,
   getCmsPressRelease,
   getCmsPressReleases,
   getCmsProgrammes,
@@ -144,7 +147,46 @@ const pages = {
 
 export type PageKey = keyof typeof pages;
 
+const PHASE_1_PAGES = new Set<string>([
+  "partners",
+  "pricing",
+  "services",
+  "about",
+  "contact",
+  "not-found",
+  "customers",
+  "glossary",
+  "insights",
+  "newsroom",
+  "careers",
+]);
+
 export const getPage = cache(async <K extends PageKey>(key: K): Promise<(typeof pages)[K]> => {
+  if (PHASE_1_PAGES.has(key)) {
+    const cmsPage = await getCmsPage<(typeof pages)[K]>(key);
+    if (cmsPage) {
+      console.log(`[CMS Page] ${key} loaded from CMS`);
+      if (key === "about") {
+        const cmsTeam = await getCmsTeam();
+        if (cmsTeam && cmsTeam.length > 0) {
+          const pageAbout = cmsPage as typeof localAbout;
+          return {
+            ...pageAbout,
+            culture: {
+              ...pageAbout.culture,
+              team: {
+                ...pageAbout.culture.team,
+                members: cmsTeam.map(adaptPersonToTeamMember),
+              },
+            },
+          } as (typeof pages)[K];
+        }
+      }
+      return cmsPage;
+    }
+    console.log(`[CMS Page] ${key} falling back to local`);
+  }
+
   switch (key) {
     case "home": {
       const [cmsTestimonials, cmsProgrammes] = await Promise.all([getCmsTestimonials("home"), getCmsProgrammes()]);
@@ -355,9 +397,25 @@ export const getRoles = cache(async () => {
 });
 
 /** The policy pages (privacy, terms, cookies, accessibility, website policies). */
-export const getLegalDocs = cache(async () => legalDocs);
+export const getLegalDocs = cache(async () => {
+  const cmsDocs = await getCmsLegalDocs();
+  if (cmsDocs && cmsDocs.length > 0) {
+    console.log("[CMS Source] legal-documents loaded from CMS");
+    return cmsDocs;
+  }
+  console.log("[CMS Source] legal-documents falling back to local");
+  return legalDocs;
+});
 
-export const getLegalDoc = cache(async (slug: string) => legalDocs.find((doc) => doc.slug === slug) ?? null);
+export const getLegalDoc = cache(async (slug: string) => {
+  const cmsDoc = await getCmsLegalDoc(slug);
+  if (cmsDoc) {
+    console.log(`[CMS Source] legal-document:${slug} loaded from CMS`);
+    return cmsDoc;
+  }
+  console.log(`[CMS Source] legal-document:${slug} falling back to local`);
+  return legalDocs.find((doc) => doc.slug === slug) ?? null;
+});
 
 /** Glossary terms, in authored order (lib/glossary.ts groups them A to Z). */
 export const getGlossary = cache(async () => {

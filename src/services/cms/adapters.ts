@@ -351,7 +351,7 @@ export function adaptPersonToLeader(cms: CmsPerson): Leader {
   return {
     id: cms.documentId || cms.name.toLowerCase().replace(/[^a-z0-9]+/g, "-"),
     name: cms.name,
-    role: cms.jobTitle,
+    role: cms.jobTitle ?? "",
     focus: cms.bio ?? cms.teamBio ?? "",
     image: cms.photo ? cmsImageUrl(cms.photo.url) : "",
     imageClass: "object-center",
@@ -359,14 +359,23 @@ export function adaptPersonToLeader(cms: CmsPerson): Leader {
 }
 
 export function adaptPersonToTeamMember(cms: CmsPerson): AboutTeamMember {
-  const id = cms.name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+  const id = cms.teamKey || cms.documentId || cms.name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+  const photo = cms.teamPhoto ?? cms.photo;
+
+  let framingObj: { scale: number; x: number; y: number } | undefined;
+  if (cms.framing && typeof cms.framing === "object" && "scale" in cms.framing && "x" in cms.framing && "y" in cms.framing) {
+    framingObj = cms.framing as { scale: number; x: number; y: number };
+  }
+
   return {
     id,
     name: cms.name,
-    role: cms.jobTitle,
+    role: cms.jobTitle ?? undefined,
     bio: cms.teamBio ?? cms.bio ?? "",
-    image: cms.photo ? { src: cmsImageUrl(cms.photo.url), alt: cms.name } : undefined,
-    position: "50% 20%",
+    image: photo ? { src: cmsImageUrl(photo.url), alt: cms.name } : undefined,
+    position: cms.position ?? "50% 20%",
+    framing: framingObj,
+    sourceUrl: cms.sourceUrl ?? undefined,
   };
 }
 
