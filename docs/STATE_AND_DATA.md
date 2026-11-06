@@ -78,6 +78,7 @@ there with a safe default and documented in `.env.example`.
 | Variable | Default | Purpose |
 |---|---|---|
 | `NEXT_PUBLIC_SITE_URL` | `https://www.dhira.ai` | Canonical origin for metadata, sitemap.xml and structured data. Set it on preview deployments |
+| `CMS_URL` | `http://44.237.23.212:4000` | Base origin for the Dhira Strapi CMS instance (server-only, no NEXT_PUBLIC_ prefix) |
 
 Local overrides go in `.env.local`, which git ignores (`.env*` except
 `.env.example`). Server-only secrets never take the `NEXT_PUBLIC_` prefix.

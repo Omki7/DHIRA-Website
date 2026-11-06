@@ -18,12 +18,20 @@ const EnvSchema = z.object({
     .url()
     .default("https://www.dhira.ai")
     .transform((url) => url.replace(/\/$/, "")),
+  /** Base address for the Dhira Strapi/CMS instance. */
+  CMS_URL: z
+    .string()
+    .url()
+    .default("http://44.237.23.212:4000")
+    .transform((url) => url.replace(/\/$/, "")),
 });
 
 const parsed = EnvSchema.parse({
   NEXT_PUBLIC_SITE_URL: process.env.NEXT_PUBLIC_SITE_URL || undefined,
+  CMS_URL: process.env.CMS_URL || undefined,
 });
 
 export const env = {
   siteUrl: parsed.NEXT_PUBLIC_SITE_URL,
+  cmsUrl: parsed.CMS_URL,
 } as const;
