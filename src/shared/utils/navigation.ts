@@ -26,21 +26,13 @@ const EYEBROW_REACH = 400;
 const HEADER_HIDE_TRAVEL = 40;
 const HEADER_FALLBACK = 72;
 
-function layoutTop(element: HTMLElement): number {
-  let top = 0;
-  for (let node: HTMLElement | null = element; node; node = node.offsetParent as HTMLElement | null) {
-    top += node.offsetTop;
-  }
-  return top;
-}
-
 function isPageSection(element: HTMLElement): boolean {
   return element.tagName === "SECTION" && !element.parentElement?.closest("section");
 }
 
 /** The document y at which `target`'s content should meet the top edge. */
 function startOf(target: HTMLElement): number {
-  const top = layoutTop(target);
+  const top = target.getBoundingClientRect().top + window.scrollY;
   if (!isPageSection(target)) return top - ANCHOR_AIR;
 
   const eyebrow = target.querySelector<HTMLElement>("[data-section-eyebrow]");
@@ -49,18 +41,80 @@ function startOf(target: HTMLElement): number {
     const position = getComputedStyle(node).position;
     if (position === "sticky" || position === "fixed") return top;
   }
-  const offset = layoutTop(eyebrow) - layoutTop(target);
+  const eyebrowTop = eyebrow.getBoundingClientRect().top + window.scrollY;
+  const offset = eyebrowTop - top;
   if (offset < 0 || offset > EYEBROW_REACH) return top;
   const air = window.matchMedia("(min-width: 1024px)").matches ? EYEBROW_AIR : EYEBROW_AIR_PHONE;
-  return Math.max(top, top + offset - air);
+  return Math.max(top, eyebrowTop - air);
 }
 
 /** The scroll position that lands `target` where it starts (see above). */
 export function sectionScrollTop(target: HTMLElement): number {
   const start = startOf(target);
-  const headerHides = start - window.scrollY > HEADER_HIDE_TRAVEL;
   const header = document.querySelector<HTMLElement>("header[data-scrolled]")?.offsetHeight ?? HEADER_FALLBACK;
-  return Math.max(0, Math.round(headerHides ? start : start - header));
+  return Math.max(0, Math.round(start - header));
+}
+
+const HASH_ALIASES: Record<string, string[]> = {
+  "intelligent-procurement": ["intelligent-procurement", "ipms", "built-on-akashic"],
+  "data-pipelines": ["data-pipelines", "pipelines", "modules-data-pipelines"],
+  "master-data": ["master-data", "master", "modules-master-data"],
+  "data-warehouse": ["data-warehouse", "warehouse", "modules-data-warehouse"],
+  "knowledge-layer": ["knowledge-layer", "modules-knowledge-layer"],
+  "business-semantics": ["business-semantics", "modules-business-semantics"],
+  "ai-studio": ["ai-studio", "modules-ai-studio"],
+  "ai-agents": ["ai-agents", "modules-ai-agents", "agents"],
+  "business-intelligence": ["business-intelligence", "bi", "modules-business-intelligence"],
+  "ask-akashic": ["ask-akashic", "ask", "modules-ask-akashic"],
+  "machine-learning": ["machine-learning", "ml", "modules-machine-learning"],
+  "governance": ["governance", "modules-governance"],
+  "trust": ["trust", "security-and-privacy"],
+  "open": ["open", "open-foundations"],
+  "leadership": ["leadership", "people", "who-we-are"],
+  "impact": ["impact", "scale", "proven-at-scale"],
+  "advisory": ["advisory", "capabilities", "services"],
+  "engineering": ["engineering", "capabilities"],
+  "ai-solutions": ["ai-solutions", "capabilities"],
+  "model-saas": ["model-saas", "saas", "engagement-models"],
+  "model-whitelabel": ["model-whitelabel", "whitelabel", "engagement-models"],
+  "model-customai": ["model-customai", "customai", "engagement-models"],
+  "model-engineering": ["model-engineering", "engagement-models"],
+  "model-augmentation": ["model-augmentation", "augmentation", "engagement-models"],
+  "methodology": ["methodology", "how-we-deliver"],
+};
+
+export function findTargetElement(hashId: string): HTMLElement | null {
+  if (typeof document === "undefined") return null;
+  const cleanId = decodeURIComponent(hashId.replace(/^#/, "")).trim();
+  if (!cleanId) return null;
+
+  // 1. Direct ID match
+  let element = document.getElementById(cleanId);
+  if (element) return element;
+
+  // 2. Direct attribute selectors (data-section-id or a[name])
+  element = document.querySelector<HTMLElement>(`[data-section-id="${cleanId}"], a[name="${cleanId}"]`);
+  if (element) return element;
+
+  // 3. Check HASH_ALIASES
+  const candidates: string[] = [];
+  if (HASH_ALIASES[cleanId]) {
+    candidates.push(...HASH_ALIASES[cleanId]);
+  }
+  for (const [key, aliases] of Object.entries(HASH_ALIASES)) {
+    if (aliases.includes(cleanId)) {
+      candidates.push(key, ...aliases);
+    }
+  }
+
+  for (const candidate of candidates) {
+    const el =
+      document.getElementById(candidate) ||
+      document.querySelector<HTMLElement>(`[data-section-id="${candidate}"], a[name="${candidate}"]`);
+    if (el) return el;
+  }
+
+  return null;
 }
 
 /**
@@ -71,7 +125,7 @@ export function scrollToHashTarget(href: string): boolean {
   if (typeof window === "undefined" || !href.includes("#")) return false;
   const hash = href.split("#")[1];
   if (!hash) return false;
-  const element = document.getElementById(decodeURIComponent(hash));
+  const element = findTargetElement(hash);
   if (element) {
     const top = sectionScrollTop(element);
     const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -86,24 +140,6 @@ export function scrollToHashTarget(href: string): boolean {
   }
   return false;
 }
-
-const HASH_ALIASES: Record<string, string[]> = {
-  "intelligent-procurement": ["intelligent-procurement", "ipms", "built-on-akashic"],
-  "data-pipelines": ["data-pipelines", "pipelines", "modules-data-pipelines"],
-  "master-data": ["master-data", "master", "modules-master-data"],
-  "data-warehouse": ["data-warehouse", "warehouse", "modules-data-warehouse"],
-  "knowledge-layer": ["knowledge-layer", "modules-knowledge-layer"],
-  "business-semantics": ["business-semantics", "modules-business-semantics"],
-  "ai-studio": ["ai-studio", "modules-ai-studio"],
-  "ai-agents": ["ai-agents", "modules-ai-agents", "agents"],
-  "leadership": ["leadership", "people"],
-  "impact": ["impact", "scale"],
-  "advisory": ["advisory", "capabilities"],
-  "model-saas": ["model-saas", "saas"],
-  "model-whitelabel": ["model-whitelabel", "whitelabel"],
-  "model-customai": ["model-customai", "customai"],
-  "model-augmentation": ["model-augmentation", "augmentation"],
-};
 
 function matchesHash(targetHash: string, currentHash: string): boolean {
   const target = targetHash.toLowerCase();

@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import { usePathname } from "next/navigation";
-import { sectionScrollTop } from "@/shared/utils/navigation";
+import { findTargetElement, sectionScrollTop } from "@/shared/utils/navigation";
 
 /* Every jump to a section lands where the section starts: its eyebrow, just
    under the top edge (shared/utils/navigation sectionScrollTop; user,
@@ -23,8 +23,8 @@ import { sectionScrollTop } from "@/shared/utils/navigation";
       to the feature that shows them.
    3. Back and forward between hashes land the same way. */
 
-const SETTLE_MS = 3000;
-const RELEASE = ["wheel", "touchstart", "pointerdown", "keydown"] as const;
+const SETTLE_MS = 2500;
+const RELEASE = ["wheel", "touchmove", "keydown"] as const;
 const TOP_HASHES = new Set(["", "#", "#hero", "#main"]);
 
 function behaviour(): ScrollBehavior {
@@ -34,16 +34,22 @@ function behaviour(): ScrollBehavior {
 export function HashLanding() {
   const pathname = usePathname();
 
-  // 1. Landing after a page load with a hash.
+  // 1. Landing after a page load or route transition with a hash.
   useEffect(() => {
-    const id = decodeURIComponent(window.location.hash.slice(1));
-    if (!id || !document.getElementById(id)) return;
+    const rawHash = window.location.hash;
+    const id = decodeURIComponent(rawHash.slice(1));
+
+    // When navigating to a page with no hash (or top hash), enforce landing at (0, 0)
+    if (!id || TOP_HASHES.has(rawHash)) {
+      window.scrollTo({ top: 0, behavior: "instant" });
+      return;
+    }
 
     const scrollToTarget = () => {
-      const element = document.getElementById(id);
-      // A target not rendered yet (a hidden [09] sheet) is landed by its feature.
+      const element = findTargetElement(id);
       if (element && element.getClientRects().length > 0) {
-        window.scrollTo({ top: sectionScrollTop(element), behavior: "instant" });
+        const top = sectionScrollTop(element);
+        window.scrollTo({ top, behavior: "instant" });
       }
     };
 
@@ -82,7 +88,7 @@ export function HashLanding() {
       const url = new URL(link.href, window.location.href);
       if (url.origin !== window.location.origin || url.pathname !== window.location.pathname) return;
       if (TOP_HASHES.has(url.hash)) return;
-      const element = document.getElementById(decodeURIComponent(url.hash.slice(1)));
+      const element = findTargetElement(url.hash);
       if (!element || element.getClientRects().length === 0) return;
       const top = element.getBoundingClientRect().top + window.scrollY;
       element.style.scrollMarginTop = `${Math.round(top - sectionScrollTop(element))}px`;
@@ -97,7 +103,7 @@ export function HashLanding() {
         window.dispatchEvent(new CustomEvent("akashic-hashchange", { detail: "" }));
         return;
       }
-      const element = document.getElementById(decodeURIComponent(hash.slice(1)));
+      const element = findTargetElement(hash);
       if (!element) return;
       window.scrollTo({ top: sectionScrollTop(element), behavior: behaviour() });
       window.dispatchEvent(new CustomEvent("akashic-hashchange", { detail: hash }));

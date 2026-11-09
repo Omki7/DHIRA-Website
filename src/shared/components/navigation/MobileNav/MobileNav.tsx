@@ -175,7 +175,17 @@ export function MobileNav({ menus, cta, brandName, open, pathname, currentHash, 
                 <p className={styles.leadText}>{menu.lead.text}</p>
                 <RegionLink
                   href={menu.lead.href}
-                  onClick={onClose}
+                  onClick={(e) => {
+                    onClose();
+                    if (pathname === menu.lead.href) {
+                      e.preventDefault();
+                      if (window.location.hash) {
+                        window.history.replaceState(null, "", pathname);
+                        window.dispatchEvent(new CustomEvent("akashic-hashchange", { detail: "" }));
+                      }
+                      window.scrollTo({ top: 0, behavior: "instant" });
+                    }
+                  }}
                   className={styles.leadLink}
                 >
                   {menu.lead.cta}
