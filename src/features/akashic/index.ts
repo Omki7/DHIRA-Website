@@ -14,7 +14,6 @@ export * from "./components/AkashicHero";
 export * from "./components/AkashicHeroQuote";
 export * from "./components/AkashicModular";
 export * from "./components/AkashicModules";
-export * from "./components/AkashicOpenFoundations";
 export * from "./components/AkashicPlatform";
 export * from "./components/AkashicStack";
 export * from "./components/AkashicStory";

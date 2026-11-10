@@ -19,11 +19,9 @@ export function usePageScrollSpy(sections: PageSection[]) {
   const settleTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const finishScroll = useRef<() => void>(() => {});
   const userHasScrolled = useRef(false);
-  const mountTime = useRef(Date.now());
   const lastDispatchedHash = useRef<string | null>(null);
 
   useEffect(() => {
-    mountTime.current = Date.now();
     userHasScrolled.current = false;
 
     const items = sections.flatMap((section) => {

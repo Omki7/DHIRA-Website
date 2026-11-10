@@ -14,7 +14,6 @@ import useMenuIntent from "@/shared/hooks/useMenuIntent";
 import usePrefersReducedMotion from "@/shared/hooks/usePrefersReducedMotion";
 import { useUi } from "@/shared/providers/UiProvider";
 import { cx } from "@/shared/utils/cx";
-import { isCurrentPage } from "@/shared/utils/navigation";
 import { basePath } from "@/shared/utils/region";
 import { BrandLink, type Brand } from "./BrandLink";
 import { DesktopMenu } from "./DesktopMenu";

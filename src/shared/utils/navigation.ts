@@ -22,8 +22,6 @@ const EYEBROW_AIR_PHONE = 24;
 const ANCHOR_AIR = 24;
 /** An eyebrow further than this below its section's top is not its start. */
 const EYEBROW_REACH = 400;
-/** A shorter move down leaves the header showing (it hides after 30px). */
-const HEADER_HIDE_TRAVEL = 40;
 const HEADER_FALLBACK = 72;
 
 function isPageSection(element: HTMLElement): boolean {
