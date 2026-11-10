@@ -1,5 +1,6 @@
 "use client";
 
+import type { MouseEvent } from "react";
 import type { NavLink, NavMenu } from "@/content/navigation";
 import useRegion from "@/shared/hooks/useRegion";
 import { nameOrWordmark } from "@/shared/components/icons/AkashicWordmark";
@@ -33,12 +34,13 @@ export interface MenuRowProps {
 }
 
 export function MenuRow({ link, pathname, currentHash }: MenuRowProps) {
-  const handleClick = () => {
+  const handleClick = (event: MouseEvent<HTMLAnchorElement>) => {
     if (link.href.includes("#") && typeof window !== "undefined") {
       const [page, hash] = link.href.split("#");
       const targetHash = `#${hash}`;
       const targetPage = page || "/";
       if (pathname === targetPage) {
+        event.preventDefault();
         window.dispatchEvent(new CustomEvent("akashic-navigate", { detail: targetHash }));
         scrollToHashTarget(link.href);
       }
@@ -86,8 +88,9 @@ export function MenuPanel({ menu, drawn, pathname, currentHash }: MenuPanelProps
     .map((span) => `minmax(0, ${span}fr)`)
     .join(" ");
 
-  const handleLeadClick = () => {
+  const handleLeadClick = (event: MouseEvent<HTMLAnchorElement>) => {
     if (typeof window !== "undefined" && pathname === lead.href) {
+      event.preventDefault();
       if (window.location.hash) {
         window.history.replaceState(null, "", pathname);
         window.dispatchEvent(new CustomEvent("akashic-hashchange", { detail: "" }));

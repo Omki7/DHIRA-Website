@@ -49,6 +49,17 @@ export function BrandLink({ brand, onPointerEnter }: BrandLinkProps) {
       aria-label={ui.homeLink}
       className={styles.root}
       onPointerEnter={onPointerEnter}
+      onClick={(e) => {
+        if (typeof window !== "undefined" && window.location.pathname === "/") {
+          e.preventDefault();
+          if (window.location.hash) {
+            window.history.replaceState(window.history.state, "", "/");
+            window.dispatchEvent(new CustomEvent("akashic-hashchange", { detail: "" }));
+          }
+          const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+          window.scrollTo({ top: 0, behavior: prefersReduced ? "instant" : "smooth" });
+        }
+      }}
     >
       <div className={styles.mark}>
         <DhiraLogo className={styles.logo} />

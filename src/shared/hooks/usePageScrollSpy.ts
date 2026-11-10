@@ -2,11 +2,11 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { PageSection } from "@/content/types";
-import { sectionScrollTop } from "@/shared/utils/navigation";
+import { findTargetElement, sectionScrollTop } from "@/shared/utils/navigation";
 
 export type { PageSection };
 
-const SCROLL_SETTLE_MS = 180;
+const SCROLL_SETTLE_MS = 800;
 
 interface ScrollDestination {
   id: string;
@@ -18,10 +18,14 @@ export function usePageScrollSpy(sections: PageSection[]) {
   const destination = useRef<ScrollDestination | null>(null);
   const settleTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const finishScroll = useRef<() => void>(() => {});
-  const isInitialMount = useRef(true);
+  const userHasScrolled = useRef(false);
+  const mountTime = useRef(Date.now());
   const lastDispatchedHash = useRef<string | null>(null);
 
   useEffect(() => {
+    mountTime.current = Date.now();
+    userHasScrolled.current = false;
+
     const items = sections.flatMap((section) => {
       const element = document.getElementById(section.id);
       return element ? [{ id: section.id, element }] : [];
@@ -32,18 +36,36 @@ export function usePageScrollSpy(sections: PageSection[]) {
       frame = 0;
       if (!items.length || destination.current) return;
 
+      // Guard: if layout is not yet computed, all elements will share the same bounding client rect top
+      if (items.length > 1) {
+        const firstTop = items[0].element.getBoundingClientRect().top;
+        const lastTop = items[items.length - 1].element.getBoundingClientRect().top;
+        if (Math.abs(firstTop - lastTop) < 10) return;
+      }
+
       const offset = Math.max(window.innerHeight * 0.35, 160);
       let next = items[0].id;
-      for (const { id, element } of items) {
-        if (element.getBoundingClientRect().top <= offset) next = id;
+
+      if (window.scrollY < 80) {
+        next = items[0].id;
+      } else {
+        for (const { id, element } of items) {
+          if (element.getBoundingClientRect().top <= offset) next = id;
+        }
+        if (
+          window.scrollY > 200 &&
+          document.documentElement.scrollHeight > window.innerHeight * 1.5 &&
+          window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 20
+        ) {
+          next = items[items.length - 1].id;
+        }
       }
-      if (window.scrollY > 0 && window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 2) {
-        next = items[items.length - 1].id;
-      }
+
       setActiveId(next);
 
-      if (isInitialMount.current) {
-        isInitialMount.current = false;
+      // Only update URL history if the user has genuinely scrolled!
+      // This prevents mounting / resize observers from rewriting URL or jumping to last section.
+      if (!userHasScrolled.current) {
         return;
       }
 
@@ -99,12 +121,18 @@ export function usePageScrollSpy(sections: PageSection[]) {
 
     const onScroll = () => {
       scheduleUpdate();
-      // Also covers browsers without scrollend and a jump to the current position.
       if (destination.current) {
         clearTimer();
-        settleTimer.current = setTimeout(finish, SCROLL_SETTLE_MS);
+        const targetElem = document.getElementById(destination.current.id);
+        const targetTop = destination.current.id === sections[0]?.id ? 0 : (targetElem ? sectionScrollTop(targetElem) : 0);
+        if (Math.abs(window.scrollY - targetTop) <= 4) {
+          finish();
+        } else {
+          settleTimer.current = setTimeout(finish, SCROLL_SETTLE_MS);
+        }
       }
     };
+
     const onScrollEnd = (event: Event) => {
       if (event.target === document || event.target === window) finish();
     };
@@ -112,22 +140,31 @@ export function usePageScrollSpy(sections: PageSection[]) {
     const interrupt = () => {
       clearTimer();
       destination.current = null;
+      userHasScrolled.current = true;
       scheduleUpdate();
     };
+
+    const onUserScrollAction = () => {
+      userHasScrolled.current = true;
+    };
+
     const onKeyDown = (event: globalThis.KeyboardEvent) => {
-      if (!event.defaultPrevented && ["ArrowDown", "ArrowUp", "PageDown", "PageUp", "Home", "End", " ", "Escape"].includes(event.key)) interrupt();
+      if (!event.defaultPrevented && ["ArrowDown", "ArrowUp", "PageDown", "PageUp", "Home", "End", " ", "Escape"].includes(event.key)) {
+        userHasScrolled.current = true;
+        interrupt();
+      }
     };
 
     const resizeObserver = new ResizeObserver(scheduleUpdate);
     resizeObserver.observe(document.body);
     items.forEach(({ element }) => resizeObserver.observe(element));
     update();
+
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("scrollend", onScrollEnd);
     window.addEventListener("resize", scheduleUpdate, { passive: true });
-    window.addEventListener("wheel", interrupt, { passive: true });
-    window.addEventListener("touchstart", interrupt, { passive: true });
-    window.addEventListener("pointerdown", interrupt, { passive: true });
+    window.addEventListener("wheel", onUserScrollAction, { passive: true });
+    window.addEventListener("touchmove", onUserScrollAction, { passive: true });
     window.addEventListener("keydown", onKeyDown);
 
     return () => {
@@ -139,17 +176,17 @@ export function usePageScrollSpy(sections: PageSection[]) {
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("scrollend", onScrollEnd);
       window.removeEventListener("resize", scheduleUpdate);
-      window.removeEventListener("wheel", interrupt);
-      window.removeEventListener("touchstart", interrupt);
-      window.removeEventListener("pointerdown", interrupt);
+      window.removeEventListener("wheel", onUserScrollAction);
+      window.removeEventListener("touchmove", onUserScrollAction);
       window.removeEventListener("keydown", onKeyDown);
     };
   }, [sections]);
 
   const scrollTo = useCallback((id: string, focus = false) => {
-    const target = document.getElementById(id);
+    const target = findTargetElement(id) || document.getElementById(id);
     if (!target) return;
 
+    userHasScrolled.current = true;
     if (settleTimer.current) clearTimeout(settleTimer.current);
     destination.current = { id, focus };
     setActiveId(id);
@@ -163,7 +200,7 @@ export function usePageScrollSpy(sections: PageSection[]) {
     }
 
     // Lands on the section's eyebrow, clear of the header (sectionScrollTop).
-    const top = id === sections[0]?.id ? 0 : sectionScrollTop(target);
+    const top = isFirst ? 0 : sectionScrollTop(target);
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     window.scrollTo({ top, behavior: reducedMotion ? "instant" : "smooth" });
     settleTimer.current = setTimeout(() => finishScroll.current(), SCROLL_SETTLE_MS);

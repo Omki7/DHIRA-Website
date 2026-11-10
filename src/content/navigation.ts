@@ -320,7 +320,6 @@ const menus: NavMenu[] = [
         span: 3,
         links: [
           { label: "Leadership", href: "/about#leadership", caption: "Founder and leadership team" },
-          { label: "Impact", href: "/#impact", caption: "Proven at national scale" },
           { label: "Newsroom", href: "/newsroom", caption: "News, recognition, media kit" },
         ],
       },

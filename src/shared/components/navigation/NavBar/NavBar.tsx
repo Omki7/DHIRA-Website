@@ -163,9 +163,17 @@ export function NavBar({ navigation, brand }: NavBarProps) {
   const onLabelClick = (href: string) => (event: MouseEvent<HTMLAnchorElement>) => {
     if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
     close();
-    if (!isCurrentPage(href, pathname)) return;
-    event.preventDefault();
-    window.scrollTo({ top: 0, behavior: reducedMotion ? "instant" : "smooth" });
+    const targetPath = href.split("#")[0];
+    const isCurrent = targetPath === pathname || (targetPath === "/akashic" && pathname === "/akashic");
+    if (isCurrent) {
+      event.preventDefault();
+      if (window.location.hash) {
+        window.history.replaceState(window.history.state, "", pathname);
+        window.dispatchEvent(new CustomEvent("akashic-hashchange", { detail: "" }));
+      }
+      window.scrollTo({ top: 0, behavior: reducedMotion ? "instant" : "smooth" });
+      return;
+    }
   };
 
   /* Focus leaving the header (keyboard) closes the menu. */
