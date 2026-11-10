@@ -13,7 +13,7 @@ const contentSecurityPolicy = [
   `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ""}`,
   "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
   "font-src 'self' https://fonts.gstatic.com",
-  "img-src 'self' data: blob:",
+  "img-src 'self' data: blob: http://44.237.23.212:4000 http://localhost:4000 https://*.dhira.ai",
   `connect-src 'self'${isDev ? " ws:" : ""}`,
   "object-src 'none'",
   "base-uri 'self'",
@@ -36,6 +36,25 @@ const nextConfig = {
   poweredByHeader: false,
   images: {
     formats: ["image/avif", "image/webp"],
+    remotePatterns: [
+      {
+        protocol: "http",
+        hostname: "44.237.23.212",
+        port: "4000",
+        pathname: "/uploads/**",
+      },
+      {
+        protocol: "http",
+        hostname: "localhost",
+        port: "4000",
+        pathname: "/uploads/**",
+      },
+      {
+        protocol: "https",
+        hostname: "**.dhira.ai",
+        pathname: "/uploads/**",
+      },
+    ],
   },
   /* Server Actions take 1 MB by default. A job application may attach a
      resume of up to 4 MB (features/contact, 5 Nov 2026), so the limit is
