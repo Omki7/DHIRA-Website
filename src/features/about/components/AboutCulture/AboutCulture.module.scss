@@ -1,16 +1,16 @@
 @use "assets/styles" as *;
 
 .alias { display: block; scroll-margin-top: 5rem; }
-.srOnly, .choice { @include visually-hidden; }
 
-// The requested Attio composition is a deliberate exception to left-aligned
-// section headings. The page's numbered rail still anchors the section.
+// Attio composition: centred heading anchored by page's numbered rail.
 .story {
+  width: 100%;
   max-width: 690px;
-  margin: space(16) auto space(16);
+  margin: space(16) auto space(8);
   text-align: center;
-  @include respond-to(md) { margin-top: space(24); margin-bottom: space(16); }
+  @include respond-to(md) { margin-top: space(24); margin-bottom: space(10); }
 }
+
 .storyHeader {
   font-family: $font-heading;
   font-size: clamp(25px, 3vw, 32px);
@@ -22,135 +22,268 @@
   h2 { color: c(ink); }
   p { color: c(inkSoft); }
 }
+
 .story :global(a) { margin-top: space(6); }
 
-.team { min-width: 0; margin: 0; padding: 0; border: 0; }
+// Architectural Line Section — Completely unboxed
+.lineSection {
+  width: 100%;
+  max-width: 1080px;
+  margin: 0 auto;
+  text-align: center;
+  position: relative;
+}
 
-// The field (utils/teamField): a grid of half columns, two per portrait, so
-// alternate rows can sit half a step across. `--pitch` is one portrait step;
-// rows sit a little closer than columns so the stagger reads as one weave.
-// Phones: ten across, edge to edge. Tablets: ten across at 52px. Desktop:
-// twenty-four across, the people in the middle, dots out to the edges.
-.field {
-  --pitch: 10vw;
-  display: grid;
-  grid-template-columns: repeat(20, minmax(0, 1fr));
-  grid-template-rows: repeat(var(--rows), calc(var(--pitch) * .92)) auto;
-  margin: 0 -20px;
-  isolation: isolate;
-  @include respond-to(sm) { --pitch: 52px; max-width: 520px; margin: 0 auto; }
-  @include respond-to(lg) {
-    --pitch: min(54px, calc((100vw - 132px) / 24));
-    grid-template-columns: repeat(48, minmax(0, 1fr));
-    grid-template-rows: repeat(var(--wide-rows), calc(var(--pitch) * .92)) auto;
-    max-width: 1296px;
+// Line Canvas SVG Area
+.lineCanvas {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+  padding: space(2) 0 space(4);
+  background: transparent;
+  position: relative;
+  overflow: visible;
+  @include respond-to(md) {
+    padding: space(4) 0 space(5);
   }
 }
-.colleague { display: contents; }
-.person, .dotNarrow, .dotWide { display: grid; place-items: center; min-width: 0; }
-.person {
-  grid-row: var(--row);
-  grid-column: var(--column) / span 2;
+
+.lineSvg {
+  width: 100%;
+  max-width: min(840px, 100%);
+  height: auto;
+  display: block;
+  margin: 0 auto;
+  overflow: visible;
+  user-select: none;
+}
+
+// Letter Group Interactivity
+.letterGroup {
+  cursor: pointer;
+  outline: none;
+  touch-action: manipulation;
+  @include motion-safe {
+    transition: transform $duration-200 $ease-out;
+  }
+  &:focus-visible {
+    outline: 2px solid c(blue);
+    outline-offset: 4px;
+  }
+}
+
+// 2 Base Lines (Conduit framing)
+.baseWire {
+  fill: none;
+  stroke: c(ink);
+  stroke-opacity: 0.35;
+  stroke-width: 1.25;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  @include motion-safe {
+    transition: stroke $duration-200 $ease-out, stroke-opacity $duration-200 $ease-out;
+  }
+}
+
+.baseNode {
+  fill: c(ink);
+  fill-opacity: 0.45;
+  @include motion-safe {
+    transition: fill $duration-200 $ease-out, fill-opacity $duration-200 $ease-out;
+  }
+}
+
+// 3rd Center Line (Inactive: faint baseline)
+.centerWire {
+  fill: none;
+  stroke: c(ink);
+  stroke-opacity: 0.12;
+  stroke-width: 1.1;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  @include motion-safe {
+    transition: stroke $duration-200 $ease-out, stroke-opacity $duration-200 $ease-out, stroke-width $duration-200 $ease-out;
+  }
+}
+
+.centerNode {
+  fill: c(ink);
+  fill-opacity: 0.15;
+  @include motion-safe {
+    transition: fill $duration-200 $ease-out, fill-opacity $duration-200 $ease-out;
+  }
+}
+
+// ACTIVE LETTER STATE — Highlighted in DHIRA Cobalt Blue
+.groupActive, .letterGroup:hover {
+  .baseWire {
+    stroke: c(blue);
+    stroke-opacity: 0.5;
+  }
+  .baseNode {
+    fill: c(blue);
+    fill-opacity: 0.7;
+  }
+  .centerWire {
+    stroke: c(blue);
+    stroke-opacity: 1;
+    stroke-width: 1.6;
+    stroke-dasharray: 350;
+    stroke-dashoffset: 0;
+    @include motion-safe {
+      animation: busDrawIn 1.1s $ease-out forwards;
+    }
+  }
+  .centerNode {
+    fill: c(blue);
+    fill-opacity: 1;
+  }
+}
+
+// Draw-in Keyframes
+@keyframes busDrawIn {
+  from {
+    stroke-dashoffset: 350;
+    opacity: 0.3;
+  }
+  to {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+}
+
+.linePaused {
+  .centerWire {
+    animation: none !important;
+  }
+}
+
+// Acronym Pill Bar (Earlier clean design)
+.acronymBar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: space(2);
+  flex-wrap: wrap;
+  margin-top: space(5);
+  margin-bottom: space(4);
+}
+
+.acronymPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: space(2) space(4);
+  border-radius: 9999px;
+  background: transparent;
+  border: 1px solid c(subtle-stroke);
+  color: c(secondary-text);
+  font-family: $font-sans;
+  font-size: 14px;
+  font-weight: $weight-medium;
   cursor: pointer;
   touch-action: manipulation;
-  -webkit-tap-highlight-color: transparent;
-  @include respond-to(lg) { grid-row: var(--wide-row); grid-column: var(--wide-column) / span 2; }
-}
-.dotWide { display: none; }
-@include respond-to(lg) {
-  .dotNarrow { display: none; }
-  .dotWide { display: grid; }
-}
-// Background circles: the pattern beyond the people. Decoration, not people.
-.dotNarrow, .dotWide {
-  z-index: -1;
-  pointer-events: none;
-  &::before { content: ""; width: 74%; aspect-ratio: 1; border-radius: 50%; background: c(panel); }
-}
-.portrait {
-  display: block;
-  position: relative;
-  width: 88%;
-  aspect-ratio: 1;
-  border-radius: 50%;
-  background: c(panel);
-}
-// Opacity is the spotlight: the selected person fully, then fading with
-// distance across the field (`--near`, set per person by TeamField).
-.portrait {
-  opacity: var(--near);
-  @include respond-to(lg) { opacity: var(--wide-near); }
-  @include motion-safe { transition: opacity $duration-500 $ease-settle, transform $duration-400 $ease-settle; }
-  &::after {
-    content: "";
-    position: absolute;
-    inset: -4px;
-    border: 1px solid c(blue);
-    border-radius: inherit;
-    opacity: 0;
-    @include motion-safe { transition: opacity $duration-200 $ease-out; }
+  outline: none;
+  @include motion-safe {
+    transition: background-color $duration-150 $ease-out, border-color $duration-150 $ease-out, color $duration-150 $ease-out;
+  }
+  &:hover {
+    background: c(panel);
+    border-color: c(blue-border);
+    color: c(blue);
+  }
+  &:focus-visible {
+    outline: 2px solid c(blue);
+    outline-offset: 2px;
   }
 }
-.photoWindow { position: absolute; inset: 0; overflow: hidden; border-radius: inherit; }
-.photo { object-fit: cover; filter: grayscale(1); }
-// No photograph yet: the circle sits back into the field, named by initials.
-.initials {
-  display: grid;
-  position: absolute;
-  inset: 0;
-  place-items: center;
-  border-radius: inherit;
-  color: c(secondary-text);
-  font-family: $font-heading;
-  font-size: clamp(9px, calc(var(--pitch) * .26), 13px);
-  font-weight: $weight-medium;
-}
-.choice:checked + .person .portrait { opacity: 1; }
-.portrait:has(.initials) { opacity: 1; }
-.choice:checked + .person .portrait::after { opacity: 1; }
-@include motion-safe {
-  .choice:checked + .person .portrait { transform: scale(1.16); }
-  .choice:focus-visible + .person .portrait { transition: none; }
-}
-.choice:focus-visible + .person .portrait { outline: 2px solid c(ink); outline-offset: 6px; }
-@media (hover: hover) and (pointer: fine) { .person:hover .portrait { opacity: 1; } }
 
-// Every profile shares the row under the field; only the selected one shows.
-.profile {
-  grid-area: -2 / 1 / -1 / -1;
-  align-self: start;
-  padding: space(12) space(5) 0;
-  visibility: hidden;
-  opacity: 0;
-  text-align: center;
-  @include motion-safe { transition: opacity $duration-200 $ease-out; }
-  @include respond-to(sm) { padding-inline: 0; }
-  @include respond-to(md) { padding-top: space(14); }
+.acronymPillActive {
+  background: c(blue-subtle);
+  border-color: c(blue);
+  color: c(blue);
+  .acronymChar {
+    color: c(blue);
+  }
 }
-.choice:checked ~ .profile { visibility: visible; opacity: 1; }
-.choice:focus-visible ~ .profile { transition: none; }
-.bio {
-  max-width: 700px;
-  margin: 0 auto;
-  // An editorial profile, not a fabricated employee quotation.
-  font-family: $font-heading;
-  font-size: 21px;
-  font-weight: $weight-normal;
-  line-height: 1.4;
-  letter-spacing: -.015em;
+
+.acronymChar {
+  font-weight: $weight-bold;
   color: c(ink);
-  @include respond-to(md) { font-size: 25px; line-height: 1.35; }
 }
-.byline {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: baseline;
-  gap: space(2) space(3);
+
+.acronymDivider {
+  opacity: 0.45;
+}
+
+// Definition Box for Active Letter
+.definitionBox {
+  width: 100%;
   max-width: 680px;
-  margin: space(5) auto 0;
+  margin: 0 auto space(6);
+  padding: space(4) space(6);
+  border-radius: 12px;
+  background: c(panel);
+  border: 1px solid c(subtle-stroke);
+  text-align: center;
+  @include motion-safe {
+    transition: border-color $duration-200 $ease-out, background-color $duration-200 $ease-out;
+  }
 }
-.name { color: c(ink); font-family: $font-heading; font-size: 14px; font-weight: $weight-medium; line-height: 1.5; }
-.role { color: c(secondary-text); font-size: 13px; line-height: 1.5; }
-.fieldFooter { display: flex; align-items: center; justify-content: center; gap: space(3); min-height: 32px; margin-top: space(7); color: c(secondary-text); font-size: 11px; line-height: 1.5; }
-.motionToggle { flex-shrink: 0; }
+
+.defHeader {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: space(2);
+  margin-bottom: space(1.5);
+  flex-wrap: wrap;
+}
+
+.defNum {
+  font-family: $font-mono;
+  font-size: 12px;
+  letter-spacing: 0.05em;
+  color: c(blue);
+}
+
+.defWord {
+  font-weight: $weight-semibold;
+  font-size: 16px;
+  color: c(ink);
+}
+
+.defTagline {
+  font-size: 14px;
+  font-weight: $weight-medium;
+  color: c(blue);
+}
+
+.defDetail {
+  font-size: 14px;
+  line-height: 1.6;
+  color: c(secondary-text);
+  margin: 0;
+  text-wrap: pretty;
+}
+
+// Byline & Motion Toggle Wrap
+.bylineWrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: space(3);
+  margin-top: space(2);
+}
+
+.bylineText {
+  font-size: 12px;
+  color: c(default-stroke);
+  letter-spacing: 0.02em;
+  margin: 0;
+}
+
+.motionToggle {
+  flex-shrink: 0;
+}

@@ -1,15 +1,16 @@
 import AboutSection from "@/components/sections/about/AboutSection";
 import type { AboutPage } from "@/content/pages/about";
 import { RegionOnly, SectionLink } from "@/shared/components/ui";
-import { TeamField } from "./TeamField";
+import { DhiraDotMatrix } from "./DhiraDotMatrix";
 import styles from "./AboutCulture.module.scss";
 
 export interface AboutCultureProps {
   content: AboutPage["culture"];
 }
 
-/* The user explicitly requested Attio's centred, compact composition for [05].
-   Keep the page's numbered rail and India-only careers link around that field. */
+/* Attio's centred, compact composition for [05], refined to showcase
+   DHIRA spelled in an interactive, generative dot matrix.
+   The page's numbered rail and India-only careers link frame the field. */
 export function AboutCulture({ content }: AboutCultureProps) {
   return (
     <AboutSection id="culture" eyebrow={{ number: content.number, label: content.label }}>
@@ -24,7 +25,7 @@ export function AboutCulture({ content }: AboutCultureProps) {
           <SectionLink href={content.link.href}>{content.link.label}</SectionLink>
         </RegionOnly>
       </div>
-      <TeamField team={content.team} />
+      <DhiraDotMatrix />
     </AboutSection>
   );
 }
