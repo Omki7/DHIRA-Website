@@ -105,11 +105,11 @@ const menus: NavMenu[] = [
   {
     id: "platform",
     label: "Platform",
-    match: ["/akashic", "/pricing"],
+    match: ["/platform", "/akashic", "/pricing"],
     lead: {
       title: "Akashic",
       text: "The governed data and AI platform.",
-      href: "/akashic",
+      href: "/platform",
       cta: "Platform overview",
       span: 2,
     },
@@ -268,11 +268,11 @@ const menus: NavMenu[] = [
   {
     id: "resources",
     label: "Resources",
-    match: ["/insights", "/customers", "/glossary"],
+    match: ["/resources", "/insights", "/customers", "/glossary"],
     lead: {
       title: "Resources",
       text: "Ideas, proof and the terms we use.",
-      href: "/insights",
+      href: "/resources",
       cta: "Read Insights",
       span: 3,
     },

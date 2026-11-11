@@ -61,6 +61,18 @@ const nextConfig = {
       { source: "/solutions/eis", destination: "/solutions/enterprise-intelligence", permanent: true },
     ];
   },
+  /* The Platform and Resources menus name their URL as the menu does
+     (/platform, /resources) while the pages themselves stay at /akashic
+     (the product) and /insights (the hub), which the rest of the site and
+     the section anchors reference. A rewrite serves that content under the
+     menu's own path, so the address bar reads /platform and /resources
+     without moving or duplicating the pages. */
+  async rewrites() {
+    return [
+      { source: "/platform", destination: "/akashic" },
+      { source: "/resources", destination: "/insights" },
+    ];
+  },
   async headers() {
     return [
       { source: "/:path*", headers: securityHeaders },
