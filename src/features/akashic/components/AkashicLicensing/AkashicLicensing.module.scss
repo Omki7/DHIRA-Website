@@ -58,6 +58,7 @@
 .grid {
   margin-top: space(12);
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: space(8);
 
   @include respond-to(lg) {
@@ -147,6 +148,7 @@
 
 .planTop {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
   gap: space(3);
@@ -154,6 +156,7 @@
 
 .planNameWrap {
   display: flex;
+  flex-wrap: wrap;
   align-items: baseline;
   gap: space(2.5);
 }
@@ -457,7 +460,7 @@
   color: c(on-action);
   font-size: 14px;
   font-weight: $weight-medium;
-  white-space: nowrap;
+  white-space: normal;
   text-decoration: none;
   transition: background-color $duration-150 $ease-settle, transform $duration-150 $ease-settle;
   flex-shrink: 0;
