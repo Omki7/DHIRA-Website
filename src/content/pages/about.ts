@@ -62,6 +62,17 @@ export interface JourneyLayer {
   description: string;
 }
 
+export interface OrganizationCredential {
+  id: string;
+  name: string;
+  issuer: string;
+  detail: string;
+  tag: string;
+  authority: string;
+  badge: string;
+  symbol: "hackathons" | "dpiit" | "udyam" | "iit-madras";
+}
+
 /** The [02] layer drawing: the company chronology as data. */
 export interface JourneyTimeline {
   /** Where every built layer currently ends, in fractional years. */
@@ -79,6 +90,7 @@ export interface JourneyTimeline {
   reading: { horizon: string; scroll: string; end: string; overview: string; showAll: string; explore: string };
   steps: { year: string; title: string; description: string }[];
   recognition: { year: string; lead: string; payoff: string };
+  credentials?: OrganizationCredential[];
   /** `short` stands in when the span is too narrow for the full name. */
   eras: { label: string; short: string; from: number; to: number }[];
   aheadEra: { label: string; short: string };
@@ -263,6 +275,48 @@ export const about: AboutPage = {
         { year: "Ahead", title: "From answers to accountable action.", description: "Our ambition is to build connected agents on this foundation, with people in control." },
       ],
       recognition: { year: "2025", lead: "2025: two hackathon wins.", payoff: "Maha Hackathon and Telangana AI Rising." },
+      credentials: [
+        {
+          id: "hackathons",
+          name: "Two hackathon wins",
+          issuer: "Maha Hackathon & Telangana AI Rising",
+          detail: "Winner in state government deep-tech and artificial intelligence competitions.",
+          tag: "2025 · Winner",
+          authority: "State Competitions",
+          badge: "Winner",
+          symbol: "hackathons",
+        },
+        {
+          id: "dpiit",
+          name: "DPIIT recognised startup",
+          issuer: "Ministry of Commerce & Industry",
+          detail: "Certified under the Startup India initiative for sovereign data systems architecture.",
+          tag: "Startup India",
+          authority: "Govt of India",
+          badge: "Certified",
+          symbol: "dpiit",
+        },
+        {
+          id: "udyam",
+          name: "Udyam registered enterprise",
+          issuer: "Ministry of MSME · Govt of India",
+          detail: "Classified enterprise registration under the Government of India MSME framework.",
+          tag: "Ministry of MSME",
+          authority: "Govt of India",
+          badge: "Registered",
+          symbol: "udyam",
+        },
+        {
+          id: "iit-madras",
+          name: "Centre of Excellence",
+          issuer: "IIT Madras association",
+          detail: "Academic and research association for high-assurance data systems and governed AI.",
+          tag: "IIT Madras CoE",
+          authority: "Academic & R&D",
+          badge: "Associated",
+          symbol: "iit-madras",
+        },
+      ],
       eras: [
         { label: "Foundations", short: "Foundations", from: 2018, to: 2022 },
         { label: "Platform", short: "Platform", from: 2022, to: 2025 },

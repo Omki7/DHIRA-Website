@@ -10,6 +10,7 @@ import { AkashicFaq } from "../components/AkashicFaq";
 import { AkashicFourMoves } from "../components/AkashicFourMoves";
 import { AkashicHero } from "../components/AkashicHero";
 import { AkashicHeroQuote } from "../components/AkashicHeroQuote";
+import { AkashicLicensing } from "../components/AkashicLicensing";
 import { AkashicModular } from "../components/AkashicModular";
 import { AkashicModules } from "../components/AkashicModules";
 import { AkashicPlatform } from "../components/AkashicPlatform";
@@ -45,6 +46,7 @@ export function AkashicPage({ page, stories }: AkashicPageProps) {
       <AkashicAgents content={page.agents} />
       <AkashicTrust content={page.trust} />
       <AkashicBuildVsBuy content={page.advantage} />
+      <AkashicLicensing content={page.licensing} />
       <AkashicStack content={page.reference} />
       <AkashicPlatform content={page.solutions} />
       <AkashicFaq content={page.faq} />

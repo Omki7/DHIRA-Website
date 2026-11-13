@@ -12,6 +12,7 @@ export * from "./components/AkashicFlowConnectors";
 export * from "./components/AkashicFourMoves";
 export * from "./components/AkashicHero";
 export * from "./components/AkashicHeroQuote";
+export * from "./components/AkashicLicensing";
 export * from "./components/AkashicModular";
 export * from "./components/AkashicModules";
 export * from "./components/AkashicPlatform";
