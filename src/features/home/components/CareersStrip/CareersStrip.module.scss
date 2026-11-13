@@ -4,9 +4,11 @@
   position: relative;
   scroll-margin-top: space(24);
   background-color: c(background);
+  padding-top: space(12);
   padding-bottom: space(16);
 
   @include respond-to(lg) {
+    padding-top: space(16);
     padding-bottom: space(24);
   }
 }

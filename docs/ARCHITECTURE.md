@@ -341,8 +341,8 @@ eyebrow rail and header, and no next-section or section-foot buttons (removed
 | 07 | scale | `sections/ProvenAtScale.tsx` | `bg-background` | Shared with /akashic and /services. Deployment carousel, chakra ornament beside the header |
 | 08 | voices | `sections/Voices.tsx` | flat `band` | "Ask the people who run it. / In their own words." Draft dispatches |
 | 09 | governance | `sections/EnterpriseSecurity.tsx` | `bg-background` | "Your data stays yours. / Governed inside your walls." Rising curve, four figures, certification bar |
-| 10 | get-started | `sections/Closure.tsx` | closing card | Centred close with the page's second CTA pair |
 | — | careers | `sections/CareersStrip.tsx` | `bg-background` | Unnumbered eyebrow "Careers"; roles from the collection; not in the minimap. India only (Regions, 4 Nov 2026) |
+| 10 | get-started | `sections/Closure.tsx` | closing card | Centred close with the page's second CTA pair |
 | — | footer | `layout/Footer.tsx` | `vault` | Brand block, then four columns of link groups headed by the header's menu labels |
 
 ### Akashic (`app/akashic/page.tsx`)
