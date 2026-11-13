@@ -237,52 +237,15 @@ export interface OutcomeShowcase {
   modules: { module: string; adds: string; caption: string }[];
 }
 
-export interface LicensingPlanTier {
-  id: string;
+export interface LicensingTierItem {
   name: string;
-  audience: string;
-  capacityTag: string;
-  metrics: { label: string; value: string }[];
-  highlight?: boolean;
-}
-
-export interface LicensingFootprintOption {
-  id: string;
-  name: string;
-  boundary: string;
-  operator: "dhira" | "customer";
-  line: string;
-}
-
-export interface IpPillar {
-  icon: "ownership" | "no-lockin" | "perimeter" | "audit";
-  title: string;
-  label: string;
-  desc: string;
-  evidence: string;
+  href: string;
 }
 
 export interface AkashicLicensing extends StoryHeading {
-  intro: string;
+  intro?: string;
   link: Cta;
-  plansLabel: string;
-  plansHeading: string;
-  plansLede: string;
-  plans: LicensingPlanTier[];
-  foundationNote: string;
-  foundationModules: string[];
-  footprintsHeading: string;
-  footprints: LicensingFootprintOption[];
-  ipLabel: string;
-  ipHeading: string;
-  ipLede: string;
-  ipPillars: IpPillar[];
-  pricingBridge: {
-    label: string;
-    headline: string;
-    text: string;
-    cta: Cta;
-  };
+  tiers: LicensingTierItem[];
 }
 
 /* ---------------- The page document ---------------- */
@@ -1458,133 +1421,14 @@ export const akashic: AkashicPage = {
     label: "Licensing and IP",
     setup: "Transparent licensing by capacity.",
     title: "Your intellectual property stays yours.",
-    intro: "Every plan includes the complete data, warehouse and governance foundation with zero tier lock-in. Your data, schemas, models and pipeline logic remain entirely your intellectual property, deployed across three sovereign footprints.",
-    link: { label: "View full pricing and plans", href: "/pricing" },
-    plansLabel: "01 · Capacity-based licensing",
-    plansHeading: "Pay for the capacity you use. Never for features.",
-    plansLede: "All five core modules come with every tier. Plans differ only in how much data, compute and users each module carries.",
-    plans: [
-      {
-        id: "launch",
-        name: "Launch",
-        audience: "One team, a first use case",
-        capacityTag: "Starter capacity",
-        metrics: [
-          { label: "Data ingestion", value: "100 GB / month" },
-          { label: "Pipeline runtime", value: "100 hours / month" },
-          { label: "BI users", value: "25 seats" },
-          { label: "Master records", value: "100,000" },
-        ],
-      },
-      {
-        id: "growth",
-        name: "Growth",
-        audience: "Several teams, shared data",
-        capacityTag: "Multi-team capacity",
-        metrics: [
-          { label: "Data ingestion", value: "500 GB / month" },
-          { label: "Pipeline runtime", value: "400 hours / month" },
-          { label: "BI users", value: "100 seats" },
-          { label: "Master records", value: "1 million" },
-        ],
-      },
-      {
-        id: "scale",
-        name: "Scale",
-        audience: "Every team, one estate",
-        capacityTag: "Organisation-wide",
-        metrics: [
-          { label: "Data ingestion", value: "2 TB / month" },
-          { label: "Pipeline runtime", value: "1,000 hours / month" },
-          { label: "BI users", value: "300 seats" },
-          { label: "Master records", value: "5 million" },
-        ],
-      },
-      {
-        id: "enterprise",
-        name: "Enterprise",
-        audience: "Your boundary, your terms",
-        capacityTag: "Dedicated instance",
-        highlight: true,
-        metrics: [
-          { label: "Capacity limits", value: "Sized to your estate" },
-          { label: "Deployment", value: "Dedicated instance" },
-          { label: "Disaster recovery", value: "Hot standby" },
-          { label: "Residency", value: "Your VPC or data centre" },
-        ],
-      },
+    intro: "Every plan includes all core modules. Pay only for the capacity you need, with zero vendor lock-in.",
+    link: { label: "Explore plans and pricing", href: "/pricing" },
+    tiers: [
+      { name: "Launch", href: "/pricing#plans" },
+      { name: "Growth", href: "/pricing#plans" },
+      { name: "Scale", href: "/pricing#plans" },
+      { name: "Enterprise", href: "/pricing#plans" },
     ],
-    foundationNote: "The foundation in every plan: Launch to Enterprise includes all five modules and the same security controls.",
-    foundationModules: [
-      "Data Pipelines",
-      "Master Data",
-      "Data Warehouse",
-      "Business Intelligence",
-      "Governance",
-    ],
-    footprintsHeading: "Three deployment footprints",
-    footprints: [
-      {
-        id: "dhira-cloud",
-        name: "DHIRA Cloud",
-        boundary: "DHIRA on AWS",
-        operator: "dhira",
-        line: "Multi-tenant cloud with full storage, network and identity isolation",
-      },
-      {
-        id: "customer-cloud",
-        name: "Your Cloud",
-        boundary: "Your AWS, Azure or GCP",
-        operator: "customer",
-        line: "Dedicated VPC deployment inside your corporate cloud account",
-      },
-      {
-        id: "customer-dc",
-        name: "Your Data Centre",
-        boundary: "Your servers",
-        operator: "customer",
-        line: "On-premises air-gapped installation via Docker and Kubernetes",
-      },
-    ],
-    ipLabel: "02 · Intellectual property & sovereignty",
-    ipHeading: "Your data, logic and models remain 100% yours.",
-    ipLede: "Akashic licenses the platform engine; your organisation retains complete and exclusive ownership of all assets created, processed or transformed on it.",
-    ipPillars: [
-      {
-        icon: "ownership",
-        title: "Customer Asset Ownership",
-        label: "Exclusive ownership",
-        desc: "Every source connection, curated golden record, semantic definition, dashboard and fine-tuned model weight remains your exclusive intellectual property.",
-        evidence: "DHIRA asserts zero claim over your proprietary data or derived business assets.",
-      },
-      {
-        icon: "no-lockin",
-        title: "Open Formats, Zero Lock-In",
-        label: "Open architecture",
-        desc: "All data lake tables and warehouse assets are stored in standard formats including Apache Parquet, Apache Iceberg and ANSI SQL.",
-        evidence: "Query, transform or export your complete data estate using open-source tools at any time.",
-      },
-      {
-        icon: "perimeter",
-        title: "Sovereign Model Perimeter",
-        label: "Perimeter control",
-        desc: "Execute inference through your own commercial LLM provider keys or open-weights models running inside your own VPC boundary.",
-        evidence: "Zero model provider retention, and zero training on your corporate questions or data.",
-      },
-      {
-        icon: "audit",
-        title: "Cryptographic Provenance",
-        label: "Verifiable audit",
-        desc: "Every answer, agent action and data transform is cryptographically recorded with column-level lineage and tamper-proof approval logs.",
-        evidence: "Full defensible audit trails ready for regulatory, statutory and compliance review.",
-      },
-    ],
-    pricingBridge: {
-      label: "Transparent pricing & terms",
-      headline: "Looking for detailed limits, volume discounts, or commitments?",
-      text: "Explore all plan comparisons, commitment discounts (15% for 1 year, 25% for 3 years), and professional services on our dedicated pricing page.",
-      cta: { label: "View full pricing and plans", href: "/pricing" },
-    },
   },
 
   scale: {

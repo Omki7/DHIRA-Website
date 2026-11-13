@@ -1,46 +1,51 @@
 @use "assets/styles" as *;
 
-// [09] Licensing and IP: transparent capacity tiers and sovereign IP boundaries.
 .section {
   position: relative;
   scroll-margin-top: space(24);
   background-color: c(background);
   border-top: 1px solid c(line);
+  padding-top: space(12);
+  padding-bottom: space(16);
+
+  @include respond-to(lg) {
+    padding-top: space(16);
+    padding-bottom: space(24);
+  }
 }
 
-.wrap {
+.body {
   position: relative;
-  margin-left: auto;
-  margin-right: auto;
-  max-width: 1440px;
-  padding: 3.5rem space(6);
+  display: grid;
+  gap: space(10);
+  border-bottom-width: 1px;
+  border-color: c(lineSoft);
+  padding-top: space(8);
+  padding-bottom: space(10);
 
   @include respond-to(sm) {
-    padding-left: space(10);
-    padding-right: space(10);
-    padding-top: space(16);
-    padding-bottom: space(16);
+    padding-top: space(10);
+    padding-bottom: space(12);
   }
 
   @include respond-to(lg) {
-    padding-left: space(16);
-    padding-right: space(16);
-    padding-top: space(20);
-    padding-bottom: space(20);
+    grid-template-columns: 1.15fr 1fr;
+    align-items: center;
+    gap: space(16);
+    padding-top: space(12);
+    padding-bottom: space(14);
   }
 }
 
-.titleWrap {
-  margin-top: space(10);
-
-  @include respond-to(lg) {
-    margin-top: space(12);
-  }
+.left {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
 .intro {
   margin-top: space(6);
-  max-width: 48rem;
+  max-width: 36rem;
   font-size: 1rem;
   line-height: 1.625;
   color: c(secondary-text);
@@ -51,429 +56,84 @@
 }
 
 .sectionLinkWrap {
-  margin-top: space(5);
+  margin-top: space(6);
 }
 
-// Two primary architectural pillars: Licensing & IP Sovereignty
-.grid {
-  margin-top: space(12);
-  display: grid;
-  gap: space(8);
-
-  @include respond-to(lg) {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: space(10);
-    margin-top: space(14);
-  }
-}
-
-.pillarCard {
-  display: flex;
-  flex-direction: column;
-  border: 1px solid c(subtle-stroke);
-  border-radius: $radius-outer;
-  background-color: c(panel);
-  padding: space(6);
+.roles {
+  position: relative;
+  padding-left: space(14);
 
   @include respond-to(sm) {
-    padding: space(8);
+    padding-left: space(24);
   }
 }
 
-.pillarHeader {
-  border-bottom: 1px solid c(line);
-  padding-bottom: space(6);
-}
-
-.pillarLabel {
-  display: inline-block;
-  font-family: $font-mono;
-  font-size: 11px;
-  font-weight: $weight-medium;
-  text-transform: uppercase;
-  letter-spacing: $tracking-eyebrow;
+.branches {
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  height: 100%;
+  width: space(12);
   color: c(blue);
+
+  @include respond-to(sm) {
+    width: space(20);
+  }
 }
 
-.pillarHeading {
-  margin-top: space(2.5);
-  font-family: $font-heading;
-  font-size: 22px;
+.role {
+  display: flex;
+  min-height: 70px;
+  align-items: center;
+  gap: space(4);
+  border-bottom-width: 1px;
+  border-color: c(lineSoft);
+  text-decoration: none;
+
+  &:last-child {
+    border-bottom-width: 0;
+  }
+}
+
+.seat {
+  font-size: 19px;
   font-weight: $weight-medium;
-  line-height: 1.25;
   letter-spacing: $tracking-tight;
   color: c(ink);
+  @include transition-colors;
 
-  @include respond-to(sm) {
-    font-size: 24px;
+  .role:hover & {
+    color: c(blue);
   }
-}
 
-.pillarLede {
-  margin-top: space(2.5);
-  font-size: 14.5px;
-  line-height: 1.55;
-  color: c(secondary-text);
-}
-
-// Left Pillar: Plan Tiers progression
-.plansList {
-  margin-top: space(6);
-  display: flex;
-  flex-direction: column;
-  gap: space(3);
-}
-
-.planRow {
-  border: 1px solid c(subtle-stroke);
-  border-radius: $radius-tile;
-  background-color: c(background);
-  padding: space(4) space(4.5);
-  transition: border-color $duration-150 $ease-settle, background-color $duration-150 $ease-settle;
-
-  &:hover {
-    border-color: c(default-stroke);
+  @media (prefers-reduced-motion: reduce) {
+    transition-property: none;
   }
-}
-
-.planRowEnterprise {
-  border-color: c(blue-border);
-  background-color: c(blue-subtle, 0.35);
-
-  &:hover {
-    border-color: c(blue);
-  }
-}
-
-.planTop {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: space(3);
-}
-
-.planNameWrap {
-  display: flex;
-  align-items: baseline;
-  gap: space(2.5);
-}
-
-.planName {
-  font-family: $font-heading;
-  font-size: 16px;
-  font-weight: $weight-semibold;
-  color: c(ink);
-}
-
-.planAudience {
-  font-size: 12.5px;
-  color: c(secondary-text);
-}
-
-.capacityTag {
-  font-family: $font-mono;
-  font-size: 11px;
-  font-weight: $weight-medium;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  padding: 2px space(2);
-  border-radius: $radius-micro;
-  border: 1px solid c(line);
-  background-color: c(primary-bg);
-  color: c(inkSoft);
-  white-space: nowrap;
-}
-
-.capacityTagEnterprise {
-  border-color: c(blue-border);
-  background-color: c(blue-subtle);
-  color: c(blue);
-}
-
-.planMetrics {
-  margin-top: space(3);
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: space(2) space(4);
-  border-top: 1px solid c(lineSoft);
-  padding-top: space(2.5);
-
-  @include respond-to(sm) {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-  }
-}
-
-.planMetric {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.metricLabel {
-  font-family: $font-mono;
-  font-size: 10px;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: c(overcast);
-}
-
-.metricValue {
-  font-size: 12.5px;
-  font-weight: $weight-medium;
-  color: c(ink);
-}
-
-// Left Pillar: Foundation & Footprints
-.foundationWrap {
-  margin-top: space(6);
-  border-top: 1px solid c(line);
-  padding-top: space(5);
-}
-
-.foundationNote {
-  font-size: 12.5px;
-  line-height: 1.5;
-  color: c(secondary-text);
-}
-
-.foundationModules {
-  margin-top: space(3);
-  display: flex;
-  flex-wrap: wrap;
-  gap: space(1.5);
-}
-
-.moduleChip {
-  font-family: $font-mono;
-  font-size: 11px;
-  padding: 3px space(2.5);
-  border-radius: $radius-chip;
-  border: 1px solid c(subtle-stroke);
-  background-color: c(background);
-  color: c(inkSoft);
-}
-
-.footprintsWrap {
-  margin-top: space(5);
-  border-top: 1px solid c(lineSoft);
-  padding-top: space(4);
-}
-
-.footprintsLabel {
-  font-family: $font-mono;
-  font-size: 10.5px;
-  text-transform: uppercase;
-  letter-spacing: $tracking-eyebrow;
-  color: c(overcast);
-}
-
-.footprintsList {
-  margin-top: space(2.5);
-  display: flex;
-  flex-direction: column;
-  gap: space(2);
-}
-
-.footprintItem {
-  display: flex;
-  align-items: baseline;
-  gap: space(2);
-  font-size: 13px;
-  line-height: 1.45;
-  color: c(secondary-text);
-}
-
-.footprintDot {
-  display: inline-block;
-  height: 6px;
-  width: 6px;
-  border-radius: 50%;
-  background-color: c(blue);
-  flex-shrink: 0;
-  transform: translateY(-1px);
-}
-
-.footprintName {
-  font-weight: $weight-medium;
-  color: c(ink);
-  white-space: nowrap;
-}
-
-// Right Pillar: IP & Data Sovereignty Ledger
-.ipLedger {
-  margin-top: space(6);
-  display: flex;
-  flex-direction: column;
-  gap: space(3.5);
-}
-
-.ipRow {
-  border: 1px solid c(subtle-stroke);
-  border-radius: $radius-tile;
-  background-color: c(background);
-  padding: space(4.5);
-  transition: border-color $duration-150 $ease-settle;
-
-  &:hover {
-    border-color: c(default-stroke);
-  }
-}
-
-.ipRowTop {
-  display: flex;
-  align-items: center;
-  gap: space(3);
-}
-
-.ipGlyph {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 32px;
-  width: 32px;
-  border-radius: $radius-micro;
-  border: 1px solid c(blue-border);
-  background-color: c(blue-subtle);
-  color: c(blue);
-  flex-shrink: 0;
-
-  svg {
-    height: 18px;
-    width: 18px;
-  }
-}
-
-.ipTitleWrap {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.ipTitle {
-  font-family: $font-heading;
-  font-size: 15.5px;
-  font-weight: $weight-semibold;
-  color: c(ink);
-}
-
-.ipTag {
-  font-family: $font-mono;
-  font-size: 10px;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: c(blue);
-}
-
-.ipDesc {
-  margin-top: space(2.5);
-  font-size: 13.5px;
-  line-height: 1.55;
-  color: c(secondary-text);
-}
-
-.ipEvidence {
-  margin-top: space(3);
-  border-top: 1px solid c(lineSoft);
-  padding-top: space(2);
-  font-family: $font-mono;
-  font-size: 11px;
-  color: c(inkSoft);
-  display: flex;
-  align-items: center;
-  gap: space(2);
-
-  &::before {
-    content: "";
-    display: inline-block;
-    width: 4px;
-    height: 4px;
-    border-radius: 50%;
-    background-color: c(blue);
-    flex-shrink: 0;
-  }
-}
-
-// Bottom Bridge to Pricing Page
-.pricingBridge {
-  margin-top: space(10);
-  border: 1px solid c(subtle-stroke);
-  border-radius: $radius-frame;
-  background-color: c(depth);
-  padding: space(6) space(7);
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: space(6);
-
-  @include respond-to(md) {
-    flex-direction: row;
-    align-items: center;
-    padding: space(7) space(9);
-    margin-top: space(12);
-  }
-}
-
-.bridgeContent {
-  max-width: 44rem;
-}
-
-.bridgeLabel {
-  font-family: $font-mono;
-  font-size: 11px;
-  font-weight: $weight-medium;
-  text-transform: uppercase;
-  letter-spacing: $tracking-eyebrow;
-  color: c(blue);
-}
-
-.bridgeHeadline {
-  margin-top: space(2);
-  font-family: $font-heading;
-  font-size: 20px;
-  font-weight: $weight-medium;
-  line-height: 1.3;
-  color: c(ink);
 
   @include respond-to(sm) {
     font-size: 22px;
   }
 }
 
-.bridgeText {
-  margin-top: space(1.5);
-  font-size: 14px;
-  line-height: 1.5;
-  color: c(secondary-text);
-}
-
-.bridgeCta {
-  display: inline-flex;
+.arrow {
+  margin-left: auto;
+  display: flex;
+  height: space(8);
+  width: space(8);
   align-items: center;
-  gap: space(2.5);
-  padding: space(3) space(5);
-  border-radius: $radius-btn;
-  background-color: c(action);
-  color: c(on-action);
-  font-size: 14px;
-  font-weight: $weight-medium;
-  white-space: nowrap;
-  text-decoration: none;
-  transition: background-color $duration-150 $ease-settle, transform $duration-150 $ease-settle;
-  flex-shrink: 0;
+  justify-content: center;
+  border-radius: 9999px;
+  color: c(inkSoft);
+  @include transition-colors;
 
-  &:hover {
-    background-color: c(action-hover);
-    transform: translateX(2px);
+  .role:hover & {
+    background-color: c(blue-subtle);
+    color: c(blue);
   }
 
-  svg {
-    height: 16px;
-    width: 16px;
-    transition: transform $duration-150 $ease-settle;
-  }
-
-  &:hover svg {
-    transform: translateX(2px);
+  @media (prefers-reduced-motion: reduce) {
+    transition-property: none;
   }
 }
