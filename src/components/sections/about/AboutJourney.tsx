@@ -2,6 +2,7 @@
 
 import JourneyLayers, { JourneyEmblem } from "@/components/demos/about/JourneyLayers";
 import AboutSection, { AboutHeading } from "@/components/sections/about/AboutSection";
+import AboutCredentials from "@/components/sections/about/AboutCredentials";
 import type { AboutPage, JourneyLayerKind, JourneyTimeline } from "@/content/pages/about";
 import { PreviewTag } from "@/shared/components/ui";
 
@@ -72,10 +73,7 @@ export default function AboutJourney({ content }: { content: AboutPage["journey"
         <JourneyEmblem timeline={timeline} />
       </div>
       <Ledger timeline={timeline} />
-      <div className="mt-6 flex flex-wrap items-baseline gap-x-8 gap-y-2 border-t border-lineSoft pt-5 md:mt-3">
-        <p className="font-heading text-lg font-medium tracking-tight text-ink">{timeline.recognition.lead}</p>
-        <p className="text-sm leading-relaxed text-secondary-text">{timeline.recognition.payoff}</p>
-      </div>
+      <AboutCredentials credentials={timeline.credentials} />
     </AboutSection>
   );
 }
