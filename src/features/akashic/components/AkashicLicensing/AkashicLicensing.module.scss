@@ -18,8 +18,6 @@
   position: relative;
   display: grid;
   gap: space(10);
-  border-bottom-width: 1px;
-  border-color: c(lineSoft);
   padding-top: space(8);
   padding-bottom: space(10);
 
@@ -29,7 +27,7 @@
   }
 
   @include respond-to(lg) {
-    grid-template-columns: 1.15fr 1fr;
+    grid-template-columns: 1.05fr 1.15fr;
     align-items: center;
     gap: space(16);
     padding-top: space(12);
@@ -55,85 +53,285 @@
   }
 }
 
-.sectionLinkWrap {
-  margin-top: space(6);
+.pillars {
+  margin-top: space(7);
+  display: flex;
+  flex-direction: column;
+  gap: space(3);
+  width: 100%;
+  max-width: 36rem;
+  border-top: 1px dashed c(lineSoft);
+  padding-top: space(5);
 }
 
-.roles {
+.pillar {
+  display: flex;
+  align-items: baseline;
+  gap: space(2.5);
+  font-size: 13.5px;
+  line-height: $leading-normal;
+}
+
+.pillarDot {
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  border-radius: 9999px;
+  background-color: c(blue);
+  flex-shrink: 0;
+  transform: translateY(-2px);
+}
+
+.pillarTextWrap {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: space(1.5) space(2);
+}
+
+.pillarLabel {
+  font-family: $font-mono;
+  font-size: 11px;
+  font-weight: $weight-medium;
+  letter-spacing: $tracking-eyebrow;
+  text-transform: uppercase;
+  color: c(inkSoft);
+}
+
+.pillarText {
+  color: c(ink);
+  font-size: 13.5px;
+}
+
+.sectionLinkWrap {
+  margin-top: space(8);
+}
+
+.tiersWrap {
   position: relative;
-  padding-left: space(14);
+  width: 100%;
+  padding-left: 0;
 
   @include respond-to(sm) {
-    padding-left: space(24);
+    padding-left: space(14);
+  }
+
+  @include respond-to(md) {
+    padding-left: space(20);
   }
 }
 
 .branches {
-  pointer-events: none;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  height: 100%;
-  width: space(12);
-  color: c(blue);
+  display: none;
 
   @include respond-to(sm) {
+    display: block;
+    pointer-events: none;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    height: 100%;
+    width: space(14);
+    color: c(blue);
+  }
+
+  @include respond-to(md) {
     width: space(20);
   }
 }
 
-.role {
-  display: flex;
-  min-height: 70px;
-  align-items: center;
-  gap: space(4);
-  border-bottom-width: 1px;
-  border-color: c(lineSoft);
-  text-decoration: none;
+.branchPath {
+  transition: stroke 200ms ease, stroke-width 200ms ease, stroke-opacity 200ms ease;
 
-  &:last-child {
-    border-bottom-width: 0;
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
   }
 }
 
-.seat {
-  font-size: 19px;
+.terminalDot {
+  transition: fill 200ms ease, r 200ms ease, fill-opacity 200ms ease;
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}
+
+.tiersList {
+  display: flex;
+  flex-direction: column;
+  gap: space(3);
+}
+
+.tierCard {
+  display: flex;
+  flex-direction: column;
+  gap: space(3);
+  min-height: 76px;
+  padding: space(3.5) space(4.5);
+  border: 1px solid c(lineSoft);
+  border-radius: $radius-inner;
+  background-color: c(background);
+  text-decoration: none;
+  transition: border-color 180ms ease, background-color 180ms ease, transform 180ms $ease-settle;
+
+  @include respond-to(sm) {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: space(4);
+  }
+
+  &:hover,
+  &.tierCardActive {
+    border-color: c(blue-border);
+    background-color: c(primary-bg);
+    transform: translateX(2px);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+    transform: none !important;
+  }
+}
+
+.tierInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.tierTitleRow {
+  display: flex;
+  align-items: baseline;
+  gap: space(2);
+}
+
+.tierNum {
+  font-family: $font-mono;
+  font-size: 11px;
+  font-weight: $weight-medium;
+  letter-spacing: $tracking-eyebrow;
+  color: c(overcast);
+  transition: color 180ms ease;
+
+  .tierCard:hover &,
+  .tierCardActive & {
+    color: c(blue);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}
+
+.tierName {
+  font-family: $font-heading;
+  font-size: 20px;
   font-weight: $weight-medium;
   letter-spacing: $tracking-tight;
   color: c(ink);
-  @include transition-colors;
+  transition: color 180ms ease;
 
-  .role:hover & {
+  .tierCard:hover &,
+  .tierCardActive & {
     color: c(blue);
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    transition-property: none;
   }
 
   @include respond-to(sm) {
-    font-size: 22px;
-  }
-}
-
-.arrow {
-  margin-left: auto;
-  display: flex;
-  height: space(8);
-  width: space(8);
-  align-items: center;
-  justify-content: center;
-  border-radius: 9999px;
-  color: c(inkSoft);
-  @include transition-colors;
-
-  .role:hover & {
-    background-color: c(blue-subtle);
-    color: c(blue);
+    font-size: 21px;
   }
 
   @media (prefers-reduced-motion: reduce) {
-    transition-property: none;
+    transition: none;
+  }
+}
+
+.tierTagline {
+  font-size: 12.5px;
+  line-height: $leading-snug;
+  color: c(secondary-text);
+
+  @include respond-to(sm) {
+    font-size: 13px;
+  }
+}
+
+.tierMeta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: space(3);
+
+  @include respond-to(sm) {
+    justify-content: flex-end;
+  }
+}
+
+.tierCapacity {
+  display: inline-flex;
+  align-items: center;
+  font-family: $font-mono;
+  font-size: 11px;
+  font-weight: $weight-medium;
+  letter-spacing: 0.015em;
+  color: c(inkSoft);
+  background-color: c(background);
+  border: 1px solid c(lineSoft);
+  padding: 4px 10px;
+  border-radius: $radius-chip;
+  white-space: nowrap;
+  transition: border-color 180ms ease, color 180ms ease;
+
+  .tierCard:hover &,
+  .tierCardActive & {
+    border-color: c(blue-border);
+    color: c(ink);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}
+
+.arrowPill {
+  display: flex;
+  height: space(8);
+  width: space(8);
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  color: c(overcast);
+  background-color: transparent;
+  border: 1px solid transparent;
+  transition: background-color 180ms ease, color 180ms ease, border-color 180ms ease;
+
+  .tierCard:hover &,
+  .tierCardActive & {
+    background-color: c(blue-subtle);
+    color: c(blue);
+    border-color: c(blue-border);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}
+
+.arrowGlyph {
+  display: inline-block;
+  font-size: 17px;
+  line-height: 1;
+  transition: transform 200ms $ease-settle;
+
+  .tierCard:hover &,
+  .tierCardActive & {
+    transform: translate(2px, -2px);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+    transform: none !important;
   }
 }

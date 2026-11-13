@@ -237,14 +237,24 @@ export interface OutcomeShowcase {
   modules: { module: string; adds: string; caption: string }[];
 }
 
+export interface LicensingPillar {
+  label: string;
+  text: string;
+}
+
 export interface LicensingTierItem {
+  id: string;
+  num: string;
   name: string;
+  tagline: string;
+  capacity: string;
   href: string;
 }
 
 export interface AkashicLicensing extends StoryHeading {
   intro?: string;
   link: Cta;
+  pillars?: LicensingPillar[];
   tiers: LicensingTierItem[];
 }
 
@@ -1423,11 +1433,44 @@ export const akashic: AkashicPage = {
     title: "Your intellectual property stays yours.",
     intro: "Every plan includes all core modules. Pay only for the capacity you need, with zero vendor lock-in.",
     link: { label: "Explore plans and pricing", href: "/pricing" },
+    pillars: [
+      { label: "IP Ownership", text: "Data, schemas and models stay 100% yours" },
+      { label: "Zero Lock-in", text: "All core modules included in every tier" },
+      { label: "3 Footprints", text: "DHIRA Cloud, customer VPC, or sovereign air-gap" },
+    ],
     tiers: [
-      { name: "Launch", href: "/pricing#plans" },
-      { name: "Growth", href: "/pricing#plans" },
-      { name: "Scale", href: "/pricing#plans" },
-      { name: "Enterprise", href: "/pricing#plans" },
+      {
+        id: "launch",
+        num: "01",
+        name: "Launch",
+        tagline: "One team, a first use case",
+        capacity: "100 GB · 25 seats",
+        href: "/pricing#plans",
+      },
+      {
+        id: "growth",
+        num: "02",
+        name: "Growth",
+        tagline: "Several teams, shared data",
+        capacity: "500 GB · 100 seats",
+        href: "/pricing#plans",
+      },
+      {
+        id: "scale",
+        num: "03",
+        name: "Scale",
+        tagline: "Every team, one estate",
+        capacity: "2 TB · 300 seats",
+        href: "/pricing#plans",
+      },
+      {
+        id: "enterprise",
+        num: "04",
+        name: "Enterprise",
+        tagline: "Your boundary, your terms",
+        capacity: "Dedicated instance · Sovereign",
+        href: "/pricing#plans",
+      },
     ],
   },
 
