@@ -41,11 +41,11 @@ export function HomePage({ page, stories, roles }: HomePageProps) {
       <ProvenAtScale id="impact" aliases={["scale"]} content={page.scale} stories={stories} />
       <Voices content={page.voices} />
       <EnterpriseSecurity content={page.governance} />
-      <Closure content={page.close} />
       {/* India only (content/pages/home.ts `careers.audience`). */}
       <RegionOnly region={page.careers.audience}>
         <CareersStrip content={page.careers} roles={roles} />
       </RegionOnly>
+      <Closure content={page.close} />
     </main>
   );
 }
