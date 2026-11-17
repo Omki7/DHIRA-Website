@@ -1,9 +1,8 @@
 /* ------------------------------------------------------------------ */
 /*  Reusable section blocks                                            */
 /* ------------------------------------------------------------------ */
-/* Content shapes for sections that appear on more than one page. Each is
-   one CMS "block" type: a page document holds an instance, and the shared
-   component renders it. Page-specific section shapes live in that page's
+/* Content shapes for sections that appear on more than one page. A page
+   document holds an instance, and the shared component renders it. Page-specific section shapes live in that page's
    document under content/pages/. */
 
 import type { Cta } from "./types";

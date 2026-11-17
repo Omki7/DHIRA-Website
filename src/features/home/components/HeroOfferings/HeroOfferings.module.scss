@@ -1,0 +1,111 @@
+@use "assets/styles" as *;
+
+.root {
+  position: relative;
+  margin-top: space(8);
+  width: 100%;
+  max-width: 704px;
+
+  @include respond-to(md) {
+    margin-top: space(10);
+  }
+}
+
+.tabs {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: space(1);
+
+  @include respond-to(md) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: space(2);
+  }
+}
+
+.tab {
+  position: relative;
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  align-items: stretch;
+  gap: space(1.5);
+  border-bottom: 1px solid c(line);
+  border-radius: $radius-chip $radius-chip 0 0;
+  padding: space(3) space(2);
+  background-color: c(background);
+  text-align: left;
+  text-decoration: none;
+  color: c(secondary-text);
+  @include transition-colors($duration-150);
+  @include focus-ring(3px);
+
+  &[data-active="true"] {
+    background-color: c(primary-bg);
+    color: c(ink);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      background-color: c(primary-bg);
+      color: c(ink);
+    }
+  }
+}
+
+.label {
+  font-family: $font-heading;
+  font-size: 16px;
+  font-weight: $weight-medium;
+  line-height: 20px;
+  letter-spacing: $tracking-tight;
+}
+
+.description {
+  font-size: 13px;
+  line-height: 19px;
+  color: c(secondary-text);
+  text-wrap: balance;
+}
+
+.track {
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  overflow: hidden;
+}
+
+.fill {
+  position: absolute;
+  inset: 0;
+  background-color: c(blue);
+  transform-origin: left center;
+
+  &[data-fill="run"],
+  &[data-fill="hold"] {
+    animation: offeringFill linear both;
+  }
+
+  &[data-fill="hold"],
+  &[data-moving="false"] {
+    animation-play-state: paused;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
+
+@keyframes offeringFill {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+
+.toggle {
+  position: absolute;
+  right: space(1);
+  top: space(2);
+  width: 28px;
+  height: 28px;
+}

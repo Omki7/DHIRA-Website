@@ -82,7 +82,7 @@ export default function RetailShelf({ content, template }: { content: SectorCont
               <span className="text-overcast">[{template.eyebrow.number}]</span>
               &nbsp;&nbsp;{template.eyebrow.label}
             </span>
-            <span className="text-overcast">{story.aside}</span>
+            <span className="hidden text-overcast sm:inline">{story.aside}</span>
           </div>
         </ScrollReveal>
 

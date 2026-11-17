@@ -1,16 +1,15 @@
 @use "assets/styles" as *;
 
-@include keyframes(softpulse);
-
-// Shared by every file in this folder: the seven teasers and their shell.
+// Shared by every file in this folder: the teasers and their shell.
 
 // --- One type scale ----------------------------------------------
-// The 9.5px mono label, composed beside each label's own colour.
+// Mono is reserved for the small data annotations, with tighter spacing
+// so native-size fragments stay legible inside a narrow hero column.
 .mono {
   font-family: $font-mono;
-  font-size: 9.5px;
+  font-size: 10px;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.035em;
 }
 
 .tertiary {
@@ -39,7 +38,7 @@
 
 .figure {
   font-family: $font-heading;
-  font-size: 24px;
+  font-size: 28px;
   font-weight: $weight-medium;
   line-height: $leading-none;
   letter-spacing: $tracking-tight;
@@ -70,6 +69,10 @@
 
 .fillBlueSubtle {
   fill: c(blue-subtle);
+}
+
+.fillBlueBorder {
+  fill: c(blue-border);
 }
 
 .fillInk {
@@ -114,9 +117,6 @@
   width: space(6);
   align-items: center;
   justify-content: center;
-  border-radius: 7px;
-  border-width: 1px;
-  border-color: c(card-line);
   color: c(ink);
 }
 
@@ -164,7 +164,7 @@
 }
 
 .region {
-  border-radius: 8px;
+  border-radius: $radius-micro;
   padding-left: space(2.5);
   padding-right: space(2.5);
   padding-top: space(1.5);
@@ -196,6 +196,10 @@
 
 .regionDetail {
   margin-top: space(0.5);
+  font-family: $font-sans;
+  font-size: 10px;
+  letter-spacing: normal;
+  text-transform: none;
 }
 
 .moreRegions {
@@ -214,8 +218,8 @@
 }
 
 .spark {
-  margin-top: space(3);
-  height: space(11);
+  margin-top: space(4);
+  height: space(16);
 }
 
 .sparkFoot {
@@ -238,8 +242,18 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-top: space(2);
-  padding-bottom: space(2);
+  gap: space(2);
+  padding-top: space(2.5);
+  padding-bottom: space(2.5);
+
+  > .mono,
+  > .scope {
+    flex-shrink: 0;
+    font-family: $font-sans;
+    font-size: 11px;
+    letter-spacing: normal;
+    text-transform: none;
+  }
 
   &:first-child {
     padding-top: 0px;
@@ -272,18 +286,8 @@
 
 // --- Ask Akashic -----------------------------------------------------
 .question {
-  margin-left: space(8);
-  border-radius: 12px;
-  border-bottom-right-radius: 4px;
-  border-width: 1px;
-  border-color: c(lineSoft);
-  background-color: c(primary-bg);
-  padding-left: space(3);
-  padding-right: space(3);
-  padding-top: space(2);
-  padding-bottom: space(2);
   font-size: 12px;
-  line-height: $leading-snug;
+  line-height: $leading-normal;
   color: c(secondary-text);
 }
 
@@ -293,21 +297,11 @@
   gap: space(2.5);
 }
 
-.answerMark {
-  margin-top: 3px;
-  display: flex;
-  height: space(4);
-  width: space(4);
-  flex-shrink: 0;
-  align-items: center;
-  justify-content: center;
-  border-radius: 9999px;
-  background-color: c(blue-subtle);
-}
-
 .answer {
-  font-size: 13px;
-  line-height: $leading-snug;
+  font-family: $font-heading;
+  font-size: 17px;
+  line-height: $leading-normal;
+  letter-spacing: $tracking-tight;
   color: c(ink);
 }
 
@@ -333,7 +327,7 @@
 
 // --- Data Pipelines ---------------------------------------------------
 .lanes {
-  height: 72px;
+  height: 80px;
 }
 
 .laneName {
@@ -358,6 +352,7 @@
 }
 
 .ordersCount {
+  font-size: 17px;
   font-weight: $weight-medium;
   font-variant-numeric: tabular-nums;
 }
@@ -371,20 +366,34 @@
 .today {
   fill: c(tertiary-text);
   font-family: $font-mono;
-  font-size: 8.5px;
+  font-size: 9px;
   text-transform: uppercase;
   letter-spacing: 0.1em;
 }
 
 // --- Warehouse ----------------------------------------------------------
+.metricBranch {
+  position: relative;
+  height: 12px;
+  margin: space(4) 18% space(2);
+  border: 1px solid c(line);
+  border-bottom: 0;
+  border-radius: 4px 4px 0 0;
+
+  &::before {
+    content: "";
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    height: space(2);
+    border-left: 1px solid c(line);
+  }
+}
+
 .drivers {
-  margin-top: space(3);
   display: flex;
   align-items: flex-end;
   gap: space(2);
-  border-top-width: 1px;
-  border-color: c(lineSoft);
-  padding-top: space(3);
 }
 
 .driver {
@@ -398,7 +407,7 @@
 
 .driverValue {
   margin-top: space(1);
-  font-size: 13px;
+  font-size: 16px;
   font-weight: $weight-medium;
   font-variant-numeric: tabular-nums;
   color: c(ink);
@@ -410,22 +419,369 @@
   color: c(blue);
 }
 
-// --- Header-row live detail ----------------------------------------------
-.live {
+// --- Akashic Life ---------------------------------------------------------
+.recordName {
+  margin-top: space(1.5);
+  font-size: 12.5px;
+  font-weight: $weight-medium;
+  letter-spacing: $tracking-tight;
+  color: c(ink);
+
+  &:first-child {
+    margin-top: 0px;
+  }
+}
+
+// The visit's path to the health centre: sent, travelling, not yet in.
+.carryLine {
+  margin-top: space(3.5);
+  border-top: 1px solid c(lineSoft);
+  padding-top: space(3.5);
   display: flex;
+  align-items: center;
+  gap: space(1);
+}
+
+.carryDash {
+  flex: 1 1 0%;
+  border-top: 1px dashed c(blue-border);
+}
+
+.carryRing {
+  height: space(2);
+  width: space(2);
+  border-radius: 9999px;
+  border: 1px solid c(blue-border);
+}
+
+.carryPlaces {
+  margin-top: space(2);
+  display: flex;
+  justify-content: space-between;
+  gap: space(3);
+}
+
+.place {
+  font-size: 12px;
+  color: c(ink);
+}
+
+.placeNote {
+  margin-top: space(0.5);
+}
+
+// --- Strategic Advisory roadmap ---------------------------------------------
+// Name | Now | Next | Later. Each stage cell carries a dashed left rule, so
+// the rules run unbroken down the rows.
+.road {
+  display: grid;
+  grid-template-columns: auto repeat(3, minmax(0, 1fr));
+  align-items: center;
+}
+
+.roadStage {
+  padding-bottom: space(1.5);
+  text-align: center;
+}
+
+.roadName {
+  padding-right: space(3);
+  font-size: 12px;
+  line-height: 30px;
+  color: c(ink);
+  white-space: nowrap;
+}
+
+.roadCell {
+  display: flex;
+  height: 30px;
+  align-items: center;
+  padding-left: space(1.5);
+  padding-right: space(1.5);
+  border-left: 1px dashed c(line);
+}
+
+// A hairline span with a node at each end: hollow at rest, solid when
+// under way.
+.roadBar {
+  position: relative;
+  height: 1.5px;
+  flex: 1 1 0%;
+  background-color: c(inkSoft);
+
+  &::before,
+  &::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    height: 5px;
+    width: 5px;
+    border-radius: 9999px;
+    border: 1.2px solid c(inkSoft);
+    background-color: c(screen-surface);
+    transform: translateY(-50%);
+  }
+
+  &::before {
+    left: -2.5px;
+  }
+
+  &::after {
+    right: -2.5px;
+  }
+}
+
+.roadBarOn {
+  background-color: c(blue);
+
+  &::before,
+  &::after {
+    border-color: c(blue);
+    background-color: c(blue);
+  }
+}
+
+// --- Row lists (procurement evidence, AI replies, signals, claims) ----------
+.rows {
+  margin-top: space(3);
+}
+
+// --- Demand sensing --------------------------------------------------------
+.arrow {
+  height: space(2.5);
+  width: space(2.5);
+}
+
+// --- Churn and pricing: the health line ------------------------------------
+.health {
+  margin-top: space(3);
+  height: 30px;
+}
+
+.causeRow {
+  margin-top: space(3);
+}
+
+// --- Claims and fraud: a five-step risk meter ------------------------------
+.meter {
+  display: flex;
+  gap: 3px;
+}
+
+.meterStep {
+  height: 10px;
+  width: 4px;
+  border-radius: 1px;
+  border: 1px solid c(line);
+}
+
+.meterOn {
+  border-color: c(inkSoft);
+  background-color: c(inkSoft);
+}
+
+.meterFocal {
+  border-color: c(blue);
+  background-color: c(blue);
+}
+
+// --- Embedded engineers: one board, two teams ------------------------------
+.board {
+  margin-top: space(3);
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: space(2.5);
+}
+
+.lane {
+  display: flex;
+  flex-direction: column;
+  gap: space(1.5);
+}
+
+.boardHead {
+  margin-bottom: space(0.5);
+}
+
+.task {
+  position: relative;
+  height: 19px;
+  border: 1px solid c(line);
+  border-radius: $radius-micro;
+  background-color: c(primary-bg);
+
+  &::before {
+    content: "";
+    position: absolute;
+    left: 5px;
+    top: 6px;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background-color: c(inkSoft);
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    left: 13px;
+    right: 5px;
+    top: 7px;
+    height: 2px;
+    background-color: c(line);
+  }
+}
+
+.taskOurs {
+  border-color: c(blue-border);
+  background-color: c(blue-subtle);
+
+  &::before {
+    background-color: c(blue);
+  }
+}
+
+.legend {
+  margin-top: space(3.5);
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: space(4);
+  row-gap: space(1);
+}
+
+.legendItem {
+  display: inline-flex;
   align-items: center;
   gap: space(1.5);
 }
 
-// softpulse is the global keyframe in src/app/globals.css.
-.pulse {
+.legendMark {
+  height: 6px;
+  width: 10px;
+  border-radius: 3px;
+  background-color: c(blue);
+}
+
+.legendYou {
+  background-color: c(inkSoft);
+}
+
+// --- Cloud and infrastructure: where it runs --------------------------------
+.segments {
+  margin-top: space(2);
+  display: flex;
+  gap: 2px;
+  border-radius: 8px;
+  border: 1px solid c(card-line);
+  padding: 2px;
+}
+
+.segment {
+  flex: 1 1 auto;
+  border-radius: 6px;
+  padding-top: space(1);
+  padding-bottom: space(1);
+  text-align: center;
+  font-size: 11px;
+  white-space: nowrap;
+  color: c(secondary-text);
+}
+
+.segmentOn {
+  background-color: c(blue-subtle);
+  font-weight: $weight-medium;
+  color: c(ink);
+}
+
+// --- Managed Akashic: who does what -----------------------------------------
+.owners {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 32px 40px;
+  align-items: center;
+}
+
+.ownerHead {
+  padding-bottom: space(1.5);
+  text-align: center;
+}
+
+.ownerName,
+.ownerCell {
+  min-height: 34px;
+  border-top: 1px solid c(lineSoft);
+}
+
+.ownerName {
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+  color: c(ink);
+  padding-right: space(2);
+}
+
+.ownerCell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ownerMark {
   height: space(1.5);
   width: space(1.5);
-  animation: softpulse 2.4s infinite;
   border-radius: 9999px;
-  background-color: c(positive);
+  background-color: c(blue);
+}
 
-  @media (prefers-reduced-motion: reduce) {
-    animation: none;
+.ownerMarkYou {
+  background-color: c(inkSoft);
+}
+
+// --- Engineering at Scale build rail ----------------------------------------
+// Four steps; each node joins the one before it with a hairline, blue
+// where the work is done.
+.rail {
+  margin-top: space(4);
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.step {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: space(2);
+
+  & + &::before {
+    content: "";
+    position: absolute;
+    top: 3px;
+    right: 50%;
+    height: 1.5px;
+    width: 100%;
+    background-color: c(line);
   }
+
+  &[data-done="true"] + &[data-done="true"]::before {
+    background-color: c(blue);
+  }
+}
+
+.stepNode {
+  position: relative;
+  z-index: 1;
+  height: 7px;
+  width: 7px;
+  border-radius: 9999px;
+  border: 1.2px solid c(inkSoft);
+  background-color: c(screen-surface);
+
+  .step[data-done="true"] & {
+    border-color: c(blue);
+    background-color: c(blue);
+  }
+}
+
+.stepDone {
+  color: c(ink);
 }

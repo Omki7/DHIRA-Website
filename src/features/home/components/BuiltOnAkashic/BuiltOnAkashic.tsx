@@ -1,4 +1,4 @@
-/* Homepage [03]: three illustrated solutions on the complete Akashic platform. */
+/* Homepage [02] / Solutions: three illustrated solutions on the complete Akashic platform. */
 
 import type { HomeSolutions } from "@/content/pages/home";
 import { ScrollReveal, ScrollRevealRail, SectionHeader, SectionLink } from "@/shared/components/ui";

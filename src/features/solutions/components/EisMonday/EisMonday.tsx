@@ -6,8 +6,6 @@ import styles from "./EisMonday.module.scss";
 
 export interface EisMondayProps {
   content: EisPage["monday"];
-  /** The section's place in the page's order. */
-  num: string;
 }
 
 /* The field: one dot per change since Friday, 62 to a row, in one band per
@@ -46,7 +44,7 @@ const PICKS: [number, number][][] = [
  * ranked inbox. Agents are in preview, so the eyebrow carries PreviewTag.
  * The old `#the-loop` anchor stays as an alias.
  */
-export function EisMonday({ content, num }: EisMondayProps) {
+export function EisMonday({ content }: EisMondayProps) {
   const { field, decisions } = content;
   const total = field.bands.reduce((sum, band) => sum + band.rows * COLS, 0);
 
@@ -55,8 +53,8 @@ export function EisMonday({ content, num }: EisMondayProps) {
       <span id="the-loop" aria-hidden="true" className={styles.alias} />
       <ScrollRevealRail>
         <SectionHeader
-          num={num}
-          label="YOUR MONDAY"
+          num={content.eyebrow.number}
+          label={content.eyebrow.label}
           tag={<PreviewTag />}
           setup={content.setup}
           payoff={content.payoff}

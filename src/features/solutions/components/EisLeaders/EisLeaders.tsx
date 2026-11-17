@@ -6,8 +6,6 @@ import styles from "./EisLeaders.module.scss";
 
 export interface EisLeadersProps {
   content: EisPage["leaders"];
-  /** The section's place in the page's order. */
-  num: string;
 }
 
 /* Where each seat's stem leaves (the centre of its column, in a 1000-wide
@@ -23,12 +21,12 @@ const STEMS = [100, 300, 500, 700, 900];
  * view; final state under reduced motion and without JS. The old
  * `#your-lens` anchor stays as an alias.
  */
-export function EisLeaders({ content, num }: EisLeadersProps) {
+export function EisLeaders({ content }: EisLeadersProps) {
   return (
     <section id="every-leader" className={styles.section}>
       <span id="your-lens" aria-hidden="true" className={styles.alias} />
       <ScrollRevealRail>
-        <SectionHeader num={num} label="EVERY LEADER" setup={content.setup} payoff={content.payoff} lede={content.lede} />
+        <SectionHeader num={content.eyebrow.number} label={content.eyebrow.label} setup={content.setup} payoff={content.payoff} lede={content.lede} />
 
         <DrawnFigure className={styles.board} threshold={0.25}>
           <ul className={styles.seats}>

@@ -36,9 +36,9 @@ export const glossaryPage: GlossaryPage = {
     path: "/glossary",
   },
   sections: [
-    { id: "hero", label: "Glossary" },
-    { id: "terms", label: "The terms", eyebrow: "[01]" },
-    { id: "talk-to-our-team", label: "Talk to our team", eyebrow: "[02]" },
+    { id: "hero", label: "Introduction" },
+    { id: "terms", label: "The terms" },
+    { id: "talk-to-our-team", label: "Talk to our team" },
   ],
   sectionsLabel: "Glossary page sections",
   hero: {

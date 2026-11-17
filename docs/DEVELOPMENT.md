@@ -52,7 +52,7 @@ There is no unit or integration test suite. Verification is:
   (`// eslint-disable-next-line <rule> -- why`).
 - **knip.** No unused files, exports or dependencies. Exports used only inside
   their own file are fine. Exported types are not reported, because the content
-  interfaces are the CMS contract.
+  interfaces are the contract components are typed against.
 
 ## Security headers
 
@@ -66,7 +66,7 @@ There is no unit or integration test suite. Verification is:
 - `X-Content-Type-Options`, `X-Frame-Options`, `Referrer-Policy` and
   `Permissions-Policy`.
 
-`X-Powered-By` is off. When you add a third-party origin (CMS images, analytics,
+`X-Powered-By` is off. When you add a third-party origin (remote images, analytics,
 a form provider), add it to the CSP in the same change and check the browser
 console on the built site.
 

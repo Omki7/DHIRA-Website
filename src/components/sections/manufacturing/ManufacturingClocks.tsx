@@ -81,7 +81,7 @@ export default function ManufacturingClocks({ content, template }: { content: Se
               <span className="text-overcast">[{template.eyebrow.number}]</span>
               &nbsp;&nbsp;{template.eyebrow.label}
             </span>
-            <span className="text-overcast">{story.aside}</span>
+            <span className="hidden text-overcast sm:inline">{story.aside}</span>
           </div>
         </ScrollReveal>
 

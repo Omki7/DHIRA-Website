@@ -81,11 +81,11 @@ export const akashicRelease: AkashicReleasePage = {
     path: "/akashic/1-0",
   },
   sections: [
-    { id: "hero", label: "Akashic 1.0" },
+    { id: "hero", label: "Introduction" },
     { id: "generally-available", label: "Generally available" },
     { id: "in-preview", label: "In preview" },
     { id: "where-it-runs", label: "Where it runs" },
-    { id: "talk-to-our-team", label: "Start" },
+    { id: "talk-to-our-team", label: "Get started" },
   ],
   sectionsLabel: "Akashic 1.0 sections",
   release: {
@@ -156,7 +156,7 @@ export const akashicRelease: AkashicReleasePage = {
     ],
   },
   close: {
-    label: "Start",
+    label: "Get started",
     setup: "Start with one use case.",
     payoff: "Grow on the same foundation.",
     body: "Bring the question that matters most, on your own data. Move up a plan as use grows, with no data migration and no metrics to redefine.",

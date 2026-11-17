@@ -10,19 +10,27 @@
 
    THE STORY (messaging pass, 21 Oct 2026: written for a reader with no
    context; the user found the old page disconnected). Each section answers
-   the question the one before it raises:
-     hero      what DHIRA is: we build Akashic, which makes your data agree
-     [01]      why it matters: your systems disagree, so AI built on them fails
-     [02]      what fixes it: Akashic, its five capabilities, its seven modules
-     [03]      problems we already solve: three ready-made solutions
-     [04]      problems only you have: we plan and build them, with or
-               without Akashic
-     [05]      where: your sector
-     [06]      what changes day to day: before and after
-     [07]      proof: national programmes in production
-     [08]      who says so
-     [09]      is it safe: your data stays yours
-     [10]      the next step
+   the question the one before it raises. Since 17 Nov 2026 (user: the
+   eleven-row index put readers off) the sections sit in five chapters,
+   one index row and one eyebrow number each:
+     hero                    what DHIRA is: one company, three ways to data
+                             that agrees (platform, solutions, services)
+     [01] The problem        your systems disagree, so AI built on them fails
+     [02] What we offer
+          / The platform     what fixes it: Akashic, five capabilities,
+                             seven modules
+          / Solutions        problems we already solve: three ready-made
+                             solutions
+          / Services         problems only you have: we plan and build them,
+                             with or without Akashic
+     [03] What changes
+          / Every sector     where: your sector
+          / Day to day       before and after
+     [04] Why trust us
+          / In production    national programmes in production
+          / Partner voices   who says so
+          / Governance       is it safe: your data stays yours
+     Get started             the next step
    Plain words over jargon; an industry term appears only beside its plain
    meaning. NO SHORT FORMS on this page (user, 21 Oct 2026): full product
    names (never "IPMS"), "Business Intelligence" not "BI", figures in words
@@ -35,33 +43,71 @@ import { solutionModules, type AkashicSolution, type OutcomeShowcase } from "./a
 
 /* ---------------- Types: the CMS contract for this page ---------------- */
 
-export type HomeHeroModuleKind = "pipelines" | "master-data" | "warehouse" | "ml" | "ask" | "bi" | "governance";
+/** Every drawing the hero can show: the Akashic modules, the solutions and
+    the service deliverables. Each offering picks six. */
+export type HomeHeroModuleKind =
+  | "pipelines"
+  | "master-data"
+  | "warehouse"
+  | "ml"
+  | "ask"
+  | "bi"
+  | "governance"
+  | "enterprise-intelligence"
+  | "life"
+  | "procurement"
+  | "demand"
+  | "claims"
+  | "churn"
+  | "roadmap"
+  | "engineering"
+  | "ai-review"
+  | "embedded"
+  | "cloud"
+  | "managed";
 
 export interface HomeHeroModule {
   kind: HomeHeroModuleKind;
+  /** The fragment's header: the module, solution or service line name. */
   module: string;
+  /** With `description`, what a screen reader hears for the drawing. */
   title: string;
   description: string;
 }
 
+/** Six fragments, in reading order across the two sides of the headline:
+    left top, right top, left middle, right middle, left bottom, right
+    bottom. Below xl there is no room beside the headline, so the first
+    three show in a row under the one-liner (fewer on small screens). */
+export type HomeHeroFragments = [HomeHeroModule, HomeHeroModule, HomeHeroModule, HomeHeroModule, HomeHeroModule, HomeHeroModule];
+
+/** One of the hero's three offerings: a link to its section, the headline
+    phrase it sets, the one-liner under its name, and its parts as
+    fragments. */
+export interface HomeHeroOffering {
+  /** Also the id of the homepage section the offering links to. */
+  id: "platform" | "solutions" | "services";
+  label: string;
+  /** Completes "Answers you can … are not." while this offering shows. */
+  phrase: string;
+  /** What the offering is, in one line under the loading bar. */
+  line: string;
+  fragments: HomeHeroFragments;
+}
+
 export interface HomeHero {
-  badge: { lead: string; product: string; claim: string; href: string };
-  title: {
-    first: string;
-    secondLead: string;
-    /** Rotating phrases between "Answers you can" and "are not."; "act on" is
-        deliberately absent because the subhead owns it. */
-    phrases: string[];
-    tail: string;
-  };
+  /** "Answers are easy. / Answers you can [phrase] are not."; the phrase
+      comes from the active offering. */
+  title: { first: string; secondLead: string; tail: string };
   lede: [string, string];
-  primary: Cta;
-  secondary: Cta;
-  illustrations: {
+  /** Platform, solutions, services, in the order the page tells them. They
+      advance by themselves under a loading bar (Rule 6b pause beside it). */
+  offerings: {
     label: string;
-    scrollHint: string;
-    modules: HomeHeroModule[];
+    items: [HomeHeroOffering, HomeHeroOffering, HomeHeroOffering];
   };
+  /** Phones only: the header hides its "Talk to our team" below sm. */
+  contact: Cta;
 }
 
 export interface ProblemFact {
@@ -100,7 +146,7 @@ export interface HomeProblem {
     then the five capabilities (23 Oct 2026, user: the /akashic hero's cards
     came here; this section's dome and module rail went to /akashic). The
     logo strip was cut on 20 Oct 2026 (founder); the particle "signals" demo
-    gave way to the modules on 21 Oct 2026 (user), as the lead-in to [03]
+    gave way to the modules on 21 Oct 2026 (user), as the lead-in to [02] / Solutions
     Solutions. */
 export interface HomePlatform {
   eyebrow: Eyebrow;
@@ -277,52 +323,101 @@ export interface HomePage {
 /* ---------------- Content ---------------- */
 
 export const home: HomePage = {
-  /* Previous copy and visuals restored; retain the revised section order.
-     Keep this order, the eyebrows and app/page.tsx in sync. */
+  /* Keep this order, the eyebrows and app/page.tsx in sync. Chapters
+     (content/types PageSection) make the index six rows, not eleven. */
   sections: [
     { id: "hero", label: "Introduction" },
     { id: "problem", label: "The problem" },
-    { id: "platform", label: "The platform" },
-    { id: "solutions", label: "Solutions" },
-    { id: "services", label: "Our services" },
-    { id: "sectors", label: "Every sector" },
-    { id: "proof", label: "The difference" },
-    { id: "impact", label: "Impact" },
-    { id: "voices", label: "Partner voices" },
-    { id: "governance", label: "Governance" },
+    { id: "platform", label: "The platform", chapter: "What we offer" },
+    { id: "solutions", label: "Solutions", chapter: "What we offer" },
+    { id: "services", label: "Services", chapter: "What we offer" },
+    { id: "sectors", label: "Every sector", chapter: "What changes" },
+    { id: "proof", label: "Day to day", chapter: "What changes" },
+    { id: "impact", label: "In production", chapter: "Why trust us" },
+    { id: "voices", label: "Partner voices", chapter: "Why trust us" },
+    { id: "governance", label: "Governance", chapter: "Why trust us" },
     { id: "get-started", label: "Get started" },
   ],
   sectionsLabel: "Homepage sections",
 
   hero: {
-    badge: { lead: "Our platform", product: "Akashic", claim: "In production at national scale", href: "/akashic" },
-    title: {
-      first: "Answers are easy.",
-      secondLead: "Answers you can",
-      phrases: ["stand on", "build on", "decide on", "commit to"],
-      tail: "are not.",
-    },
-    /* Says what DHIRA is in the first sentence a visitor reads: the company
-       builds Akashic, and Akashic makes an organisation's data agree. */
+    /* No badge above the headline (user, 17 Nov 2026): "Our platform ·
+       Akashic" was the hero's last platform-only signal, the announcement
+       bar above already carries Akashic 1.0, and "in production at national
+       scale" is [04] / In production's claim to prove. */
+    title: { first: "Answers are easy.", secondLead: "Answers you can", tail: "are not." },
+    /* DHIRA is a platform, solutions and services company (user, 17 Nov
+       2026: the hero read as a platform team). The first line is the
+       company's promise; the second names the three ways to it, which the
+       offerings below show one at a time. [02]'s lede owns "puts AI to work". */
     lede: [
-      "DHIRA builds Akashic, the platform that makes all your data agree.",
-      "Your teams and your AI answer from it, and every answer shows its source.",
+      "DHIRA makes your data agree, and every answer shows its source.",
+      "Use our platform, start from a ready-made solution, or have us build yours.",
     ],
-    primary: { label: "See Akashic in action", href: "#platform" },
-    secondary: { label: "Talk to our team", href: "#talk-to-our-team" },
-    illustrations: {
-      label: "Explore the Akashic modules",
-      scrollHint: "Scroll to explore the modules",
-      modules: [
-        { kind: "master-data", module: "Master Data", title: "Your business hierarchy", description: "See the relationships between your group, regions and locations." },
-        { kind: "bi", module: "Business Intelligence", title: "Revenue against plan", description: "See revenue week by week against plan, and how the quarter landed." },
-        { kind: "governance", module: "Governance", title: "The right view for every role", description: "Share business information with clear ownership and access for each role." },
-        { kind: "ask", module: "Ask Akashic", title: "Answers with evidence", description: "Ask a business question in plain language and trace the answer to its source." },
-        { kind: "pipelines", module: "Data Pipelines", title: "Every system, connected", description: "Bring Salesforce, NetSuite and the sales plan into one view of every order." },
-        { kind: "ml", module: "Machine Learning", title: "Plan for demand ahead", description: "See expected demand alongside past performance to plan ahead." },
-        { kind: "warehouse", module: "Data Warehouse", title: "One agreed set of figures", description: "Give every team the same agreed figures for reporting and decisions." },
+    /* Second pass, 17 Nov 2026 (user: "too busy", add a loading bar under
+       the offerings, remove the bar of links with arrows; Impeccable critique
+       19/32). The three offerings are tabs that advance by themselves under
+       a loading bar, and the active one's phrase completes the headline, so
+       the hero has one clock and one pause control. Third pass, same day
+       (user: a one-liner under the tabs; two images left and right felt
+       off): each offering says what it is in one line, and its three parts
+       sit in a row directly under it, so the tabs and what they change read
+       as one unit. Fourth pass, same day (user: no images at the bottom,
+       place them left and right as they were that morning): six fragments
+       per offering, three each side of the headline in the morning's
+       places. Platform's six are the morning's own (less Machine Learning,
+       which sat under the buttons). The one-liners stay clear of [02]'s
+       own ledes. Fifth change, same day (user): picking an offering takes
+       the reader to its section ([02] / The platform, Solutions or
+       Services); pointing at or focusing one shows its previews. */
+    offerings: {
+      label: "What DHIRA offers",
+      items: [
+        {
+          id: "platform",
+          label: "Platform",
+          phrase: "build on",
+          line: "Akashic, one governed foundation for your data and AI.",
+          fragments: [
+            { kind: "master-data", module: "Master Data", title: "Your business hierarchy", description: "See the relationships between your group, regions and locations." },
+            { kind: "bi", module: "Business Intelligence", title: "Revenue against plan", description: "See revenue week by week against plan, and how the quarter landed." },
+            { kind: "governance", module: "Governance", title: "The right view for every role", description: "Share business information with clear ownership and access for each role." },
+            { kind: "ask", module: "Ask Akashic", title: "Answers with evidence", description: "Ask a business question in plain language and trace the answer to its source." },
+            { kind: "pipelines", module: "Data Pipelines", title: "Every system, connected", description: "Bring Salesforce, NetSuite and the sales plan into one view of every order." },
+            { kind: "warehouse", module: "Data Warehouse", title: "One agreed set of figures", description: "Give every team the same agreed figures for reporting and decisions." },
+          ],
+        },
+        {
+          id: "solutions",
+          label: "Solutions",
+          phrase: "act on",
+          line: "Ready-made solutions, from business planning to maternal care.",
+          fragments: [
+            { kind: "enterprise-intelligence", module: "Enterprise Intelligence", title: "A forecast that keeps up", description: "See the twelve-month forecast revised as invoices, timesheets and opportunities arrive." },
+            { kind: "procurement", module: "Intelligent Procurement Management System", title: "Evidence for every award", description: "Link each tender requirement to the evidence in the bid, so the committee can defend its decision." },
+            { kind: "life", module: "Akashic Life", title: "One record for every mother", description: "Screen risk at a home visit without a connection, and carry the record to the health centre." },
+            { kind: "demand", module: "Demand sensing", title: "Demand, read early", description: "An AI baseline forecast moved by your own signals, released when a planner approves it." },
+            { kind: "churn", module: "Churn and pricing intelligence", title: "Accounts at risk, with causes", description: "See an account’s health falling and its causes ranked, with a play for each account." },
+            { kind: "claims", module: "Claims and fraud", title: "The riskiest claims first", description: "Each claim scored for risk, so investigators see the riskiest first and decide." },
+          ],
+        },
+        {
+          id: "services",
+          label: "Services",
+          phrase: "commit to",
+          line: "Strategy, engineering and AI, built and run with your team.",
+          fragments: [
+            { kind: "roadmap", module: "Strategic Advisory", title: "Know what to build first", description: "Put your priorities in order with your team, each with its scope, dependencies and success measure." },
+            { kind: "engineering", module: "Engineering at Scale", title: "Built, tested and handed over", description: "Software and data built on the stack you choose, tested and documented for your team." },
+            { kind: "ai-review", module: "AI Solutions and Accelerators", title: "AI that drafts, people who decide", description: "AI drafts each reply and your team reviews it before anything is sent." },
+            { kind: "embedded", module: "Embedded engineers", title: "Engineers inside your team", description: "Our engineers work in your backlog and your delivery process, beside your own." },
+            { kind: "cloud", module: "Cloud and infrastructure", title: "Built where your data must live", description: "Cloud, on premises or hybrid, set up around your security and residency rules." },
+            { kind: "managed", module: "Managed Akashic", title: "Akashic, run for you", description: "You bring the sources and priorities; DHIRA sets Akashic up, runs it and supports it." },
+          ],
+        },
       ],
     },
+    contact: { label: "Talk to our team", href: "#talk-to-our-team" },
   },
 
   problem: {
@@ -362,7 +457,7 @@ export const home: HomePage = {
      were removed on 20 Oct 2026 at the founder's request: /akashic owns the
      systems it connects to and the module list. */
   platform: {
-    eyebrow: { number: "02", label: "The platform" },
+    eyebrow: { number: "02", label: "What we offer / The platform" },
     hero: {
       kicker: "Our data and AI platform",
       title: "Meet Akashic",
@@ -370,7 +465,7 @@ export const home: HomePage = {
       cta: { label: "Explore Akashic", href: "/akashic" },
     },
     /* The outcome cards (23 Oct 2026, user, from the /akashic hero), one per
-       module, named as the [03] slab names them. The captions are this
+       module, named as the Solutions slab names them. The captions are this
        section's own module lines; the cards' figures are the demo world the
        hero's note already labels. DO NOT OVERSELL: nothing here may promise
        that AI decides or acts on its own, and nothing may claim write-back. */
@@ -399,14 +494,14 @@ export const home: HomePage = {
     ],
   },
 
-  /* [03] The solutions are the point (user, 21 Oct 2026: "the MVP is the
+  /* [02] / Solutions: the solutions are the point (user, 21 Oct 2026: "the MVP is the
      solution itself... people care about actual solutions", not that Akashic
      builds them faster). The header names what is solved; "runs on Akashic"
      is the lede's second beat and the drawing's job. Each block names who it
      serves and what they gain. All three use every Akashic module (user,
-     21 Oct 2026). [04] answers the problems these do not cover. */
+     21 Oct 2026). [02] / Services answers the problems these do not cover. */
   solutions: {
-    eyebrow: { number: "03", label: "Solutions" },
+    eyebrow: { number: "02", label: "What we offer / Solutions" },
     /* Headline: two lines, each on one line from 1024px. Lede: two lines. */
     title: { setup: "Our solutions arrive ready-made", payoff: "and run on your own data." },
     description: "Purpose-built for business planning, public procurement and maternal care. Every solution runs on the complete Akashic platform.",
@@ -451,11 +546,11 @@ export const home: HomePage = {
   delivery: {
     /* The reader's own problems, and DHIRA as more than Akashic (user, 21 Oct
        2026: the earlier headers "sound obsessed with Akashic"). It answers
-       [03]: those are problems we already solve; this is for the problems
+       [02] / Solutions: those are problems we already solve; this is for the problems
        only you have. The three stops are the three service lines the nav
        names, in its order, on one route from the reader's problem to daily
        use (4 Nov 2026). Each output is /services [01]'s "You leave with". */
-    eyebrow: { number: "04", label: "Our services" },
+    eyebrow: { number: "02", label: "What we offer / Services" },
     title: { setup: "Need it built for you?", payoff: "Our engineers plan and build it." },
     description: "Strategy, software and AI for the problems only you have, with or without Akashic. We stay until it works.",
     cta: { label: "Explore our services", href: "/services" },
@@ -486,7 +581,7 @@ export const home: HomePage = {
   },
 
   sectors: {
-    eyebrow: { number: "05", label: "Every sector" },
+    eyebrow: { number: "03", label: "What changes / Every sector" },
     title: { setup: "Whatever your sector,", payoff: "we know the work." },
     introduction: "The industries we serve, each with its own systems, records and questions.",
     selectorLabel: "Find your industry",
@@ -548,7 +643,7 @@ export const home: HomePage = {
      page where the reader proves the thesis to themselves by moving the
      seam. Do not cut it without asking. */
   proof: {
-    eyebrow: { number: "06", label: "The difference" },
+    eyebrow: { number: "03", label: "What changes / Day to day" },
     title: { setup: "Share one set of data,", payoff: "and teams stop reconciling." },
     description: "One organisation, before DHIRA and after. The hours spent reconciling figures go back into decisions.",
     before: "Before DHIRA",
@@ -573,8 +668,8 @@ export const home: HomePage = {
 
   /* Deployment evidence follows the offer and the change in daily work. */
   scale: {
-    number: "07",
-    eyebrow: "In production",
+    number: "04",
+    eyebrow: "Why trust us / In production",
     title: { setup: "The platform behind national programmes", payoff: "is ready for your organisation." },
     description: "Not pilots. National systems in production, at population scale.",
     storiesLabel: "Akashic deployments in production",
@@ -584,7 +679,7 @@ export const home: HomePage = {
   /* DRAFT: the three dispatches are placeholder voices. Executives supply
      the final testimonials at hand-off. */
   voices: {
-    eyebrow: { number: "08", label: "Partner voices" },
+    eyebrow: { number: "04", label: "Why trust us / Partner voices" },
     title: { setup: "Ask the people who run it.", payoff: "In their own words." },
     highlight: "Akashic",
     previous: "Previous partner voice",
@@ -622,7 +717,7 @@ export const home: HomePage = {
      /akashic. DRAFT: the certification bar awaits the final list from the
      executives at hand-off. */
   governance: {
-    eyebrow: { number: "09", label: "Governance" },
+    eyebrow: { number: "04", label: "Why trust us / Governance" },
     title: { setup: "Your data stays yours,", payoff: "wherever Akashic runs." },
     /* True for every deployment (UX review, 23 Oct 2026): the cloud option
        means no blanket "100% in your own infrastructure"; key custody is

@@ -61,7 +61,7 @@ export default function PricingDeployment({ content }: { content: PricingPage["d
   return (
     <section id="deployment" className="scroll-mt-24 bg-band pb-16 pt-12 lg:pb-24 lg:pt-16">
       <ScrollRevealRail>
-        <SectionHeader num="04" label={content.label} setup={content.setup} payoff={content.payoff} lede={content.lede}>
+        <SectionHeader num={content.num} label={content.label} setup={content.setup} payoff={content.payoff} lede={content.lede}>
           <p className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-2 font-mono text-[11px] uppercase tracking-eyebrow text-inkSoft">
             <span className="inline-flex items-center gap-2">
               <span aria-hidden className={`h-3 w-4 rounded-[3px] ${BOUNDARY.dhira}`} />

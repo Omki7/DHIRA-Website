@@ -23,11 +23,11 @@ export function EnterpriseIntelligencePage({ page }: EnterpriseIntelligencePageP
     <main id="main" className={styles.main}>
       <EisHero content={page.hero} />
       <EisGap content={page.gap} />
-      <EisOnePicture content={page.onePicture} num="02" />
+      <EisOnePicture content={page.onePicture} />
       {page.teasers && <EisTeasers content={page.teasers} />}
-      <EisMonday content={page.monday} num="04" />
-      <EisLeaders content={page.leaders} num="05" />
-      <EisTrust content={page.trust} num="06" />
+      <EisMonday content={page.monday} />
+      <EisLeaders content={page.leaders} />
+      <EisTrust content={page.trust} />
       <EisFaq content={page.faq} />
       <EisClose content={page.close} />
     </main>

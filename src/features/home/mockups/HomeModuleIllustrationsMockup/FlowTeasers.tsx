@@ -3,12 +3,8 @@
  * Governance, Ask Akashic, Data Pipelines). Grammar and demo figures in the
  * header of HomeModuleIllustrationsMockup.
  */
-import usePrefersReducedMotion from "@/shared/hooks/usePrefersReducedMotion";
 import { cx } from "@/shared/utils/cx";
 import styles from "./HomeModuleIllustrationsMockup.module.scss";
-
-/* Source systems keep one colour wherever they appear (Rule 8: SVG hex). */
-const SRC = { salesforce: "#2A9BE0", netsuite: "#7C5CFC", plan: "#E0A93B" };
 
 /* ---------------------------------------------------------------- */
 /* Master Data: the organisation as a hierarchy                      */
@@ -89,9 +85,6 @@ export function AskTeaser() {
         Which channel is growing fastest?
       </p>
       <div className={styles.answerRow}>
-        <span className={styles.answerMark}>
-          <span className={styles.dot} />
-        </span>
         <p className={styles.answer}>
           Online, up <span className={styles.answerFigure}>18%</span> this quarter. Now 22% of revenue.
           <span className={styles.cite}>[1]</span>
@@ -106,37 +99,31 @@ export function AskTeaser() {
 /* Data Pipelines: three systems arrive as one view                  */
 /* ---------------------------------------------------------------- */
 const LANES = [
-  { y: 10, name: "Salesforce", colour: SRC.salesforce },
-  { y: 36, name: "NetSuite", colour: SRC.netsuite },
-  { y: 62, name: "Sales plan", colour: SRC.plan },
+  { y: 12, name: "Salesforce" },
+  { y: 40, name: "NetSuite" },
+  { y: 68, name: "Sales plan" },
 ];
-const JOIN = { x: 168, y: 36 };
-const lane = (y: number) => (y === JOIN.y ? `M 78 ${y} H ${JOIN.x}` : `M 78 ${y} H 112 C 142 ${y}, 140 ${JOIN.y}, ${JOIN.x} ${JOIN.y}`);
+const JOIN = { x: 172, y: 40 };
+const lane = (y: number) => `M 102 ${y} H 126 Q 134 ${y} 134 ${y < JOIN.y ? y + 8 : y > JOIN.y ? y - 8 : y} V ${JOIN.y} H ${JOIN.x - 10}`;
 
+/* Still since 17 Nov 2026: the travelling records looped with no pause
+   beside a hero that already has one clock and one pause control. */
 export function PipelinesTeaser() {
-  const reduced = usePrefersReducedMotion();
   return (
     <div>
-      <svg viewBox="0 0 208 72" className={cx(styles.lanes, styles.chart)} fill="none" aria-hidden>
+      <svg viewBox="0 0 208 80" className={cx(styles.lanes, styles.chart)} fill="none" aria-hidden>
         {LANES.map((l) => (
           <g key={l.name}>
-            <circle cx={4} cy={l.y} r={3} fill={l.colour} />
-            <text x={13} y={l.y + 3.8} className={styles.laneName}>
+            <rect x={0} y={l.y - 11} width={102} height={22} rx={4} className={styles.strokeLine} />
+            <text x={10} y={l.y + 3.8} className={styles.laneName}>
               {l.name}
             </text>
-            <path d={lane(l.y)} stroke={l.colour} strokeOpacity={0.55} strokeWidth={1.2} />
+            <path d={lane(l.y)} className={styles.strokeLine} strokeWidth={1.2} />
           </g>
         ))}
-        <path d={`M ${JOIN.x} ${JOIN.y} H 208`} className={styles.strokeBlue} strokeWidth={1.4} />
-        <circle cx={JOIN.x} cy={JOIN.y} r={7} className={styles.strokeBlueBorder} />
-        <circle cx={JOIN.x} cy={JOIN.y} r={3} className={styles.fillBlue} />
-        {/* Records travel; the global gate rests SMIL off screen (Rule 6a). */}
-        {!reduced &&
-          LANES.map((l, i) => (
-            <circle key={l.name} r={2} fill={l.colour}>
-              <animateMotion dur="2.6s" begin={`-${i * 0.85}s`} repeatCount="indefinite" path={lane(l.y)} />
-            </circle>
-          ))}
+        <path d={`M ${JOIN.x + 10} ${JOIN.y} H 208`} className={styles.strokeBlue} strokeWidth={1.4} />
+        <rect x={JOIN.x - 10} y={JOIN.y - 13} width={20} height={26} rx={4} className={styles.fillBlueSubtle} />
+        <path d={`M ${JOIN.x - 5} 34 h 10 M ${JOIN.x - 5} 40 h 10 M ${JOIN.x - 5} 46 h 10`} className={styles.strokeBlue} strokeWidth={1.4} />
       </svg>
       <div className={styles.pipeFoot}>
         <span className={styles.orders}>

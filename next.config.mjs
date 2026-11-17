@@ -1,8 +1,8 @@
 /* Next.js configuration. Security headers follow the Next.js guide for a
    static site without nonces (nextjs.org/docs/app/guides/content-security-policy):
    nonces would force every page to render per request. The only third-party
-   origin is Google Fonts (app/layout.tsx). A CMS whose images are served
-   from its own CDN adds that host to `img-src` and to `images.remotePatterns`. */
+   origin is Google Fonts (app/layout.tsx). Every image ships with the site
+   (public/); there is no CMS (removed 17 Nov 2026), so no remote image host. */
 
 import { fileURLToPath } from "node:url";
 
@@ -13,7 +13,7 @@ const contentSecurityPolicy = [
   `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ""}`,
   "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
   "font-src 'self' https://fonts.gstatic.com",
-  "img-src 'self' data: blob: http://44.237.23.212:4000 http://localhost:4000 https://*.dhira.ai",
+  "img-src 'self' data: blob:",
   `connect-src 'self'${isDev ? " ws:" : ""}`,
   "object-src 'none'",
   "base-uri 'self'",
@@ -36,25 +36,6 @@ const nextConfig = {
   poweredByHeader: false,
   images: {
     formats: ["image/avif", "image/webp"],
-    remotePatterns: [
-      {
-        protocol: "http",
-        hostname: "44.237.23.212",
-        port: "4000",
-        pathname: "/uploads/**",
-      },
-      {
-        protocol: "http",
-        hostname: "localhost",
-        port: "4000",
-        pathname: "/uploads/**",
-      },
-      {
-        protocol: "https",
-        hostname: "**.dhira.ai",
-        pathname: "/uploads/**",
-      },
-    ],
   },
   /* Server Actions take 1 MB by default. A job application may attach a
      resume of up to 4 MB (features/contact, 5 Nov 2026), so the limit is

@@ -59,7 +59,7 @@ const CONSOLE: Omit<Building, "label" | "labelAt"> = {
 
 export const sectorMaps: Record<SectorSlug, MapScene> = {
   manufacturing: {
-    eyebrow: "YOUR PLANT, MAPPED",
+    eyebrow: "How it works / Your plant",
     noun: "plant",
     buildings: [
       { ...CONSOLE, label: ["Boardroom", "live answers"], labelAt: [878, 296] },
@@ -96,7 +96,7 @@ export const sectorMaps: Record<SectorSlug, MapScene> = {
   },
 
   healthcare: {
-    eyebrow: "YOUR HOSPITAL, MAPPED",
+    eyebrow: "How it works / Your hospital",
     noun: "hospital",
     buildings: [
       { ...CONSOLE, label: ["Point of care", "one record on screen"], labelAt: [878, 296] },
@@ -132,7 +132,7 @@ export const sectorMaps: Record<SectorSlug, MapScene> = {
   },
 
   finance: {
-    eyebrow: "YOUR BANK, MAPPED",
+    eyebrow: "How it works / Your bank",
     noun: "bank",
     buildings: [
       { ...CONSOLE, label: ["Risk desk", "evidence attached"], labelAt: [878, 296] },
@@ -168,7 +168,7 @@ export const sectorMaps: Record<SectorSlug, MapScene> = {
   },
 
   retail: {
-    eyebrow: "YOUR CHAIN, MAPPED",
+    eyebrow: "How it works / Your chain",
     noun: "chain",
     buildings: [
       { ...CONSOLE, label: ["Planner", "live sell-through"], labelAt: [878, 296] },
@@ -204,7 +204,7 @@ export const sectorMaps: Record<SectorSlug, MapScene> = {
   },
 
   education: {
-    eyebrow: "YOUR CAMPUS, MAPPED",
+    eyebrow: "How it works / Your campus",
     noun: "campus",
     buildings: [
       { ...CONSOLE, label: ["Counsellor", "sees the journey"], labelAt: [878, 296] },
@@ -240,7 +240,7 @@ export const sectorMaps: Record<SectorSlug, MapScene> = {
   },
 
   energy: {
-    eyebrow: "YOUR GRID, MAPPED",
+    eyebrow: "How it works / Your grid",
     noun: "grid",
     buildings: [
       { ...CONSOLE, label: ["Control room", "sees it coming"], labelAt: [878, 296] },

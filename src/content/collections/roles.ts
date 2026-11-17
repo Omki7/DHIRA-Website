@@ -1,7 +1,7 @@
 /*
  * Open roles: one collection for the careers hero's seating plan, the
- * /careers board, the careers close and the homepage careers strip. In a
- * CMS (or the ATS at hand-off) this is the "Job posting" collection. Copy carries no hyphens, like the rest of the Company pages.
+ * /careers board, the careers close and the homepage careers strip. Copy
+ * carries no hyphens, like the rest of the Company pages.
  *
  * `seat` is the short label the seating plan prints inside an open chair;
  * it is the discipline, not the job title, because a chair is ~90px wide.

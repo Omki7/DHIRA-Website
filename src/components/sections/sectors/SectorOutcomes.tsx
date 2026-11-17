@@ -23,7 +23,7 @@ export default function SectorOutcomes({ content, template }: { content: SectorC
               <span className="text-overcast">[{template.eyebrow.number}]</span>
               &nbsp;&nbsp;{template.eyebrow.label}
             </span>
-            <span className="text-overcast">{template.aside}</span>
+            <span className="hidden text-overcast sm:inline">{template.aside}</span>
           </div>
         </ScrollReveal>
 

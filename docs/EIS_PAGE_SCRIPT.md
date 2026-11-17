@@ -80,6 +80,10 @@ lead engineer. Every sample figure on the page comes from this world.
 A reader who sees only the eyebrows and headlines should follow the story.
 Each section answers the question the one before raises.
 
+> Since 17 Nov 2026 the eyebrows carry chapter numbers and read
+> "Chapter / Part" (DESIGN_SYSTEM §3, §9); the live labels are in
+> `content/pages/solutions-eis.ts`. The table keeps the original one-number-per-section plan.
+
 | # | Eyebrow | Question it answers | Headline (setup / payoff) |
 |---|---|---|---|
 | Hero | Enterprise Intelligence | What do I get? | See where your business will land. / Every hour. |

@@ -6,7 +6,7 @@ import { cx } from "@/shared/utils/cx";
 import styles from "./ServiceRoute.module.scss";
 
 /*
- * Homepage [04]'s figure: one route from the reader's problem to daily use,
+ * Homepage [02] / Services' figure: one route from the reader's problem to daily use,
  * with the three service lines as its stops (4 Nov 2026, user: the three
  * cards did not feel at the level of the rest of the page).
  *

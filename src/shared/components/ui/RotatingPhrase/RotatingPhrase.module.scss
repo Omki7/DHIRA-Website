@@ -28,12 +28,19 @@
   border-width: 0;
 }
 
+// The outgoing phrase leaves fast and the incoming one waits for it, so the
+// two are never legible on top of each other (critique, 17 Nov 2026).
 .phrase {
   white-space: nowrap;
   grid-area: 1/1;
   transition-property: opacity, transform;
   transition-timing-function: $ease-settle;
-  transition-duration: 380ms;
+  transition-duration: 160ms;
+
+  &[data-active="true"] {
+    transition-duration: 380ms;
+    transition-delay: 140ms;
+  }
 
   @media (prefers-reduced-motion: reduce) {
     transition-property: none;

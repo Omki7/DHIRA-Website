@@ -237,52 +237,12 @@ export interface OutcomeShowcase {
   modules: { module: string; adds: string; caption: string }[];
 }
 
-export interface LicensingPlanTier {
-  id: string;
-  name: string;
-  audience: string;
-  capacityTag: string;
-  metrics: { label: string; value: string }[];
-  highlight?: boolean;
-}
-
-export interface LicensingFootprintOption {
-  id: string;
-  name: string;
-  boundary: string;
-  operator: "dhira" | "customer";
-  line: string;
-}
-
-export interface IpPillar {
-  icon: "ownership" | "no-lockin" | "perimeter" | "audit";
-  title: string;
-  label: string;
-  desc: string;
-  evidence: string;
-}
-
+/** [03] / Licensing (17 Nov 2026, user: the two tall tables, plans and
+    intellectual property, came out; plan limits live on /pricing). The
+    header, its lede and the one onward link to /pricing. */
 export interface AkashicLicensing extends StoryHeading {
   intro: string;
   link: Cta;
-  plansLabel: string;
-  plansHeading: string;
-  plansLede: string;
-  plans: LicensingPlanTier[];
-  foundationNote: string;
-  foundationModules: string[];
-  footprintsHeading: string;
-  footprints: LicensingFootprintOption[];
-  ipLabel: string;
-  ipHeading: string;
-  ipLede: string;
-  ipPillars: IpPillar[];
-  pricingBridge: {
-    label: string;
-    headline: string;
-    text: string;
-    cta: Cta;
-  };
 }
 
 /* ---------------- The page document ---------------- */
@@ -938,22 +898,31 @@ export const akashic: AkashicPage = {
      14 Oct; [06] Trust and [07] Open merged into [07]. The capability
      reference went to /akashic/1-0 and came back the same day (user): it is
      [09] again, between Why Akashic and Built on Akashic. Labels match each
-     section's eyebrow. */
+     section's eyebrow.
+     17 Nov 2026 (user: the fourteen-row index put readers off): the same
+     sections in three chapters, so the index reads Introduction, See it
+     work, Inside Akashic, Why Akashic, Get started. Each section's eyebrow
+     is "[chapter number]  Chapter / its label". Comments elsewhere in this
+     file still use the older one-number-per-section names: [01] Ask
+     Akashic, [02] the walkthrough, [03] In production, [04] Where it runs,
+     [05] The modules, [06] AI agents, [07] Your control, [08] Build or buy,
+     [09] Licensing, [10] Every capability, [11] Solutions, [12] Questions,
+     [13] Get started. */
   sections: [
     { id: "hero", label: "Introduction" },
-    { id: "akashic-in-action", label: "Ask Akashic", eyebrow: "[01]" },
-    { id: "how-it-works", label: "How it works", eyebrow: "[02]" },
-    { id: "scale", label: "In production", eyebrow: "[03]" },
-    { id: "architecture", label: "Where it runs", eyebrow: "[04]" },
-    { id: "modules", label: "The architecture", eyebrow: "[05]" },
-    { id: "agents", label: "AI agents", eyebrow: "[06]" },
-    { id: "trust", label: "Privacy and control", eyebrow: "[07]" },
-    { id: "build-vs-buy", label: "Why Akashic", eyebrow: "[08]" },
-    { id: "licensing", label: "Licensing and IP", eyebrow: "[09]" },
-    { id: "stack", label: "Capabilities and connections", eyebrow: "[10]" },
-    { id: "solutions", label: "Built on Akashic", eyebrow: "[11]" },
-    { id: "faq", label: "Questions", eyebrow: "[12]" },
-    { id: "talk-to-our-team", label: "Your next decision", eyebrow: "[13]" },
+    { id: "akashic-in-action", label: "Ask Akashic", chapter: "See it work" },
+    { id: "how-it-works", label: "The walkthrough", chapter: "See it work" },
+    { id: "scale", label: "In production", chapter: "See it work" },
+    { id: "architecture", label: "Where it runs", chapter: "Inside Akashic" },
+    { id: "modules", label: "The modules", chapter: "Inside Akashic" },
+    { id: "agents", label: "AI agents", chapter: "Inside Akashic" },
+    { id: "trust", label: "Your control", chapter: "Inside Akashic" },
+    { id: "build-vs-buy", label: "Build or buy", chapter: "Why Akashic" },
+    { id: "licensing", label: "Licensing", chapter: "Why Akashic" },
+    { id: "stack", label: "Every capability", chapter: "Why Akashic" },
+    { id: "solutions", label: "Solutions", chapter: "Why Akashic" },
+    { id: "faq", label: "Questions", chapter: "Why Akashic" },
+    { id: "talk-to-our-team", label: "Get started" },
   ],
   sectionsLabel: "Akashic page sections",
 
@@ -988,7 +957,7 @@ export const akashic: AkashicPage = {
      four moves cascade after it; the answer is a two-panel evidence dossier
      (systems beside documents). */
   inAction: {
-    eyebrow: { number: "01", label: "Ask Akashic" },
+    eyebrow: { number: "01", label: "See it work / Ask Akashic" },
     title: { setup: "Why the number moved,", payoff: "answered in seconds." },
     lede: "The figure sits in one system and the reason in a contract, an email or a field report. Akashic reads both and returns one answer, with each line cited.",
     examplesLabel: "Choose an example",
@@ -1082,7 +1051,7 @@ export const akashic: AkashicPage = {
      labels are artwork and stay in demos/mockups/AkashicTeardownMockup; the
      claims below are content. */
   howItWorks: {
-    eyebrow: { number: "02", label: "How it works · the walkthrough" },
+    eyebrow: { number: "01", label: "See it work / The walkthrough" },
     /* Gain-led headline (14 Oct 2026): adopt one module, grow into the platform. */
     title: { setup: "Start with one module.", payoff: "Grow into the platform." },
     lede: "Each module does one job and hands its output to the next, on one governed foundation.",
@@ -1166,12 +1135,12 @@ export const akashic: AkashicPage = {
       body: "Pick the modules that solve today’s problem: they run alongside whatever you already have. Add the rest when you’re ready. The foundation never changes.",
       tagline: "Seven modules · one platform",
     },
-    frameLabel: "[02] Introducing Akashic · seven modules",
+    frameLabel: "See it work / The walkthrough",
     hud: { module: "Module", sealed: "Sealed", modular: "Modular", depth: "Depth", goTo: "Go to module" },
   },
 
   deployment: {
-    eyebrow: { number: "04", label: "Where it runs" },
+    eyebrow: { number: "02", label: "Inside Akashic / Where it runs" },
     title: "Deploy where your data has to live.",
     intro: "Cloud, on-premises or hybrid: Akashic is identical in all three. Same modules, same governance, same answers.",
     cloud: {
@@ -1213,8 +1182,8 @@ export const akashic: AkashicPage = {
      remain in [10]. The systems row includes all named [10] connectors
      and document-ingestion types. */
   architecture: {
-    number: "05",
-    label: "The architecture",
+    number: "02",
+    label: "Inside Akashic / The modules",
     setup: "You get seven modules",
     title: "and nothing to stitch together.",
     intro: "Bring data, analytics and AI together on one governed foundation. Seven connected modules give teams one consistent view of the business.",
@@ -1351,8 +1320,8 @@ export const akashic: AkashicPage = {
 
   agents: {
     preview: true,
-    number: "06",
-    label: "AI agents",
+    number: "02",
+    label: "Inside Akashic / AI agents",
     setup: "Agents do the legwork.",
     title: "People make the call.",
     intro: "Agents read the documents, pull the figures and check the rules. Your teams review the evidence instead of assembling it. Nothing consequential moves without a person’s approval.",
@@ -1388,7 +1357,7 @@ export const akashic: AkashicPage = {
     coda: "Model-neutral by design. Each task runs on a named model, including models hosted inside your boundary.",
   },
 
-  trust: { number: "07", label: "Privacy and control", ...akashicControl },
+  trust: { number: "02", label: "Inside Akashic / Your control", ...akashicControl },
 
   /* [08] Why Akashic. Rebuilt 4 Nov 2026 after an executive review found the
      grid of hatched layers hard to read (jargon rows, a four-swatch legend
@@ -1399,8 +1368,8 @@ export const akashic: AkashicPage = {
      groundwork. No savings figure (Design Rule 4) and the axis says the
      bars are schematic. AI agents are dashed and tagged: in preview. */
   advantage: {
-    number: "08",
-    label: "Why Akashic",
+    number: "03",
+    label: "Why Akashic / Build or buy",
     setup: "Build a foundation that lasts",
     title: "beyond the first project.",
     intro: "Akashic turns data connections, trusted records and business rules into shared assets. New initiatives extend that foundation instead of recreating it.",
@@ -1454,142 +1423,17 @@ export const akashic: AkashicPage = {
   },
 
   licensing: {
-    number: "09",
-    label: "Licensing and IP",
+    number: "03",
+    label: "Why Akashic / Licensing",
     setup: "Transparent licensing by capacity.",
     title: "Your intellectual property stays yours.",
     intro: "Every plan includes the complete data, warehouse and governance foundation with zero tier lock-in. Your data, schemas, models and pipeline logic remain entirely your intellectual property, deployed across three sovereign footprints.",
     link: { label: "View full pricing and plans", href: "/pricing" },
-    plansLabel: "01 · Capacity-based licensing",
-    plansHeading: "Pay for the capacity you use. Never for features.",
-    plansLede: "All five core modules come with every tier. Plans differ only in how much data, compute and users each module carries.",
-    plans: [
-      {
-        id: "launch",
-        name: "Launch",
-        audience: "One team, a first use case",
-        capacityTag: "Starter capacity",
-        metrics: [
-          { label: "Data ingestion", value: "100 GB / month" },
-          { label: "Pipeline runtime", value: "100 hours / month" },
-          { label: "BI users", value: "25 seats" },
-          { label: "Master records", value: "100,000" },
-        ],
-      },
-      {
-        id: "growth",
-        name: "Growth",
-        audience: "Several teams, shared data",
-        capacityTag: "Multi-team capacity",
-        metrics: [
-          { label: "Data ingestion", value: "500 GB / month" },
-          { label: "Pipeline runtime", value: "400 hours / month" },
-          { label: "BI users", value: "100 seats" },
-          { label: "Master records", value: "1 million" },
-        ],
-      },
-      {
-        id: "scale",
-        name: "Scale",
-        audience: "Every team, one estate",
-        capacityTag: "Organisation-wide",
-        metrics: [
-          { label: "Data ingestion", value: "2 TB / month" },
-          { label: "Pipeline runtime", value: "1,000 hours / month" },
-          { label: "BI users", value: "300 seats" },
-          { label: "Master records", value: "5 million" },
-        ],
-      },
-      {
-        id: "enterprise",
-        name: "Enterprise",
-        audience: "Your boundary, your terms",
-        capacityTag: "Dedicated instance",
-        highlight: true,
-        metrics: [
-          { label: "Capacity limits", value: "Sized to your estate" },
-          { label: "Deployment", value: "Dedicated instance" },
-          { label: "Disaster recovery", value: "Hot standby" },
-          { label: "Residency", value: "Your VPC or data centre" },
-        ],
-      },
-    ],
-    foundationNote: "The foundation in every plan: Launch to Enterprise includes all five modules and the same security controls.",
-    foundationModules: [
-      "Data Pipelines",
-      "Master Data",
-      "Data Warehouse",
-      "Business Intelligence",
-      "Governance",
-    ],
-    footprintsHeading: "Three deployment footprints",
-    footprints: [
-      {
-        id: "dhira-cloud",
-        name: "DHIRA Cloud",
-        boundary: "DHIRA on AWS",
-        operator: "dhira",
-        line: "Multi-tenant cloud with full storage, network and identity isolation",
-      },
-      {
-        id: "customer-cloud",
-        name: "Your Cloud",
-        boundary: "Your AWS, Azure or GCP",
-        operator: "customer",
-        line: "Dedicated VPC deployment inside your corporate cloud account",
-      },
-      {
-        id: "customer-dc",
-        name: "Your Data Centre",
-        boundary: "Your servers",
-        operator: "customer",
-        line: "On-premises air-gapped installation via Docker and Kubernetes",
-      },
-    ],
-    ipLabel: "02 · Intellectual property & sovereignty",
-    ipHeading: "Your data, logic and models remain 100% yours.",
-    ipLede: "Akashic licenses the platform engine; your organisation retains complete and exclusive ownership of all assets created, processed or transformed on it.",
-    ipPillars: [
-      {
-        icon: "ownership",
-        title: "Customer Asset Ownership",
-        label: "Exclusive ownership",
-        desc: "Every source connection, curated golden record, semantic definition, dashboard and fine-tuned model weight remains your exclusive intellectual property.",
-        evidence: "DHIRA asserts zero claim over your proprietary data or derived business assets.",
-      },
-      {
-        icon: "no-lockin",
-        title: "Open Formats, Zero Lock-In",
-        label: "Open architecture",
-        desc: "All data lake tables and warehouse assets are stored in standard formats including Apache Parquet, Apache Iceberg and ANSI SQL.",
-        evidence: "Query, transform or export your complete data estate using open-source tools at any time.",
-      },
-      {
-        icon: "perimeter",
-        title: "Sovereign Model Perimeter",
-        label: "Perimeter control",
-        desc: "Execute inference through your own commercial LLM provider keys or open-weights models running inside your own VPC boundary.",
-        evidence: "Zero model provider retention, and zero training on your corporate questions or data.",
-      },
-      {
-        icon: "audit",
-        title: "Cryptographic Provenance",
-        label: "Verifiable audit",
-        desc: "Every answer, agent action and data transform is cryptographically recorded with column-level lineage and tamper-proof approval logs.",
-        evidence: "Full defensible audit trails ready for regulatory, statutory and compliance review.",
-      },
-    ],
-    pricingBridge: {
-      label: "Transparent pricing & terms",
-      headline: "Looking for detailed limits, volume discounts, or commitments?",
-      text: "Explore all plan comparisons, commitment discounts (15% for 1 year, 25% for 3 years), and professional services on our dedicated pricing page.",
-      cta: { label: "View full pricing and plans", href: "/pricing" },
-    },
   },
 
   scale: {
-    number: "03",
-    eyebrow: "In production",
+    number: "01",
+    eyebrow: "See it work / In production",
     title: { setup: "The platform behind national programmes", payoff: "is ready for your organisation." },
     description: "National systems in production, at population scale.",
     storiesLabel: "Akashic deployments in production",
@@ -1602,8 +1446,8 @@ export const akashic: AkashicPage = {
      Governance 80+ metadata connectors. Not used: his "10 modules" and
      "13 agents" (held). */
   reference: {
-    number: "10",
-    label: "Capabilities and connections",
+    number: "03",
+    label: "Why Akashic / Every capability",
     setup: "Look beneath the promise",
     title: "and inspect every capability.",
     intro: "An open reference for your technical team. Explore each module, its connections and its controls.",
@@ -1615,8 +1459,8 @@ export const akashic: AkashicPage = {
   },
 
   solutions: {
-    number: "11",
-    label: "Built on Akashic",
+    number: "03",
+    label: "Why Akashic / Solutions",
     ...akashicSolutions,
     modules: solutionModules,
     axis: { solution: "Solution", workflow: "Workflow", underneath: "Akashic underneath" },
@@ -1627,8 +1471,8 @@ export const akashic: AkashicPage = {
      Every answer restates a claim the page already makes; none introduces
      a new one. If agents go GA, rewrite the agents answer with `agents.preview`. */
   faq: {
-    number: "12",
-    label: "Questions",
+    number: "03",
+    label: "Why Akashic / Questions",
     setup: "The questions leaders ask,",
     title: "answered plainly.",
     items: [
@@ -1660,8 +1504,8 @@ export const akashic: AkashicPage = {
   },
 
   close: {
-    number: "13",
-    label: "Your next decision",
+    number: "04",
+    label: "Get started",
     setup: "See what your data",
     title: "can decide.",
     intro: "A decision held up by disconnected data. A report nobody agrees on. An AI use case waiting for context. Start there.",

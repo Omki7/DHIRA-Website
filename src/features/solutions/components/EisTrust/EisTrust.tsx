@@ -6,8 +6,6 @@ import styles from "./EisTrust.module.scss";
 
 export interface EisTrustProps {
   content: EisPage["trust"];
-  /** The section's place in the page's order. */
-  num: string;
 }
 
 const delay = (seconds: number) => ({ "--d": `${seconds}s` }) as CSSProperties;
@@ -29,13 +27,13 @@ const delay = (seconds: number) => ({ "--d": `${seconds}s` }) as CSSProperties;
  * its label carries PreviewTag (critique, 5 Nov 2026). The old
  * `#capabilities` anchor stays as an alias.
  */
-export function EisTrust({ content, num }: EisTrustProps) {
+export function EisTrust({ content }: EisTrustProps) {
   const { receipt, route } = content;
   return (
     <section id="trust" className={styles.section}>
       <span id="capabilities" aria-hidden="true" className={styles.alias} />
       <ScrollRevealRail>
-        <SectionHeader num={num} label="TRUST" setup={content.setup} payoff={content.payoff} lede={content.lede}>
+        <SectionHeader num={content.eyebrow.number} label={content.eyebrow.label} setup={content.setup} payoff={content.payoff} lede={content.lede}>
           <SectionLink href={content.link.href}>{content.link.label}</SectionLink>
         </SectionHeader>
 

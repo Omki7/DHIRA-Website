@@ -15,7 +15,7 @@ rendered: all copy is typed data in `src/content/`. Alias `@/*` → `src/`.
 | Folder structure, layers, Server and Client Components, styling system, code standards | [NEXTJS_ARCHITECTURE.md](NEXTJS_ARCHITECTURE.md) |
 | Find what renders where, section order and ids | [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) |
 | Brand, voice, section grammar, tokens, type, mockups, the eight design rules | [docs/DESIGN_SYSTEM.md](docs/DESIGN_SYSTEM.md) |
-| Edit copy or figures, the content model, the CMS migration | [docs/CONTENT.md](docs/CONTENT.md) |
+| Edit copy or figures, the content model (files only; there is no CMS) | [docs/CONTENT.md](docs/CONTENT.md) |
 | Runtime state, forms, environment | [docs/STATE_AND_DATA.md](docs/STATE_AND_DATA.md) |
 | Images and their provenance | [docs/ASSETS.md](docs/ASSETS.md) |
 | Build, typecheck, verify, git workflow | [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md) |

@@ -34,12 +34,12 @@ export const sectorTemplate: SectorTemplate = {
     lede: { lead: "Scroll through your own", tail: ": the players you already have, and what changes when their data lands on one governed record." },
   },
   solution: {
-    eyebrow: { number: "03", label: "How Akashic tackles it" },
-    aside: "/ Four moves, one foundation",
+    eyebrow: { number: "02", label: "How it works / Four moves" },
+    aside: "/ One foundation",
     footer: "Every module runs on the same governed foundation · every answer arrives with its lineage",
   },
   outcomes: {
-    eyebrow: { number: "04", label: "What changes" },
+    eyebrow: { number: "03", label: "What changes" },
     aside: "/ Before & after",
     before: "Before Akashic",
     after: "On Akashic",
@@ -59,14 +59,19 @@ export const sectorTemplate: SectorTemplate = {
   },
 };
 
-/** The six sector pages share one section index (layout/PageMinimap). */
+/** The six sector pages share one section index (navigation/PageMinimap).
+    Since 17 Nov 2026 (user: shorter, friendlier indexes) the map and the
+    four moves share one chapter, so it reads Introduction, The problem,
+    How it works, What changes, Get started: the words Enterprise
+    Intelligence and Akashic Life use. The map's eyebrow is per sector
+    (sectors-map.ts, "How it works / Your plant"). */
 export const sectorSections: PageSection[] = [
-  { id: "hero", label: "Overview" },
-  { id: "problem", label: "The Problem" },
-  { id: "map", label: "Industry Map" },
-  { id: "solution", label: "Capabilities" },
-  { id: "outcomes", label: "What Changes" },
-  { id: "talk-to-our-team", label: "Get Started" },
+  { id: "hero", label: "Introduction" },
+  { id: "problem", label: "The problem" },
+  { id: "map", label: "Your industry", chapter: "How it works" },
+  { id: "solution", label: "Four moves", chapter: "How it works" },
+  { id: "outcomes", label: "What changes" },
+  { id: "talk-to-our-team", label: "Get started" },
 ];
 
 export type SectorSlug = "manufacturing" | "healthcare" | "finance" | "retail" | "education" | "energy";

@@ -34,9 +34,9 @@ export const customersPage: CustomersPage = {
     path: "/customers",
   },
   sections: [
-    { id: "hero", label: "Customer stories" },
-    { id: "stories", label: "In production", eyebrow: "[01]" },
-    { id: "talk-to-our-team", label: "Talk to our team", eyebrow: "[02]" },
+    { id: "hero", label: "Introduction" },
+    { id: "stories", label: "In production" },
+    { id: "talk-to-our-team", label: "Talk to our team" },
   ],
   sectionsLabel: "Customer stories sections",
   hero: {

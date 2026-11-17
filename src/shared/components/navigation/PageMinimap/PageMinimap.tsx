@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect, useRef, useState, type CSSProperties, type KeyboardEvent } from "react";
+import { useEffect, useMemo, useRef, useState, type CSSProperties, type KeyboardEvent } from "react";
 import type { PageSection } from "@/content/types";
 import { usePageScrollSpy } from "@/shared/hooks/usePageScrollSpy";
 import { useUi } from "@/shared/providers/UiProvider";
+import { sectionIndexRows } from "@/shared/utils/navigation";
 import styles from "./PageMinimap.module.scss";
 
 const CLOSE_DELAY_MS = 600;
@@ -22,21 +23,25 @@ function keepLinkVisible(link: HTMLAnchorElement) {
   else if (row.bottom > viewport.bottom) scroller.scrollTop += row.bottom - viewport.bottom;
 }
 
+/* One row per chapter, not per section (17 Nov 2026, user: indexes of
+   eleven and fourteen rows put readers off). The spy still follows every
+   section, so the address bar names the exact one; the row holding it
+   lights, and a row jumps to its chapter's first section. */
 export function PageMinimap({
   sections,
   "aria-label": ariaLabel,
 }: PageMinimapProps) {
   const ui = useUi();
   const { activeId, scrollTo } = usePageScrollSpy(sections);
+  const rows = useMemo(() => sectionIndexRows(sections), [sections]);
   const [expanded, setExpanded] = useState(false);
   const [atFooter, setAtFooter] = useState(false);
   const [labelWidth, setLabelWidth] = useState(0);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const navRef = useRef<HTMLElement>(null);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const activeIndex = Math.max(0, sections.findIndex((section) => section.id === activeId));
-  const currentSection = sections[activeIndex] || sections[0];
-  const currentNumber = currentSection?.eyebrow?.replace(/[\[\]]/g, "") ?? String(activeIndex).padStart(2, "0");
+  const activeIndex = Math.max(0, rows.findIndex((row) => row.ids.includes(activeId)));
+  const currentRow = rows[activeIndex];
 
   useEffect(() => () => {
     if (closeTimer.current) clearTimeout(closeTimer.current);
@@ -122,12 +127,12 @@ export function PageMinimap({
     links[nextIndex]?.focus({ preventScroll: true });
   };
 
-  if (!sections.length) return null;
+  if (!currentRow) return null;
 
   const railStyle = {
-    "--minimap-count": sections.length,
+    "--minimap-count": rows.length,
     "--minimap-active": activeIndex,
-    "--minimap-progress": sections.length > 1 ? activeIndex / (sections.length - 1) : 0,
+    "--minimap-progress": rows.length > 1 ? activeIndex / (rows.length - 1) : 0,
     ...(labelWidth ? { "--minimap-open-w": `${labelWidth + 44 + 16}px` } : {}),
   } as CSSProperties;
 
@@ -167,34 +172,32 @@ export function PageMinimap({
             <span aria-hidden="true" className={`page-minimap-trail ${styles.trail}`} />
             <span aria-hidden="true" className={`page-minimap-marker ${styles.marker}`} />
             <ul>
-              {sections.map((section, index) => {
-                const number = section.eyebrow?.replace(/[\[\]]/g, "") ?? String(index).padStart(2, "0");
-
-                return <li key={section.id}>
+              {rows.map((row, index) => (
+                <li key={row.id}>
                   <a
-                    href={`#${section.id}`}
+                    href={`#${row.id}`}
                     data-section-link
                     data-passed={index < activeIndex}
-                    aria-label={`${number} ${section.label}`}
-                    aria-current={section.id === activeId ? "location" : undefined}
+                    aria-label={`${row.number} ${row.label}`}
+                    aria-current={index === activeIndex ? "location" : undefined}
                     className={`page-minimap-link ${styles.link}`}
                     onClick={(event) => {
                       if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button !== 0) return;
                       event.preventDefault();
-                      scrollTo(section.id, event.detail === 0);
+                      scrollTo(row.id, event.detail === 0);
                     }}
                   >
                     <span className={`page-minimap-label ${styles.label}`}>
-                      <span>{section.label}</span>
+                      <span>{row.label}</span>
                     </span>
                     <span aria-hidden="true" className={styles.dotSlot}>
                       <span className={`page-minimap-dot ${styles.dot}`}>
-                        <span className={`page-minimap-num ${styles.num}`}>{number}</span>
+                        <span className={`page-minimap-num ${styles.num}`}>{row.number}</span>
                       </span>
                     </span>
                   </a>
-                </li>;
-              })}
+                </li>
+              ))}
             </ul>
           </div>
         </div>
@@ -218,15 +221,14 @@ export function PageMinimap({
                 {ui.pageSections ?? "Page Sections"}
               </p>
               <ul className={styles.mobilePopoverList}>
-                {sections.map((section, index) => {
-                  const num = section.eyebrow?.replace(/[\[\]]/g, "") ?? String(index).padStart(2, "0");
-                  const isActive = section.id === activeId;
+                {rows.map((row, index) => {
+                  const isActive = index === activeIndex;
                   return (
-                    <li key={section.id}>
+                    <li key={row.id}>
                       <button
                         type="button"
                         onClick={() => {
-                          scrollTo(section.id);
+                          scrollTo(row.id);
                           setMobileMenuOpen(false);
                         }}
                         className={`${styles.mobilePopoverBtn} ${
@@ -238,9 +240,9 @@ export function PageMinimap({
                             isActive ? styles.mobilePopoverActiveBadge : ""
                           }`}
                         >
-                          {num}
+                          {row.number}
                         </span>
-                        <span className="truncate">{section.label}</span>
+                        <span className="truncate">{row.label}</span>
                       </button>
                     </li>
                   );
@@ -254,14 +256,14 @@ export function PageMinimap({
         <button
           type="button"
           onClick={() => setMobileMenuOpen((prev) => !prev)}
-          aria-label={`Current section: ${currentNumber} ${currentSection.label}. Tap to jump to sections.`}
+          aria-label={`Current section: ${currentRow.number} ${currentRow.label}. Tap to jump to sections.`}
           className={styles.mobileCapsule}
         >
           <span className={styles.mobileBadge}>
-            {currentNumber}
+            {currentRow.number}
           </span>
           <span className={styles.mobileLabel}>
-            {currentSection.label}
+            {currentRow.label}
           </span>
           <svg
             width="12"

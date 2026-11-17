@@ -7,7 +7,7 @@ export interface VoicesProps {
   content: HomeVoices;
 }
 
-/* Homepage [08] Partner voices, on the flat band (Rule 5a, approved second).
+/* Homepage [04] / Partner voices, on the flat band (Rule 5a, approved second).
    The shared header, then the dispatches. */
 export function Voices({ content }: VoicesProps) {
   return (

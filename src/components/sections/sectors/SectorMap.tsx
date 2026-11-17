@@ -10,7 +10,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import usePrefersReducedMotion from "@/shared/hooks/usePrefersReducedMotion";
-import { ScrollReveal } from "@/shared/components/ui";
+import { EyebrowLabel, ScrollReveal } from "@/shared/components/ui";
 import { ScrollRevealRail } from "@/shared/components/ui";
 import type { MapScene } from "@/content/pages/sectors-map";
 import type { SectorTemplate } from "@/content/pages/sectors";
@@ -74,9 +74,9 @@ export default function SectorMap({ scene, touchline, template }: { scene: MapSc
             <div className="mb-8 flex items-center justify-between border-t border-b border-dashed border-lineSoft py-[17px] px-[2px] font-mono text-[11px] uppercase tracking-eyebrow text-inkSoft">
               <span>
                 <span className="text-overcast">[{template.eyebrow.number}]</span>
-                &nbsp;&nbsp;{scene.eyebrow}
+                &nbsp;&nbsp;<EyebrowLabel label={scene.eyebrow} slashClassName="text-overcast" />
               </span>
-              <span className="text-overcast">{template.aside}</span>
+              <span className="hidden text-overcast sm:inline">{template.aside}</span>
             </div>
           </ScrollReveal>
           <ScrollReveal delay={80}>

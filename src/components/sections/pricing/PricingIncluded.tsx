@@ -20,7 +20,7 @@ export default function PricingIncluded({ content, plans }: { content: PricingPa
   return (
     <section id="included" className="scroll-mt-24 border-t border-lineSoft bg-background pb-16 pt-12 lg:pb-24 lg:pt-16">
       <ScrollRevealRail>
-        <SectionHeader num="03" label={content.label} setup={content.setup} payoff={content.payoff} lede={content.lede} />
+        <SectionHeader num={content.num} label={content.label} setup={content.setup} payoff={content.payoff} lede={content.lede} />
 
         <ScrollReveal delay={80} className="mt-12 lg:mt-14">
           <div aria-hidden className="hidden grid-cols-4 lg:grid">

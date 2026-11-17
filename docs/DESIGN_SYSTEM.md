@@ -111,6 +111,13 @@ section's top and its buttons; the body below the header is free (Rule 1).
    Left-aligned, full width of the column; never centred, coloured, dotted or
    on two lines. A status mark (`PreviewTag`) goes in its `tag` slot. In a
    closing card or over a pinned scene it drops the rail (`bare`).
+   `NN` is the section's **chapter** in the section index (§9), not its
+   position: sections in one chapter share the number and read
+   `[NN]  CHAPTER / PART` (`[02]  WHAT WE OFFER / SOLUTIONS`), the slash in
+   `overcast`. Keep the whole line within 36 characters so it fits a phone.
+   On a phone a status tag or live marker drops under the words rather
+   than squeezing them; only past that does the chapter take the ellipsis,
+   never the part.
 2. **Header.** `ui/SectionHeader`: eyebrow, `ui/TwoToneTitle`, then the lede
    **under** the headline, all in the left column (max 46rem). Never a lede
    or a button in a right-hand column. Where the title must sit inside a
@@ -131,7 +138,7 @@ section's top and its buttons; the body below the header is free (Rule 1).
    over the headline. Everything else is left-aligned.
 7. **Unnumbered strips** (the homepage careers strip) use the same eyebrow
    without a number.
-8. **Numbers mark order only.** Inside a section, number items only when the
+8. **Numbers mark order only.** Eyebrow numbers count chapters (item 1). Inside a section, number items only when the
    order is real: steps, a timeline, a key to a drawing. No decorative
    01/02/03 on cards or lists.
 
@@ -329,7 +336,18 @@ the points above.
   button with `aria-expanded`; no `role=menu`; every panel server-rendered.
 - **Section index** (`navigation/PageMinimap`): right-edge dots driven by the
   page's `sections` list; the line runs from the first dot to the current
-  one; labels unfold on hover or focus. Hidden below lg.
+  one; labels unfold on hover or focus. Hidden below lg; phones get the
+  floating capsule with the same rows.
+- **The index shows chapters, not sections** (17 Nov 2026, user: indexes of
+  eleven and fourteen rows were exhaustive and put readers off). Sections
+  that run together and share a `chapter` in `sections` are one row; the
+  row stays lit while any of them is on screen and jumps to the first.
+  **Six rows at most**, counting the hero (00) and the close. Name rows from
+  one vocabulary so every page reads alike: Introduction, The problem, What
+  we offer, How it works, What changes, Why trust us, then Get started (Get
+  a quote, Talk to us, Become a partner or Media contact where the page's
+  one action is that). A page short enough to need no chapters (five rows
+  or fewer) keeps one row per section. Eyebrows follow the rows (§3).
 - **Landing.** Every jump to a section (section index, menus, in-page
   links, a URL with a hash, back and forward) lands on the section's
   eyebrow with 32px of air above it (24px on phones), not on the

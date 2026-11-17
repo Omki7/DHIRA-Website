@@ -1,8 +1,11 @@
 # CONTENT: DHIRA Website v3
 
-Where every word on the site lives, how it reaches the page, and how to move it
-into a headless CMS. Read this before you edit copy, add a page or article, or
-connect a CMS.
+Where every word on the site lives and how it reaches the page. Read this
+before you edit copy or add a page or article.
+
+**There is no CMS.** Content is typed data in `src/content/`, edited in the
+files and shipped with the build (17 Nov 2026, user: the Strapi integration
+added on 6 Nov was removed; the site does not need one).
 
 ## The rule
 
@@ -24,7 +27,7 @@ The rule is enforced by tooling, not by convention:
 ## How content reaches the page
 
 ```
-content/*.ts                 typed documents (today: local files; later: the CMS)
+content/*.ts                 typed documents: the one source of content
    │
 lib/content.ts               the content API: async, cached getters (server only)
    │
@@ -52,24 +55,23 @@ components/demos/*
    Navigation and footer are `content/navigation.ts`, read with
    `getNavigation()`.
 
-Every getter is `async` and wrapped in React `cache()` today. That is deliberate:
-when a CMS replaces the local files, the getters start awaiting a network call
-and nothing that calls them changes. A document is read once per request
-however many components ask for it.
+Every getter is `async` and wrapped in React `cache()`: a document is read once
+per render however many components ask for it, and the call sites would not
+change if a getter's body ever did.
 
 ## The content model
 
-| Kind | Where | Read with | CMS equivalent |
-|---|---|---|---|
-| Shared primitives | `content/types.ts` (`Link`, `Cta`, `ImageAsset`, `Seo`, `PageSection`, `Eyebrow`, `TwoTone`, `Faq`, `Block`) | (types only) | field types and objects |
-| Reusable blocks | `content/blocks.ts` (`PageCloseBlock`, `ProvenAtScaleBlock`) | (types only) | block or object types used on several pages |
-| Site settings | `content/site.ts` | `getSiteSettings()` | singleton |
-| Navigation | `content/navigation.ts` | `getNavigation()` | singleton |
-| Interface strings | `content/ui.ts` | `getUiStrings()` / `useUi()` | singleton (or the i18n message store) |
-| Site map | `content/site-map.ts` | `getSiteMap()`; `lib/routes.ts` adds collections | singleton, or derived from page documents |
-| Pages | `content/pages/*.ts` | `getPage(key)` | one document type per page template |
-| Sector pages | `content/pages/sectors.ts` + `sectors-map.ts` | `getSector(slug)` | one `sector` type, six documents |
-| Collections | `content/collections/*.ts` | `getInsights()`, `getInsight(slug)`, ... | one document type per collection |
+| Kind | Where | Read with |
+|---|---|---|
+| Shared primitives | `content/types.ts` (`Link`, `Cta`, `ImageAsset`, `Seo`, `PageSection`, `Eyebrow`, `TwoTone`, `Faq`, `Block`) | (types only) |
+| Reusable blocks | `content/blocks.ts` (`PageCloseBlock`, `ProvenAtScaleBlock`) | (types only) |
+| Site settings | `content/site.ts` | `getSiteSettings()` |
+| Navigation | `content/navigation.ts` | `getNavigation()` |
+| Interface strings | `content/ui.ts` | `getUiStrings()` / `useUi()` |
+| Site map | `content/site-map.ts` | `getSiteMap()`; `lib/routes.ts` adds collections |
+| Pages | `content/pages/*.ts` | `getPage(key)` |
+| Sector pages | `content/pages/sectors.ts` + `sectors-map.ts` | `getSector(slug)` |
+| Collections | `content/collections/*.ts` | `getInsights()`, `getInsight(slug)`, ... |
 
 **Collections** (many entries of one shape):
 
@@ -87,24 +89,22 @@ however many components ask for it.
 ### Conventions
 
 - **Every document is explicitly typed** and its interface sits beside it. The
-  interfaces are the CMS contract: a CMS schema must produce these shapes, or its
-  generated types replace them.
+  interfaces are the contract every component is typed against.
 - **Plain data only:** strings, numbers, booleans, arrays and objects. No JSX,
   no functions, no class instances. A document must survive being serialised to
-  JSON, because that is what a CMS returns and what crosses the server/client
-  boundary.
+  JSON, because that is what crosses the server/client boundary.
 - **Long-form text is `Block[]`** (`content/types.ts`): `p`, `h2` (with an `id`
   for the table of contents), `h3`, `ul`, `ol`, `quote` and `note`. Inline links
   are written `[label](href)` inside any text. `ui/RichText` renders the blocks.
-  A CMS rich-text field (Portable Text, Lexical, Slate) maps onto these block
-  types one to one.
 - **Section ids are content.** `sections: PageSection[]` drives the page minimap
   and the hero's on-page index, and each `id` must match the rendered section's
   DOM id. Nav links point at these ids, so renaming one is a breaking change.
-- **Images** are paths under `public/` today, typed `ImageAsset` (with `alt`)
-  where the document owns the image. A CMS asset URL drops into the same field.
-  Add the CMS host to `images.remotePatterns` and to the CSP `img-src` in
-  `next.config.mjs`.
+  An optional `chapter` groups consecutive sections into one index row
+  (17 Nov 2026); their eyebrows then carry the chapter's number and read
+  "Chapter / Label" (DESIGN_SYSTEM §3 and §9).
+- **Images** are paths under `public/`, typed `ImageAsset` (with `alt`) where
+  the document owns the image. The site loads no remote images: the CSP
+  `img-src` in `next.config.mjs` is `'self'`.
 - **Mailto links** are built in content with `mailto(subject)` from
   `content/site.ts`, so the inbox is defined once.
 - **Region-specific copy** is keyed by region (`Record<Region, ...>`). No page
@@ -179,36 +179,3 @@ cover plate: add its key to `InsightCover` and draw it in
 
 **Add interface microcopy.** Add the key to `UiStrings` and its value in
 `content/ui.ts`. Read it with `useUi()` (client) or `getUiStrings()` (server).
-
-## Connecting a CMS
-
-The migration replaces **the bodies of the functions in `lib/content.ts`** and
-nothing else. Routes, components and types stay as they are.
-
-1. **Model.** Create one CMS type per interface above:
-   - pages, the sector template and collections as document types
-   - `site`, `navigation` and `ui` as singletons
-   - `blocks.ts` shapes as reusable objects
-   - `Block[]` as the rich-text field
-
-   Keep field names identical, or map them in step 3.
-2. **Import.** Each local file is plain data, so it can be exported to JSON and
-   imported as the first revision of its document. That gives editors exactly
-   what is live today.
-3. **Fetch.** In `lib/content.ts`, replace each `cache(async () => localDoc)` with
-   a fetch from the CMS client that returns the same type. Validate at the
-   boundary: parse the response with a schema (for example Zod) generated from,
-   or checked against, the interfaces. A CMS typo must fail loudly at build or
-   in preview, not render `undefined`.
-4. **Revalidate.** Tag each fetch (`next: { tags: ["page:services"] }`), add a
-   route handler the CMS webhook calls with `revalidateTag`, and keep pages
-   static.
-5. **Preview.** Enable Next.js Draft Mode in a route handler. In draft mode the
-   getters read draft content and skip the cache.
-6. **Secrets.** CMS project ids and tokens go in `lib/env.ts` (server-only, no
-   `NEXT_PUBLIC_` prefix) and in `.env.example`.
-7. **Delete** the migrated local files. Keep `content/types.ts` and the
-   interfaces, or replace them with the CMS's generated types.
-
-Things that stay in code after the migration: the artwork boundary above,
-`lib/region.ts` (which paths have an India version), and design tokens.
