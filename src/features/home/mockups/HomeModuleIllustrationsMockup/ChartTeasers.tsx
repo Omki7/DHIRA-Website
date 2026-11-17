@@ -26,11 +26,9 @@ function Figure({ value, unit, aside }: { value: string; unit?: string; aside?: 
    series as the /akashic outcome card). */
 const WEEKS = [1.78, 1.86, 1.92, 1.84, 1.95, 2.03, 1.93, 1.97, 1.99, 1.9, 2.05, 2.1, 2.08];
 const PLAN = 25.4 / 0.98 / WEEKS.length;
-const SPARK = { w: 208, h: 44, lo: 1.7, hi: 2.14 };
+const SPARK = { w: 208, h: 64, lo: 0, hi: 2.4 };
 const sy = (v: number) => SPARK.h - ((v - SPARK.lo) / (SPARK.hi - SPARK.lo)) * SPARK.h;
-const sx = (i: number) => (i * SPARK.w) / (WEEKS.length - 1);
-const SPARK_LINE = WEEKS.map((v, i) => `${i ? "L" : "M"} ${sx(i).toFixed(1)} ${sy(v).toFixed(1)}`).join(" ");
-const SPARK_AREA = `${SPARK_LINE} L ${SPARK.w} ${SPARK.h} L 0 ${SPARK.h} Z`;
+const sx = (i: number) => (i * SPARK.w) / WEEKS.length;
 
 export function BusinessIntelligenceTeaser() {
   const last = WEEKS.length - 1;
@@ -41,10 +39,13 @@ export function BusinessIntelligenceTeaser() {
         <Figure value="$25.4" unit="million" aside={<span className={styles.change}>+6.4%</span>} />
       </div>
       <svg viewBox={`0 0 ${SPARK.w} ${SPARK.h}`} className={cx(styles.spark, styles.chart)} fill="none" aria-hidden>
-        <path d={SPARK_AREA} className={styles.fillBlueSubtle} />
-        <path d={`M 0 ${sy(PLAN)} H ${SPARK.w}`} className={styles.strokeInkSoft} strokeOpacity={0.5} strokeDasharray="2 3" />
-        <path d={SPARK_LINE} className={styles.strokeBlue} strokeWidth={1.5} strokeLinejoin="round" strokeLinecap="round" />
-        <circle cx={sx(last)} cy={sy(WEEKS[last])} r={2.5} className={styles.fillBlue} />
+        {[0, 1, 2].map((value) => (
+          <path key={value} d={`M 0 ${sy(value)} H ${SPARK.w}`} className={styles.strokeLine} strokeWidth={0.6} />
+        ))}
+        {WEEKS.map((value, index) => (
+          <rect key={index} x={sx(index) + 3} y={sy(value)} width={10} height={SPARK.h - sy(value)} rx={1.5} className={index === last ? styles.fillBlue : styles.fillBlueBorder} />
+        ))}
+        <path d={`M 0 ${sy(PLAN)} H ${SPARK.w}`} className={styles.strokeInkSoft} strokeDasharray="3 3" />
       </svg>
       <div className={cx(styles.sparkFoot, styles.tertiary, styles.mono)}>
         <span>98% of plan</span>
@@ -105,6 +106,7 @@ export function WarehouseTeaser() {
       <div className={styles.figureSlot}>
         <Figure value="$25.4" unit="million" />
       </div>
+      <div className={styles.metricBranch} aria-hidden />
       <div className={styles.drivers}>
         <div className={styles.driver}>
           <p className={cx(styles.tertiary, styles.mono)}>Orders</p>

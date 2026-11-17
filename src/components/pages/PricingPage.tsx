@@ -59,7 +59,7 @@ export default function PricingPage({ content }: { content: PricingContent }) {
         <PricingDeployment content={content.deployment} />
         <PricingServices content={content.services} />
         <PricingBuy content={content.howToBuy} />
-        <FaqSection num="07" label={faq.label} setup={faq.setup} payoff={faq.payoff} lede={faq.lede} link={faq.link} groups={faq.groups} />
+        <FaqSection num={faq.num} label={faq.label} setup={faq.setup} payoff={faq.payoff} lede={faq.lede} link={faq.link} groups={faq.groups} />
         <PageClose {...content.close} />
       </main>
       <Footer />

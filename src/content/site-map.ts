@@ -52,7 +52,7 @@ export const siteMap: SiteMapContent = {
     {
       heading: "Platform",
       routes: [
-        { path: "/", title: "Home", description: "DHIRA and Akashic, the governed data and AI platform: the intelligence layer behind every decision." },
+        { path: "/", title: "Home", description: "The data and AI company behind Akashic: the platform, ready-made solutions on it, and services that build what only you need." },
         { path: "/akashic", title: "Akashic", description: "The governed data and AI platform: seven modules on one foundation, from data pipelines to AI answers with citations." },
         { path: "/akashic/1-0", title: "Akashic 1.0", description: "What is generally available on 1 November 2026, what stays in preview, and where it runs." },
         { path: "/pricing", title: "Pricing", description: "Four plans with every data module in each, sized by capacity, priced in US dollars: limits per plan, terms, deployment, services and how to buy." },

@@ -1,5 +1,5 @@
 /**
- * Section [09]: Governance — company trust, not product features.
+ * Section [04] / Governance — company trust, not product features.
  *
  * Layout modelled directly on Attio's "Run at any scale" section (studied via
  * screenshot, 21 Jul): a blue kicker pill, a two-tone headline (dark statement

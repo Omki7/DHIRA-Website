@@ -39,7 +39,7 @@ export const partnersPage: PartnersPage = {
     path: "/partners",
   },
   sections: [
-    { id: "hero", label: "Partners" },
+    { id: "hero", label: "Introduction" },
     { id: "ways-to-partner", label: "Ways to partner" },
     { id: "what-partners-get", label: "What partners get" },
     { id: "how-to-join", label: "How to join" },

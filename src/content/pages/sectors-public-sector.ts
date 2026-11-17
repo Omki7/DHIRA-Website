@@ -99,14 +99,18 @@ export const sectorsPublicSector: PublicSectorPage = {
     description: "Akashic powers national-scale public digital infrastructure with real citizens, real scale, and audited public records.",
     path: "/sectors/public-sector",
   },
+  /* Three chapters since 17 Nov 2026 (user: shorter, friendlier indexes):
+     Introduction, The problem, Why trust us, How it works, Get started.
+     Proof comes before mechanism here: government buyers ask for the
+     public record first. Each eyebrow below follows these chapters. */
   sections: [
-    { id: "hero", label: "Overview" },
-    { id: "the-gap", label: "Governance gap" },
-    { id: "proven", label: "Proven at scale" },
-    { id: "in-practice", label: "In practice" },
-    { id: "why-akashic", label: "Why Akashic" },
-    { id: "how-it-works", label: "How it works" },
-    { id: "deployment", label: "Deployment" },
+    { id: "hero", label: "Introduction" },
+    { id: "the-gap", label: "Governance gap", chapter: "The problem" },
+    { id: "proven", label: "National scale", chapter: "Why trust us" },
+    { id: "in-practice", label: "In practice", chapter: "Why trust us" },
+    { id: "why-akashic", label: "Requirements", chapter: "How it works" },
+    { id: "how-it-works", label: "End to end", chapter: "How it works" },
+    { id: "deployment", label: "Deployment", chapter: "How it works" },
     { id: "talk-to-our-team", label: "Get started" },
   ],
   sectionsLabel: "Public sector page sections",
@@ -133,7 +137,7 @@ export const sectorsPublicSector: PublicSectorPage = {
   },
 
   gap: {
-    eyebrow: { number: "01", label: "The governance gap", aside: "/ Three problems, one pattern" },
+    eyebrow: { number: "01", label: "The problem / Governance gap", aside: "/ Three problems, one pattern" },
     title: "Public programmes move at population scale.",
     lede: "Most data systems don’t. The gap shows up the same way in every ministry review.",
     items: [
@@ -159,7 +163,7 @@ export const sectorsPublicSector: PublicSectorPage = {
   },
 
   proven: {
-    eyebrow: { number: "02", label: "Proven at national scale", aside: "/ Public record" },
+    eyebrow: { number: "02", label: "Why trust us / National scale", aside: "/ Public record" },
     title: "Not a pilot. Running infrastructure, today.",
     lede: "Akashic already powers six national and state digital platforms. These are not testimonials: they are public-record numbers from systems serving real citizens, right now.",
     board: {
@@ -184,7 +188,7 @@ export const sectorsPublicSector: PublicSectorPage = {
   },
 
   moments: {
-    eyebrow: { number: "03", label: "What this looks like in practice", aside: "/ Live in ministries" },
+    eyebrow: { number: "02", label: "Why trust us / In practice", aside: "/ Live in ministries" },
     title: "Three real moments. Three government platforms.",
     live: "In production",
     didLabel: "What Akashic did",
@@ -222,7 +226,7 @@ export const sectorsPublicSector: PublicSectorPage = {
   /* DRAFT: "POC in 1.5 months" is a weeks-style delivery claim; confirm
      with the founder alongside the other delivery-time claims. */
   why: {
-    eyebrow: { number: "04", label: "Why government teams choose Akashic", aside: "/ The tender schedule" },
+    eyebrow: { number: "03", label: "How it works / Requirements", aside: "/ The tender schedule" },
     title: "Built for the realities of public sector delivery.",
     columns: { ref: "Ref", requirement: "Requirement", how: "How Akashic meets it", status: "Status" },
     requirements: [
@@ -236,7 +240,7 @@ export const sectorsPublicSector: PublicSectorPage = {
   },
 
   chain: {
-    eyebrow: { number: "05", label: "How Akashic works for government", aside: "/ The paper trail, automated" },
+    eyebrow: { number: "03", label: "How it works / End to end", aside: "/ The paper trail, automated" },
     title: "From citizen record to policy decision.",
     start: "Citizen record",
     end: "Policy decision",
@@ -251,7 +255,7 @@ export const sectorsPublicSector: PublicSectorPage = {
   },
 
   deploy: {
-    eyebrow: { number: "06", label: "Deployment, your way", aside: "/ Your infrastructure, our engineering" },
+    eyebrow: { number: "03", label: "How it works / Deployment", aside: "/ Your infrastructure, our engineering" },
     title: "Cloud. On-premises. Hybrid.",
     lede: "Akashic does not require you to abandon your existing systems. It connects to them, in read-only mode, and builds the intelligence layer on top: deployed exactly where your data governance policy requires.",
     environments: [

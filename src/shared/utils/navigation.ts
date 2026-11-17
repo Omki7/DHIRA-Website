@@ -1,4 +1,5 @@
 import type { NavMenu } from "@/content/navigation";
+import type { PageSection } from "@/content/types";
 
 /* Navigation logic. The menus themselves are content (content/navigation.ts). */
 
@@ -177,4 +178,37 @@ export function isCurrentPage(href: string, pathname: string, currentHash = ""):
   }
 
   return false;
+}
+
+/** One row of a page's section index: a chapter, or a section standing alone. */
+export interface SectionIndexRow {
+  /** Where the row jumps: its first section. */
+  id: string;
+  label: string;
+  /** Two digits, as the row's eyebrows carry it. */
+  number: string;
+  /** Every section under the row, in page order. */
+  ids: string[];
+}
+
+/* The section index groups a page's sections into chapters (content/types
+   PageSection). A row runs while consecutive sections share a chapter; the
+   page's hero is row 00, so the first chapter is [01] as its eyebrow says. */
+export function sectionIndexRows(sections: PageSection[]): SectionIndexRow[] {
+  const first = sections[0]?.id === "hero" ? 0 : 1;
+  const rows: SectionIndexRow[] = [];
+  for (const section of sections) {
+    const last = rows.at(-1);
+    if (last && section.chapter && last.label === section.chapter) {
+      last.ids.push(section.id);
+      continue;
+    }
+    rows.push({
+      id: section.id,
+      label: section.chapter ?? section.label,
+      number: String(rows.length + first).padStart(2, "0"),
+      ids: [section.id],
+    });
+  }
+  return rows;
 }

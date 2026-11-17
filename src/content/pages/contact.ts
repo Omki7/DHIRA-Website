@@ -47,7 +47,7 @@ export const contactPage: ContactPage = {
     path: "/contact",
   },
   sections: [
-    { id: "hero", label: "Contact" },
+    { id: "hero", label: "Introduction" },
     { id: "write-to-us", label: "Write to us" },
     { id: "routes", label: "Other enquiries" },
     { id: "offices", label: "Offices" },

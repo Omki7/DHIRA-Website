@@ -90,12 +90,14 @@ export const careers: CareersPage = {
     description: "Help build intelligence for public systems. A small team shipping inside national platforms, on systems built to outlast budget cycles.",
     path: "/careers",
   },
+  /* Two chapters since 17 Nov 2026 (user: shorter, friendlier indexes):
+     the index reads Introduction, Working here, Join us, Talk to us. */
   sections: [
-    { id: "hero", label: "Careers" },
-    { id: "the-work", label: "The work" },
-    { id: "how-we-work", label: "How we work" },
-    { id: "open-roles", label: "Open roles" },
-    { id: "how-we-hire", label: "How we hire" },
+    { id: "hero", label: "Introduction" },
+    { id: "the-work", label: "The work", chapter: "Working here" },
+    { id: "how-we-work", label: "How we work", chapter: "Working here" },
+    { id: "open-roles", label: "Open roles", chapter: "Join us" },
+    { id: "how-we-hire", label: "How we hire", chapter: "Join us" },
     { id: "talk-to-our-team", label: "Talk to us" },
   ],
   sectionsLabel: "Careers page sections",
@@ -112,7 +114,7 @@ export const careers: CareersPage = {
 
   work: {
     num: "01",
-    label: "The work",
+    label: "Working here / The work",
     setup: "Ship to production.",
     payoff: "Production is a country.",
     lede: "Most engineering ships to a dashboard nobody opens. Here, code runs inside national platforms, and every number is public record.",
@@ -128,8 +130,8 @@ export const careers: CareersPage = {
   },
 
   culture: {
-    num: "02",
-    label: "Working here",
+    num: "01",
+    label: "Working here / How we work",
     setup: "Candid questions,",
     payoff: "straight answers.",
     lede: "Six questions candidates hold back, each pinned to a working principle.",
@@ -220,8 +222,8 @@ export const careers: CareersPage = {
   },
 
   roles: {
-    num: "03",
-    label: "Open roles",
+    num: "02",
+    label: "Join us / Open roles",
     setup: "Small team.",
     payoff: "Specific seats.",
     lede: "Hiring follows the mission, never the org chart. Each seat owns real scope.",
@@ -233,8 +235,8 @@ export const careers: CareersPage = {
   },
 
   hiring: {
-    num: "04",
-    label: "How we hire",
+    num: "02",
+    label: "Join us / How we hire",
     setup: "No puzzles. No theatre.",
     payoff: "No ghosting.",
     lede: "Four steps. Real problems, real colleagues, a straight answer. Both sides interview.",
@@ -252,7 +254,7 @@ export const careers: CareersPage = {
   },
 
   close: {
-    num: "05",
+    num: "03",
     label: "Talk to us",
     setup: "Built something real?",
     payoff: "Let’s talk.",

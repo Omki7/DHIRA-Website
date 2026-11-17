@@ -69,9 +69,9 @@ src/app/            routing only: thin route files compose a feature's page
 src/features/<x>/   one business area (a page family): components, pages, types, utils, actions
    ↓
 src/shared/         business-agnostic kit, hooks and utilities
-src/services/       infrastructure: the content service (CMS hand-off), future API clients
+src/services/       infrastructure: the content service, future API clients
 src/config/         validated environment and site constants
-src/content/        the typed content documents (the CMS stand-in), read only by services/content
+src/content/        the typed content documents (the one content source; no CMS), read only by services/content
 ```
 
 Dependencies point **down** only. A route never contains business UI; a
@@ -86,18 +86,18 @@ knows about features.
 
 | Concern                             | Choice                                                                                                                                            | Version            | Evidence                                                                                         |
 | ----------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------ | ------------------------------------------------------------------------------------------------ |
-| Framework                           | Next.js, **App Router**, Turbopack                                                                                                                | 16.4.4 (`^16.4.4`) | `src/app/`, `next.config.mjs`                                                                    |
+| Framework                           | Next.js, **App Router**, Turbopack                                                                                                                | 16.4.6 (`^16.4.6`) | `src/app/`, `next.config.mjs`                                                                    |
 | UI                                  | React + React DOM                                                                                                                                 | 19.0.0             | Server Components by default                                                                     |
 | Language                            | TypeScript, `strict: true`                                                                                                                        | 5.7.3              | `tsconfig.json`; no `any` in `src/`                                                              |
 | Rendering                           | Static prerendering of every route (53)                                                                                                           | —                  | `npm run build`; `generateStaticParams` for `[slug]` routes                                      |
 | Styling                             | Tailwind CSS + CSS custom-property tokens; **Sass 1.83.4 installed** with SCSS tokens and mixins for the approved SCSS Modules migration (ADR-03) | Tailwind 3.4.17    | `tailwind.config.ts`, `src/app/theme.css`, `src/assets/styles/`                                  |
 | Animation                           | framer-motion                                                                                                                                     | 12.42.2            | Client Components only                                                                           |
-| Validation                          | Zod                                                                                                                                               | 3.25.76            | `src/config/env.ts`                                                                              |
+| Validation                          | Zod                                                                                                                                               | 4.6.7              | `src/config/env.ts`                                                                              |
 | Server state                        | None (build-time content, React `cache()`)                                                                                                        | —                  | `src/services/content/content.ts`                                                                |
 | Client state                        | `useState`, React Context, `useSyncExternalStore` stores                                                                                          | —                  | `src/shared/providers/UiProvider/`, `src/shared/utils/theme.ts`, `src/shared/hooks/useRegion.ts` |
 | Forms                               | Native forms; two Server Actions (contact with spam filtering; email sign-up in the footer and on /insights), delivery simulated                  | —                  | `features/contact/actions/contact.action.ts`, `features/newsletter/actions/subscribe.action.ts`  |
 | HTTP client / TanStack Query / auth | None                                                                                                                                              | —                  | No backend calls, no login                                                                       |
-| Lint / format                       | ESLint 9 flat config (`eslint-config-next` 16.4.4 + layer, import-order and no-cycle rules), Prettier 3.9.10, knip 5.88.1                         | —                  | `eslint.config.mjs`, `.prettierrc.json`, `knip.json`                                             |
+| Lint / format                       | ESLint 9 flat config (`eslint-config-next` 16.4.6 + layer, import-order and no-cycle rules), Prettier 3.9.10, knip 5.88.1                         | —                  | `eslint.config.mjs`, `.prettierrc.json`, `knip.json`                                             |
 | Testing                             | None                                                                                                                                              | —                  | No test runner or test files                                                                     |
 | Hosting                             | Vercel (preview noted in content); security headers in `next.config.mjs`                                                                          | —                  | `next.config.mjs`, `content/navigation.ts`                                                       |
 | Node                                | `>=20.9.0`, pinned in `.nvmrc`                                                                                                                    | —                  | `package.json`                                                                                   |
@@ -182,7 +182,7 @@ before the move and still name the old paths. Read them through this table:
 | Router              | App Router only; 32 pages, 3 dynamic `[slug]` routes with `generateStaticParams`; 2 permanent redirects in `next.config.mjs`                                                                 | Good                                                                                                |
 | Route files         | Each `page.tsx` loads content, sets metadata and composes sections; **every page also renders `<Nav />` and `<Footer />` itself** (32 copies)                                                | Thin, but the chrome belongs in a group layout (§8, P-01)                                           |
 | Server/Client split | Server Components by default; 88 of 245 `.tsx` files are Client Components, all leaf-level (animation, menus, toggles); no Client Component imports a server-only module                     | Good                                                                                                |
-| Data                | Content is typed, read through `services/content` (`server-only`, React `cache()`); ESLint blocks content-value imports anywhere else                                                        | Good; CMS-ready                                                                                     |
+| Data                | Content is typed, read through `services/content` (`server-only`, React `cache()`); ESLint blocks content-value imports anywhere else                                                        | Good; no CMS by decision (ADR-17)                                                                                     |
 | Server Actions      | One: footer sign-up, validates on the server, save is SIMULATED                                                                                                                              | Correct pattern; needs a real backend before launch                                                 |
 | Route Handlers      | `llms.txt`, `insights/rss.xml`, both `force-static`, generated from content                                                                                                                  | Good                                                                                                |
 | Organisation        | By page under `components/sections/<page>/`, with page-specific figures split away into `components/demos/`                                                                                  | **Weakness:** one page's code is spread across 3–4 folders; no feature modules or public `index.ts` |
@@ -258,11 +258,11 @@ src/
     constants/                        (when needed)
 
   services/
-    content/                          content.ts (server-only CMS hand-off), routes.ts
+    content/                          content.ts (server-only content getters), routes.ts
     api/                              ONLY when a real backend arrives (§11)
 
   config/                             env.ts, site.ts
-  content/                            typed documents: the CMS stand-in (ADR-02)
+  content/                            typed documents, the one content source (ADR-02, ADR-17)
   assets/styles/                      _tokens.scss, _mixins.scss, index.scss
 ```
 
@@ -429,8 +429,8 @@ import { cache } from "react";
 export const getPage = cache(async <K extends PageKey>(key: K) => pages[key]);
 ```
 
-React `cache()` dedupes reads within one render; when a CMS replaces the local
-documents, only this file changes (docs/CONTENT.md).
+React `cache()` dedupes reads within one render. There is no CMS (ADR-17):
+the documents in `src/content/` are the source.
 
 **Target, when a feature first needs remote data** (do not create these files
 before then):
@@ -453,7 +453,7 @@ contract; never invent endpoints; no business endpoints in a global service.
 
 **Current:** none, correctly: there is nothing to call.
 
-**Target, created with the first real integration** (CMS, CRM, mailing list,
+**Target, created with the first real integration** (CRM, mailing list,
 careers ATS):
 
 ```
@@ -494,7 +494,6 @@ Feature-specific calls stay in `features/<x>/api/`.
 | Text feeds                                           | Route Handler, `force-static`                                                                                           | RSS, llms.txt                                                                             |
 | A mutation from a form                               | Server Action                                                                                                           | Footer sign-up                                                                            |
 | Interactive client-side server state with refetching | TanStack Query                                                                                                          | **Not needed today**; adopt only for a real interactive data feature and record it in §25 |
-| Remote CMS data (future)                             | Server-side `fetch` in `content.ts` with `next: { revalidate, tags }`; `revalidateTag` from a CMS webhook Route Handler | Planned hand-off                                                                          |
 
 Rules: static by default; never make a route dynamic without a reason; never
 duplicate server data into client state; loading and error states exist for
@@ -731,6 +730,9 @@ Every task, in order:
 | ADR-13 | 03 Nov 2026 | A Tailwind caller that overrides a migrated SCSS-Module kit component on the same property uses `!` (important) until the caller migrates              | Module CSS loads after the Tailwind utilities, so equal-specificity overrides would lose | Applied once (`ServicesCapabilities` Tag height) |
 | ADR-14 | 04 Nov 2026 | India-only content on shared pages: an `audience` field in content, filtered on the client (`shared/ui/RegionOnly`, `isShownTo`, `forRegion`); static HTML is the international version; no middleware, no redirects | User: careers for the Indian audience only. Keeps every route static; reuses the time-zone region detection | Done (careers) |
 | ADR-15 | 04 Nov 2026 | Contact form spam filtering in its Server Action: invisible bot traps, server-side Zod, content flags that tag rather than block; no CAPTCHA or third-party service yet | User: about 50 spam messages a day on the live site. No account or CSP change needed; Turnstile is the next layer if needed | Done (delivery still simulated) |
+| ADR-16 | 17 Nov 2026 | The section index shows chapters: an optional `chapter` on `PageSection` groups consecutive sections into one row (`sectionIndexRows` in `shared/utils/navigation.ts`, read by `PageMinimap` and the /solutions hero index); eyebrow numbers are chapter numbers and labels read "Chapter / Part" (`FigureEyebrow` splits on " / "; `EyebrowLabel` for the hand-drawn sector eyebrows) | User feedback: indexes of up to fourteen rows put readers off. Grouping in content keeps every section id, so the scroll spy and deep links still name the exact section | Done |
+| ADR-17 | 17 Nov 2026 | No CMS: the Strapi client and adapters (`services/cms`, added 6 Nov 2026), `CMS_URL`, the CMS image hosts in `images.remotePatterns` and the CSP `img-src` were removed; `services/content` returns the typed documents in `src/content/` | User: the site reads its content from files and does not need a CMS. Pages render from the repository alone, with no network call at build | Done (user) |
+| ADR-18 | 17 Nov 2026 | Security upgrade: Next.js 16.4.4 → 16.4.6 (GHSA-mfr8-8qww-v76h), `eslint-config-next` to match, Zod 3.25 → 4.6.7 (GHSA-mrhx-c7xc-m3w5; the contact form validates public input with it), and the minimatch fix under the lint tooling. `npm audit` reports none | The build stopped on the Next.js advisory; user asked for the fix in this checkout. Zod 4 accepts the env and contact schemas unchanged | Done (user) |
 
 ---
 

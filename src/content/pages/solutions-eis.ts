@@ -1,4 +1,4 @@
-import type { Cta, Faq, PageSection, Seo } from "../types";
+import type { Cta, Eyebrow, Faq, PageSection, Seo } from "../types";
 
 /*
  * The industry model behind every wireframe on /solutions/enterprise-intelligence (the hero's
@@ -286,6 +286,9 @@ const domains: Domain[] = [
    change a claim here and its wireframe must change too. */
 
 export interface EisHeading {
+  /** "[NN]  Chapter / Part": the number and chapter follow the page's
+      `sections` (content/types PageSection). */
+  eyebrow: Eyebrow;
   setup: string;
   payoff: string;
   lede: string;
@@ -469,6 +472,7 @@ export interface EisPage {
   leaders: EisHeading & { seats: EisLeaderSeat[]; spine: string };
   trust: EisHeading & EisTrust;
   faq: {
+    eyebrow: Eyebrow;
     title: string;
     /** The two-tone headline of the shared FAQ section. */
     setup: string;
@@ -501,16 +505,19 @@ export const solutionsEis: EisPage = {
       "The executive layer of the Akashic platform. It reads the systems you already run, shows the working behind every figure, and turns an approved decision into an action your systems receive.",
     path: "/solutions/enterprise-intelligence",
   },
+  /* Four chapters since 17 Nov 2026 (user: shorter, friendlier indexes):
+     the index reads Introduction, The problem, How it works, What changes,
+     Why trust us, Get started. Each eyebrow below follows it. */
   sections: [
-    { id: "hero", label: "Enterprise Intelligence" },
-    { id: "the-gap", label: "The gap" },
-    { id: "one-picture", label: "One picture" },
-    { id: "use-cases", label: "Four stories" },
-    { id: "your-monday", label: "Your Monday" },
-    { id: "every-leader", label: "Every leader" },
-    { id: "trust", label: "Trust" },
-    { id: "questions", label: "Questions" },
-    { id: "talk-to-our-team", label: "Talk to our team" },
+    { id: "hero", label: "Introduction" },
+    { id: "the-gap", label: "The problem" },
+    { id: "one-picture", label: "One picture", chapter: "How it works" },
+    { id: "use-cases", label: "Four stories", chapter: "How it works" },
+    { id: "your-monday", label: "Your Monday", chapter: "What changes" },
+    { id: "every-leader", label: "Every leader", chapter: "What changes" },
+    { id: "trust", label: "Your control", chapter: "Why trust us" },
+    { id: "questions", label: "Questions", chapter: "Why trust us" },
+    { id: "talk-to-our-team", label: "Get started" },
   ],
   sectionsLabel: "Enterprise Intelligence page sections",
   domains,
@@ -574,6 +581,7 @@ export const solutionsEis: EisPage = {
   },
 
   gap: {
+    eyebrow: { number: "01", label: "The problem" },
     setup: "Your company runs as lifecycles.",
     payoff: "Your tools run as departments.",
     /* Redesigned 4 Nov 2026 (user: the old timeline felt rudimentary). The
@@ -642,6 +650,7 @@ export const solutionsEis: EisPage = {
   },
 
   teasers: {
+    eyebrow: { number: "02", label: "How it works / Four stories" },
     setup: "See the impact",
     payoff: "before anyone commits.",
     lede: "Four everyday decisions, and what each one moves elsewhere in the business.",
@@ -703,6 +712,7 @@ export const solutionsEis: EisPage = {
      what Enterprise Intelligence is. This section does, in the hub's own
      words, and shows the one client from [01] whole. */
   onePicture: {
+    eyebrow: { number: "02", label: "How it works / One picture" },
     setup: "Ask about one client",
     payoff: "and see everything it touches.",
     lede: "Enterprise Intelligence does the work of financial planning and management reporting. It reads your systems as records change and follows every link across people, work and money.",
@@ -765,6 +775,7 @@ export const solutionsEis: EisPage = {
      the same idea told as the leader's week, with the teaser video's own
      sample figures. Agents are in preview (PreviewTag on the eyebrow). */
   monday: {
+    eyebrow: { number: "03", label: "What changes / Your Monday" },
     setup: "2,418 changes since Friday.",
     payoff: "Three need you first.",
     lede: "Agents read each change and bring you only what needs a decision: the facts, what it is worth and a proposed action for you to approve.",
@@ -825,6 +836,7 @@ export const solutionsEis: EisPage = {
      cockpit: the same five roles, each reduced to the one question it
      brings to the weekly review and the one answer it gets. */
   leaders: {
+    eyebrow: { number: "03", label: "What changes / Every leader" },
     setup: "Five leaders ask five questions",
     payoff: "and read one set of numbers.",
     lede: "The chief executive, finance, sales, delivery and people leaders each open their own view, and every view reads the same records underneath. One client shows up in three of them.",
@@ -879,6 +891,7 @@ export const solutionsEis: EisPage = {
      capabilities section's engineering terms ("deterministic", "dual-key",
      "cryptographic") with what a leader can check for themselves. */
   trust: {
+    eyebrow: { number: "04", label: "Why trust us / Your control" },
     setup: "Every figure shows its working.",
     payoff: "Every action waits for you.",
     lede: "Click any number to see how it was defined, which records it came from and how fresh it is. Nothing changes in your systems until a named person approves it.",
@@ -917,6 +930,7 @@ export const solutionsEis: EisPage = {
      in plain words, two groups. "How do I know a figure is right?" moved
      to its own section ([06] Trust), so it is not answered twice. */
   faq: {
+    eyebrow: { number: "04", label: "Why trust us / Questions" },
     title: "Questions, plainly answered.",
     setup: "Questions,",
     payoff: "plainly answered.",

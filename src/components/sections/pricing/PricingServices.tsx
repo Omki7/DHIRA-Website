@@ -36,7 +36,7 @@ export function PricingServices({ content }: { content: PricingPage["services"] 
   return (
     <section id="services" className="scroll-mt-24 bg-background pb-16 pt-12 lg:pb-24 lg:pt-16">
       <ScrollRevealRail>
-        <SectionHeader num="05" label={content.label} setup={content.setup} payoff={content.payoff} lede={content.lede}>
+        <SectionHeader num={content.num} label={content.label} setup={content.setup} payoff={content.payoff} lede={content.lede}>
           <SectionLink href={content.cta.href}>{content.cta.label}</SectionLink>
         </SectionHeader>
 
@@ -75,7 +75,7 @@ export function PricingBuy({ content }: { content: PricingPage["howToBuy"] }) {
   return (
     <section id="how-to-buy" className="scroll-mt-24 border-t border-lineSoft bg-background pb-16 pt-12 lg:pb-24 lg:pt-16">
       <ScrollRevealRail>
-        <SectionHeader num="06" label={content.label} setup={content.setup} payoff={content.payoff} />
+        <SectionHeader num={content.num} label={content.label} setup={content.setup} payoff={content.payoff} />
         <ScrollReveal delay={80}>
           <ol className="mt-12 grid border-t border-ink/80 sm:grid-cols-2 lg:mt-14 lg:grid-cols-4">
             {content.routes.map((route, index) => (

@@ -54,7 +54,7 @@ export interface UiStrings {
   carousel: { roleDescription: string; previous: string; next: string; show: string };
   /** ui/MotionToggle: the pause control for content that moves by itself.
       `headline` and `tour` complete its accessible name ("Pause the rotating headline"). */
-  motion: { pause: string; play: string; headline: string; tour: string; stories: string };
+  motion: { pause: string; play: string; headline: string; tour: string; stories: string; offerings: string };
   onThisPage: string;
   pageSections: string;
   longform: { breadcrumb: string; contents: string; keepReading: string; minRead: string };
@@ -196,7 +196,7 @@ export const ui: UiStrings = {
   preview: "Preview",
   opensInNewTab: "(opens in a new tab)",
   carousel: { roleDescription: "carousel", previous: "Previous", next: "Next", show: "Show" },
-  motion: { pause: "Pause", play: "Play", headline: "the rotating headline", tour: "the module tour", stories: "the stories" },
+  motion: { pause: "Pause", play: "Play", headline: "the rotating headline", tour: "the module tour", stories: "the stories", offerings: "the tour of our offerings" },
   onThisPage: "On this page",
   pageSections: "Page sections",
   longform: { breadcrumb: "Breadcrumb", contents: "Contents", keepReading: "Keep reading", minRead: "min read" },

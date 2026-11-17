@@ -18,7 +18,9 @@ export interface LifePageProps {
    the story is docs/LIFE_PAGE_SCRIPT.md §3). The problem in the reader's
    own framework, how it works, what changes, one visit, every level, the
    proof underneath, questions. The route loads the content and renders
-   this. */
+   this. Each `num` is the section's chapter in the section index
+   (content/pages/solutions-life.ts `sections`), so sections in one chapter
+   share it. */
 export function LifePage({ page }: LifePageProps) {
   return (
     <main id="main" className={styles.main}>
@@ -26,10 +28,10 @@ export function LifePage({ page }: LifePageProps) {
       <LifeDelays content={page.delays} num="01" />
       <LifeHowItWorks content={page.howItWorks} num="02" />
       <LifeChanges content={page.changes} num="03" />
-      <LifeVisit content={page.visit} num="04" />
-      <LifeLevels content={page.levels} num="05" />
-      <LifeFoundation content={page.foundation} num="06" />
-      <LifeFaq content={page.faq} num="07" />
+      <LifeVisit content={page.visit} num="03" />
+      <LifeLevels content={page.levels} num="03" />
+      <LifeFoundation content={page.foundation} num="04" />
+      <LifeFaq content={page.faq} num="04" />
       <ClosingCard
         kicker={page.close.sessionLabel}
         title={page.close.title}

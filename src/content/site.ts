@@ -70,7 +70,7 @@ export const site: SiteSettings = {
   boilerplate:
     "DHIRA is a data and AI company founded in 2018, with offices in New York, Hyderabad and Bangalore. It builds Akashic, the governed data and AI platform, and delivers it as one accountable partner, from advisory to engineering and deployment. Akashic is the intelligence layer inside country-scale public programmes in education, public health and labour mobility.",
   description:
-    "DHIRA builds Akashic, the governed data and AI platform, and delivers it as one accountable partner. The intelligence layer behind every decision.",
+    "DHIRA is a data and AI company: the Akashic platform, ready-made solutions on it, and engineers who build yours. The intelligence layer behind every decision.",
   founded: "2018",
   founder: { name: "Dilip Hanumara", role: "Founder & CEO" },
   email: "info@dhira.ai",

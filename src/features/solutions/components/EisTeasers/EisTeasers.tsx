@@ -29,8 +29,8 @@ export function EisTeasers({ content }: EisTeasersProps) {
       </svg>
       <ScrollRevealRail>
         <SectionHeader
-          num="03"
-          label="FOUR STORIES, THIRTY SECONDS EACH"
+          num={content.eyebrow.number}
+          label={content.eyebrow.label}
           setup={content.setup}
           payoff={content.payoff}
           lede={content.lede}

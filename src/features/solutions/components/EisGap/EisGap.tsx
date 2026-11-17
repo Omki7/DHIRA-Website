@@ -23,8 +23,8 @@ export function EisGap({ content }: EisGapProps) {
     <section id="the-gap" className={styles.section}>
       <ScrollRevealRail>
         <SectionHeader
-          num="01"
-          label="THE DECISION GAP"
+          num={content.eyebrow.number}
+          label={content.eyebrow.label}
           setup={content.setup}
           payoff={content.payoff}
           lede={content.lede}

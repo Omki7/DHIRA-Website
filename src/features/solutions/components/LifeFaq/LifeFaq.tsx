@@ -17,7 +17,7 @@ export function LifeFaq({ content, num }: LifeFaqProps) {
     <FaqSection
       id="questions"
       num={num}
-      label="QUESTIONS"
+      label={content.label}
       setup={content.setup}
       payoff={content.payoff}
       lede={content.lede}

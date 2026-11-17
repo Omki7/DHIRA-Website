@@ -1,4 +1,4 @@
-/* Homepage [04]: the problems only the reader has. The header sits on the
+/* Homepage [02] / Services: the problems only the reader has. The header sits on the
    page ground like every other section; the three service lines stand on
    one route from the reader's problem to daily use (ServiceRoute), on the
    approved pastel panel. */

@@ -17,8 +17,7 @@
    Captions are terse noun phrases, one line each, no em dashes. Solutions
    labels are written in full, never as abbreviations (15 Oct 2026, user).
 
-   In a CMS this is a singleton "Navigation" document. `span` and `drawing`
-   are presentation hints the editor picks from a fixed list. Matching and
+   `span` and `drawing` are presentation hints picked from a fixed list. Matching and
    current-page logic lives in lib/navigation.ts. */
 
 import type { Region, Regional } from "@/shared/utils/region";

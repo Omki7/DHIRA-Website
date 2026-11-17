@@ -160,14 +160,16 @@ export const about: AboutPage = {
       "DHIRA is a data and AI company for governments and enterprises. We build Akashic, the platform that makes all your data agree, so you can make decisions with confidence.",
     path: "/about",
   },
+  /* Two chapters since 17 Nov 2026 (user: shorter, friendlier indexes):
+     the index reads Introduction, Our story, Our people, Get started. */
   sections: [
-    { id: "hero", label: "About" },
-    { id: "why-we-exist", label: "Why we exist" },
-    { id: "journey", label: "Journey" },
-    { id: "vision", label: "Vision" },
-    { id: "leadership", label: "Leadership" },
-    { id: "culture", label: "Life at DHIRA" },
-    { id: "talk-to-our-team", label: "Next step" },
+    { id: "hero", label: "Introduction" },
+    { id: "why-we-exist", label: "Why we exist", chapter: "Our story" },
+    { id: "journey", label: "The journey", chapter: "Our story" },
+    { id: "vision", label: "The ambition", chapter: "Our story" },
+    { id: "leadership", label: "Leadership", chapter: "Our people" },
+    { id: "culture", label: "Life at DHIRA", chapter: "Our people" },
+    { id: "talk-to-our-team", label: "Get started" },
   ],
   sectionsLabel: "About page sections",
 
@@ -195,7 +197,7 @@ export const about: AboutPage = {
 
   conviction: {
     number: "01",
-    label: "Why we exist",
+    label: "Our story / Why we exist",
     setup: "Fix the data first.",
     title: "Then build AI you can trust.",
     intro: "AI is only as reliable as the data behind it. Dependable data has been our starting point since 2018.",
@@ -214,8 +216,8 @@ export const about: AboutPage = {
      it. A ramp spans the calendar year because no month is known, except
      2020, supplied as "the end of the year". Nothing new is claimed. */
   journey: {
-    number: "02",
-    label: "Our journey",
+    number: "01",
+    label: "Our story / The journey",
     setup: "Building since 2018.",
     title: "Live at national scale since 2020.",
     intro: "Each new capability builds on the foundation before it. The national programmes below the line show that work in production.",
@@ -341,8 +343,8 @@ export const about: AboutPage = {
      with India as the proof (three live national programmes), not the
      destination. Figures as on the public record (Rule 4). */
   vision: {
-    number: "03",
-    label: "Our ambition",
+    number: "01",
+    label: "Our story / The ambition",
     setup: "When public systems work as one,",
     title: "citizens tell their story once.",
     /* The bridge to the homepage's business story (UX review, 23 Oct 2026). */
@@ -373,8 +375,8 @@ export const about: AboutPage = {
      decision to production, and ends at the person the work serves (the
      company's point of view, not a quote). Leaders: collections/leaders.ts. */
   people: {
-    number: "04",
-    label: "Leadership",
+    number: "02",
+    label: "Our people / Leadership",
     setup: "One team builds Akashic",
     title: "and answers for your system.",
     intro: "Data programmes often pass from a platform vendor to an integrator to a support desk. At DHIRA, the same people carry the work from the first architecture decision to production.",
@@ -399,8 +401,8 @@ export const about: AboutPage = {
      and user-requested editorial draft bios live in collections/about-team.
      This is a concept roster, not a statement of total company headcount. */
   culture: {
-    number: "05",
-    label: "Life at DHIRA",
+    number: "02",
+    label: "Our people / Life at DHIRA",
     title: "A team of curious builders.",
     intro: "Different minds, shared ambition. We make complex technology useful, and help each other get better along the way.",
     /* Careers is for India only (4 Nov 2026, user). */
@@ -418,7 +420,7 @@ export const about: AboutPage = {
      standing apart, which is theirs. One action; careers lives in [05]. A
      centred closing card (DESIGN_SYSTEM §3.6), so its kicker has no number. */
   close: {
-    number: "06",
+    number: "03",
     label: "What comes next",
     setup: "Show us where your data disagrees.",
     title: "Leave with a clear next step.",

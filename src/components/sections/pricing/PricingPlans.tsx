@@ -145,7 +145,7 @@ export default function PricingPlans({
   return (
     <section id="plans" className="scroll-mt-24 bg-background pb-16 pt-8 lg:pb-24 lg:pt-10">
       <ScrollRevealRail>
-        <SectionHeader num="01" label={intro.label} setup={intro.setup} payoff={intro.payoff} lede={intro.lede} titleAs="h1">
+        <SectionHeader num={intro.num} label={intro.label} setup={intro.setup} payoff={intro.payoff} lede={intro.lede} titleAs="h1">
           <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3">
             <TermSwitch terms={TERMS} labels={labels} />
             <p className="font-mono text-[11px] uppercase tracking-eyebrow text-overcast">{labels.currency}</p>

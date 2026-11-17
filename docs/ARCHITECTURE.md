@@ -3,7 +3,7 @@
 Directory layout, layer boundaries, import rules, and the section maps for every
 page: where code lives and what renders where. Related docs:
 
-- [CONTENT.md](./CONTENT.md): the content model and the CMS migration.
+- [CONTENT.md](./CONTENT.md): the content model (files only; there is no CMS).
 - [DESIGN_SYSTEM.md](./DESIGN_SYSTEM.md): tokens and design rules.
 - [STATE_AND_DATA.md](./STATE_AND_DATA.md): runtime state, environment and forms.
 - [DEVELOPMENT.md](./DEVELOPMENT.md): scripts and checks.
@@ -94,7 +94,7 @@ content/               EVERY WORD ON THE SITE. Typed documents, plain data (CONT
 lib/
   content.ts           The content API (server-only): getSiteSettings, getNavigation, getUiStrings,
                        getSiteMap, getPage(key), getSector(slug), and a getter per collection.
-                       The one file a CMS integration rewrites
+                       Returns the typed documents in content/ (no CMS)
   routes.ts            The full route list: site-map groups plus every collection entry. Feeds
                        sitemap.xml, /site-map and llms.txt
   env.ts               The one reader of process.env (NEXT_PUBLIC_SITE_URL), with defaults
@@ -181,11 +181,13 @@ components/
     ProvenStories, DivergentAnswers, AshokaChakra, AkashicFlowConnectors, VoicesDispatches,
     SolutionsOnFoundation + SolutionIllustration (homepage [03])
     mockups/           SIMULATED PRODUCT UI, not real functionality (§8a)
-      HomeHeroTeasersMockup + HomeModuleIllustrationsMockup   Homepage hero only: seven native-size
-                                   React product fragments around the centred pitch on desktop;
-                                   a scrollable strip below it on smaller screens. One focal result
-                                   per module, varied surfaces and Motion entrances that play once.
-                                   Copy in hero.illustrations
+      HomeHeroTeasersMockup + HomeModuleIllustrationsMockup   Homepage hero only: the active
+                                   offering's six native-size React fragments, three each side
+                                   of the pitch from xl (the 17 Nov morning's places); below xl
+                                   the first three in a row under the offerings (two from sm,
+                                   one on phones). Each slot stacks its fragment from every
+                                   offering in one grid cell and swaps by CSS. Copy in
+                                   hero.offerings.items[].fragments
       AkashicModuleMomentsMockup   One moment per module (tease, do not reveal): /akashic/1-0 [01]
       AkashicOutcomeCardsMockup    Homepage [02]: one outcome card per module (role, typed question,
                                    answer, drawing, provenance) in the fan. Copy in platform.showcase
@@ -319,8 +321,18 @@ international) and the Open Graph locale.
 
 ## Section Maps
 
-Backgrounds, ids, and per-section intent. Eyebrow numbering `[NN]` is deliberate
-(renumber only when a section is inserted or removed, and update this map in the same change).
+Backgrounds, ids, and per-section intent. The Order column is each section's
+place on the page.
+
+**Chapters (17 Nov 2026, user: the right-hand index was too long and put
+readers off).** The section index (`navigation/PageMinimap`) shows chapters,
+not sections: consecutive sections that share a `chapter` in the page's
+`sections` list (`content/types` PageSection) are one index row and share
+one eyebrow number, and each reads `[NN]  CHAPTER / PART`. A section with no
+chapter is a row of its own. Rows count from 00 (the hero), so eyebrow
+numbers are chapter numbers, not positions. No page has more than six rows.
+Each page below lists its index under "Index". Change a chapter in the
+`sections` list and the eyebrows in the same change, and update this map.
 
 ### Home (`app/page.tsx`)
 
@@ -328,10 +340,14 @@ Every numbered section uses the section grammar (DESIGN_SYSTEM §3): the shared
 eyebrow rail and header, and no next-section or section-foot buttons (removed
 20 Oct 2026, founder). Copy lives in `content/pages/home.ts`.
 
+Index: 00 Introduction · 01 The problem · 02 What we offer (The platform,
+Solutions, Services) · 03 What changes (Every sector, Day to day) · 04 Why
+trust us (In production, Partner voices, Governance) · 05 Get started.
+
 | Order | ID | File | Background | Notes |
 |---|---|---|---|---|
 | — | nav | `layout/Nav.tsx` + `layout/nav/` | `bg-background`, solid | Announcement bar above it scrolls away. Hides on scroll down, shows on up |
-| 00 | hero | `sections/Hero.tsx` + `demos/mockups/HomeHeroTeasersMockup` | `bg-background` | Rotating "Answers are easy" headline, platform badge and the first CTA pair, surrounded by seven executive-facing module illustrations (22 Oct 2026, Vistiq reference). Master Data shows a business hierarchy; Business Intelligence shows performance charts. No app chrome. Desktop places the snapshots around the pitch; smaller screens use a scrollable strip below the copy. Sample figures carry no caption (DESIGN_SYSTEM Rule 4, 4 Nov 2026). The /akashic hero remains unchanged |
+| 00 | hero | `features/home/components/Hero` (+ `useOfferingsCycle`) + `HeroOfferings` + `mockups/HomeHeroTeasersMockup` | `bg-background` | Centred two-tone headline with a controlled rotating phrase (build on / act on / commit to), unchanged lede and three compact descriptive ARIA tabs. Each offering's existing explanation stays visible, at most two lines at tested 320–1440px widths, without truncation. Tabs run across from md and stack below it. The active tab has a pale surface and a 6.5s progress rule; `MotionToggle` sits beside the controls. One clock synchronises the phrase and six native-size previews, three on each side from xl. Below xl, one preview on phones, two from sm and three from lg sit below the offerings. Flat frames, sentence-case labels and restrained cobalt drawings: weekly revenue bars, a metric tree, source connections, cited answers, solution evidence and service deliverables. The frame is 760–840px tall from xl and reserves space for the section index. Picking a tab or Pause stops the cycle until Play; hover, focus and leaving the viewport hold it. Reduced motion is static. The contact button shows below sm, where the header hides its own. |
 | 01 | problem | `sections/ProblemSection.tsx` + `demos/DivergentAnswers` | `bg-background` | "You asked for one number. / You got three." Header, then one composition under one hairline: the three answers (right, 600px from xl) framed on the left by the industry record (top, level with the question) and the verdict (foot, level with "Which number do you act on?"; the section's last line). No bridge button |
 | 02 | platform | `sections/MeetAkashic.tsx` + `universal-context/` (UCHero, UCCapabilities, UCFeatureIcon) + `demos/mockups/AkashicOutcomeCardsMockup` + `demos/akashic/ContextTentacles` | `uc-bg` | Since 23 Oct 2026 (user: swapped with the /akashic hero's treatment, content and tagline unchanged): the centred intro ("Meet Akashic", one CTA), then the outcome cards in the fan with the context tentacles as the module index (captions are the section's own module lines, from `platform.showcase`), then the five capabilities as one lined strip. The dome and the module rail with its drawings went to /akashic; the "Seven modules share one platform" heading went with the rail. The eyebrow aligns with every other rail; below it the fan and the strip's hairline run wide. "Nothing to rip out" and "Seven modules" removed 20 Oct 2026 (founder): do not cut further without asking |
 | 03 | solutions | `features/home/…/BuiltOnAkashic` + `SolutionsOnFoundation` + `SolutionIllustration` (+ `ui/DrawnFigure`) | `bg-background`; one plate on `subtle-stroke` | "Our solutions arrive ready-made / and run on your own data." Rebuilt 4 Nov 2026 (user: [03] and [04] did not feel at the level of the rest of the page) as ONE plate: three bays standing on the Akashic foundation, so every solution visibly rests on the whole platform. Each bay: audience (mono), name, benefit, then "See the solution" at the foot of the copy; under it the content-specific process drawing on `primary-bg`, resting on the foundation (`depth`): invoices, timesheets and opportunities revising a rolling forecast; a tender requirement linked to bid evidence for human review; an offline antenatal visit carried into the same record at the health centre. The generic document/circle/badge illustrations were rejected (user, 21 Oct 2026). Each drawing plays its process once on entering view (`ui/DrawnFigure` + the `.ad-*` kit; labels, sheets and places are drawn from the start; final state under reduced motion). They carry no figures, so no "illustrative" label (Rule 4, 4 Nov 2026); accessible summaries in `home.solutions`. Pointing at a bay deepens its two grounds one step (`primary-bg`, `tertiary-bg`), fills its socket on the foundation's edge and lights all seven module cells: every solution uses the complete platform; no module subsets or cycling selection. The foundation keeps the wordmark, "Every solution. All seven modules." and the seven modules as cells with dashed dividers (two columns on phones, four on tablets, seven from lg). Tablets set copy beside drawing; phones stack each bay. [04] owns bespoke delivery. Module names shared with /akashic |
@@ -366,11 +382,17 @@ and the nav breaks silently: update content/navigation.ts in the same change.
 | 06 | agents | `akashic/AkashicAgents.tsx` + `demos/akashic/AgentRunDrawing.tsx` | White, `border-t`. "Agents do the legwork. / People make the call." One drawing: a six-step run (Ask, Plan, Retrieve, Verify, Approve, Record); the Approve column holds no agent ("No agent signs off."). `PreviewTag` on the label; flip `AKASHIC_AGENTS.preview` when agents ship |
 | 07 | trust | `akashic/AkashicTrust.tsx` | Flat `band`, the page's one soft blue band (Rule 5a). Merged 5 Nov 2026 from [06] Trust and [07] Open: "Put AI to work / without losing control of your data." A two-column ledger, "Private by default" and "Open, with no lock-in", three rows each; the open group carries the `#open` anchor other pages link to. Under it, certifications and the laws followed as two separate, labelled lines (homepage [09] wording). `AkashicOpenFoundations` is retired and unrendered; delete it after the next dev-server restart |
 | 08 | build-vs-buy | `features/akashic/…/AkashicBuildVsBuy` + `GroundworkDrawing` + `LeaderGains` | White. "Build a foundation that lasts / beyond the first project." Two rows of the same three initiatives: project by project, each rebuilds its groundwork; on one foundation, the groundwork is shared. No savings figure (Rule 4). Under the drawing since 5 Nov 2026 (user: benefits direct to the CTO, COO and other executives), `LeaderGains`: "Your leadership", six roles (Chief Executive, Operating, Financial, Technology, Data and Risk Officers), each a two-line gain and one reason, all restating reuse; drawn in [05]'s neutral "Every team" treatment, never a layer colour. On phones the second and third projects' rebuilt tasks shrink to one row of glyphs. The four reasons that once followed the drawing repeated [02], [04] and [05] and stay retired. Legacy anchor retained |
-| 09 | licensing | `features/akashic/…/AkashicLicensing` | `bg-background`, `border-t`. "Transparent licensing by capacity. / Your intellectual property stays yours." Clean two-column branch strip (matching homepage careers strip): eyebrow, two-tone headline, lede and SectionLink to `/pricing` on the left; branching SVG lines connecting to four tier links (Launch, Growth, Scale, Enterprise) linking directly to `/pricing#plans` on the right |
+| 09 | licensing | `features/akashic/…/AkashicLicensing` | `bg-background`, `border-t`. "Transparent licensing by capacity. / Your intellectual property stays yours." The header, its lede and the SectionLink to /pricing, nothing else: the two tall tables (plans with footprints, and the intellectual property ledger) and the pricing bridge card were removed 17 Nov 2026 (user); plan limits live on /pricing |
 | 10 | stack | `features/akashic/…/AkashicStack` + `ReferenceSheet` | `bg-depth`; "Capabilities and connections", rebuilt 5 Nov 2026 in [05]'s language: a module index grouped by layer (Data, Intelligence, Governance, each in its `arch-*` tone, [05]'s module order inside each layer; labelled at every width) beside the chosen module's specification sheet (header in the layer's solid tone, then hairline spec rows: connectors, capabilities, chart types; preview rows dashed and tagged). ARIA tabs; the index stays in view from lg and a port line joins the chosen tab to its sheet. Every `#reference-*` link (the [05] tiles) selects and lands on its sheet; all seven sheets are server-rendered and show stacked without JS. Carries the founder's per-module figures: Data Pipelines 25 built-in transforms, BI 61 data sources and 50+ chart types, Governance 80+ metadata connectors. Customer-held keys are claimed for self-hosted only |
 | 11 | solutions | `akashic/AkashicPlatform.tsx` + `demos/akashic/SolutionWorkflow.tsx` | White. "Each solution is ready-made for one process / and runs on the foundation you already have." An axis column, then Enterprise Intelligence, the Intelligent Procurement Management System and Akashic Life side by side (category, audience, claim, three-step workflow, link; desktop rows align through `subgrid`). Under all three, one shared "Akashic underneath" band names the seven modules once; it replaced the 21-cell module matrix on 5 Nov 2026. All seven modules are in use under every solution (user correction, 21 Oct 2026). Module names from `solutionModules`, shared with the homepage |
 | 12 | faq | `akashic/AkashicFaq.tsx` | White, `border-t`. "The questions leaders ask, / answered plainly." Six questions as an open two-column list on hairlines (no accordion) plus FAQPage JSON-LD. Every answer restates a claim the page already makes; the solutions answer says all seven modules, as [10] does |
 | 13 | talk-to-our-team | `akashic/AkashicClose.tsx` | White with `bg-depth` closing card; "See what your data / can decide." (the founder's closing line); question, data and first-step agenda; existing contact modal via `#get-started` |
+
+Index: 00 Introduction · 01 See it work (Ask Akashic, The walkthrough, In
+production) · 02 Inside Akashic (Where it runs, The modules, AI agents, Your
+control) · 03 Why Akashic (Build or buy, Licensing, Every capability,
+Solutions, Questions) · 04 Get started. The Order numbers above were the
+eyebrow numbers until 17 Nov 2026; comments in the code still use them.
 
 Sections [05–13] use `akashic/AkashicStory.tsx` (`StoryLabel` renders `ui/FigureEyebrow`) and
 page-scoped `akashic/akashic-story.css` (23 Sep 2026 redesign). All copy, the
@@ -390,8 +412,13 @@ as a different website from home and /akashic. It now speaks their grammar:
 the shared hero cadence, drawings that carry real words (the sample business's
 systems in their homepage colours, a cited answer lifted from /akashic [01]),
 figure frames with mono column heads and a legend foot, the /akashic close, and
-the service lines named exactly as the nav and homepage [04] name them. The
-story spine and claim owners sit at the top of `content/pages/services.ts`.
+the service lines named exactly as the nav and homepage [02] / Services name
+them. The story spine and claim owners sit at the top of
+`content/pages/services.ts`.
+
+Index: 00 Introduction · 01 What we offer (Our services, Ways to work, What
+we build) · 02 How we deliver (Step by step, In production) · 03 Why trust us
+(What you own, Questions) · 04 Get started.
 One line motif runs through the page: blue while DHIRA builds, ink once your
 team runs it (hero, [02], [04], [06]). On [03] colour encodes the platform
 split instead: blue = Akashic, ink = your stack.
@@ -423,6 +450,11 @@ ServicesFitPreviewMockup, ServicesProven, useSectionChoice) is in
 The nav's Company menu links here: "About DHIRA" → `/about`, "Leadership" →
 `/about#leadership` (`#people` stays as an alias). Careers goes to `/careers` (India only, see Regions), Impact to `/#scale`.
 
+Index: 00 Introduction · 01 Our story (Why we exist, The journey, The
+ambition) · 02 Our people (Leadership, Life at DHIRA) · 03 Get started. The
+section numbers in the paragraph below are page positions, from before
+the chapters.
+
 **The page moves from systems to people.** Sections 01–03 use threads, cumulative terraces and connected public systems. Leadership [04] holds the leaders along one unbroken line. Culture [05] uses a compact Attio-style portrait field, explicitly requested on 4 Nov 2026, and the closing card [06] returns to [03]'s joined systems. Sections 04–06 live in `features/about/` (SCSS Modules); the hero and 01–03 remain in `components/sections/about/`. Numbered sections keep the shared eyebrow. Culture's centred heading is the user-requested exception to the normal heading grammar. Page copy is in `content/pages/about.ts`; leaders and the wider team have separate typed collections. All people photography is monochrome. No stock people are shown.
 
 | Order | ID | File | Background | Drawing |
@@ -443,6 +475,9 @@ Retired 16 Oct 2026 (dead-code cleanup): the unrendered About sections and drawi
 
 ⚠ Apply links anchor to `#talk-to-our-team` — wire a real careers inbox/ATS
 before ship.
+
+Index: 00 Introduction · 01 Working here (The work, How we work) · 02 Join us
+(Open roles, How we hire) · 03 Talk to us.
 
 **Runs the same drawing language as `/about`** (rebuilt 22 Sep 2026): hairline
 strokes, mono 11px labels, blue for what is live, dashed for what is not yet,
@@ -480,6 +515,10 @@ without visual change. Copy is in `content/pages/solutions.ts`; claims
 rules unchanged (no week figures until confirmed; agent work carries
 `PreviewTag`; no "golden record" or "Knowledge Graph"). The industry and
 function mappings are drafted from the founder's copy and need his review.
+
+Index (17 Nov 2026), also the hero's "On this page" list: 00 Introduction ·
+01 Our solutions (Featured, More) · 02 Where to start (By industry, By
+function, one eyebrow) · 03 Get started.
 
 | Order | ID | Component | Background |
 |---|---|---|---|
@@ -521,7 +560,7 @@ and what needs confirming). No prices, counts or customer names are invented
 
 | Route | Sections (ids) | Blue band | Notes |
 |---|---|---|---|
-| `/pricing` | plans · compare · included · deployment · services · how-to-buy · faq · talk-to-our-team | deployment | Redesigned 21 Oct 2026, US dollars only. No hero: [01] Plans carries the h1 and the term switch, then one plan frame: `demos/pricing/CapacityLine` across the top, four columns (price on the term, struck list price and yearly saving, action, four limits), the five modules as a foundation along the bottom; Enterprise is the tinted column with the filled button (no "most popular" mark, Rule 4). [02] pins its plan row under the header from lg and prices it on the same term (`sections/pricing/PricingTerm`); Enterprise says "Sized to your estate" once per group. [03] the eight controls as one layer under all four plans. [04] three footprint boundaries. [05] rate card, [06] four doors, [07] FaqSection split with grouped questions. PLACEHOLDER prices in content/pages/pricing.ts |
+| `/pricing` | plans · compare · included · deployment · services · how-to-buy · faq · talk-to-our-team (index, 17 Nov 2026: 01 Plans · 02 Your setup · 03 How to buy · 04 Get a quote; no hero, so rows start at 01) | deployment | Redesigned 21 Oct 2026, US dollars only. No hero: [01] Plans carries the h1 and the term switch, then one plan frame: `demos/pricing/CapacityLine` across the top, four columns (price on the term, struck list price and yearly saving, action, four limits), the five modules as a foundation along the bottom; Enterprise is the tinted column with the filled button (no "most popular" mark, Rule 4). [02] pins its plan row under the header from lg and prices it on the same term (`sections/pricing/PricingTerm`); Enterprise says "Sized to your estate" once per group. [03] the eight controls as one layer under all four plans. [04] three footprint boundaries. [05] rate card, [06] four doors, [07] FaqSection split with grouped questions. PLACEHOLDER prices in content/pages/pricing.ts |
 | `/insights` | hero · latest · subscribe · talk-to-our-team | subscribe | Gallery redesign 26 Oct 2026. Front-page mosaic (featured + three newest), library with topic tabs and counts, search, Gallery / Index views, twelve computed cover plates, working article feed, closing card. `InsightsLibrary` receives summaries through `lib/insights.ts`, not full bodies. Hub order lives in `content/pages/insights.ts:sections`. |
 | `/insights/[slug]` | article header · article-body (heading anchors) · sources · related · subscribe · talk-to-our-team | subscribe | Twelve original essays in `content/collections/insights.ts`, rewritten 26 Oct 2026 in a long-form blog voice, bylined to DHIRA teams (never a named person), with inline research citations and explicitly illustrative scenarios. Dates are DRAFT (staggered weekly). Six earlier slugs retained. Agent capabilities carry PreviewTag. BlogPosting + BreadcrumbList JSON-LD, per-article metadata, generated RSS at `/insights/rss.xml`. |
 | `/customers`, `/customers/[slug]` | hero · stories · close | none | The three ProvenStories deployments, now read from `content/collections/customer-stories.ts` by the carousel too. Naming and analytical-claims rules unchanged |
@@ -586,6 +625,12 @@ decision; the product never "diagnoses". No ranking or count stands in for
 an answer in [05]. A quote band was removed 23 Jul 2026 (unnamed source);
 do not reinstate it without a named, printable source.
 
+Index (17 Nov 2026): 00 Introduction · 01 The problem (The three delays) ·
+02 How it works · 03 What changes (At the doorstep, With no signal, Every
+level) · 04 Why trust us (Built on Akashic, Questions) · 05 Get started. The
+# column below is page order; the eyebrow numbers are the chapters,
+passed by `pages/LifePage`.
+
 | # | `id` (aliases) | Component | Ground |
 |---|---|---|---|
 | 00 | hero | `LifeHero` (pill badge, headline, lede, site buttons, photograph) | `life-abyss` |
@@ -610,6 +655,11 @@ shared system: the homepage hero scale and pill badge, numbered
 `SectionHeader`s, flat hairline mockups (no shadows, pulses, tints by opacity
 or app chrome), the stat band recipe in [02], and the homepage closing card.
 It still has no chain rail and no `ProvenAtScale`.
+
+Index (17 Nov 2026): 00 Introduction · 01 The problem · 02 How it works (One
+picture, Four stories) · 03 What changes (Your Monday, Every leader) · 04 Why
+trust us (Your control, Questions) · 05 Get started. Eyebrow numbers and
+labels live in `content/pages/solutions-eis.ts` (each block's `eyebrow`).
 
 The whole page lives in `features/solutions` as SCSS Modules: the route
 renders `pages/EnterpriseIntelligencePage`, sections are in `components/`,
@@ -679,8 +729,10 @@ that only moves one direction is a sales tool, not a model.
 ### Sector pages (`/sectors/*`)
 
 Seven pages. `/sectors/public-sector` is bespoke. The six industry pages run
-**six sections**: Hero → Problem[01] → **Map[02]** → Solution[03] → Outcomes[04]
-→ Close[05]. Five render through the shared `sectors/` template driven by
+**six sections**: Hero → Problem[01] → **Map[02]** → Solution[02] → Outcomes[03]
+→ Close. Index (since 17 Nov 2026): 00 Introduction · 01 The problem · 02 How
+it works (Your industry, Four moves) · 03 What changes · 04 Get started; the
+map's eyebrow is per sector ("How it works / Your plant"). Five render through the shared `sectors/` template driven by
 `sectorContent.ts`; Manufacturing swaps in its own hero + problem
 (`components/sections/manufacturing/`).
 
@@ -693,8 +745,11 @@ Seven pages. `/sectors/public-sector` is bespoke. The six industry pages run
 - Every `SectorOutcomes` [04] carries the page's one soft blue band (Rule 5a);
   every close card carries `#talk-to-our-team`.
 - `/sectors/public-sector` sections: PublicSectorHero, PublicSectorGap[01],
-  PublicSectorProven[02], PublicSectorMoments[03] (blue band), PublicSectorWhy[04],
-  PublicSectorChain[05], PublicSectorDeploy[06], PublicSectorClose[07].
+  PublicSectorProven[02], PublicSectorMoments[02] (blue band), PublicSectorWhy[03],
+  PublicSectorChain[03], PublicSectorDeploy[03], PublicSectorClose. Index:
+  00 Introduction · 01 The problem · 02 Why trust us (National scale, In
+  practice) · 03 How it works (Requirements, End to end, Deployment) · 04 Get
+  started.
 
 ## §8 — Component Notes
 

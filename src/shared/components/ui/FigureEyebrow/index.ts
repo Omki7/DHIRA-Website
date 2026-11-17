@@ -1,2 +1,2 @@
-export { FigureEyebrow } from "./FigureEyebrow";
-export type { FigureEyebrowProps } from "./FigureEyebrow";
+export { EyebrowLabel, FigureEyebrow } from "./FigureEyebrow";
+export type { EyebrowLabelProps, FigureEyebrowProps } from "./FigureEyebrow";

@@ -41,21 +41,25 @@ import type { Cta, Faq, PageSection, Seo } from "../types";
    Composer: app/pricing, through components/pages/PricingPage. Prices are
    formatted by lib/pricing.ts. */
 
+/* Three chapters since 17 Nov 2026 (user: shorter, friendlier indexes):
+   Plans, Your setup, How to buy, Get a quote. No hero, so the first row is
+   01. Each section's `num` and "Chapter / Part" label below follow it. */
 const sections: PageSection[] = [
-  { id: "plans", label: "Plans" },
-  { id: "compare", label: "Compare plans" },
-  { id: "included", label: "In every plan" },
-  { id: "deployment", label: "Deployment" },
-  { id: "services", label: "Services" },
-  { id: "how-to-buy", label: "How to buy" },
-  { id: "faq", label: "Questions" },
+  { id: "plans", label: "At a glance", chapter: "Plans" },
+  { id: "compare", label: "Compare", chapter: "Plans" },
+  { id: "included", label: "In every plan", chapter: "Plans" },
+  { id: "deployment", label: "Deployment", chapter: "Your setup" },
+  { id: "services", label: "Services", chapter: "Your setup" },
+  { id: "how-to-buy", label: "Three routes", chapter: "How to buy" },
+  { id: "faq", label: "Questions", chapter: "How to buy" },
   { id: "talk-to-our-team", label: "Get a quote" },
 ];
 
 /* The page opens on [01] Plans, which carries the h1 (user, 15 Oct 2026:
    no hero, the page should be crisp). */
 const intro = {
-  label: "Pricing",
+  num: "01",
+  label: "Plans / At a glance",
   setup: "Every module in every plan.",
   payoff: "Pay for the capacity you need.",
   lede: "Data Pipelines, Master Data, Warehouse, Business Intelligence and Governance come with every plan, under the same controls. Plans differ only in how much each module carries.",
@@ -266,7 +270,8 @@ const compareNote =
 /* The founder's eight controls ("Trust & deployment" in his wireframe),
    written out in full. Captions are terse noun phrases, balanced. */
 const everyPlan = {
-  label: "In every plan",
+  num: "01",
+  label: "Plans / In every plan",
   setup: "Security is not a tier.",
   payoff: "Every control, in every plan.",
   lede: "The controls an auditor asks about come with Launch as they do with Enterprise. Nothing to unlock, nothing to add.",
@@ -296,6 +301,7 @@ export interface Footprint {
 }
 
 const deployment: {
+  num: string;
   label: string;
   setup: string;
   payoff: string;
@@ -305,7 +311,8 @@ const deployment: {
   legend: Record<Operator, string>;
   options: Footprint[];
 } = {
-  label: "Deployment",
+  num: "02",
+  label: "Your setup / Deployment",
   setup: "Same platform, three footprints.",
   payoff: "Your data stays where it must.",
   lede: "Modules, governance and answers are identical in all three footprints. What changes is who operates the infrastructure, and so how each footprint is billed.",
@@ -338,7 +345,8 @@ const deployment: {
 };
 
 const services = {
-  label: "Services",
+  num: "02",
+  label: "Your setup / Services",
   setup: "One accountable team.",
   payoff: "Services priced to the outcome.",
   lede: "Advise, engineer, deploy. Every engagement has a defined scope and named people, from a first assessment to engineers inside your squads.",
@@ -358,8 +366,9 @@ export interface BuyRoute {
   cta?: string;
 }
 
-const howToBuy: { label: string; setup: string; payoff: string; routes: BuyRoute[] } = {
-  label: "How to buy",
+const howToBuy: { num: string; label: string; setup: string; payoff: string; routes: BuyRoute[] } = {
+  num: "03",
+  label: "How to buy / Three routes",
   setup: "Buy the way you already buy.",
   payoff: "Direct, by tender or through a partner.",
   routes: [
@@ -380,8 +389,9 @@ export interface FaqGroup {
   items: Faq[];
 }
 
-const faq: { label: string; setup: string; payoff: string; lede: string; link: Cta; groups: FaqGroup[] } = {
-  label: "Questions",
+const faq: { num: string; label: string; setup: string; payoff: string; lede: string; link: Cta; groups: FaqGroup[] } = {
+  num: "03",
+  label: "How to buy / Questions",
   setup: "Pricing, plainly.",
   payoff: "The questions buyers ask first.",
   lede: "Short answers on plans, data, AI and security. Anything else goes to a solutions architect.",
@@ -553,8 +563,8 @@ export const pricing: PricingPage = {
     },
   },
   compare: {
-    num: "02",
-    label: "Compare plans",
+    num: "01",
+    label: "Plans / Compare",
     setup: "Every limit, side by side.",
     payoff: "Size your plan before you call.",
     lede: "Every module is in every plan. The rows that change are how much each module carries, where Akashic runs and how it recovers.",

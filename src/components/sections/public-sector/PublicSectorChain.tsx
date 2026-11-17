@@ -6,7 +6,7 @@
  * each step carries the Akashic module that performs it.
  */
 
-import { ScrollReveal } from "@/shared/components/ui";
+import { EyebrowLabel, ScrollReveal } from "@/shared/components/ui";
 import { ScrollRevealRail } from "@/shared/components/ui";
 import type { PublicSectorPage } from "@/content/pages/sectors-public-sector";
 
@@ -61,7 +61,7 @@ export default function PublicSectorChain({ content }: { content: PublicSectorPa
           <div className="flex items-baseline justify-between font-mono text-[11px] uppercase tracking-eyebrow">
             <p>
               <span className="text-overcast">[{content.eyebrow.number}]</span>
-              <span className="text-inkSoft">&nbsp;&nbsp;{content.eyebrow.label}</span>
+              <span className="text-inkSoft">&nbsp;&nbsp;<EyebrowLabel label={content.eyebrow.label} slashClassName="text-overcast" /></span>
             </p>
             <span className="hidden text-overcast sm:inline">{content.eyebrow.aside}</span>
           </div>

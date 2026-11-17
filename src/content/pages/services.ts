@@ -2,21 +2,33 @@
    site as home and /akashic: the shared hero cadence (rotating phrase, blue
    underline), drawings that carry real words (named systems, the sample
    business, cited answers), figure frames with a legend foot, and the
-   service lines named exactly as the nav and homepage [04] name them.
+   service lines named exactly as the nav and homepage [02] / Services
+   name them.
 
-   Story spine (a newcomer reads only eyebrows and headlines):
-     hero   What is this? Data and AI systems your teams can run on.
-     [01]   What do you do? Plan, build, bring AI in (home [04]'s words).
-     [02]   How would we work together? Five models, on Akashic or your stack.
-     [03]   Can you build what we need? Six disciplines, layer by layer.
-     [04]   How do we stay in control? Four stages, a sign-off at each gate.
-     [05]   Have you done this at scale? The national programmes.
-     [06]   What do we own afterwards? The operating pack and the terms.
-     [07]   Questions.  [08] Start with your problem.
+   Story spine (a newcomer reads only eyebrows and headlines). Since 17 Nov
+   2026 the sections sit in chapters, one index row and eyebrow number each:
+     hero                     What is this? Data and AI systems your teams
+                              can run on.
+     [01] What we offer
+          / Our services      What do you do? Plan, build, bring AI in.
+          / Ways to work      How would we work together? Five models, on
+                              Akashic or your stack.
+          / What we build     Can you build what we need? Six disciplines.
+     [02] How we deliver
+          / Step by step      How do we stay in control? Four stages, a
+                              sign-off at each gate.
+          / In production     Have you done this at scale? The national
+                              programmes.
+     [03] Why trust us
+          / What you own      What do we own afterwards? The operating pack
+                              and the terms.
+          / Questions
+     [04] Get started         Start with your problem.
 
-   Claim owners: hero = production, [01] = the three service lines, [02] =
-   which way to work (who builds, who runs), [03] = where Akashic fits,
-   [04] = sign-off, [05] = evidence, [06] = ownership, [07] = clarification.
+   Claim owners: hero = production, Our services = the three service lines,
+   Ways to work = which way to work (who builds, who runs), What we build =
+   where Akashic fits, Step by step = sign-off, In production = evidence,
+   What you own = ownership, Questions = clarification.
    Unsourced
    availability, latency, sprint and universal ownership guarantees stay out;
    commercial terms are agreed per engagement. Drawing figures are lifted
@@ -158,15 +170,18 @@ export const services: ServicesPage = {
     description: "From data and AI strategy to production delivery. DHIRA brings advisory, platform implementation, custom engineering and embedded teams to your business.",
     path: "/services",
   },
+  /* Three chapters since 17 Nov 2026 (user: shorter, friendlier indexes):
+     the index reads Introduction, What we offer, How we deliver, Why trust
+     us, Get started. */
   sections: [
     { id: "hero", label: "Introduction" },
-    { id: "services", label: "Our services" },
-    { id: "engagement-models", label: "Ways to work" },
-    { id: "capabilities", label: "What we build" },
-    { id: "methodology", label: "How a delivery runs" },
-    { id: "proven-at-scale", label: "In production" },
-    { id: "partnership-fit", label: "What you own" },
-    { id: "faq", label: "Questions" },
+    { id: "services", label: "Our services", chapter: "What we offer" },
+    { id: "engagement-models", label: "Ways to work", chapter: "What we offer" },
+    { id: "capabilities", label: "What we build", chapter: "What we offer" },
+    { id: "methodology", label: "Step by step", chapter: "How we deliver" },
+    { id: "proven-at-scale", label: "In production", chapter: "How we deliver" },
+    { id: "partnership-fit", label: "What you own", chapter: "Why trust us" },
+    { id: "faq", label: "Questions", chapter: "Why trust us" },
     { id: "talk-to-our-team", label: "Get started" },
   ],
   sectionsLabel: "Services page sections",
@@ -204,7 +219,7 @@ export const services: ServicesPage = {
   /* [01] The three service lines in the homepage's own words: the nav name
      rides above as the label, homepage [04]'s card title is the heading. */
   services: {
-    eyebrow: { number: "01", label: "Our services" },
+    eyebrow: { number: "01", label: "What we offer / Our services" },
     title: { setup: "Know what to build,", payoff: "then see it built and in use." },
     lede: "Three service lines, one accountable team. Bring DHIRA in for one of them or for the whole route from first idea to daily use.",
     outputLabel: "You leave with",
@@ -250,7 +265,7 @@ export const services: ServicesPage = {
      delivers, who leads). Rewritten 26 Oct 2026 (user: the responsibility
      table was "odd and hard to interpret"; then "elevate the same idea"). */
   models: {
-    eyebrow: { number: "02", label: "Ways to work together" },
+    eyebrow: { number: "01", label: "What we offer / Ways to work" },
     title: { setup: "Work with us the way", payoff: "your organisation already works." },
     lede: "Start with what you need: a platform ready to run, or something built for you. Then choose how much of the work your own team takes on.",
     question: "What do you need?",
@@ -308,7 +323,7 @@ export const services: ServicesPage = {
      where Akashic runs, or custom engineering on your stack. The figure
      tours the six like [02] (user, 26 Oct 2026: "the same way"). */
   capabilities: {
-    eyebrow: { number: "03", label: "What we build" },
+    eyebrow: { number: "01", label: "What we offer / What we build" },
     title: { setup: "Keep the systems you run,", payoff: "and build what they cannot do." },
     lede: "Six disciplines, from the cloud underneath to the applications on top. Akashic covers the layers it fits; custom engineering covers the rest.",
     link: { label: "Explore the Akashic platform", href: "/akashic" },
@@ -353,7 +368,7 @@ export const services: ServicesPage = {
   /* [04] Four stages on one rail. The rule (no stage without sign-off) is
      the coda; the rail hands over to your team after Launch, as in the hero. */
   methodology: {
-    eyebrow: { number: "04", label: "How a delivery runs" },
+    eyebrow: { number: "02", label: "How we deliver / Step by step" },
     title: { setup: "See the evidence", payoff: "before the next commitment." },
     lede: "Every stage ends in something working that your business and engineering teams can review: a brief, a design, a release, a running system.",
     lanes: { stages: "One DHIRA team, with yours", run: "Your team" },
@@ -374,11 +389,12 @@ export const services: ServicesPage = {
     coda: "The next stage waits for your sign-off.",
   },
 
-  /* [05] The shared deployment carousel (home [07], /akashic [09]) with the
+  /* [02] / In production: the shared deployment carousel (home [04],
+     /akashic [01]) with the
      services claim: the team behind the platform's national programmes. */
   proven: {
-    number: "05",
-    eyebrow: "In production",
+    number: "02",
+    eyebrow: "How we deliver / In production",
     title: { setup: "The team behind national programmes", payoff: "can deliver yours." },
     description: "DHIRA's engineers delivered these programmes on Akashic. Population-scale data, live in production, not pilots.",
     storiesLabel: "National-scale data and intelligence deployments",
@@ -389,7 +405,7 @@ export const services: ServicesPage = {
   /* [06] The page's one soft blue band. The pack is drawn flat: documents on
      a sheet, the line handing over from DHIRA (blue) to your team (ink). */
   fit: {
-    eyebrow: { number: "06", label: "What you own" },
+    eyebrow: { number: "03", label: "Why trust us / What you own" },
     title: { setup: "Keep control of the systems", payoff: "your business depends on." },
     lede: "Ownership, access and support are agreed before work begins. At handover your team receives what it needs to run and change the system.",
     packLabel: "Operating pack · handed to your team",
@@ -412,7 +428,7 @@ export const services: ServicesPage = {
   },
 
   faq: {
-    eyebrow: { number: "07", label: "Before we begin" },
+    eyebrow: { number: "03", label: "Why trust us / Questions" },
     title: { setup: "Know where", payoff: "you stand." },
     lede: "Practical answers for the teams evaluating a delivery partner.",
     groups: [
@@ -433,7 +449,7 @@ export const services: ServicesPage = {
      promised help with "the problems only you have"; the close asks for one
      in the same words. */
   close: {
-    eyebrow: { number: "08", label: "Start a conversation" },
+    eyebrow: { number: "04", label: "Get started" },
     title: { setup: "Bring us the problem", payoff: "only you have." },
     lede: "Tell us the outcome, the systems in play and the constraints. We come back with a starting point and the team for it.",
     primary: { label: "Talk to our team", href: "#talk-to-our-team" },

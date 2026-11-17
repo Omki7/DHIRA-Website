@@ -14,7 +14,7 @@ export interface SolutionsOnFoundationProps {
 }
 
 /* Three solutions standing on one platform, built as one plate (4 Nov 2026,
-   user: [03] did not feel at the level of the rest of the page). Each bay
+   user: [02] / Solutions did not feel at the level of the rest of the page). Each bay
    names its solution, then its process drawing rests on the Akashic
    foundation that runs under all three; ground, drawing and foundation
    deepen in step (background, primary-bg, depth). Pointing at a solution

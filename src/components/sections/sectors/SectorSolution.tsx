@@ -5,7 +5,7 @@
  */
 
 import Link from "next/link";
-import { ScrollReveal } from "@/shared/components/ui";
+import { EyebrowLabel, ScrollReveal } from "@/shared/components/ui";
 import { ScrollRevealRail } from "@/shared/components/ui";
 import type { SectorContent, SectorTemplate } from "@/content/pages/sectors";
 
@@ -19,9 +19,9 @@ export default function SectorSolution({ content, template }: { content: SectorC
           <div className="mb-10 flex items-center justify-between border-t border-b border-dashed border-lineSoft py-[17px] px-[2px] font-mono text-[11px] uppercase tracking-eyebrow text-inkSoft">
             <span>
               <span className="text-overcast">[{template.eyebrow.number}]</span>
-              &nbsp;&nbsp;{template.eyebrow.label}
+              &nbsp;&nbsp;<EyebrowLabel label={template.eyebrow.label} slashClassName="text-overcast" />
             </span>
-            <span className="text-overcast">{template.aside}</span>
+            <span className="hidden text-overcast sm:inline">{template.aside}</span>
           </div>
         </ScrollReveal>
 

@@ -43,7 +43,7 @@ export const newsroomPage: NewsroomPage = {
     path: "/newsroom",
   },
   sections: [
-    { id: "hero", label: "Newsroom" },
+    { id: "hero", label: "Introduction" },
     { id: "announcements", label: "Announcements" },
     { id: "recognition", label: "Recognition" },
     { id: "media-kit", label: "Media kit" },

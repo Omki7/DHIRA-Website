@@ -15,13 +15,12 @@ What does not exist yet, on purpose:
 - **No API routes.** The generated text routes (`llms.txt`, `rss.xml`) are
   static.
 - **No client state library.** State is local to components (below).
-- **No runtime validation.** All inputs are typed local documents today. The CMS
-  migration adds schema validation where the network boundary appears
-  (CONTENT.md, step 3).
+- **No runtime validation.** All inputs are typed local documents. There is no
+  CMS (removed 17 Nov 2026): content ships with the build from `src/content/`.
 
 Do not scaffold loading, error or retry states for data that is not fetched at
-runtime. When a real runtime data source arrives (a CMS preview, a CRM form
-endpoint), follow the section at the end of this file.
+runtime. When a real runtime data source arrives (a CRM form endpoint, a
+careers ATS), follow the section at the end of this file.
 
 ## Client state (the only state here)
 
@@ -78,7 +77,6 @@ there with a safe default and documented in `.env.example`.
 | Variable | Default | Purpose |
 |---|---|---|
 | `NEXT_PUBLIC_SITE_URL` | `https://www.dhira.ai` | Canonical origin for metadata, sitemap.xml and structured data. Set it on preview deployments |
-| `CMS_URL` | `http://44.237.23.212:4000` | Base origin for the Dhira Strapi CMS instance (server-only, no NEXT_PUBLIC_ prefix) |
 
 Local overrides go in `.env.local`, which git ignores (`.env*` except
 `.env.example`). Server-only secrets never take the `NEXT_PUBLIC_` prefix.

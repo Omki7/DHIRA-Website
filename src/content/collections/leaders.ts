@@ -1,9 +1,8 @@
 /* ------------------------------------------------------------------ */
 /*  Leadership                                                         */
 /* ------------------------------------------------------------------ */
-/* One collection for /about [04] People and the /newsroom media kit. In a
-   CMS this is the "Person" collection; `imageClass` is an art-direction
-   hint for the portrait crop. */
+/* One collection for /about Leadership and the /newsroom media kit.
+   `imageClass` is an art-direction hint for the portrait crop. */
 
 export interface Leader {
   id: string;

@@ -99,7 +99,7 @@ export default function HealthcareProblem({ content, template }: { content: Sect
                 <span className="text-overcast">[{template.eyebrow.number}]</span>
                 &nbsp;&nbsp;{template.eyebrow.label}
               </span>
-              <span className="text-overcast">/ {problem.label.toUpperCase()}</span>
+              <span className="hidden text-overcast sm:inline">/ {problem.label.toUpperCase()}</span>
             </div>
           </ScrollReveal>
 
@@ -155,7 +155,7 @@ export default function HealthcareProblem({ content, template }: { content: Sect
                 <span className="text-overcast">[{template.eyebrow.number}]</span>
                 &nbsp;&nbsp;{template.eyebrow.label}
               </span>
-              <span className="text-overcast">/ {problem.label.toUpperCase()}</span>
+              <span className="hidden text-overcast sm:inline">/ {problem.label.toUpperCase()}</span>
             </div>
           </ScrollReveal>
 

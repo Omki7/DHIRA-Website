@@ -20,13 +20,16 @@ import { solutionModules } from "./akashic";
    The industry and function mappings are drafted from his copy and need
    his review. Composer: app/solutions/page.tsx. */
 
+/* Two chapters since 17 Nov 2026 (user: shorter, friendlier indexes): the
+   index, and the hero's "On this page" list, read Our solutions and Where
+   to start. */
 const sections: PageSection[] = [
-  { id: "hero", label: "Solutions" },
-  { id: "built-on-akashic", label: "Built on Akashic" },
-  { id: "more-solutions", label: "More solutions" },
-  { id: "industries", label: "By industry" },
-  { id: "functions", label: "By function" },
-  { id: "talk-to-our-team", label: "Talk to our team" },
+  { id: "hero", label: "Introduction" },
+  { id: "built-on-akashic", label: "Featured", chapter: "Our solutions" },
+  { id: "more-solutions", label: "More", chapter: "Our solutions" },
+  { id: "industries", label: "By industry", chapter: "Where to start" },
+  { id: "functions", label: "By function", chapter: "Where to start" },
+  { id: "talk-to-our-team", label: "Get started" },
 ];
 
 const hero = {
@@ -298,7 +301,7 @@ export const solutions: SolutionsPage = {
   hero,
   featured: {
     num: "01",
-    label: "Built on Akashic",
+    label: "Our solutions / Featured",
     setup: "Start from a solution",
     payoff: "that already does the whole job.",
     lede: "Enterprise Intelligence for business planning, the Intelligent Procurement Management System for public tenders and Akashic Life for maternal care. Each one runs on all seven Akashic modules.",
@@ -311,16 +314,16 @@ export const solutions: SolutionsPage = {
     },
   },
   more: {
-    num: "02",
-    label: "More solutions",
+    num: "01",
+    label: "Our solutions / More",
     setup: "More on the same foundation.",
     payoff: "Start with one. Add the next.",
     lede: "Each solution reuses the same data, governance and models, so the next one never starts from scratch.",
     items: more,
   },
   index: {
-    num: "03",
-    label: "By industry and function",
+    num: "02",
+    label: "Where to start",
     setup: "Find your starting point.",
     payoff: "By the sector you serve, or the team you lead.",
     lede: "Each line names the solutions that fit, so the first conversation starts from your problem.",

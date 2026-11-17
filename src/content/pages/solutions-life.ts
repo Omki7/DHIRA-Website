@@ -149,8 +149,9 @@ export interface LifePage {
     ground: string;
     roots: { module: string; name: string; shared?: boolean }[];
   };
-  /** [07] Questions. */
+  /** [04] / Questions. */
   faq: {
+    label: string;
     setup: string;
     payoff: string;
     lede: string;
@@ -177,16 +178,20 @@ export const solutionsLife: LifePage = {
   /* Ids match the section elements. Old anchors land through aliases:
      #the-record → at-the-visit, #altitude → every-level, #record-of-work,
      #how-its-built and #the-stake → built-on-akashic. */
+  /* Four chapters since 17 Nov 2026 (user: shorter, friendlier indexes),
+     as on Enterprise Intelligence: Introduction, The problem, How it works,
+     What changes, Why trust us, Get started. The eyebrow numbers are
+     passed in pages/LifePage.tsx; keep them on these chapters. */
   sections: [
-    { id: "hero", label: "Overview" },
-    { id: "the-gap", label: "The three delays" },
+    { id: "hero", label: "Introduction" },
+    { id: "the-gap", label: "The three delays", chapter: "The problem" },
     { id: "the-solution", label: "How it works" },
-    { id: "what-changes", label: "What changes" },
-    { id: "at-the-visit", label: "At the visit" },
-    { id: "every-level", label: "Every level" },
-    { id: "built-on-akashic", label: "Built on Akashic" },
-    { id: "questions", label: "Questions" },
-    { id: "talk-to-our-team", label: "Talk to our team" },
+    { id: "what-changes", label: "At the doorstep", chapter: "What changes" },
+    { id: "at-the-visit", label: "With no signal", chapter: "What changes" },
+    { id: "every-level", label: "Every level", chapter: "What changes" },
+    { id: "built-on-akashic", label: "Built on Akashic", chapter: "Why trust us" },
+    { id: "questions", label: "Questions", chapter: "Why trust us" },
+    { id: "talk-to-our-team", label: "Get started" },
   ],
   sectionsLabel: "Akashic Life page sections",
 
@@ -204,7 +209,7 @@ export const solutionsLife: LifePage = {
      (Thaddeus and Maine, 1994), known to every public health reader.
      Figures are real and sourced (Rule 4); the drawing carries no figures. */
   delays: {
-    label: "The three delays",
+    label: "The problem / The three delays",
     setup: "The care that saves a mother exists,",
     payoff: "but it reaches her too late.",
     lede: "Most maternal deaths are preventable. They happen in the time lost between a danger sign and the right hands: deciding to seek care, reaching it and receiving it.",
@@ -271,7 +276,7 @@ export const solutionsLife: LifePage = {
 
   /* [03] Kept (user's pick): four claims on a centre rule. */
   changes: {
-    label: "What changes",
+    label: "What changes / At the doorstep",
     setup: "The referral chain collapses",
     payoff: "into a single visit.",
     lede: "The screen that once needed a clinic, a lab and a journey back now happens at the doorstep, inside the visit she was already having.",
@@ -302,7 +307,7 @@ export const solutionsLife: LifePage = {
   /* [04] One sample visit (docs/LIFE_PAGE_SCRIPT.md §2). No numbers on the
      handset: readings are named in words. */
   visit: {
-    label: "At the visit",
+    label: "What changes / With no signal",
     setup: "No signal at the doorstep,",
     payoff: "and the risk is still read before the visit ends.",
     lede: "Take one antenatal check-up in a village with no bars. The health worker records what she measures, the phone reads the risk and the record waits for signal.",
@@ -334,7 +339,7 @@ export const solutionsLife: LifePage = {
   /* [05] Every level that acts on one reading, in the homepage outcome-card
      grammar. No counts: answers are names and states. */
   levels: {
-    label: "Every level",
+    label: "What changes / Every level",
     setup: "One mother's reading",
     payoff: "reaches every level that can act on it.",
     lede: "Her record rises as each visit syncs, so the district and state see risk building while there is still time to send people and supplies.",
@@ -384,7 +389,7 @@ export const solutionsLife: LifePage = {
   /* [06] The proof is what it is built on (claims rules above). Figures
      match home, /about and the customer stories. */
   foundation: {
-    label: "Built on Akashic",
+    label: "Why trust us / Built on Akashic",
     setup: "The reading on the phone is new,",
     payoff: "but the foundation under it runs at national scale.",
     lede: "Akashic already reconciles records for two national programmes. Akashic Life runs on the same Master Data and Governance, and adds Machine Learning on the phone.",
@@ -405,8 +410,9 @@ export const solutionsLife: LifePage = {
     ],
   },
 
-  /* [07] Every answer restates a claim the page already makes. */
+  /* [04] / Questions. Every answer restates a claim the page already makes. */
   faq: {
+    label: "Why trust us / Questions",
     setup: "Questions health leaders ask",
     payoff: "before the first district.",
     lede: "What programme officers, medical advisers and technical teams ask before Akashic Life reaches their health workers.",

@@ -44,6 +44,10 @@ sample visit (docs/LIFE_PAGE_SCRIPT.md §2).
 
 ## 3. The spine
 
+> Since 17 Nov 2026 the eyebrows carry chapter numbers and read
+> "Chapter / Part" (DESIGN_SYSTEM §3, §9); the live labels are in
+> `content/pages/solutions.ts`. The table keeps the original one-number-per-section plan.
+
 | # | Eyebrow | Question it answers | Headline (setup / payoff) |
 |---|---|---|---|
 | Hero | SOLUTIONS | What is here? | Built on Akashic. / From business problem to working solution. |

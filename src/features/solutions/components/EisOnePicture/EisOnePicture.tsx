@@ -5,8 +5,6 @@ import styles from "./EisOnePicture.module.scss";
 
 export interface EisOnePictureProps {
   content: EisPage["onePicture"];
-  /** The section's place in the page's order. */
-  num: string;
 }
 
 /*
@@ -17,11 +15,11 @@ export interface EisOnePictureProps {
  * departments. The five views follow as a set of tags, then the promise
  * that holds it together: read-only, traced to the record.
  */
-export function EisOnePicture({ content, num }: EisOnePictureProps) {
+export function EisOnePicture({ content }: EisOnePictureProps) {
   return (
     <section id="one-picture" className={styles.section}>
       <ScrollRevealRail>
-        <SectionHeader num={num} label="ONE PICTURE" setup={content.setup} payoff={content.payoff} lede={content.lede} />
+        <SectionHeader num={content.eyebrow.number} label={content.eyebrow.label} setup={content.setup} payoff={content.payoff} lede={content.lede} />
 
         <ScrollReveal delay={90}>
           <OnePictureField figure={content.figure} />

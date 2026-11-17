@@ -1,82 +1,62 @@
 "use client";
 
 import Link from "next/link";
+import { useId, useRef } from "react";
 import type { HomeHero } from "@/content/pages/home";
-import { nameOrWordmark } from "@/shared/components/icons";
 import { RotatingPhrase, ScrollRevealRail } from "@/shared/components/ui";
-import { scrollToHashTarget } from "@/shared/utils/navigation";
 import { HomeHeroTeasersMockup } from "../../mockups/HomeHeroTeasersMockup";
+import { HeroOfferings } from "../HeroOfferings";
+import { useOfferingsCycle } from "./useOfferingsCycle";
 import styles from "./Hero.module.scss";
+
+/** How long each offering stays before the next (the loading bar's run). */
+const OFFERING_DURATION = 6500;
 
 export interface HeroProps {
   content: HomeHero;
 }
 
+/* One clock keeps the headline and previews together. Each offering's
+   explanation stays visible under its name, so the choice is readable
+   before interacting or waiting for the cycle; each offering links to its
+   section below. */
 export function Hero({ content }: HeroProps) {
-  const { badge, title, lede, primary, secondary } = content;
+  const { title, lede, offerings, contact } = content;
+  const ref = useRef<HTMLElement>(null);
+  const cycle = useOfferingsCycle(offerings.items.length, ref);
+  const uid = useId();
+  const labelId = (index: number) => `${uid}-offering-${index}`;
+  const phrases = offerings.items.map((item) => item.phrase);
+
   return (
-    <section id="hero" className={styles.root}>
+    <section ref={ref} id="hero" className={styles.root}>
       <div className={styles.frame}>
-      <ScrollRevealRail>
-        <div className={styles.pitch}>
-          <Link
-            href={badge.href}
-            className={styles.badge}
-          >
-            <span aria-hidden className={styles.badgeArc} />
-            <span className={styles.badgeInner}>
-              <span className={styles.badgeLead}>{badge.lead}</span>
-              <span className={styles.badgeProduct}>{nameOrWordmark(badge.product)}</span>
-              <span className={styles.badgeRule} />
-              <span className={styles.badgeClaim}>{badge.claim}</span>
-              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" className={styles.badgeArrow}>
-                <path d="M2.5 6H9.5M9.5 6L6 2.5M9.5 6L6 9.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </span>
-          </Link>
+        <ScrollRevealRail className={styles.rail}>
+          <div className={styles.pitch}>
+            {/* The h1 holds the rotating word, so its name comes from this
+                plain copy of the headline with the first offering's phrase. */}
+            <span id="hero-headline" hidden>{`${title.first} ${title.secondLead} ${phrases[0]} ${title.tail}`}</span>
+            <h1 aria-labelledby="hero-headline" className={styles.title}>
+              <span className={styles.titleSetup}>{title.first}</span>{" "}
+              <span className={styles.titleLead}>{title.secondLead} </span>
+              <RotatingPhrase phrases={phrases} suffix={` ${title.tail}`} align="center" index={cycle.active} />
+            </h1>
+            <p className={styles.lede}>
+              {lede[0]} <br className={styles.ledeBreak} />
+              {lede[1]}
+            </p>
 
-          {/* The h1 holds the pause button beside its rotating word, so its name
-              comes from this plain copy of the headline. */}
-          <span id="hero-headline" hidden>{`${title.first} ${title.secondLead} ${title.phrases[0]} ${title.tail}`}</span>
-          <h1 aria-labelledby="hero-headline" className={styles.title}>
-            {title.first} <br className={styles.titleBreak} />
-            <span className={styles.titleLead}>{title.secondLead} </span>
-            <RotatingPhrase phrases={title.phrases} suffix={` ${title.tail}`} align="center" />
-          </h1>
-          <p className={styles.lede}>
-            {lede[0]} <br className={styles.ledeBreak} />
-            {lede[1]}
-          </p>
+            <Link href={contact.href} className={`btn-primary ${styles.contact}`}>
+              {contact.label}
+            </Link>
 
-          <div className={styles.actions}>
-            <Link
-              href={primary.href}
-              className="btn-primary"
-              onClick={(e) => {
-                if (primary.href.includes("#")) {
-                  e.preventDefault();
-                  scrollToHashTarget(primary.href);
-                }
-              }}
-            >
-              {primary.label}
-            </Link>
-            <Link
-              href={secondary.href}
-              className="btn-secondary"
-              onClick={(e) => {
-                if (secondary.href.includes("#")) {
-                  e.preventDefault();
-                  scrollToHashTarget(secondary.href);
-                }
-              }}
-            >
-              {secondary.label}
-            </Link>
+            <HeroOfferings content={offerings} cycle={cycle} duration={OFFERING_DURATION} labelId={labelId} />
           </div>
-        </div>
-      </ScrollRevealRail>
-      <HomeHeroTeasersMockup content={content.illustrations} />
+
+          <div role="group" aria-labelledby={labelId(cycle.active)} className={styles.panel}>
+            <HomeHeroTeasersMockup offerings={offerings.items} active={cycle.active} />
+          </div>
+        </ScrollRevealRail>
       </div>
     </section>
   );

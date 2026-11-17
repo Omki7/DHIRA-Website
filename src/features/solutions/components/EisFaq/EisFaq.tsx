@@ -13,8 +13,8 @@ export function EisFaq({ content }: EisFaqProps) {
   return (
     <FaqSection
       id="questions"
-      num="07"
-      label="FREQUENT QUESTIONS"
+      num={content.eyebrow.number}
+      label={content.eyebrow.label}
       setup={content.setup}
       payoff={content.payoff}
       lede={content.lede}
